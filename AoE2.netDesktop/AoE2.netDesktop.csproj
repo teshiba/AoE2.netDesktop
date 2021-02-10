@@ -4,12 +4,18 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <StartupObject>AoE2.netDesktop.Program</StartupObject>
+    <StartupObject></StartupObject>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>d:\VisualStudio2019\github\AoE2.netDesktop\AoE2.netDesktop\AoE2.netDesktop.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\net5.0-windows\AoE2.netDesktop.xml</DocumentationFile>
+    <OutputPath>bin\Debug\net5.0-windows\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>bin\Release\net5.0-windows\</OutputPath>
+    <DocumentationFile>bin\Release\net5.0-windows\AoE2.netDesktop.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

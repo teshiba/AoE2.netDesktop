@@ -1,15 +1,15 @@
 ﻿
-namespace AoE2.netDesktop
+namespace AoE2NetDesktop
 {
     partial class FormMain
     {
         /// <summary>
-        ///  Required designer variable.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        ///  Clean up any resources being used.
+        /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
@@ -23,18 +23,653 @@ namespace AoE2.netDesktop
         #region Windows Form Designer generated code
 
         /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.tabControlMain = new System.Windows.Forms.TabControl();
+            this.tabPagePlayerLastMatch = new System.Windows.Forms.TabPage();
+            this.labelErrText = new System.Windows.Forms.Label();
+            this.buttonUpdate = new System.Windows.Forms.Button();
+            this.panelTeam2 = new System.Windows.Forms.Panel();
+            this.labelColorP7 = new System.Windows.Forms.Label();
+            this.labelColorP3 = new System.Windows.Forms.Label();
+            this.labelNameP7 = new System.Windows.Forms.Label();
+            this.labelColorP5 = new System.Windows.Forms.Label();
+            this.labelNameP3 = new System.Windows.Forms.Label();
+            this.labelRateP7 = new System.Windows.Forms.Label();
+            this.labelAverageRate2 = new System.Windows.Forms.Label();
+            this.labelColorP1 = new System.Windows.Forms.Label();
+            this.labelNameP5 = new System.Windows.Forms.Label();
+            this.labelRateP3 = new System.Windows.Forms.Label();
+            this.labelRateP5 = new System.Windows.Forms.Label();
+            this.labelNameP1 = new System.Windows.Forms.Label();
+            this.labelRateP1 = new System.Windows.Forms.Label();
+            this.labelCivP7 = new System.Windows.Forms.Label();
+            this.labelCivP3 = new System.Windows.Forms.Label();
+            this.labelCivP5 = new System.Windows.Forms.Label();
+            this.labelCivP1 = new System.Windows.Forms.Label();
+            this.panelTeam1 = new System.Windows.Forms.Panel();
+            this.labelNameP2 = new System.Windows.Forms.Label();
+            this.labelCivP2 = new System.Windows.Forms.Label();
+            this.labelAverageRate1 = new System.Windows.Forms.Label();
+            this.labelColorP8 = new System.Windows.Forms.Label();
+            this.labelCivP6 = new System.Windows.Forms.Label();
+            this.labelCivP4 = new System.Windows.Forms.Label();
+            this.labelColorP4 = new System.Windows.Forms.Label();
+            this.labelCivP8 = new System.Windows.Forms.Label();
+            this.labelNameP8 = new System.Windows.Forms.Label();
+            this.labelRateP2 = new System.Windows.Forms.Label();
+            this.labelRateP6 = new System.Windows.Forms.Label();
+            this.labelColorP6 = new System.Windows.Forms.Label();
+            this.labelRateP4 = new System.Windows.Forms.Label();
+            this.labelNameP6 = new System.Windows.Forms.Label();
+            this.labelNameP4 = new System.Windows.Forms.Label();
+            this.labelColorP2 = new System.Windows.Forms.Label();
+            this.labelRateP8 = new System.Windows.Forms.Label();
+            this.labelServer = new System.Windows.Forms.Label();
+            this.labelMap = new System.Windows.Forms.Label();
+            this.tabPageSettings = new System.Windows.Forms.TabPage();
+            this.textBoxSettingSteamId = new System.Windows.Forms.TextBox();
+            this.labelSteamId = new System.Windows.Forms.Label();
+            this.tabControlMain.SuspendLayout();
+            this.tabPagePlayerLastMatch.SuspendLayout();
+            this.panelTeam2.SuspendLayout();
+            this.panelTeam1.SuspendLayout();
+            this.tabPageSettings.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // tabControlMain
+            // 
+            this.tabControlMain.Controls.Add(this.tabPagePlayerLastMatch);
+            this.tabControlMain.Controls.Add(this.tabPageSettings);
+            this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlMain.Location = new System.Drawing.Point(0, 0);
+            this.tabControlMain.Name = "tabControlMain";
+            this.tabControlMain.SelectedIndex = 0;
+            this.tabControlMain.Size = new System.Drawing.Size(324, 451);
+            this.tabControlMain.TabIndex = 0;
+            // 
+            // tabPagePlayerLastMatch
+            // 
+            this.tabPagePlayerLastMatch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tabPagePlayerLastMatch.Controls.Add(this.labelErrText);
+            this.tabPagePlayerLastMatch.Controls.Add(this.buttonUpdate);
+            this.tabPagePlayerLastMatch.Controls.Add(this.panelTeam2);
+            this.tabPagePlayerLastMatch.Controls.Add(this.panelTeam1);
+            this.tabPagePlayerLastMatch.Controls.Add(this.labelServer);
+            this.tabPagePlayerLastMatch.Controls.Add(this.labelMap);
+            this.tabPagePlayerLastMatch.Location = new System.Drawing.Point(4, 24);
+            this.tabPagePlayerLastMatch.Name = "tabPagePlayerLastMatch";
+            this.tabPagePlayerLastMatch.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(316, 423);
+            this.tabPagePlayerLastMatch.TabIndex = 0;
+            this.tabPagePlayerLastMatch.Text = "Player Last Match";
+            this.tabPagePlayerLastMatch.UseVisualStyleBackColor = true;
+            // 
+            // labelErrText
+            // 
+            this.labelErrText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelErrText.ForeColor = System.Drawing.Color.Red;
+            this.labelErrText.Location = new System.Drawing.Point(8, 388);
+            this.labelErrText.Name = "labelErrText";
+            this.labelErrText.Size = new System.Drawing.Size(298, 30);
+            this.labelErrText.TabIndex = 8;
+            // 
+            // buttonUpdate
+            // 
+            this.buttonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonUpdate.Location = new System.Drawing.Point(240, 8);
+            this.buttonUpdate.Name = "buttonUpdate";
+            this.buttonUpdate.Size = new System.Drawing.Size(66, 25);
+            this.buttonUpdate.TabIndex = 7;
+            this.buttonUpdate.Text = "Update";
+            this.buttonUpdate.UseVisualStyleBackColor = true;
+            this.buttonUpdate.Click += new System.EventHandler(this.ButtonUpdate_Click);
+            // 
+            // panelTeam2
+            // 
+            this.panelTeam2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelTeam2.BackColor = System.Drawing.Color.Azure;
+            this.panelTeam2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.panelTeam2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelTeam2.Controls.Add(this.labelColorP7);
+            this.panelTeam2.Controls.Add(this.labelColorP3);
+            this.panelTeam2.Controls.Add(this.labelNameP7);
+            this.panelTeam2.Controls.Add(this.labelColorP5);
+            this.panelTeam2.Controls.Add(this.labelNameP3);
+            this.panelTeam2.Controls.Add(this.labelRateP7);
+            this.panelTeam2.Controls.Add(this.labelAverageRate2);
+            this.panelTeam2.Controls.Add(this.labelColorP1);
+            this.panelTeam2.Controls.Add(this.labelNameP5);
+            this.panelTeam2.Controls.Add(this.labelRateP3);
+            this.panelTeam2.Controls.Add(this.labelRateP5);
+            this.panelTeam2.Controls.Add(this.labelNameP1);
+            this.panelTeam2.Controls.Add(this.labelRateP1);
+            this.panelTeam2.Controls.Add(this.labelCivP7);
+            this.panelTeam2.Controls.Add(this.labelCivP3);
+            this.panelTeam2.Controls.Add(this.labelCivP5);
+            this.panelTeam2.Controls.Add(this.labelCivP1);
+            this.panelTeam2.Location = new System.Drawing.Point(8, 215);
+            this.panelTeam2.Name = "panelTeam2";
+            this.panelTeam2.Size = new System.Drawing.Size(298, 170);
+            this.panelTeam2.TabIndex = 6;
+            // 
+            // labelColorP7
+            // 
+            this.labelColorP7.BackColor = System.Drawing.Color.Gray;
+            this.labelColorP7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelColorP7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelColorP7.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelColorP7.ForeColor = System.Drawing.Color.White;
+            this.labelColorP7.Location = new System.Drawing.Point(7, 126);
+            this.labelColorP7.Margin = new System.Windows.Forms.Padding(0);
+            this.labelColorP7.Name = "labelColorP7";
+            this.labelColorP7.Size = new System.Drawing.Size(32, 32);
+            this.labelColorP7.TabIndex = 4;
+            this.labelColorP7.Text = "７";
+            this.labelColorP7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelColorP3
+            // 
+            this.labelColorP3.BackColor = System.Drawing.Color.Green;
+            this.labelColorP3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelColorP3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelColorP3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelColorP3.ForeColor = System.Drawing.Color.White;
+            this.labelColorP3.Location = new System.Drawing.Point(7, 57);
+            this.labelColorP3.Margin = new System.Windows.Forms.Padding(0);
+            this.labelColorP3.Name = "labelColorP3";
+            this.labelColorP3.Size = new System.Drawing.Size(32, 32);
+            this.labelColorP3.TabIndex = 4;
+            this.labelColorP3.Text = "３";
+            this.labelColorP3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelNameP7
+            // 
+            this.labelNameP7.AutoSize = true;
+            this.labelNameP7.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelNameP7.Location = new System.Drawing.Point(107, 133);
+            this.labelNameP7.Name = "labelNameP7";
+            this.labelNameP7.Size = new System.Drawing.Size(77, 25);
+            this.labelNameP7.TabIndex = 3;
+            this.labelNameP7.Text = "PlayerX";
+            // 
+            // labelColorP5
+            // 
+            this.labelColorP5.BackColor = System.Drawing.Color.DarkTurquoise;
+            this.labelColorP5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelColorP5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelColorP5.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelColorP5.ForeColor = System.Drawing.Color.White;
+            this.labelColorP5.Location = new System.Drawing.Point(7, 92);
+            this.labelColorP5.Margin = new System.Windows.Forms.Padding(0);
+            this.labelColorP5.Name = "labelColorP5";
+            this.labelColorP5.Size = new System.Drawing.Size(32, 32);
+            this.labelColorP5.TabIndex = 4;
+            this.labelColorP5.Text = "５";
+            this.labelColorP5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelNameP3
+            // 
+            this.labelNameP3.AutoSize = true;
+            this.labelNameP3.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelNameP3.Location = new System.Drawing.Point(107, 63);
+            this.labelNameP3.Name = "labelNameP3";
+            this.labelNameP3.Size = new System.Drawing.Size(77, 25);
+            this.labelNameP3.TabIndex = 3;
+            this.labelNameP3.Text = "PlayerX";
+            // 
+            // labelRateP7
+            // 
+            this.labelRateP7.AutoSize = true;
+            this.labelRateP7.Location = new System.Drawing.Point(42, 130);
+            this.labelRateP7.Name = "labelRateP7";
+            this.labelRateP7.Size = new System.Drawing.Size(35, 15);
+            this.labelRateP7.TabIndex = 3;
+            this.labelRateP7.Text = "####";
+            // 
+            // labelAverageRate2
+            // 
+            this.labelAverageRate2.AutoSize = true;
+            this.labelAverageRate2.Location = new System.Drawing.Point(4, 4);
+            this.labelAverageRate2.Name = "labelAverageRate2";
+            this.labelAverageRate2.Size = new System.Drawing.Size(113, 15);
+            this.labelAverageRate2.TabIndex = 3;
+            this.labelAverageRate2.Text = "Average Rate : ####";
+            // 
+            // labelColorP1
+            // 
+            this.labelColorP1.BackColor = System.Drawing.Color.Blue;
+            this.labelColorP1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelColorP1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelColorP1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelColorP1.ForeColor = System.Drawing.Color.White;
+            this.labelColorP1.Location = new System.Drawing.Point(7, 23);
+            this.labelColorP1.Margin = new System.Windows.Forms.Padding(0);
+            this.labelColorP1.Name = "labelColorP1";
+            this.labelColorP1.Size = new System.Drawing.Size(32, 32);
+            this.labelColorP1.TabIndex = 4;
+            this.labelColorP1.Text = "１";
+            this.labelColorP1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelNameP5
+            // 
+            this.labelNameP5.AutoSize = true;
+            this.labelNameP5.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelNameP5.Location = new System.Drawing.Point(107, 98);
+            this.labelNameP5.Name = "labelNameP5";
+            this.labelNameP5.Size = new System.Drawing.Size(77, 25);
+            this.labelNameP5.TabIndex = 3;
+            this.labelNameP5.Text = "PlayerX";
+            // 
+            // labelRateP3
+            // 
+            this.labelRateP3.AutoSize = true;
+            this.labelRateP3.Location = new System.Drawing.Point(42, 62);
+            this.labelRateP3.Name = "labelRateP3";
+            this.labelRateP3.Size = new System.Drawing.Size(35, 15);
+            this.labelRateP3.TabIndex = 3;
+            this.labelRateP3.Text = "####";
+            // 
+            // labelRateP5
+            // 
+            this.labelRateP5.AutoSize = true;
+            this.labelRateP5.Location = new System.Drawing.Point(42, 96);
+            this.labelRateP5.Name = "labelRateP5";
+            this.labelRateP5.Size = new System.Drawing.Size(35, 15);
+            this.labelRateP5.TabIndex = 3;
+            this.labelRateP5.Text = "####";
+            // 
+            // labelNameP1
+            // 
+            this.labelNameP1.AutoSize = true;
+            this.labelNameP1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelNameP1.Location = new System.Drawing.Point(107, 28);
+            this.labelNameP1.Name = "labelNameP1";
+            this.labelNameP1.Size = new System.Drawing.Size(77, 25);
+            this.labelNameP1.TabIndex = 3;
+            this.labelNameP1.Text = "PlayerX";
+            // 
+            // labelRateP1
+            // 
+            this.labelRateP1.AutoSize = true;
+            this.labelRateP1.Location = new System.Drawing.Point(42, 28);
+            this.labelRateP1.Name = "labelRateP1";
+            this.labelRateP1.Size = new System.Drawing.Size(35, 15);
+            this.labelRateP1.TabIndex = 3;
+            this.labelRateP1.Text = "####";
+            // 
+            // labelCivP7
+            // 
+            this.labelCivP7.AutoSize = true;
+            this.labelCivP7.Location = new System.Drawing.Point(42, 143);
+            this.labelCivP7.Name = "labelCivP7";
+            this.labelCivP7.Size = new System.Drawing.Size(59, 15);
+            this.labelCivP7.TabIndex = 2;
+            this.labelCivP7.Text = "CIVXXXXX";
+            // 
+            // labelCivP3
+            // 
+            this.labelCivP3.AutoSize = true;
+            this.labelCivP3.Location = new System.Drawing.Point(42, 75);
+            this.labelCivP3.Name = "labelCivP3";
+            this.labelCivP3.Size = new System.Drawing.Size(59, 15);
+            this.labelCivP3.TabIndex = 2;
+            this.labelCivP3.Text = "CIVXXXXX";
+            // 
+            // labelCivP5
+            // 
+            this.labelCivP5.AutoSize = true;
+            this.labelCivP5.Location = new System.Drawing.Point(42, 109);
+            this.labelCivP5.Name = "labelCivP5";
+            this.labelCivP5.Size = new System.Drawing.Size(59, 15);
+            this.labelCivP5.TabIndex = 2;
+            this.labelCivP5.Text = "CIVXXXXX";
+            // 
+            // labelCivP1
+            // 
+            this.labelCivP1.AutoSize = true;
+            this.labelCivP1.Location = new System.Drawing.Point(42, 41);
+            this.labelCivP1.Name = "labelCivP1";
+            this.labelCivP1.Size = new System.Drawing.Size(59, 15);
+            this.labelCivP1.TabIndex = 2;
+            this.labelCivP1.Text = "CIVXXXXX";
+            // 
+            // panelTeam1
+            // 
+            this.panelTeam1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelTeam1.BackColor = System.Drawing.Color.LavenderBlush;
+            this.panelTeam1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelTeam1.Controls.Add(this.labelNameP2);
+            this.panelTeam1.Controls.Add(this.labelCivP2);
+            this.panelTeam1.Controls.Add(this.labelAverageRate1);
+            this.panelTeam1.Controls.Add(this.labelColorP8);
+            this.panelTeam1.Controls.Add(this.labelCivP6);
+            this.panelTeam1.Controls.Add(this.labelCivP4);
+            this.panelTeam1.Controls.Add(this.labelColorP4);
+            this.panelTeam1.Controls.Add(this.labelCivP8);
+            this.panelTeam1.Controls.Add(this.labelNameP8);
+            this.panelTeam1.Controls.Add(this.labelRateP2);
+            this.panelTeam1.Controls.Add(this.labelRateP6);
+            this.panelTeam1.Controls.Add(this.labelColorP6);
+            this.panelTeam1.Controls.Add(this.labelRateP4);
+            this.panelTeam1.Controls.Add(this.labelNameP6);
+            this.panelTeam1.Controls.Add(this.labelNameP4);
+            this.panelTeam1.Controls.Add(this.labelColorP2);
+            this.panelTeam1.Controls.Add(this.labelRateP8);
+            this.panelTeam1.Location = new System.Drawing.Point(8, 39);
+            this.panelTeam1.Name = "panelTeam1";
+            this.panelTeam1.Size = new System.Drawing.Size(298, 170);
+            this.panelTeam1.TabIndex = 5;
+            // 
+            // labelNameP2
+            // 
+            this.labelNameP2.AutoSize = true;
+            this.labelNameP2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelNameP2.Location = new System.Drawing.Point(107, 27);
+            this.labelNameP2.Name = "labelNameP2";
+            this.labelNameP2.Size = new System.Drawing.Size(77, 25);
+            this.labelNameP2.TabIndex = 3;
+            this.labelNameP2.Text = "PlayerX";
+            // 
+            // labelCivP2
+            // 
+            this.labelCivP2.AutoSize = true;
+            this.labelCivP2.Location = new System.Drawing.Point(42, 39);
+            this.labelCivP2.Name = "labelCivP2";
+            this.labelCivP2.Size = new System.Drawing.Size(59, 15);
+            this.labelCivP2.TabIndex = 2;
+            this.labelCivP2.Text = "CIVXXXXX";
+            // 
+            // labelAverageRate1
+            // 
+            this.labelAverageRate1.AutoSize = true;
+            this.labelAverageRate1.Location = new System.Drawing.Point(3, 4);
+            this.labelAverageRate1.Name = "labelAverageRate1";
+            this.labelAverageRate1.Size = new System.Drawing.Size(113, 15);
+            this.labelAverageRate1.TabIndex = 3;
+            this.labelAverageRate1.Text = "Average Rate : ####";
+            // 
+            // labelColorP8
+            // 
+            this.labelColorP8.BackColor = System.Drawing.Color.Orange;
+            this.labelColorP8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelColorP8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelColorP8.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelColorP8.ForeColor = System.Drawing.Color.White;
+            this.labelColorP8.Location = new System.Drawing.Point(7, 125);
+            this.labelColorP8.Margin = new System.Windows.Forms.Padding(0);
+            this.labelColorP8.Name = "labelColorP8";
+            this.labelColorP8.Size = new System.Drawing.Size(32, 32);
+            this.labelColorP8.TabIndex = 4;
+            this.labelColorP8.Text = "８";
+            this.labelColorP8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelCivP6
+            // 
+            this.labelCivP6.AutoSize = true;
+            this.labelCivP6.Location = new System.Drawing.Point(42, 107);
+            this.labelCivP6.Name = "labelCivP6";
+            this.labelCivP6.Size = new System.Drawing.Size(59, 15);
+            this.labelCivP6.TabIndex = 2;
+            this.labelCivP6.Text = "CIVXXXXX";
+            // 
+            // labelCivP4
+            // 
+            this.labelCivP4.AutoSize = true;
+            this.labelCivP4.Location = new System.Drawing.Point(42, 73);
+            this.labelCivP4.Name = "labelCivP4";
+            this.labelCivP4.Size = new System.Drawing.Size(59, 15);
+            this.labelCivP4.TabIndex = 2;
+            this.labelCivP4.Text = "CIVXXXXX";
+            // 
+            // labelColorP4
+            // 
+            this.labelColorP4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.labelColorP4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelColorP4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelColorP4.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelColorP4.ForeColor = System.Drawing.Color.White;
+            this.labelColorP4.Location = new System.Drawing.Point(7, 56);
+            this.labelColorP4.Margin = new System.Windows.Forms.Padding(0);
+            this.labelColorP4.Name = "labelColorP4";
+            this.labelColorP4.Size = new System.Drawing.Size(32, 32);
+            this.labelColorP4.TabIndex = 4;
+            this.labelColorP4.Text = "４";
+            this.labelColorP4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelCivP8
+            // 
+            this.labelCivP8.AutoSize = true;
+            this.labelCivP8.Location = new System.Drawing.Point(42, 141);
+            this.labelCivP8.Name = "labelCivP8";
+            this.labelCivP8.Size = new System.Drawing.Size(59, 15);
+            this.labelCivP8.TabIndex = 2;
+            this.labelCivP8.Text = "CIVXXXXX";
+            // 
+            // labelNameP8
+            // 
+            this.labelNameP8.AutoSize = true;
+            this.labelNameP8.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelNameP8.Location = new System.Drawing.Point(107, 132);
+            this.labelNameP8.Name = "labelNameP8";
+            this.labelNameP8.Size = new System.Drawing.Size(77, 25);
+            this.labelNameP8.TabIndex = 3;
+            this.labelNameP8.Text = "PlayerX";
+            // 
+            // labelRateP2
+            // 
+            this.labelRateP2.AutoSize = true;
+            this.labelRateP2.Location = new System.Drawing.Point(42, 25);
+            this.labelRateP2.Name = "labelRateP2";
+            this.labelRateP2.Size = new System.Drawing.Size(35, 15);
+            this.labelRateP2.TabIndex = 3;
+            this.labelRateP2.Text = "####";
+            // 
+            // labelRateP6
+            // 
+            this.labelRateP6.AutoSize = true;
+            this.labelRateP6.Location = new System.Drawing.Point(42, 93);
+            this.labelRateP6.Name = "labelRateP6";
+            this.labelRateP6.Size = new System.Drawing.Size(35, 15);
+            this.labelRateP6.TabIndex = 3;
+            this.labelRateP6.Text = "####";
+            // 
+            // labelColorP6
+            // 
+            this.labelColorP6.BackColor = System.Drawing.Color.Fuchsia;
+            this.labelColorP6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelColorP6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelColorP6.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelColorP6.ForeColor = System.Drawing.Color.White;
+            this.labelColorP6.Location = new System.Drawing.Point(7, 91);
+            this.labelColorP6.Margin = new System.Windows.Forms.Padding(0);
+            this.labelColorP6.Name = "labelColorP6";
+            this.labelColorP6.Size = new System.Drawing.Size(32, 32);
+            this.labelColorP6.TabIndex = 4;
+            this.labelColorP6.Text = "６";
+            this.labelColorP6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelRateP4
+            // 
+            this.labelRateP4.AutoSize = true;
+            this.labelRateP4.Location = new System.Drawing.Point(42, 59);
+            this.labelRateP4.Name = "labelRateP4";
+            this.labelRateP4.Size = new System.Drawing.Size(35, 15);
+            this.labelRateP4.TabIndex = 3;
+            this.labelRateP4.Text = "####";
+            // 
+            // labelNameP6
+            // 
+            this.labelNameP6.AutoSize = true;
+            this.labelNameP6.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelNameP6.Location = new System.Drawing.Point(107, 97);
+            this.labelNameP6.Name = "labelNameP6";
+            this.labelNameP6.Size = new System.Drawing.Size(77, 25);
+            this.labelNameP6.TabIndex = 3;
+            this.labelNameP6.Text = "PlayerX";
+            // 
+            // labelNameP4
+            // 
+            this.labelNameP4.AutoSize = true;
+            this.labelNameP4.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelNameP4.Location = new System.Drawing.Point(107, 62);
+            this.labelNameP4.Name = "labelNameP4";
+            this.labelNameP4.Size = new System.Drawing.Size(77, 25);
+            this.labelNameP4.TabIndex = 3;
+            this.labelNameP4.Text = "PlayerX";
+            // 
+            // labelColorP2
+            // 
+            this.labelColorP2.BackColor = System.Drawing.Color.Red;
+            this.labelColorP2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelColorP2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelColorP2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelColorP2.ForeColor = System.Drawing.Color.White;
+            this.labelColorP2.Location = new System.Drawing.Point(7, 22);
+            this.labelColorP2.Margin = new System.Windows.Forms.Padding(0);
+            this.labelColorP2.Name = "labelColorP2";
+            this.labelColorP2.Size = new System.Drawing.Size(32, 32);
+            this.labelColorP2.TabIndex = 4;
+            this.labelColorP2.Text = "２";
+            this.labelColorP2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelRateP8
+            // 
+            this.labelRateP8.AutoSize = true;
+            this.labelRateP8.Location = new System.Drawing.Point(42, 127);
+            this.labelRateP8.Name = "labelRateP8";
+            this.labelRateP8.Size = new System.Drawing.Size(35, 15);
+            this.labelRateP8.TabIndex = 3;
+            this.labelRateP8.Text = "####";
+            // 
+            // labelServer
+            // 
+            this.labelServer.AutoSize = true;
+            this.labelServer.Location = new System.Drawing.Point(8, 18);
+            this.labelServer.Name = "labelServer";
+            this.labelServer.Size = new System.Drawing.Size(95, 15);
+            this.labelServer.TabIndex = 2;
+            this.labelServer.Text = "Server: ----------";
+            // 
+            // labelMap
+            // 
+            this.labelMap.AutoSize = true;
+            this.labelMap.Location = new System.Drawing.Point(8, 3);
+            this.labelMap.Name = "labelMap";
+            this.labelMap.Size = new System.Drawing.Size(90, 15);
+            this.labelMap.TabIndex = 2;
+            this.labelMap.Text = "Map : ----------";
+            // 
+            // tabPageSettings
+            // 
+            this.tabPageSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tabPageSettings.Controls.Add(this.textBoxSettingSteamId);
+            this.tabPageSettings.Controls.Add(this.labelSteamId);
+            this.tabPageSettings.Location = new System.Drawing.Point(4, 24);
+            this.tabPageSettings.Name = "tabPageSettings";
+            this.tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageSettings.Size = new System.Drawing.Size(316, 423);
+            this.tabPageSettings.TabIndex = 1;
+            this.tabPageSettings.Text = "Settings";
+            this.tabPageSettings.UseVisualStyleBackColor = true;
+            this.tabPageSettings.Leave += new System.EventHandler(this.TabPageSettings_Leave);
+            // 
+            // textBoxSettingSteamId
+            // 
+            this.textBoxSettingSteamId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSettingSteamId.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.textBoxSettingSteamId.Location = new System.Drawing.Point(69, 9);
+            this.textBoxSettingSteamId.Name = "textBoxSettingSteamId";
+            this.textBoxSettingSteamId.Size = new System.Drawing.Size(239, 23);
+            this.textBoxSettingSteamId.TabIndex = 1;
+            // 
+            // labelSteamId
+            // 
+            this.labelSteamId.AutoSize = true;
+            this.labelSteamId.Location = new System.Drawing.Point(8, 12);
+            this.labelSteamId.Name = "labelSteamId";
+            this.labelSteamId.Size = new System.Drawing.Size(55, 15);
+            this.labelSteamId.TabIndex = 0;
+            this.labelSteamId.Text = "Steam-ID";
+            // 
+            // FormMain
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(324, 451);
+            this.Controls.Add(this.tabControlMain);
+            this.MinimumSize = new System.Drawing.Size(340, 490);
+            this.Name = "FormMain";
+            this.Text = "AoE2.net App";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
+            this.Load += new System.EventHandler(this.FormMain_Load);
+            this.tabControlMain.ResumeLayout(false);
+            this.tabPagePlayerLastMatch.ResumeLayout(false);
+            this.tabPagePlayerLastMatch.PerformLayout();
+            this.panelTeam2.ResumeLayout(false);
+            this.panelTeam2.PerformLayout();
+            this.panelTeam1.ResumeLayout(false);
+            this.panelTeam1.PerformLayout();
+            this.tabPageSettings.ResumeLayout(false);
+            this.tabPageSettings.PerformLayout();
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.TabControl tabControlMain;
+        private System.Windows.Forms.TabPage tabPagePlayerLastMatch;
+        private System.Windows.Forms.Label labelColorP7;
+        private System.Windows.Forms.Label labelColorP3;
+        private System.Windows.Forms.Label labelColorP8;
+        private System.Windows.Forms.Label labelNameP7;
+        private System.Windows.Forms.Label labelColorP4;
+        private System.Windows.Forms.Label labelColorP5;
+        private System.Windows.Forms.Label labelNameP8;
+        private System.Windows.Forms.Label labelNameP3;
+        private System.Windows.Forms.Label labelColorP6;
+        private System.Windows.Forms.Label labelRateP7;
+        private System.Windows.Forms.Label labelNameP4;
+        private System.Windows.Forms.Label labelColorP1;
+        private System.Windows.Forms.Label labelRateP8;
+        private System.Windows.Forms.Label labelNameP5;
+        private System.Windows.Forms.Label labelColorP2;
+        private System.Windows.Forms.Label labelRateP3;
+        private System.Windows.Forms.Label labelNameP6;
+        private System.Windows.Forms.Label labelRateP5;
+        private System.Windows.Forms.Label labelRateP4;
+        private System.Windows.Forms.Label labelNameP1;
+        private System.Windows.Forms.Label labelRateP6;
+        private System.Windows.Forms.Label labelRateP1;
+        private System.Windows.Forms.Label labelNameP2;
+        private System.Windows.Forms.Label labelCivP7;
+        private System.Windows.Forms.Label labelRateP2;
+        private System.Windows.Forms.Label labelCivP8;
+        private System.Windows.Forms.Label labelCivP3;
+        private System.Windows.Forms.Label labelAverageRate2;
+        private System.Windows.Forms.Label labelCivP5;
+        private System.Windows.Forms.Label labelCivP4;
+        private System.Windows.Forms.Label labelCivP6;
+        private System.Windows.Forms.Label labelCivP1;
+        private System.Windows.Forms.Label labelAverageRate1;
+        private System.Windows.Forms.Label labelCivP2;
+        private System.Windows.Forms.Label labelServer;
+        private System.Windows.Forms.Label labelMap;
+        private System.Windows.Forms.Panel panelTeam2;
+        private System.Windows.Forms.Panel panelTeam1;
+        private System.Windows.Forms.Button buttonUpdate;
+        private System.Windows.Forms.TabPage tabPageSettings;
+        private System.Windows.Forms.TextBox textBoxSettingSteamId;
+        private System.Windows.Forms.Label labelSteamId;
+        private System.Windows.Forms.Label labelErrText;
     }
 }
-

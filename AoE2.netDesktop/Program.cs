@@ -1,15 +1,18 @@
-using System;
-using System.Windows.Forms;
-
-namespace AoE2.netDesktop
+namespace AoE2NetDesktop
 {
-    static class Program
+    using System;
+    using System.Windows.Forms;
+
+    /// <summary>
+    /// Main Program.
+    /// </summary>
+    internal static class Program
     {
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
