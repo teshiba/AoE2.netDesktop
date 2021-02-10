@@ -26,9 +26,9 @@ namespace AoE2NetDesktop {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public long SteamId {
+        public string SteamId {
             get {
-                return ((long)(this["SteamId"]));
+                return ((string)(this["SteamId"]));
             }
             set {
                 this["SteamId"] = value;

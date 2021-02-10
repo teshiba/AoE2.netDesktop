@@ -1,6 +1,7 @@
 ﻿namespace AoE2NetDesktop
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Net.Http;
@@ -21,12 +22,27 @@
         /// </summary>
         /// <param name="steamId">steam id.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(long steamId)
+        public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(string steamId)
         {
             var apiEndPoint = $"player/lastmatch?game={AoE2Version}&steam_id={steamId}";
             var playerLastmatch = await ReadAsync<PlayerLastmatch>(apiEndPoint);
 
             return playerLastmatch;
+        }
+
+        /// <summary>
+        /// Gets Player Rating History.
+        /// </summary>
+        /// <param name="steamId">steamID64.</param>
+        /// <param name="leaderBoardId">Leaderboard ID.</param>
+        /// <param name="count">Number of matches to get (Must be 10000 or less)).</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(string steamId, LeaderBoardId leaderBoardId, int count)
+        {
+            var apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&steam_id={steamId}&count={count}";
+            var playerRatingHistory = await ReadAsync<List<PlayerRating>>(apiEndPoint);
+
+            return playerRatingHistory;
         }
 
         /// <summary>

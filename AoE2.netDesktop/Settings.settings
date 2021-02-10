@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="AoE2.netApp" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="SteamId" Type="System.Int64" Scope="User">
+    <Setting Name="SteamId" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>

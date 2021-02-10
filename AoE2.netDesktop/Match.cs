@@ -75,7 +75,7 @@ namespace AoE2NetDesktop
         public bool Ranked { get; set; }
 
         [DataMember(Name = "leaderboard_id")]
-        public int LeaderboardId { get; set; }
+        public LeaderBoardId LeaderboardId { get; set; }
 
         [DataMember(Name = "rating_type")]
         public int RatingType { get; set; }
