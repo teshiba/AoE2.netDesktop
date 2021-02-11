@@ -1,6 +1,6 @@
 ﻿#pragma warning disable SA1600 // Elements should be documented
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-namespace AoE2NetDesktop
+namespace LibAoE2net
 {
     using System.Collections.Generic;
     using System.Runtime.Serialization;
@@ -123,13 +123,13 @@ namespace AoE2NetDesktop
         public long Visibility { get; set; }
 
         [DataMember(Name = "opened")]
-        public long Opened { get; set; }
+        public long? Opened { get; set; }
 
         [DataMember(Name = "started")]
-        public long Started { get; set; }
+        public long? Started { get; set; }
 
         [DataMember(Name = "finished")]
-        public long Finished { get; set; }
+        public long? Finished { get; set; }
 
         [DataMember(Name = "players")]
         public List<Players> Players { get; set; }

@@ -1,9 +1,9 @@
-﻿using System.Runtime.Serialization;
-
-#pragma warning disable SA1600 // Elements should be documented
+﻿#pragma warning disable SA1600 // Elements should be documented
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-namespace AoE2NetDesktop
+namespace LibAoE2net
 {
+    using System.Runtime.Serialization;
+
     /// <summary>
     /// Player last match data.
     /// </summary>

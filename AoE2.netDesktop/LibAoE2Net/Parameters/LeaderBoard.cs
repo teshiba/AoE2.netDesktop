@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop
+﻿namespace LibAoE2net
 {
     /// <summary>
     /// Leaderboard ID.

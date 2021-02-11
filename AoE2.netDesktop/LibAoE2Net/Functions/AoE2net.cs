@@ -1,11 +1,10 @@
-﻿namespace AoE2NetDesktop
+﻿namespace LibAoE2net
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Net.Http;
-    using System.Net.Http.Json;
     using System.Runtime.Serialization.Json;
     using System.Text;
     using System.Threading.Tasks;
@@ -23,7 +22,7 @@
         /// Request the last match the player started playing, this will be the current match if they are still in game.
         /// </summary>
         /// <param name="steamId">steam id.</param>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        /// <returns><see cref="PlayerLastmatch"/> deserialized as JSON.</returns>
         public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(string steamId)
         {
             var apiEndPoint = $"player/lastmatch?game={AoE2Version}&steam_id={steamId}";
@@ -39,13 +38,37 @@
         /// <param name="steamId">steamID64.</param>
         /// <param name="leaderBoardId">Leaderboard ID.</param>
         /// <param name="count">Number of matches to get (Must be 10000 or less)).</param>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        /// <returns>List of <see cref="PlayerRating"/> deserialized as JSON.</returns>
         public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(string steamId, LeaderBoardId leaderBoardId, int count)
         {
             var apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&steam_id={steamId}&count={count}";
             var playerRatingHistory = await GetFromJsonAsync<List<PlayerRating>>(apiEndPoint);
 
             return playerRatingHistory;
+        }
+
+        /// <summary>
+        /// Strings.
+        /// Request a list of strings used by the API.
+        /// </summary>
+        /// <param name="language">steamID64.</param>
+        /// <returns><see cref="Strings"/> deserialized as JSON.</returns>
+        public static async Task<Strings> GetStringsAsync(Language language)
+        {
+            var apiEndPoint = $"https://aoe2.net/api/strings?game={AoE2Version}&language={language.ToApiString()}";
+            var strings = await GetFromJsonAsync<Strings>(apiEndPoint);
+
+            return strings;
+        }
+
+        /// <summary>
+        /// Gets Image file location on AoE2.net.
+        /// </summary>
+        /// <param name="civ">civilization name.</param>
+        /// <returns>Image file location.</returns>
+        public static string GetCivImageLocation(string civ)
+        {
+            return $"https://aoe2.net/assets/images/crests/25x25/{civ.ToLower()}.png";
         }
 
         /// <summary>
