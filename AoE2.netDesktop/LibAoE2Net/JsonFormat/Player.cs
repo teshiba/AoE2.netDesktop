@@ -9,7 +9,7 @@ namespace LibAoE2net
     /// </summary>
     [DataContract]
 
-    public class Players
+    public class Player
     {
         [DataMember(Name = "profile_id")]
         public int? ProfilId { get; set; }

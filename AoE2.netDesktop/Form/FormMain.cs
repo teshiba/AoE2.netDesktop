@@ -3,13 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Drawing.Drawing2D;
     using System.Linq;
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
     using AoE2NetDesktop;
-    using global::LibAoE2net;
+    using LibAoE2net;
 
     /// <summary>
     /// App main form.
@@ -30,23 +31,60 @@
         public FormMain()
         {
             InitializeComponent();
+
+            labelAveRate1.ForeColor = labelAveRate1.BackColor;
+            labelAveRate2.ForeColor = labelAveRate2.BackColor;
+            labelGameId.ForeColor = labelGameId.BackColor;
+            labelServer.ForeColor = labelServer.BackColor;
+            labelMap.ForeColor = labelMap.BackColor;
             InitEachPlayersCtrlList();
         }
 
         private static async Task<PlayerLastmatch> GetLastMatchDataFromAoE2Net(string steamId)
         {
             var ret = await AoE2net.GetPlayerLastMatchAsync(steamId);
-            foreach (var item in ret.LastMatch.Players) {
-                var playerRate = await AoE2net.GetPlayerRatingHistoryAsync(
-                    item.SteamId,
+            foreach (var player in ret.LastMatch.Players) {
+                var rate = await AoE2net.GetPlayerRatingHistoryAsync(
+                    player.SteamId,
                     ret.LastMatch.LeaderboardId,
                     1);
-                if (playerRate != null && playerRate.Count != 0) {
-                    item.Rating ??= playerRate[0].Rating;
+                if (rate != null && rate.Count != 0) {
+                    player.Rating ??= rate[0].Rating;
                 }
             }
 
             return ret;
+        }
+
+        private static void DrawBorderedString(Label label, PaintEventArgs e, float fontSize, Color borderColor, Color fillColor)
+        {
+            DrawBorderedString(label, e, fontSize, borderColor, fillColor, new Point(0, 0));
+        }
+
+        private static void DrawBorderedString(Label label, PaintEventArgs e, float fontSize, Color borderColor, Color fillColor, Point point)
+        {
+            var stringFormat = new StringFormat {
+                FormatFlags = StringFormatFlags.NoWrap,
+                Trimming = StringTrimming.None,
+            };
+
+            var graphicsPath = new GraphicsPath();
+            graphicsPath.AddString(
+                label.Text,
+                label.Font.FontFamily,
+                1,
+                fontSize,
+                point,
+                stringFormat);
+
+            var pen = new Pen(borderColor, 3) {
+                LineJoin = LineJoin.Round,
+            };
+
+            e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+            e.Graphics.DrawPath(pen, graphicsPath);
+            e.Graphics.FillPath(new SolidBrush(fillColor), graphicsPath);
         }
 
         private void InitEachPlayersCtrlList()
@@ -75,14 +113,31 @@
                 pictureBox1, pictureBox2, pictureBox3, pictureBox4,
                 pictureBox5, pictureBox6, pictureBox7, pictureBox8,
             });
+
+            foreach (var item in labelName) {
+                item.ForeColor = item.BackColor;
+            }
+
+            foreach (var item in labelRate) {
+                item.ForeColor = item.BackColor;
+            }
+
+            foreach (var item in labelCiv) {
+                item.ForeColor = item.BackColor;
+            }
+
+            foreach (var item in labelColor) {
+                item.ForeColor = item.BackColor;
+            }
         }
 
         private void ClearPlayerLastMatch()
         {
             labelMap.Text = $"Map: -----";
             labelServer.Text = $"Server: -----";
-            labelAverageRate1.Text = $"Ave.Rate: ----";
-            labelAverageRate2.Text = $"Ave.Rate: ----";
+            labelGameId.Text = $"GameID: --------";
+            labelAveRate1.Text = $"Team1 Ave. Rate: ----";
+            labelAveRate2.Text = $"Team2 Ave. Rate: ----";
             labelErrText.Text = string.Empty;
 
             foreach (var item in labelCiv) {
@@ -131,7 +186,29 @@
             }
 
             labelMap.Text = $"Map: {mapName}";
+            labelGameId.Text = $"GameID: {playerLastmatch.LastMatch.MatchId}";
             labelServer.Text = $"Server: {playerLastmatch.LastMatch.Server}";
+        }
+
+        private void SetPlayersData(PlayerLastmatch playerLastmatch)
+        {
+            foreach (var player in playerLastmatch.LastMatch.Players) {
+                var civ = apiStrings.Civ.GetString(player.Civ);
+                var location = AoE2net.GetCivImageLocation(civ);
+                var rate = player.Rating is null ? " N/A" : player.Rating.ToString();
+
+                if (player.Color > 0) {
+                    pictureBox[player.Color - 1].ImageLocation = location;
+                    labelRate[player.Color - 1].Text = rate;
+                    labelName[player.Color - 1].Text = player.Name ?? "-- AI --";
+                    labelCiv[player.Color - 1].Text = civ ?? player.Civ.ToString();
+                    pictureBox[player.Color - 1].Visible = true;
+
+                    labelName[player.Color - 1].Tag = player;
+                }
+
+                SetFontStyle(player);
+            }
         }
 
         private void SetAverageRate(PlayerLastmatch playerLastmatch)
@@ -146,30 +223,11 @@
                                         .Select(player => player.Rating)
                                         .Average())
                                         .ToString();
-            labelAverageRate1.Text = $"Ave. Rate:{aveP1}";
-            labelAverageRate2.Text = $"Ave. Rate:{aveP2}";
+            labelAveRate1.Text = $"Team1 Ave. Rate:{aveP1}";
+            labelAveRate2.Text = $"Team2 Ave. Rate:{aveP2}";
         }
 
-        private void SetPlayersData(PlayerLastmatch playerLastmatch)
-        {
-            foreach (var item in playerLastmatch.LastMatch.Players) {
-                var civ = apiStrings.Civ.GetString(item.Civ);
-                var location = AoE2net.GetCivImageLocation(civ);
-                var rate = item.Rating is null ? " N/A" : item.Rating.ToString();
-
-                if (item.Color > 0) {
-                    pictureBox[item.Color - 1].ImageLocation = location;
-                    labelRate[item.Color - 1].Text = rate;
-                    labelName[item.Color - 1].Text = item.Name ?? "-- AI --";
-                    labelCiv[item.Color - 1].Text = civ ?? item.Civ.ToString();
-                    pictureBox[item.Color - 1].Visible = true;
-                }
-
-                SetFontStyle(item);
-            }
-        }
-
-        private void SetFontStyle(Players item)
+        private void SetFontStyle(Player item)
         {
             if (item.Color > 0) {
                 var fontStyle = FontStyle.Bold;
@@ -212,6 +270,58 @@
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             Settings.Default.Save();
+        }
+
+        private void CheckBoxAlwaysOnTop_CheckedChanged(object sender, EventArgs e)
+        {
+            TopMost = checkBoxAlwaysOnTop.Checked;
+        }
+
+        private void LabelName_Paint(object sender, PaintEventArgs e)
+        {
+            var labelName = (Label)sender;
+            var player = (Player)labelName.Tag;
+
+            if (player?.SteamId == textBoxSettingSteamId.Text) {
+                DrawBorderedString(labelName, e, 20, Color.Black, Color.Salmon);
+            } else {
+                DrawBorderedString(labelName, e, 20, Color.Black, Color.LightGreen);
+            }
+        }
+
+        private void LabelRate_Paint(object sender, PaintEventArgs e)
+        {
+            DrawBorderedString((Label)sender, e, 15, Color.Black, Color.DarkOrange);
+        }
+
+        private void LabelCiv_Paint(object sender, PaintEventArgs e)
+        {
+            DrawBorderedString((Label)sender, e, 10, Color.Gray, Color.LightGoldenrodYellow);
+        }
+
+        private void LabelAveRate_Paint(object sender, PaintEventArgs e)
+        {
+            DrawBorderedString((Label)sender, e, 12, Color.Black, Color.White);
+        }
+
+        private void LabelColor_Paint(object sender, PaintEventArgs e)
+        {
+            DrawBorderedString((Label)sender, e, 22, Color.Black, Color.White, new Point(3, 3));
+        }
+
+        private void LabelMap_Paint(object sender, PaintEventArgs e)
+        {
+            DrawBorderedString((Label)sender, e, 20, Color.Black, Color.White);
+        }
+
+        private void LabelGameId_Paint(object sender, PaintEventArgs e)
+        {
+            DrawBorderedString((Label)sender, e, 12, Color.Black, Color.White);
+        }
+
+        private void LabelServer_Paint(object sender, PaintEventArgs e)
+        {
+            DrawBorderedString((Label)sender, e, 12, Color.Black, Color.White);
         }
     }
 }

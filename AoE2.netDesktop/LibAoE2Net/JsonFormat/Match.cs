@@ -132,7 +132,7 @@ namespace LibAoE2net
         public long? Finished { get; set; }
 
         [DataMember(Name = "players")]
-        public List<Players> Players { get; set; }
+        public List<Player> Players { get; set; }
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

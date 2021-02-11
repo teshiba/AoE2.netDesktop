@@ -4,18 +4,31 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <StartupObject></StartupObject>
+    <StartupObject>AoE2NetDesktop.Program</StartupObject>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AssemblyVersion>0.0.0.1</AssemblyVersion>
+    <FileVersion>0.0.0.1</FileVersion>
+    <Version>0.0.0</Version>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/teshiba/AoE2.netDesktop</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/teshiba/AoE2.netDesktop.git</RepositoryUrl>
+    <PackageTags>AoE2DE</PackageTags>
+    <Company />
+    <Authors>Satoshi Teshiba</Authors>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RootNamespace>AoE2NetDesktop</RootNamespace>
+    <AssemblyName>AoE2NetDesktop</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\net5.0-windows\AoE2.netDesktop.xml</DocumentationFile>
-    <OutputPath>bin\Debug\net5.0-windows\</OutputPath>
+    <DocumentationFile>bin\Debug\AoE2.netDesktop.xml</DocumentationFile>
+    <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>bin\Release\net5.0-windows\</OutputPath>
-    <DocumentationFile>bin\Release\net5.0-windows\AoE2.netDesktop.xml</DocumentationFile>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>bin\Release\AoE2.netDesktop.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +44,25 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
