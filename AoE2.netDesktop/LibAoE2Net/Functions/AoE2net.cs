@@ -25,8 +25,12 @@
         /// <returns><see cref="PlayerLastmatch"/> deserialized as JSON.</returns>
         public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(string steamId)
         {
-            var apiEndPoint = $"player/lastmatch?game={AoE2Version}&steam_id={steamId}";
-            var playerLastmatch = await GetFromJsonAsync<PlayerLastmatch>(apiEndPoint);
+            PlayerLastmatch playerLastmatch = null;
+
+            if (steamId != null) {
+                var apiEndPoint = $"player/lastmatch?game={AoE2Version}&steam_id={steamId}";
+                playerLastmatch = await GetFromJsonAsync<PlayerLastmatch>(apiEndPoint);
+            }
 
             return playerLastmatch;
         }
@@ -41,8 +45,12 @@
         /// <returns>List of <see cref="PlayerRating"/> deserialized as JSON.</returns>
         public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(string steamId, LeaderBoardId leaderBoardId, int count)
         {
-            var apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&steam_id={steamId}&count={count}";
-            var playerRatingHistory = await GetFromJsonAsync<List<PlayerRating>>(apiEndPoint);
+            List<PlayerRating> playerRatingHistory = null;
+
+            if (steamId != null) {
+                var apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&steam_id={steamId}&count={count}";
+                playerRatingHistory = await GetFromJsonAsync<List<PlayerRating>>(apiEndPoint);
+            }
 
             return playerRatingHistory;
         }
@@ -68,6 +76,10 @@
         /// <returns>Image file location.</returns>
         public static string GetCivImageLocation(string civ)
         {
+            if (civ is null) {
+                throw new ArgumentNullException(nameof(civ));
+            }
+
             return $"https://aoe2.net/assets/images/crests/25x25/{civ.ToLower()}.png";
         }
 
@@ -90,11 +102,11 @@
                 Debug.Print($"Send Request {BaseAddress}{apiEndPoint}");
 
                 var jsonText = await client.GetStringAsync(apiEndPoint);
+                Debug.Print($"Get JSON {typeof(T)} {jsonText}");
+
                 var serializer = new DataContractJsonSerializer(typeof(T));
                 var stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonText));
                 ret = (T)serializer.ReadObject(stream);
-
-                Debug.Print($"Get JSON {typeof(T)} {jsonText}");
             } catch (HttpRequestException e) {
                 Debug.Print($"Request Error: {e.Message}");
                 throw;

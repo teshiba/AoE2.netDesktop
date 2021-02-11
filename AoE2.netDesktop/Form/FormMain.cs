@@ -41,7 +41,7 @@
                     item.SteamId,
                     ret.LastMatch.LeaderboardId,
                     1);
-                if (playerRate.Count != 0) {
+                if (playerRate != null && playerRate.Count != 0) {
                     item.Rating = playerRate[0].Rating;
                 }
             }
@@ -160,7 +160,7 @@
                 if (item.Color > 0) {
                     pictureBox[item.Color - 1].ImageLocation = location;
                     labelRate[item.Color - 1].Text = rate;
-                    labelName[item.Color - 1].Text = item.Name;
+                    labelName[item.Color - 1].Text = item.Name ?? "-- AI --";
                     labelCiv[item.Color - 1].Text = civ ?? item.Civ.ToString();
                     pictureBox[item.Color - 1].Visible = true;
                 }

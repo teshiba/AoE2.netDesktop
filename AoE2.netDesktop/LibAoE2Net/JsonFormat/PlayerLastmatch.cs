@@ -11,7 +11,7 @@ namespace LibAoE2net
     public class PlayerLastmatch
     {
         [DataMember(Name = "profile_id")]
-        public int ProfileId { get; set; }
+        public int? ProfileId { get; set; }
 
         [DataMember(Name = "steam_id")]
         public string SteamId { get; set; }

@@ -12,7 +12,7 @@ namespace LibAoE2net
     public class Players
     {
         [DataMember(Name = "profile_id")]
-        public int ProfilId { get; set; }
+        public int? ProfilId { get; set; }
 
         [DataMember(Name = "steam_id")]
         public string SteamId { get; set; }

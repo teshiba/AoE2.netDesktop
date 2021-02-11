@@ -174,7 +174,7 @@ namespace AoE2NetDesktop.From
             this.panelTeam2.Controls.Add(this.labelColorP5);
             this.panelTeam2.Controls.Add(this.labelAverageRate1);
             this.panelTeam2.Controls.Add(this.labelColorP1);
-            this.panelTeam2.Location = new System.Drawing.Point(8, 237);
+            this.panelTeam2.Location = new System.Drawing.Point(8, 51);
             this.panelTeam2.Name = "panelTeam2";
             this.panelTeam2.Size = new System.Drawing.Size(375, 180);
             this.panelTeam2.TabIndex = 6;
@@ -455,7 +455,7 @@ namespace AoE2NetDesktop.From
             this.panelTeam1.Controls.Add(this.labelNameP6);
             this.panelTeam1.Controls.Add(this.labelNameP4);
             this.panelTeam1.Controls.Add(this.labelColorP2);
-            this.panelTeam1.Location = new System.Drawing.Point(8, 51);
+            this.panelTeam1.Location = new System.Drawing.Point(8, 237);
             this.panelTeam1.Name = "panelTeam1";
             this.panelTeam1.Size = new System.Drawing.Size(375, 180);
             this.panelTeam1.TabIndex = 5;
