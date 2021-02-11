@@ -42,7 +42,7 @@
                     ret.LastMatch.LeaderboardId,
                     1);
                 if (playerRate != null && playerRate.Count != 0) {
-                    item.Rating = playerRate[0].Rating;
+                    item.Rating ??= playerRate[0].Rating;
                 }
             }
 
