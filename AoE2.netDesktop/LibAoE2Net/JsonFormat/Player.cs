@@ -61,6 +61,11 @@ namespace LibAoE2net
 
         [DataMember(Name = "won")]
         public bool? Won { get; set; }
+
+        public override string ToString()
+        {
+            return $"[{Color}]{Name}(R:{Rating}) ID:{SteamId} {ProfilId}";
+        }
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

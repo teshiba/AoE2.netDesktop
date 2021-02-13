@@ -798,11 +798,10 @@ namespace AoE2NetDesktop.From
             this.tabPageSettings.Location = new System.Drawing.Point(4, 24);
             this.tabPageSettings.Name = "tabPageSettings";
             this.tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSettings.Size = new System.Drawing.Size(313, 493);
+            this.tabPageSettings.Size = new System.Drawing.Size(276, 493);
             this.tabPageSettings.TabIndex = 1;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
-            this.tabPageSettings.Leave += new System.EventHandler(this.TabPageSettings_Leave);
             // 
             // labelSettingsCountry
             // 

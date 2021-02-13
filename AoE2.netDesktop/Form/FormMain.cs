@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
-    using System.Drawing.Drawing2D;
     using System.Linq;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -43,10 +42,14 @@
 
         private static async Task<PlayerLastmatch> GetLastMatchDataFromAoE2Net(string steamId)
         {
+            if (steamId is null) {
+                throw new ArgumentNullException(nameof(steamId));
+            }
+
             var ret = await AoE2net.GetPlayerLastMatchAsync(steamId);
             foreach (var player in ret.LastMatch.Players) {
                 var rate = await AoE2net.GetPlayerRatingHistoryAsync(
-                    player.SteamId,
+                    player.SteamId ?? string.Empty,
                     ret.LastMatch.LeaderboardId ?? 0,
                     1);
                 if (rate != null && rate.Count != 0) {
@@ -55,37 +58,6 @@
             }
 
             return ret;
-        }
-
-        private static void DrawBorderedString(Label label, PaintEventArgs e, float fontSize, Color borderColor, Color fillColor)
-        {
-            DrawBorderedString(label, e, fontSize, borderColor, fillColor, new Point(0, 0));
-        }
-
-        private static void DrawBorderedString(Label label, PaintEventArgs e, float fontSize, Color borderColor, Color fillColor, Point point)
-        {
-            var stringFormat = new StringFormat {
-                FormatFlags = StringFormatFlags.NoWrap,
-                Trimming = StringTrimming.None,
-            };
-
-            var graphicsPath = new GraphicsPath();
-            graphicsPath.AddString(
-                label.Text,
-                label.Font.FontFamily,
-                1,
-                fontSize,
-                point,
-                stringFormat);
-
-            var pen = new Pen(borderColor, 3) {
-                LineJoin = LineJoin.Round,
-            };
-
-            e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
-            e.Graphics.DrawPath(pen, graphicsPath);
-            e.Graphics.FillPath(new SolidBrush(fillColor), graphicsPath);
         }
 
         private void InitEachPlayersCtrlList()
@@ -162,9 +134,8 @@
         {
             ClearPlayerLastMatch();
             var ret = false;
-
             try {
-                var playerLastmatch = await GetLastMatchDataFromAoE2Net(Settings.Default.SteamId);
+                var playerLastmatch = await GetLastMatchDataFromAoE2Net(textBoxSettingSteamId.Text);
                 SetLastMatchData(playerLastmatch);
                 ret = true;
             } catch (HttpRequestException e) {
@@ -270,11 +241,6 @@
             }
         }
 
-        private void TabPageSettings_Leave(object sender, EventArgs e)
-        {
-            Settings.Default.SteamId = textBoxSettingSteamId.Text;
-        }
-
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             Settings.Default.Save();
@@ -291,45 +257,45 @@
             var player = (Player)labelName.Tag;
 
             if (player?.SteamId == textBoxSettingSteamId.Text) {
-                DrawBorderedString(labelName, e, 20, Color.Black, Color.DarkOrange);
+                labelName.DrawString(e, 20, Color.Black, Color.DarkOrange);
             } else {
-                DrawBorderedString(labelName, e, 20, Color.DarkGreen, Color.LightGreen);
+                labelName.DrawString(e, 20, Color.DarkGreen, Color.LightGreen);
             }
         }
 
         private void LabelRate_Paint(object sender, PaintEventArgs e)
         {
-            DrawBorderedString((Label)sender, e, 15, Color.Black, Color.DeepSkyBlue);
+            ((Label)sender).DrawString(e, 15, Color.Black, Color.DeepSkyBlue);
         }
 
         private void LabelCiv_Paint(object sender, PaintEventArgs e)
         {
-            DrawBorderedString((Label)sender, e, 10, Color.Gray, Color.LightGoldenrodYellow);
+            ((Label)sender).DrawString(e, 10, Color.Gray, Color.LightGoldenrodYellow);
         }
 
         private void LabelAveRate_Paint(object sender, PaintEventArgs e)
         {
-            DrawBorderedString((Label)sender, e, 12, Color.Silver, Color.Black);
+            ((Label)sender).DrawString(e, 12, Color.Silver, Color.Black);
         }
 
         private void LabelColor_Paint(object sender, PaintEventArgs e)
         {
-            DrawBorderedString((Label)sender, e, 22, Color.Black, Color.White, new Point(3, 3));
+            ((Label)sender).DrawString(e, 22, Color.Black, Color.White, new Point(3, 3));
         }
 
         private void LabelMap_Paint(object sender, PaintEventArgs e)
         {
-            DrawBorderedString((Label)sender, e, 20, Color.Black, Color.White);
+            ((Label)sender).DrawString(e, 20, Color.Black, Color.White);
         }
 
         private void LabelGameId_Paint(object sender, PaintEventArgs e)
         {
-            DrawBorderedString((Label)sender, e, 12, Color.Gray, Color.LightGoldenrodYellow);
+            ((Label)sender).DrawString(e, 12, Color.Gray, Color.LightGoldenrodYellow);
         }
 
         private void LabelServer_Paint(object sender, PaintEventArgs e)
         {
-            DrawBorderedString((Label)sender, e, 12, Color.Gray, Color.LightGoldenrodYellow);
+            ((Label)sender).DrawString(e, 12, Color.Gray, Color.LightGoldenrodYellow);
         }
 
         private async Task VerifySteamId()
@@ -338,20 +304,31 @@
                 var lastMatch = await AoE2net.GetPlayerLastMatchAsync(textBoxSettingSteamId.Text);
                 labelSettingsName.Text = $"   Name: {lastMatch.Name}";
                 labelSettingsCountry.Text = $"Country: {lastMatch.Country}";
+                Settings.Default.SteamId = textBoxSettingSteamId.Text;
                 buttonUpdate.Enabled = true;
             } catch (HttpRequestException) {
                 labelSettingsName.Text = $"   Name: -- Invalid Steam ID --";
                 labelSettingsCountry.Text = $"Country: -- Invalid Steam ID --";
                 buttonUpdate.Enabled = false;
+            } catch (TypeInitializationException ex) {
+                System.Diagnostics.Debug.Print($"{ex}");
             }
         }
 
         private void TextBoxSettingSteamId_TextChanged(object sender, EventArgs e)
         {
-            timerSteamIdVerify.Stop();
-            timerSteamIdVerifyCount = 0;
-            buttonUpdate.Enabled = false;
-            timerSteamIdVerify.Start();
+            if (textBoxSettingSteamId.Text == AoE2netDemo.SteamId) {
+                // Change to demo mode.
+                timerSteamIdVerify.Stop();
+                labelSettingsName.Text = $"   Name: Player1";
+                labelSettingsCountry.Text = $"Country: JP";
+                buttonUpdate.Enabled = true;
+            } else {
+                timerSteamIdVerify.Stop();
+                timerSteamIdVerifyCount = 0;
+                buttonUpdate.Enabled = false;
+                timerSteamIdVerify.Start();
+            }
         }
 
         private async void TimerSteamIdVerify_Tick(object sender, EventArgs e)
