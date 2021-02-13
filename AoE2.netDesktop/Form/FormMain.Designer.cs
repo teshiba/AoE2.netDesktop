@@ -28,6 +28,7 @@ namespace AoE2NetDesktop.From
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPagePlayerLastMatch = new System.Windows.Forms.TabPage();
             this.labelGameId = new System.Windows.Forms.Label();
@@ -80,9 +81,12 @@ namespace AoE2NetDesktop.From
             this.labelServer = new System.Windows.Forms.Label();
             this.labelMap = new System.Windows.Forms.Label();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
+            this.labelSettingsCountry = new System.Windows.Forms.Label();
+            this.labelSettingsName = new System.Windows.Forms.Label();
             this.checkBoxAlwaysOnTop = new System.Windows.Forms.CheckBox();
             this.textBoxSettingSteamId = new System.Windows.Forms.TextBox();
             this.labelSteamId = new System.Windows.Forms.Label();
+            this.timerSteamIdVerify = new System.Windows.Forms.Timer(this.components);
             this.tabControlMain.SuspendLayout();
             this.tabPagePlayerLastMatch.SuspendLayout();
             this.panelTeam2.SuspendLayout();
@@ -106,7 +110,7 @@ namespace AoE2NetDesktop.From
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(364, 521);
+            this.tabControlMain.Size = new System.Drawing.Size(284, 521);
             this.tabControlMain.TabIndex = 0;
             // 
             // tabPagePlayerLastMatch
@@ -122,7 +126,7 @@ namespace AoE2NetDesktop.From
             this.tabPagePlayerLastMatch.Location = new System.Drawing.Point(4, 24);
             this.tabPagePlayerLastMatch.Name = "tabPagePlayerLastMatch";
             this.tabPagePlayerLastMatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(356, 493);
+            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(276, 493);
             this.tabPagePlayerLastMatch.TabIndex = 0;
             this.tabPagePlayerLastMatch.Text = "Player Last Match";
             this.tabPagePlayerLastMatch.UseVisualStyleBackColor = true;
@@ -144,14 +148,15 @@ namespace AoE2NetDesktop.From
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
             this.labelErrText.Location = new System.Drawing.Point(8, 447);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(268, 38);
+            this.labelErrText.Size = new System.Drawing.Size(188, 38);
             this.labelErrText.TabIndex = 8;
             // 
             // buttonUpdate
             // 
             this.buttonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonUpdate.Enabled = false;
             this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonUpdate.Location = new System.Drawing.Point(282, 447);
+            this.buttonUpdate.Location = new System.Drawing.Point(202, 447);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(66, 38);
             this.buttonUpdate.TabIndex = 7;
@@ -189,18 +194,18 @@ namespace AoE2NetDesktop.From
             this.panelTeam2.Controls.Add(this.labelColorP1);
             this.panelTeam2.Location = new System.Drawing.Point(8, 51);
             this.panelTeam2.Name = "panelTeam2";
-            this.panelTeam2.Size = new System.Drawing.Size(340, 192);
+            this.panelTeam2.Size = new System.Drawing.Size(260, 192);
             this.panelTeam2.TabIndex = 6;
             // 
             // labelNameP7
             // 
             this.labelNameP7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelNameP7.BackColor = System.Drawing.Color.Transparent;
+            this.labelNameP7.BackColor = System.Drawing.Color.Azure;
             this.labelNameP7.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP7.Location = new System.Drawing.Point(123, 148);
             this.labelNameP7.Name = "labelNameP7";
-            this.labelNameP7.Size = new System.Drawing.Size(214, 28);
+            this.labelNameP7.Size = new System.Drawing.Size(134, 28);
             this.labelNameP7.TabIndex = 3;
             this.labelNameP7.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP7.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName_Paint);
@@ -209,11 +214,11 @@ namespace AoE2NetDesktop.From
             // 
             this.labelNameP3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelNameP3.BackColor = System.Drawing.Color.Transparent;
+            this.labelNameP3.BackColor = System.Drawing.Color.Azure;
             this.labelNameP3.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP3.Location = new System.Drawing.Point(123, 67);
             this.labelNameP3.Name = "labelNameP3";
-            this.labelNameP3.Size = new System.Drawing.Size(214, 28);
+            this.labelNameP3.Size = new System.Drawing.Size(134, 28);
             this.labelNameP3.TabIndex = 3;
             this.labelNameP3.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP3.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName_Paint);
@@ -222,11 +227,11 @@ namespace AoE2NetDesktop.From
             // 
             this.labelNameP5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelNameP5.BackColor = System.Drawing.Color.Transparent;
+            this.labelNameP5.BackColor = System.Drawing.Color.Azure;
             this.labelNameP5.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP5.Location = new System.Drawing.Point(123, 108);
             this.labelNameP5.Name = "labelNameP5";
-            this.labelNameP5.Size = new System.Drawing.Size(214, 28);
+            this.labelNameP5.Size = new System.Drawing.Size(134, 28);
             this.labelNameP5.TabIndex = 3;
             this.labelNameP5.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP5.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName_Paint);
@@ -235,18 +240,18 @@ namespace AoE2NetDesktop.From
             // 
             this.labelNameP1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelNameP1.BackColor = System.Drawing.Color.Transparent;
+            this.labelNameP1.BackColor = System.Drawing.Color.Azure;
             this.labelNameP1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP1.Location = new System.Drawing.Point(123, 28);
             this.labelNameP1.Name = "labelNameP1";
-            this.labelNameP1.Size = new System.Drawing.Size(214, 28);
+            this.labelNameP1.Size = new System.Drawing.Size(134, 28);
             this.labelNameP1.TabIndex = 3;
             this.labelNameP1.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName_Paint);
             // 
             // labelRateP7
             // 
-            this.labelRateP7.BackColor = System.Drawing.Color.Transparent;
+            this.labelRateP7.BackColor = System.Drawing.Color.Azure;
             this.labelRateP7.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP7.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.labelRateP7.Location = new System.Drawing.Point(73, 151);
@@ -259,7 +264,7 @@ namespace AoE2NetDesktop.From
             // 
             // labelRateP3
             // 
-            this.labelRateP3.BackColor = System.Drawing.Color.Transparent;
+            this.labelRateP3.BackColor = System.Drawing.Color.Azure;
             this.labelRateP3.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP3.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.labelRateP3.Location = new System.Drawing.Point(73, 70);
@@ -272,7 +277,7 @@ namespace AoE2NetDesktop.From
             // 
             // labelRateP5
             // 
-            this.labelRateP5.BackColor = System.Drawing.Color.Transparent;
+            this.labelRateP5.BackColor = System.Drawing.Color.Azure;
             this.labelRateP5.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP5.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.labelRateP5.Location = new System.Drawing.Point(73, 110);
@@ -285,7 +290,7 @@ namespace AoE2NetDesktop.From
             // 
             // labelRateP1
             // 
-            this.labelRateP1.BackColor = System.Drawing.Color.Transparent;
+            this.labelRateP1.BackColor = System.Drawing.Color.Azure;
             this.labelRateP1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.labelRateP1.Location = new System.Drawing.Point(73, 29);
@@ -298,7 +303,7 @@ namespace AoE2NetDesktop.From
             // 
             // labelCivP7
             // 
-            this.labelCivP7.BackColor = System.Drawing.Color.Transparent;
+            this.labelCivP7.BackColor = System.Drawing.Color.Azure;
             this.labelCivP7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP7.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCivP7.Location = new System.Drawing.Point(45, 171);
@@ -312,7 +317,7 @@ namespace AoE2NetDesktop.From
             // 
             // labelCivP3
             // 
-            this.labelCivP3.BackColor = System.Drawing.Color.Transparent;
+            this.labelCivP3.BackColor = System.Drawing.Color.Azure;
             this.labelCivP3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP3.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCivP3.Location = new System.Drawing.Point(45, 91);
@@ -326,7 +331,7 @@ namespace AoE2NetDesktop.From
             // 
             // labelCivP5
             // 
-            this.labelCivP5.BackColor = System.Drawing.Color.Transparent;
+            this.labelCivP5.BackColor = System.Drawing.Color.Azure;
             this.labelCivP5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP5.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCivP5.Location = new System.Drawing.Point(45, 131);
@@ -340,7 +345,7 @@ namespace AoE2NetDesktop.From
             // 
             // labelCivP1
             // 
-            this.labelCivP1.BackColor = System.Drawing.Color.Transparent;
+            this.labelCivP1.BackColor = System.Drawing.Color.Azure;
             this.labelCivP1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP1.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCivP1.Location = new System.Drawing.Point(45, 51);
@@ -434,6 +439,7 @@ namespace AoE2NetDesktop.From
             // 
             // labelAveRate1
             // 
+            this.labelAveRate1.BackColor = System.Drawing.Color.Azure;
             this.labelAveRate1.Location = new System.Drawing.Point(2, 2);
             this.labelAveRate1.Name = "labelAveRate1";
             this.labelAveRate1.Size = new System.Drawing.Size(150, 15);
@@ -486,18 +492,18 @@ namespace AoE2NetDesktop.From
             this.panelTeam1.Controls.Add(this.labelColorP2);
             this.panelTeam1.Location = new System.Drawing.Point(8, 249);
             this.panelTeam1.Name = "panelTeam1";
-            this.panelTeam1.Size = new System.Drawing.Size(340, 192);
+            this.panelTeam1.Size = new System.Drawing.Size(260, 192);
             this.panelTeam1.TabIndex = 5;
             // 
             // labelNameP2
             // 
             this.labelNameP2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelNameP2.BackColor = System.Drawing.Color.Transparent;
+            this.labelNameP2.BackColor = System.Drawing.Color.LavenderBlush;
             this.labelNameP2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP2.Location = new System.Drawing.Point(123, 29);
             this.labelNameP2.Name = "labelNameP2";
-            this.labelNameP2.Size = new System.Drawing.Size(214, 28);
+            this.labelNameP2.Size = new System.Drawing.Size(134, 28);
             this.labelNameP2.TabIndex = 3;
             this.labelNameP2.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName_Paint);
@@ -506,11 +512,11 @@ namespace AoE2NetDesktop.From
             // 
             this.labelNameP8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelNameP8.BackColor = System.Drawing.Color.Transparent;
+            this.labelNameP8.BackColor = System.Drawing.Color.LavenderBlush;
             this.labelNameP8.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP8.Location = new System.Drawing.Point(123, 149);
             this.labelNameP8.Name = "labelNameP8";
-            this.labelNameP8.Size = new System.Drawing.Size(214, 28);
+            this.labelNameP8.Size = new System.Drawing.Size(134, 28);
             this.labelNameP8.TabIndex = 3;
             this.labelNameP8.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP8.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName_Paint);
@@ -519,11 +525,11 @@ namespace AoE2NetDesktop.From
             // 
             this.labelNameP6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelNameP6.BackColor = System.Drawing.Color.Transparent;
+            this.labelNameP6.BackColor = System.Drawing.Color.LavenderBlush;
             this.labelNameP6.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP6.Location = new System.Drawing.Point(123, 110);
             this.labelNameP6.Name = "labelNameP6";
-            this.labelNameP6.Size = new System.Drawing.Size(214, 28);
+            this.labelNameP6.Size = new System.Drawing.Size(134, 28);
             this.labelNameP6.TabIndex = 3;
             this.labelNameP6.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP6.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName_Paint);
@@ -532,18 +538,18 @@ namespace AoE2NetDesktop.From
             // 
             this.labelNameP4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelNameP4.BackColor = System.Drawing.Color.Transparent;
+            this.labelNameP4.BackColor = System.Drawing.Color.LavenderBlush;
             this.labelNameP4.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP4.Location = new System.Drawing.Point(123, 70);
             this.labelNameP4.Name = "labelNameP4";
-            this.labelNameP4.Size = new System.Drawing.Size(214, 28);
+            this.labelNameP4.Size = new System.Drawing.Size(134, 28);
             this.labelNameP4.TabIndex = 3;
             this.labelNameP4.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP4.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName_Paint);
             // 
             // labelCivP2
             // 
-            this.labelCivP2.BackColor = System.Drawing.Color.Transparent;
+            this.labelCivP2.BackColor = System.Drawing.Color.LavenderBlush;
             this.labelCivP2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP2.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCivP2.Location = new System.Drawing.Point(43, 50);
@@ -557,7 +563,7 @@ namespace AoE2NetDesktop.From
             // 
             // labelCivP6
             // 
-            this.labelCivP6.BackColor = System.Drawing.Color.Transparent;
+            this.labelCivP6.BackColor = System.Drawing.Color.LavenderBlush;
             this.labelCivP6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP6.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCivP6.Location = new System.Drawing.Point(43, 130);
@@ -571,7 +577,7 @@ namespace AoE2NetDesktop.From
             // 
             // labelCivP4
             // 
-            this.labelCivP4.BackColor = System.Drawing.Color.Transparent;
+            this.labelCivP4.BackColor = System.Drawing.Color.LavenderBlush;
             this.labelCivP4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP4.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCivP4.Location = new System.Drawing.Point(43, 90);
@@ -585,7 +591,7 @@ namespace AoE2NetDesktop.From
             // 
             // labelCivP8
             // 
-            this.labelCivP8.BackColor = System.Drawing.Color.Transparent;
+            this.labelCivP8.BackColor = System.Drawing.Color.LavenderBlush;
             this.labelCivP8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP8.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCivP8.Location = new System.Drawing.Point(43, 170);
@@ -599,7 +605,7 @@ namespace AoE2NetDesktop.From
             // 
             // labelRateP2
             // 
-            this.labelRateP2.BackColor = System.Drawing.Color.Transparent;
+            this.labelRateP2.BackColor = System.Drawing.Color.LavenderBlush;
             this.labelRateP2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.labelRateP2.Location = new System.Drawing.Point(73, 30);
@@ -612,7 +618,7 @@ namespace AoE2NetDesktop.From
             // 
             // labelRateP6
             // 
-            this.labelRateP6.BackColor = System.Drawing.Color.Transparent;
+            this.labelRateP6.BackColor = System.Drawing.Color.LavenderBlush;
             this.labelRateP6.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP6.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.labelRateP6.Location = new System.Drawing.Point(73, 110);
@@ -625,7 +631,7 @@ namespace AoE2NetDesktop.From
             // 
             // labelRateP4
             // 
-            this.labelRateP4.BackColor = System.Drawing.Color.Transparent;
+            this.labelRateP4.BackColor = System.Drawing.Color.LavenderBlush;
             this.labelRateP4.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP4.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.labelRateP4.Location = new System.Drawing.Point(73, 69);
@@ -638,7 +644,7 @@ namespace AoE2NetDesktop.From
             // 
             // labelRateP8
             // 
-            this.labelRateP8.BackColor = System.Drawing.Color.Transparent;
+            this.labelRateP8.BackColor = System.Drawing.Color.LavenderBlush;
             this.labelRateP8.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP8.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.labelRateP8.Location = new System.Drawing.Point(73, 149);
@@ -687,7 +693,7 @@ namespace AoE2NetDesktop.From
             // 
             // labelAveRate2
             // 
-            this.labelAveRate2.BackColor = System.Drawing.Color.Transparent;
+            this.labelAveRate2.BackColor = System.Drawing.Color.LavenderBlush;
             this.labelAveRate2.Location = new System.Drawing.Point(2, 2);
             this.labelAveRate2.Name = "labelAveRate2";
             this.labelAveRate2.Size = new System.Drawing.Size(150, 15);
@@ -776,7 +782,7 @@ namespace AoE2NetDesktop.From
             this.labelMap.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelMap.Location = new System.Drawing.Point(3, 3);
             this.labelMap.Name = "labelMap";
-            this.labelMap.Size = new System.Drawing.Size(343, 30);
+            this.labelMap.Size = new System.Drawing.Size(263, 30);
             this.labelMap.TabIndex = 2;
             this.labelMap.Text = "Map : ----------";
             this.labelMap.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
@@ -784,23 +790,41 @@ namespace AoE2NetDesktop.From
             // tabPageSettings
             // 
             this.tabPageSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tabPageSettings.Controls.Add(this.labelSettingsCountry);
+            this.tabPageSettings.Controls.Add(this.labelSettingsName);
             this.tabPageSettings.Controls.Add(this.checkBoxAlwaysOnTop);
             this.tabPageSettings.Controls.Add(this.textBoxSettingSteamId);
             this.tabPageSettings.Controls.Add(this.labelSteamId);
             this.tabPageSettings.Location = new System.Drawing.Point(4, 24);
             this.tabPageSettings.Name = "tabPageSettings";
             this.tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSettings.Size = new System.Drawing.Size(356, 493);
+            this.tabPageSettings.Size = new System.Drawing.Size(276, 493);
             this.tabPageSettings.TabIndex = 1;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
             this.tabPageSettings.Leave += new System.EventHandler(this.TabPageSettings_Leave);
             // 
+            // labelSettingsCountry
+            // 
+            this.labelSettingsCountry.Location = new System.Drawing.Point(14, 111);
+            this.labelSettingsCountry.Name = "labelSettingsCountry";
+            this.labelSettingsCountry.Size = new System.Drawing.Size(300, 23);
+            this.labelSettingsCountry.TabIndex = 3;
+            this.labelSettingsCountry.Text = "Country: -----";
+            // 
+            // labelSettingsName
+            // 
+            this.labelSettingsName.Location = new System.Drawing.Point(14, 88);
+            this.labelSettingsName.Name = "labelSettingsName";
+            this.labelSettingsName.Size = new System.Drawing.Size(300, 23);
+            this.labelSettingsName.TabIndex = 3;
+            this.labelSettingsName.Text = "    Name: -----";
+            // 
             // checkBoxAlwaysOnTop
             // 
             this.checkBoxAlwaysOnTop.AutoSize = true;
             this.checkBoxAlwaysOnTop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBoxAlwaysOnTop.Location = new System.Drawing.Point(252, 6);
+            this.checkBoxAlwaysOnTop.Location = new System.Drawing.Point(9, 7);
             this.checkBoxAlwaysOnTop.Name = "checkBoxAlwaysOnTop";
             this.checkBoxAlwaysOnTop.Size = new System.Drawing.Size(98, 19);
             this.checkBoxAlwaysOnTop.TabIndex = 2;
@@ -815,8 +839,9 @@ namespace AoE2NetDesktop.From
             this.textBoxSettingSteamId.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.textBoxSettingSteamId.Location = new System.Drawing.Point(75, 47);
             this.textBoxSettingSteamId.Name = "textBoxSettingSteamId";
-            this.textBoxSettingSteamId.Size = new System.Drawing.Size(239, 23);
+            this.textBoxSettingSteamId.Size = new System.Drawing.Size(193, 23);
             this.textBoxSettingSteamId.TabIndex = 1;
+            this.textBoxSettingSteamId.TextChanged += new System.EventHandler(this.TextBoxSettingSteamId_TextChanged);
             // 
             // labelSteamId
             // 
@@ -827,15 +852,20 @@ namespace AoE2NetDesktop.From
             this.labelSteamId.TabIndex = 0;
             this.labelSteamId.Text = "Steam-ID";
             // 
+            // timerSteamIdVerify
+            // 
+            this.timerSteamIdVerify.Interval = 500;
+            this.timerSteamIdVerify.Tick += new System.EventHandler(this.TimerSteamIdVerify_Tick);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(364, 521);
+            this.ClientSize = new System.Drawing.Size(284, 521);
             this.Controls.Add(this.tabControlMain);
-            this.MinimumSize = new System.Drawing.Size(380, 560);
+            this.MinimumSize = new System.Drawing.Size(300, 560);
             this.Name = "FormMain";
-            this.Text = "AoE2.net Desktop";
+            this.Text = "AoE2.net Desktop [AoE2DE]";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.tabControlMain.ResumeLayout(false);
@@ -913,5 +943,8 @@ namespace AoE2NetDesktop.From
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label labelGameId;
         private System.Windows.Forms.CheckBox checkBoxAlwaysOnTop;
+        private System.Windows.Forms.Label labelSettingsCountry;
+        private System.Windows.Forms.Label labelSettingsName;
+        private System.Windows.Forms.Timer timerSteamIdVerify;
     }
 }
