@@ -47,7 +47,7 @@
             foreach (var player in ret.LastMatch.Players) {
                 var rate = await AoE2net.GetPlayerRatingHistoryAsync(
                     player.SteamId,
-                    ret.LastMatch.LeaderboardId,
+                    ret.LastMatch.LeaderboardId ?? 0,
                     1);
                 if (rate != null && rate.Count != 0) {
                     player.Rating ??= rate[0].Rating;
@@ -181,12 +181,16 @@
             SetPlayersData(playerLastmatch);
             SetAverageRate(playerLastmatch);
 
-            var mapName = apiStringsEn.MapType.GetString(playerLastmatch.LastMatch.MapType);
-            if (mapName == null) {
-                mapName = $"Unknown(Map No.{playerLastmatch.LastMatch.MapType})";
+            int mapType = playerLastmatch.LastMatch.MapType ?? -1;
+            if (mapType != -1) {
+                var mapName = apiStringsEn.MapType.GetString(mapType);
+                if (mapName == null) {
+                    mapName = $"Unknown(Map No.{mapType})";
+                }
+
+                labelMap.Text = $"Map: {mapName}";
             }
 
-            labelMap.Text = $"Map: {mapName}";
             labelGameId.Text = $"GameID: {playerLastmatch.LastMatch.MatchId}";
             labelServer.Text = $"Server: {playerLastmatch.LastMatch.Server}";
         }
@@ -194,18 +198,18 @@
         private void SetPlayersData(PlayerLastmatch playerLastmatch)
         {
             foreach (var player in playerLastmatch.LastMatch.Players) {
-                var civ = apiStringsEn.Civ.GetString(player.Civ);
+                var civ = apiStringsEn.Civ.GetString(player.Civ ?? 0);
                 var location = AoE2net.GetCivImageLocation(civ);
                 var rate = player.Rating is null ? " N/A" : player.Rating.ToString();
+                int index = player.Color - 1 ?? -1;
+                if (index >= 0) {
+                    pictureBox[index].ImageLocation = location;
+                    labelRate[index].Text = rate;
+                    labelName[index].Text = player.Name ?? "-- AI --";
+                    labelCiv[index].Text = civ ?? player.Civ.ToString();
+                    pictureBox[index].Visible = true;
 
-                if (player.Color > 0) {
-                    pictureBox[player.Color - 1].ImageLocation = location;
-                    labelRate[player.Color - 1].Text = rate;
-                    labelName[player.Color - 1].Text = player.Name ?? "-- AI --";
-                    labelCiv[player.Color - 1].Text = civ ?? player.Civ.ToString();
-                    pictureBox[player.Color - 1].Visible = true;
-
-                    labelName[player.Color - 1].Tag = player;
+                    labelName[index].Tag = player;
                 }
 
                 SetFontStyle(player);
@@ -228,17 +232,18 @@
             labelAveRate2.Text = $"Team2 Ave. Rate:{aveP2}";
         }
 
-        private void SetFontStyle(Player item)
+        private void SetFontStyle(Player player)
         {
-            if (item.Color > 0) {
+            var index = player.Color - 1 ?? -1;
+            if (index >= 0) {
                 var fontStyle = FontStyle.Bold;
 
-                if (!(item.Won ?? true)) {
+                if (!(player.Won ?? true)) {
                     fontStyle |= FontStyle.Strikeout;
                 }
 
-                var currentFont = labelName[item.Color - 1].Font;
-                labelName[item.Color - 1].Font = new Font(currentFont, fontStyle);
+                var currentFont = labelName[index].Font;
+                labelName[index].Font = new Font(currentFont, fontStyle);
             }
         }
 
@@ -286,7 +291,7 @@
             var player = (Player)labelName.Tag;
 
             if (player?.SteamId == textBoxSettingSteamId.Text) {
-                DrawBorderedString(labelName, e, 20, Color.Black, Color.OrangeRed);
+                DrawBorderedString(labelName, e, 20, Color.Black, Color.DarkOrange);
             } else {
                 DrawBorderedString(labelName, e, 20, Color.DarkGreen, Color.LightGreen);
             }
@@ -294,7 +299,7 @@
 
         private void LabelRate_Paint(object sender, PaintEventArgs e)
         {
-            DrawBorderedString((Label)sender, e, 15, Color.Black, Color.Orange);
+            DrawBorderedString((Label)sender, e, 15, Color.Black, Color.DeepSkyBlue);
         }
 
         private void LabelCiv_Paint(object sender, PaintEventArgs e)

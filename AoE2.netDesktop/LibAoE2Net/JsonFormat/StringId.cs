@@ -11,7 +11,7 @@ namespace LibAoE2net
     public class StringId
     {
         [DataMember(Name = "id")]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [DataMember(Name = "string")]
         public string String { get; set; }

@@ -22,13 +22,15 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\AoE2.netDesktop.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\AoE2NetDesktop.xml</DocumentationFile>
     <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>bin\Release\AoE2.netDesktop.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\AoE2NetDesktop.xml</DocumentationFile>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>

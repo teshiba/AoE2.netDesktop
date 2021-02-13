@@ -798,7 +798,7 @@ namespace AoE2NetDesktop.From
             this.tabPageSettings.Location = new System.Drawing.Point(4, 24);
             this.tabPageSettings.Name = "tabPageSettings";
             this.tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSettings.Size = new System.Drawing.Size(276, 493);
+            this.tabPageSettings.Size = new System.Drawing.Size(313, 493);
             this.tabPageSettings.TabIndex = 1;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
@@ -865,7 +865,7 @@ namespace AoE2NetDesktop.From
             this.Controls.Add(this.tabControlMain);
             this.MinimumSize = new System.Drawing.Size(300, 560);
             this.Name = "FormMain";
-            this.Text = "AoE2.net Desktop [AoE2DE]";
+            this.Text = "AoE2.net Desktop";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.tabControlMain.ResumeLayout(false);

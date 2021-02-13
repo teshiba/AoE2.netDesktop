@@ -27,10 +27,10 @@ namespace LibAoE2net
         public string Country { get; set; }
 
         [DataMember(Name = "slot")]
-        public int Slot { get; set; }
+        public int? Slot { get; set; }
 
         [DataMember(Name = "slot_type")]
-        public int SlotType { get; set; }
+        public int? SlotType { get; set; }
 
         [DataMember(Name = "rating")]
         public int? Rating { get; set; }
@@ -51,13 +51,13 @@ namespace LibAoE2net
         public int? Drops { get; set; }
 
         [DataMember(Name = "color")]
-        public int Color { get; set; }
+        public int? Color { get; set; }
 
         [DataMember(Name = "team")]
-        public int Team { get; set; }
+        public int? Team { get; set; }
 
         [DataMember(Name = "civ")]
-        public int Civ { get; set; }
+        public int? Civ { get; set; }
 
         [DataMember(Name = "won")]
         public bool? Won { get; set; }
