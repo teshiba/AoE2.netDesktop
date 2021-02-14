@@ -53,14 +53,34 @@
                 throw new ArgumentNullException(nameof(steamId));
             }
 
-            string apiEndPoint;
+            string id;
             if (steamId == AoE2netDemo.SteamId) {
-                apiEndPoint = AoE2netDemo.EndPointPlayerRatingHistory;
+                id = AoE2netDemo.SteamId;
             } else {
-                apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&steam_id={steamId}&count={count}";
+                id = $"steam_id={steamId}";
             }
 
-            return await GetFromJsonAsync<List<PlayerRating>>(apiEndPoint);
+            return await GetPlayerRatingHistoryRequestAsync(id, leaderBoardId, count);
+        }
+
+        /// <summary>
+        /// Gets Player Rating History.
+        /// Request the rating history for a player.
+        /// </summary>
+        /// <param name="profileId">Profile ID.</param>
+        /// <param name="leaderBoardId">Leaderboard ID.</param>
+        /// <param name="count">Number of matches to get (Must be 10000 or less)).</param>
+        /// <returns>List of <see cref="PlayerRating"/> deserialized as JSON.</returns>
+        public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(int profileId, LeaderBoardId leaderBoardId, int count)
+        {
+            string id;
+            if (profileId == AoE2netDemo.ProfilId) {
+                id = AoE2netDemo.SteamId;
+            } else {
+                id = $"profile_id={profileId}";
+            }
+
+            return await GetPlayerRatingHistoryRequestAsync(id, leaderBoardId, count);
         }
 
         /// <summary>
@@ -91,13 +111,18 @@
             return $"https://aoe2.net/assets/images/crests/25x25/{civ.ToLower()}.png";
         }
 
-        /// <summary>
-        /// Send a GET request to the specified end point and return the value
-        /// resulting from deserializing the response body as JSON in an asynchronous operation.
-        /// </summary>
-        /// <typeparam name="T">deserialize as this type.</typeparam>
-        /// <param name="apiEndPoint">API end point.</param>
-        /// <returns>JSON deserialize object.</returns>
+        private static async Task<List<PlayerRating>> GetPlayerRatingHistoryRequestAsync(string id, LeaderBoardId leaderBoardId, int count)
+        {
+            string apiEndPoint;
+            if (id == AoE2netDemo.SteamId) {
+                apiEndPoint = AoE2netDemo.EndPointPlayerRatingHistory;
+            } else {
+                apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&{id}&count={count}";
+            }
+
+            return await GetFromJsonAsync<List<PlayerRating>>(apiEndPoint);
+        }
+
         private static async Task<T> GetFromJsonAsync<T>(string apiEndPoint)
             where T : new()
         {

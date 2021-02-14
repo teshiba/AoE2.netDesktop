@@ -16,6 +16,11 @@
         public const string SteamId = "demo";
 
         /// <summary>
+        /// Gets Profil ID for demo.
+        /// </summary>
+        public const int ProfilId = 0;
+
+        /// <summary>
         /// Gets endPoint of PlayerRatingHistory.
         /// </summary>
         public const string EndPointPlayerRatingHistory = "demo/PlayerRatingHistory";

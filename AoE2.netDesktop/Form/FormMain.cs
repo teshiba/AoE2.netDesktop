@@ -48,10 +48,19 @@
 
             var ret = await AoE2net.GetPlayerLastMatchAsync(steamId);
             foreach (var player in ret.LastMatch.Players) {
-                var rate = await AoE2net.GetPlayerRatingHistoryAsync(
-                    player.SteamId ?? string.Empty,
-                    ret.LastMatch.LeaderboardId ?? 0,
-                    1);
+                List<PlayerRating> rate;
+                try {
+                    if (player.SteamId != null) {
+                        rate = await AoE2net.GetPlayerRatingHistoryAsync(
+                            player.SteamId ?? string.Empty, ret.LastMatch.LeaderboardId ?? 0, 1);
+                    } else {
+                        rate = await AoE2net.GetPlayerRatingHistoryAsync(
+                            player.ProfilId ?? 0, ret.LastMatch.LeaderboardId ?? 0, 1);
+                    }
+                } catch (HttpRequestException) {
+                    rate = null;
+                }
+
                 if (rate != null && rate.Count != 0) {
                     player.Rating ??= rate[0].Rating;
                 }
