@@ -1,9 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
+    <Version>1.0.1</Version>
+
+    <AssemblyVersion>1.0.1.2</AssemblyVersion>
+
+    <FileVersion>1.0.1.2</FileVersion>
+
+    <RootNamespace>AoE2netDesktopTests</RootNamespace>
+
+    <AssemblyName>AoE2netDesktopTests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
