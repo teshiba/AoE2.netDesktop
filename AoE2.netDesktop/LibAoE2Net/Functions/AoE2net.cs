@@ -15,7 +15,19 @@
     public class AoE2net
     {
         private static readonly Uri BaseAddress = new Uri(@"https://aoe2.net/api/");
-        private static readonly string AoE2Version = "aoe2de";
+
+        /// <summary>
+        /// Gets or sets communication client.
+        /// </summary>
+        public static ComClient ComClient { get; set; } = new ComClient() {
+            BaseAddress = BaseAddress,
+            Timeout = TimeSpan.FromSeconds(20),
+        };
+
+        /// <summary>
+        /// Gets aoE2Version. ("aoe2de" or "aoe2hd").
+        /// </summary>
+        public static string AoE2Version { get; } = "aoe2de";
 
         /// <summary>
         /// Gets Player Last Match.
@@ -91,7 +103,7 @@
         /// <returns><see cref="Strings"/> deserialized as JSON.</returns>
         public static async Task<Strings> GetStringsAsync(Language language)
         {
-            var apiEndPoint = $"https://aoe2.net/api/strings?game={AoE2Version}&language={language.ToApiString()}";
+            var apiEndPoint = $"strings?game={AoE2Version}&language={language.ToApiString()}";
             var strings = await GetFromJsonAsync<Strings>(apiEndPoint);
 
             return strings;
@@ -139,16 +151,11 @@
         private static async Task<T> GetFromJsonHttpAsync<T>(string apiEndPoint)
             where T : new()
         {
-            var client = new HttpClient() {
-                BaseAddress = BaseAddress,
-                Timeout = TimeSpan.FromSeconds(20),
-            };
-
             T ret;
             try {
                 Debug.Print($"Send Request {BaseAddress}{apiEndPoint}");
 
-                var jsonText = await client.GetStringAsync(apiEndPoint);
+                var jsonText = await ComClient.GetStringAsync(apiEndPoint);
                 Debug.Print($"Get JSON {typeof(T)} {jsonText}");
 
                 var serializer = new DataContractJsonSerializer(typeof(T));

@@ -29,4 +29,6 @@
     <ProjectReference Include="..\AoE2.netDesktop\AoE2.netDesktop.csproj" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
+
 </Project>

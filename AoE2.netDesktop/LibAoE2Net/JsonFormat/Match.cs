@@ -21,7 +21,7 @@ namespace LibAoE2net
         public string MatchUuid { get; set; }
 
         [DataMember(Name = "version")]
-        public long? Version { get; set; }
+        public string Version { get; set; }
 
         [DataMember(Name = "name")]
         public string Name { get; set; }
