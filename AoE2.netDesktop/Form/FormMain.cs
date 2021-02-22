@@ -326,18 +326,10 @@
 
         private void TextBoxSettingSteamId_TextChanged(object sender, EventArgs e)
         {
-            if (textBoxSettingSteamId.Text == AoE2netDemo.SteamId) {
-                // Change to demo mode.
-                timerSteamIdVerify.Stop();
-                labelSettingsName.Text = $"   Name: Player1";
-                labelSettingsCountry.Text = $"Country: JP";
-                buttonUpdate.Enabled = true;
-            } else {
-                timerSteamIdVerify.Stop();
-                timerSteamIdVerifyCount = 0;
-                buttonUpdate.Enabled = false;
-                timerSteamIdVerify.Start();
-            }
+            timerSteamIdVerify.Stop();
+            timerSteamIdVerifyCount = 0;
+            buttonUpdate.Enabled = false;
+            timerSteamIdVerify.Start();
         }
 
         private async void TimerSteamIdVerify_Tick(object sender, EventArgs e)

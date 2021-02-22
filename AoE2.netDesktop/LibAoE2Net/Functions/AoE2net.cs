@@ -41,12 +41,7 @@
                 throw new ArgumentNullException(nameof(steamId));
             }
 
-            string apiEndPoint;
-            if (steamId == AoE2netDemo.SteamId) {
-                apiEndPoint = AoE2netDemo.EndPointPlayerLastmatch;
-            } else {
-                apiEndPoint = $"player/lastmatch?game={AoE2Version}&steam_id={steamId}";
-            }
+            var apiEndPoint = $"player/lastmatch?game={AoE2Version}&steam_id={steamId}";
 
             return await GetFromJsonAsync<PlayerLastmatch>(apiEndPoint);
         }
@@ -65,14 +60,7 @@
                 throw new ArgumentNullException(nameof(steamId));
             }
 
-            string id;
-            if (steamId == AoE2netDemo.SteamId) {
-                id = AoE2netDemo.SteamId;
-            } else {
-                id = $"steam_id={steamId}";
-            }
-
-            return await GetPlayerRatingHistoryRequestAsync(id, leaderBoardId, count);
+            return await GetPlayerRatingHistoryRequestAsync($"steam_id={steamId}", leaderBoardId, count);
         }
 
         /// <summary>
@@ -85,14 +73,7 @@
         /// <returns>List of <see cref="PlayerRating"/> deserialized as JSON.</returns>
         public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(int profileId, LeaderBoardId leaderBoardId, int count)
         {
-            string id;
-            if (profileId == AoE2netDemo.ProfilId) {
-                id = AoE2netDemo.SteamId;
-            } else {
-                id = $"profile_id={profileId}";
-            }
-
-            return await GetPlayerRatingHistoryRequestAsync(id, leaderBoardId, count);
+            return await GetPlayerRatingHistoryRequestAsync($"profile_id={profileId}", leaderBoardId, count);
         }
 
         /// <summary>
@@ -104,9 +85,7 @@
         public static async Task<Strings> GetStringsAsync(Language language)
         {
             var apiEndPoint = $"strings?game={AoE2Version}&language={language.ToApiString()}";
-            var strings = await GetFromJsonAsync<Strings>(apiEndPoint);
-
-            return strings;
+            return await GetFromJsonAsync<Strings>(apiEndPoint);
         }
 
         /// <summary>
@@ -125,30 +104,11 @@
 
         private static async Task<List<PlayerRating>> GetPlayerRatingHistoryRequestAsync(string id, LeaderBoardId leaderBoardId, int count)
         {
-            string apiEndPoint;
-            if (id == AoE2netDemo.SteamId) {
-                apiEndPoint = AoE2netDemo.EndPointPlayerRatingHistory;
-            } else {
-                apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&{id}&count={count}";
-            }
-
+            string apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&{id}&count={count}";
             return await GetFromJsonAsync<List<PlayerRating>>(apiEndPoint);
         }
 
         private static async Task<T> GetFromJsonAsync<T>(string apiEndPoint)
-            where T : new()
-        {
-            T ret;
-            if (AoE2netDemo.HasEndPoint(apiEndPoint)) {
-                ret = AoE2netDemo.GetJsonText<T>(apiEndPoint);
-            } else {
-                ret = await GetFromJsonHttpAsync<T>(apiEndPoint);
-            }
-
-            return ret;
-        }
-
-        private static async Task<T> GetFromJsonHttpAsync<T>(string apiEndPoint)
             where T : new()
         {
             T ret;
