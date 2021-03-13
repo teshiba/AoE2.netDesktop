@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace LibAoE2net.Tests
 {
@@ -189,6 +190,16 @@ namespace LibAoE2net.Tests
         }
 
         [TestMethod()]
+        public void GetPlayerLastMatchAsyncTestNull()
+        {
+            // Assert
+            Assert.ThrowsExceptionAsync<ArgumentNullException>(async () =>
+            {
+                await AoE2net.GetPlayerLastMatchAsync(null);
+            });
+        }
+
+        [TestMethod()]
         [DataRow(LeaderBoardId.TeamRandomMap, 1)]
         public void GetPlayerRatingHistoryAsyncTestSteamId(LeaderBoardId leaderBoardId, int count)
         {
@@ -257,6 +268,16 @@ namespace LibAoE2net.Tests
         }
 
         [TestMethod()]
+        public void GetPlayerRatingHistoryAsyncTestNull()
+        {
+            // Assert
+            Assert.ThrowsExceptionAsync<ArgumentNullException>(async () =>
+            {
+                await AoE2net.GetPlayerRatingHistoryAsync(null, LeaderBoardId.TeamRandomMap, 1);
+            });
+        }
+
+        [TestMethod()]
         [DataRow(Language.en)]
         public void GetStringsAsyncTest(Language language)
         {
@@ -268,9 +289,9 @@ namespace LibAoE2net.Tests
 
             // Assert
             Assert.AreEqual(Language.en.ToApiString(), actVal.Language);
-            Assert.AreEqual(0 , actVal.Age[0].Id);
+            Assert.AreEqual(0, actVal.Age[0].Id);
             Assert.AreEqual("Standard", actVal.Age[0].String);
-            Assert.AreEqual(0 , actVal.Civ[0].Id);
+            Assert.AreEqual(0, actVal.Civ[0].Id);
             Assert.AreEqual("Aztecs", actVal.Civ[0].String);
             Assert.AreEqual(0, actVal.GameType[0].Id);
             Assert.AreEqual("Random Map", actVal.GameType[0].String);
@@ -305,6 +326,16 @@ namespace LibAoE2net.Tests
 
             // Assert
             Assert.AreEqual(expVal, actVal);
+        }
+
+        [TestMethod()]
+        public void GetCivImageLocationTestNull()
+        {
+            // Assert
+            Assert.ThrowsException<ArgumentNullException>(() =>
+            {
+                _ = AoE2net.GetCivImageLocation(null);
+            });
         }
     }
 }

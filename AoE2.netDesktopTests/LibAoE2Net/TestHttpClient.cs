@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace LibAoE2net
@@ -21,13 +22,24 @@ namespace LibAoE2net
         /// <returns></returns>
         public override Task<string> GetStringAsync(string requestUri)
         {
-            var apiEndPoint = requestUri.Substring(0, requestUri.IndexOf('?'));
+            var index = requestUri.IndexOf('?');
+            string apiEndPoint;
+
+            if (index != -1) {
+                apiEndPoint = requestUri.Substring(0, index);
+            } else {
+                apiEndPoint = requestUri;
+            }
+
             var ret = apiEndPoint switch {
                 "player/lastmatch" => File.ReadAllTextAsync($"{TestDataPath}/playerLastMatch.json"),
                 "player/ratinghistory" => ReadPlayerRatingHistoryAsync(requestUri),
                 "strings" => ReadStringsAsync(requestUri),
+                "HttpRequestException" => throw new HttpRequestException(),
+                "TaskCanceledException" => throw new TaskCanceledException(),
                 _ => null,
             };
+
             return ret;
         }
 
