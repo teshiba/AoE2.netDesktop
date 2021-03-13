@@ -2,17 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Net.Http;
-    using System.Runtime.Serialization.Json;
-    using System.Text;
     using System.Threading.Tasks;
 
     /// <summary>
     /// AoE2net API class.
     /// </summary>
-    public class AoE2net
+    public static class AoE2net
     {
         private static readonly Uri BaseAddress = new Uri(@"https://aoe2.net/api/");
 
@@ -43,7 +38,7 @@
 
             var apiEndPoint = $"player/lastmatch?game={AoE2Version}&steam_id={steamId}";
 
-            return await GetFromJsonAsync<PlayerLastmatch>(apiEndPoint);
+            return await ComClient.GetFromJsonAsync<PlayerLastmatch>(apiEndPoint);
         }
 
         /// <summary>
@@ -85,7 +80,7 @@
         public static async Task<Strings> GetStringsAsync(Language language)
         {
             var apiEndPoint = $"strings?game={AoE2Version}&language={language.ToApiString()}";
-            return await GetFromJsonAsync<Strings>(apiEndPoint);
+            return await ComClient.GetFromJsonAsync<Strings>(apiEndPoint);
         }
 
         /// <summary>
@@ -105,31 +100,7 @@
         private static async Task<List<PlayerRating>> GetPlayerRatingHistoryRequestAsync(string id, LeaderBoardId leaderBoardId, int count)
         {
             string apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&{id}&count={count}";
-            return await GetFromJsonAsync<List<PlayerRating>>(apiEndPoint);
-        }
-
-        private static async Task<T> GetFromJsonAsync<T>(string apiEndPoint)
-            where T : new()
-        {
-            T ret;
-            try {
-                Debug.Print($"Send Request {BaseAddress}{apiEndPoint}");
-
-                var jsonText = await ComClient.GetStringAsync(apiEndPoint);
-                Debug.Print($"Get JSON {typeof(T)} {jsonText}");
-
-                var serializer = new DataContractJsonSerializer(typeof(T));
-                var stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonText));
-                ret = (T)serializer.ReadObject(stream);
-            } catch (HttpRequestException e) {
-                Debug.Print($"Request Error: {e.Message}");
-                throw;
-            } catch (TaskCanceledException e) {
-                Debug.Print($"Timeout: {e.Message}");
-                throw;
-            }
-
-            return ret;
+            return await ComClient.GetFromJsonAsync<List<PlayerRating>>(apiEndPoint);
         }
     }
 }
