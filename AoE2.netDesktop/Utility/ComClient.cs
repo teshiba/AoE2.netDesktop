@@ -19,7 +19,7 @@
         /// <param name="requestUri">The Uri the request is sent to.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
         public new virtual async Task<string> GetStringAsync(string requestUri)
-            => await new HttpClient().GetStringAsync(requestUri);
+            => await base.GetStringAsync(requestUri);
 
         /// <summary>
         /// Sends a GET request to the specified Uri and returns the value

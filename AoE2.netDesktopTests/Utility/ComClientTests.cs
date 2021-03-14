@@ -12,15 +12,16 @@ namespace LibAoE2net.Tests
         public void GetStringAsyncTest()
         {
             // Arrange
-            var expVal = string.Empty;
+            var testClass = new ComClient {
+                BaseAddress = new Uri("https://aoe2.net/")
+            };
 
             // Act
+            var response = testClass.GetStringAsync("#api").Result;
+
             // Assert
-            Assert.ThrowsException<AggregateException>(() =>
-                {
-                    var testClass = new ComClient();
-                    var actVal = testClass.GetStringAsync("http://0.0.0.0").Result;
-                });
+            Assert.IsNotNull(response);
+
         }
 
         [TestMethod()]
