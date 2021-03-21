@@ -7,11 +7,11 @@
 
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
-    <Version>1.0.1</Version>
+    <Version>0.0.2</Version>
 
-    <AssemblyVersion>1.0.1.2</AssemblyVersion>
+    <AssemblyVersion>0.0.2.0</AssemblyVersion>
 
-    <FileVersion>1.0.1.2</FileVersion>
+    <FileVersion>0.0.2.0</FileVersion>
 
     <RootNamespace>AoE2netDesktopTests</RootNamespace>
 

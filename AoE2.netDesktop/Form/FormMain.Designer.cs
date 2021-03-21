@@ -86,7 +86,6 @@ namespace AoE2NetDesktop.From
             this.checkBoxAlwaysOnTop = new System.Windows.Forms.CheckBox();
             this.textBoxSettingSteamId = new System.Windows.Forms.TextBox();
             this.labelSteamId = new System.Windows.Forms.Label();
-            this.timerSteamIdVerify = new System.Windows.Forms.Timer(this.components);
             this.tabControlMain.SuspendLayout();
             this.tabPagePlayerLastMatch.SuspendLayout();
             this.panelTeam2.SuspendLayout();
@@ -851,11 +850,6 @@ namespace AoE2NetDesktop.From
             this.labelSteamId.TabIndex = 0;
             this.labelSteamId.Text = "Steam-ID";
             // 
-            // timerSteamIdVerify
-            // 
-            this.timerSteamIdVerify.Interval = 500;
-            this.timerSteamIdVerify.Tick += new System.EventHandler(this.TimerSteamIdVerify_Tick);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -944,6 +938,5 @@ namespace AoE2NetDesktop.From
         private System.Windows.Forms.CheckBox checkBoxAlwaysOnTop;
         private System.Windows.Forms.Label labelSettingsCountry;
         private System.Windows.Forms.Label labelSettingsName;
-        private System.Windows.Forms.Timer timerSteamIdVerify;
     }
 }

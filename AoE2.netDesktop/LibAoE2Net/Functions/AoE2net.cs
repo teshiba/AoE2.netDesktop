@@ -86,15 +86,17 @@
         /// <summary>
         /// Gets Image file location on AoE2.net.
         /// </summary>
-        /// <param name="civ">civilization name.</param>
+        /// <param name="civName">civilization name in English.</param>
         /// <returns>Image file location.</returns>
-        public static string GetCivImageLocation(string civ)
+        public static string GetCivImageLocation(string civName)
         {
-            if (civ is null) {
-                throw new ArgumentNullException(nameof(civ));
+            string ret = null;
+
+            if (civName != null) {
+                ret = $"https://aoe2.net/assets/images/crests/25x25/{civName.ToLower()}.png";
             }
 
-            return $"https://aoe2.net/assets/images/crests/25x25/{civ.ToLower()}.png";
+            return ret;
         }
 
         private static async Task<List<PlayerRating>> GetPlayerRatingHistoryRequestAsync(string id, LeaderBoardId leaderBoardId, int count)

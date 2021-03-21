@@ -17,10 +17,12 @@ namespace LibAoE2net.Tests
             };
 
             // Act
-            var response = testClass.GetStringAsync("#api").Result;
+            var actVal = Task.Run(
+                () => testClass.GetStringAsync("#api")
+                ).Result;
 
             // Assert
-            Assert.IsNotNull(response);
+            Assert.IsNotNull(actVal);
 
         }
 

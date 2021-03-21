@@ -6,9 +6,9 @@
     <UseWindowsForms>true</UseWindowsForms>
     <StartupObject>AoE2NetDesktop.Program</StartupObject>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <AssemblyVersion>0.0.1.2</AssemblyVersion>
-    <FileVersion>0.0.1.2</FileVersion>
-    <Version>0.0.1</Version>
+    <AssemblyVersion>0.0.2.0</AssemblyVersion>
+    <FileVersion>0.0.2.0</FileVersion>
+    <Version>0.0.2</Version>
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/teshiba/AoE2.netDesktop</PackageProjectUrl>
     <RepositoryUrl>https://github.com/teshiba/AoE2.netDesktop.git</RepositoryUrl>
@@ -19,7 +19,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RootNamespace>AoE2NetDesktop</RootNamespace>
     <AssemblyName>AoE2NetDesktop</AssemblyName>
-    <PackageReleaseNotes>Version 0.0.1.beta2</PackageReleaseNotes>
+    <PackageReleaseNotes>Version 0.0.2</PackageReleaseNotes>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 

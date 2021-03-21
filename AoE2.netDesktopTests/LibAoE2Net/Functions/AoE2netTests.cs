@@ -2,6 +2,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Threading.Tasks;
 
 namespace LibAoE2net.Tests
 {
@@ -285,7 +286,10 @@ namespace LibAoE2net.Tests
             AoE2net.ComClient = new TestHttpClient();
 
             // Act
-            var actVal = AoE2net.GetStringsAsync(language).Result;
+            var actVal = Task.Run(() 
+                => AoE2net.GetStringsAsync(language)
+                ).Result;
+
 
             // Assert
             Assert.AreEqual(Language.en.ToApiString(), actVal.Language);
@@ -331,11 +335,14 @@ namespace LibAoE2net.Tests
         [TestMethod()]
         public void GetCivImageLocationTestNull()
         {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+
+            // Act
+            var actVal = AoE2net.GetCivImageLocation(null);
+
             // Assert
-            Assert.ThrowsException<ArgumentNullException>(() =>
-            {
-                _ = AoE2net.GetCivImageLocation(null);
-            });
+            Assert.IsNull(actVal);
         }
     }
 }

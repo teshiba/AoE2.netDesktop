@@ -42,7 +42,7 @@
             graphicsPath.AddString(
                 label.Text,
                 label.Font.FontFamily,
-                1,
+                (int)FontStyle.Bold,
                 fontSize,
                 point,
                 stringFormat);

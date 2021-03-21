@@ -3,11 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
-    using System.Linq;
-    using System.Net.Http;
-    using System.Threading.Tasks;
     using System.Windows.Forms;
-
     using AoE2NetDesktop;
     using LibAoE2net;
 
@@ -16,57 +12,31 @@
     /// </summary>
     public partial class FormMain : Form
     {
+        private const int PlayerNumMax = 8;
+
         private readonly List<Label> labelCiv = new List<Label>();
         private readonly List<Label> labelColor = new List<Label>();
         private readonly List<Label> labelRate = new List<Label>();
         private readonly List<Label> labelName = new List<Label>();
         private readonly List<PictureBox> pictureBox = new List<PictureBox>();
+        private readonly Language language;
 
-        private Strings apiStringsEn;
-        private int timerSteamIdVerifyCount;
+        private CtrlMain ctrlMain;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormMain"/> class.
         /// </summary>
-        public FormMain()
+        /// <param name="language">Language.</param>
+        public FormMain(Language language)
         {
+            this.language = language;
             InitializeComponent();
-
             labelAveRate1.ForeColor = labelAveRate1.BackColor;
             labelAveRate2.ForeColor = labelAveRate2.BackColor;
             labelGameId.ForeColor = labelGameId.BackColor;
             labelServer.ForeColor = labelServer.BackColor;
             labelMap.ForeColor = labelMap.BackColor;
             InitEachPlayersCtrlList();
-        }
-
-        private static async Task<PlayerLastmatch> GetLastMatchDataFromAoE2Net(string steamId)
-        {
-            if (steamId is null) {
-                throw new ArgumentNullException(nameof(steamId));
-            }
-
-            var ret = await AoE2net.GetPlayerLastMatchAsync(steamId);
-            foreach (var player in ret.LastMatch.Players) {
-                List<PlayerRating> rate = null;
-                try {
-                    if (player.SteamId != null) {
-                        rate = await AoE2net.GetPlayerRatingHistoryAsync(
-                            player.SteamId, ret.LastMatch.LeaderboardId ?? 0, 1);
-                    } else if (player.ProfilId is int profileId) {
-                        rate = await AoE2net.GetPlayerRatingHistoryAsync(
-                            profileId, ret.LastMatch.LeaderboardId ?? 0, 1);
-                    }
-                } catch (HttpRequestException) {
-                    rate = null;
-                }
-
-                if (rate != null && rate.Count != 0) {
-                    player.Rating ??= rate[0].Rating;
-                }
-            }
-
-            return ret;
         }
 
         private void InitEachPlayersCtrlList()
@@ -113,7 +83,7 @@
             }
         }
 
-        private void ClearPlayerLastMatch()
+        private void ClearLastMatch()
         {
             labelMap.Text = $"Map: -----";
             labelServer.Text = $"Server: -----";
@@ -139,91 +109,37 @@
             }
         }
 
-        private async Task<bool> UpdateLastMatchAsync()
-        {
-            ClearPlayerLastMatch();
-            var ret = false;
-            try {
-                var playerLastmatch = await GetLastMatchDataFromAoE2Net(textBoxSettingSteamId.Text);
-                SetLastMatchData(playerLastmatch);
-                ret = true;
-            } catch (HttpRequestException e) {
-                labelErrText.Text = e.Message;
-            } catch (TaskCanceledException e) {
-                labelErrText.Text = e.Message;
-            }
-
-            return ret;
-        }
-
         private void SetLastMatchData(PlayerLastmatch playerLastmatch)
         {
-            SetPlayersData(playerLastmatch);
-            SetAverageRate(playerLastmatch);
-
-            int mapType = playerLastmatch.LastMatch.MapType ?? -1;
-            if (mapType != -1) {
-                var mapName = apiStringsEn.MapType.GetString(mapType);
-                if (mapName == null) {
-                    mapName = $"Unknown(Map No.{mapType})";
-                }
-
-                labelMap.Text = $"Map: {mapName}";
-            }
-
-            labelGameId.Text = $"GameID: {playerLastmatch.LastMatch.MatchId}";
-            labelServer.Text = $"Server: {playerLastmatch.LastMatch.Server}";
+            SetMatchData(playerLastmatch.LastMatch);
+            SetPlayersData(playerLastmatch.LastMatch.Players);
         }
 
-        private void SetPlayersData(PlayerLastmatch playerLastmatch)
+        private void SetMatchData(Match match)
         {
-            foreach (var player in playerLastmatch.LastMatch.Players) {
-                var civ = apiStringsEn.Civ.GetString(player.Civ ?? 0);
-                var location = AoE2net.GetCivImageLocation(civ);
-                var rate = player.Rating is null ? " N/A" : player.Rating.ToString();
-                int index = player.Color - 1 ?? -1;
-                if (index >= 0) {
-                    pictureBox[index].ImageLocation = location;
-                    labelRate[index].Text = rate;
-                    labelName[index].Text = player.Name ?? "-- AI --";
-                    labelCiv[index].Text = civ ?? player.Civ.ToString();
+            var aveTeam1 = CtrlMain.GetAverageRate(match.Players, TeamType.OddColorNo);
+            var aveTeam2 = CtrlMain.GetAverageRate(match.Players, TeamType.EvenColorNo);
+            labelAveRate1.Text = $"Team1 Ave. Rate:{aveTeam1}";
+            labelAveRate2.Text = $"Team2 Ave. Rate:{aveTeam2}";
+            labelMap.Text = $"Map: {ctrlMain.GetMapName(match)}";
+            labelGameId.Text = $"GameID: {match.MatchId}";
+            labelServer.Text = $"Server: {match.Server}";
+        }
+
+        private void SetPlayersData(List<Player> players)
+        {
+            foreach (var player in players) {
+                if (player.Color - 1 is int index
+                    && index < PlayerNumMax) {
+                    pictureBox[index].ImageLocation = AoE2net.GetCivImageLocation(ctrlMain.GetCivEnName(player));
+                    labelRate[index].Text = CtrlMain.GetRateString(player.Rating);
+                    labelName[index].Text = CtrlMain.GetPlayerNameString(player.Name);
+                    labelCiv[index].Text = ctrlMain.GetCivName(player);
+                    labelName[index].Font = CtrlMain.GetFontStyle(player, labelName[index].Font);
                     pictureBox[index].Visible = true;
 
                     labelName[index].Tag = player;
                 }
-
-                SetFontStyle(player);
-            }
-        }
-
-        private void SetAverageRate(PlayerLastmatch playerLastmatch)
-        {
-            var aveP1 = ((int)playerLastmatch.LastMatch.Players
-                                        .Where(player => player.Color % 2 != 0)
-                                        .Select(player => player.Rating)
-                                        .Average())
-                                        .ToString();
-            var aveP2 = ((int)playerLastmatch.LastMatch.Players
-                                        .Where(player => player.Color % 2 == 0)
-                                        .Select(player => player.Rating)
-                                        .Average())
-                                        .ToString();
-            labelAveRate1.Text = $"Team1 Ave. Rate:{aveP1}";
-            labelAveRate2.Text = $"Team2 Ave. Rate:{aveP2}";
-        }
-
-        private void SetFontStyle(Player player)
-        {
-            var index = player.Color - 1 ?? -1;
-            if (index >= 0) {
-                var fontStyle = FontStyle.Bold;
-
-                if (!(player.Won ?? true)) {
-                    fontStyle |= FontStyle.Strikeout;
-                }
-
-                var currentFont = labelName[index].Font;
-                labelName[index].Font = new Font(currentFont, fontStyle);
             }
         }
 
@@ -232,20 +148,47 @@
             textBoxSettingSteamId.Text = Settings.Default.SteamId.ToString();
         }
 
+        private void StartVerify()
+        {
+            buttonUpdate.Enabled = false;
+            labelSettingsName.Text = $"   Name: --";
+            labelSettingsCountry.Text = $"Country: --";
+            ctrlMain.DelayStart(
+                async () =>
+                {
+                    var ret = await ctrlMain.GetPlayerDataAsync(textBoxSettingSteamId.Text);
+                    labelSettingsName.Text = $"   Name: {ctrlMain.UserName}";
+                    labelSettingsCountry.Text = $"Country: {ctrlMain.UserCountry}";
+                    Settings.Default.SteamId = textBoxSettingSteamId.Text;
+                    buttonUpdate.Enabled = ret;
+                });
+        }
+
+        ///////////////////////////////////////////////////////////////////////
+        // Event handlers
+        ///////////////////////////////////////////////////////////////////////
         private async void ButtonUpdate_Click(object sender, EventArgs e)
         {
             buttonUpdate.Enabled = false;
-            _ = await UpdateLastMatchAsync();
+
+            ClearLastMatch();
+            try {
+                var playerLastmatch = await CtrlMain.GetPlayerLastmatch(textBoxSettingSteamId.Text);
+                SetLastMatchData(playerLastmatch);
+            } catch (Exception ex) {
+                labelErrText.Text = ex.Message;
+            }
+
             buttonUpdate.Enabled = true;
         }
 
         private async void FormMain_Load(object sender, EventArgs e)
         {
-            LoadSettings();
-            ClearPlayerLastMatch();
+            ClearLastMatch();
             try {
-                apiStringsEn = await AoE2net.GetStringsAsync(Language.en);
-            } catch (HttpRequestException ex) {
+                ctrlMain = await CtrlMain.InitAsync(language);
+                LoadSettings();
+            } catch (Exception ex) {
                 labelErrText.Text = ex.Message;
             }
         }
@@ -307,42 +250,9 @@
             ((Label)sender).DrawString(e, 12, Color.Gray, Color.LightGoldenrodYellow);
         }
 
-        private async Task VerifySteamId()
-        {
-            try {
-                var lastMatch = await AoE2net.GetPlayerLastMatchAsync(textBoxSettingSteamId.Text);
-                labelSettingsName.Text = $"   Name: {lastMatch.Name}";
-                labelSettingsCountry.Text = $"Country: {lastMatch.Country}";
-                Settings.Default.SteamId = textBoxSettingSteamId.Text;
-                buttonUpdate.Enabled = true;
-            } catch (HttpRequestException) {
-                labelSettingsName.Text = $"   Name: -- Invalid Steam ID --";
-                labelSettingsCountry.Text = $"Country: -- Invalid Steam ID --";
-                buttonUpdate.Enabled = false;
-            } catch (TypeInitializationException ex) {
-                System.Diagnostics.Debug.Print($"{ex}");
-            }
-        }
-
         private void TextBoxSettingSteamId_TextChanged(object sender, EventArgs e)
         {
-            timerSteamIdVerify.Stop();
-            timerSteamIdVerifyCount = 0;
-            buttonUpdate.Enabled = false;
-            timerSteamIdVerify.Start();
-        }
-
-        private async void TimerSteamIdVerify_Tick(object sender, EventArgs e)
-        {
-            timerSteamIdVerifyCount += timerSteamIdVerify.Interval;
-            if (timerSteamIdVerifyCount == 3000) {
-                await VerifySteamId();
-                timerSteamIdVerify.Stop();
-            } else {
-                var progress = timerSteamIdVerifyCount / timerSteamIdVerify.Interval;
-                labelSettingsName.Text = $"   Name: {new string('-', progress)}";
-                labelSettingsCountry.Text = $"Country: --";
-            }
+            StartVerify();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace LibAoE2net
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -16,7 +17,14 @@
         /// <returns>Found string.</returns>
         public static string GetString(this List<StringId> stringIds, int id)
         {
-            return stringIds.Where(x => x.Id == id).First().String;
+            string ret;
+            try {
+                ret = stringIds.Where(x => x.Id == id).First().String;
+            } catch (InvalidOperationException) {
+                ret = null;
+            }
+
+            return ret;
         }
     }
 }
