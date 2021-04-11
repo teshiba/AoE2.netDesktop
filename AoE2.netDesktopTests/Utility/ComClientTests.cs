@@ -27,31 +27,33 @@ namespace LibAoE2net.Tests
         }
 
         [TestMethod()]
-        public void GetFromJsonAsyncTestTaskCanceledException()
+        public async Task GetFromJsonAsyncTestTaskCanceledExceptionAsync()
         {
             // Arrange
-            var ComClient = new TestHttpClient();
+            var ComClient = new TestHttpClient() { 
+                ForceTaskCanceledException = true,
+            };
 
             // Act
             // Assert
-            Assert.ThrowsExceptionAsync<TaskCanceledException>(async () =>
-            {
-                await ComClient.GetFromJsonAsync<int>("TaskCanceledException");
-            });
+            await Assert.ThrowsExceptionAsync<TaskCanceledException>(() =>
+                ComClient.GetFromJsonAsync<int>("TaskCanceledException")
+            );
         }
 
         [TestMethod()]
-        public void GetFromJsonAsyncTestHttpRequestException()
+        public async Task GetFromJsonAsyncTestHttpRequestExceptionAsync()
         {
             // Arrange
-            var ComClient = new TestHttpClient();
+            var ComClient = new TestHttpClient() {
+                ForceHttpRequestException = true,
+            };
 
             // Act
             // Assert
-            Assert.ThrowsExceptionAsync<HttpRequestException>(async () =>
-            {
-                await ComClient.GetFromJsonAsync<int>("HttpRequestException");
-            });
+            await Assert.ThrowsExceptionAsync<HttpRequestException>(() =>
+                ComClient.GetFromJsonAsync<int>("HttpRequestException")
+            );
         }
     }
 }

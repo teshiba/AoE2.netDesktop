@@ -3,13 +3,13 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
+using AoE2NetDesktop.Tests;
 
 namespace LibAoE2net.Tests
 {
     [TestClass()]
     public class AoE2netTests
     {
-        private const string TestSteamId = "00000000000000000";
         private const int ProfileId = 0;
 
         [TestMethod()]
@@ -31,7 +31,7 @@ namespace LibAoE2net.Tests
                 },
                 new Player() {
                     ProfilId = 2,
-                    SteamId = "00000000000000002",
+                    SteamId = null,
                     Name = "Player2",
                     Slot = 2,
                     SlotType = 1,
@@ -47,7 +47,7 @@ namespace LibAoE2net.Tests
                     Name = "Player3",
                     Slot = 3,
                     SlotType = 1,
-                    Rating = 3333,
+                    Rating = null,
                     Color = 3,
                     Team = 1,
                     Civ = 9,
@@ -118,12 +118,14 @@ namespace LibAoE2net.Tests
             AoE2net.ComClient = new TestHttpClient();
 
             // Act
-            var actVal = AoE2net.GetPlayerLastMatchAsync(TestSteamId).Result;
+            var actVal = Task.Run(
+                () => AoE2net.GetPlayerLastMatchAsync(TestInit.AvailableUserSteamId)
+                ).Result;
 
             // Assert
             // PlayerLastMatch
             Assert.AreEqual(1, actVal.ProfileId);
-            Assert.AreEqual("00000000000000001", actVal.SteamId);
+            Assert.AreEqual(TestInit.AvailableUserSteamId, actVal.SteamId);
             Assert.AreEqual("Player1", actVal.Name);
             Assert.AreEqual("JP", actVal.Country);
             // LastMatch
@@ -191,13 +193,12 @@ namespace LibAoE2net.Tests
         }
 
         [TestMethod()]
-        public void GetPlayerLastMatchAsyncTestNull()
+        public async Task GetPlayerLastMatchAsyncTestNullAsync()
         {
             // Assert
-            Assert.ThrowsExceptionAsync<ArgumentNullException>(async () =>
-            {
-                await AoE2net.GetPlayerLastMatchAsync(null);
-            });
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                AoE2net.GetPlayerLastMatchAsync(null)
+            );
         }
 
         [TestMethod()]
@@ -210,7 +211,7 @@ namespace LibAoE2net.Tests
                 Drops = 0,
                 NumLosses = 100,
                 NumWins = 100,
-                Rating = 9999,
+                Rating = 1111,
                 Streak = 0,
                 TimeStamp = 1643808142,
                 },
@@ -219,8 +220,10 @@ namespace LibAoE2net.Tests
             AoE2net.ComClient = new TestHttpClient();
 
             // Act
-            var actVal = AoE2net.GetPlayerRatingHistoryAsync(
-                TestSteamId, leaderBoardId, count).Result;
+            var actVal = Task.Run(
+                () => AoE2net.GetPlayerRatingHistoryAsync(
+                    TestInit.AvailableUserSteamId, leaderBoardId, count)
+                ).Result;
 
             // Assert
             for (int i = 0; i < actVal.Count; i++) {
@@ -253,8 +256,10 @@ namespace LibAoE2net.Tests
             AoE2net.ComClient = new TestHttpClient();
 
             // Act
-            var actVal = AoE2net.GetPlayerRatingHistoryAsync(
-                ProfileId, leaderBoardId, count).Result;
+            var actVal = Task.Run(
+                () => AoE2net.GetPlayerRatingHistoryAsync(
+                    ProfileId, leaderBoardId, count)
+                ).Result;
 
             // Assert
             for (int i = 0; i < actVal.Count; i++) {
@@ -269,13 +274,12 @@ namespace LibAoE2net.Tests
         }
 
         [TestMethod()]
-        public void GetPlayerRatingHistoryAsyncTestNull()
+        public async Task GetPlayerRatingHistoryAsyncTestNullAsync()
         {
             // Assert
-            Assert.ThrowsExceptionAsync<ArgumentNullException>(async () =>
-            {
-                await AoE2net.GetPlayerRatingHistoryAsync(null, LeaderBoardId.TeamRandomMap, 1);
-            });
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                AoE2net.GetPlayerRatingHistoryAsync(null, LeaderBoardId.TeamRandomMap, 1)
+            );
         }
 
         [TestMethod()]

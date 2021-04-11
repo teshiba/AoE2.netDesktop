@@ -2,25 +2,23 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Drawing;
     using System.Linq;
-    using System.Net.Http;
     using System.Threading.Tasks;
-
     using LibAoE2net;
 
     /// <summary>
     /// FormMain controler.
     /// </summary>
-    public class CtrlMain : FormControler<FormMain>
+    public class CtrlMain : FormControler
     {
         private const string InvalidSteamIdString = "-- Invalid Steam ID --";
         private const int VerifyWaitMsec = 1500;
 
-        private readonly Strings apiStrings;
         private readonly System.Timers.Timer timerSteamIdVerify;
 
+        private Strings apiStrings;
         private Strings enStrings;
         private Func<Task> delayedFunction;
         private PlayerLastmatch playerLastmatch;
@@ -28,10 +26,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="CtrlMain"/> class.
         /// </summary>
-        /// <param name="strings">string list.</param>
-        private CtrlMain(Strings strings)
+        public CtrlMain()
         {
-            apiStrings = strings;
             timerSteamIdVerify = new System.Timers.Timer(VerifyWaitMsec);
             timerSteamIdVerify.Elapsed += (sender, e) =>
             {
@@ -49,20 +45,6 @@
         /// Gets user name.
         /// </summary>
         public string UserName { get => playerLastmatch?.Name ?? InvalidSteamIdString; }
-
-        /// <summary>
-        /// Initialize the class.
-        /// </summary>
-        /// <param name="language">language used.</param>
-        /// <returns>controler instance.</returns>
-        public static async Task<CtrlMain> InitAsync(Language language)
-        {
-            var ctrlMain = new CtrlMain(await AoE2net.GetStringsAsync(language)) {
-                enStrings = await AoE2net.GetStringsAsync(Language.en),
-            };
-
-            return ctrlMain;
-        }
 
         /// <summary>
         /// Get font style according to the player's status.
@@ -90,14 +72,19 @@
         public static int GetAverageRate(List<Player> players, TeamType team)
         {
             Func<Player, bool> predicate = team switch {
-                TeamType.EvenColorNo => player => player.Color % 2 == 0,
-                TeamType.OddColorNo => player => player.Color % 2 != 0,
+                TeamType.EvenColorNo => EvenFunc,
+                TeamType.OddColorNo => OddFunc,
                 _ => throw new ArgumentOutOfRangeException(nameof(team)),
             };
 
             return (int)players.Where(predicate)
                                .Select(player => player.Rating)
                                .Average();
+
+            [ExcludeFromCodeCoverage]
+            static bool EvenFunc(Player player) => player.Color % 2 == 0;
+            [ExcludeFromCodeCoverage]
+            static bool OddFunc(Player player) => player.Color % 2 != 0;
         }
 
         /// <summary>
@@ -105,33 +92,27 @@
         /// </summary>
         /// <param name="steamId">steam ID.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public static async Task<PlayerLastmatch> GetPlayerLastmatch(string steamId)
+        public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(string steamId)
         {
             if (steamId is null) {
                 throw new ArgumentNullException(nameof(steamId));
             }
 
-            PlayerLastmatch ret;
-
-            ret = await AoE2net.GetPlayerLastMatchAsync(steamId);
+            var ret = await AoE2net.GetPlayerLastMatchAsync(steamId);
 
             foreach (var player in ret.LastMatch.Players) {
                 List<PlayerRating> rate = null;
-                try {
-                    if (player.SteamId != null) {
-                        rate = await AoE2net.GetPlayerRatingHistoryAsync(
-                            player.SteamId, ret.LastMatch.LeaderboardId ?? 0, 1);
-                    } else if (player.ProfilId is int profileId) {
-                        rate = await AoE2net.GetPlayerRatingHistoryAsync(
-                            profileId, ret.LastMatch.LeaderboardId ?? 0, 1);
-                    }
-                } catch (HttpRequestException) {
-                    rate = null;
+                if (player.SteamId != null) {
+                    rate = await AoE2net.GetPlayerRatingHistoryAsync(
+                        player.SteamId, ret.LastMatch.LeaderboardId ?? 0, 1);
+                } else if (player.ProfilId is int profileId) {
+                    rate = await AoE2net.GetPlayerRatingHistoryAsync(
+                        profileId, ret.LastMatch.LeaderboardId ?? 0, 1);
+                } else {
+                    throw new FormatException($"Invalid profilId of Name:{player.Name}");
                 }
 
-                if (rate != null && rate.Count != 0) {
-                    player.Rating ??= rate[0].Rating;
-                }
+                player.Rating ??= rate[0].Rating;
             }
 
             return ret;
@@ -158,6 +139,19 @@
         }
 
         /// <summary>
+        /// Initialize the class.
+        /// </summary>
+        /// <param name="language">language used.</param>
+        /// <returns>controler instance.</returns>
+        public async Task<bool> InitAsync(Language language)
+        {
+            apiStrings = await AoE2net.GetStringsAsync(language);
+            enStrings = await AoE2net.GetStringsAsync(Language.en);
+
+            return true;
+        }
+
+        /// <summary>
         /// start the specified function with a delay.
         /// </summary>
         /// <param name="function">function.</param>
@@ -175,21 +169,14 @@
         /// <returns>API result.</returns>
         public async Task<bool> GetPlayerDataAsync(string steamId)
         {
-            bool ret;
-
-            playerLastmatch = null;
-
             try {
-                playerLastmatch = await GetPlayerLastmatch(steamId);
-                ret = true;
-            } catch (HttpRequestException) {
-                ret = false;
-            } catch (TypeInitializationException ex) {
-                ret = false;
-                Debug.Print($"{ex}");
+                playerLastmatch = await GetPlayerLastMatchAsync(steamId);
+            } catch (Exception) {
+                playerLastmatch = null;
+                throw;
             }
 
-            return ret;
+            return true;
         }
 
         /// <summary>
@@ -219,20 +206,7 @@
         /// <param name="player">player.</param>
         /// <returns>civilization name in English.</returns>
         public string GetCivEnName(Player player)
-        {
-            string ret;
-
-            if (player.Civ is int id) {
-                ret = enStrings.Civ.GetString(id);
-                if (ret is null) {
-                    ret = $"invalid civ:{id}";
-                }
-            } else {
-                ret = $"invalid civ:null";
-            }
-
-            return ret;
-        }
+            => GetCivName(enStrings, player);
 
         /// <summary>
         /// Get player's civilization name.
@@ -240,11 +214,19 @@
         /// <param name="player">player.</param>
         /// <returns>civilization name.</returns>
         public string GetCivName(Player player)
-        {
-            string ret = null;
+            => GetCivName(apiStrings, player);
 
-            if (player.Civ is int civ) {
-                ret = apiStrings.Civ.GetString(civ);
+        private static string GetCivName(Strings strings, Player player)
+        {
+            string ret;
+
+            if (player.Civ is int id) {
+                ret = strings.Civ.GetString(id);
+                if (ret is null) {
+                    ret = $"invalid civ:{id}";
+                }
+            } else {
+                ret = $"invalid civ:null";
             }
 
             return ret;

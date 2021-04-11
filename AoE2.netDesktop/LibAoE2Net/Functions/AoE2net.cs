@@ -9,7 +9,7 @@
     /// </summary>
     public static class AoE2net
     {
-        private static readonly Uri BaseAddress = new Uri(@"https://aoe2.net/api/");
+        private static readonly Uri BaseAddress = new (@"https://aoe2.net/api/");
 
         /// <summary>
         /// Gets or sets communication client.

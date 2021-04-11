@@ -6,7 +6,7 @@ echo "Start unit test"
 
 rem ===========================================================================
 rem Tool path
-set REPORTGEN="%USERPROFILE%\.nuget\packages\ReportGenerator\4.8.6\tools\net5.0\ReportGenerator.exe"
+set REPORTGEN="%USERPROFILE%\.nuget\packages\ReportGenerator\4.8.7\tools\net5.0\ReportGenerator.exe"
 
 rem ===========================================================================
 rem target informations
@@ -16,16 +16,17 @@ set OUTPUT_DIR="Coverage"
 set HISTORY_DIR="Coverage/History"
 set REPORT_FILE_FILTERS="-*.Designer.cs;-*Program.cs"
 
-rem test target filter
+rem test option
 set TEST_FILTERS="TestCategory!=GUI"
+set TEST_TIMEOUT_MSEC=60000
 
 rem ===========================================================================
 rem Run test
 echo on
-dotnet test --collect:"XPlat Code Coverage" --filter %TEST_FILTERS% > test.log
+dotnet test --collect:"XPlat Code Coverage" --filter %TEST_FILTERS% -- RunConfiguration.TestSessionTimeout=%TEST_TIMEOUT_MSEC% > test.log  2>&1
 echo off
 
-type test.log 
+type test.log
 
 rem Set COVERAGE_RESULT variable from Output of the dotnet test.
 type test.log | find "coverage.cobertura.xml" > coverageCoberturaPath.txt

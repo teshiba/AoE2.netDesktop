@@ -14,6 +14,10 @@ namespace LibAoE2net
         /// </summary>
         public const string TestDataPath = @"../../../TestData";
 
+        public bool ForceHttpRequestException { get; set; }
+        public bool ForceTaskCanceledException { get; set; }
+        public string PlayerLastMatchUri { get; set; }
+
         /// <summary>
         /// Send a GET request to the specified Uri and return the response body as a string
         /// in an asynchronous operation.
@@ -22,25 +26,33 @@ namespace LibAoE2net
         /// <returns></returns>
         public override Task<string> GetStringAsync(string requestUri)
         {
-            var index = requestUri.IndexOf('?');
-            string apiEndPoint;
-
-            if (index != -1) {
-                apiEndPoint = requestUri.Substring(0, index);
-            } else {
-                apiEndPoint = requestUri;
+            if (ForceHttpRequestException) {
+                throw new HttpRequestException("Forced HttpRequestException");
             }
 
+            if (ForceTaskCanceledException) {
+                throw new TaskCanceledException("Forced TaskCanceledException");
+            }
+
+            var apiEndPoint = requestUri.Substring(0, requestUri.IndexOf('?'));
             var ret = apiEndPoint switch {
-                "player/lastmatch" => File.ReadAllTextAsync($"{TestDataPath}/playerLastMatch.json"),
+                "player/lastmatch" => ReadplayerLastMatchAsync(requestUri),
                 "player/ratinghistory" => ReadPlayerRatingHistoryAsync(requestUri),
                 "strings" => ReadStringsAsync(requestUri),
-                "HttpRequestException" => throw new HttpRequestException(),
-                "TaskCanceledException" => throw new TaskCanceledException(),
                 _ => null,
             };
 
             return ret;
+        }
+
+        private Task<string> ReadplayerLastMatchAsync(string requestUri)
+        {
+            var args = requestUri.Split('=', '&', '?');
+            var game = args[2];
+            var steamId = args[4];
+            var requestDataFileName = PlayerLastMatchUri ?? $"playerLastMatch{game}{steamId}.json";
+
+            return File.ReadAllTextAsync($"{TestDataPath}/{requestDataFileName}");
         }
 
         private static Task<string> ReadPlayerRatingHistoryAsync(string requestUri)
@@ -48,10 +60,10 @@ namespace LibAoE2net
             var args = requestUri.Split('=', '&', '?');
             var game = args[2];
             var leaderboardId = (LeaderBoardId)int.Parse(args[4]);
-            var id = args[6];
+            var steamId = args[6];
             var count = args[8];
 
-            return File.ReadAllTextAsync($"{TestDataPath}/playerRatingHistory{game}{id}{leaderboardId}{count}.json");
+            return File.ReadAllTextAsync($"{TestDataPath}/playerRatingHistory{game}{steamId}{leaderboardId}{count}.json");
         }
 
         private static Task<string> ReadStringsAsync(string requestUri)

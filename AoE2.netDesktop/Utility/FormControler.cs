@@ -3,24 +3,16 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Windows.Forms;
 
     /// <summary>
     /// A class that controls Windows Forms class.
     /// </summary>
-    /// <typeparam name="T">Target form class.</typeparam>
-    public abstract class FormControler<T>
-        where T : Form
+    public abstract class FormControler
     {
-        private readonly TaskScheduler scheduler;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="FormControler{T}"/> class.
+        /// Gets or sets scheduler.
         /// </summary>
-        public FormControler()
-        {
-            scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-        }
+        public TaskScheduler Scheduler { get; set; }
 
         /// <summary>
         /// Invoke the specified function on the UI task.
@@ -32,7 +24,7 @@
                 function,
                 CancellationToken.None,
                 TaskCreationOptions.None,
-                scheduler);
+                Scheduler);
         }
     }
 }

@@ -66,7 +66,7 @@
       },
       {
         "profile_id": 2,
-        "steam_id": "00000000000000002",
+        "steam_id": null,
         "name": "Player2",
         "clan": null,
         "country": null,
@@ -91,7 +91,7 @@
         "country": null,
         "slot": 3,
         "slot_type": 1,
-        "rating": 3333,
+        "rating": null,
         "rating_change": null,
         "games": null,
         "wins": null,

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Threading.Tasks;
     using System.Windows.Forms;
     using AoE2NetDesktop;
     using LibAoE2net;
@@ -10,24 +11,23 @@
     /// <summary>
     /// App main form.
     /// </summary>
-    public partial class FormMain : Form
+    public partial class FormMain : ControllableForm
     {
         private const int PlayerNumMax = 8;
 
-        private readonly List<Label> labelCiv = new List<Label>();
-        private readonly List<Label> labelColor = new List<Label>();
-        private readonly List<Label> labelRate = new List<Label>();
-        private readonly List<Label> labelName = new List<Label>();
-        private readonly List<PictureBox> pictureBox = new List<PictureBox>();
+        private readonly List<Label> labelCiv = new ();
+        private readonly List<Label> labelColor = new ();
+        private readonly List<Label> labelRate = new ();
+        private readonly List<Label> labelName = new ();
+        private readonly List<PictureBox> pictureBox = new ();
         private readonly Language language;
-
-        private CtrlMain ctrlMain;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormMain"/> class.
         /// </summary>
-        /// <param name="language">Language.</param>
+        /// <param name="language">Display language.</param>
         public FormMain(Language language)
+            : base(new CtrlMain())
         {
             this.language = language;
             InitializeComponent();
@@ -38,6 +38,9 @@
             labelMap.ForeColor = labelMap.BackColor;
             InitEachPlayersCtrlList();
         }
+
+        /// <inheritdoc/>
+        protected override CtrlMain Controler { get => (CtrlMain)base.Controler; }
 
         private void InitEachPlayersCtrlList()
         {
@@ -121,7 +124,7 @@
             var aveTeam2 = CtrlMain.GetAverageRate(match.Players, TeamType.EvenColorNo);
             labelAveRate1.Text = $"Team1 Ave. Rate:{aveTeam1}";
             labelAveRate2.Text = $"Team2 Ave. Rate:{aveTeam2}";
-            labelMap.Text = $"Map: {ctrlMain.GetMapName(match)}";
+            labelMap.Text = $"Map: {Controler.GetMapName(match)}";
             labelGameId.Text = $"GameID: {match.MatchId}";
             labelServer.Text = $"Server: {match.Server}";
         }
@@ -131,14 +134,15 @@
             foreach (var player in players) {
                 if (player.Color - 1 is int index
                     && index < PlayerNumMax) {
-                    pictureBox[index].ImageLocation = AoE2net.GetCivImageLocation(ctrlMain.GetCivEnName(player));
+                    pictureBox[index].ImageLocation = AoE2net.GetCivImageLocation(Controler.GetCivEnName(player));
                     labelRate[index].Text = CtrlMain.GetRateString(player.Rating);
                     labelName[index].Text = CtrlMain.GetPlayerNameString(player.Name);
-                    labelCiv[index].Text = ctrlMain.GetCivName(player);
+                    labelCiv[index].Text = Controler.GetCivName(player);
                     labelName[index].Font = CtrlMain.GetFontStyle(player, labelName[index].Font);
                     pictureBox[index].Visible = true;
-
                     labelName[index].Tag = player;
+                } else {
+                    labelErrText.Text = $"invalid player.Color[{player.Color}]";
                 }
             }
         }
@@ -153,15 +157,23 @@
             buttonUpdate.Enabled = false;
             labelSettingsName.Text = $"   Name: --";
             labelSettingsCountry.Text = $"Country: --";
-            ctrlMain.DelayStart(
-                async () =>
-                {
-                    var ret = await ctrlMain.GetPlayerDataAsync(textBoxSettingSteamId.Text);
-                    labelSettingsName.Text = $"   Name: {ctrlMain.UserName}";
-                    labelSettingsCountry.Text = $"Country: {ctrlMain.UserCountry}";
+            Controler.DelayStart(DelayFunction);
+
+            async Task DelayFunction()
+            {
+                try {
+                    var ret = await Controler.GetPlayerDataAsync(textBoxSettingSteamId.Text);
                     Settings.Default.SteamId = textBoxSettingSteamId.Text;
                     buttonUpdate.Enabled = ret;
-                });
+                } catch (Exception ex) {
+                    labelErrText.Text = ex.Message;
+                }
+
+                labelSettingsName.Text = $"   Name: {Controler.UserName}";
+                labelSettingsCountry.Text = $"Country: {Controler.UserCountry}";
+
+                Awaiter.Complete();
+            }
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -173,24 +185,27 @@
 
             ClearLastMatch();
             try {
-                var playerLastmatch = await CtrlMain.GetPlayerLastmatch(textBoxSettingSteamId.Text);
+                var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(textBoxSettingSteamId.Text);
                 SetLastMatchData(playerLastmatch);
             } catch (Exception ex) {
                 labelErrText.Text = ex.Message;
             }
 
             buttonUpdate.Enabled = true;
+            Awaiter.Complete();
         }
 
         private async void FormMain_Load(object sender, EventArgs e)
         {
             ClearLastMatch();
             try {
-                ctrlMain = await CtrlMain.InitAsync(language);
+                _ = await Controler.InitAsync(language);
                 LoadSettings();
             } catch (Exception ex) {
                 labelErrText.Text = ex.Message;
             }
+
+            Awaiter.Complete();
         }
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -213,6 +228,54 @@
             } else {
                 labelName.DrawString(e, 20, Color.DarkGreen, Color.LightGreen);
             }
+        }
+
+        private void LabelNameP1_Paint(object sender, PaintEventArgs e)
+        {
+            LabelName_Paint(sender, e);
+            Awaiter.Complete();
+        }
+
+        private void LabelNameP2_Paint(object sender, PaintEventArgs e)
+        {
+            LabelName_Paint(sender, e);
+            Awaiter.Complete();
+        }
+
+        private void LabelNameP3_Paint(object sender, PaintEventArgs e)
+        {
+            LabelName_Paint(sender, e);
+            Awaiter.Complete();
+        }
+
+        private void LabelNameP4_Paint(object sender, PaintEventArgs e)
+        {
+            LabelName_Paint(sender, e);
+            Awaiter.Complete();
+        }
+
+        private void LabelNameP5_Paint(object sender, PaintEventArgs e)
+        {
+            LabelName_Paint(sender, e);
+            Awaiter.Complete();
+        }
+
+        private void LabelNameP6_Paint(object sender, PaintEventArgs e)
+        {
+            LabelName_Paint(sender, e);
+            Awaiter.Complete();
+        }
+
+        private void LabelNameP7_Paint(object sender, PaintEventArgs e)
+        {
+            LabelName_Paint(sender, e);
+            Awaiter.Complete();
+        }
+
+        private void LabelNameP8_Paint(object sender, PaintEventArgs e)
+        {
+            LabelName_Paint(sender, e);
+            Awaiter.Complete();
         }
 
         private void LabelRate_Paint(object sender, PaintEventArgs e)
