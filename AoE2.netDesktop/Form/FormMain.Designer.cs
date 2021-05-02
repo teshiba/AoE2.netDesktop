@@ -1,5 +1,4 @@
-﻿
-namespace AoE2NetDesktop.From
+﻿namespace AoE2NetDesktop.From
 {
     partial class FormMain
     {
@@ -86,7 +85,6 @@ namespace AoE2NetDesktop.From
             this.checkBoxAlwaysOnTop = new System.Windows.Forms.CheckBox();
             this.textBoxSettingSteamId = new System.Windows.Forms.TextBox();
             this.labelSteamId = new System.Windows.Forms.Label();
-            this.timerSteamIdVerify = new System.Windows.Forms.Timer(this.components);
             this.tabControlMain.SuspendLayout();
             this.tabPagePlayerLastMatch.SuspendLayout();
             this.panelTeam2.SuspendLayout();
@@ -208,7 +206,7 @@ namespace AoE2NetDesktop.From
             this.labelNameP7.Size = new System.Drawing.Size(134, 28);
             this.labelNameP7.TabIndex = 3;
             this.labelNameP7.Text = "PlayerXxxxxxxxxxxxxxx";
-            this.labelNameP7.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName_Paint);
+            this.labelNameP7.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP7_Paint);
             // 
             // labelNameP3
             // 
@@ -221,7 +219,7 @@ namespace AoE2NetDesktop.From
             this.labelNameP3.Size = new System.Drawing.Size(134, 28);
             this.labelNameP3.TabIndex = 3;
             this.labelNameP3.Text = "PlayerXxxxxxxxxxxxxxx";
-            this.labelNameP3.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName_Paint);
+            this.labelNameP3.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP3_Paint);
             // 
             // labelNameP5
             // 
@@ -234,7 +232,7 @@ namespace AoE2NetDesktop.From
             this.labelNameP5.Size = new System.Drawing.Size(134, 28);
             this.labelNameP5.TabIndex = 3;
             this.labelNameP5.Text = "PlayerXxxxxxxxxxxxxxx";
-            this.labelNameP5.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName_Paint);
+            this.labelNameP5.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP5_Paint);
             // 
             // labelNameP1
             // 
@@ -247,7 +245,7 @@ namespace AoE2NetDesktop.From
             this.labelNameP1.Size = new System.Drawing.Size(134, 28);
             this.labelNameP1.TabIndex = 3;
             this.labelNameP1.Text = "PlayerXxxxxxxxxxxxxxx";
-            this.labelNameP1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName_Paint);
+            this.labelNameP1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP1_Paint);
             // 
             // labelRateP7
             // 
@@ -506,7 +504,7 @@ namespace AoE2NetDesktop.From
             this.labelNameP2.Size = new System.Drawing.Size(134, 28);
             this.labelNameP2.TabIndex = 3;
             this.labelNameP2.Text = "PlayerXxxxxxxxxxxxxxx";
-            this.labelNameP2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName_Paint);
+            this.labelNameP2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP2_Paint);
             // 
             // labelNameP8
             // 
@@ -519,7 +517,7 @@ namespace AoE2NetDesktop.From
             this.labelNameP8.Size = new System.Drawing.Size(134, 28);
             this.labelNameP8.TabIndex = 3;
             this.labelNameP8.Text = "PlayerXxxxxxxxxxxxxxx";
-            this.labelNameP8.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName_Paint);
+            this.labelNameP8.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP8_Paint);
             // 
             // labelNameP6
             // 
@@ -532,7 +530,7 @@ namespace AoE2NetDesktop.From
             this.labelNameP6.Size = new System.Drawing.Size(134, 28);
             this.labelNameP6.TabIndex = 3;
             this.labelNameP6.Text = "PlayerXxxxxxxxxxxxxxx";
-            this.labelNameP6.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName_Paint);
+            this.labelNameP6.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP6_Paint);
             // 
             // labelNameP4
             // 
@@ -545,7 +543,7 @@ namespace AoE2NetDesktop.From
             this.labelNameP4.Size = new System.Drawing.Size(134, 28);
             this.labelNameP4.TabIndex = 3;
             this.labelNameP4.Text = "PlayerXxxxxxxxxxxxxxx";
-            this.labelNameP4.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName_Paint);
+            this.labelNameP4.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP4_Paint);
             // 
             // labelCivP2
             // 
@@ -851,11 +849,6 @@ namespace AoE2NetDesktop.From
             this.labelSteamId.TabIndex = 0;
             this.labelSteamId.Text = "Steam-ID";
             // 
-            // timerSteamIdVerify
-            // 
-            this.timerSteamIdVerify.Interval = 500;
-            this.timerSteamIdVerify.Tick += new System.EventHandler(this.TimerSteamIdVerify_Tick);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -944,6 +937,5 @@ namespace AoE2NetDesktop.From
         private System.Windows.Forms.CheckBox checkBoxAlwaysOnTop;
         private System.Windows.Forms.Label labelSettingsCountry;
         private System.Windows.Forms.Label labelSettingsName;
-        private System.Windows.Forms.Timer timerSteamIdVerify;
     }
 }
