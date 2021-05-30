@@ -28,7 +28,20 @@
         /// Gets Player Last Match.
         /// Request the last match the player started playing, this will be the current match if they are still in game.
         /// </summary>
-        /// <param name="steamId">steam id.</param>
+        /// <param name="profileId">Profile ID.</param>
+        /// <returns><see cref="PlayerLastmatch"/> deserialized as JSON.</returns>
+        public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(int profileId)
+        {
+            var apiEndPoint = $"player/lastmatch?game={AoE2Version}&profile_id={profileId}";
+
+            return await ComClient.GetFromJsonAsync<PlayerLastmatch>(apiEndPoint);
+        }
+
+        /// <summary>
+        /// Gets Player Last Match.
+        /// Request the last match the player started playing, this will be the current match if they are still in game.
+        /// </summary>
+        /// <param name="steamId">steamID64.</param>
         /// <returns><see cref="PlayerLastmatch"/> deserialized as JSON.</returns>
         public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(string steamId)
         {

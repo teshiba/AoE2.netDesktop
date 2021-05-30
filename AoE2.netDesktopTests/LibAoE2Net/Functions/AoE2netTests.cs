@@ -10,10 +10,8 @@ namespace LibAoE2net.Tests
     [TestClass()]
     public class AoE2netTests
     {
-        private const int ProfileId = 0;
-
         [TestMethod()]
-        public void GetPlayerLastMatchAsyncTest()
+        public void GetPlayerLastMatchAsyncTestSteamId()
         {
             // Arrange
             var expPlayer = new List<Player> {
@@ -193,6 +191,25 @@ namespace LibAoE2net.Tests
         }
 
         [TestMethod()]
+        public void GetPlayerLastMatchAsyncTestProfileId()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+
+            // Act
+            var actVal = Task.Run(
+                () => AoE2net.GetPlayerLastMatchAsync(TestInit.AvailableUserProfileId)
+                ).Result;
+
+            // Assert
+            // PlayerLastMatch
+            Assert.AreEqual(1, actVal.ProfileId);
+            Assert.AreEqual(TestInit.AvailableUserSteamId, actVal.SteamId);
+            Assert.AreEqual("Player1", actVal.Name);
+            Assert.AreEqual("JP", actVal.Country);
+        }
+
+        [TestMethod()]
         public async Task GetPlayerLastMatchAsyncTestNullAsync()
         {
             // Assert
@@ -258,7 +275,7 @@ namespace LibAoE2net.Tests
             // Act
             var actVal = Task.Run(
                 () => AoE2net.GetPlayerRatingHistoryAsync(
-                    ProfileId, leaderBoardId, count)
+                     TestInit.AvailableUserProfileId, leaderBoardId, count)
                 ).Result;
 
             // Assert
