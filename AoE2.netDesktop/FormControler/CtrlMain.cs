@@ -163,7 +163,7 @@
         }
 
         /// <summary>
-        /// Reload user data from AoE2.net.
+        /// Get user data from AoE2.net.
         /// </summary>
         /// <param name="steamId">steam Id.</param>
         /// <returns>API result.</returns>
