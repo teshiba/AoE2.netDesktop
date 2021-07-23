@@ -27,7 +27,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPagePlayerLastMatch = new System.Windows.Forms.TabPage();
             this.labelGameId = new System.Windows.Forms.Label();
@@ -80,11 +79,14 @@
             this.labelServer = new System.Windows.Forms.Label();
             this.labelMap = new System.Windows.Forms.Label();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
+            this.groupBoxPlayer = new System.Windows.Forms.GroupBox();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.textBoxSettingSteamId = new System.Windows.Forms.TextBox();
+            this.textBoxSettingProfileId = new System.Windows.Forms.TextBox();
             this.labelSettingsCountry = new System.Windows.Forms.Label();
             this.labelSettingsName = new System.Windows.Forms.Label();
             this.checkBoxAlwaysOnTop = new System.Windows.Forms.CheckBox();
-            this.textBoxSettingSteamId = new System.Windows.Forms.TextBox();
-            this.labelSteamId = new System.Windows.Forms.Label();
             this.tabControlMain.SuspendLayout();
             this.tabPagePlayerLastMatch.SuspendLayout();
             this.panelTeam2.SuspendLayout();
@@ -98,6 +100,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabPageSettings.SuspendLayout();
+            this.groupBoxPlayer.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -788,11 +791,8 @@
             // tabPageSettings
             // 
             this.tabPageSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.tabPageSettings.Controls.Add(this.labelSettingsCountry);
-            this.tabPageSettings.Controls.Add(this.labelSettingsName);
+            this.tabPageSettings.Controls.Add(this.groupBoxPlayer);
             this.tabPageSettings.Controls.Add(this.checkBoxAlwaysOnTop);
-            this.tabPageSettings.Controls.Add(this.textBoxSettingSteamId);
-            this.tabPageSettings.Controls.Add(this.labelSteamId);
             this.tabPageSettings.Location = new System.Drawing.Point(4, 24);
             this.tabPageSettings.Name = "tabPageSettings";
             this.tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
@@ -801,19 +801,85 @@
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
             // 
+            // groupBoxPlayer
+            // 
+            this.groupBoxPlayer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxPlayer.Controls.Add(this.radioButton1);
+            this.groupBoxPlayer.Controls.Add(this.radioButton2);
+            this.groupBoxPlayer.Controls.Add(this.textBoxSettingSteamId);
+            this.groupBoxPlayer.Controls.Add(this.textBoxSettingProfileId);
+            this.groupBoxPlayer.Controls.Add(this.labelSettingsCountry);
+            this.groupBoxPlayer.Controls.Add(this.labelSettingsName);
+            this.groupBoxPlayer.Location = new System.Drawing.Point(9, 32);
+            this.groupBoxPlayer.Name = "groupBoxPlayer";
+            this.groupBoxPlayer.Size = new System.Drawing.Size(259, 453);
+            this.groupBoxPlayer.TabIndex = 6;
+            this.groupBoxPlayer.TabStop = false;
+            this.groupBoxPlayer.Text = "Player";
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Checked = true;
+            this.radioButton1.Location = new System.Drawing.Point(6, 22);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(73, 19);
+            this.radioButton1.TabIndex = 4;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Steam-ID";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(6, 47);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(75, 19);
+            this.radioButton2.TabIndex = 5;
+            this.radioButton2.Text = "Profile-ID";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // textBoxSettingSteamId
+            // 
+            this.textBoxSettingSteamId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSettingSteamId.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.textBoxSettingSteamId.Location = new System.Drawing.Point(87, 20);
+            this.textBoxSettingSteamId.Name = "textBoxSettingSteamId";
+            this.textBoxSettingSteamId.Size = new System.Drawing.Size(166, 23);
+            this.textBoxSettingSteamId.TabIndex = 1;
+            this.textBoxSettingSteamId.TextChanged += new System.EventHandler(this.TextBoxSettingSteamId_TextChanged);
+            // 
+            // textBoxSettingProfileId
+            // 
+            this.textBoxSettingProfileId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSettingProfileId.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.textBoxSettingProfileId.Location = new System.Drawing.Point(87, 45);
+            this.textBoxSettingProfileId.Name = "textBoxSettingProfileId";
+            this.textBoxSettingProfileId.Size = new System.Drawing.Size(166, 23);
+            this.textBoxSettingProfileId.TabIndex = 1;
+            this.textBoxSettingProfileId.TextChanged += new System.EventHandler(this.TextBoxSettingSteamId_TextChanged);
+            // 
             // labelSettingsCountry
             // 
-            this.labelSettingsCountry.Location = new System.Drawing.Point(14, 111);
+            this.labelSettingsCountry.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelSettingsCountry.Location = new System.Drawing.Point(8, 109);
             this.labelSettingsCountry.Name = "labelSettingsCountry";
-            this.labelSettingsCountry.Size = new System.Drawing.Size(300, 23);
+            this.labelSettingsCountry.Size = new System.Drawing.Size(245, 23);
             this.labelSettingsCountry.TabIndex = 3;
             this.labelSettingsCountry.Text = "Country: -----";
             // 
             // labelSettingsName
             // 
-            this.labelSettingsName.Location = new System.Drawing.Point(14, 88);
+            this.labelSettingsName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelSettingsName.Location = new System.Drawing.Point(8, 86);
             this.labelSettingsName.Name = "labelSettingsName";
-            this.labelSettingsName.Size = new System.Drawing.Size(300, 23);
+            this.labelSettingsName.Size = new System.Drawing.Size(245, 23);
             this.labelSettingsName.TabIndex = 3;
             this.labelSettingsName.Text = "    Name: -----";
             // 
@@ -828,26 +894,6 @@
             this.checkBoxAlwaysOnTop.Text = "Always on top";
             this.checkBoxAlwaysOnTop.UseVisualStyleBackColor = true;
             this.checkBoxAlwaysOnTop.CheckedChanged += new System.EventHandler(this.CheckBoxAlwaysOnTop_CheckedChanged);
-            // 
-            // textBoxSettingSteamId
-            // 
-            this.textBoxSettingSteamId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxSettingSteamId.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.textBoxSettingSteamId.Location = new System.Drawing.Point(75, 47);
-            this.textBoxSettingSteamId.Name = "textBoxSettingSteamId";
-            this.textBoxSettingSteamId.Size = new System.Drawing.Size(193, 23);
-            this.textBoxSettingSteamId.TabIndex = 1;
-            this.textBoxSettingSteamId.TextChanged += new System.EventHandler(this.TextBoxSettingSteamId_TextChanged);
-            // 
-            // labelSteamId
-            // 
-            this.labelSteamId.AutoSize = true;
-            this.labelSteamId.Location = new System.Drawing.Point(14, 50);
-            this.labelSteamId.Name = "labelSteamId";
-            this.labelSteamId.Size = new System.Drawing.Size(55, 15);
-            this.labelSteamId.TabIndex = 0;
-            this.labelSteamId.Text = "Steam-ID";
             // 
             // FormMain
             // 
@@ -874,6 +920,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabPageSettings.ResumeLayout(false);
             this.tabPageSettings.PerformLayout();
+            this.groupBoxPlayer.ResumeLayout(false);
+            this.groupBoxPlayer.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -923,7 +971,6 @@
         private System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.TabPage tabPageSettings;
         private System.Windows.Forms.TextBox textBoxSettingSteamId;
-        private System.Windows.Forms.Label labelSteamId;
         private System.Windows.Forms.Label labelErrText;
         private System.Windows.Forms.PictureBox pictureBox8;
         private System.Windows.Forms.PictureBox pictureBox6;
@@ -937,5 +984,9 @@
         private System.Windows.Forms.CheckBox checkBoxAlwaysOnTop;
         private System.Windows.Forms.Label labelSettingsCountry;
         private System.Windows.Forms.Label labelSettingsName;
+        private System.Windows.Forms.GroupBox groupBoxPlayer;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.TextBox textBoxSettingProfileId;
     }
 }
