@@ -106,7 +106,7 @@ namespace AoE2NetDesktop.From.Tests
 
             // Act
             var actVal = Task.Run(
-                () => CtrlMain.GetPlayerLastMatchAsync(steamId)
+                () => CtrlMain.GetPlayerLastMatchAsync(IdType.Steam, steamId)
                 ).Result;
 
             // Assert
@@ -123,7 +123,7 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             // Assert
             await Assert.ThrowsExceptionAsync<FormatException>(() =>
-                CtrlMain.GetPlayerLastMatchAsync("FormatException")
+                CtrlMain.GetPlayerLastMatchAsync(IdType.Steam, "FormatException")
             );
         }
 
@@ -136,7 +136,7 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             // Assert
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                CtrlMain.GetPlayerLastMatchAsync(null)
+                CtrlMain.GetPlayerLastMatchAsync(IdType.Steam, null)
             );
         }
 
@@ -150,7 +150,7 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             // Assert
             await Assert.ThrowsExceptionAsync<HttpRequestException>(() =>
-                CtrlMain.GetPlayerLastMatchAsync(TestInit.AvailableUserSteamId)
+                CtrlMain.GetPlayerLastMatchAsync(IdType.Steam, TestInit.AvailableUserSteamId)
             );
         }
 
@@ -214,7 +214,7 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             var testClass = new CtrlMain();
             var actVal = Task.Run(
-                () => testClass.GetPlayerDataAsync(TestInit.AvailableUserSteamId)
+                () => testClass.GetPlayerDataAsync(IdType.Steam, TestInit.AvailableUserSteamId)
                 ).Result;
 
             // Assert

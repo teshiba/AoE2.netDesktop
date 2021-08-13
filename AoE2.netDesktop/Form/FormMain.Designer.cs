@@ -80,8 +80,8 @@
             this.labelMap = new System.Windows.Forms.Label();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
             this.groupBoxPlayer = new System.Windows.Forms.GroupBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButtonSteamID = new System.Windows.Forms.RadioButton();
+            this.radioButtonProfileID = new System.Windows.Forms.RadioButton();
             this.textBoxSettingSteamId = new System.Windows.Forms.TextBox();
             this.textBoxSettingProfileId = new System.Windows.Forms.TextBox();
             this.labelSettingsCountry = new System.Windows.Forms.Label();
@@ -144,12 +144,14 @@
             // 
             // labelErrText
             // 
-            this.labelErrText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.labelErrText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelErrText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
             this.labelErrText.Location = new System.Drawing.Point(8, 447);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(188, 38);
+            this.labelErrText.Size = new System.Drawing.Size(188, 46);
             this.labelErrText.TabIndex = 8;
             // 
             // buttonUpdate
@@ -768,9 +770,11 @@
             // 
             // labelServer
             // 
+            this.labelServer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelServer.Location = new System.Drawing.Point(145, 31);
             this.labelServer.Name = "labelServer";
-            this.labelServer.Size = new System.Drawing.Size(116, 19);
+            this.labelServer.Size = new System.Drawing.Size(0, 19);
             this.labelServer.TabIndex = 2;
             this.labelServer.Text = "Server: ----------";
             this.labelServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -783,7 +787,7 @@
             this.labelMap.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelMap.Location = new System.Drawing.Point(3, 3);
             this.labelMap.Name = "labelMap";
-            this.labelMap.Size = new System.Drawing.Size(263, 30);
+            this.labelMap.Size = new System.Drawing.Size(108, 30);
             this.labelMap.TabIndex = 2;
             this.labelMap.Text = "Map : ----------";
             this.labelMap.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
@@ -806,8 +810,8 @@
             this.groupBoxPlayer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxPlayer.Controls.Add(this.radioButton1);
-            this.groupBoxPlayer.Controls.Add(this.radioButton2);
+            this.groupBoxPlayer.Controls.Add(this.radioButtonSteamID);
+            this.groupBoxPlayer.Controls.Add(this.radioButtonProfileID);
             this.groupBoxPlayer.Controls.Add(this.textBoxSettingSteamId);
             this.groupBoxPlayer.Controls.Add(this.textBoxSettingProfileId);
             this.groupBoxPlayer.Controls.Add(this.labelSettingsCountry);
@@ -819,27 +823,29 @@
             this.groupBoxPlayer.TabStop = false;
             this.groupBoxPlayer.Text = "Player";
             // 
-            // radioButton1
+            // radioButtonSteamID
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(6, 22);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(73, 19);
-            this.radioButton1.TabIndex = 4;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Steam-ID";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButtonSteamID.AutoSize = true;
+            this.radioButtonSteamID.Checked = true;
+            this.radioButtonSteamID.Location = new System.Drawing.Point(6, 22);
+            this.radioButtonSteamID.Name = "radioButtonSteamID";
+            this.radioButtonSteamID.Size = new System.Drawing.Size(73, 19);
+            this.radioButtonSteamID.TabIndex = 4;
+            this.radioButtonSteamID.TabStop = true;
+            this.radioButtonSteamID.Text = "Steam-ID";
+            this.radioButtonSteamID.UseVisualStyleBackColor = true;
+            this.radioButtonSteamID.CheckedChanged += new System.EventHandler(this.RadioButtonSteamID_CheckedChanged);
             // 
-            // radioButton2
+            // radioButtonProfileID
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(6, 47);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(75, 19);
-            this.radioButton2.TabIndex = 5;
-            this.radioButton2.Text = "Profile-ID";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButtonProfileID.AutoSize = true;
+            this.radioButtonProfileID.Location = new System.Drawing.Point(6, 47);
+            this.radioButtonProfileID.Name = "radioButtonProfileID";
+            this.radioButtonProfileID.Size = new System.Drawing.Size(75, 19);
+            this.radioButtonProfileID.TabIndex = 5;
+            this.radioButtonProfileID.Text = "Profile-ID";
+            this.radioButtonProfileID.UseVisualStyleBackColor = true;
+            this.radioButtonProfileID.CheckedChanged += new System.EventHandler(this.RadioButtonProfileID_CheckedChanged);
             // 
             // textBoxSettingSteamId
             // 
@@ -850,7 +856,7 @@
             this.textBoxSettingSteamId.Name = "textBoxSettingSteamId";
             this.textBoxSettingSteamId.Size = new System.Drawing.Size(166, 23);
             this.textBoxSettingSteamId.TabIndex = 1;
-            this.textBoxSettingSteamId.TextChanged += new System.EventHandler(this.TextBoxSettingSteamId_TextChanged);
+            this.textBoxSettingSteamId.TextChanged += new System.EventHandler(this.TextBoxSettingProfileId_TextChanged);
             // 
             // textBoxSettingProfileId
             // 
@@ -985,8 +991,8 @@
         private System.Windows.Forms.Label labelSettingsCountry;
         private System.Windows.Forms.Label labelSettingsName;
         private System.Windows.Forms.GroupBox groupBoxPlayer;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButtonSteamID;
+        private System.Windows.Forms.RadioButton radioButtonProfileID;
         private System.Windows.Forms.TextBox textBoxSettingProfileId;
     }
 }

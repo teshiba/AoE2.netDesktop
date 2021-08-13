@@ -22,6 +22,8 @@
         private readonly List<PictureBox> pictureBox = new ();
         private readonly Language language;
 
+        private IdType selectedId;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FormMain"/> class.
         /// </summary>
@@ -30,17 +32,36 @@
             : base(new CtrlMain())
         {
             this.language = language;
+            selectedId = IdType.Steam;
+
             InitializeComponent();
             labelAveRate1.ForeColor = labelAveRate1.BackColor;
             labelAveRate2.ForeColor = labelAveRate2.BackColor;
             labelGameId.ForeColor = labelGameId.BackColor;
             labelServer.ForeColor = labelServer.BackColor;
             labelMap.ForeColor = labelMap.BackColor;
+            InitIDRadioButton();
             InitEachPlayersCtrlList();
         }
 
         /// <inheritdoc/>
         protected override CtrlMain Controler { get => (CtrlMain)base.Controler; }
+
+        private void InitIDRadioButton()
+        {
+            selectedId = (IdType)Settings.Default.SelectedIdType;
+
+            switch (selectedId) {
+            case IdType.Steam:
+                radioButtonSteamID.Checked = true;
+                break;
+            case IdType.Profile:
+                radioButtonProfileID.Checked = true;
+                break;
+            default:
+                break;
+            }
+        }
 
         private void InitEachPlayersCtrlList()
         {
@@ -150,20 +171,37 @@
         private void LoadSettings()
         {
             textBoxSettingSteamId.Text = Settings.Default.SteamId.ToString();
+            textBoxSettingProfileId.Text = Settings.Default.ProfileId.ToString();
         }
 
-        private void StartVerify()
+        private void StartVerify(IdType idType, string idText)
         {
             buttonUpdate.Enabled = false;
             labelSettingsName.Text = $"   Name: --";
             labelSettingsCountry.Text = $"Country: --";
-            Controler.DelayStart(DelayFunction);
+
+            if (selectedId == idType) {
+                Controler.DelayStart(DelayFunction);
+            }
 
             async Task DelayFunction()
             {
                 try {
-                    var ret = await Controler.GetPlayerDataAsync(textBoxSettingSteamId.Text);
-                    Settings.Default.SteamId = textBoxSettingSteamId.Text;
+                    bool ret;
+                    ret = await Controler.GetPlayerDataAsync(idType, idText);
+
+                    switch (idType) {
+                    case IdType.Steam:
+                        Settings.Default.SteamId = textBoxSettingSteamId.Text;
+                        break;
+                    case IdType.Profile:
+                        Settings.Default.ProfileId = int.Parse(textBoxSettingProfileId.Text);
+                        break;
+                    default:
+                        ret = false;
+                        break;
+                    }
+
                     buttonUpdate.Enabled = ret;
                 } catch (Exception ex) {
                     labelErrText.Text = ex.Message;
@@ -185,7 +223,12 @@
 
             ClearLastMatch();
             try {
-                var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(textBoxSettingSteamId.Text);
+                var idText = selectedId switch {
+                    IdType.Steam => textBoxSettingSteamId.Text,
+                    IdType.Profile => textBoxSettingProfileId.Text,
+                    _ => string.Empty,
+                };
+                var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(selectedId, idText);
                 SetLastMatchData(playerLastmatch);
             } catch (Exception ex) {
                 labelErrText.Text = ex.Message;
@@ -315,7 +358,29 @@
 
         private void TextBoxSettingSteamId_TextChanged(object sender, EventArgs e)
         {
-            StartVerify();
+            StartVerify(IdType.Steam, textBoxSettingSteamId.Text);
+        }
+
+        private void TextBoxSettingProfileId_TextChanged(object sender, EventArgs e)
+        {
+            StartVerify(IdType.Profile, textBoxSettingProfileId.Text);
+        }
+
+        private void RadioButtonProfileID_CheckedChanged(object sender, EventArgs e)
+        {
+            textBoxSettingProfileId.Enabled = true;
+            textBoxSettingSteamId.Enabled = false;
+            Settings.Default.SelectedIdType = (int)IdType.Profile;
+            selectedId = IdType.Profile;
+            StartVerify(IdType.Profile, textBoxSettingProfileId.Text);
+        }
+
+        private void RadioButtonSteamID_CheckedChanged(object sender, EventArgs e)
+        {
+            textBoxSettingProfileId.Enabled = false;
+            textBoxSettingSteamId.Enabled = true;
+            Settings.Default.SelectedIdType = (int)IdType.Steam;
+            StartVerify(IdType.Steam, textBoxSettingSteamId.Text);
         }
     }
 }

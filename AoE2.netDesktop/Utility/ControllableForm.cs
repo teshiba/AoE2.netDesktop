@@ -11,6 +11,13 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ControllableForm"/> class.
         /// </summary>
+        public ControllableForm()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ControllableForm"/> class.
+        /// </summary>
         /// <param name="formControler">formControler.</param>
         public ControllableForm(FormControler formControler)
         {
