@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LibAoE2net;
+using System.Collections.Generic;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -307,7 +308,7 @@ namespace LibAoE2net.Tests
             AoE2net.ComClient = new TestHttpClient();
 
             // Act
-            var actVal = Task.Run(() 
+            var actVal = Task.Run(()
                 => AoE2net.GetStringsAsync(language)
                 ).Result;
 
@@ -364,6 +365,36 @@ namespace LibAoE2net.Tests
 
             // Assert
             Assert.IsNull(actVal);
+        }
+
+        [TestMethod()]
+        public void GetPlayerMatchHistoryAsyncTeststeamId()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+
+            // Act
+            var actVal = AoE2net.GetPlayerMatchHistoryAsync(
+                                0, 10, TestInit.AvailableUserSteamId).Result;
+
+            // Assert
+            Assert.AreEqual("playerMatchHistoryaoe2de00000000000000001data1", actVal[0].Server);
+            Assert.AreEqual("playerMatchHistoryaoe2de00000000000000001data2", actVal[1].Server);
+        }
+
+        [TestMethod()]
+        public void GetPlayerMatchHistoryAsyncTestprofileId()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+
+            // Act
+            var actVal = AoE2net.GetPlayerMatchHistoryAsync(
+                                0, 10, TestInit.AvailableUserProfileId).Result;
+
+            // Assert
+            Assert.AreEqual("playerMatchHistoryaoe2de1data1", actVal[0].Server);
+            Assert.AreEqual("playerMatchHistoryaoe2de1data2", actVal[1].Server);
         }
     }
 }

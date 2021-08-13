@@ -38,6 +38,7 @@ namespace LibAoE2net
             var ret = apiEndPoint switch {
                 "player/lastmatch" => ReadplayerLastMatchAsync(requestUri),
                 "player/ratinghistory" => ReadPlayerRatingHistoryAsync(requestUri),
+                "player/matches" => ReadGetPlayerMatchHistoryAsync(requestUri),
                 "strings" => ReadStringsAsync(requestUri),
                 _ => null,
             };
@@ -73,6 +74,15 @@ namespace LibAoE2net
             var language = args[4];
 
             return File.ReadAllTextAsync($"{TestDataPath}/Strings-{game}-{language}.json");
+        }
+
+        private static Task<string> ReadGetPlayerMatchHistoryAsync(string requestUri)
+        {
+            var args = requestUri.Split('=', '&', '?');
+            var game = args[2];
+            var steamId = args[4];
+
+            return File.ReadAllTextAsync($"{TestDataPath}/playerMatchHistory{game}{steamId}.json");
         }
     }
 }
