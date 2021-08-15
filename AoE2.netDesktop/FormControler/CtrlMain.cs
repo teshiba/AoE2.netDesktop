@@ -6,6 +6,9 @@
     using System.Drawing;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using AoE2NetDesktop.Form;
+
     using LibAoE2net;
 
     /// <summary>
@@ -18,8 +21,6 @@
 
         private readonly System.Timers.Timer timerSteamIdVerify;
 
-        private Strings apiStrings;
-        private Strings enStrings;
         private Func<Task> delayedFunction;
         private PlayerLastmatch playerLastmatch;
 
@@ -35,6 +36,11 @@
                 Invoke(delayedFunction);
             };
         }
+
+        /// <summary>
+        /// Gets or sets selected ID type.
+        /// </summary>
+        public IdType SelectedId { get; set; }
 
         /// <summary>
         /// Gets get user country name.
@@ -148,12 +154,19 @@
         /// </summary>
         /// <param name="language">language used.</param>
         /// <returns>controler instance.</returns>
-        public async Task<bool> InitAsync(Language language)
+        public static async Task<bool> InitAsync(Language language)
         {
-            apiStrings = await AoE2net.GetStringsAsync(language);
-            enStrings = await AoE2net.GetStringsAsync(Language.en);
+            await StringsExt.InitAsync(language);
 
             return true;
+        }
+
+        /// <summary>
+        /// Show History.
+        /// </summary>
+        public void ShowHistory()
+        {
+            new CtrlHistory(SelectedId).Show();
         }
 
         /// <summary>
@@ -193,59 +206,6 @@
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Get map name of the match.
-        /// </summary>
-        /// <param name="match">last match.</param>
-        /// <returns>map name.</returns>
-        public string GetMapName(Match match)
-        {
-            string mapName;
-
-            if (match.MapType is int mapType) {
-                mapName = apiStrings.MapType.GetString(mapType);
-                if (mapName == null) {
-                    mapName = $"Unknown(Map No.{mapType})";
-                }
-            } else {
-                mapName = $"Unknown(Map No. N/A)";
-            }
-
-            return mapName;
-        }
-
-        /// <summary>
-        /// Get player's civilization name in English.
-        /// </summary>
-        /// <param name="player">player.</param>
-        /// <returns>civilization name in English.</returns>
-        public string GetCivEnName(Player player)
-            => GetCivName(enStrings, player);
-
-        /// <summary>
-        /// Get player's civilization name.
-        /// </summary>
-        /// <param name="player">player.</param>
-        /// <returns>civilization name.</returns>
-        public string GetCivName(Player player)
-            => GetCivName(apiStrings, player);
-
-        private static string GetCivName(Strings strings, Player player)
-        {
-            string ret;
-
-            if (player.Civ is int id) {
-                ret = strings.Civ.GetString(id);
-                if (ret is null) {
-                    ret = $"invalid civ:{id}";
-                }
-            } else {
-                ret = $"invalid civ:null";
-            }
-
-            return ret;
         }
     }
 }

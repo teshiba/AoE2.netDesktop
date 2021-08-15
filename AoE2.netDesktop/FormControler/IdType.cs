@@ -14,5 +14,10 @@
         /// Profile ID.
         /// </summary>
         Profile,
+
+        /// <summary>
+        /// not selected.
+        /// </summary>
+        NotSelected,
     }
 }

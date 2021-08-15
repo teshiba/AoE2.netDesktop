@@ -34,7 +34,7 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             var testClass = new CtrlMain();
             var actVal = Task.Run(
-                () => testClass.InitAsync(Language.en)
+                () => CtrlMain.InitAsync(Language.en)
                 ).Result;
 
             // Assert
@@ -238,10 +238,10 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             var testClass = new CtrlMain();
             _ = Task.Run(
-                () => testClass.InitAsync(Language.en)
+                () => CtrlMain.InitAsync(Language.en)
                 ).Result;
 
-            var actVal = testClass.GetMapName(match);
+            var actVal = match.GetMapName();
 
             // Assert
             Assert.AreEqual(expVal, actVal);
@@ -262,10 +262,10 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             var testClass = new CtrlMain();
             _ = Task.Run(
-                () => testClass.InitAsync(Language.en)
+                () => CtrlMain.InitAsync(Language.en)
                 ).Result;
 
-            var actVal = testClass.GetCivEnName(player);
+            var actVal = player.GetCivEnName();
 
             // Assert
             Assert.AreEqual(expVal, actVal);
@@ -286,10 +286,10 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             var testClass = new CtrlMain();
             _ = Task.Run(
-                () => testClass.InitAsync(Language.en)
+                () => CtrlMain.InitAsync(Language.en)
                 ).Result;
 
-            var actVal = testClass.GetCivName(player);
+            var actVal = player.GetCivName();
 
             // Assert
             Assert.AreEqual(expVal, actVal);

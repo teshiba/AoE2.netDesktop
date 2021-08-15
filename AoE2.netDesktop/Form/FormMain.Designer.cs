@@ -87,6 +87,7 @@
             this.labelSettingsCountry = new System.Windows.Forms.Label();
             this.labelSettingsName = new System.Windows.Forms.Label();
             this.checkBoxAlwaysOnTop = new System.Windows.Forms.CheckBox();
+            this.buttonViewHistory = new System.Windows.Forms.Button();
             this.tabControlMain.SuspendLayout();
             this.tabPagePlayerLastMatch.SuspendLayout();
             this.panelTeam2.SuspendLayout();
@@ -147,7 +148,6 @@
             this.labelErrText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelErrText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
             this.labelErrText.Location = new System.Drawing.Point(8, 447);
             this.labelErrText.Name = "labelErrText";
@@ -810,6 +810,7 @@
             this.groupBoxPlayer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxPlayer.Controls.Add(this.buttonViewHistory);
             this.groupBoxPlayer.Controls.Add(this.radioButtonSteamID);
             this.groupBoxPlayer.Controls.Add(this.radioButtonProfileID);
             this.groupBoxPlayer.Controls.Add(this.textBoxSettingSteamId);
@@ -900,6 +901,17 @@
             this.checkBoxAlwaysOnTop.Text = "Always on top";
             this.checkBoxAlwaysOnTop.UseVisualStyleBackColor = true;
             this.checkBoxAlwaysOnTop.CheckedChanged += new System.EventHandler(this.CheckBoxAlwaysOnTop_CheckedChanged);
+            // 
+            // buttonViewHistory
+            // 
+            this.buttonViewHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonViewHistory.Location = new System.Drawing.Point(138, 135);
+            this.buttonViewHistory.Name = "buttonViewHistory";
+            this.buttonViewHistory.Size = new System.Drawing.Size(115, 35);
+            this.buttonViewHistory.TabIndex = 6;
+            this.buttonViewHistory.Text = "ViewHistory(&V)...";
+            this.buttonViewHistory.UseVisualStyleBackColor = true;
+            this.buttonViewHistory.Click += new System.EventHandler(this.ButtonViewHistory_Click);
             // 
             // FormMain
             // 
@@ -994,5 +1006,6 @@
         private System.Windows.Forms.RadioButton radioButtonSteamID;
         private System.Windows.Forms.RadioButton radioButtonProfileID;
         private System.Windows.Forms.TextBox textBoxSettingProfileId;
+        private System.Windows.Forms.Button buttonViewHistory;
     }
 }

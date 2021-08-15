@@ -22,8 +22,6 @@
         private readonly List<PictureBox> pictureBox = new ();
         private readonly Language language;
 
-        private IdType selectedId;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FormMain"/> class.
         /// </summary>
@@ -32,7 +30,7 @@
             : base(new CtrlMain())
         {
             this.language = language;
-            selectedId = IdType.Steam;
+            Controler.SelectedId = IdType.Steam;
 
             InitializeComponent();
             labelAveRate1.ForeColor = labelAveRate1.BackColor;
@@ -49,9 +47,9 @@
 
         private void InitIDRadioButton()
         {
-            selectedId = (IdType)Settings.Default.SelectedIdType;
+            Controler.SelectedId = (IdType)Settings.Default.SelectedIdType;
 
-            switch (selectedId) {
+            switch (Controler.SelectedId) {
             case IdType.Steam:
                 radioButtonSteamID.Checked = true;
                 break;
@@ -145,7 +143,7 @@
             var aveTeam2 = CtrlMain.GetAverageRate(match.Players, TeamType.EvenColorNo);
             labelAveRate1.Text = $"Team1 Ave. Rate:{aveTeam1}";
             labelAveRate2.Text = $"Team2 Ave. Rate:{aveTeam2}";
-            labelMap.Text = $"Map: {Controler.GetMapName(match)}";
+            labelMap.Text = $"Map: {match.GetMapName()}";
             labelGameId.Text = $"GameID: {match.MatchId}";
             labelServer.Text = $"Server: {match.Server}";
         }
@@ -155,10 +153,10 @@
             foreach (var player in players) {
                 if (player.Color - 1 is int index
                     && index < PlayerNumMax) {
-                    pictureBox[index].ImageLocation = AoE2net.GetCivImageLocation(Controler.GetCivEnName(player));
+                    pictureBox[index].ImageLocation = AoE2net.GetCivImageLocation(player.GetCivEnName());
                     labelRate[index].Text = CtrlMain.GetRateString(player.Rating);
                     labelName[index].Text = CtrlMain.GetPlayerNameString(player.Name);
-                    labelCiv[index].Text = Controler.GetCivName(player);
+                    labelCiv[index].Text = player.GetCivName();
                     labelName[index].Font = CtrlMain.GetFontStyle(player, labelName[index].Font);
                     pictureBox[index].Visible = true;
                     labelName[index].Tag = player;
@@ -177,10 +175,12 @@
         private void StartVerify(IdType idType, string idText)
         {
             buttonUpdate.Enabled = false;
+            buttonViewHistory.Enabled = false;
+
             labelSettingsName.Text = $"   Name: --";
             labelSettingsCountry.Text = $"Country: --";
 
-            if (selectedId == idType) {
+            if (Controler.SelectedId == idType) {
                 Controler.DelayStart(DelayFunction);
             }
 
@@ -203,6 +203,7 @@
                     }
 
                     buttonUpdate.Enabled = ret;
+                    buttonViewHistory.Enabled = ret;
                 } catch (Exception ex) {
                     labelErrText.Text = ex.Message;
                 }
@@ -223,12 +224,12 @@
 
             ClearLastMatch();
             try {
-                var idText = selectedId switch {
+                var idText = Controler.SelectedId switch {
                     IdType.Steam => textBoxSettingSteamId.Text,
                     IdType.Profile => textBoxSettingProfileId.Text,
                     _ => string.Empty,
                 };
-                var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(selectedId, idText);
+                var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(Controler.SelectedId, idText);
                 SetLastMatchData(playerLastmatch);
             } catch (Exception ex) {
                 labelErrText.Text = ex.Message;
@@ -242,7 +243,7 @@
         {
             ClearLastMatch();
             try {
-                _ = await Controler.InitAsync(language);
+                _ = await CtrlMain.InitAsync(language);
                 LoadSettings();
             } catch (Exception ex) {
                 labelErrText.Text = ex.Message;
@@ -371,7 +372,7 @@
             textBoxSettingProfileId.Enabled = true;
             textBoxSettingSteamId.Enabled = false;
             Settings.Default.SelectedIdType = (int)IdType.Profile;
-            selectedId = IdType.Profile;
+            Controler.SelectedId = IdType.Profile;
             StartVerify(IdType.Profile, textBoxSettingProfileId.Text);
         }
 
@@ -381,6 +382,11 @@
             textBoxSettingSteamId.Enabled = true;
             Settings.Default.SelectedIdType = (int)IdType.Steam;
             StartVerify(IdType.Steam, textBoxSettingSteamId.Text);
+        }
+
+        private void ButtonViewHistory_Click(object sender, EventArgs e)
+        {
+            Controler.ShowHistory();
         }
     }
 }

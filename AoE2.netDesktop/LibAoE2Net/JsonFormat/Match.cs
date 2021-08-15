@@ -2,8 +2,10 @@
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 namespace LibAoE2net
 {
+    using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
+    using System.Windows.Forms;
 
     /// <summary>
     /// Match properties.
