@@ -48,6 +48,7 @@ namespace AoE2NetDesktop.Form
             this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
             this.tabPageStatistics = new System.Windows.Forms.TabPage();
+            this.formsPlotWinRate1v1EachMap = new ScottPlot.FormsPlot();
             this.formsPlotRate = new ScottPlot.FormsPlot();
             this.listViewStatistics = new System.Windows.Forms.ListView();
             this.columnHeaderLeaderboard = new System.Windows.Forms.ColumnHeader();
@@ -58,10 +59,21 @@ namespace AoE2NetDesktop.Form
             this.columnHeaderWins = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderLosses = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderWinRate = new System.Windows.Forms.ColumnHeader();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.formsPlotWinRateTeamEachMap = new ScottPlot.FormsPlot();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tabControl1.SuspendLayout();
             this.tabPage1v1RandomMap.SuspendLayout();
             this.tabPageTeamRandomMap.SuspendLayout();
             this.tabPageStatistics.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // listViewHistory1v1
@@ -83,7 +95,7 @@ namespace AoE2NetDesktop.Form
             this.listViewHistory1v1.HideSelection = false;
             this.listViewHistory1v1.Location = new System.Drawing.Point(3, 3);
             this.listViewHistory1v1.Name = "listViewHistory1v1";
-            this.listViewHistory1v1.Size = new System.Drawing.Size(806, 600);
+            this.listViewHistory1v1.Size = new System.Drawing.Size(1099, 775);
             this.listViewHistory1v1.TabIndex = 0;
             this.listViewHistory1v1.UseCompatibleStateImageBehavior = false;
             this.listViewHistory1v1.View = System.Windows.Forms.View.Details;
@@ -130,9 +142,8 @@ namespace AoE2NetDesktop.Form
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(820, 634);
+            this.tabControl1.Size = new System.Drawing.Size(1147, 806);
             this.tabControl1.TabIndex = 2;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1v1RandomMap
             // 
@@ -140,7 +151,7 @@ namespace AoE2NetDesktop.Form
             this.tabPage1v1RandomMap.Location = new System.Drawing.Point(4, 24);
             this.tabPage1v1RandomMap.Name = "tabPage1v1RandomMap";
             this.tabPage1v1RandomMap.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1v1RandomMap.Size = new System.Drawing.Size(812, 606);
+            this.tabPage1v1RandomMap.Size = new System.Drawing.Size(1102, 778);
             this.tabPage1v1RandomMap.TabIndex = 0;
             this.tabPage1v1RandomMap.Text = "1v1 Random Map";
             this.tabPage1v1RandomMap.UseVisualStyleBackColor = true;
@@ -150,7 +161,7 @@ namespace AoE2NetDesktop.Form
             this.tabPageTeamRandomMap.Controls.Add(this.listViewHistoryTeam);
             this.tabPageTeamRandomMap.Location = new System.Drawing.Point(4, 24);
             this.tabPageTeamRandomMap.Name = "tabPageTeamRandomMap";
-            this.tabPageTeamRandomMap.Size = new System.Drawing.Size(812, 606);
+            this.tabPageTeamRandomMap.Size = new System.Drawing.Size(1102, 778);
             this.tabPageTeamRandomMap.TabIndex = 2;
             this.tabPageTeamRandomMap.Text = "Team Random Map";
             this.tabPageTeamRandomMap.UseVisualStyleBackColor = true;
@@ -174,7 +185,7 @@ namespace AoE2NetDesktop.Form
             this.listViewHistoryTeam.HideSelection = false;
             this.listViewHistoryTeam.Location = new System.Drawing.Point(3, 3);
             this.listViewHistoryTeam.Name = "listViewHistoryTeam";
-            this.listViewHistoryTeam.Size = new System.Drawing.Size(806, 600);
+            this.listViewHistoryTeam.Size = new System.Drawing.Size(1099, 775);
             this.listViewHistoryTeam.TabIndex = 1;
             this.listViewHistoryTeam.UseCompatibleStateImageBehavior = false;
             this.listViewHistoryTeam.View = System.Windows.Forms.View.Details;
@@ -214,26 +225,34 @@ namespace AoE2NetDesktop.Form
             // 
             // tabPageStatistics
             // 
-            this.tabPageStatistics.Controls.Add(this.formsPlotRate);
+            this.tabPageStatistics.Controls.Add(this.splitContainer1);
             this.tabPageStatistics.Controls.Add(this.listViewStatistics);
             this.tabPageStatistics.Location = new System.Drawing.Point(4, 24);
             this.tabPageStatistics.Name = "tabPageStatistics";
             this.tabPageStatistics.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageStatistics.Size = new System.Drawing.Size(812, 606);
+            this.tabPageStatistics.Size = new System.Drawing.Size(1139, 778);
             this.tabPageStatistics.TabIndex = 1;
             this.tabPageStatistics.Text = "Statistics";
             this.tabPageStatistics.UseVisualStyleBackColor = true;
             // 
+            // formsPlotWinRate1v1EachMap
+            // 
+            this.formsPlotWinRate1v1EachMap.BackColor = System.Drawing.Color.Transparent;
+            this.formsPlotWinRate1v1EachMap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.formsPlotWinRate1v1EachMap.Location = new System.Drawing.Point(0, 0);
+            this.formsPlotWinRate1v1EachMap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.formsPlotWinRate1v1EachMap.Name = "formsPlotWinRate1v1EachMap";
+            this.formsPlotWinRate1v1EachMap.Size = new System.Drawing.Size(686, 328);
+            this.formsPlotWinRate1v1EachMap.TabIndex = 5;
+            // 
             // formsPlotRate
             // 
-            this.formsPlotRate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.formsPlotRate.BackColor = System.Drawing.Color.Transparent;
-            this.formsPlotRate.Location = new System.Drawing.Point(4, 90);
+            this.formsPlotRate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.formsPlotRate.Location = new System.Drawing.Point(0, 0);
             this.formsPlotRate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotRate.Name = "formsPlotRate";
-            this.formsPlotRate.Size = new System.Drawing.Size(805, 513);
+            this.formsPlotRate.Size = new System.Drawing.Size(445, 686);
             this.formsPlotRate.TabIndex = 3;
             // 
             // listViewStatistics
@@ -254,7 +273,7 @@ namespace AoE2NetDesktop.Form
             this.listViewStatistics.HideSelection = false;
             this.listViewStatistics.Location = new System.Drawing.Point(0, 0);
             this.listViewStatistics.Name = "listViewStatistics";
-            this.listViewStatistics.Size = new System.Drawing.Size(812, 84);
+            this.listViewStatistics.Size = new System.Drawing.Size(1139, 84);
             this.listViewStatistics.TabIndex = 2;
             this.listViewStatistics.UseCompatibleStateImageBehavior = false;
             this.listViewStatistics.View = System.Windows.Forms.View.Details;
@@ -293,11 +312,62 @@ namespace AoE2NetDesktop.Form
             // 
             this.columnHeaderWinRate.Text = "Win%";
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainer1.Cursor = System.Windows.Forms.Cursors.VSplit;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 90);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.formsPlotRate);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Size = new System.Drawing.Size(1139, 688);
+            this.splitContainer1.SplitterDistance = 447;
+            this.splitContainer1.TabIndex = 6;
+            // 
+            // formsPlotWinRateTeamEachMap
+            // 
+            this.formsPlotWinRateTeamEachMap.BackColor = System.Drawing.Color.Transparent;
+            this.formsPlotWinRateTeamEachMap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.formsPlotWinRateTeamEachMap.Location = new System.Drawing.Point(0, 0);
+            this.formsPlotWinRateTeamEachMap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.formsPlotWinRateTeamEachMap.Name = "formsPlotWinRateTeamEachMap";
+            this.formsPlotWinRateTeamEachMap.Size = new System.Drawing.Size(686, 352);
+            this.formsPlotWinRateTeamEachMap.TabIndex = 5;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainer2.Cursor = System.Windows.Forms.Cursors.VSplit;
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.formsPlotWinRate1v1EachMap);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.formsPlotWinRateTeamEachMap);
+            this.splitContainer2.Size = new System.Drawing.Size(688, 688);
+            this.splitContainer2.SplitterDistance = 330;
+            this.splitContainer2.TabIndex = 6;
+            // 
             // FormHistory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(820, 634);
+            this.ClientSize = new System.Drawing.Size(1147, 806);
             this.Controls.Add(this.tabControl1);
             this.Name = "FormHistory";
             this.Text = "FormHistory";
@@ -306,6 +376,14 @@ namespace AoE2NetDesktop.Form
             this.tabPage1v1RandomMap.ResumeLayout(false);
             this.tabPageTeamRandomMap.ResumeLayout(false);
             this.tabPageStatistics.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -342,5 +420,9 @@ namespace AoE2NetDesktop.Form
         private System.Windows.Forms.ColumnHeader columnHeaderLosses;
         private System.Windows.Forms.ColumnHeader columnHeaderWinRate;
         private ScottPlot.FormsPlot formsPlotRate;
+        private ScottPlot.FormsPlot formsPlotWinRate1v1EachMap;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private ScottPlot.FormsPlot formsPlotWinRateTeamEachMap;
     }
 }
