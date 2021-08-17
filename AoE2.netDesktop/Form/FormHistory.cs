@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
     using AoE2NetDesktop.From;
@@ -36,9 +37,33 @@
                 UpdateRatePlot();
                 UpdateWinRateEachMap(LeaderBoardId.OneVOneRandomMap, formsPlotWinRate1v1EachMap.Plot);
                 UpdateWinRateEachMap(LeaderBoardId.TeamRandomMap, formsPlotWinRateTeamEachMap.Plot);
+                UpdateMapRate(LeaderBoardId.OneVOneRandomMap, formsPlotMapRate1v1.Plot);
+                UpdateMapRate(LeaderBoardId.TeamRandomMap, formsPlotMapRateTeam.Plot);
             } else {
                 Debug.Print("ReadPlayerMatchHistoryAsync ERROR.");
             }
+        }
+
+        private void UpdateMapRate(LeaderBoardId leaderBoardId, Plot plot)
+        {
+            var mapRate = new Dictionary<string, double>();
+
+            foreach (var item in Controler.PlayerMatchHistory) {
+                if (item.LeaderboardId == leaderBoardId) {
+                    if (!mapRate.ContainsKey(item.GetMapName())) {
+                        mapRate.Add(item.GetMapName(), 0);
+                    }
+
+                    mapRate[item.GetMapName()]++;
+                }
+            }
+
+            var pie = plot.AddPie(mapRate.Values.ToArray());
+            pie.SliceLabels = mapRate.Keys.ToArray();
+            pie.ShowPercentages = true;
+            pie.ShowValues = true;
+            pie.ShowLabels = true;
+            plot.Legend();
         }
 
         private void UpdateWinRateEachMap(LeaderBoardId leaderBoardId, Plot plot)
@@ -148,8 +173,56 @@
             var xs1v1 = dateList1v1.Select(x => x.ToOADate()).ToArray();
             var xsTeam = dateListTeam.Select(x => x.ToOADate()).ToArray();
             formsPlotRate.Plot.XAxis.DateTimeFormat(true);
-            formsPlotRate.Plot.AddScatter(xs1v1, rateList1v1.ToArray());
-            formsPlotRate.Plot.AddScatter(xsTeam, rateListTeam.ToArray());
+
+            var ohlc1v1 = new List<OHLC>();
+            var ohlcTeam = new List<OHLC>();
+            var oneDay = new TimeSpan(3, 0, 0, 0);
+
+            ohlc1v1.Add(new OHLC(rateList1v1[0], rateList1v1[0], rateList1v1[0], rateList1v1[0], dateList1v1[0], oneDay));
+            for (int i = 1; i < xs1v1.Length; i++) {
+                if (ohlc1v1.Last().DateTime.Date != dateList1v1[i].Date) {
+                    ohlc1v1.Add(new OHLC(rateList1v1[i], rateList1v1[i], rateList1v1[i], rateList1v1[i], dateList1v1[i], oneDay));
+                } else {
+                    if (ohlc1v1.Last().High < rateList1v1[i]) {
+                        ohlc1v1.Last().High = rateList1v1[i];
+                    }
+
+                    if (rateList1v1[i] < ohlc1v1.Last().Low) {
+                        ohlc1v1.Last().Low = rateList1v1[i];
+                    }
+
+                    ohlc1v1.Last().Close = rateList1v1[i];
+                }
+            }
+
+            ohlcTeam.Add(new OHLC(rateListTeam[0], rateListTeam[0], rateListTeam[0], rateListTeam[0], dateListTeam[0], oneDay));
+            for (int i = 1; i < xsTeam.Length; i++) {
+                if (ohlcTeam.Last().DateTime.Date != dateListTeam[i].Date) {
+                    ohlcTeam.Add(new OHLC(rateListTeam[i], rateListTeam[i], rateListTeam[i], rateListTeam[i], dateListTeam[i], oneDay));
+                } else {
+                    if (ohlcTeam.Last().High < rateListTeam[i]) {
+                        ohlcTeam.Last().High = rateListTeam[i];
+                    }
+
+                    if (rateListTeam[i] < ohlcTeam.Last().Low) {
+                        ohlcTeam.Last().Low = rateListTeam[i];
+                    }
+
+                    ohlcTeam.Last().Close = rateListTeam[i];
+                }
+            }
+
+            formsPlotRate.Plot.AddScatterLines(xs1v1, rateList1v1.ToArray(), lineStyle: LineStyle.Dot);
+            formsPlotRate.Plot.AddScatterLines(xsTeam, rateListTeam.ToArray(), lineStyle: LineStyle.Dot);
+
+            var candlePlot1v1 = formsPlotRate.Plot.AddCandlesticks(ohlc1v1.ToArray());
+            var candlePlotTeam = formsPlotRate.Plot.AddCandlesticks(ohlcTeam.ToArray());
+
+            var bol1v1 = candlePlot1v1.GetBollingerBands(7);
+            var bolTeam = candlePlotTeam.GetBollingerBands(7);
+
+            formsPlotRate.Plot.AddScatterLines(bol1v1.xs, bol1v1.sma, Color.Blue);
+            formsPlotRate.Plot.AddScatterLines(bolTeam.xs, bolTeam.sma, Color.Blue);
         }
     }
 }
