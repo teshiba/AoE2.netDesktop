@@ -9,12 +9,22 @@
     using AoE2NetDesktop.From;
     using LibAoE2net;
     using ScottPlot;
+    using ScottPlot.Plottable;
 
     /// <summary>
     /// FormHistory class.
     /// </summary>
     public partial class FormHistory : ControllableForm
     {
+        private ScatterPlot highlightedPoint1v1;
+        private ScatterPlot highlightedPointTeam;
+        private Tooltip tooltip1v1;
+        private Tooltip tooltipTeam;
+        private ScatterPlot scatterPlot1v1;
+        private ScatterPlot scatterPlotTeam;
+        private int lastHighlightedIndex1v1 = -1;
+        private int lastHighlightedIndexTeam = -1;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FormHistory"/> class.
         /// </summary>
@@ -23,6 +33,36 @@
             : base(ctrlHistory)
         {
             InitializeComponent();
+            formsPlotMapRate1v1.Configuration.LockHorizontalAxis = true;
+            formsPlotMapRate1v1.Configuration.LockVerticalAxis = true;
+            formsPlotMapRateTeam.Configuration.LockHorizontalAxis = true;
+            formsPlotMapRateTeam.Configuration.LockVerticalAxis = true;
+            formsPlotWinRateTeamEachMap.Configuration.LockHorizontalAxis = true;
+            formsPlotWinRateTeamEachMap.Configuration.LockVerticalAxis = true;
+            formsPlotWinRate1v1EachMap.Configuration.LockHorizontalAxis = true;
+            formsPlotWinRate1v1EachMap.Configuration.LockVerticalAxis = true;
+
+            // Add a red circle we can move around later as a highlighted point indicator
+            highlightedPointTeam = formsPlotMapRateTeam.Plot.AddPoint(0, 0);
+            highlightedPointTeam.Color = Color.Red;
+            highlightedPointTeam.MarkerSize = 10;
+            highlightedPointTeam.MarkerShape = MarkerShape.openCircle;
+
+            formsPlotWinRateTeamEachMap.Plot.Title("1v1 Random Map Count");
+            formsPlotWinRateTeamEachMap.Plot.YLabel("Map");
+            formsPlotWinRateTeamEachMap.Plot.XLabel("Win / Total Game count");
+
+            formsPlotWinRate1v1EachMap.Plot.Title("1v1 Random Map Count");
+            formsPlotWinRate1v1EachMap.Plot.YLabel("Map");
+            formsPlotWinRate1v1EachMap.Plot.XLabel("Win / Total Game count");
+
+            formsPlotRate1v1.Plot.Title("1v1 Random Map Rate");
+            formsPlotRate1v1.Plot.YLabel("Rate");
+            formsPlotRate1v1.Plot.XLabel("Date");
+
+            formsPlotRateTeam.Plot.Title("1v1 Random Map Rate");
+            formsPlotRateTeam.Plot.YLabel("Rate");
+            formsPlotRateTeam.Plot.XLabel("Date");
         }
 
         /// <inheritdoc/>
@@ -34,7 +74,8 @@
 
             if (ret) {
                 UpdateListView();
-                UpdateRatePlot();
+                UpdateRate1v1();
+                UpdateRateTeam();
                 UpdateWinRateEachMap(LeaderBoardId.OneVOneRandomMap, formsPlotWinRate1v1EachMap.Plot);
                 UpdateWinRateEachMap(LeaderBoardId.TeamRandomMap, formsPlotWinRateTeamEachMap.Plot);
                 UpdateMapRate(LeaderBoardId.OneVOneRandomMap, formsPlotMapRate1v1.Plot);
@@ -42,6 +83,36 @@
             } else {
                 Debug.Print("ReadPlayerMatchHistoryAsync ERROR.");
             }
+        }
+
+        private void UpdateRate1v1()
+        {
+            scatterPlot1v1 = UpdateRatePlot(LeaderBoardId.OneVOneRandomMap, formsPlotRate1v1.Plot);
+            highlightedPoint1v1 = formsPlotRate1v1.Plot.AddPoint(0, 0);
+            highlightedPoint1v1.Color = Color.Red;
+            highlightedPoint1v1.MarkerSize = 10;
+            highlightedPoint1v1.MarkerShape = MarkerShape.openCircle;
+            tooltip1v1 = formsPlotRate1v1.Plot.AddTooltip(label: "Rate", x: -1000, y: -1000);
+            tooltip1v1.LabelPadding = 0;
+            tooltip1v1.FillColor = Color.White;
+            tooltip1v1.Font.Size = 16;
+            tooltip1v1.Font.Bold = true;
+            formsPlotRate1v1.Render();
+        }
+
+        private void UpdateRateTeam()
+        {
+            scatterPlotTeam = UpdateRatePlot(LeaderBoardId.TeamRandomMap, formsPlotRateTeam.Plot);
+            highlightedPointTeam = formsPlotRateTeam.Plot.AddPoint(0, 0);
+            highlightedPointTeam.Color = Color.Red;
+            highlightedPointTeam.MarkerSize = 10;
+            highlightedPointTeam.MarkerShape = MarkerShape.openCircle;
+            tooltipTeam = formsPlotRateTeam.Plot.AddTooltip(label: "Rate", x: -1000, y: -1000);
+            tooltipTeam.LabelPadding = 0;
+            tooltipTeam.FillColor = Color.White;
+            tooltipTeam.Font.Size = 16;
+            tooltipTeam.Font.Bold = true;
+            formsPlotRateTeam.Render();
         }
 
         private void UpdateMapRate(LeaderBoardId leaderBoardId, Plot plot)
@@ -103,8 +174,11 @@
             var barLose = plot.AddBar(winList);
             barWin.Orientation = ScottPlot.Orientation.Horizontal;
             barLose.Orientation = ScottPlot.Orientation.Horizontal;
+            barWin.ShowValuesAboveBars = true;
+            barLose.ShowValuesAboveBars = true;
             plot.Legend(location: Alignment.UpperRight);
             plot.YTicks(rateWin.Keys.ToArray());
+            plot.SetAxisLimits(xMin: 0, yMin: -1);
         }
 
         private void UpdateListView()
@@ -144,85 +218,103 @@
             }
         }
 
-        private void UpdateRatePlot()
+        private ScatterPlot UpdateRatePlot(LeaderBoardId leaderBoardId, Plot plot)
         {
-            var dateList1v1 = new List<DateTime>();
-            var rateList1v1 = new List<double>();
-            var dateListTeam = new List<DateTime>();
-            var rateListTeam = new List<double>();
+            var dateList = new List<DateTime>();
+            var rateList = new List<double>();
 
             foreach (var item in Controler.PlayerMatchHistory) {
                 var player = Controler.GetSelectedPlayer(item);
                 if (player.Rating != null) {
                     int rate = (int)player.Rating;
-                    switch (item.LeaderboardId) {
-                    case LeaderBoardId.OneVOneRandomMap:
-                        rateList1v1.Add(rate);
-                        dateList1v1.Add(item.GetOpenedTime());
-                        break;
-                    case LeaderBoardId.TeamRandomMap:
-                        rateListTeam.Add(rate);
-                        dateListTeam.Add(item.GetOpenedTime());
-                        break;
-                    default:
-                        break;
+                    if (item.LeaderboardId == leaderBoardId) {
+                        rateList.Add(rate);
+                        dateList.Add(item.GetOpenedTime());
                     }
                 }
             }
 
-            var xs1v1 = dateList1v1.Select(x => x.ToOADate()).ToArray();
-            var xsTeam = dateListTeam.Select(x => x.ToOADate()).ToArray();
-            formsPlotRate.Plot.XAxis.DateTimeFormat(true);
+            var xs = dateList.Select(x => x.ToOADate()).ToArray();
+            plot.SetViewLimits(xs.Min() - 10, xs.Max() + 10, rateList.Min() - 10, rateList.Max() + 10);
+            plot.XAxis.TickLabelFormat("yyyy/MM/dd", dateTimeFormat: true);
+            plot.XAxis.ManualTickSpacing(1, ScottPlot.Ticks.DateTimeUnit.Month);
+            plot.XAxis.TickLabelStyle(rotation: 45);
 
-            var ohlc1v1 = new List<OHLC>();
-            var ohlcTeam = new List<OHLC>();
-            var oneDay = new TimeSpan(3, 0, 0, 0);
+            var ohlc = new List<OHLC>();
+            var oneDay = new TimeSpan(2, 0, 0, 0);
 
-            ohlc1v1.Add(new OHLC(rateList1v1[0], rateList1v1[0], rateList1v1[0], rateList1v1[0], dateList1v1[0], oneDay));
-            for (int i = 1; i < xs1v1.Length; i++) {
-                if (ohlc1v1.Last().DateTime.Date != dateList1v1[i].Date) {
-                    ohlc1v1.Add(new OHLC(rateList1v1[i], rateList1v1[i], rateList1v1[i], rateList1v1[i], dateList1v1[i], oneDay));
+            ohlc.Add(new OHLC(rateList[0], rateList[0], rateList[0], rateList[0], dateList[0], oneDay));
+            for (int i = 1; i < xs.Length; i++) {
+                if (ohlc.Last().DateTime.Date != dateList[i].Date) {
+                    ohlc.Add(new OHLC(rateList[i], rateList[i], rateList[i], rateList[i], dateList[i], oneDay));
                 } else {
-                    if (ohlc1v1.Last().High < rateList1v1[i]) {
-                        ohlc1v1.Last().High = rateList1v1[i];
+                    if (ohlc.Last().High < rateList[i]) {
+                        ohlc.Last().High = rateList[i];
                     }
 
-                    if (rateList1v1[i] < ohlc1v1.Last().Low) {
-                        ohlc1v1.Last().Low = rateList1v1[i];
+                    if (rateList[i] < ohlc.Last().Low) {
+                        ohlc.Last().Low = rateList[i];
                     }
 
-                    ohlc1v1.Last().Close = rateList1v1[i];
+                    ohlc.Last().Close = rateList[i];
                 }
             }
 
-            ohlcTeam.Add(new OHLC(rateListTeam[0], rateListTeam[0], rateListTeam[0], rateListTeam[0], dateListTeam[0], oneDay));
-            for (int i = 1; i < xsTeam.Length; i++) {
-                if (ohlcTeam.Last().DateTime.Date != dateListTeam[i].Date) {
-                    ohlcTeam.Add(new OHLC(rateListTeam[i], rateListTeam[i], rateListTeam[i], rateListTeam[i], dateListTeam[i], oneDay));
-                } else {
-                    if (ohlcTeam.Last().High < rateListTeam[i]) {
-                        ohlcTeam.Last().High = rateListTeam[i];
-                    }
+            var scatterPlot = plot.AddScatter(xs, rateList.ToArray(), lineStyle: LineStyle.Dot);
+            var candlePlot = plot.AddCandlesticks(ohlc.ToArray());
+            var bol = candlePlot.GetBollingerBands(7);
+            plot.AddScatterLines(bol.xs, bol.sma, Color.Blue);
 
-                    if (rateListTeam[i] < ohlcTeam.Last().Low) {
-                        ohlcTeam.Last().Low = rateListTeam[i];
-                    }
+            return scatterPlot;
+        }
 
-                    ohlcTeam.Last().Close = rateListTeam[i];
+        private void FormsPlotRate1v1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (scatterPlot1v1 != null) {
+                // determine point nearest the cursor
+                (double mouseCoordX, double mouseCoordY) = formsPlotRate1v1.GetMouseCoordinates();
+                double xyRatio = formsPlotRate1v1.Plot.XAxis.Dims.PxPerUnit / formsPlotRate1v1.Plot.YAxis.Dims.PxPerUnit;
+                (double pointX, double pointY, int pointIndex) = scatterPlot1v1.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
+
+                // place the highlight over the point of interest
+                highlightedPoint1v1.Xs[0] = pointX;
+                highlightedPoint1v1.Ys[0] = pointY;
+                highlightedPoint1v1.Label = $"Rate:{pointY}";
+                tooltip1v1.Label = $"Rate:{pointY}";
+                tooltip1v1.X = pointX;
+                tooltip1v1.Y = pointY;
+
+                // render if the highlighted point chnaged
+                if (lastHighlightedIndex1v1 != pointIndex) {
+                    lastHighlightedIndex1v1 = pointIndex;
+                    formsPlotRate1v1.Render();
+                }
+            }
+        }
+
+        private void FormsPlotRateTeam_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (scatterPlotTeam != null) {
+                // determine point nearest the cursor
+                (double mouseCoordX, double mouseCoordY) = formsPlotRateTeam.GetMouseCoordinates();
+                double xyRatio = formsPlotRateTeam.Plot.XAxis.Dims.PxPerUnit / formsPlotRateTeam.Plot.YAxis.Dims.PxPerUnit;
+                (double pointX, double pointY, int pointIndex) = scatterPlotTeam.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
+
+                // place the highlight over the point of interest
+                highlightedPointTeam.Xs[0] = pointX;
+                highlightedPointTeam.Ys[0] = pointY;
+                highlightedPointTeam.Label = $"Rate:{pointY}";
+                tooltipTeam.Label = $"Rate:{pointY}";
+                tooltipTeam.X = pointX;
+                tooltipTeam.Y = pointY;
+
+                // render if the highlighted point chnaged
+                if (lastHighlightedIndexTeam != pointIndex) {
+                    lastHighlightedIndexTeam = pointIndex;
+                    formsPlotRateTeam.Render();
                 }
             }
 
-            formsPlotRate.Plot.AddScatterLines(xs1v1, rateList1v1.ToArray(), lineStyle: LineStyle.Dot);
-            formsPlotRate.Plot.AddScatterLines(xsTeam, rateListTeam.ToArray(), lineStyle: LineStyle.Dot);
-
-            var candlePlot1v1 = formsPlotRate.Plot.AddCandlesticks(ohlc1v1.ToArray());
-            var candlePlotTeam = formsPlotRate.Plot.AddCandlesticks(ohlcTeam.ToArray());
-
-            var bol1v1 = candlePlot1v1.GetBollingerBands(7);
-            var bolTeam = candlePlotTeam.GetBollingerBands(7);
-
-            formsPlotRate.Plot.AddScatterLines(bol1v1.xs, bol1v1.sma, Color.Blue);
-            formsPlotRate.Plot.AddScatterLines(bolTeam.xs, bolTeam.sma, Color.Blue);
         }
     }
 }
