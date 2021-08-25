@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using System.Windows.Forms;
 
     /// <summary>
     /// AoE2net API class.
@@ -146,6 +147,36 @@
             var apiEndPoint = $"player/matches?game={AoE2Version}&profile_id={profileId}&start={start}&count={count}";
 
             return await ComClient.GetFromJsonAsync<PlayerMatchHistory>(apiEndPoint);
+        }
+
+        /// <summary>
+        /// Request the current leaderboards.
+        /// </summary>
+        /// <param name="leaderBoardId">LeaderBoardId.</param>
+        /// <param name="start">Starting rank (Ignored if search, steam_id, or profile_id are defined).</param>
+        /// <param name="count">Number of leaderboard entries to get (Must be 10000 or less)).</param>
+        /// <param name="profileId">Profile ID.</param>
+        /// <returns> Leaderboard for the specified user.</returns>
+        public static async Task<LeaderboardContainer> GetLeaderboardAsync(LeaderBoardId leaderBoardId, int start, int count, int profileId)
+        {
+            var apiEndPoint = $"leaderboard?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&profile_id={profileId}&start={start}&count={count}";
+
+            return await ComClient.GetFromJsonAsync<LeaderboardContainer>(apiEndPoint);
+        }
+
+        /// <summary>
+        /// Request the current leaderboards.
+        /// </summary>
+        /// <param name="leaderBoardId">LeaderBoardId.</param>
+        /// <param name="start">Starting rank (Ignored if search, steam_id, or profile_id are defined).</param>
+        /// <param name="count">Number of leaderboard entries to get (Must be 10000 or less)).</param>
+        /// <param name="steamId">steamID64.</param>
+        /// <returns> Leaderboard for the specified user.</returns>
+        public static async Task<LeaderboardContainer> GetLeaderboardAsync(LeaderBoardId leaderBoardId, int start, int count, string steamId)
+        {
+            var apiEndPoint = $"leaderboard?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&steam_id={steamId}&start={start}&count={count}";
+
+            return await ComClient.GetFromJsonAsync<LeaderboardContainer>(apiEndPoint);
         }
     }
 }

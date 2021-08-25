@@ -1,6 +1,7 @@
 ﻿namespace AoE2NetDesktop.Form
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Threading.Tasks;
     using AoE2NetDesktop.From;
@@ -41,6 +42,11 @@
         /// Gets or sets playerMatchHistory.
         /// </summary>
         public PlayerMatchHistory PlayerMatchHistory { get; set; }
+
+        /// <summary>
+        /// Gets or sets leaderboard List.
+        /// </summary>
+        public Dictionary<LeaderBoardId, Leaderboard> Leaderboards { get; set; } = new ();
 
         /// <summary>
         /// Show history form.
@@ -88,10 +94,83 @@
                     _ => throw new InvalidEnumArgumentException($"invalid {nameof(IdType)}"),
                 };
                 ret = true;
-            } catch (System.Exception) {
+            } catch (Exception) {
                 PlayerMatchHistory = null;
                 ret = false;
             }
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Read player LeaderBoard from AoE2.net.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task<bool> ReadLeaderBoardAsync()
+        {
+            bool ret;
+
+            try {
+                Leaderboards = selectedId switch {
+                    IdType.Steam => await GetLeaderboardSteamId(),
+                    IdType.Profile => await GetLeaderboardProfileId(),
+                    _ => throw new InvalidEnumArgumentException($"invalid {nameof(IdType)}"),
+                };
+                ret = true;
+            } catch (Exception) {
+                PlayerMatchHistory = null;
+                ret = false;
+            }
+
+            return ret;
+        }
+
+        private async Task<Dictionary<LeaderBoardId, Leaderboard>> GetLeaderboardSteamId()
+        {
+            var oneVOneRm = await AoE2net.GetLeaderboardAsync(LeaderBoardId.OneVOneRandomMap, 0, 1, steamId);
+            var oneVOneDm = await AoE2net.GetLeaderboardAsync(LeaderBoardId.OneVOneDeathmatch, 0, 1, steamId);
+            var teamRm = await AoE2net.GetLeaderboardAsync(LeaderBoardId.TeamRandomMap, 0, 1, steamId);
+            var teamDm = await AoE2net.GetLeaderboardAsync(LeaderBoardId.TeamDeathmatch, 0, 1, steamId);
+
+            if (oneVOneRm.Leaderboards.Count == 0) {
+                oneVOneRm.Leaderboards.Add(new Leaderboard());
+            }
+
+            if (oneVOneDm.Leaderboards.Count == 0) {
+                oneVOneDm.Leaderboards.Add(new Leaderboard());
+            }
+
+            if (teamRm.Leaderboards.Count == 0) {
+                teamRm.Leaderboards.Add(new Leaderboard());
+            }
+
+            if (teamDm.Leaderboards.Count == 0) {
+                teamDm.Leaderboards.Add(new Leaderboard());
+            }
+
+            var ret = new Dictionary<LeaderBoardId, Leaderboard> {
+                { LeaderBoardId.OneVOneRandomMap, oneVOneRm.Leaderboards[0] },
+                { LeaderBoardId.OneVOneDeathmatch, oneVOneDm.Leaderboards[0] },
+                { LeaderBoardId.TeamRandomMap, teamRm.Leaderboards[0] },
+                { LeaderBoardId.TeamDeathmatch, teamDm.Leaderboards[0] },
+            };
+
+            return ret;
+        }
+
+        private async Task<Dictionary<LeaderBoardId, Leaderboard>> GetLeaderboardProfileId()
+        {
+            var oneVOneRm = await AoE2net.GetLeaderboardAsync(LeaderBoardId.OneVOneRandomMap, 0, 1, profileId);
+            var oneVOneDm = await AoE2net.GetLeaderboardAsync(LeaderBoardId.OneVOneDeathmatch, 0, 1, profileId);
+            var teamRm = await AoE2net.GetLeaderboardAsync(LeaderBoardId.TeamRandomMap, 0, 1, profileId);
+            var teamDm = await AoE2net.GetLeaderboardAsync(LeaderBoardId.TeamDeathmatch, 0, 1, profileId);
+
+            var ret = new Dictionary<LeaderBoardId, Leaderboard> {
+                { LeaderBoardId.OneVOneRandomMap, oneVOneRm.Leaderboards[0] },
+                { LeaderBoardId.OneVOneDeathmatch, oneVOneDm.Leaderboards[0] },
+                { LeaderBoardId.TeamRandomMap, teamRm.Leaderboards[0] },
+                { LeaderBoardId.TeamDeathmatch, teamDm.Leaderboards[0] },
+            };
 
             return ret;
         }

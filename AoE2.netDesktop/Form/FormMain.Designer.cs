@@ -80,6 +80,7 @@
             this.labelMap = new System.Windows.Forms.Label();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
             this.groupBoxPlayer = new System.Windows.Forms.GroupBox();
+            this.buttonViewHistory = new System.Windows.Forms.Button();
             this.radioButtonSteamID = new System.Windows.Forms.RadioButton();
             this.radioButtonProfileID = new System.Windows.Forms.RadioButton();
             this.textBoxSettingSteamId = new System.Windows.Forms.TextBox();
@@ -87,7 +88,6 @@
             this.labelSettingsCountry = new System.Windows.Forms.Label();
             this.labelSettingsName = new System.Windows.Forms.Label();
             this.checkBoxAlwaysOnTop = new System.Windows.Forms.CheckBox();
-            this.buttonViewHistory = new System.Windows.Forms.Button();
             this.tabControlMain.SuspendLayout();
             this.tabPagePlayerLastMatch.SuspendLayout();
             this.panelTeam2.SuspendLayout();
@@ -137,7 +137,7 @@
             // 
             this.labelGameId.Location = new System.Drawing.Point(8, 31);
             this.labelGameId.Name = "labelGameId";
-            this.labelGameId.Size = new System.Drawing.Size(131, 19);
+            this.labelGameId.Size = new System.Drawing.Size(260, 19);
             this.labelGameId.TabIndex = 9;
             this.labelGameId.Text = "GameID: 88888888";
             this.labelGameId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -782,12 +782,10 @@
             // 
             // labelMap
             // 
-            this.labelMap.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelMap.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelMap.Location = new System.Drawing.Point(3, 3);
+            this.labelMap.Location = new System.Drawing.Point(8, 3);
             this.labelMap.Name = "labelMap";
-            this.labelMap.Size = new System.Drawing.Size(108, 30);
+            this.labelMap.Size = new System.Drawing.Size(260, 30);
             this.labelMap.TabIndex = 2;
             this.labelMap.Text = "Map : ----------";
             this.labelMap.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
@@ -823,6 +821,17 @@
             this.groupBoxPlayer.TabIndex = 6;
             this.groupBoxPlayer.TabStop = false;
             this.groupBoxPlayer.Text = "Player";
+            // 
+            // buttonViewHistory
+            // 
+            this.buttonViewHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonViewHistory.Location = new System.Drawing.Point(138, 135);
+            this.buttonViewHistory.Name = "buttonViewHistory";
+            this.buttonViewHistory.Size = new System.Drawing.Size(115, 35);
+            this.buttonViewHistory.TabIndex = 6;
+            this.buttonViewHistory.Text = "ViewHistory(&V)...";
+            this.buttonViewHistory.UseVisualStyleBackColor = true;
+            this.buttonViewHistory.Click += new System.EventHandler(this.ButtonViewHistory_Click);
             // 
             // radioButtonSteamID
             // 
@@ -901,17 +910,6 @@
             this.checkBoxAlwaysOnTop.Text = "Always on top";
             this.checkBoxAlwaysOnTop.UseVisualStyleBackColor = true;
             this.checkBoxAlwaysOnTop.CheckedChanged += new System.EventHandler(this.CheckBoxAlwaysOnTop_CheckedChanged);
-            // 
-            // buttonViewHistory
-            // 
-            this.buttonViewHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonViewHistory.Location = new System.Drawing.Point(138, 135);
-            this.buttonViewHistory.Name = "buttonViewHistory";
-            this.buttonViewHistory.Size = new System.Drawing.Size(115, 35);
-            this.buttonViewHistory.TabIndex = 6;
-            this.buttonViewHistory.Text = "ViewHistory(&V)...";
-            this.buttonViewHistory.UseVisualStyleBackColor = true;
-            this.buttonViewHistory.Click += new System.EventHandler(this.ButtonViewHistory_Click);
             // 
             // FormMain
             // 

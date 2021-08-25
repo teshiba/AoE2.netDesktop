@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using System.Drawing;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Windows.Forms;
     using AoE2NetDesktop.From;
     using LibAoE2net;
@@ -33,34 +34,26 @@
             : base(ctrlHistory)
         {
             InitializeComponent();
+
             formsPlotMapRate1v1.Configuration.LockHorizontalAxis = true;
             formsPlotMapRate1v1.Configuration.LockVerticalAxis = true;
-            formsPlotMapRateTeam.Configuration.LockHorizontalAxis = true;
-            formsPlotMapRateTeam.Configuration.LockVerticalAxis = true;
-            formsPlotWinRateTeamEachMap.Configuration.LockHorizontalAxis = true;
-            formsPlotWinRateTeamEachMap.Configuration.LockVerticalAxis = true;
             formsPlotWinRate1v1EachMap.Configuration.LockHorizontalAxis = true;
             formsPlotWinRate1v1EachMap.Configuration.LockVerticalAxis = true;
-
-            // Add a red circle we can move around later as a highlighted point indicator
-            highlightedPointTeam = formsPlotMapRateTeam.Plot.AddPoint(0, 0);
-            highlightedPointTeam.Color = Color.Red;
-            highlightedPointTeam.MarkerSize = 10;
-            highlightedPointTeam.MarkerShape = MarkerShape.openCircle;
-
-            formsPlotWinRateTeamEachMap.Plot.Title("1v1 Random Map Count");
-            formsPlotWinRateTeamEachMap.Plot.YLabel("Map");
-            formsPlotWinRateTeamEachMap.Plot.XLabel("Win / Total Game count");
-
             formsPlotWinRate1v1EachMap.Plot.Title("1v1 Random Map Count");
             formsPlotWinRate1v1EachMap.Plot.YLabel("Map");
             formsPlotWinRate1v1EachMap.Plot.XLabel("Win / Total Game count");
-
             formsPlotRate1v1.Plot.Title("1v1 Random Map Rate");
             formsPlotRate1v1.Plot.YLabel("Rate");
             formsPlotRate1v1.Plot.XLabel("Date");
 
-            formsPlotRateTeam.Plot.Title("1v1 Random Map Rate");
+            formsPlotMapRateTeam.Configuration.LockHorizontalAxis = true;
+            formsPlotMapRateTeam.Configuration.LockVerticalAxis = true;
+            formsPlotWinRateTeamEachMap.Configuration.LockHorizontalAxis = true;
+            formsPlotWinRateTeamEachMap.Configuration.LockVerticalAxis = true;
+            formsPlotWinRateTeamEachMap.Plot.Title("Team Random Map Count");
+            formsPlotWinRateTeamEachMap.Plot.YLabel("Map");
+            formsPlotWinRateTeamEachMap.Plot.XLabel("Win / Total Game count");
+            formsPlotRateTeam.Plot.Title("Team Random Map Rate");
             formsPlotRateTeam.Plot.YLabel("Rate");
             formsPlotRateTeam.Plot.XLabel("Date");
         }
@@ -68,12 +61,41 @@
         /// <inheritdoc/>
         protected override CtrlHistory Controler { get => (CtrlHistory)base.Controler; }
 
+        private static ListViewItem GetLeaderboard(string leaderboardName, Leaderboard leaderboard)
+        {
+            var ret = new ListViewItem(leaderboardName);
+
+            ret.SubItems.Add(leaderboard.Rank.ToString());
+            ret.SubItems.Add(leaderboard.Rating.ToString());
+            ret.SubItems.Add(leaderboard.HighestRating.ToString());
+            ret.SubItems.Add(leaderboard.Games.ToString());
+            ret.SubItems.Add(leaderboard.Wins.ToString());
+            ret.SubItems.Add(leaderboard.Losses.ToString());
+            if (leaderboard.Games == 0) {
+                ret.SubItems.Add("00.0%");
+            } else {
+                var winRate = (double)leaderboard.Wins / leaderboard.Games * 100;
+                ret.SubItems.Add($"{winRate:F1}%");
+            }
+
+            return ret;
+        }
+
         private async void FormHistory_ShownAsync(object sender, System.EventArgs e)
         {
-            bool ret = await Controler.ReadPlayerMatchHistoryAsync();
+            await UpdateGraph();
 
-            if (ret) {
-                UpdateListView();
+            if (await Controler.ReadLeaderBoardAsync()) {
+                UpdateListViewStatistics();
+            } else {
+                Debug.Print("ReadPlayerMatchHistoryAsync ERROR.");
+            }
+        }
+
+        private async Task UpdateGraph()
+        {
+            if (await Controler.ReadPlayerMatchHistoryAsync()) {
+                UpdateListViewHistory();
                 UpdateRate1v1();
                 UpdateRateTeam();
                 UpdateWinRateEachMap(LeaderBoardId.OneVOneRandomMap, formsPlotWinRate1v1EachMap.Plot);
@@ -83,6 +105,14 @@
             } else {
                 Debug.Print("ReadPlayerMatchHistoryAsync ERROR.");
             }
+        }
+
+        private void UpdateListViewStatistics()
+        {
+            listViewStatistics.Items.Add(GetLeaderboard("1v1 RM", Controler.Leaderboards[LeaderBoardId.OneVOneRandomMap]));
+            listViewStatistics.Items.Add(GetLeaderboard("Team RM", Controler.Leaderboards[LeaderBoardId.TeamRandomMap]));
+            listViewStatistics.Items.Add(GetLeaderboard("1v1 DM", Controler.Leaderboards[LeaderBoardId.OneVOneDeathmatch]));
+            listViewStatistics.Items.Add(GetLeaderboard("Team DM", Controler.Leaderboards[LeaderBoardId.TeamDeathmatch]));
         }
 
         private void UpdateRate1v1()
@@ -181,7 +211,7 @@
             plot.SetAxisLimits(xMin: 0, yMin: -1);
         }
 
-        private void UpdateListView()
+        private void UpdateListViewHistory()
         {
             foreach (var item in Controler.PlayerMatchHistory) {
                 var player = Controler.GetSelectedPlayer(item);
@@ -262,6 +292,8 @@
 
             var scatterPlot = plot.AddScatter(xs, rateList.ToArray(), lineStyle: LineStyle.Dot);
             var candlePlot = plot.AddCandlesticks(ohlc.ToArray());
+            candlePlot.ColorUp = Color.Red;
+            candlePlot.ColorDown = Color.Green;
             var bol = candlePlot.GetBollingerBands(7);
             plot.AddScatterLines(bol.xs, bol.sma, Color.Blue);
 
@@ -280,7 +312,7 @@
                 highlightedPoint1v1.Xs[0] = pointX;
                 highlightedPoint1v1.Ys[0] = pointY;
                 highlightedPoint1v1.Label = $"Rate:{pointY}";
-                tooltip1v1.Label = $"Rate:{pointY}";
+                tooltip1v1.Label = $"Rate:{pointY} {DateTime.FromOADate(pointX)}";
                 tooltip1v1.X = pointX;
                 tooltip1v1.Y = pointY;
 
@@ -304,7 +336,7 @@
                 highlightedPointTeam.Xs[0] = pointX;
                 highlightedPointTeam.Ys[0] = pointY;
                 highlightedPointTeam.Label = $"Rate:{pointY}";
-                tooltipTeam.Label = $"Rate:{pointY}";
+                tooltipTeam.Label = $"Rate:{pointY} {DateTime.FromOADate(pointX)}";
                 tooltipTeam.X = pointX;
                 tooltipTeam.Y = pointY;
 
@@ -314,7 +346,6 @@
                     formsPlotRateTeam.Render();
                 }
             }
-
         }
     }
 }
