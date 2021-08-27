@@ -654,12 +654,8 @@ namespace AoE2NetDesktop.Form
         private System.Windows.Forms.TabPage tabPageMap;
         private System.Windows.Forms.TabPage tabPageCiv;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private ScottPlot.FormsPlot formsPlot1;
-        private ScottPlot.FormsPlot formsPlot2;
         private System.Windows.Forms.TabPage tabPagePlayer;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private ScottPlot.FormsPlot formsPlot3;
-        private ScottPlot.FormsPlot formsPlot4;
         private ScottPlot.FormsPlot formsPlotCiv1v1;
         private ScottPlot.FormsPlot formsPlotCivTeam;
         private ScottPlot.FormsPlot formsPlotPlayer1v1;

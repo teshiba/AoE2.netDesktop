@@ -86,6 +86,30 @@ namespace AoE2NetDesktop.From.Tests
         }
 
         [TestMethod()]
+        [DataRow(TeamType.OddColorNo, 3)]
+        [DataRow(TeamType.EvenColorNo, 30)]
+        public void GetAverageRateTestIncludeRateNull(TeamType teamType, int expVal)
+        {
+            // Arrange
+            var players = new List<Player> {
+                new Player { Color = 1, Rating = 1 },
+                new Player { Color = 2, Rating = 10 },
+                new Player { Color = 3, Rating = 3 },
+                new Player { Color = 4, Rating = 30 },
+                new Player { Color = 5, Rating = 5 },
+                new Player { Color = 6, Rating = 50 },
+                new Player { Color = 7, Rating = null },
+                new Player { Color = 8, Rating = null },
+            };
+
+            // Act
+            var actVal = CtrlMain.GetAverageRate(players, teamType);
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
+        }
+
+        [TestMethod()]
         public void GetAverageRateTestArgumentOutOfRangeException()
         {
             // Arrange

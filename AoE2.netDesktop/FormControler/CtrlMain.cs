@@ -123,7 +123,9 @@
                     throw new FormatException($"Invalid profilId of Name:{player.Name}");
                 }
 
-                player.Rating ??= rate[0].Rating;
+                if (rate.Count != 0) {
+                    player.Rating ??= rate[0].Rating;
+                }
             }
 
             return ret;
