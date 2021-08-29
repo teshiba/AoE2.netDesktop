@@ -63,10 +63,6 @@ namespace AoE2NetDesktop.Form
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.formsPlotCiv1v1 = new ScottPlot.FormsPlot();
             this.formsPlotCivTeam = new ScottPlot.FormsPlot();
-            this.tabPagePlayer = new System.Windows.Forms.TabPage();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.formsPlotPlayer1v1 = new ScottPlot.FormsPlot();
-            this.formsPlotPlayerTeam = new ScottPlot.FormsPlot();
             this.listViewStatistics = new System.Windows.Forms.ListView();
             this.columnHeaderLeaderboard = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderRank = new System.Windows.Forms.ColumnHeader();
@@ -76,6 +72,17 @@ namespace AoE2NetDesktop.Form
             this.columnHeaderWins = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderLosses = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderWinRate = new System.Windows.Forms.ColumnHeader();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.listViewMatchedPlayers = new System.Windows.Forms.ListView();
+            this.columnHeaderName = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderCountry = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderRate1v1 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderRateTeam = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderTeamGameCount = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderAllyGames = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderEnemyGames = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader1v1GameCount = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderLastDate = new System.Windows.Forms.ColumnHeader();
             this.tabControl1.SuspendLayout();
             this.tabPage1v1RandomMap.SuspendLayout();
             this.tabPageTeamRandomMap.SuspendLayout();
@@ -99,11 +106,7 @@ namespace AoE2NetDesktop.Form
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.tabPagePlayer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // listViewHistory1v1
@@ -125,7 +128,7 @@ namespace AoE2NetDesktop.Form
             this.listViewHistory1v1.HideSelection = false;
             this.listViewHistory1v1.Location = new System.Drawing.Point(3, 3);
             this.listViewHistory1v1.Name = "listViewHistory1v1";
-            this.listViewHistory1v1.Size = new System.Drawing.Size(1058, 740);
+            this.listViewHistory1v1.Size = new System.Drawing.Size(1101, 740);
             this.listViewHistory1v1.TabIndex = 0;
             this.listViewHistory1v1.UseCompatibleStateImageBehavior = false;
             this.listViewHistory1v1.View = System.Windows.Forms.View.Details;
@@ -168,6 +171,7 @@ namespace AoE2NetDesktop.Form
             this.tabControl1.Controls.Add(this.tabPage1v1RandomMap);
             this.tabControl1.Controls.Add(this.tabPageTeamRandomMap);
             this.tabControl1.Controls.Add(this.tabPageStatistics);
+            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -215,7 +219,7 @@ namespace AoE2NetDesktop.Form
             this.listViewHistoryTeam.HideSelection = false;
             this.listViewHistoryTeam.Location = new System.Drawing.Point(3, 3);
             this.listViewHistoryTeam.Name = "listViewHistoryTeam";
-            this.listViewHistoryTeam.Size = new System.Drawing.Size(1058, 740);
+            this.listViewHistoryTeam.Size = new System.Drawing.Size(1101, 740);
             this.listViewHistoryTeam.TabIndex = 1;
             this.listViewHistoryTeam.UseCompatibleStateImageBehavior = false;
             this.listViewHistoryTeam.View = System.Windows.Forms.View.Details;
@@ -332,7 +336,6 @@ namespace AoE2NetDesktop.Form
             // 
             this.tabControl2.Controls.Add(this.tabPageMap);
             this.tabControl2.Controls.Add(this.tabPageCiv);
-            this.tabControl2.Controls.Add(this.tabPagePlayer);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
             this.tabControl2.Name = "tabControl2";
@@ -462,56 +465,6 @@ namespace AoE2NetDesktop.Form
             this.formsPlotCivTeam.Size = new System.Drawing.Size(540, 320);
             this.formsPlotCivTeam.TabIndex = 6;
             // 
-            // tabPagePlayer
-            // 
-            this.tabPagePlayer.Controls.Add(this.splitContainer2);
-            this.tabPagePlayer.Location = new System.Drawing.Point(4, 24);
-            this.tabPagePlayer.Name = "tabPagePlayer";
-            this.tabPagePlayer.Size = new System.Drawing.Size(548, 623);
-            this.tabPagePlayer.TabIndex = 2;
-            this.tabPagePlayer.Text = "Player";
-            this.tabPagePlayer.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer2
-            // 
-            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splitContainer2.Cursor = System.Windows.Forms.Cursors.HSplit;
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.formsPlotPlayer1v1);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.formsPlotPlayerTeam);
-            this.splitContainer2.Size = new System.Drawing.Size(548, 623);
-            this.splitContainer2.SplitterDistance = 294;
-            this.splitContainer2.TabIndex = 0;
-            // 
-            // formsPlotPlayer1v1
-            // 
-            this.formsPlotPlayer1v1.BackColor = System.Drawing.Color.Transparent;
-            this.formsPlotPlayer1v1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.formsPlotPlayer1v1.Location = new System.Drawing.Point(0, 0);
-            this.formsPlotPlayer1v1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.formsPlotPlayer1v1.Name = "formsPlotPlayer1v1";
-            this.formsPlotPlayer1v1.Size = new System.Drawing.Size(546, 292);
-            this.formsPlotPlayer1v1.TabIndex = 6;
-            // 
-            // formsPlotPlayerTeam
-            // 
-            this.formsPlotPlayerTeam.BackColor = System.Drawing.Color.Transparent;
-            this.formsPlotPlayerTeam.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.formsPlotPlayerTeam.Location = new System.Drawing.Point(0, 0);
-            this.formsPlotPlayerTeam.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.formsPlotPlayerTeam.Name = "formsPlotPlayerTeam";
-            this.formsPlotPlayerTeam.Size = new System.Drawing.Size(546, 323);
-            this.formsPlotPlayerTeam.TabIndex = 6;
-            // 
             // listViewStatistics
             // 
             this.listViewStatistics.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -569,6 +522,83 @@ namespace AoE2NetDesktop.Form
             // 
             this.columnHeaderWinRate.Text = "Win%";
             // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.listViewMatchedPlayers);
+            this.tabPage1.Location = new System.Drawing.Point(4, 24);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1104, 743);
+            this.tabPage1.TabIndex = 3;
+            this.tabPage1.Text = "Matched players";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // listViewMatchedPlayers
+            // 
+            this.listViewMatchedPlayers.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.listViewMatchedPlayers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderName,
+            this.columnHeaderCountry,
+            this.columnHeaderRate1v1,
+            this.columnHeaderRateTeam,
+            this.columnHeaderTeamGameCount,
+            this.columnHeaderAllyGames,
+            this.columnHeaderEnemyGames,
+            this.columnHeader1v1GameCount,
+            this.columnHeaderLastDate});
+            this.listViewMatchedPlayers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewMatchedPlayers.FullRowSelect = true;
+            this.listViewMatchedPlayers.GridLines = true;
+            this.listViewMatchedPlayers.HideSelection = false;
+            this.listViewMatchedPlayers.Location = new System.Drawing.Point(3, 3);
+            this.listViewMatchedPlayers.Name = "listViewMatchedPlayers";
+            this.listViewMatchedPlayers.Size = new System.Drawing.Size(1098, 737);
+            this.listViewMatchedPlayers.TabIndex = 2;
+            this.listViewMatchedPlayers.UseCompatibleStateImageBehavior = false;
+            this.listViewMatchedPlayers.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeaderName
+            // 
+            this.columnHeaderName.Text = "Name";
+            this.columnHeaderName.Width = 160;
+            // 
+            // columnHeaderCountry
+            // 
+            this.columnHeaderCountry.Text = "Country";
+            // 
+            // columnHeaderRate1v1
+            // 
+            this.columnHeaderRate1v1.Text = "1v1 Rate";
+            // 
+            // columnHeaderRateTeam
+            // 
+            this.columnHeaderRateTeam.Text = "Team Rate";
+            this.columnHeaderRateTeam.Width = 70;
+            // 
+            // columnHeaderTeamGameCount
+            // 
+            this.columnHeaderTeamGameCount.Text = "Team Games";
+            this.columnHeaderTeamGameCount.Width = 80;
+            // 
+            // columnHeaderAllyGames
+            // 
+            this.columnHeaderAllyGames.Text = "Ally";
+            this.columnHeaderAllyGames.Width = 40;
+            // 
+            // columnHeaderEnemyGames
+            // 
+            this.columnHeaderEnemyGames.Text = "Enemy";
+            // 
+            // columnHeader1v1GameCount
+            // 
+            this.columnHeader1v1GameCount.Text = "1v1";
+            this.columnHeader1v1GameCount.Width = 40;
+            // 
+            // columnHeaderLastDate
+            // 
+            this.columnHeaderLastDate.Text = "Last Date";
+            this.columnHeaderLastDate.Width = 120;
+            // 
             // FormHistory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -601,11 +631,7 @@ namespace AoE2NetDesktop.Form
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.tabPagePlayer.ResumeLayout(false);
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -634,12 +660,7 @@ namespace AoE2NetDesktop.Form
         private System.Windows.Forms.ColumnHeader columnHeaderLosses;
         private System.Windows.Forms.ColumnHeader columnHeaderWinRate;
         private ScottPlot.FormsPlot formsPlotRateTeam;
-        private ScottPlot.FormsPlot formsPlotWinRate1v1EachMap;
         private System.Windows.Forms.SplitContainer splitContainerGraphBase;
-        private System.Windows.Forms.SplitContainer splitContainerMapRate;
-        private ScottPlot.FormsPlot formsPlotWinRateTeamEachMap;
-        private ScottPlot.FormsPlot formsPlotMapRate1v1;
-        private ScottPlot.FormsPlot formsPlotMapRateTeam;
         private System.Windows.Forms.SplitContainer splitContainerRate;
         private ScottPlot.FormsPlot formsPlotRate1v1;
         private System.Windows.Forms.ListView listViewHistoryTeam;
@@ -652,13 +673,25 @@ namespace AoE2NetDesktop.Form
         private System.Windows.Forms.ColumnHeader columnHeader7;
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabPageMap;
+        private System.Windows.Forms.SplitContainer splitContainerMapRate;
+        private ScottPlot.FormsPlot formsPlotWinRate1v1EachMap;
+        private ScottPlot.FormsPlot formsPlotMapRate1v1;
+        private ScottPlot.FormsPlot formsPlotWinRateTeamEachMap;
+        private ScottPlot.FormsPlot formsPlotMapRateTeam;
         private System.Windows.Forms.TabPage tabPageCiv;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TabPage tabPagePlayer;
-        private System.Windows.Forms.SplitContainer splitContainer2;
         private ScottPlot.FormsPlot formsPlotCiv1v1;
         private ScottPlot.FormsPlot formsPlotCivTeam;
-        private ScottPlot.FormsPlot formsPlotPlayer1v1;
-        private ScottPlot.FormsPlot formsPlotPlayerTeam;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.ListView listViewMatchedPlayers;
+        private System.Windows.Forms.ColumnHeader columnHeaderName;
+        private System.Windows.Forms.ColumnHeader columnHeaderCountry;
+        private System.Windows.Forms.ColumnHeader columnHeaderAllyGames;
+        private System.Windows.Forms.ColumnHeader columnHeaderEnemyGames;
+        private System.Windows.Forms.ColumnHeader columnHeaderTeamGameCount;
+        private System.Windows.Forms.ColumnHeader columnHeaderLastDate;
+        private System.Windows.Forms.ColumnHeader columnHeader1v1GameCount;
+        private System.Windows.Forms.ColumnHeader columnHeaderRate1v1;
+        private System.Windows.Forms.ColumnHeader columnHeaderRateTeam;
     }
 }

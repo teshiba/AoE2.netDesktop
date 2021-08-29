@@ -2,13 +2,17 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.Drawing;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Forms;
+
     using AoE2NetDesktop.From;
+
     using LibAoE2net;
+
     using ScottPlot;
     using ScottPlot.Plottable;
 
@@ -39,29 +43,39 @@
             formsPlotMapRate1v1.Configuration.LockVerticalAxis = true;
             formsPlotWinRate1v1EachMap.Configuration.LockHorizontalAxis = true;
             formsPlotWinRate1v1EachMap.Configuration.LockVerticalAxis = true;
+            formsPlotCiv1v1.Configuration.LockHorizontalAxis = true;
+            formsPlotCiv1v1.Configuration.LockVerticalAxis = true;
             formsPlotWinRate1v1EachMap.Plot.Title("1v1 Random Map Count");
             formsPlotWinRate1v1EachMap.Plot.YLabel("Map");
             formsPlotWinRate1v1EachMap.Plot.XLabel("Win / Total Game count");
             formsPlotRate1v1.Plot.Title("1v1 Random Map Rate");
             formsPlotRate1v1.Plot.YLabel("Rate");
             formsPlotRate1v1.Plot.XLabel("Date");
+            formsPlotCiv1v1.Plot.Title("1v1 Random Map");
+            formsPlotCiv1v1.Plot.YLabel("Civilization Name");
+            formsPlotCiv1v1.Plot.XLabel("Win / Total Game Count");
 
             formsPlotMapRateTeam.Configuration.LockHorizontalAxis = true;
             formsPlotMapRateTeam.Configuration.LockVerticalAxis = true;
             formsPlotWinRateTeamEachMap.Configuration.LockHorizontalAxis = true;
             formsPlotWinRateTeamEachMap.Configuration.LockVerticalAxis = true;
+            formsPlotCivTeam.Configuration.LockHorizontalAxis = true;
+            formsPlotCivTeam.Configuration.LockVerticalAxis = true;
             formsPlotWinRateTeamEachMap.Plot.Title("Team Random Map Count");
             formsPlotWinRateTeamEachMap.Plot.YLabel("Map");
             formsPlotWinRateTeamEachMap.Plot.XLabel("Win / Total Game count");
             formsPlotRateTeam.Plot.Title("Team Random Map Rate");
             formsPlotRateTeam.Plot.YLabel("Rate");
             formsPlotRateTeam.Plot.XLabel("Date");
+            formsPlotCivTeam.Plot.Title("Team Random Map");
+            formsPlotCivTeam.Plot.YLabel("Civilization Name");
+            formsPlotCivTeam.Plot.XLabel("Win / Total Game Count");
         }
 
         /// <inheritdoc/>
         protected override CtrlHistory Controler { get => (CtrlHistory)base.Controler; }
 
-        private static ListViewItem GetLeaderboard(string leaderboardName, Leaderboard leaderboard)
+        private static ListViewItem GetLeaderboardListViewItem(string leaderboardName, Leaderboard leaderboard)
         {
             var ret = new ListViewItem(leaderboardName);
 
@@ -81,38 +95,114 @@
             return ret;
         }
 
-        private async void FormHistory_ShownAsync(object sender, System.EventArgs e)
+        private static void AddWonRate(Dictionary<string, double> rateWin, Dictionary<string, double> rateLose, bool? playerWon, string key)
         {
-            await UpdateGraph();
+            if (playerWon != null) {
+                if (!rateWin.ContainsKey(key)) {
+                    rateWin.Add(key, 0);
+                    rateLose.Add(key, 0);
+                }
 
-            if (await Controler.ReadLeaderBoardAsync()) {
-                UpdateListViewStatistics();
-            } else {
-                Debug.Print("ReadPlayerMatchHistoryAsync ERROR.");
+                if ((bool)playerWon) {
+                    rateWin[key]++;
+                } else {
+                    rateLose[key]++;
+                }
             }
         }
 
-        private async Task UpdateGraph()
+        private static void UpdateStackedBarGraph(Plot plot, List<string> ticks, List<double> lowerData, List<double> upperDate)
+        {
+            var winList = lowerData.ToArray();
+            var loseList = upperDate.ToArray();
+
+            // to simulate stacking Lose on Win, shift Lose up by Win
+            double[] stackedList = new double[loseList.Length];
+            for (int i = 0; i < loseList.Length; i++) {
+                stackedList[i] = winList[i] + loseList[i];
+            }
+
+            // plot the bar charts in reverse order (highest first)
+            var barWin = plot.AddBar(stackedList);
+            var barLose = plot.AddBar(winList);
+            barWin.Orientation = ScottPlot.Orientation.Horizontal;
+            barLose.Orientation = ScottPlot.Orientation.Horizontal;
+            barWin.ShowValuesAboveBars = true;
+            barLose.ShowValuesAboveBars = true;
+            plot.Legend(location: Alignment.UpperRight);
+            plot.YTicks(ticks.ToArray());
+            plot.SetAxisLimits(xMin: 0, yMin: -1);
+        }
+
+        private static void UpdatePointerOfRateGraph(FormsPlot formsPlot, ScatterPlot highlightedPoint, ScatterPlot scatterPlot, Tooltip tooltip, ref int lastHighlightedIndex)
+        {
+            if (scatterPlot != null) {
+                // determine point nearest the cursor
+                (double mouseCoordX, double mouseCoordY) = formsPlot.GetMouseCoordinates();
+                var xyRatio = formsPlot.Plot.XAxis.Dims.PxPerUnit / formsPlot.Plot.YAxis.Dims.PxPerUnit;
+                (double pointX, double pointY, int pointIndex) = scatterPlot.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
+
+                // place the highlight over the point of interest
+                highlightedPoint.Xs[0] = pointX;
+                highlightedPoint.Ys[0] = pointY;
+                highlightedPoint.Label = $"Rate:{pointY}";
+                tooltip.Label = $"Rate:{pointY} {DateTime.FromOADate(pointX)}";
+                tooltip.X = pointX;
+                tooltip.Y = pointY;
+
+                // render if the highlighted point chnaged
+                if (lastHighlightedIndex != pointIndex) {
+                    lastHighlightedIndex = pointIndex;
+                    formsPlot.Render();
+                }
+            }
+        }
+
+        private static Diplomacy CheckDiplomacy(Player selectedPlayer, Player player)
+        {
+            var ret = Diplomacy.Enemy;
+
+            if (selectedPlayer.Color % 2 == player.Color % 2) {
+                ret = Diplomacy.Ally;
+            }
+
+            return ret;
+        }
+
+        private async void FormHistory_ShownAsync(object sender, System.EventArgs e)
+        {
+            await UpdatePlayerMatchHistory();
+            await UpdateListViewStatistics();
+        }
+
+        private async Task UpdatePlayerMatchHistory()
         {
             if (await Controler.ReadPlayerMatchHistoryAsync()) {
                 UpdateListViewHistory();
                 UpdateRate1v1();
                 UpdateRateTeam();
+                UpdateListViewMatchedPlayers();
                 UpdateWinRateEachMap(LeaderBoardId.OneVOneRandomMap, formsPlotWinRate1v1EachMap.Plot);
                 UpdateWinRateEachMap(LeaderBoardId.TeamRandomMap, formsPlotWinRateTeamEachMap.Plot);
                 UpdateMapRate(LeaderBoardId.OneVOneRandomMap, formsPlotMapRate1v1.Plot);
                 UpdateMapRate(LeaderBoardId.TeamRandomMap, formsPlotMapRateTeam.Plot);
+                UpdateWinRateEachCivilization(LeaderBoardId.OneVOneRandomMap, formsPlotCiv1v1.Plot);
+                UpdateWinRateEachCivilization(LeaderBoardId.TeamRandomMap, formsPlotCivTeam.Plot);
             } else {
                 Debug.Print("ReadPlayerMatchHistoryAsync ERROR.");
             }
         }
 
-        private void UpdateListViewStatistics()
+        private async Task UpdateListViewStatistics()
         {
-            listViewStatistics.Items.Add(GetLeaderboard("1v1 RM", Controler.Leaderboards[LeaderBoardId.OneVOneRandomMap]));
-            listViewStatistics.Items.Add(GetLeaderboard("Team RM", Controler.Leaderboards[LeaderBoardId.TeamRandomMap]));
-            listViewStatistics.Items.Add(GetLeaderboard("1v1 DM", Controler.Leaderboards[LeaderBoardId.OneVOneDeathmatch]));
-            listViewStatistics.Items.Add(GetLeaderboard("Team DM", Controler.Leaderboards[LeaderBoardId.TeamDeathmatch]));
+            if (await Controler.ReadLeaderBoardAsync()) {
+                listViewStatistics.Items.Add(GetLeaderboardListViewItem("1v1 RM", Controler.Leaderboards[LeaderBoardId.OneVOneRandomMap]));
+                listViewStatistics.Items.Add(GetLeaderboardListViewItem("Team RM", Controler.Leaderboards[LeaderBoardId.TeamRandomMap]));
+                listViewStatistics.Items.Add(GetLeaderboardListViewItem("1v1 DM", Controler.Leaderboards[LeaderBoardId.OneVOneDeathmatch]));
+                listViewStatistics.Items.Add(GetLeaderboardListViewItem("Team DM", Controler.Leaderboards[LeaderBoardId.TeamDeathmatch]));
+            } else {
+                Debug.Print("UpdateListViewStatistics ERROR.");
+            }
         }
 
         private void UpdateRate1v1()
@@ -167,6 +257,79 @@
             plot.Legend();
         }
 
+        private void UpdateListViewMatchedPlayers()
+        {
+            var playerList = new Dictionary<string, PlayerInfo>();
+
+            foreach (var match in Controler.PlayerMatchHistory) {
+                var selectedPlayer = Controler.GetSelectedPlayer(match);
+                foreach (var player in match.Players) {
+                    if (player != selectedPlayer) {
+                        if (!playerList.ContainsKey(player.Name)) {
+                            playerList.Add(player.Name, new PlayerInfo());
+                        }
+
+                        playerList[player.Name].Country = player.Country;
+
+                        switch (match.LeaderboardId) {
+                        case LeaderBoardId.OneVOneRandomMap:
+                            playerList[player.Name].Rate1v1RM = player.Rating;
+                            playerList[player.Name].Games1v1++;
+                            break;
+                        case LeaderBoardId.TeamRandomMap:
+                            playerList[player.Name].RateTeamRM = player.Rating;
+                            playerList[player.Name].GamesTeam++;
+
+                            switch (CheckDiplomacy(selectedPlayer, player)) {
+                            case Diplomacy.Ally:
+                                playerList[player.Name].GamesAlly++;
+                                break;
+                            case Diplomacy.Enemy:
+                                playerList[player.Name].GamesEnemy++;
+                                break;
+                            default:
+                                break;
+                            }
+
+                            break;
+                        default:
+                            break;
+                        }
+
+                        playerList[player.Name].LastDate = match.GetOpenedTime();
+                    }
+                }
+            }
+
+            foreach (var player in playerList) {
+                var listviewItem = new ListViewItem(player.Key);
+                listviewItem.SubItems.Add(player.Value.Country);
+                listviewItem.SubItems.Add(player.Value.Rate1v1RM.ToString());
+                listviewItem.SubItems.Add(player.Value.RateTeamRM.ToString());
+                listviewItem.SubItems.Add(player.Value.GamesTeam.ToString());
+                listviewItem.SubItems.Add(player.Value.GamesAlly.ToString());
+                listviewItem.SubItems.Add(player.Value.GamesEnemy.ToString());
+                listviewItem.SubItems.Add(player.Value.Games1v1.ToString());
+                listviewItem.SubItems.Add(player.Value.LastDate.ToString());
+                listViewMatchedPlayers.Items.Add(listviewItem);
+            }
+        }
+
+        private void UpdateWinRateEachCivilization(LeaderBoardId leaderBoardId, Plot plot)
+        {
+            var rateWin = new Dictionary<string, double>();
+            var rateLose = new Dictionary<string, double>();
+
+            foreach (var item in Controler.PlayerMatchHistory) {
+                if (item.LeaderboardId == leaderBoardId) {
+                    var player = Controler.GetSelectedPlayer(item);
+                    AddWonRate(rateWin, rateLose, player.Won, player.GetCivName());
+                }
+            }
+
+            UpdateStackedBarGraph(plot, rateWin.Keys.ToList(), rateWin.Values.ToList(), rateLose.Values.ToList());
+        }
+
         private void UpdateWinRateEachMap(LeaderBoardId leaderBoardId, Plot plot)
         {
             var rateWin = new Dictionary<string, double>();
@@ -175,40 +338,11 @@
             foreach (var item in Controler.PlayerMatchHistory) {
                 if (item.LeaderboardId == leaderBoardId) {
                     var player = Controler.GetSelectedPlayer(item);
-                    if (player.Won != null) {
-                        if (!rateWin.ContainsKey(item.GetMapName())) {
-                            rateWin.Add(item.GetMapName(), 0);
-                            rateLose.Add(item.GetMapName(), 0);
-                        }
-
-                        if ((bool)player.Won) {
-                            rateWin[item.GetMapName()]++;
-                        } else {
-                            rateLose[item.GetMapName()]++;
-                        }
-                    }
+                    AddWonRate(rateWin, rateLose, player.Won, item.GetMapName());
                 }
             }
 
-            var winList = rateWin.Values.ToArray();
-            var loseList = rateLose.Values.ToArray();
-
-            // to simulate stacking Lose on Win, shift Lose up by Win
-            double[] stackedList = new double[loseList.Length];
-            for (int i = 0; i < loseList.Length; i++) {
-                stackedList[i] = winList[i] + loseList[i];
-            }
-
-            // plot the bar charts in reverse order (highest first)
-            var barWin = plot.AddBar(stackedList);
-            var barLose = plot.AddBar(winList);
-            barWin.Orientation = ScottPlot.Orientation.Horizontal;
-            barLose.Orientation = ScottPlot.Orientation.Horizontal;
-            barWin.ShowValuesAboveBars = true;
-            barLose.ShowValuesAboveBars = true;
-            plot.Legend(location: Alignment.UpperRight);
-            plot.YTicks(rateWin.Keys.ToArray());
-            plot.SetAxisLimits(xMin: 0, yMin: -1);
+            UpdateStackedBarGraph(plot, rateWin.Keys.ToList(), rateWin.Values.ToList(), rateLose.Values.ToList());
         }
 
         private void UpdateListViewHistory()
@@ -302,50 +436,12 @@
 
         private void FormsPlotRate1v1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (scatterPlot1v1 != null) {
-                // determine point nearest the cursor
-                (double mouseCoordX, double mouseCoordY) = formsPlotRate1v1.GetMouseCoordinates();
-                double xyRatio = formsPlotRate1v1.Plot.XAxis.Dims.PxPerUnit / formsPlotRate1v1.Plot.YAxis.Dims.PxPerUnit;
-                (double pointX, double pointY, int pointIndex) = scatterPlot1v1.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
-
-                // place the highlight over the point of interest
-                highlightedPoint1v1.Xs[0] = pointX;
-                highlightedPoint1v1.Ys[0] = pointY;
-                highlightedPoint1v1.Label = $"Rate:{pointY}";
-                tooltip1v1.Label = $"Rate:{pointY} {DateTime.FromOADate(pointX)}";
-                tooltip1v1.X = pointX;
-                tooltip1v1.Y = pointY;
-
-                // render if the highlighted point chnaged
-                if (lastHighlightedIndex1v1 != pointIndex) {
-                    lastHighlightedIndex1v1 = pointIndex;
-                    formsPlotRate1v1.Render();
-                }
-            }
+            UpdatePointerOfRateGraph(formsPlotRate1v1, highlightedPoint1v1, scatterPlot1v1, tooltip1v1, ref lastHighlightedIndex1v1);
         }
 
         private void FormsPlotRateTeam_MouseMove(object sender, MouseEventArgs e)
         {
-            if (scatterPlotTeam != null) {
-                // determine point nearest the cursor
-                (double mouseCoordX, double mouseCoordY) = formsPlotRateTeam.GetMouseCoordinates();
-                double xyRatio = formsPlotRateTeam.Plot.XAxis.Dims.PxPerUnit / formsPlotRateTeam.Plot.YAxis.Dims.PxPerUnit;
-                (double pointX, double pointY, int pointIndex) = scatterPlotTeam.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
-
-                // place the highlight over the point of interest
-                highlightedPointTeam.Xs[0] = pointX;
-                highlightedPointTeam.Ys[0] = pointY;
-                highlightedPointTeam.Label = $"Rate:{pointY}";
-                tooltipTeam.Label = $"Rate:{pointY} {DateTime.FromOADate(pointX)}";
-                tooltipTeam.X = pointX;
-                tooltipTeam.Y = pointY;
-
-                // render if the highlighted point chnaged
-                if (lastHighlightedIndexTeam != pointIndex) {
-                    lastHighlightedIndexTeam = pointIndex;
-                    formsPlotRateTeam.Render();
-                }
-            }
+            UpdatePointerOfRateGraph(formsPlotRateTeam, highlightedPointTeam, scatterPlotTeam, tooltipTeam, ref lastHighlightedIndexTeam);
         }
     }
 }

@@ -205,7 +205,7 @@
                     buttonUpdate.Enabled = ret;
                     buttonViewHistory.Enabled = ret;
                 } catch (Exception ex) {
-                    labelErrText.Text = ex.Message;
+                    labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
                 }
 
                 labelSettingsName.Text = $"   Name: {Controler.UserName}";
@@ -232,7 +232,7 @@
                 var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(Controler.SelectedId, idText);
                 SetLastMatchData(playerLastmatch);
             } catch (Exception ex) {
-                labelErrText.Text = ex.Message;
+                labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
             }
 
             buttonUpdate.Enabled = true;
@@ -246,7 +246,7 @@
                 _ = await CtrlMain.InitAsync(language);
                 LoadSettings();
             } catch (Exception ex) {
-                labelErrText.Text = ex.Message;
+                labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
             }
 
             Awaiter.Complete();
