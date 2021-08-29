@@ -33,6 +33,7 @@
             Controler.SelectedId = IdType.Steam;
 
             InitializeComponent();
+            ResizePanels();
             labelAveRate1.ForeColor = labelAveRate1.BackColor;
             labelAveRate2.ForeColor = labelAveRate2.BackColor;
             labelGameId.ForeColor = labelGameId.BackColor;
@@ -387,6 +388,21 @@
         private void ButtonViewHistory_Click(object sender, EventArgs e)
         {
             Controler.ShowHistory();
+        }
+
+        private void FormMain_Resize(object sender, EventArgs e)
+        {
+            ResizePanels();
+        }
+
+        private void ResizePanels()
+        {
+            panelTeam1.Width = (tabPagePlayerLastMatch.Width - 10) / 2;
+            panelTeam2.Width = panelTeam1.Width;
+            panelTeam1.Left = 5;
+            panelTeam2.Left = 5 + panelTeam1.Width + 5;
+            panelTeam2.Top = 50;
+            panelTeam1.Top = 50;
         }
     }
 }

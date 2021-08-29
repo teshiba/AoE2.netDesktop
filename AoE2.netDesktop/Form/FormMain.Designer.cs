@@ -32,7 +32,7 @@
             this.labelGameId = new System.Windows.Forms.Label();
             this.labelErrText = new System.Windows.Forms.Label();
             this.buttonUpdate = new System.Windows.Forms.Button();
-            this.panelTeam2 = new System.Windows.Forms.Panel();
+            this.panelTeam1 = new System.Windows.Forms.Panel();
             this.labelNameP7 = new System.Windows.Forms.Label();
             this.labelNameP3 = new System.Windows.Forms.Label();
             this.labelNameP5 = new System.Windows.Forms.Label();
@@ -54,7 +54,7 @@
             this.labelColorP5 = new System.Windows.Forms.Label();
             this.labelAveRate1 = new System.Windows.Forms.Label();
             this.labelColorP1 = new System.Windows.Forms.Label();
-            this.panelTeam1 = new System.Windows.Forms.Panel();
+            this.panelTeam2 = new System.Windows.Forms.Panel();
             this.labelNameP2 = new System.Windows.Forms.Label();
             this.labelNameP8 = new System.Windows.Forms.Label();
             this.labelNameP6 = new System.Windows.Forms.Label();
@@ -90,12 +90,12 @@
             this.checkBoxAlwaysOnTop = new System.Windows.Forms.CheckBox();
             this.tabControlMain.SuspendLayout();
             this.tabPagePlayerLastMatch.SuspendLayout();
-            this.panelTeam2.SuspendLayout();
+            this.panelTeam1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panelTeam1.SuspendLayout();
+            this.panelTeam2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -112,7 +112,7 @@
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(289, 521);
+            this.tabControlMain.Size = new System.Drawing.Size(274, 271);
             this.tabControlMain.TabIndex = 0;
             // 
             // tabPagePlayerLastMatch
@@ -121,14 +121,14 @@
             this.tabPagePlayerLastMatch.Controls.Add(this.labelGameId);
             this.tabPagePlayerLastMatch.Controls.Add(this.labelErrText);
             this.tabPagePlayerLastMatch.Controls.Add(this.buttonUpdate);
-            this.tabPagePlayerLastMatch.Controls.Add(this.panelTeam2);
             this.tabPagePlayerLastMatch.Controls.Add(this.panelTeam1);
+            this.tabPagePlayerLastMatch.Controls.Add(this.panelTeam2);
             this.tabPagePlayerLastMatch.Controls.Add(this.labelServer);
             this.tabPagePlayerLastMatch.Controls.Add(this.labelMap);
             this.tabPagePlayerLastMatch.Location = new System.Drawing.Point(4, 24);
             this.tabPagePlayerLastMatch.Name = "tabPagePlayerLastMatch";
             this.tabPagePlayerLastMatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(281, 493);
+            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(266, 243);
             this.tabPagePlayerLastMatch.TabIndex = 0;
             this.tabPagePlayerLastMatch.Text = "Player Last Match";
             this.tabPagePlayerLastMatch.UseVisualStyleBackColor = true;
@@ -137,7 +137,7 @@
             // 
             this.labelGameId.Location = new System.Drawing.Point(8, 31);
             this.labelGameId.Name = "labelGameId";
-            this.labelGameId.Size = new System.Drawing.Size(260, 19);
+            this.labelGameId.Size = new System.Drawing.Size(121, 19);
             this.labelGameId.TabIndex = 9;
             this.labelGameId.Text = "GameID: 88888888";
             this.labelGameId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -148,10 +148,11 @@
             this.labelErrText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelErrText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
-            this.labelErrText.Location = new System.Drawing.Point(8, 447);
+            this.labelErrText.Location = new System.Drawing.Point(8, 246);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(193, 46);
+            this.labelErrText.Size = new System.Drawing.Size(252, 0);
             this.labelErrText.TabIndex = 8;
             // 
             // buttonUpdate
@@ -159,46 +160,45 @@
             this.buttonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonUpdate.Enabled = false;
             this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonUpdate.Location = new System.Drawing.Point(207, 447);
+            this.buttonUpdate.Location = new System.Drawing.Point(198, 2);
             this.buttonUpdate.Name = "buttonUpdate";
-            this.buttonUpdate.Size = new System.Drawing.Size(66, 38);
+            this.buttonUpdate.Size = new System.Drawing.Size(66, 27);
             this.buttonUpdate.TabIndex = 7;
             this.buttonUpdate.Text = "Update";
             this.buttonUpdate.UseVisualStyleBackColor = true;
             this.buttonUpdate.Click += new System.EventHandler(this.ButtonUpdate_Click);
             // 
-            // panelTeam2
+            // panelTeam1
             // 
-            this.panelTeam2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelTeam2.BackColor = System.Drawing.Color.Azure;
-            this.panelTeam2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.panelTeam2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelTeam2.Controls.Add(this.labelNameP7);
-            this.panelTeam2.Controls.Add(this.labelNameP3);
-            this.panelTeam2.Controls.Add(this.labelNameP5);
-            this.panelTeam2.Controls.Add(this.labelNameP1);
-            this.panelTeam2.Controls.Add(this.labelRateP7);
-            this.panelTeam2.Controls.Add(this.labelRateP3);
-            this.panelTeam2.Controls.Add(this.labelRateP5);
-            this.panelTeam2.Controls.Add(this.labelRateP1);
-            this.panelTeam2.Controls.Add(this.labelCivP7);
-            this.panelTeam2.Controls.Add(this.labelCivP3);
-            this.panelTeam2.Controls.Add(this.labelCivP5);
-            this.panelTeam2.Controls.Add(this.labelCivP1);
-            this.panelTeam2.Controls.Add(this.pictureBox7);
-            this.panelTeam2.Controls.Add(this.pictureBox5);
-            this.panelTeam2.Controls.Add(this.pictureBox3);
-            this.panelTeam2.Controls.Add(this.pictureBox1);
-            this.panelTeam2.Controls.Add(this.labelColorP7);
-            this.panelTeam2.Controls.Add(this.labelColorP3);
-            this.panelTeam2.Controls.Add(this.labelColorP5);
-            this.panelTeam2.Controls.Add(this.labelAveRate1);
-            this.panelTeam2.Controls.Add(this.labelColorP1);
-            this.panelTeam2.Location = new System.Drawing.Point(8, 51);
-            this.panelTeam2.Name = "panelTeam2";
-            this.panelTeam2.Size = new System.Drawing.Size(265, 192);
-            this.panelTeam2.TabIndex = 6;
+            this.panelTeam1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.panelTeam1.BackColor = System.Drawing.Color.Azure;
+            this.panelTeam1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.panelTeam1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelTeam1.Controls.Add(this.labelNameP7);
+            this.panelTeam1.Controls.Add(this.labelNameP3);
+            this.panelTeam1.Controls.Add(this.labelNameP5);
+            this.panelTeam1.Controls.Add(this.labelNameP1);
+            this.panelTeam1.Controls.Add(this.labelRateP7);
+            this.panelTeam1.Controls.Add(this.labelRateP3);
+            this.panelTeam1.Controls.Add(this.labelRateP5);
+            this.panelTeam1.Controls.Add(this.labelRateP1);
+            this.panelTeam1.Controls.Add(this.labelCivP7);
+            this.panelTeam1.Controls.Add(this.labelCivP3);
+            this.panelTeam1.Controls.Add(this.labelCivP5);
+            this.panelTeam1.Controls.Add(this.labelCivP1);
+            this.panelTeam1.Controls.Add(this.pictureBox7);
+            this.panelTeam1.Controls.Add(this.pictureBox5);
+            this.panelTeam1.Controls.Add(this.pictureBox3);
+            this.panelTeam1.Controls.Add(this.pictureBox1);
+            this.panelTeam1.Controls.Add(this.labelColorP7);
+            this.panelTeam1.Controls.Add(this.labelColorP3);
+            this.panelTeam1.Controls.Add(this.labelColorP5);
+            this.panelTeam1.Controls.Add(this.labelAveRate1);
+            this.panelTeam1.Controls.Add(this.labelColorP1);
+            this.panelTeam1.Location = new System.Drawing.Point(1, 51);
+            this.panelTeam1.Name = "panelTeam1";
+            this.panelTeam1.Size = new System.Drawing.Size(130, 192);
+            this.panelTeam1.TabIndex = 6;
             // 
             // labelNameP7
             // 
@@ -208,7 +208,7 @@
             this.labelNameP7.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP7.Location = new System.Drawing.Point(123, 148);
             this.labelNameP7.Name = "labelNameP7";
-            this.labelNameP7.Size = new System.Drawing.Size(139, 28);
+            this.labelNameP7.Size = new System.Drawing.Size(4, 28);
             this.labelNameP7.TabIndex = 3;
             this.labelNameP7.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP7.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP7_Paint);
@@ -221,7 +221,7 @@
             this.labelNameP3.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP3.Location = new System.Drawing.Point(123, 67);
             this.labelNameP3.Name = "labelNameP3";
-            this.labelNameP3.Size = new System.Drawing.Size(139, 28);
+            this.labelNameP3.Size = new System.Drawing.Size(4, 28);
             this.labelNameP3.TabIndex = 3;
             this.labelNameP3.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP3.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP3_Paint);
@@ -234,7 +234,7 @@
             this.labelNameP5.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP5.Location = new System.Drawing.Point(123, 108);
             this.labelNameP5.Name = "labelNameP5";
-            this.labelNameP5.Size = new System.Drawing.Size(139, 28);
+            this.labelNameP5.Size = new System.Drawing.Size(4, 28);
             this.labelNameP5.TabIndex = 3;
             this.labelNameP5.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP5.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP5_Paint);
@@ -247,7 +247,7 @@
             this.labelNameP1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP1.Location = new System.Drawing.Point(123, 28);
             this.labelNameP1.Name = "labelNameP1";
-            this.labelNameP1.Size = new System.Drawing.Size(139, 28);
+            this.labelNameP1.Size = new System.Drawing.Size(4, 28);
             this.labelNameP1.TabIndex = 3;
             this.labelNameP1.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP1_Paint);
@@ -466,37 +466,36 @@
             this.labelColorP1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelColorP1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelColor_Paint);
             // 
-            // panelTeam1
+            // panelTeam2
             // 
-            this.panelTeam1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelTeam1.BackColor = System.Drawing.Color.LavenderBlush;
-            this.panelTeam1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelTeam1.Controls.Add(this.labelNameP2);
-            this.panelTeam1.Controls.Add(this.labelNameP8);
-            this.panelTeam1.Controls.Add(this.labelNameP6);
-            this.panelTeam1.Controls.Add(this.labelNameP4);
-            this.panelTeam1.Controls.Add(this.labelCivP2);
-            this.panelTeam1.Controls.Add(this.labelCivP6);
-            this.panelTeam1.Controls.Add(this.labelCivP4);
-            this.panelTeam1.Controls.Add(this.labelCivP8);
-            this.panelTeam1.Controls.Add(this.labelRateP2);
-            this.panelTeam1.Controls.Add(this.labelRateP6);
-            this.panelTeam1.Controls.Add(this.labelRateP4);
-            this.panelTeam1.Controls.Add(this.labelRateP8);
-            this.panelTeam1.Controls.Add(this.pictureBox8);
-            this.panelTeam1.Controls.Add(this.pictureBox6);
-            this.panelTeam1.Controls.Add(this.pictureBox4);
-            this.panelTeam1.Controls.Add(this.pictureBox2);
-            this.panelTeam1.Controls.Add(this.labelAveRate2);
-            this.panelTeam1.Controls.Add(this.labelColorP8);
-            this.panelTeam1.Controls.Add(this.labelColorP4);
-            this.panelTeam1.Controls.Add(this.labelColorP6);
-            this.panelTeam1.Controls.Add(this.labelColorP2);
-            this.panelTeam1.Location = new System.Drawing.Point(8, 249);
-            this.panelTeam1.Name = "panelTeam1";
-            this.panelTeam1.Size = new System.Drawing.Size(265, 192);
-            this.panelTeam1.TabIndex = 5;
+            this.panelTeam2.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.panelTeam2.BackColor = System.Drawing.Color.LavenderBlush;
+            this.panelTeam2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelTeam2.Controls.Add(this.labelNameP2);
+            this.panelTeam2.Controls.Add(this.labelNameP8);
+            this.panelTeam2.Controls.Add(this.labelNameP6);
+            this.panelTeam2.Controls.Add(this.labelNameP4);
+            this.panelTeam2.Controls.Add(this.labelCivP2);
+            this.panelTeam2.Controls.Add(this.labelCivP6);
+            this.panelTeam2.Controls.Add(this.labelCivP4);
+            this.panelTeam2.Controls.Add(this.labelCivP8);
+            this.panelTeam2.Controls.Add(this.labelRateP2);
+            this.panelTeam2.Controls.Add(this.labelRateP6);
+            this.panelTeam2.Controls.Add(this.labelRateP4);
+            this.panelTeam2.Controls.Add(this.labelRateP8);
+            this.panelTeam2.Controls.Add(this.pictureBox8);
+            this.panelTeam2.Controls.Add(this.pictureBox6);
+            this.panelTeam2.Controls.Add(this.pictureBox4);
+            this.panelTeam2.Controls.Add(this.pictureBox2);
+            this.panelTeam2.Controls.Add(this.labelAveRate2);
+            this.panelTeam2.Controls.Add(this.labelColorP8);
+            this.panelTeam2.Controls.Add(this.labelColorP4);
+            this.panelTeam2.Controls.Add(this.labelColorP6);
+            this.panelTeam2.Controls.Add(this.labelColorP2);
+            this.panelTeam2.Location = new System.Drawing.Point(134, 51);
+            this.panelTeam2.Name = "panelTeam2";
+            this.panelTeam2.Size = new System.Drawing.Size(130, 192);
+            this.panelTeam2.TabIndex = 5;
             // 
             // labelNameP2
             // 
@@ -506,7 +505,7 @@
             this.labelNameP2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP2.Location = new System.Drawing.Point(123, 29);
             this.labelNameP2.Name = "labelNameP2";
-            this.labelNameP2.Size = new System.Drawing.Size(139, 28);
+            this.labelNameP2.Size = new System.Drawing.Size(4, 28);
             this.labelNameP2.TabIndex = 3;
             this.labelNameP2.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP2_Paint);
@@ -519,7 +518,7 @@
             this.labelNameP8.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP8.Location = new System.Drawing.Point(123, 149);
             this.labelNameP8.Name = "labelNameP8";
-            this.labelNameP8.Size = new System.Drawing.Size(139, 28);
+            this.labelNameP8.Size = new System.Drawing.Size(4, 28);
             this.labelNameP8.TabIndex = 3;
             this.labelNameP8.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP8.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP8_Paint);
@@ -532,7 +531,7 @@
             this.labelNameP6.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP6.Location = new System.Drawing.Point(123, 110);
             this.labelNameP6.Name = "labelNameP6";
-            this.labelNameP6.Size = new System.Drawing.Size(139, 28);
+            this.labelNameP6.Size = new System.Drawing.Size(4, 28);
             this.labelNameP6.TabIndex = 3;
             this.labelNameP6.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP6.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP6_Paint);
@@ -545,7 +544,7 @@
             this.labelNameP4.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP4.Location = new System.Drawing.Point(123, 70);
             this.labelNameP4.Name = "labelNameP4";
-            this.labelNameP4.Size = new System.Drawing.Size(139, 28);
+            this.labelNameP4.Size = new System.Drawing.Size(4, 28);
             this.labelNameP4.TabIndex = 3;
             this.labelNameP4.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP4.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP4_Paint);
@@ -772,9 +771,9 @@
             // 
             this.labelServer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelServer.Location = new System.Drawing.Point(145, 31);
+            this.labelServer.Location = new System.Drawing.Point(141, 31);
             this.labelServer.Name = "labelServer";
-            this.labelServer.Size = new System.Drawing.Size(5, 19);
+            this.labelServer.Size = new System.Drawing.Size(119, 19);
             this.labelServer.TabIndex = 2;
             this.labelServer.Text = "Server: ----------";
             this.labelServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -798,7 +797,7 @@
             this.tabPageSettings.Location = new System.Drawing.Point(4, 24);
             this.tabPageSettings.Name = "tabPageSettings";
             this.tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSettings.Size = new System.Drawing.Size(276, 493);
+            this.tabPageSettings.Size = new System.Drawing.Size(276, 248);
             this.tabPageSettings.TabIndex = 1;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
@@ -915,21 +914,23 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(289, 521);
+            this.ClientSize = new System.Drawing.Size(274, 271);
             this.Controls.Add(this.tabControlMain);
-            this.MinimumSize = new System.Drawing.Size(300, 560);
+            this.MinimumSize = new System.Drawing.Size(290, 310);
             this.Name = "FormMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "AoE2.net Desktop";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
+            this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.tabControlMain.ResumeLayout(false);
             this.tabPagePlayerLastMatch.ResumeLayout(false);
-            this.panelTeam2.ResumeLayout(false);
+            this.panelTeam1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panelTeam1.ResumeLayout(false);
+            this.panelTeam2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
@@ -982,8 +983,8 @@
         private System.Windows.Forms.Label labelCivP2;
         private System.Windows.Forms.Label labelServer;
         private System.Windows.Forms.Label labelMap;
-        private System.Windows.Forms.Panel panelTeam2;
         private System.Windows.Forms.Panel panelTeam1;
+        private System.Windows.Forms.Panel panelTeam2;
         private System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.TabPage tabPageSettings;
         private System.Windows.Forms.TextBox textBoxSettingSteamId;
