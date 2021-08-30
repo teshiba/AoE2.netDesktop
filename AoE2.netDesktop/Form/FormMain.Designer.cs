@@ -150,9 +150,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelErrText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
-            this.labelErrText.Location = new System.Drawing.Point(8, 246);
+            this.labelErrText.Location = new System.Drawing.Point(1, 246);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(252, 0);
+            this.labelErrText.Size = new System.Drawing.Size(264, 0);
             this.labelErrText.TabIndex = 8;
             // 
             // buttonUpdate
@@ -797,7 +797,7 @@
             this.tabPageSettings.Location = new System.Drawing.Point(4, 24);
             this.tabPageSettings.Name = "tabPageSettings";
             this.tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSettings.Size = new System.Drawing.Size(276, 248);
+            this.tabPageSettings.Size = new System.Drawing.Size(266, 243);
             this.tabPageSettings.TabIndex = 1;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;

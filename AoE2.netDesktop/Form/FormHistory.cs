@@ -2,17 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Diagnostics;
     using System.Drawing;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Forms;
-
     using AoE2NetDesktop.From;
-
     using LibAoE2net;
-
     using ScottPlot;
     using ScottPlot.Plottable;
 
@@ -70,6 +66,12 @@
             formsPlotCivTeam.Plot.Title("Team Random Map");
             formsPlotCivTeam.Plot.YLabel("Civilization Name");
             formsPlotCivTeam.Plot.XLabel("Win / Total Game Count");
+
+            formsPlotCountry.Configuration.LockHorizontalAxis = true;
+            formsPlotCountry.Configuration.LockVerticalAxis = true;
+            formsPlotCountry.Plot.Title("Player's country");
+            formsPlotCountry.Plot.YLabel("Country");
+            formsPlotCountry.Plot.XLabel("Game count");
         }
 
         /// <inheritdoc/>
@@ -129,7 +131,6 @@
             barLose.Orientation = ScottPlot.Orientation.Horizontal;
             barWin.ShowValuesAboveBars = true;
             barLose.ShowValuesAboveBars = true;
-            plot.Legend(location: Alignment.UpperRight);
             plot.YTicks(ticks.ToArray());
             plot.SetAxisLimits(xMin: 0, yMin: -1);
         }
@@ -182,6 +183,7 @@
                 UpdateRate1v1();
                 UpdateRateTeam();
                 UpdateListViewMatchedPlayers();
+                UpdateCountry();
                 UpdateWinRateEachMap(LeaderBoardId.OneVOneRandomMap, formsPlotWinRate1v1EachMap.Plot);
                 UpdateWinRateEachMap(LeaderBoardId.TeamRandomMap, formsPlotWinRateTeamEachMap.Plot);
                 UpdateMapRate(LeaderBoardId.OneVOneRandomMap, formsPlotMapRate1v1.Plot);
@@ -191,6 +193,41 @@
             } else {
                 Debug.Print("ReadPlayerMatchHistoryAsync ERROR.");
             }
+        }
+
+        private void UpdateCountry()
+        {
+            var countryList = new Dictionary<string, double>();
+            var plot = formsPlotCountry.Plot;
+
+            foreach (var match in Controler.PlayerMatchHistory) {
+                var selectedPlayer = Controler.GetSelectedPlayer(match);
+                foreach (var player in match.Players) {
+                    if (player != selectedPlayer) {
+                        var country = player.Country ?? "N/A";
+                        if (!countryList.ContainsKey(country)) {
+                            countryList.Add(country, 0);
+                        }
+
+                        countryList[country]++;
+                    }
+                }
+            }
+
+            var countryNames = countryList.Keys.Select(x =>
+            {
+                if (CountryCode.ISO31661alpha2.TryGetValue(x, out var countryName)) {
+                    countryName = "N/A";
+                }
+
+                return countryName;
+            });
+            plot.YTicks(countryNames.ToArray());
+            plot.SetAxisLimits(xMin: 0, yMin: -1);
+
+            var bar = plot.AddBar(countryList.Values.ToArray());
+            bar.Orientation = ScottPlot.Orientation.Horizontal;
+            bar.ShowValuesAboveBars = true;
         }
 
         private async Task UpdateListViewStatistics()
@@ -254,7 +291,6 @@
             pie.ShowPercentages = true;
             pie.ShowValues = true;
             pie.ShowLabels = true;
-            plot.Legend();
         }
 
         private void UpdateListViewMatchedPlayers()
