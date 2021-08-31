@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Drawing;
     using System.Threading.Tasks;
     using System.Windows.Forms;
@@ -33,7 +34,6 @@
             Controler.SelectedId = IdType.Steam;
 
             InitializeComponent();
-            ResizePanels();
             labelAveRate1.ForeColor = labelAveRate1.BackColor;
             labelAveRate2.ForeColor = labelAveRate2.BackColor;
             labelGameId.ForeColor = labelGameId.BackColor;
@@ -45,6 +45,20 @@
 
         /// <inheritdoc/>
         protected override CtrlMain Controler { get => (CtrlMain)base.Controler; }
+
+        private void RestoreWindowPosition()
+        {
+            Top = Settings.Default.WindowLocation.Y;
+            Left = Settings.Default.WindowLocation.X;
+            Width = Settings.Default.WindowSize.Width;
+            Height = Settings.Default.WindowSize.Height;
+        }
+
+        private void SaveWindowPosition()
+        {
+            Settings.Default.WindowLocation = new Point(Left, Top);
+            Settings.Default.WindowSize = new Size(Width, Height);
+        }
 
         private void InitIDRadioButton()
         {
@@ -242,6 +256,8 @@
 
         private async void FormMain_Load(object sender, EventArgs e)
         {
+            RestoreWindowPosition();
+            ResizePanels();
             ClearLastMatch();
             try {
                 _ = await CtrlMain.InitAsync(language);
@@ -255,6 +271,7 @@
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            SaveWindowPosition();
             Settings.Default.Save();
         }
 

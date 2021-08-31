@@ -222,12 +222,13 @@
 
                 return countryName;
             });
-            plot.YTicks(countryNames.ToArray());
-            plot.SetAxisLimits(xMin: 0, yMin: -1);
 
             var bar = plot.AddBar(countryList.Values.ToArray());
             bar.Orientation = ScottPlot.Orientation.Horizontal;
             bar.ShowValuesAboveBars = true;
+
+            plot.YTicks(countryNames.ToArray());
+            plot.SetAxisLimits(xMin: 0, yMin: -1);
         }
 
         private async Task UpdateListViewStatistics()

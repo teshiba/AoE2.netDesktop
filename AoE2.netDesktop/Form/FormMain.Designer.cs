@@ -112,7 +112,7 @@
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(274, 271);
+            this.tabControlMain.Size = new System.Drawing.Size(664, 271);
             this.tabControlMain.TabIndex = 0;
             // 
             // tabPagePlayerLastMatch
@@ -128,7 +128,7 @@
             this.tabPagePlayerLastMatch.Location = new System.Drawing.Point(4, 24);
             this.tabPagePlayerLastMatch.Name = "tabPagePlayerLastMatch";
             this.tabPagePlayerLastMatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(266, 243);
+            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(656, 243);
             this.tabPagePlayerLastMatch.TabIndex = 0;
             this.tabPagePlayerLastMatch.Text = "Player Last Match";
             this.tabPagePlayerLastMatch.UseVisualStyleBackColor = true;
@@ -152,7 +152,7 @@
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
             this.labelErrText.Location = new System.Drawing.Point(1, 246);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(264, 0);
+            this.labelErrText.Size = new System.Drawing.Size(654, 0);
             this.labelErrText.TabIndex = 8;
             // 
             // buttonUpdate
@@ -160,7 +160,7 @@
             this.buttonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonUpdate.Enabled = false;
             this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonUpdate.Location = new System.Drawing.Point(198, 2);
+            this.buttonUpdate.Location = new System.Drawing.Point(588, 2);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(66, 27);
             this.buttonUpdate.TabIndex = 7;
@@ -170,7 +170,6 @@
             // 
             // panelTeam1
             // 
-            this.panelTeam1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panelTeam1.BackColor = System.Drawing.Color.Azure;
             this.panelTeam1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.panelTeam1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -195,9 +194,9 @@
             this.panelTeam1.Controls.Add(this.labelColorP5);
             this.panelTeam1.Controls.Add(this.labelAveRate1);
             this.panelTeam1.Controls.Add(this.labelColorP1);
-            this.panelTeam1.Location = new System.Drawing.Point(1, 51);
+            this.panelTeam1.Location = new System.Drawing.Point(3, 51);
             this.panelTeam1.Name = "panelTeam1";
-            this.panelTeam1.Size = new System.Drawing.Size(130, 192);
+            this.panelTeam1.Size = new System.Drawing.Size(344, 192);
             this.panelTeam1.TabIndex = 6;
             // 
             // labelNameP7
@@ -206,9 +205,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP7.BackColor = System.Drawing.Color.Azure;
             this.labelNameP7.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelNameP7.Location = new System.Drawing.Point(123, 148);
+            this.labelNameP7.Location = new System.Drawing.Point(123, 147);
             this.labelNameP7.Name = "labelNameP7";
-            this.labelNameP7.Size = new System.Drawing.Size(4, 28);
+            this.labelNameP7.Size = new System.Drawing.Size(218, 28);
             this.labelNameP7.TabIndex = 3;
             this.labelNameP7.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP7.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP7_Paint);
@@ -219,9 +218,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP3.BackColor = System.Drawing.Color.Azure;
             this.labelNameP3.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelNameP3.Location = new System.Drawing.Point(123, 67);
+            this.labelNameP3.Location = new System.Drawing.Point(123, 66);
             this.labelNameP3.Name = "labelNameP3";
-            this.labelNameP3.Size = new System.Drawing.Size(4, 28);
+            this.labelNameP3.Size = new System.Drawing.Size(218, 28);
             this.labelNameP3.TabIndex = 3;
             this.labelNameP3.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP3.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP3_Paint);
@@ -232,9 +231,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP5.BackColor = System.Drawing.Color.Azure;
             this.labelNameP5.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelNameP5.Location = new System.Drawing.Point(123, 108);
+            this.labelNameP5.Location = new System.Drawing.Point(123, 107);
             this.labelNameP5.Name = "labelNameP5";
-            this.labelNameP5.Size = new System.Drawing.Size(4, 28);
+            this.labelNameP5.Size = new System.Drawing.Size(218, 28);
             this.labelNameP5.TabIndex = 3;
             this.labelNameP5.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP5.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP5_Paint);
@@ -245,9 +244,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP1.BackColor = System.Drawing.Color.Azure;
             this.labelNameP1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelNameP1.Location = new System.Drawing.Point(123, 28);
+            this.labelNameP1.Location = new System.Drawing.Point(123, 27);
             this.labelNameP1.Name = "labelNameP1";
-            this.labelNameP1.Size = new System.Drawing.Size(4, 28);
+            this.labelNameP1.Size = new System.Drawing.Size(218, 28);
             this.labelNameP1.TabIndex = 3;
             this.labelNameP1.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP1_Paint);
@@ -257,7 +256,7 @@
             this.labelRateP7.BackColor = System.Drawing.Color.Azure;
             this.labelRateP7.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP7.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelRateP7.Location = new System.Drawing.Point(73, 151);
+            this.labelRateP7.Location = new System.Drawing.Point(73, 150);
             this.labelRateP7.Name = "labelRateP7";
             this.labelRateP7.Size = new System.Drawing.Size(57, 22);
             this.labelRateP7.TabIndex = 3;
@@ -270,7 +269,7 @@
             this.labelRateP3.BackColor = System.Drawing.Color.Azure;
             this.labelRateP3.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP3.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelRateP3.Location = new System.Drawing.Point(73, 70);
+            this.labelRateP3.Location = new System.Drawing.Point(73, 69);
             this.labelRateP3.Name = "labelRateP3";
             this.labelRateP3.Size = new System.Drawing.Size(57, 22);
             this.labelRateP3.TabIndex = 3;
@@ -283,7 +282,7 @@
             this.labelRateP5.BackColor = System.Drawing.Color.Azure;
             this.labelRateP5.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP5.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelRateP5.Location = new System.Drawing.Point(73, 110);
+            this.labelRateP5.Location = new System.Drawing.Point(73, 109);
             this.labelRateP5.Name = "labelRateP5";
             this.labelRateP5.Size = new System.Drawing.Size(57, 22);
             this.labelRateP5.TabIndex = 3;
@@ -296,7 +295,7 @@
             this.labelRateP1.BackColor = System.Drawing.Color.Azure;
             this.labelRateP1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelRateP1.Location = new System.Drawing.Point(73, 29);
+            this.labelRateP1.Location = new System.Drawing.Point(73, 28);
             this.labelRateP1.Name = "labelRateP1";
             this.labelRateP1.Size = new System.Drawing.Size(57, 22);
             this.labelRateP1.TabIndex = 3;
@@ -309,7 +308,7 @@
             this.labelCivP7.BackColor = System.Drawing.Color.Azure;
             this.labelCivP7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP7.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP7.Location = new System.Drawing.Point(45, 171);
+            this.labelCivP7.Location = new System.Drawing.Point(45, 170);
             this.labelCivP7.Name = "labelCivP7";
             this.labelCivP7.Size = new System.Drawing.Size(75, 16);
             this.labelCivP7.TabIndex = 2;
@@ -323,7 +322,7 @@
             this.labelCivP3.BackColor = System.Drawing.Color.Azure;
             this.labelCivP3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP3.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP3.Location = new System.Drawing.Point(45, 91);
+            this.labelCivP3.Location = new System.Drawing.Point(45, 90);
             this.labelCivP3.Name = "labelCivP3";
             this.labelCivP3.Size = new System.Drawing.Size(75, 16);
             this.labelCivP3.TabIndex = 2;
@@ -337,7 +336,7 @@
             this.labelCivP5.BackColor = System.Drawing.Color.Azure;
             this.labelCivP5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP5.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP5.Location = new System.Drawing.Point(45, 131);
+            this.labelCivP5.Location = new System.Drawing.Point(45, 130);
             this.labelCivP5.Name = "labelCivP5";
             this.labelCivP5.Size = new System.Drawing.Size(75, 16);
             this.labelCivP5.TabIndex = 2;
@@ -351,7 +350,7 @@
             this.labelCivP1.BackColor = System.Drawing.Color.Azure;
             this.labelCivP1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP1.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP1.Location = new System.Drawing.Point(45, 51);
+            this.labelCivP1.Location = new System.Drawing.Point(45, 50);
             this.labelCivP1.Name = "labelCivP1";
             this.labelCivP1.Size = new System.Drawing.Size(75, 16);
             this.labelCivP1.TabIndex = 2;
@@ -362,7 +361,7 @@
             // 
             // pictureBox7
             // 
-            this.pictureBox7.Location = new System.Drawing.Point(43, 147);
+            this.pictureBox7.Location = new System.Drawing.Point(43, 146);
             this.pictureBox7.Name = "pictureBox7";
             this.pictureBox7.Size = new System.Drawing.Size(30, 32);
             this.pictureBox7.TabIndex = 6;
@@ -370,7 +369,7 @@
             // 
             // pictureBox5
             // 
-            this.pictureBox5.Location = new System.Drawing.Point(43, 107);
+            this.pictureBox5.Location = new System.Drawing.Point(43, 106);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(30, 32);
             this.pictureBox5.TabIndex = 7;
@@ -378,7 +377,7 @@
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(43, 67);
+            this.pictureBox3.Location = new System.Drawing.Point(43, 66);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(30, 32);
             this.pictureBox3.TabIndex = 8;
@@ -386,7 +385,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(43, 27);
+            this.pictureBox1.Location = new System.Drawing.Point(43, 26);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(30, 32);
             this.pictureBox1.TabIndex = 9;
@@ -399,7 +398,7 @@
             this.labelColorP7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelColorP7.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelColorP7.ForeColor = System.Drawing.Color.White;
-            this.labelColorP7.Location = new System.Drawing.Point(7, 145);
+            this.labelColorP7.Location = new System.Drawing.Point(7, 144);
             this.labelColorP7.Margin = new System.Windows.Forms.Padding(0);
             this.labelColorP7.Name = "labelColorP7";
             this.labelColorP7.Size = new System.Drawing.Size(32, 32);
@@ -415,7 +414,7 @@
             this.labelColorP3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelColorP3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelColorP3.ForeColor = System.Drawing.Color.White;
-            this.labelColorP3.Location = new System.Drawing.Point(7, 65);
+            this.labelColorP3.Location = new System.Drawing.Point(7, 64);
             this.labelColorP3.Margin = new System.Windows.Forms.Padding(0);
             this.labelColorP3.Name = "labelColorP3";
             this.labelColorP3.Size = new System.Drawing.Size(32, 32);
@@ -431,7 +430,7 @@
             this.labelColorP5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelColorP5.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelColorP5.ForeColor = System.Drawing.Color.White;
-            this.labelColorP5.Location = new System.Drawing.Point(7, 105);
+            this.labelColorP5.Location = new System.Drawing.Point(7, 104);
             this.labelColorP5.Margin = new System.Windows.Forms.Padding(0);
             this.labelColorP5.Name = "labelColorP5";
             this.labelColorP5.Size = new System.Drawing.Size(32, 32);
@@ -457,7 +456,7 @@
             this.labelColorP1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelColorP1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelColorP1.ForeColor = System.Drawing.Color.White;
-            this.labelColorP1.Location = new System.Drawing.Point(7, 25);
+            this.labelColorP1.Location = new System.Drawing.Point(7, 24);
             this.labelColorP1.Margin = new System.Windows.Forms.Padding(0);
             this.labelColorP1.Name = "labelColorP1";
             this.labelColorP1.Size = new System.Drawing.Size(32, 32);
@@ -468,7 +467,6 @@
             // 
             // panelTeam2
             // 
-            this.panelTeam2.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.panelTeam2.BackColor = System.Drawing.Color.LavenderBlush;
             this.panelTeam2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelTeam2.Controls.Add(this.labelNameP2);
@@ -492,9 +490,9 @@
             this.panelTeam2.Controls.Add(this.labelColorP4);
             this.panelTeam2.Controls.Add(this.labelColorP6);
             this.panelTeam2.Controls.Add(this.labelColorP2);
-            this.panelTeam2.Location = new System.Drawing.Point(134, 51);
+            this.panelTeam2.Location = new System.Drawing.Point(354, 51);
             this.panelTeam2.Name = "panelTeam2";
-            this.panelTeam2.Size = new System.Drawing.Size(130, 192);
+            this.panelTeam2.Size = new System.Drawing.Size(299, 192);
             this.panelTeam2.TabIndex = 5;
             // 
             // labelNameP2
@@ -505,7 +503,7 @@
             this.labelNameP2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP2.Location = new System.Drawing.Point(123, 29);
             this.labelNameP2.Name = "labelNameP2";
-            this.labelNameP2.Size = new System.Drawing.Size(4, 28);
+            this.labelNameP2.Size = new System.Drawing.Size(173, 28);
             this.labelNameP2.TabIndex = 3;
             this.labelNameP2.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP2_Paint);
@@ -518,7 +516,7 @@
             this.labelNameP8.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP8.Location = new System.Drawing.Point(123, 149);
             this.labelNameP8.Name = "labelNameP8";
-            this.labelNameP8.Size = new System.Drawing.Size(4, 28);
+            this.labelNameP8.Size = new System.Drawing.Size(173, 28);
             this.labelNameP8.TabIndex = 3;
             this.labelNameP8.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP8.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP8_Paint);
@@ -531,7 +529,7 @@
             this.labelNameP6.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP6.Location = new System.Drawing.Point(123, 110);
             this.labelNameP6.Name = "labelNameP6";
-            this.labelNameP6.Size = new System.Drawing.Size(4, 28);
+            this.labelNameP6.Size = new System.Drawing.Size(173, 28);
             this.labelNameP6.TabIndex = 3;
             this.labelNameP6.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP6.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP6_Paint);
@@ -544,7 +542,7 @@
             this.labelNameP4.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP4.Location = new System.Drawing.Point(123, 70);
             this.labelNameP4.Name = "labelNameP4";
-            this.labelNameP4.Size = new System.Drawing.Size(4, 28);
+            this.labelNameP4.Size = new System.Drawing.Size(173, 28);
             this.labelNameP4.TabIndex = 3;
             this.labelNameP4.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP4.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP4_Paint);
@@ -773,7 +771,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelServer.Location = new System.Drawing.Point(141, 31);
             this.labelServer.Name = "labelServer";
-            this.labelServer.Size = new System.Drawing.Size(119, 19);
+            this.labelServer.Size = new System.Drawing.Size(509, 19);
             this.labelServer.TabIndex = 2;
             this.labelServer.Text = "Server: ----------";
             this.labelServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -914,7 +912,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(274, 271);
+            this.ClientSize = new System.Drawing.Size(664, 271);
             this.Controls.Add(this.tabControlMain);
             this.MinimumSize = new System.Drawing.Size(290, 310);
             this.Name = "FormMain";
