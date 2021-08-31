@@ -216,7 +216,7 @@
 
             var countryNames = countryList.Keys.Select(x =>
             {
-                if (CountryCode.ISO31661alpha2.TryGetValue(x, out var countryName)) {
+                if (!CountryCode.ISO31661alpha2.TryGetValue(x, out var countryName)) {
                     countryName = "N/A";
                 }
 
