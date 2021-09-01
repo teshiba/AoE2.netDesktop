@@ -80,6 +80,8 @@
             this.labelMap = new System.Windows.Forms.Label();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
             this.groupBoxPlayer = new System.Windows.Forms.GroupBox();
+            this.buttonSetId = new System.Windows.Forms.Button();
+            this.buttonViewHistory = new System.Windows.Forms.Button();
             this.radioButtonSteamID = new System.Windows.Forms.RadioButton();
             this.radioButtonProfileID = new System.Windows.Forms.RadioButton();
             this.textBoxSettingSteamId = new System.Windows.Forms.TextBox();
@@ -87,7 +89,6 @@
             this.labelSettingsCountry = new System.Windows.Forms.Label();
             this.labelSettingsName = new System.Windows.Forms.Label();
             this.checkBoxAlwaysOnTop = new System.Windows.Forms.CheckBox();
-            this.buttonViewHistory = new System.Windows.Forms.Button();
             this.tabControlMain.SuspendLayout();
             this.tabPagePlayerLastMatch.SuspendLayout();
             this.panelTeam2.SuspendLayout();
@@ -112,7 +113,7 @@
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(284, 521);
+            this.tabControlMain.Size = new System.Drawing.Size(362, 521);
             this.tabControlMain.TabIndex = 0;
             // 
             // tabPagePlayerLastMatch
@@ -128,7 +129,7 @@
             this.tabPagePlayerLastMatch.Location = new System.Drawing.Point(4, 24);
             this.tabPagePlayerLastMatch.Name = "tabPagePlayerLastMatch";
             this.tabPagePlayerLastMatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(276, 493);
+            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(354, 493);
             this.tabPagePlayerLastMatch.TabIndex = 0;
             this.tabPagePlayerLastMatch.Text = "Player Last Match";
             this.tabPagePlayerLastMatch.UseVisualStyleBackColor = true;
@@ -800,7 +801,7 @@
             this.tabPageSettings.Location = new System.Drawing.Point(4, 24);
             this.tabPageSettings.Name = "tabPageSettings";
             this.tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSettings.Size = new System.Drawing.Size(276, 493);
+            this.tabPageSettings.Size = new System.Drawing.Size(354, 493);
             this.tabPageSettings.TabIndex = 1;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
@@ -810,6 +811,7 @@
             this.groupBoxPlayer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxPlayer.Controls.Add(this.buttonSetId);
             this.groupBoxPlayer.Controls.Add(this.buttonViewHistory);
             this.groupBoxPlayer.Controls.Add(this.radioButtonSteamID);
             this.groupBoxPlayer.Controls.Add(this.radioButtonProfileID);
@@ -819,10 +821,32 @@
             this.groupBoxPlayer.Controls.Add(this.labelSettingsName);
             this.groupBoxPlayer.Location = new System.Drawing.Point(9, 32);
             this.groupBoxPlayer.Name = "groupBoxPlayer";
-            this.groupBoxPlayer.Size = new System.Drawing.Size(259, 453);
+            this.groupBoxPlayer.Size = new System.Drawing.Size(337, 453);
             this.groupBoxPlayer.TabIndex = 6;
             this.groupBoxPlayer.TabStop = false;
             this.groupBoxPlayer.Text = "Player";
+            // 
+            // buttonSetId
+            // 
+            this.buttonSetId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSetId.Location = new System.Drawing.Point(256, 20);
+            this.buttonSetId.Name = "buttonSetId";
+            this.buttonSetId.Size = new System.Drawing.Size(76, 48);
+            this.buttonSetId.TabIndex = 7;
+            this.buttonSetId.Text = "Set ID";
+            this.buttonSetId.UseVisualStyleBackColor = true;
+            this.buttonSetId.Click += new System.EventHandler(this.ButtonSetId_ClickAsync);
+            // 
+            // buttonViewHistory
+            // 
+            this.buttonViewHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonViewHistory.Location = new System.Drawing.Point(216, 135);
+            this.buttonViewHistory.Name = "buttonViewHistory";
+            this.buttonViewHistory.Size = new System.Drawing.Size(115, 35);
+            this.buttonViewHistory.TabIndex = 6;
+            this.buttonViewHistory.Text = "ViewHistory(&V)...";
+            this.buttonViewHistory.UseVisualStyleBackColor = true;
+            this.buttonViewHistory.Click += new System.EventHandler(this.ButtonViewHistory_Click);
             // 
             // radioButtonSteamID
             // 
@@ -855,7 +879,7 @@
             this.textBoxSettingSteamId.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.textBoxSettingSteamId.Location = new System.Drawing.Point(87, 20);
             this.textBoxSettingSteamId.Name = "textBoxSettingSteamId";
-            this.textBoxSettingSteamId.Size = new System.Drawing.Size(166, 23);
+            this.textBoxSettingSteamId.Size = new System.Drawing.Size(163, 23);
             this.textBoxSettingSteamId.TabIndex = 1;
             this.textBoxSettingSteamId.TextChanged += new System.EventHandler(this.TextBoxSettingProfileId_TextChanged);
             // 
@@ -863,10 +887,11 @@
             // 
             this.textBoxSettingProfileId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSettingProfileId.Enabled = false;
             this.textBoxSettingProfileId.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.textBoxSettingProfileId.Location = new System.Drawing.Point(87, 45);
             this.textBoxSettingProfileId.Name = "textBoxSettingProfileId";
-            this.textBoxSettingProfileId.Size = new System.Drawing.Size(166, 23);
+            this.textBoxSettingProfileId.Size = new System.Drawing.Size(163, 23);
             this.textBoxSettingProfileId.TabIndex = 1;
             this.textBoxSettingProfileId.TextChanged += new System.EventHandler(this.TextBoxSettingSteamId_TextChanged);
             // 
@@ -876,7 +901,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelSettingsCountry.Location = new System.Drawing.Point(8, 109);
             this.labelSettingsCountry.Name = "labelSettingsCountry";
-            this.labelSettingsCountry.Size = new System.Drawing.Size(245, 23);
+            this.labelSettingsCountry.Size = new System.Drawing.Size(323, 23);
             this.labelSettingsCountry.TabIndex = 3;
             this.labelSettingsCountry.Text = "Country: -----";
             // 
@@ -886,7 +911,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelSettingsName.Location = new System.Drawing.Point(8, 86);
             this.labelSettingsName.Name = "labelSettingsName";
-            this.labelSettingsName.Size = new System.Drawing.Size(245, 23);
+            this.labelSettingsName.Size = new System.Drawing.Size(323, 23);
             this.labelSettingsName.TabIndex = 3;
             this.labelSettingsName.Text = "    Name: -----";
             // 
@@ -902,22 +927,11 @@
             this.checkBoxAlwaysOnTop.UseVisualStyleBackColor = true;
             this.checkBoxAlwaysOnTop.CheckedChanged += new System.EventHandler(this.CheckBoxAlwaysOnTop_CheckedChanged);
             // 
-            // buttonViewHistory
-            // 
-            this.buttonViewHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonViewHistory.Location = new System.Drawing.Point(138, 135);
-            this.buttonViewHistory.Name = "buttonViewHistory";
-            this.buttonViewHistory.Size = new System.Drawing.Size(115, 35);
-            this.buttonViewHistory.TabIndex = 6;
-            this.buttonViewHistory.Text = "ViewHistory(&V)...";
-            this.buttonViewHistory.UseVisualStyleBackColor = true;
-            this.buttonViewHistory.Click += new System.EventHandler(this.ButtonViewHistory_Click);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 521);
+            this.ClientSize = new System.Drawing.Size(362, 521);
             this.Controls.Add(this.tabControlMain);
             this.MinimumSize = new System.Drawing.Size(300, 560);
             this.Name = "FormMain";
@@ -1007,5 +1021,6 @@
         private System.Windows.Forms.RadioButton radioButtonProfileID;
         private System.Windows.Forms.TextBox textBoxSettingProfileId;
         private System.Windows.Forms.Button buttonViewHistory;
+        private System.Windows.Forms.Button buttonSetId;
     }
 }

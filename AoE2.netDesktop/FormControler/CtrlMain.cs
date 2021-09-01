@@ -111,19 +111,21 @@
                 _ => null,
             };
 
-            foreach (var player in ret?.LastMatch.Players) {
-                List<PlayerRating> rate = null;
-                if (player.SteamId != null) {
-                    rate = await AoE2net.GetPlayerRatingHistoryAsync(
-                        player.SteamId, ret.LastMatch.LeaderboardId ?? 0, 1);
-                } else if (player.ProfilId is int profileId) {
-                    rate = await AoE2net.GetPlayerRatingHistoryAsync(
-                        profileId, ret.LastMatch.LeaderboardId ?? 0, 1);
-                } else {
-                    throw new FormatException($"Invalid profilId of Name:{player.Name}");
-                }
+            if (ret != null) {
+                foreach (var player in ret.LastMatch.Players) {
+                    List<PlayerRating> rate = null;
+                    if (player.SteamId != null) {
+                        rate = await AoE2net.GetPlayerRatingHistoryAsync(
+                            player.SteamId, ret.LastMatch.LeaderboardId ?? 0, 1);
+                    } else if (player.ProfilId is int profileId) {
+                        rate = await AoE2net.GetPlayerRatingHistoryAsync(
+                            profileId, ret.LastMatch.LeaderboardId ?? 0, 1);
+                    } else {
+                        throw new FormatException($"Invalid profilId of Name:{player.Name}");
+                    }
 
-                player.Rating ??= rate[0].Rating;
+                    player.Rating ??= rate[0].Rating;
+                }
             }
 
             return ret;
@@ -190,16 +192,11 @@
         public async Task<bool> GetPlayerDataAsync(IdType id, string idText)
         {
             try {
-                switch (id) {
-                case IdType.Steam:
-                    playerLastmatch = await GetPlayerLastMatchAsync(id, idText);
-                    break;
-                case IdType.Profile:
-                    playerLastmatch = await GetPlayerLastMatchAsync(id, idText);
-                    break;
-                default:
-                    break;
-                }
+                playerLastmatch = id switch {
+                    IdType.Steam => await GetPlayerLastMatchAsync(id, idText),
+                    IdType.Profile => await GetPlayerLastMatchAsync(id, idText),
+                    _ => null,
+                };
             } catch (Exception) {
                 playerLastmatch = null;
                 throw;

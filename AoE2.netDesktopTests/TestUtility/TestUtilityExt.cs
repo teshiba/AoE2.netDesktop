@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace AoE2NetDesktop.Tests
@@ -22,5 +23,21 @@ namespace AoE2NetDesktop.Tests
                                 .First();
             return (T)propertyInfo.GetValue(obj);
         }
+
+        public static void SetSettings<TType, TValue>(TType testTargetInstance, string assemblyName, string propertyName, TValue value)
+        {
+            if (assemblyName is null) {
+                throw new ArgumentNullException(nameof(assemblyName));
+            }
+
+            if (propertyName is null) {
+                throw new ArgumentNullException(nameof(propertyName));
+            }
+
+            var settings = Assembly.GetAssembly(testTargetInstance.GetType()).GetType($"{assemblyName}.Settings");
+            var settingsDefault = settings.GetProperty("Default").GetValue(settings);
+            settingsDefault.GetType().GetProperty(propertyName).SetValue(settingsDefault, value);
+        }
+
     }
 }

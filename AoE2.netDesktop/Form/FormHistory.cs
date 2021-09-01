@@ -314,7 +314,6 @@
                     formsPlotRateTeam.Render();
                 }
             }
-
         }
     }
 }

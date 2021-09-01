@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
 using AoE2NetDesktop.Tests;
+using Accessibility;
 
 namespace LibAoE2net.Tests
 {
@@ -380,6 +381,21 @@ namespace LibAoE2net.Tests
             // Assert
             Assert.AreEqual("playerMatchHistoryaoe2de00000000000000001data1", actVal[0].Server);
             Assert.AreEqual("playerMatchHistoryaoe2de00000000000000001data2", actVal[1].Server);
+        }
+
+        [TestMethod()]
+        public void GetPlayerMatchHistoryAsyncTeststeamIdIsNull()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+
+            // Act
+
+            Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                AoE2net.GetPlayerMatchHistoryAsync(0, 10, null)
+            );
+
+            // Assert
         }
 
         [TestMethod()]

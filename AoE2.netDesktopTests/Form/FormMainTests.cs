@@ -3,6 +3,8 @@ using LibAoE2net;
 using System.Windows.Forms;
 using System.Reflection;
 using AoE2NetDesktop.Tests;
+using ScottPlot;
+using System;
 
 namespace AoE2NetDesktop.From.Tests
 {
@@ -26,17 +28,21 @@ namespace AoE2NetDesktop.From.Tests
             var expVal = string.Empty;
             AoE2net.ComClient = new TestHttpClient();
             var testClass = new FormMain(Language.en);
-            var settings = Assembly.GetAssembly(testClass.GetType()).GetType("AoE2NetDesktop.Settings");
-            var settingsDefault = settings.GetProperty("Default").GetValue(settings);
-            settingsDefault.GetType().GetProperty("SteamId").SetValue(settingsDefault, TestInit.AvailableUserSteamId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SteamId", TestInit.AvailableUserSteamId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", TestInit.AvailableUserProfileId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Steam);
             var buttonUpdate = testClass.GetControl<Button>("buttonUpdate");
-            var textBoxSettingSteamId = testClass.GetControl<TextBox>("textBoxSettingSteamId");
+            var buttonSetId = testClass.GetControl<Button>("buttonSetId");
+            var tabPageSettings = testClass.GetControl<TabPage>("tabPageSettings");
+            var tabControlMain = testClass.GetControl<TabControl>("tabControlMain");
 
             // Act
             testClass.Shown += async (sender, e) =>
             {
-                await testClass.Awaiter.WaitAsync("StartVerify");
-                textBoxSettingSteamId.Text = TestInit.AvailableUserSteamId;
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
+                tabControlMain.SelectedIndex = 1;
+                buttonSetId.PerformClick();
+                await testClass.Awaiter.WaitAsync("ButtonSetId_ClickAsync");
                 await testClass.Awaiter.WaitAsync("LabelNameP1_Paint");
                 await testClass.Awaiter.WaitAsync("LabelNameP2_Paint");
                 await testClass.Awaiter.WaitAsync("LabelNameP3_Paint");
@@ -45,6 +51,7 @@ namespace AoE2NetDesktop.From.Tests
                 await testClass.Awaiter.WaitAsync("LabelNameP6_Paint");
                 await testClass.Awaiter.WaitAsync("LabelNameP7_Paint");
                 await testClass.Awaiter.WaitAsync("LabelNameP8_Paint");
+                tabControlMain.SelectedIndex = 0;
                 buttonUpdate.PerformClick();
                 await testClass.Awaiter.WaitAsync("ButtonUpdate_Click");
                 await testClass.Awaiter.WaitAsync("LabelNameP1_Paint");
@@ -62,6 +69,33 @@ namespace AoE2NetDesktop.From.Tests
             testClass.ShowDialog();
 
             // Assert
+        }
+
+
+        [TestMethod()]
+        public void FormMainTestRadioButtonProfileIDSelected()
+        {
+            // Arrange
+            var expVal = string.Empty;
+            AoE2net.ComClient = new TestHttpClient();
+            var testClass = new FormMain(Language.en);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
+            var radioButtonSteamID = testClass.GetControl<RadioButton>("radioButtonSteamID");
+            var radioButtonProfileID = testClass.GetControl<RadioButton>("radioButtonProfileID");
+
+            // Act
+            testClass.Shown += (sender, e) =>
+            {
+
+                // Assert
+                Assert.IsFalse(radioButtonSteamID.Checked);
+                Assert.IsTrue(radioButtonProfileID.Checked);
+
+                testClass.Close();
+            };
+
+            testClass.ShowDialog();
+
         }
 
         [TestMethod()]
@@ -84,7 +118,7 @@ namespace AoE2NetDesktop.From.Tests
                 await testClass.Awaiter.WaitAsync("FormMain_Load");
 
                 // Assert
-                Assert.AreEqual("Forced HttpRequestException", labelErrText.Text);
+                Assert.IsTrue(labelErrText.Text.Contains("Forced HttpRequestException"));
 
                 // CleanUp
                 testClass.Close();
@@ -115,7 +149,7 @@ namespace AoE2NetDesktop.From.Tests
                 await testClass.Awaiter.WaitAsync("ButtonUpdate_Click");
 
                 // Assert
-                Assert.AreEqual("Forced HttpRequestException", labelErrText.Text);
+                Assert.IsTrue(labelErrText.Text.Contains("Forced HttpRequestException"));
 
                 // CleanUp
                 testClass.Close();
@@ -132,9 +166,8 @@ namespace AoE2NetDesktop.From.Tests
             AoE2net.ComClient = new TestHttpClient();
             var testClass = new FormMain(Language.en);
 
-            var settings = Assembly.GetAssembly(testClass.GetType()).GetType("AoE2NetDesktop.Settings");
-            var settingsDefault = settings.GetProperty("Default").GetValue(settings);
-            settingsDefault.GetType().GetProperty("SteamId").SetValue(settingsDefault, "0");
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SteamId", "0");
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Steam);
 
             var labelSettingsName = testClass.GetControl<Label>("labelSettingsName");
             var labelSettingsCountry = testClass.GetControl<Label>("labelSettingsCountry");
@@ -144,6 +177,7 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             testClass.Shown += async (sender, e) =>
             {
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
                 await testClass.Awaiter.WaitAsync("StartVerify");
 
                 // Assert
@@ -206,7 +240,7 @@ namespace AoE2NetDesktop.From.Tests
                 await testClass.Awaiter.WaitAsync("ButtonUpdate_Click");
 
                 // Assert
-                Assert.AreEqual($"invalid player.Color[{null}]", labelErrText.Text);
+                Assert.IsTrue(labelErrText.Text.Contains($"invalid player.Color[{null}]"));
 
                 // CleanUp
                 testClass.Close();
