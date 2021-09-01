@@ -16,7 +16,7 @@ namespace AoE2NetDesktop.From.Tests
         {
             AoE2net.ComClient = new TestHttpClient();
             var testClass = new FormMain(Language.en);
-            testClass.ShowDialog();
+            //testClass.ShowDialog();
         }
 
         [TestMethod()]
@@ -84,7 +84,7 @@ namespace AoE2NetDesktop.From.Tests
                 await testClass.Awaiter.WaitAsync("FormMain_Load");
 
                 // Assert
-                Assert.AreEqual("Forced HttpRequestException", labelErrText.Text);
+                Assert.IsTrue(labelErrText.Text.Contains("Forced HttpRequestException"));
 
                 // CleanUp
                 testClass.Close();
@@ -115,7 +115,7 @@ namespace AoE2NetDesktop.From.Tests
                 await testClass.Awaiter.WaitAsync("ButtonUpdate_Click");
 
                 // Assert
-                Assert.AreEqual("Forced HttpRequestException", labelErrText.Text);
+                Assert.IsTrue(labelErrText.Text.Contains("Forced HttpRequestException"));
 
                 // CleanUp
                 testClass.Close();

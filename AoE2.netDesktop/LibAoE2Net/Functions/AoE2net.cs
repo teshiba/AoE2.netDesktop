@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
@@ -177,6 +178,24 @@
             var apiEndPoint = $"leaderboard?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&steam_id={steamId}&start={start}&count={count}";
 
             return await ComClient.GetFromJsonAsync<LeaderboardContainer>(apiEndPoint);
+        }
+
+        /// <summary>
+        /// Open the AoE2.net player profile of the specified ID in your default browser.
+        /// </summary>
+        /// <param name="profileId">Profile ID.</param>
+        public static void OpenAoE2net(int profileId)
+        {
+            var target = $"https://aoe2.net/#profile-{profileId}";
+            try {
+                Process.Start(new ProcessStartInfo("cmd", $"/c start {target}") { CreateNoWindow = true });
+            } catch (System.ComponentModel.Win32Exception noBrowser) {
+                if (noBrowser.ErrorCode == -2147467259) {
+                    MessageBox.Show(noBrowser.Message);
+                }
+            } catch (Exception other) {
+                MessageBox.Show(other.Message);
+            }
         }
     }
 }

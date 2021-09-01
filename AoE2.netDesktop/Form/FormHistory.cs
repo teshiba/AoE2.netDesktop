@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using System.Drawing;
     using System.Linq;
+    using System.Security.Policy;
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using AoE2NetDesktop.From;
@@ -25,6 +26,7 @@
         private ScatterPlot scatterPlotTeam;
         private int lastHighlightedIndex1v1 = -1;
         private int lastHighlightedIndexTeam = -1;
+        private Dictionary<string, PlayerInfo> matchedPlayerList;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormHistory"/> class.
@@ -296,33 +298,34 @@
 
         private void UpdateListViewMatchedPlayers()
         {
-            var playerList = new Dictionary<string, PlayerInfo>();
+            matchedPlayerList = new Dictionary<string, PlayerInfo>();
 
             foreach (var match in Controler.PlayerMatchHistory) {
                 var selectedPlayer = Controler.GetSelectedPlayer(match);
                 foreach (var player in match.Players) {
                     if (player != selectedPlayer) {
-                        if (!playerList.ContainsKey(player.Name)) {
-                            playerList.Add(player.Name, new PlayerInfo());
+                        if (!matchedPlayerList.ContainsKey(player.Name)) {
+                            matchedPlayerList.Add(player.Name, new PlayerInfo());
                         }
 
-                        playerList[player.Name].Country = player.Country;
+                        matchedPlayerList[player.Name].Country = player.Country;
+                        matchedPlayerList[player.Name].ProfileId = player.ProfilId;
 
                         switch (match.LeaderboardId) {
                         case LeaderBoardId.OneVOneRandomMap:
-                            playerList[player.Name].Rate1v1RM = player.Rating;
-                            playerList[player.Name].Games1v1++;
+                            matchedPlayerList[player.Name].Rate1v1RM = player.Rating;
+                            matchedPlayerList[player.Name].Games1v1++;
                             break;
                         case LeaderBoardId.TeamRandomMap:
-                            playerList[player.Name].RateTeamRM = player.Rating;
-                            playerList[player.Name].GamesTeam++;
+                            matchedPlayerList[player.Name].RateTeamRM = player.Rating;
+                            matchedPlayerList[player.Name].GamesTeam++;
 
                             switch (CheckDiplomacy(selectedPlayer, player)) {
                             case Diplomacy.Ally:
-                                playerList[player.Name].GamesAlly++;
+                                matchedPlayerList[player.Name].GamesAlly++;
                                 break;
                             case Diplomacy.Enemy:
-                                playerList[player.Name].GamesEnemy++;
+                                matchedPlayerList[player.Name].GamesEnemy++;
                                 break;
                             default:
                                 break;
@@ -333,12 +336,12 @@
                             break;
                         }
 
-                        playerList[player.Name].LastDate = match.GetOpenedTime();
+                        matchedPlayerList[player.Name].LastDate = match.GetOpenedTime();
                     }
                 }
             }
 
-            foreach (var player in playerList) {
+            foreach (var player in matchedPlayerList) {
                 var listviewItem = new ListViewItem(player.Key);
                 listviewItem.SubItems.Add(player.Value.Country);
                 listviewItem.SubItems.Add(player.Value.Rate1v1RM.ToString());
@@ -479,6 +482,31 @@
         private void FormsPlotRateTeam_MouseMove(object sender, MouseEventArgs e)
         {
             UpdatePointerOfRateGraph(formsPlotRateTeam, highlightedPointTeam, scatterPlotTeam, tooltipTeam, ref lastHighlightedIndexTeam);
+        }
+
+        private void OpenAoE2NetProfileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var selectedItems = listViewMatchedPlayers.SelectedItems;
+
+            if (selectedItems.Count != 0) {
+                var profileId = matchedPlayerList[selectedItems[0].Text].ProfileId;
+                if (profileId != null) {
+                    AoE2net.OpenAoE2net((int)profileId);
+                } else {
+                    MessageBox.Show($"{selectedItems[0]} has null profile ID.");
+                }
+            }
+        }
+
+        private void ContextMenuStripMatchedPlayers_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Point point = listViewMatchedPlayers.PointToClient(System.Windows.Forms.Cursor.Position);
+            ListViewItem item = listViewMatchedPlayers.HitTest(point).Item;
+            if (item?.Bounds.Contains(point) ?? false) {
+                openAoE2NetProfileToolStripMenuItem.Visible = true;
+            } else {
+                e.Cancel = true;
+            }
         }
     }
 }

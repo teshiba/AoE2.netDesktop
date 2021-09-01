@@ -13,6 +13,11 @@
         public string Country { get; set; }
 
         /// <summary>
+        /// Gets or sets profile ID.
+        /// </summary>
+        public int? ProfileId { get; set; }
+
+        /// <summary>
         /// Gets or sets 1v1 Random map rate.
         /// </summary>
         public int? Rate1v1RM { get; set; }
