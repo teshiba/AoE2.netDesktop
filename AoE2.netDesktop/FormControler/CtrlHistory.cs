@@ -1,9 +1,10 @@
 ﻿namespace AoE2NetDesktop.Form
 {
     using System;
-    using System.ComponentModel;
     using System.Threading.Tasks;
+
     using AoE2NetDesktop.From;
+
     using LibAoE2net;
 
     /// <summary>
@@ -12,29 +13,14 @@
     public class CtrlHistory : FormControler
     {
         private const int ReadCountMax = 1000;
-        private readonly string steamId = null;
-        private readonly int profileId = 0;
-        private readonly IdType selectedId = IdType.NotSelected;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CtrlHistory"/> class.
         /// </summary>
-        /// <param name="selectedId">user ID.</param>
-        public CtrlHistory(IdType selectedId)
+        /// <param name="profileId">Profile ID.</param>
+        public CtrlHistory(int profileId)
         {
-            this.selectedId = selectedId;
-            switch (selectedId) {
-            case IdType.Steam:
-                steamId = Settings.Default.SteamId;
-                profileId = 0;
-                break;
-            case IdType.Profile:
-                steamId = string.Empty;
-                profileId = Settings.Default.ProfileId;
-                break;
-            default:
-                break;
-            }
+            ProfileId = profileId;
         }
 
         /// <summary>
@@ -43,15 +29,43 @@
         public PlayerMatchHistory PlayerMatchHistory { get; set; }
 
         /// <summary>
-        /// Show history form.
+        /// Gets profile ID.
         /// </summary>
-        public void Show()
+        public int ProfileId { get; }
+
+        /// <summary>
+        /// Get rate string.
+        /// </summary>
+        /// <param name="player">player.</param>
+        /// <returns>
+        /// rate value and rating change value.
+        /// if rate is unavilable : "----".
+        /// </returns>
+        public static string GetRatingString(Player player)
         {
-            if (selectedId != IdType.NotSelected) {
-                new FormHistory(this).Show();
+            string ret = (player.Rating?.ToString() ?? "----")
+                        + (player.RatingChange?.Contains('-') ?? true ? string.Empty : "+")
+                        + player.RatingChange?.ToString();
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Get the win marker.
+        /// </summary>
+        /// <param name="won">win or lose.</param>
+        /// <returns>win marker string.</returns>
+        public static string GetWinMarkerString(bool? won)
+        {
+            string ret;
+
+            if (won == null) {
+                ret = "---";
             } else {
-                throw new InvalidOperationException("Not init selected ID");
+                ret = (bool)won ? "o" : string.Empty;
             }
+
+            return ret;
         }
 
         /// <summary>
@@ -64,7 +78,7 @@
             Player ret = null;
 
             foreach (var item in match.Players) {
-                if (item.SteamId == steamId || item.ProfilId == profileId) {
+                if (item.ProfilId == ProfileId) {
                     ret = item;
                 }
             }
@@ -82,13 +96,9 @@
             int startCount = 0;
 
             try {
-                PlayerMatchHistory = selectedId switch {
-                    IdType.Steam => await AoE2net.GetPlayerMatchHistoryAsync(startCount, ReadCountMax, steamId),
-                    IdType.Profile => await AoE2net.GetPlayerMatchHistoryAsync(startCount, ReadCountMax, profileId),
-                    _ => throw new InvalidEnumArgumentException($"invalid {nameof(IdType)}"),
-                };
+                PlayerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(startCount, ReadCountMax, ProfileId);
                 ret = true;
-            } catch (System.Exception) {
+            } catch (Exception) {
                 PlayerMatchHistory = null;
                 ret = false;
             }

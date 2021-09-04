@@ -38,9 +38,24 @@
         }
 
         /// <summary>
+        /// Gets selected ID type.
+        /// </summary>
+        public FormHistory FormHistory { get; private set; }
+
+        /// <summary>
         /// Gets or sets selected ID type.
         /// </summary>
         public IdType SelectedId { get; set; }
+
+        /// <summary>
+        /// Gets get user country name.
+        /// </summary>
+        public string SteamId { get => playerLastmatch?.SteamId ?? "0"; }
+
+        /// <summary>
+        /// Gets get user country name.
+        /// </summary>
+        public int PrifileId { get => playerLastmatch?.ProfileId ?? 0; }
 
         /// <summary>
         /// Gets get user country name.
@@ -168,7 +183,8 @@
         /// </summary>
         public void ShowHistory()
         {
-            new CtrlHistory(SelectedId).Show();
+            FormHistory = new FormHistory(PrifileId);
+            FormHistory.Show();
         }
 
         /// <summary>
@@ -189,7 +205,7 @@
         /// <param name="idText">steam Id.</param>
         /// <returns>API result.</returns>
         /// <returns>API run result.</returns>
-        public async Task<bool> GetPlayerDataAsync(IdType id, string idText)
+        public async Task<bool> ReadPlayerDataAsync(IdType id, string idText)
         {
             try {
                 playerLastmatch = id switch {

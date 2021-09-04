@@ -92,6 +92,28 @@
             return ret;
         }
 
+        /// <summary>
+        /// Get specified Player.
+        /// </summary>
+        /// <param name="match">Search target.</param>
+        /// <param name="profileId">profile ID.</param>
+        /// <returns>Player.</returns>
+        public static Player GetPlayer(this Match match, int profileId)
+        {
+            Player ret = null;
+
+            foreach (var item in match.Players) {
+                if (item.ProfilId == profileId) {
+                    ret = item;
+                }
+            }
+
+            return ret;
+        }
+
+        ///////////////////////////////////////////////////////////////////////
+        // private
+        ///////////////////////////////////////////////////////////////////////
         private static string GetCivName(Strings strings, Player player)
         {
             string ret;

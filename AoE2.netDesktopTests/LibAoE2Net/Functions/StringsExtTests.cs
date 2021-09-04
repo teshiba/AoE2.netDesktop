@@ -18,7 +18,7 @@ namespace LibAoE2net.Tests
         public void GetStringTest(int id, string expVal)
         {
             // Arrange
-            List<StringId> stringIds = new List<StringId> {
+            List<StringId> stringIds = new() {
                 new StringId(){Id = 1, String = "testString1"},
                 new StringId(){Id = 2, String = "testString21"},
                 new StringId(){Id = 2, String = "testString22"},

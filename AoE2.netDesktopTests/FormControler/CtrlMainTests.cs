@@ -1,5 +1,4 @@
-﻿using AoE2NetDesktop.From;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LibAoE2net;
 using System.Drawing;
 using System.Windows.Forms;
@@ -234,7 +233,7 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             var testClass = new CtrlMain();
             var actVal = Task.Run(
-                () => testClass.GetPlayerDataAsync(idType, id)
+                () => testClass.ReadPlayerDataAsync(idType, id)
                 ).Result;
 
             // Assert
@@ -253,7 +252,7 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             var testClass = new CtrlMain();
             var actVal = Task.Run(
-                () => testClass.GetPlayerDataAsync(IdType.NotSelected, TestInit.AvailableUserSteamId)
+                () => testClass.ReadPlayerDataAsync(IdType.NotSelected, TestInit.AvailableUserSteamId)
                 ).Result;
 
             // Assert
@@ -335,7 +334,7 @@ namespace AoE2NetDesktop.From.Tests
         }
 
         [TestMethod()]
-        public void ShowHistoryTest()
+        public async Task ShowHistoryTest()
         {
             // Arrange
             var expVal = string.Empty;
@@ -345,7 +344,14 @@ namespace AoE2NetDesktop.From.Tests
                 SelectedId = IdType.Steam,
             };
 
-            testClass.ShowHistory();
+
+            await Task.Run(()=> testClass.ShowHistory());
+
+            while (testClass.FormHistory == null) {
+                await Task.Delay(1000);
+            }
+            await testClass.FormHistory.Awaiter.WaitAsync("FormHistory_ShownAsync");
+
             // Assert
         }
     }

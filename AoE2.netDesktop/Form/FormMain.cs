@@ -169,14 +169,12 @@
                 radioButtonProfileID.Checked = true;
                 idText = textBoxSettingProfileId.Text;
                 break;
-            default:
-                break;
             }
 
-            return await StartVerify(Controler.SelectedId, idText);
+            return await VerifyId(Controler.SelectedId, idText);
         }
 
-        private async Task<bool> StartVerify(IdType idType, string idText)
+        private async Task<bool> VerifyId(IdType idType, string idText)
         {
             bool ret;
 
@@ -187,20 +185,12 @@
             labelSettingsCountry.Text = $"Country: --";
 
             try {
-                ret = await Controler.GetPlayerDataAsync(idType, idText);
+                ret = await Controler.ReadPlayerDataAsync(idType, idText);
 
-                switch (idType) {
-                case IdType.Steam:
-                    Settings.Default.SteamId = textBoxSettingSteamId.Text;
-                    break;
-                case IdType.Profile:
-                    Settings.Default.ProfileId = int.Parse(textBoxSettingProfileId.Text);
-                    break;
-                default:
-                    ret = false;
-                    break;
-                }
-
+                textBoxSettingSteamId.Text = Controler.SteamId;
+                textBoxSettingProfileId.Text = Controler.PrifileId.ToString();
+                Settings.Default.SteamId = Controler.SteamId;
+                Settings.Default.ProfileId = Controler.PrifileId;
                 buttonUpdate.Enabled = ret;
                 buttonViewHistory.Enabled = ret;
             } catch (Exception ex) {
@@ -247,7 +237,6 @@
                 _ = await CtrlMain.InitAsync(language);
                 LoadSettings();
                 _ = await ReadProfileAsync();
-
             } catch (Exception ex) {
                 labelErrText.Text = ex.Message + ":" + ex.StackTrace;
             }
@@ -404,7 +393,7 @@
                 break;
             }
 
-            await StartVerify(idtype, idText);
+            await VerifyId(idtype, idText);
             Awaiter.Complete();
         }
     }
