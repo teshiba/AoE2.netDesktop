@@ -98,8 +98,8 @@ namespace AoE2NetDesktop.From.Tests
         }
 
         [TestMethod()]
-        [DataRow(IdType.Steam, TestInit.AvailableUserSteamId)]
-        [DataRow(IdType.Profile, TestInit.AvailableUserProfileIdString)]
+        [DataRow(IdType.Steam, TestData.AvailableUserSteamId)]
+        [DataRow(IdType.Profile, TestData.AvailableUserProfileIdString)]
         public void GetPlayerLastMatchAsyncTest(IdType idType, string id)
         {
             // Arrange
@@ -111,8 +111,8 @@ namespace AoE2NetDesktop.From.Tests
                 ).Result;
 
             // Assert
-            Assert.AreEqual(TestInit.AvailableUserSteamId, actVal.SteamId);
-            Assert.AreEqual(TestInit.AvailableUserProfileId, actVal.ProfileId);
+            Assert.AreEqual(TestData.AvailableUserSteamId, actVal.SteamId);
+            Assert.AreEqual(TestData.AvailableUserProfileId, actVal.ProfileId);
             Assert.AreEqual(3333, actVal.LastMatch.Players[2].Rating);
         }
 
@@ -124,7 +124,7 @@ namespace AoE2NetDesktop.From.Tests
 
             // Act
             var actVal = Task.Run(
-                () => CtrlMain.GetPlayerLastMatchAsync(IdType.NotSelected, TestInit.AvailableUserSteamId)
+                () => CtrlMain.GetPlayerLastMatchAsync(IdType.NotSelected, TestData.AvailableUserSteamId)
                 ).Result;
 
             // Assert
@@ -167,7 +167,7 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             // Assert
             await Assert.ThrowsExceptionAsync<HttpRequestException>(() =>
-                CtrlMain.GetPlayerLastMatchAsync(IdType.Steam, TestInit.AvailableUserSteamId)
+                CtrlMain.GetPlayerLastMatchAsync(IdType.Steam, TestData.AvailableUserSteamId)
             );
         }
 
@@ -222,8 +222,8 @@ namespace AoE2NetDesktop.From.Tests
         }
 
         [TestMethod()]
-        [DataRow(IdType.Steam, TestInit.AvailableUserSteamId)]
-        [DataRow(IdType.Profile, TestInit.AvailableUserProfileIdString)]
+        [DataRow(IdType.Steam, TestData.AvailableUserSteamId)]
+        [DataRow(IdType.Profile, TestData.AvailableUserProfileIdString)]
         public void GetPlayerDataAsyncTest(IdType idType, string id)
         {
             // Arrange
@@ -252,7 +252,7 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             var testClass = new CtrlMain();
             var actVal = Task.Run(
-                () => testClass.ReadPlayerDataAsync(IdType.NotSelected, TestInit.AvailableUserSteamId)
+                () => testClass.ReadPlayerDataAsync(IdType.NotSelected, TestData.AvailableUserSteamId)
                 ).Result;
 
             // Assert
@@ -286,8 +286,10 @@ namespace AoE2NetDesktop.From.Tests
         }
 
         [TestMethod()]
-        [DataRow(0, "Aztecs")]
-        [DataRow(37, "invalid civ:37")]
+        [DataRow(0, "invalid civ:0")]
+        [DataRow(1, "Britons")]
+        [DataRow(37, "Sicilians")]
+        [DataRow(40, "invalid civ:40")]
         [DataRow(null, "invalid civ:null")]
         public void GetCivEnNameTest(int? civ, string expVal)
         {
@@ -310,8 +312,10 @@ namespace AoE2NetDesktop.From.Tests
         }
 
         [TestMethod()]
-        [DataRow(0, "Aztecs")]
-        [DataRow(37, "invalid civ:37")]
+        [DataRow(0, "invalid civ:0")]
+        [DataRow(1, "ブリトン")]
+        [DataRow(37, "Sicilians")]
+        [DataRow(40, "invalid civ:40")]
         [DataRow(null, "invalid civ:null")]
         public void GetCivNameTest(int? civ, string expVal)
         {
@@ -324,7 +328,7 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             var testClass = new CtrlMain();
             _ = Task.Run(
-                () => CtrlMain.InitAsync(Language.en)
+                () => CtrlMain.InitAsync(Language.ja)
                 ).Result;
 
             var actVal = player.GetCivName();
@@ -334,7 +338,7 @@ namespace AoE2NetDesktop.From.Tests
         }
 
         [TestMethod()]
-        public async Task ShowHistoryTest()
+        public void ShowHistoryTest()
         {
             // Arrange
             var expVal = string.Empty;
@@ -344,13 +348,7 @@ namespace AoE2NetDesktop.From.Tests
                 SelectedId = IdType.Steam,
             };
 
-
-            await Task.Run(()=> testClass.ShowHistory());
-
-            while (testClass.FormHistory == null) {
-                await Task.Delay(1000);
-            }
-            await testClass.FormHistory.Awaiter.WaitAsync("FormHistory_ShownAsync");
+            testClass.ShowHistory();
 
             // Assert
         }

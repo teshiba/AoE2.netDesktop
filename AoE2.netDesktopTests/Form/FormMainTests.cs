@@ -1,10 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LibAoE2net;
 using System.Windows.Forms;
-using System.Reflection;
 using AoE2NetDesktop.Tests;
-using ScottPlot;
-using System;
 
 namespace AoE2NetDesktop.From.Tests
 {
@@ -28,12 +25,11 @@ namespace AoE2NetDesktop.From.Tests
             var expVal = string.Empty;
             AoE2net.ComClient = new TestHttpClient();
             var testClass = new FormMain(Language.en);
-            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SteamId", TestInit.AvailableUserSteamId);
-            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", TestInit.AvailableUserProfileId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SteamId", TestData.AvailableUserSteamId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
             TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Steam);
             var buttonUpdate = testClass.GetControl<Button>("buttonUpdate");
             var buttonSetId = testClass.GetControl<Button>("buttonSetId");
-            var tabPageSettings = testClass.GetControl<TabPage>("tabPageSettings");
             var tabControlMain = testClass.GetControl<TabControl>("tabControlMain");
 
             // Act
@@ -137,14 +133,23 @@ namespace AoE2NetDesktop.From.Tests
             var testClass = new FormMain(Language.en);
             var labelErrText = testClass.GetControl<Label>("labelErrText");
             var buttonUpdate = testClass.GetControl<Button>("buttonUpdate");
+            var buttonSetId = testClass.GetControl<Button>("buttonSetId");
+            var tabControlMain = testClass.GetControl<TabControl>("tabControlMain");
             var textBoxSettingSteamId = testClass.GetControl<TextBox>("textBoxSettingSteamId");
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SteamId", TestData.AvailableUserSteamId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Steam);
 
             // Act
             testClass.Shown += async (sender, e) =>
             {
-                await testClass.Awaiter.WaitAsync("StartVerify");
-                textBoxSettingSteamId.Text = TestInit.AvailableUserSteamId;
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
+                tabControlMain.SelectedIndex = 1;
+                buttonSetId.PerformClick();
+                await testClass.Awaiter.WaitAsync("ButtonSetId_ClickAsync");
                 httpClient.ForceHttpRequestException = true;
+
+                tabControlMain.SelectedIndex = 0;
                 buttonUpdate.PerformClick();
                 await testClass.Awaiter.WaitAsync("ButtonUpdate_Click");
 
@@ -165,20 +170,23 @@ namespace AoE2NetDesktop.From.Tests
             var expVal = string.Empty;
             AoE2net.ComClient = new TestHttpClient();
             var testClass = new FormMain(Language.en);
-
-            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SteamId", "0");
-            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Steam);
-
             var labelSettingsName = testClass.GetControl<Label>("labelSettingsName");
             var labelSettingsCountry = testClass.GetControl<Label>("labelSettingsCountry");
             var Controler = testClass.GetProperty<CtrlMain>("Controler");
             var InvalidSteamIdString = Controler.GetField<string>("InvalidSteamIdString");
+            var buttonSetId = testClass.GetControl<Button>("buttonSetId");
+            var tabControlMain = testClass.GetControl<TabControl>("tabControlMain");
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SteamId", "0");
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Steam);
 
             // Act
             testClass.Shown += async (sender, e) =>
             {
                 await testClass.Awaiter.WaitAsync("FormMain_Load");
-                await testClass.Awaiter.WaitAsync("StartVerify");
+                tabControlMain.SelectedIndex = 1;
+                buttonSetId.PerformClick();
+                await testClass.Awaiter.WaitAsync("ButtonSetId_ClickAsync");
 
                 // Assert
                 Assert.AreEqual($"   Name: {InvalidSteamIdString}", labelSettingsName.Text);
@@ -226,16 +234,23 @@ namespace AoE2NetDesktop.From.Tests
             };
 
             var testClass = new FormMain(Language.en);
-            var settings = Assembly.GetAssembly(testClass.GetType()).GetType("AoE2NetDesktop.Settings");
-            var settingsDefault = settings.GetProperty("Default").GetValue(settings);
-            settingsDefault.GetType().GetProperty("SteamId").SetValue(settingsDefault, TestInit.AvailableUserSteamId);
             var labelErrText = testClass.GetControl<Label>("labelErrText");
             var buttonUpdate = testClass.GetControl<Button>("buttonUpdate");
+            var buttonSetId = testClass.GetControl<Button>("buttonSetId");
+            var tabControlMain = testClass.GetControl<TabControl>("tabControlMain");
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SteamId", TestData.AvailableUserSteamId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Steam);
 
             // Act
             testClass.Shown += async (sender, e) =>
             {
-                await testClass.Awaiter.WaitAsync("StartVerify");
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
+                tabControlMain.SelectedIndex = 1;
+                buttonSetId.PerformClick();
+                await testClass.Awaiter.WaitAsync("ButtonSetId_ClickAsync");
+
+                tabControlMain.SelectedIndex = 0;
                 buttonUpdate.PerformClick();
                 await testClass.Awaiter.WaitAsync("ButtonUpdate_Click");
 
@@ -250,5 +265,38 @@ namespace AoE2NetDesktop.From.Tests
 
         }
 
+        [TestMethod()]
+        public void FormMainTestButtonSetId_ClickAsyncProfileId()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+            var testClass = new FormMain(Language.en);
+            var buttonSetId = testClass.GetControl<Button>("buttonSetId");
+            var tabControlMain = testClass.GetControl<TabControl>("tabControlMain");
+            var labelSettingsName = testClass.GetControl<Label>("labelSettingsName");
+            var labelSettingsCountry = testClass.GetControl<Label>("labelSettingsCountry");
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SteamId", TestData.AvailableUserSteamId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
+                tabControlMain.SelectedIndex = 1;
+                buttonSetId.PerformClick();
+                await testClass.Awaiter.WaitAsync("ButtonSetId_ClickAsync");
+
+                // Assert
+                Assert.AreEqual("   Name: Player1", labelSettingsName.Text);
+                Assert.AreEqual("Country: JP", labelSettingsCountry.Text);
+
+                // CleanUp
+                testClass.Close();
+            };
+
+            testClass.ShowDialog();
+
+        }
     }
 }

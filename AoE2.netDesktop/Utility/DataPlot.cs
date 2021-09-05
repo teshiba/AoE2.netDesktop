@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Drawing;
     using System.Linq;
 
@@ -61,21 +62,22 @@
             var loseList = rateLose.Values.ToArray();
 
             // to simulate stacking Lose on Win, shift Lose up by Win
-            double[] stackedList = new double[loseList.Length];
+            var stackedList = new List<double>();
             for (int i = 0; i < loseList.Length; i++) {
-                stackedList[i] = winList[i] + loseList[i];
+                stackedList.Add(winList[i] + loseList[i]);
             }
 
-            // plot the bar charts in reverse order (highest first)
-            var barWin = plot.AddBar(stackedList);
-            var barLose = plot.AddBar(winList);
-            barWin.Orientation = Orientation.Horizontal;
-            barLose.Orientation = Orientation.Horizontal;
-            barWin.ShowValuesAboveBars = true;
-            barLose.ShowValuesAboveBars = true;
-            plot.Legend(location: Alignment.UpperRight);
-            plot.YTicks(rateWin.Keys.ToArray());
-            plot.SetAxisLimits(xMin: 0, yMin: -1);
+            if (stackedList.Count != 0) {
+                var barWin = plot.AddBar(stackedList.ToArray());
+                var barLose = plot.AddBar(winList);
+                barWin.Orientation = Orientation.Horizontal;
+                barLose.Orientation = Orientation.Horizontal;
+                barWin.ShowValuesAboveBars = true;
+                barLose.ShowValuesAboveBars = true;
+                plot.Legend(location: Alignment.UpperRight);
+                plot.YTicks(rateWin.Keys.ToArray());
+                plot.SetAxisLimits(xMin: 0, yMin: -1);
+            }
         }
 
         /// <summary>
@@ -128,8 +130,13 @@
 
             var scatterPlot = plot.AddScatter(xs, rateList.ToArray(), lineStyle: LineStyle.Dot);
             var candlePlot = plot.AddCandlesticks(ohlc.ToArray());
-            var bol = candlePlot.GetBollingerBands(7);
-            plot.AddScatterLines(bol.xs, bol.sma, Color.Blue);
+
+            try {
+                var bol = candlePlot.GetBollingerBands(7);
+                plot.AddScatterLines(bol.xs, bol.sma, Color.Blue);
+            } catch (ArgumentException e) {
+                Debug.Print($" Plot Rate ERROR. {e.Message} {e.StackTrace}");
+            }
 
             return scatterPlot;
         }

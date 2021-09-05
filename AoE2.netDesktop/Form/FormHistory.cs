@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using System.Threading.Tasks;
     using System.Windows.Forms;
     using AoE2NetDesktop.From;
     using LibAoE2net;
@@ -72,8 +73,6 @@
                     case LeaderBoardId.TeamRandomMap:
                         listViewHistoryTeam.Items.Add(listViewItem);
                         break;
-                    default:
-                        break;
                     }
                 }
             }
@@ -97,6 +96,8 @@
                 var plot1v1 = dataPlot.PlotRate(LeaderBoardId.TeamRandomMap, formsPlotRate1v1.Plot);
                 plotHighlightTeam = new PlotHighlight(formsPlotRateTeam, plotTeam);
                 plotHighlight1v1 = new PlotHighlight(formsPlotRate1v1, plot1v1);
+                plotHighlight1v1.UpdateHighlight();
+                plotHighlightTeam.UpdateHighlight();
             } else {
                 Debug.Print("ReadPlayerMatchHistoryAsync ERROR.");
             }

@@ -215,12 +215,7 @@
 
             ClearLastMatch();
             try {
-                var idText = Controler.SelectedId switch {
-                    IdType.Steam => textBoxSettingSteamId.Text,
-                    IdType.Profile => textBoxSettingProfileId.Text,
-                    _ => string.Empty,
-                };
-                var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(Controler.SelectedId, idText);
+                var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(IdType.Profile, textBoxSettingProfileId.Text);
                 SetLastMatchData(playerLastmatch);
             } catch (Exception ex) {
                 labelErrText.Text = ex.Message + ":" + ex.StackTrace;
@@ -349,14 +344,6 @@
             ((Label)sender).DrawString(e, 12, Color.Gray, Color.LightGoldenrodYellow);
         }
 
-        private void TextBoxSettingSteamId_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void TextBoxSettingProfileId_TextChanged(object sender, EventArgs e)
-        {
-        }
-
         private void RadioButtonProfileID_CheckedChanged(object sender, EventArgs e)
         {
             textBoxSettingProfileId.Enabled = true;
@@ -388,8 +375,6 @@
                 break;
             case IdType.Profile:
                 idText = textBoxSettingProfileId.Text;
-                break;
-            default:
                 break;
             }
 

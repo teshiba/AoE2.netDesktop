@@ -1,6 +1,7 @@
 ﻿namespace AoE2NetDesktop.Form
 {
     using System;
+    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
     using AoE2NetDesktop.From;
@@ -63,24 +64,6 @@
                 ret = "---";
             } else {
                 ret = (bool)won ? "o" : string.Empty;
-            }
-
-            return ret;
-        }
-
-        /// <summary>
-        /// Get selected player.
-        /// </summary>
-        /// <param name="match">target match.</param>
-        /// <returns>selected player.</returns>
-        public Player GetSelectedPlayer(Match match)
-        {
-            Player ret = null;
-
-            foreach (var item in match.Players) {
-                if (item.ProfilId == ProfileId) {
-                    ret = item;
-                }
             }
 
             return ret;
