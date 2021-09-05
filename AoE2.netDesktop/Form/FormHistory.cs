@@ -93,7 +93,7 @@
                 dataPlot.PlotWinRateEachMap(LeaderBoardId.TeamRandomMap, formsPlotWinRateTeamEachMap.Plot);
 
                 var plotTeam = dataPlot.PlotRate(LeaderBoardId.TeamRandomMap, formsPlotRateTeam.Plot);
-                var plot1v1 = dataPlot.PlotRate(LeaderBoardId.TeamRandomMap, formsPlotRate1v1.Plot);
+                var plot1v1 = dataPlot.PlotRate(LeaderBoardId.OneVOneRandomMap, formsPlotRate1v1.Plot);
                 plotHighlightTeam = new PlotHighlight(formsPlotRateTeam, plotTeam);
                 plotHighlight1v1 = new PlotHighlight(formsPlotRate1v1, plot1v1);
                 plotHighlight1v1.UpdateHighlight();

@@ -341,7 +341,6 @@ namespace AoE2NetDesktop.From.Tests
         public void ShowHistoryTest()
         {
             // Arrange
-            var expVal = string.Empty;
 
             // Act
             var testClass = new CtrlMain() {
