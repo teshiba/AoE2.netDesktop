@@ -3,15 +3,30 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
     /// <summary>
-    /// extention of Language enum.
+    /// Extention of Language enum.
     /// </summary>
     public static class StringsExt
     {
         private static Strings apiStrings;
         private static Strings enStrings;
+        private static Task initTask;
+
+        /// <summary>
+        /// Initialize the class.
+        /// </summary>
+        [ModuleInitializer]
+        public static void InitAsync()
+        {
+            initTask = Task.Run(async () =>
+            {
+                enStrings = await AoE2net.GetStringsAsync(Language.en);
+                await InitApiStringsAsync(Language.en);
+            });
+        }
 
         /// <summary>
         /// Initialize the class.
@@ -20,8 +35,8 @@
         /// <returns>controler instance.</returns>
         public static async Task<bool> InitAsync(Language language)
         {
-            apiStrings = await AoE2net.GetStringsAsync(language);
-            enStrings = await AoE2net.GetStringsAsync(Language.en);
+            initTask.Wait();
+            await InitApiStringsAsync(language);
 
             return true;
         }
@@ -34,6 +49,8 @@
         /// <returns>Found string.</returns>
         public static string GetString(this List<StringId> stringIds, int id)
         {
+            initTask.Wait();
+
             string ret;
             try {
                 ret = stringIds.Where(x => x.Id == id).First().String;
@@ -51,6 +68,8 @@
         /// <returns>map name.</returns>
         public static string GetMapName(this Match match)
         {
+            initTask.Wait();
+
             string mapName;
 
             if (match.MapType is int mapType) {
@@ -81,19 +100,13 @@
         public static string GetCivName(this Player player)
             => GetCivName(apiStrings, player);
 
-        /// <summary>
-        /// Get Opened Time.
-        /// </summary>
-        /// <param name="match">match.</param>
-        /// <returns>time value as DateTime type.</returns>
-        public static DateTime GetOpenedTime(this Match match)
-        {
-            var ret = DateTimeOffset.FromUnixTimeSeconds(match.Opened ?? 0).LocalDateTime;
-            return ret;
-        }
-
+        ///////////////////////////////////////////////////////////////////////
+        // private
+        ///////////////////////////////////////////////////////////////////////
         private static string GetCivName(Strings strings, Player player)
         {
+            initTask.Wait();
+
             string ret;
 
             if (player.Civ is int id) {
@@ -106,6 +119,13 @@
             }
 
             return ret;
+        }
+
+        private static async Task InitApiStringsAsync(Language language)
+        {
+            if (apiStrings?.Language != language.ToApiString()) {
+                apiStrings = await AoE2net.GetStringsAsync(language);
+            }
         }
     }
 }

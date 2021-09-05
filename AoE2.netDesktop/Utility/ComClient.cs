@@ -1,11 +1,13 @@
 ﻿namespace LibAoE2net
 {
+    using System;
     using System.Diagnostics;
     using System.IO;
     using System.Net.Http;
     using System.Runtime.Serialization.Json;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Windows.Forms;
 
     /// <summary>
     /// Client of communication class.
@@ -47,6 +49,27 @@
             } catch (TaskCanceledException e) {
                 Debug.Print($"Timeout: {e.Message}");
                 throw;
+            }
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Open specified URI.
+        /// </summary>
+        /// <param name="requestUri">URI string.</param>
+        /// <returns>browser process.</returns>
+        public virtual Process OpenBrowser(string requestUri)
+        {
+            Process ret = null;
+            try {
+                ret = Process.Start(new ProcessStartInfo("cmd", $"/c start {requestUri}") { CreateNoWindow = true });
+            } catch (System.ComponentModel.Win32Exception noBrowser) {
+                if (noBrowser.ErrorCode == -2147467259) {
+                    MessageBox.Show(noBrowser.Message);
+                }
+            } catch (Exception other) {
+                MessageBox.Show(other.Message);
             }
 
             return ret;

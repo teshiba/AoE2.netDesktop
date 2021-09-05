@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -39,11 +40,21 @@ namespace LibAoE2net
                 "player/lastmatch" => ReadplayerLastMatchAsync(requestUri),
                 "player/ratinghistory" => ReadPlayerRatingHistoryAsync(requestUri),
                 "player/matches" => ReadGetPlayerMatchHistoryAsync(requestUri),
+                "leaderboard" => ReadLeaderboardAsync(requestUri),
                 "strings" => ReadStringsAsync(requestUri),
                 _ => null,
             };
 
             return ret;
+        }
+
+        /// <summary>
+        /// Open specified URI.
+        /// </summary>
+        /// <param name="requestUri">URI string.</param>
+        public override Process OpenBrowser(string requestUri)
+        {
+            return new Process();
         }
 
         private Task<string> ReadplayerLastMatchAsync(string requestUri)
@@ -83,6 +94,16 @@ namespace LibAoE2net
             var steamId = args[4];
 
             return File.ReadAllTextAsync($"{TestDataPath}/playerMatchHistory{game}{steamId}.json");
+        }
+
+        private static Task<string> ReadLeaderboardAsync(string requestUri)
+        {
+            var args = requestUri.Split('=', '&', '?');
+            var game = args[2];
+            var leaderboardId = (LeaderBoardId)int.Parse(args[4]);
+            var profileId = args[6];
+
+            return File.ReadAllTextAsync($"{TestDataPath}/leaderboard{game}{leaderboardId}{profileId}.json");
         }
     }
 }

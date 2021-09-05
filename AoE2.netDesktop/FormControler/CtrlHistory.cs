@@ -2,9 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
+    using System.Diagnostics;
     using System.Threading.Tasks;
+
     using AoE2NetDesktop.From;
+
     using LibAoE2net;
 
     /// <summary>
@@ -13,29 +15,14 @@
     public class CtrlHistory : FormControler
     {
         private const int ReadCountMax = 1000;
-        private readonly string steamId = null;
-        private readonly int profileId = 0;
-        private readonly IdType selectedId = IdType.NotSelected;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CtrlHistory"/> class.
         /// </summary>
-        /// <param name="selectedId">user ID.</param>
-        public CtrlHistory(IdType selectedId)
+        /// <param name="profileId">Profile ID.</param>
+        public CtrlHistory(int profileId)
         {
-            this.selectedId = selectedId;
-            switch (selectedId) {
-            case IdType.Steam:
-                steamId = Settings.Default.SteamId;
-                profileId = 0;
-                break;
-            case IdType.Profile:
-                steamId = string.Empty;
-                profileId = Settings.Default.ProfileId;
-                break;
-            default:
-                break;
-            }
+            ProfileId = profileId;
         }
 
         /// <summary>
@@ -49,30 +36,40 @@
         public Dictionary<LeaderBoardId, Leaderboard> Leaderboards { get; set; } = new ();
 
         /// <summary>
-        /// Show history form.
+        /// Gets profile ID.
         /// </summary>
-        public void Show()
+        public int ProfileId { get; }
+
+        /// <summary>
+        /// Get rate string.
+        /// </summary>
+        /// <param name="player">player.</param>
+        /// <returns>
+        /// rate value and rating change value.
+        /// if rate is unavilable : "----".
+        /// </returns>
+        public static string GetRatingString(Player player)
         {
-            if (selectedId != IdType.NotSelected) {
-                new FormHistory(this).Show();
-            } else {
-                throw new InvalidOperationException("Not init selected ID");
-            }
+            string ret = (player.Rating?.ToString() ?? "----")
+                        + (player.RatingChange?.Contains('-') ?? true ? string.Empty : "+")
+                        + player.RatingChange?.ToString();
+
+            return ret;
         }
 
         /// <summary>
-        /// Get selected player.
+        /// Get the win marker.
         /// </summary>
-        /// <param name="match">target match.</param>
-        /// <returns>selected player.</returns>
-        public Player GetSelectedPlayer(Match match)
+        /// <param name="won">win or lose.</param>
+        /// <returns>win marker string.</returns>
+        public static string GetWinMarkerString(bool? won)
         {
-            Player ret = null;
+            string ret;
 
-            foreach (var item in match.Players) {
-                if (item.SteamId == steamId || item.ProfilId == profileId) {
-                    ret = item;
-                }
+            if (won == null) {
+                ret = "---";
+            } else {
+                ret = (bool)won ? "o" : string.Empty;
             }
 
             return ret;
@@ -88,11 +85,7 @@
             int startCount = 0;
 
             try {
-                PlayerMatchHistory = selectedId switch {
-                    IdType.Steam => await AoE2net.GetPlayerMatchHistoryAsync(startCount, ReadCountMax, steamId),
-                    IdType.Profile => await AoE2net.GetPlayerMatchHistoryAsync(startCount, ReadCountMax, profileId),
-                    _ => throw new InvalidEnumArgumentException($"invalid {nameof(IdType)}"),
-                };
+                PlayerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(startCount, ReadCountMax, ProfileId);
                 ret = true;
             } catch (Exception) {
                 PlayerMatchHistory = null;
@@ -108,27 +101,17 @@
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task<bool> ReadLeaderBoardAsync()
         {
-            bool ret;
+            var ret = false;
+            var leaderboardContainer = await GetLeaderboardProfileId();
 
-            try {
-                var leaderboardContainer = selectedId switch {
-                    IdType.Steam => await GetLeaderboardSteamId(),
-                    IdType.Profile => await GetLeaderboardProfileId(),
-                    _ => throw new InvalidEnumArgumentException($"invalid {nameof(IdType)}"),
-                };
-
+            if (leaderboardContainer?.Count == 4) {
                 var oneVOneRm = leaderboardContainer[0];
                 var oneVOneDm = leaderboardContainer[1];
                 var teamRm = leaderboardContainer[2];
                 var teamDm = leaderboardContainer[3];
 
                 if (oneVOneRm.Leaderboards.Count == 0) {
-                    var ratings = selectedId switch {
-                        IdType.Steam => await AoE2net.GetPlayerRatingHistoryAsync(steamId, LeaderBoardId.OneVOneRandomMap, 1),
-                        IdType.Profile => await AoE2net.GetPlayerRatingHistoryAsync(profileId, LeaderBoardId.OneVOneRandomMap, 1),
-                        _ => throw new InvalidEnumArgumentException($"invalid {nameof(IdType)}"),
-                    };
-
+                    var ratings = await AoE2net.GetPlayerRatingHistoryAsync(ProfileId, LeaderBoardId.OneVOneRandomMap, 1);
                     var leaderboard = new Leaderboard();
                     if (ratings.Count != 0) {
                         leaderboard.Rating = ratings[0].Rating;
@@ -160,34 +143,25 @@
                 };
 
                 ret = true;
-            } catch (Exception) {
-                PlayerMatchHistory = null;
-                ret = false;
             }
-
-            return ret;
-        }
-
-        private async Task<List<LeaderboardContainer>> GetLeaderboardSteamId()
-        {
-            var ret = new List<LeaderboardContainer>() {
-                await AoE2net.GetLeaderboardAsync(LeaderBoardId.OneVOneRandomMap, 0, 1, steamId),
-                await AoE2net.GetLeaderboardAsync(LeaderBoardId.OneVOneDeathmatch, 0, 1, steamId),
-                await AoE2net.GetLeaderboardAsync(LeaderBoardId.TeamRandomMap, 0, 1, steamId),
-                await AoE2net.GetLeaderboardAsync(LeaderBoardId.TeamDeathmatch, 0, 1, steamId),
-            };
 
             return ret;
         }
 
         private async Task<List<LeaderboardContainer>> GetLeaderboardProfileId()
         {
-            var ret = new List<LeaderboardContainer>() {
-                await AoE2net.GetLeaderboardAsync(LeaderBoardId.OneVOneRandomMap, 0, 1, profileId),
-                await AoE2net.GetLeaderboardAsync(LeaderBoardId.OneVOneDeathmatch, 0, 1, profileId),
-                await AoE2net.GetLeaderboardAsync(LeaderBoardId.TeamRandomMap, 0, 1, profileId),
-                await AoE2net.GetLeaderboardAsync(LeaderBoardId.TeamDeathmatch, 0, 1, profileId),
-            };
+            List<LeaderboardContainer> ret = null;
+
+            try {
+                ret = new List<LeaderboardContainer>() {
+                    await AoE2net.GetLeaderboardAsync(LeaderBoardId.OneVOneRandomMap, 0, 1, ProfileId),
+                    await AoE2net.GetLeaderboardAsync(LeaderBoardId.OneVOneDeathmatch, 0, 1, ProfileId),
+                    await AoE2net.GetLeaderboardAsync(LeaderBoardId.TeamRandomMap, 0, 1, ProfileId),
+                    await AoE2net.GetLeaderboardAsync(LeaderBoardId.TeamDeathmatch, 0, 1, ProfileId),
+                };
+            } catch (Exception e) {
+                Debug.Print($"GetLeaderboardAsync Error{e.Message}: {e.StackTrace}");
+            }
 
             return ret;
         }

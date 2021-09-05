@@ -12,9 +12,9 @@ namespace AoE2NetDesktop.Tests
         public void DrawStringTest()
         {
             // Arrange
-            Label label = new Label();
+            Label label = new();
             var graphics = label.CreateGraphics();
-            PaintEventArgs e = new PaintEventArgs(graphics, new Rectangle(0, 0, 100, 100));
+            var e = new PaintEventArgs(graphics, new Rectangle(0, 0, 100, 100));
 
             // Act
             label.DrawString(e, 10, Color.Red, Color.Orange);
@@ -26,9 +26,9 @@ namespace AoE2NetDesktop.Tests
         public void DrawStringTest1()
         {
             // Arrange
-            Label label = new Label();
+            Label label = new();
             var graphics = label.CreateGraphics();
-            PaintEventArgs e = new PaintEventArgs(graphics, new Rectangle(0, 0, 100, 100));
+            var e = new PaintEventArgs(graphics, new Rectangle(0, 0, 100, 100));
 
             // Act
             label.DrawString(e, 10, Color.Red, Color.Orange);

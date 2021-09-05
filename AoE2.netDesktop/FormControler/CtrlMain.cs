@@ -38,9 +38,24 @@
         }
 
         /// <summary>
+        /// Gets selected ID type.
+        /// </summary>
+        public FormHistory FormHistory { get; private set; }
+
+        /// <summary>
         /// Gets or sets selected ID type.
         /// </summary>
         public IdType SelectedId { get; set; }
+
+        /// <summary>
+        /// Gets get user country name.
+        /// </summary>
+        public string SteamId { get => playerLastmatch?.SteamId ?? "0"; }
+
+        /// <summary>
+        /// Gets get user country name.
+        /// </summary>
+        public int PrifileId { get => playerLastmatch?.ProfileId ?? 0; }
 
         /// <summary>
         /// Gets get user country name.
@@ -111,20 +126,22 @@
                 _ => null,
             };
 
-            foreach (var player in ret?.LastMatch.Players) {
-                List<PlayerRating> rate = null;
-                if (player.SteamId != null) {
-                    rate = await AoE2net.GetPlayerRatingHistoryAsync(
-                        player.SteamId, ret.LastMatch.LeaderboardId ?? 0, 1);
-                } else if (player.ProfilId is int profileId) {
-                    rate = await AoE2net.GetPlayerRatingHistoryAsync(
-                        profileId, ret.LastMatch.LeaderboardId ?? 0, 1);
-                } else {
-                    throw new FormatException($"Invalid profilId of Name:{player.Name}");
-                }
+            if (ret != null) {
+                foreach (var player in ret.LastMatch.Players) {
+                    List<PlayerRating> rate = null;
+                    if (player.SteamId != null) {
+                        rate = await AoE2net.GetPlayerRatingHistoryAsync(
+                            player.SteamId, ret.LastMatch.LeaderboardId ?? 0, 1);
+                    } else if (player.ProfilId is int profileId) {
+                        rate = await AoE2net.GetPlayerRatingHistoryAsync(
+                            profileId, ret.LastMatch.LeaderboardId ?? 0, 1);
+                    } else {
+                        throw new FormatException($"Invalid profilId of Name:{player.Name}");
+                    }
 
-                if (rate.Count != 0) {
-                    player.Rating ??= rate[0].Rating;
+                    if (rate.Count != 0) {
+                        player.Rating ??= rate[0].Rating;
+                    }
                 }
             }
 
@@ -168,7 +185,8 @@
         /// </summary>
         public void ShowHistory()
         {
-            new CtrlHistory(SelectedId).Show();
+            FormHistory = new FormHistory(PrifileId);
+            FormHistory.Show();
         }
 
         /// <summary>
@@ -189,19 +207,14 @@
         /// <param name="idText">steam Id.</param>
         /// <returns>API result.</returns>
         /// <returns>API run result.</returns>
-        public async Task<bool> GetPlayerDataAsync(IdType id, string idText)
+        public async Task<bool> ReadPlayerDataAsync(IdType id, string idText)
         {
             try {
-                switch (id) {
-                case IdType.Steam:
-                    playerLastmatch = await GetPlayerLastMatchAsync(id, idText);
-                    break;
-                case IdType.Profile:
-                    playerLastmatch = await GetPlayerLastMatchAsync(id, idText);
-                    break;
-                default:
-                    break;
-                }
+                playerLastmatch = id switch {
+                    IdType.Steam => await GetPlayerLastMatchAsync(id, idText),
+                    IdType.Profile => await GetPlayerLastMatchAsync(id, idText),
+                    _ => null,
+                };
             } catch (Exception) {
                 playerLastmatch = null;
                 throw;

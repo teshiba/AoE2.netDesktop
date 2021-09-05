@@ -184,18 +184,10 @@
         /// Open the AoE2.net player profile of the specified ID in your default browser.
         /// </summary>
         /// <param name="profileId">Profile ID.</param>
-        public static void OpenAoE2net(int profileId)
+        /// <returns>browser process.</returns>
+        public static Process OpenAoE2net(int profileId)
         {
-            var target = $"https://aoe2.net/#profile-{profileId}";
-            try {
-                Process.Start(new ProcessStartInfo("cmd", $"/c start {target}") { CreateNoWindow = true });
-            } catch (System.ComponentModel.Win32Exception noBrowser) {
-                if (noBrowser.ErrorCode == -2147467259) {
-                    MessageBox.Show(noBrowser.Message);
-                }
-            } catch (Exception other) {
-                MessageBox.Show(other.Message);
-            }
+            return ComClient.OpenBrowser($"https://aoe2.net/#profile-{profileId}");
         }
     }
 }
