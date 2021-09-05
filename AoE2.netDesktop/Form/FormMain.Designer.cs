@@ -27,7 +27,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPagePlayerLastMatch = new System.Windows.Forms.TabPage();
             this.labelGameId = new System.Windows.Forms.Label();
@@ -80,11 +79,16 @@
             this.labelServer = new System.Windows.Forms.Label();
             this.labelMap = new System.Windows.Forms.Label();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
+            this.groupBoxPlayer = new System.Windows.Forms.GroupBox();
+            this.buttonSetId = new System.Windows.Forms.Button();
+            this.buttonViewHistory = new System.Windows.Forms.Button();
+            this.radioButtonSteamID = new System.Windows.Forms.RadioButton();
+            this.radioButtonProfileID = new System.Windows.Forms.RadioButton();
+            this.textBoxSettingSteamId = new System.Windows.Forms.TextBox();
+            this.textBoxSettingProfileId = new System.Windows.Forms.TextBox();
             this.labelSettingsCountry = new System.Windows.Forms.Label();
             this.labelSettingsName = new System.Windows.Forms.Label();
             this.checkBoxAlwaysOnTop = new System.Windows.Forms.CheckBox();
-            this.textBoxSettingSteamId = new System.Windows.Forms.TextBox();
-            this.labelSteamId = new System.Windows.Forms.Label();
             this.tabControlMain.SuspendLayout();
             this.tabPagePlayerLastMatch.SuspendLayout();
             this.panelTeam2.SuspendLayout();
@@ -98,6 +102,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabPageSettings.SuspendLayout();
+            this.groupBoxPlayer.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -108,7 +113,7 @@
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(284, 521);
+            this.tabControlMain.Size = new System.Drawing.Size(362, 521);
             this.tabControlMain.TabIndex = 0;
             // 
             // tabPagePlayerLastMatch
@@ -124,7 +129,7 @@
             this.tabPagePlayerLastMatch.Location = new System.Drawing.Point(4, 24);
             this.tabPagePlayerLastMatch.Name = "tabPagePlayerLastMatch";
             this.tabPagePlayerLastMatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(276, 493);
+            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(354, 493);
             this.tabPagePlayerLastMatch.TabIndex = 0;
             this.tabPagePlayerLastMatch.Text = "Player Last Match";
             this.tabPagePlayerLastMatch.UseVisualStyleBackColor = true;
@@ -141,12 +146,13 @@
             // 
             // labelErrText
             // 
-            this.labelErrText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.labelErrText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
             this.labelErrText.Location = new System.Drawing.Point(8, 447);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(188, 38);
+            this.labelErrText.Size = new System.Drawing.Size(188, 46);
             this.labelErrText.TabIndex = 8;
             // 
             // buttonUpdate
@@ -154,7 +160,7 @@
             this.buttonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonUpdate.Enabled = false;
             this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonUpdate.Location = new System.Drawing.Point(202, 447);
+            this.buttonUpdate.Location = new System.Drawing.Point(282, 447);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(66, 38);
             this.buttonUpdate.TabIndex = 7;
@@ -192,7 +198,7 @@
             this.panelTeam2.Controls.Add(this.labelColorP1);
             this.panelTeam2.Location = new System.Drawing.Point(8, 51);
             this.panelTeam2.Name = "panelTeam2";
-            this.panelTeam2.Size = new System.Drawing.Size(260, 192);
+            this.panelTeam2.Size = new System.Drawing.Size(340, 192);
             this.panelTeam2.TabIndex = 6;
             // 
             // labelNameP7
@@ -203,7 +209,7 @@
             this.labelNameP7.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP7.Location = new System.Drawing.Point(123, 148);
             this.labelNameP7.Name = "labelNameP7";
-            this.labelNameP7.Size = new System.Drawing.Size(134, 28);
+            this.labelNameP7.Size = new System.Drawing.Size(214, 28);
             this.labelNameP7.TabIndex = 3;
             this.labelNameP7.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP7.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP7_Paint);
@@ -216,7 +222,7 @@
             this.labelNameP3.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP3.Location = new System.Drawing.Point(123, 67);
             this.labelNameP3.Name = "labelNameP3";
-            this.labelNameP3.Size = new System.Drawing.Size(134, 28);
+            this.labelNameP3.Size = new System.Drawing.Size(214, 28);
             this.labelNameP3.TabIndex = 3;
             this.labelNameP3.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP3.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP3_Paint);
@@ -229,7 +235,7 @@
             this.labelNameP5.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP5.Location = new System.Drawing.Point(123, 108);
             this.labelNameP5.Name = "labelNameP5";
-            this.labelNameP5.Size = new System.Drawing.Size(134, 28);
+            this.labelNameP5.Size = new System.Drawing.Size(214, 28);
             this.labelNameP5.TabIndex = 3;
             this.labelNameP5.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP5.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP5_Paint);
@@ -242,7 +248,7 @@
             this.labelNameP1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP1.Location = new System.Drawing.Point(123, 28);
             this.labelNameP1.Name = "labelNameP1";
-            this.labelNameP1.Size = new System.Drawing.Size(134, 28);
+            this.labelNameP1.Size = new System.Drawing.Size(214, 28);
             this.labelNameP1.TabIndex = 3;
             this.labelNameP1.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP1_Paint);
@@ -490,7 +496,7 @@
             this.panelTeam1.Controls.Add(this.labelColorP2);
             this.panelTeam1.Location = new System.Drawing.Point(8, 249);
             this.panelTeam1.Name = "panelTeam1";
-            this.panelTeam1.Size = new System.Drawing.Size(260, 192);
+            this.panelTeam1.Size = new System.Drawing.Size(340, 192);
             this.panelTeam1.TabIndex = 5;
             // 
             // labelNameP2
@@ -501,7 +507,7 @@
             this.labelNameP2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP2.Location = new System.Drawing.Point(123, 29);
             this.labelNameP2.Name = "labelNameP2";
-            this.labelNameP2.Size = new System.Drawing.Size(134, 28);
+            this.labelNameP2.Size = new System.Drawing.Size(214, 28);
             this.labelNameP2.TabIndex = 3;
             this.labelNameP2.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP2_Paint);
@@ -514,7 +520,7 @@
             this.labelNameP8.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP8.Location = new System.Drawing.Point(123, 149);
             this.labelNameP8.Name = "labelNameP8";
-            this.labelNameP8.Size = new System.Drawing.Size(134, 28);
+            this.labelNameP8.Size = new System.Drawing.Size(214, 28);
             this.labelNameP8.TabIndex = 3;
             this.labelNameP8.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP8.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP8_Paint);
@@ -527,7 +533,7 @@
             this.labelNameP6.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP6.Location = new System.Drawing.Point(123, 110);
             this.labelNameP6.Name = "labelNameP6";
-            this.labelNameP6.Size = new System.Drawing.Size(134, 28);
+            this.labelNameP6.Size = new System.Drawing.Size(214, 28);
             this.labelNameP6.TabIndex = 3;
             this.labelNameP6.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP6.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP6_Paint);
@@ -540,7 +546,7 @@
             this.labelNameP4.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP4.Location = new System.Drawing.Point(123, 70);
             this.labelNameP4.Name = "labelNameP4";
-            this.labelNameP4.Size = new System.Drawing.Size(134, 28);
+            this.labelNameP4.Size = new System.Drawing.Size(214, 28);
             this.labelNameP4.TabIndex = 3;
             this.labelNameP4.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP4.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP4_Paint);
@@ -765,9 +771,11 @@
             // 
             // labelServer
             // 
+            this.labelServer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelServer.Location = new System.Drawing.Point(145, 31);
             this.labelServer.Name = "labelServer";
-            this.labelServer.Size = new System.Drawing.Size(116, 19);
+            this.labelServer.Size = new System.Drawing.Size(0, 19);
             this.labelServer.TabIndex = 2;
             this.labelServer.Text = "Server: ----------";
             this.labelServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -780,7 +788,7 @@
             this.labelMap.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelMap.Location = new System.Drawing.Point(3, 3);
             this.labelMap.Name = "labelMap";
-            this.labelMap.Size = new System.Drawing.Size(263, 30);
+            this.labelMap.Size = new System.Drawing.Size(108, 30);
             this.labelMap.TabIndex = 2;
             this.labelMap.Text = "Map : ----------";
             this.labelMap.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
@@ -788,32 +796,120 @@
             // tabPageSettings
             // 
             this.tabPageSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.tabPageSettings.Controls.Add(this.labelSettingsCountry);
-            this.tabPageSettings.Controls.Add(this.labelSettingsName);
+            this.tabPageSettings.Controls.Add(this.groupBoxPlayer);
             this.tabPageSettings.Controls.Add(this.checkBoxAlwaysOnTop);
-            this.tabPageSettings.Controls.Add(this.textBoxSettingSteamId);
-            this.tabPageSettings.Controls.Add(this.labelSteamId);
             this.tabPageSettings.Location = new System.Drawing.Point(4, 24);
             this.tabPageSettings.Name = "tabPageSettings";
             this.tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSettings.Size = new System.Drawing.Size(276, 493);
+            this.tabPageSettings.Size = new System.Drawing.Size(354, 493);
             this.tabPageSettings.TabIndex = 1;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
             // 
+            // groupBoxPlayer
+            // 
+            this.groupBoxPlayer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxPlayer.Controls.Add(this.buttonSetId);
+            this.groupBoxPlayer.Controls.Add(this.buttonViewHistory);
+            this.groupBoxPlayer.Controls.Add(this.radioButtonSteamID);
+            this.groupBoxPlayer.Controls.Add(this.radioButtonProfileID);
+            this.groupBoxPlayer.Controls.Add(this.textBoxSettingSteamId);
+            this.groupBoxPlayer.Controls.Add(this.textBoxSettingProfileId);
+            this.groupBoxPlayer.Controls.Add(this.labelSettingsCountry);
+            this.groupBoxPlayer.Controls.Add(this.labelSettingsName);
+            this.groupBoxPlayer.Location = new System.Drawing.Point(9, 32);
+            this.groupBoxPlayer.Name = "groupBoxPlayer";
+            this.groupBoxPlayer.Size = new System.Drawing.Size(337, 453);
+            this.groupBoxPlayer.TabIndex = 6;
+            this.groupBoxPlayer.TabStop = false;
+            this.groupBoxPlayer.Text = "Player";
+            // 
+            // buttonSetId
+            // 
+            this.buttonSetId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSetId.Location = new System.Drawing.Point(256, 20);
+            this.buttonSetId.Name = "buttonSetId";
+            this.buttonSetId.Size = new System.Drawing.Size(76, 48);
+            this.buttonSetId.TabIndex = 7;
+            this.buttonSetId.Text = "Set ID";
+            this.buttonSetId.UseVisualStyleBackColor = true;
+            this.buttonSetId.Click += new System.EventHandler(this.ButtonSetId_ClickAsync);
+            // 
+            // buttonViewHistory
+            // 
+            this.buttonViewHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonViewHistory.Location = new System.Drawing.Point(216, 135);
+            this.buttonViewHistory.Name = "buttonViewHistory";
+            this.buttonViewHistory.Size = new System.Drawing.Size(115, 35);
+            this.buttonViewHistory.TabIndex = 6;
+            this.buttonViewHistory.Text = "ViewHistory(&V)...";
+            this.buttonViewHistory.UseVisualStyleBackColor = true;
+            this.buttonViewHistory.Click += new System.EventHandler(this.ButtonViewHistory_Click);
+            // 
+            // radioButtonSteamID
+            // 
+            this.radioButtonSteamID.AutoSize = true;
+            this.radioButtonSteamID.Checked = true;
+            this.radioButtonSteamID.Location = new System.Drawing.Point(6, 22);
+            this.radioButtonSteamID.Name = "radioButtonSteamID";
+            this.radioButtonSteamID.Size = new System.Drawing.Size(73, 19);
+            this.radioButtonSteamID.TabIndex = 4;
+            this.radioButtonSteamID.TabStop = true;
+            this.radioButtonSteamID.Text = "Steam-ID";
+            this.radioButtonSteamID.UseVisualStyleBackColor = true;
+            this.radioButtonSteamID.CheckedChanged += new System.EventHandler(this.RadioButtonSteamID_CheckedChanged);
+            // 
+            // radioButtonProfileID
+            // 
+            this.radioButtonProfileID.AutoSize = true;
+            this.radioButtonProfileID.Location = new System.Drawing.Point(6, 47);
+            this.radioButtonProfileID.Name = "radioButtonProfileID";
+            this.radioButtonProfileID.Size = new System.Drawing.Size(75, 19);
+            this.radioButtonProfileID.TabIndex = 5;
+            this.radioButtonProfileID.Text = "Profile-ID";
+            this.radioButtonProfileID.UseVisualStyleBackColor = true;
+            this.radioButtonProfileID.CheckedChanged += new System.EventHandler(this.RadioButtonProfileID_CheckedChanged);
+            // 
+            // textBoxSettingSteamId
+            // 
+            this.textBoxSettingSteamId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSettingSteamId.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.textBoxSettingSteamId.Location = new System.Drawing.Point(87, 20);
+            this.textBoxSettingSteamId.Name = "textBoxSettingSteamId";
+            this.textBoxSettingSteamId.Size = new System.Drawing.Size(163, 23);
+            this.textBoxSettingSteamId.TabIndex = 1;
+            // 
+            // textBoxSettingProfileId
+            // 
+            this.textBoxSettingProfileId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSettingProfileId.Enabled = false;
+            this.textBoxSettingProfileId.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.textBoxSettingProfileId.Location = new System.Drawing.Point(87, 45);
+            this.textBoxSettingProfileId.Name = "textBoxSettingProfileId";
+            this.textBoxSettingProfileId.Size = new System.Drawing.Size(163, 23);
+            this.textBoxSettingProfileId.TabIndex = 1;
+            // 
             // labelSettingsCountry
             // 
-            this.labelSettingsCountry.Location = new System.Drawing.Point(14, 111);
+            this.labelSettingsCountry.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelSettingsCountry.Location = new System.Drawing.Point(8, 109);
             this.labelSettingsCountry.Name = "labelSettingsCountry";
-            this.labelSettingsCountry.Size = new System.Drawing.Size(300, 23);
+            this.labelSettingsCountry.Size = new System.Drawing.Size(323, 23);
             this.labelSettingsCountry.TabIndex = 3;
             this.labelSettingsCountry.Text = "Country: -----";
             // 
             // labelSettingsName
             // 
-            this.labelSettingsName.Location = new System.Drawing.Point(14, 88);
+            this.labelSettingsName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelSettingsName.Location = new System.Drawing.Point(8, 86);
             this.labelSettingsName.Name = "labelSettingsName";
-            this.labelSettingsName.Size = new System.Drawing.Size(300, 23);
+            this.labelSettingsName.Size = new System.Drawing.Size(323, 23);
             this.labelSettingsName.TabIndex = 3;
             this.labelSettingsName.Text = "    Name: -----";
             // 
@@ -829,31 +925,11 @@
             this.checkBoxAlwaysOnTop.UseVisualStyleBackColor = true;
             this.checkBoxAlwaysOnTop.CheckedChanged += new System.EventHandler(this.CheckBoxAlwaysOnTop_CheckedChanged);
             // 
-            // textBoxSettingSteamId
-            // 
-            this.textBoxSettingSteamId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxSettingSteamId.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.textBoxSettingSteamId.Location = new System.Drawing.Point(75, 47);
-            this.textBoxSettingSteamId.Name = "textBoxSettingSteamId";
-            this.textBoxSettingSteamId.Size = new System.Drawing.Size(193, 23);
-            this.textBoxSettingSteamId.TabIndex = 1;
-            this.textBoxSettingSteamId.TextChanged += new System.EventHandler(this.TextBoxSettingSteamId_TextChanged);
-            // 
-            // labelSteamId
-            // 
-            this.labelSteamId.AutoSize = true;
-            this.labelSteamId.Location = new System.Drawing.Point(14, 50);
-            this.labelSteamId.Name = "labelSteamId";
-            this.labelSteamId.Size = new System.Drawing.Size(55, 15);
-            this.labelSteamId.TabIndex = 0;
-            this.labelSteamId.Text = "Steam-ID";
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 521);
+            this.ClientSize = new System.Drawing.Size(362, 521);
             this.Controls.Add(this.tabControlMain);
             this.MinimumSize = new System.Drawing.Size(300, 560);
             this.Name = "FormMain";
@@ -874,6 +950,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabPageSettings.ResumeLayout(false);
             this.tabPageSettings.PerformLayout();
+            this.groupBoxPlayer.ResumeLayout(false);
+            this.groupBoxPlayer.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -923,7 +1001,6 @@
         private System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.TabPage tabPageSettings;
         private System.Windows.Forms.TextBox textBoxSettingSteamId;
-        private System.Windows.Forms.Label labelSteamId;
         private System.Windows.Forms.Label labelErrText;
         private System.Windows.Forms.PictureBox pictureBox8;
         private System.Windows.Forms.PictureBox pictureBox6;
@@ -937,5 +1014,11 @@
         private System.Windows.Forms.CheckBox checkBoxAlwaysOnTop;
         private System.Windows.Forms.Label labelSettingsCountry;
         private System.Windows.Forms.Label labelSettingsName;
+        private System.Windows.Forms.GroupBox groupBoxPlayer;
+        private System.Windows.Forms.RadioButton radioButtonSteamID;
+        private System.Windows.Forms.RadioButton radioButtonProfileID;
+        private System.Windows.Forms.TextBox textBoxSettingProfileId;
+        private System.Windows.Forms.Button buttonViewHistory;
+        private System.Windows.Forms.Button buttonSetId;
     }
 }

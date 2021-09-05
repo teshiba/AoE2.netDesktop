@@ -6,6 +6,9 @@
     using System.Drawing;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using AoE2NetDesktop.Form;
+
     using LibAoE2net;
 
     /// <summary>
@@ -18,8 +21,6 @@
 
         private readonly System.Timers.Timer timerSteamIdVerify;
 
-        private Strings apiStrings;
-        private Strings enStrings;
         private Func<Task> delayedFunction;
         private PlayerLastmatch playerLastmatch;
 
@@ -35,6 +36,26 @@
                 Invoke(delayedFunction);
             };
         }
+
+        /// <summary>
+        /// Gets selected ID type.
+        /// </summary>
+        public FormHistory FormHistory { get; private set; }
+
+        /// <summary>
+        /// Gets or sets selected ID type.
+        /// </summary>
+        public IdType SelectedId { get; set; }
+
+        /// <summary>
+        /// Gets get user country name.
+        /// </summary>
+        public string SteamId { get => playerLastmatch?.SteamId ?? "0"; }
+
+        /// <summary>
+        /// Gets get user country name.
+        /// </summary>
+        public int PrifileId { get => playerLastmatch?.ProfileId ?? 0; }
 
         /// <summary>
         /// Gets get user country name.
@@ -90,29 +111,36 @@
         /// <summary>
         /// Get player last match.
         /// </summary>
-        /// <param name="steamId">steam ID.</param>
+        /// <param name="userId">ID type.</param>
+        /// <param name="idText">ID text.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(string steamId)
+        public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(IdType userId, string idText)
         {
-            if (steamId is null) {
-                throw new ArgumentNullException(nameof(steamId));
+            if (idText is null) {
+                throw new ArgumentNullException(nameof(idText));
             }
 
-            var ret = await AoE2net.GetPlayerLastMatchAsync(steamId);
+            var ret = userId switch {
+                IdType.Steam => await AoE2net.GetPlayerLastMatchAsync(idText),
+                IdType.Profile => await AoE2net.GetPlayerLastMatchAsync(int.Parse(idText)),
+                _ => null,
+            };
 
-            foreach (var player in ret.LastMatch.Players) {
-                List<PlayerRating> rate = null;
-                if (player.SteamId != null) {
-                    rate = await AoE2net.GetPlayerRatingHistoryAsync(
-                        player.SteamId, ret.LastMatch.LeaderboardId ?? 0, 1);
-                } else if (player.ProfilId is int profileId) {
-                    rate = await AoE2net.GetPlayerRatingHistoryAsync(
-                        profileId, ret.LastMatch.LeaderboardId ?? 0, 1);
-                } else {
-                    throw new FormatException($"Invalid profilId of Name:{player.Name}");
+            if (ret != null) {
+                foreach (var player in ret.LastMatch.Players) {
+                    List<PlayerRating> rate = null;
+                    if (player.SteamId != null) {
+                        rate = await AoE2net.GetPlayerRatingHistoryAsync(
+                            player.SteamId, ret.LastMatch.LeaderboardId ?? 0, 1);
+                    } else if (player.ProfilId is int profileId) {
+                        rate = await AoE2net.GetPlayerRatingHistoryAsync(
+                            profileId, ret.LastMatch.LeaderboardId ?? 0, 1);
+                    } else {
+                        throw new FormatException($"Invalid profilId of Name:{player.Name}");
+                    }
+
+                    player.Rating ??= rate[0].Rating;
                 }
-
-                player.Rating ??= rate[0].Rating;
             }
 
             return ret;
@@ -143,12 +171,20 @@
         /// </summary>
         /// <param name="language">language used.</param>
         /// <returns>controler instance.</returns>
-        public async Task<bool> InitAsync(Language language)
+        public static async Task<bool> InitAsync(Language language)
         {
-            apiStrings = await AoE2net.GetStringsAsync(language);
-            enStrings = await AoE2net.GetStringsAsync(Language.en);
+            await StringsExt.InitAsync(language);
 
             return true;
+        }
+
+        /// <summary>
+        /// Show History.
+        /// </summary>
+        public void ShowHistory()
+        {
+            FormHistory = new FormHistory(PrifileId);
+            FormHistory.Show();
         }
 
         /// <summary>
@@ -165,71 +201,24 @@
         /// <summary>
         /// Get user data from AoE2.net.
         /// </summary>
-        /// <param name="steamId">steam Id.</param>
+        /// <param name="id">User ID.</param>
+        /// <param name="idText">steam Id.</param>
         /// <returns>API result.</returns>
-        public async Task<bool> GetPlayerDataAsync(string steamId)
+        /// <returns>API run result.</returns>
+        public async Task<bool> ReadPlayerDataAsync(IdType id, string idText)
         {
             try {
-                playerLastmatch = await GetPlayerLastMatchAsync(steamId);
+                playerLastmatch = id switch {
+                    IdType.Steam => await GetPlayerLastMatchAsync(id, idText),
+                    IdType.Profile => await GetPlayerLastMatchAsync(id, idText),
+                    _ => null,
+                };
             } catch (Exception) {
                 playerLastmatch = null;
                 throw;
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Get map name of the match.
-        /// </summary>
-        /// <param name="match">last match.</param>
-        /// <returns>map name.</returns>
-        public string GetMapName(Match match)
-        {
-            string mapName;
-
-            if (match.MapType is int mapType) {
-                mapName = apiStrings.MapType.GetString(mapType);
-                if (mapName == null) {
-                    mapName = $"Unknown(Map No.{mapType})";
-                }
-            } else {
-                mapName = $"Unknown(Map No. N/A)";
-            }
-
-            return mapName;
-        }
-
-        /// <summary>
-        /// Get player's civilization name in English.
-        /// </summary>
-        /// <param name="player">player.</param>
-        /// <returns>civilization name in English.</returns>
-        public string GetCivEnName(Player player)
-            => GetCivName(enStrings, player);
-
-        /// <summary>
-        /// Get player's civilization name.
-        /// </summary>
-        /// <param name="player">player.</param>
-        /// <returns>civilization name.</returns>
-        public string GetCivName(Player player)
-            => GetCivName(apiStrings, player);
-
-        private static string GetCivName(Strings strings, Player player)
-        {
-            string ret;
-
-            if (player.Civ is int id) {
-                ret = strings.Civ.GetString(id);
-                if (ret is null) {
-                    ret = $"invalid civ:{id}";
-                }
-            } else {
-                ret = $"invalid civ:null";
-            }
-
-            return ret;
         }
     }
 }

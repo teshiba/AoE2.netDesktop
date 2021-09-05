@@ -68,7 +68,9 @@
                 throw new ArgumentNullException(nameof(steamId));
             }
 
-            return await GetPlayerRatingHistoryRequestAsync($"steam_id={steamId}", leaderBoardId, count);
+            string apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&steam_id={steamId}&count={count}";
+
+            return await ComClient.GetFromJsonAsync<List<PlayerRating>>(apiEndPoint);
         }
 
         /// <summary>
@@ -81,7 +83,9 @@
         /// <returns>List of <see cref="PlayerRating"/> deserialized as JSON.</returns>
         public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(int profileId, LeaderBoardId leaderBoardId, int count)
         {
-            return await GetPlayerRatingHistoryRequestAsync($"profile_id={profileId}", leaderBoardId, count);
+            string apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&profile_id={profileId}&count={count}";
+
+            return await ComClient.GetFromJsonAsync<List<PlayerRating>>(apiEndPoint);
         }
 
         /// <summary>
@@ -112,10 +116,36 @@
             return ret;
         }
 
-        private static async Task<List<PlayerRating>> GetPlayerRatingHistoryRequestAsync(string id, LeaderBoardId leaderBoardId, int count)
+        /// <summary>
+        /// Request the match history for a player.
+        /// </summary>
+        /// <param name="start">Starting match (0 is the most recent match).</param>
+        /// <param name="count">Number of matches to get (Must be 1000 or less)).</param>
+        /// <param name="steamId">steamID64.</param>
+        /// <returns>Player match history.</returns>
+        public static async Task<PlayerMatchHistory> GetPlayerMatchHistoryAsync(int start, int count, string steamId)
         {
-            string apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&{id}&count={count}";
-            return await ComClient.GetFromJsonAsync<List<PlayerRating>>(apiEndPoint);
+            if (steamId is null) {
+                throw new ArgumentNullException(nameof(steamId));
+            }
+
+            var apiEndPoint = $"player/matches?game={AoE2Version}&steam_id={steamId}&start={start}&count={count}";
+
+            return await ComClient.GetFromJsonAsync<PlayerMatchHistory>(apiEndPoint);
+        }
+
+        /// <summary>
+        /// Request the match history for a player.
+        /// </summary>
+        /// <param name="start">Starting match (0 is the most recent match).</param>
+        /// <param name="count">Number of matches to get (Must be 1000 or less)).</param>
+        /// <param name="profileId">Profile ID.</param>
+        /// <returns>Player match history.</returns>
+        public static async Task<PlayerMatchHistory> GetPlayerMatchHistoryAsync(int start, int count, int profileId)
+        {
+            var apiEndPoint = $"player/matches?game={AoE2Version}&profile_id={profileId}&start={start}&count={count}";
+
+            return await ComClient.GetFromJsonAsync<PlayerMatchHistory>(apiEndPoint);
         }
     }
 }

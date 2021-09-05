@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using LibAoE2net;
+using System.Collections.Generic;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
 using AoE2NetDesktop.Tests;
+using Accessibility;
 
 namespace LibAoE2net.Tests
 {
@@ -117,13 +119,13 @@ namespace LibAoE2net.Tests
 
             // Act
             var actVal = Task.Run(
-                () => AoE2net.GetPlayerLastMatchAsync(TestInit.AvailableUserSteamId)
+                () => AoE2net.GetPlayerLastMatchAsync(TestData.AvailableUserSteamId)
                 ).Result;
 
             // Assert
             // PlayerLastMatch
             Assert.AreEqual(1, actVal.ProfileId);
-            Assert.AreEqual(TestInit.AvailableUserSteamId, actVal.SteamId);
+            Assert.AreEqual(TestData.AvailableUserSteamId, actVal.SteamId);
             Assert.AreEqual("Player1", actVal.Name);
             Assert.AreEqual("JP", actVal.Country);
             // LastMatch
@@ -198,13 +200,13 @@ namespace LibAoE2net.Tests
 
             // Act
             var actVal = Task.Run(
-                () => AoE2net.GetPlayerLastMatchAsync(TestInit.AvailableUserProfileId)
+                () => AoE2net.GetPlayerLastMatchAsync(TestData.AvailableUserProfileId)
                 ).Result;
 
             // Assert
             // PlayerLastMatch
             Assert.AreEqual(1, actVal.ProfileId);
-            Assert.AreEqual(TestInit.AvailableUserSteamId, actVal.SteamId);
+            Assert.AreEqual(TestData.AvailableUserSteamId, actVal.SteamId);
             Assert.AreEqual("Player1", actVal.Name);
             Assert.AreEqual("JP", actVal.Country);
         }
@@ -239,7 +241,7 @@ namespace LibAoE2net.Tests
             // Act
             var actVal = Task.Run(
                 () => AoE2net.GetPlayerRatingHistoryAsync(
-                    TestInit.AvailableUserSteamId, leaderBoardId, count)
+                    TestData.AvailableUserSteamId, leaderBoardId, count)
                 ).Result;
 
             // Assert
@@ -275,7 +277,7 @@ namespace LibAoE2net.Tests
             // Act
             var actVal = Task.Run(
                 () => AoE2net.GetPlayerRatingHistoryAsync(
-                     TestInit.AvailableUserProfileId, leaderBoardId, count)
+                     TestData.AvailableUserProfileId, leaderBoardId, count)
                 ).Result;
 
             // Assert
@@ -307,7 +309,7 @@ namespace LibAoE2net.Tests
             AoE2net.ComClient = new TestHttpClient();
 
             // Act
-            var actVal = Task.Run(() 
+            var actVal = Task.Run(()
                 => AoE2net.GetStringsAsync(language)
                 ).Result;
 
@@ -316,8 +318,8 @@ namespace LibAoE2net.Tests
             Assert.AreEqual(Language.en.ToApiString(), actVal.Language);
             Assert.AreEqual(0, actVal.Age[0].Id);
             Assert.AreEqual("Standard", actVal.Age[0].String);
-            Assert.AreEqual(0, actVal.Civ[0].Id);
-            Assert.AreEqual("Aztecs", actVal.Civ[0].String);
+            Assert.AreEqual(1, actVal.Civ[0].Id);
+            Assert.AreEqual("Britons", actVal.Civ[0].String);
             Assert.AreEqual(0, actVal.GameType[0].Id);
             Assert.AreEqual("Random Map", actVal.GameType[0].String);
             Assert.AreEqual(0, actVal.Leaderboard[0].Id);
@@ -364,6 +366,51 @@ namespace LibAoE2net.Tests
 
             // Assert
             Assert.IsNull(actVal);
+        }
+
+        [TestMethod()]
+        public void GetPlayerMatchHistoryAsyncTeststeamId()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+
+            // Act
+            var actVal = AoE2net.GetPlayerMatchHistoryAsync(
+                                0, 10, TestData.AvailableUserSteamId).Result;
+
+            // Assert
+            Assert.AreEqual("playerMatchHistoryaoe2de00000000000000001data1", actVal[0].Server);
+            Assert.AreEqual("playerMatchHistoryaoe2de00000000000000001data2", actVal[1].Server);
+        }
+
+        [TestMethod()]
+        public void GetPlayerMatchHistoryAsyncTeststeamIdIsNull()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+
+            // Act
+
+            Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                AoE2net.GetPlayerMatchHistoryAsync(0, 10, null)
+            );
+
+            // Assert
+        }
+
+        [TestMethod()]
+        public void GetPlayerMatchHistoryAsyncTestprofileId()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+
+            // Act
+            var actVal = AoE2net.GetPlayerMatchHistoryAsync(
+                                0, 10, TestData.AvailableUserProfileId).Result;
+
+            // Assert
+            Assert.AreEqual("playerMatchHistoryaoe2de1data1", actVal[0].Server);
+            Assert.AreEqual("playerMatchHistoryaoe2de1data2", actVal[1].Server);
         }
     }
 }

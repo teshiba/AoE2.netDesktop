@@ -34,7 +34,7 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             var testClass = new CtrlMain();
             var actVal = Task.Run(
-                () => testClass.InitAsync(Language.en)
+                () => CtrlMain.InitAsync(Language.en)
                 ).Result;
 
             // Assert
@@ -98,20 +98,37 @@ namespace AoE2NetDesktop.From.Tests
         }
 
         [TestMethod()]
-        [DataRow(TestInit.AvailableUserSteamId)]
-        public void GetPlayerLastMatchAsyncTest(string steamId)
+        [DataRow(IdType.Steam, TestData.AvailableUserSteamId)]
+        [DataRow(IdType.Profile, TestData.AvailableUserProfileIdString)]
+        public void GetPlayerLastMatchAsyncTest(IdType idType, string id)
         {
             // Arrange
             AoE2net.ComClient = new TestHttpClient();
 
             // Act
             var actVal = Task.Run(
-                () => CtrlMain.GetPlayerLastMatchAsync(steamId)
+                () => CtrlMain.GetPlayerLastMatchAsync(idType, id)
                 ).Result;
 
             // Assert
-            Assert.AreEqual(steamId, actVal.SteamId);
+            Assert.AreEqual(TestData.AvailableUserSteamId, actVal.SteamId);
+            Assert.AreEqual(TestData.AvailableUserProfileId, actVal.ProfileId);
             Assert.AreEqual(3333, actVal.LastMatch.Players[2].Rating);
+        }
+
+        [TestMethod()]
+        public void GetPlayerLastMatchAsyncTestInvalidArg()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+
+            // Act
+            var actVal = Task.Run(
+                () => CtrlMain.GetPlayerLastMatchAsync(IdType.NotSelected, TestData.AvailableUserSteamId)
+                ).Result;
+
+            // Assert
+            Assert.IsNull(actVal);
         }
 
         [TestMethod()]
@@ -123,7 +140,7 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             // Assert
             await Assert.ThrowsExceptionAsync<FormatException>(() =>
-                CtrlMain.GetPlayerLastMatchAsync("FormatException")
+                CtrlMain.GetPlayerLastMatchAsync(IdType.Steam, "FormatException")
             );
         }
 
@@ -136,7 +153,7 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             // Assert
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                CtrlMain.GetPlayerLastMatchAsync(null)
+                CtrlMain.GetPlayerLastMatchAsync(IdType.Steam, null)
             );
         }
 
@@ -150,7 +167,7 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             // Assert
             await Assert.ThrowsExceptionAsync<HttpRequestException>(() =>
-                CtrlMain.GetPlayerLastMatchAsync(TestInit.AvailableUserSteamId)
+                CtrlMain.GetPlayerLastMatchAsync(IdType.Steam, TestData.AvailableUserSteamId)
             );
         }
 
@@ -205,7 +222,28 @@ namespace AoE2NetDesktop.From.Tests
         }
 
         [TestMethod()]
-        public void GetPlayerDataAsyncTest()
+        [DataRow(IdType.Steam, TestData.AvailableUserSteamId)]
+        [DataRow(IdType.Profile, TestData.AvailableUserProfileIdString)]
+        public void GetPlayerDataAsyncTest(IdType idType, string id)
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+            var notExpVal = "-- Invalid Steam ID --";
+
+            // Act
+            var testClass = new CtrlMain();
+            var actVal = Task.Run(
+                () => testClass.ReadPlayerDataAsync(idType, id)
+                ).Result;
+
+            // Assert
+            Assert.IsTrue(actVal);
+            Assert.AreNotEqual(notExpVal, testClass.UserCountry);
+            Assert.AreNotEqual(notExpVal, testClass.UserName);
+        }
+
+        [TestMethod()]
+        public void GetPlayerDataAsyncTestInvalidArg()
         {
             // Arrange
             AoE2net.ComClient = new TestHttpClient();
@@ -214,13 +252,13 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             var testClass = new CtrlMain();
             var actVal = Task.Run(
-                () => testClass.GetPlayerDataAsync(TestInit.AvailableUserSteamId)
+                () => testClass.ReadPlayerDataAsync(IdType.NotSelected, TestData.AvailableUserSteamId)
                 ).Result;
 
             // Assert
             Assert.IsTrue(actVal);
-            Assert.AreNotEqual(expVal, testClass.UserCountry);
-            Assert.AreNotEqual(expVal, testClass.UserName);
+            Assert.AreEqual(expVal, testClass.UserCountry);
+            Assert.AreEqual(expVal, testClass.UserName);
         }
 
         [TestMethod()]
@@ -238,18 +276,20 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             var testClass = new CtrlMain();
             _ = Task.Run(
-                () => testClass.InitAsync(Language.en)
+                () => CtrlMain.InitAsync(Language.en)
                 ).Result;
 
-            var actVal = testClass.GetMapName(match);
+            var actVal = match.GetMapName();
 
             // Assert
             Assert.AreEqual(expVal, actVal);
         }
 
         [TestMethod()]
-        [DataRow(0, "Aztecs")]
-        [DataRow(37, "invalid civ:37")]
+        [DataRow(0, "invalid civ:0")]
+        [DataRow(1, "Britons")]
+        [DataRow(37, "Sicilians")]
+        [DataRow(40, "invalid civ:40")]
         [DataRow(null, "invalid civ:null")]
         public void GetCivEnNameTest(int? civ, string expVal)
         {
@@ -262,18 +302,20 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             var testClass = new CtrlMain();
             _ = Task.Run(
-                () => testClass.InitAsync(Language.en)
+                () => CtrlMain.InitAsync(Language.en)
                 ).Result;
 
-            var actVal = testClass.GetCivEnName(player);
+            var actVal = player.GetCivEnName();
 
             // Assert
             Assert.AreEqual(expVal, actVal);
         }
 
         [TestMethod()]
-        [DataRow(0, "Aztecs")]
-        [DataRow(37, "invalid civ:37")]
+        [DataRow(0, "invalid civ:0")]
+        [DataRow(1, "ブリトン")]
+        [DataRow(37, "Sicilians")]
+        [DataRow(40, "invalid civ:40")]
         [DataRow(null, "invalid civ:null")]
         public void GetCivNameTest(int? civ, string expVal)
         {
@@ -286,13 +328,28 @@ namespace AoE2NetDesktop.From.Tests
             // Act
             var testClass = new CtrlMain();
             _ = Task.Run(
-                () => testClass.InitAsync(Language.en)
+                () => CtrlMain.InitAsync(Language.ja)
                 ).Result;
 
-            var actVal = testClass.GetCivName(player);
+            var actVal = player.GetCivName();
 
             // Assert
             Assert.AreEqual(expVal, actVal);
+        }
+
+        [TestMethod()]
+        public void ShowHistoryTest()
+        {
+            // Arrange
+
+            // Act
+            var testClass = new CtrlMain() {
+                SelectedId = IdType.Steam,
+            };
+
+            testClass.ShowHistory();
+
+            // Assert
         }
     }
 }

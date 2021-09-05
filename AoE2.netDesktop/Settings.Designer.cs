@@ -34,5 +34,29 @@ namespace AoE2NetDesktop {
                 this["SteamId"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ProfileId {
+            get {
+                return ((int)(this["ProfileId"]));
+            }
+            set {
+                this["ProfileId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SelectedIdType {
+            get {
+                return ((int)(this["SelectedIdType"]));
+            }
+            set {
+                this["SelectedIdType"] = value;
+            }
+        }
     }
 }
