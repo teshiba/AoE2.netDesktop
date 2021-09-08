@@ -120,15 +120,12 @@ namespace AoE2NetDesktop.Form.Tests
 
             // Act
             var testClass = new CtrlHistory(TestData.AvailableUserProfileId);
-            var ret = Task.Run(
+            var actVal = Task.Run(
                 () => testClass.ReadLeaderBoardAsync()
                 ).Result;
 
-            var actVal = testClass.Leaderboards.Count;
-
             // Assert
-            Assert.IsTrue(ret);
-            Assert.AreEqual(expVal, actVal);
+            Assert.AreEqual(expVal, actVal.Count);
         }
     }
 }

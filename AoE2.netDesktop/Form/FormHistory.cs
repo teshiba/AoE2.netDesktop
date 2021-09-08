@@ -29,55 +29,51 @@
             : base(new CtrlHistory(profileId))
         {
             InitializeComponent();
-            formsPlotMapRate1v1.Configuration.LockHorizontalAxis = true;
-            formsPlotMapRate1v1.Configuration.LockVerticalAxis = true;
-            formsPlotWinRate1v1EachMap.Configuration.LockHorizontalAxis = true;
-            formsPlotWinRate1v1EachMap.Configuration.LockVerticalAxis = true;
-            formsPlotCiv1v1.Configuration.LockHorizontalAxis = true;
-            formsPlotCiv1v1.Configuration.LockVerticalAxis = true;
 
-            formsPlotMapRateTeam.Configuration.LockHorizontalAxis = true;
-            formsPlotMapRateTeam.Configuration.LockVerticalAxis = true;
-
-            formsPlotWinRateTeamEachMap.Configuration.LockHorizontalAxis = true;
-            formsPlotWinRateTeamEachMap.Configuration.LockVerticalAxis = true;
-            formsPlotWinRateTeamEachMap.Plot.Title("1v1 Random Map Count");
-            formsPlotWinRateTeamEachMap.Plot.YLabel("Map");
-            formsPlotWinRateTeamEachMap.Plot.XLabel("Win / Total Game count");
-
-            formsPlotWinRate1v1EachMap.Configuration.LockHorizontalAxis = true;
-            formsPlotWinRate1v1EachMap.Configuration.LockVerticalAxis = true;
-            formsPlotWinRate1v1EachMap.Plot.Title("1v1 Random Map Count");
-            formsPlotWinRate1v1EachMap.Plot.YLabel("Map");
-            formsPlotWinRate1v1EachMap.Plot.XLabel("Win / Total Game count");
             formsPlotRate1v1.Plot.Title("1v1 Random Map Rate");
             formsPlotRate1v1.Plot.YLabel("Rate");
             formsPlotRate1v1.Plot.XLabel("Date");
-            formsPlotCiv1v1.Plot.Title("1v1 Random Map");
-            formsPlotCiv1v1.Plot.YLabel("Civilization Name");
-            formsPlotCiv1v1.Plot.XLabel("Win / Total Game Count");
+            formsPlotRate1v1.Render();
 
-            formsPlotMapRateTeam.Configuration.LockHorizontalAxis = true;
-            formsPlotMapRateTeam.Configuration.LockVerticalAxis = true;
-            formsPlotWinRateTeamEachMap.Configuration.LockHorizontalAxis = true;
-            formsPlotWinRateTeamEachMap.Configuration.LockVerticalAxis = true;
-            formsPlotCivTeam.Configuration.LockHorizontalAxis = true;
-            formsPlotCivTeam.Configuration.LockVerticalAxis = true;
-            formsPlotWinRateTeamEachMap.Plot.Title("Team Random Map Count");
-            formsPlotWinRateTeamEachMap.Plot.YLabel("Map");
-            formsPlotWinRateTeamEachMap.Plot.XLabel("Win / Total Game count");
             formsPlotRateTeam.Plot.Title("Team Random Map Rate");
             formsPlotRateTeam.Plot.YLabel("Rate");
             formsPlotRateTeam.Plot.XLabel("Date");
+            formsPlotRateTeam.Render();
+
+            formsPlotWinRate1v1Map.Configuration.LockHorizontalAxis = true;
+            formsPlotWinRate1v1Map.Configuration.LockVerticalAxis = true;
+            formsPlotWinRate1v1Map.Plot.Title("1v1 Random Map Count");
+            formsPlotWinRate1v1Map.Plot.YLabel("Map");
+            formsPlotWinRate1v1Map.Plot.XLabel("Win / Total Game count");
+            formsPlotWinRate1v1Map.Render();
+
+            formsPlotWinRateTeamMap.Configuration.LockHorizontalAxis = true;
+            formsPlotWinRateTeamMap.Configuration.LockVerticalAxis = true;
+            formsPlotWinRateTeamMap.Plot.Title("Team Random Map Count");
+            formsPlotWinRateTeamMap.Plot.YLabel("Map");
+            formsPlotWinRateTeamMap.Plot.XLabel("Win / Total Game count");
+            formsPlotWinRateTeamMap.Render();
+
+            formsPlotCiv1v1.Configuration.LockHorizontalAxis = true;
+            formsPlotCiv1v1.Configuration.LockVerticalAxis = true;
+            formsPlotCiv1v1.Plot.Title("1v1 Random Map");
+            formsPlotCiv1v1.Plot.YLabel("Civilization Name");
+            formsPlotCiv1v1.Plot.XLabel("Win / Total Game Count");
+            formsPlotCiv1v1.Render();
+
+            formsPlotCivTeam.Configuration.LockHorizontalAxis = true;
+            formsPlotCivTeam.Configuration.LockVerticalAxis = true;
             formsPlotCivTeam.Plot.Title("Team Random Map");
             formsPlotCivTeam.Plot.YLabel("Civilization Name");
             formsPlotCivTeam.Plot.XLabel("Win / Total Game Count");
+            formsPlotCivTeam.Render();
 
             formsPlotCountry.Configuration.LockHorizontalAxis = true;
             formsPlotCountry.Configuration.LockVerticalAxis = true;
             formsPlotCountry.Plot.Title("Player's country");
             formsPlotCountry.Plot.YLabel("Country");
             formsPlotCountry.Plot.XLabel("Game count");
+            formsPlotCountry.Render();
         }
 
         /// <inheritdoc/>
@@ -141,11 +137,12 @@
 
         private async Task UpdateListViewStatistics()
         {
-            if (await Controler.ReadLeaderBoardAsync()) {
-                listViewStatistics.Items.Add(GetLeaderboardListViewItem("1v1 RM", Controler.Leaderboards[LeaderBoardId.OneVOneRandomMap]));
-                listViewStatistics.Items.Add(GetLeaderboardListViewItem("Team RM", Controler.Leaderboards[LeaderBoardId.TeamRandomMap]));
-                listViewStatistics.Items.Add(GetLeaderboardListViewItem("1v1 DM", Controler.Leaderboards[LeaderBoardId.OneVOneDeathmatch]));
-                listViewStatistics.Items.Add(GetLeaderboardListViewItem("Team DM", Controler.Leaderboards[LeaderBoardId.TeamDeathmatch]));
+            var leaderboards = await Controler.ReadLeaderBoardAsync();
+            if (leaderboards.Count == 4) {
+                listViewStatistics.Items.Add(GetLeaderboardListViewItem("1v1 RM", leaderboards[LeaderBoardId.OneVOneRandomMap]));
+                listViewStatistics.Items.Add(GetLeaderboardListViewItem("Team RM", leaderboards[LeaderBoardId.TeamRandomMap]));
+                listViewStatistics.Items.Add(GetLeaderboardListViewItem("1v1 DM", leaderboards[LeaderBoardId.OneVOneDeathmatch]));
+                listViewStatistics.Items.Add(GetLeaderboardListViewItem("Team DM", leaderboards[LeaderBoardId.TeamDeathmatch]));
             } else {
                 Debug.Print("UpdateListViewStatistics ERROR.");
             }
@@ -246,10 +243,10 @@
                 UpdateListViewMatchedPlayers(Controler.PlayerMatchHistory, Controler.ProfileId);
 
                 var dataPlot = new DataPlot(Controler.PlayerMatchHistory, Controler.ProfileId);
-                dataPlot.PlotWinRateEachMap(LeaderBoardId.OneVOneRandomMap, formsPlotWinRate1v1EachMap.Plot);
-                dataPlot.PlotWinRateEachMap(LeaderBoardId.TeamRandomMap, formsPlotWinRateTeamEachMap.Plot);
-                dataPlot.PlotWinRateEachCivilization(LeaderBoardId.OneVOneRandomMap, formsPlotCiv1v1.Plot);
-                dataPlot.PlotWinRateEachCivilization(LeaderBoardId.TeamRandomMap, formsPlotCivTeam.Plot);
+                dataPlot.PlotWinRateMap(LeaderBoardId.OneVOneRandomMap, formsPlotWinRate1v1Map.Plot);
+                dataPlot.PlotWinRateMap(LeaderBoardId.TeamRandomMap, formsPlotWinRateTeamMap.Plot);
+                dataPlot.PlotWinRateCivilization(LeaderBoardId.OneVOneRandomMap, formsPlotCiv1v1.Plot);
+                dataPlot.PlotWinRateCivilization(LeaderBoardId.TeamRandomMap, formsPlotCivTeam.Plot);
                 dataPlot.PlotPlayedPlayerCountry(formsPlotCountry.Plot);
 
                 var plotTeam = dataPlot.PlotRate(LeaderBoardId.TeamRandomMap, formsPlotRateTeam.Plot);
@@ -263,6 +260,14 @@
                     plotHighlight1v1 = new PlotHighlight(formsPlotRate1v1, plot1v1);
                     plotHighlight1v1.UpdateHighlight();
                 }
+
+                formsPlotWinRate1v1Map.Render();
+                formsPlotWinRateTeamMap.Render();
+                formsPlotCiv1v1.Render();
+                formsPlotCivTeam.Render();
+                formsPlotCountry.Render();
+                formsPlotRateTeam.Render();
+                formsPlotRate1v1.Render();
             } else {
                 Debug.Print("ReadPlayerMatchHistoryAsync ERROR.");
             }

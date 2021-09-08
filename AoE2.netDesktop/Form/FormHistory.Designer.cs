@@ -69,10 +69,8 @@ namespace AoE2NetDesktop.Form
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPageMap = new System.Windows.Forms.TabPage();
             this.splitContainerMapRate = new System.Windows.Forms.SplitContainer();
-            this.formsPlotWinRate1v1EachMap = new ScottPlot.FormsPlot();
-            this.formsPlotMapRate1v1 = new ScottPlot.FormsPlot();
-            this.formsPlotWinRateTeamEachMap = new ScottPlot.FormsPlot();
-            this.formsPlotMapRateTeam = new ScottPlot.FormsPlot();
+            this.formsPlotWinRate1v1Map = new ScottPlot.FormsPlot();
+            this.formsPlotWinRateTeamMap = new ScottPlot.FormsPlot();
             this.tabPageCiv = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.formsPlotCiv1v1 = new ScottPlot.FormsPlot();
@@ -468,54 +466,34 @@ namespace AoE2NetDesktop.Form
             // 
             // splitContainerMapRate.Panel1
             // 
-            this.splitContainerMapRate.Panel1.Controls.Add(this.formsPlotWinRate1v1EachMap);
-            this.splitContainerMapRate.Panel1.Controls.Add(this.formsPlotMapRate1v1);
+            this.splitContainerMapRate.Panel1.Controls.Add(this.formsPlotWinRate1v1Map);
             // 
             // splitContainerMapRate.Panel2
             // 
-            this.splitContainerMapRate.Panel2.Controls.Add(this.formsPlotWinRateTeamEachMap);
-            this.splitContainerMapRate.Panel2.Controls.Add(this.formsPlotMapRateTeam);
+            this.splitContainerMapRate.Panel2.Controls.Add(this.formsPlotWinRateTeamMap);
             this.splitContainerMapRate.Size = new System.Drawing.Size(542, 617);
             this.splitContainerMapRate.SplitterDistance = 292;
             this.splitContainerMapRate.TabIndex = 6;
             // 
-            // formsPlotWinRate1v1EachMap
+            // formsPlotWinRate1v1Map
             // 
-            this.formsPlotWinRate1v1EachMap.BackColor = System.Drawing.Color.Transparent;
-            this.formsPlotWinRate1v1EachMap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.formsPlotWinRate1v1EachMap.Location = new System.Drawing.Point(0, 0);
-            this.formsPlotWinRate1v1EachMap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.formsPlotWinRate1v1EachMap.Name = "formsPlotWinRate1v1EachMap";
-            this.formsPlotWinRate1v1EachMap.Size = new System.Drawing.Size(540, 290);
-            this.formsPlotWinRate1v1EachMap.TabIndex = 5;
+            this.formsPlotWinRate1v1Map.BackColor = System.Drawing.Color.Transparent;
+            this.formsPlotWinRate1v1Map.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.formsPlotWinRate1v1Map.Location = new System.Drawing.Point(0, 0);
+            this.formsPlotWinRate1v1Map.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.formsPlotWinRate1v1Map.Name = "formsPlotWinRate1v1Map";
+            this.formsPlotWinRate1v1Map.Size = new System.Drawing.Size(540, 290);
+            this.formsPlotWinRate1v1Map.TabIndex = 5;
             // 
-            // formsPlotMapRate1v1
+            // formsPlotWinRateTeamMap
             // 
-            this.formsPlotMapRate1v1.BackColor = System.Drawing.Color.Transparent;
-            this.formsPlotMapRate1v1.Location = new System.Drawing.Point(0, 0);
-            this.formsPlotMapRate1v1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.formsPlotMapRate1v1.Name = "formsPlotMapRate1v1";
-            this.formsPlotMapRate1v1.Size = new System.Drawing.Size(264, 247);
-            this.formsPlotMapRate1v1.TabIndex = 6;
-            // 
-            // formsPlotWinRateTeamEachMap
-            // 
-            this.formsPlotWinRateTeamEachMap.BackColor = System.Drawing.Color.Transparent;
-            this.formsPlotWinRateTeamEachMap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.formsPlotWinRateTeamEachMap.Location = new System.Drawing.Point(0, 0);
-            this.formsPlotWinRateTeamEachMap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.formsPlotWinRateTeamEachMap.Name = "formsPlotWinRateTeamEachMap";
-            this.formsPlotWinRateTeamEachMap.Size = new System.Drawing.Size(540, 319);
-            this.formsPlotWinRateTeamEachMap.TabIndex = 5;
-            // 
-            // formsPlotMapRateTeam
-            // 
-            this.formsPlotMapRateTeam.BackColor = System.Drawing.Color.Transparent;
-            this.formsPlotMapRateTeam.Location = new System.Drawing.Point(0, 0);
-            this.formsPlotMapRateTeam.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.formsPlotMapRateTeam.Name = "formsPlotMapRateTeam";
-            this.formsPlotMapRateTeam.Size = new System.Drawing.Size(264, 266);
-            this.formsPlotMapRateTeam.TabIndex = 7;
+            this.formsPlotWinRateTeamMap.BackColor = System.Drawing.Color.Transparent;
+            this.formsPlotWinRateTeamMap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.formsPlotWinRateTeamMap.Location = new System.Drawing.Point(0, 0);
+            this.formsPlotWinRateTeamMap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.formsPlotWinRateTeamMap.Name = "formsPlotWinRateTeamMap";
+            this.formsPlotWinRateTeamMap.Size = new System.Drawing.Size(540, 319);
+            this.formsPlotWinRateTeamMap.TabIndex = 5;
             // 
             // tabPageCiv
             // 
@@ -734,10 +712,8 @@ namespace AoE2NetDesktop.Form
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabPageMap;
         private System.Windows.Forms.SplitContainer splitContainerMapRate;
-        private ScottPlot.FormsPlot formsPlotWinRate1v1EachMap;
-        private ScottPlot.FormsPlot formsPlotMapRate1v1;
-        private ScottPlot.FormsPlot formsPlotWinRateTeamEachMap;
-        private ScottPlot.FormsPlot formsPlotMapRateTeam;
+        private ScottPlot.FormsPlot formsPlotWinRate1v1Map;
+        private ScottPlot.FormsPlot formsPlotWinRateTeamMap;
         private System.Windows.Forms.TabPage tabPageCiv;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private ScottPlot.FormsPlot formsPlotCiv1v1;

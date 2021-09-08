@@ -99,68 +99,43 @@
         /// Read player LeaderBoard from AoE2.net.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task<bool> ReadLeaderBoardAsync()
+        public async Task<Dictionary<LeaderBoardId, Leaderboard>> ReadLeaderBoardAsync()
         {
-            var ret = false;
-            var leaderboardContainer = await GetLeaderboardProfileId();
-
-            if (leaderboardContainer?.Count == 4) {
-                var oneVOneRm = leaderboardContainer[0];
-                var oneVOneDm = leaderboardContainer[1];
-                var teamRm = leaderboardContainer[2];
-                var teamDm = leaderboardContainer[3];
-
-                if (oneVOneRm.Leaderboards.Count == 0) {
-                    var ratings = await AoE2net.GetPlayerRatingHistoryAsync(ProfileId, LeaderBoardId.OneVOneRandomMap, 1);
-                    var leaderboard = new Leaderboard();
-                    if (ratings.Count != 0) {
-                        leaderboard.Rating = ratings[0].Rating;
-                        leaderboard.Games = ratings[0].NumWins + ratings[0].NumLosses ?? 0;
-                        leaderboard.Wins = ratings[0].NumWins ?? 0;
-                        leaderboard.Losses = ratings[0].NumLosses ?? 0;
-                    }
-
-                    oneVOneRm.Leaderboards.Add(leaderboard);
-                }
-
-                if (oneVOneDm.Leaderboards.Count == 0) {
-                    oneVOneDm.Leaderboards.Add(new Leaderboard());
-                }
-
-                if (teamRm.Leaderboards.Count == 0) {
-                    teamRm.Leaderboards.Add(new Leaderboard());
-                }
-
-                if (teamDm.Leaderboards.Count == 0) {
-                    teamDm.Leaderboards.Add(new Leaderboard());
-                }
-
-                Leaderboards = new Dictionary<LeaderBoardId, Leaderboard> {
-                    { LeaderBoardId.OneVOneRandomMap, oneVOneRm.Leaderboards[0] },
-                    { LeaderBoardId.OneVOneDeathmatch, oneVOneDm.Leaderboards[0] },
-                    { LeaderBoardId.TeamRandomMap, teamRm.Leaderboards[0] },
-                    { LeaderBoardId.TeamDeathmatch, teamDm.Leaderboards[0] },
-                };
-
-                ret = true;
-            }
-
-            return ret;
-        }
-
-        private async Task<List<LeaderboardContainer>> GetLeaderboardProfileId()
-        {
-            List<LeaderboardContainer> ret = null;
-
             try {
-                ret = new List<LeaderboardContainer>() {
-                    await AoE2net.GetLeaderboardAsync(LeaderBoardId.OneVOneRandomMap, 0, 1, ProfileId),
-                    await AoE2net.GetLeaderboardAsync(LeaderBoardId.OneVOneDeathmatch, 0, 1, ProfileId),
-                    await AoE2net.GetLeaderboardAsync(LeaderBoardId.TeamRandomMap, 0, 1, ProfileId),
-                    await AoE2net.GetLeaderboardAsync(LeaderBoardId.TeamDeathmatch, 0, 1, ProfileId),
+                var leaderboardContainers = new List<LeaderboardContainer>() {
+                    await GetLeaderboardAsync(LeaderBoardId.OneVOneRandomMap),
+                    await GetLeaderboardAsync(LeaderBoardId.OneVOneDeathmatch),
+                    await GetLeaderboardAsync(LeaderBoardId.TeamRandomMap),
+                    await GetLeaderboardAsync(LeaderBoardId.TeamDeathmatch),
+                };
+                Leaderboards = new Dictionary<LeaderBoardId, Leaderboard> {
+                    { LeaderBoardId.OneVOneRandomMap, leaderboardContainers[0].Leaderboards[0] },
+                    { LeaderBoardId.OneVOneDeathmatch, leaderboardContainers[1].Leaderboards[0] },
+                    { LeaderBoardId.TeamRandomMap, leaderboardContainers[2].Leaderboards[0] },
+                    { LeaderBoardId.TeamDeathmatch, leaderboardContainers[3].Leaderboards[0] },
                 };
             } catch (Exception e) {
                 Debug.Print($"GetLeaderboardAsync Error{e.Message}: {e.StackTrace}");
+            }
+
+            return Leaderboards;
+        }
+
+        private async Task<LeaderboardContainer> GetLeaderboardAsync(LeaderBoardId leaderBoardId)
+        {
+            var ret = await AoE2net.GetLeaderboardAsync(leaderBoardId, 0, 1, ProfileId);
+
+            if (ret.Leaderboards.Count == 0) {
+                var ratings = await AoE2net.GetPlayerRatingHistoryAsync(ProfileId, leaderBoardId, 1);
+                var leaderboard = new Leaderboard();
+                if (ratings.Count != 0) {
+                    leaderboard.Rating = ratings[0].Rating;
+                    leaderboard.Games = ratings[0].NumWins + ratings[0].NumLosses ?? 0;
+                    leaderboard.Wins = ratings[0].NumWins ?? 0;
+                    leaderboard.Losses = ratings[0].NumLosses ?? 0;
+                }
+
+                ret.Leaderboards.Add(leaderboard);
             }
 
             return ret;

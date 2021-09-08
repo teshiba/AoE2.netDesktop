@@ -67,6 +67,7 @@
 
             plot.YTicks(countryNames.ToArray());
             plot.SetAxisLimits(xMin: 0, yMin: -1);
+            plot.Render();
         }
 
         /// <summary>
@@ -74,7 +75,7 @@
         /// </summary>
         /// <param name="leaderBoardId">target leader board.</param>
         /// <param name="plot">target plot object.</param>
-        public void PlotWinRateEachCivilization(LeaderBoardId leaderBoardId, Plot plot)
+        public void PlotWinRateCivilization(LeaderBoardId leaderBoardId, Plot plot)
         {
             var rateWin = new Dictionary<string, double>();
             var rateLose = new Dictionary<string, double>();
@@ -87,6 +88,7 @@
             }
 
             UpdateStackedBarGraph(plot, rateWin.Keys.ToList(), rateWin.Values.ToList(), rateLose.Values.ToList());
+            plot.Render();
         }
 
         /// <summary>
@@ -94,7 +96,7 @@
         /// </summary>
         /// <param name="leaderBoardId">target leader board.</param>
         /// <param name="plot">target plot object.</param>
-        public void PlotWinRateEachMap(LeaderBoardId leaderBoardId, Plot plot)
+        public void PlotWinRateMap(LeaderBoardId leaderBoardId, Plot plot)
         {
             var rateWin = new Dictionary<string, double>();
             var rateLose = new Dictionary<string, double>();
@@ -107,6 +109,7 @@
             }
 
             UpdateStackedBarGraph(plot, rateWin.Keys.ToList(), rateWin.Values.ToList(), rateLose.Values.ToList());
+            plot.Render();
         }
 
         /// <summary>
@@ -134,7 +137,7 @@
 
             if (dateList.Count != 0) {
                 var xs = dateList.Select(x => x.ToOADate()).ToArray();
-                plot.SetViewLimits(xs.Min() - 10, xs.Max() + 10, rateList.Min() - 10, rateList.Max() + 10);
+                plot.SetInnerViewLimits(xs.Min() - 10, xs.Max() + 10, rateList.Min() - 10, rateList.Max() + 10);
                 plot.XAxis.TickLabelFormat("yyyy/MM/dd", dateTimeFormat: true);
                 plot.XAxis.ManualTickSpacing(1, ScottPlot.Ticks.DateTimeUnit.Month);
                 plot.XAxis.TickLabelStyle(rotation: 45);
@@ -171,6 +174,8 @@
                     Debug.Print($" Plot Rate ERROR. {e.Message} {e.StackTrace}");
                 }
             }
+
+            plot.Render();
 
             return scatterPlot;
         }

@@ -39,7 +39,7 @@
             labelServer.ForeColor = labelServer.BackColor;
             labelMap.ForeColor = labelMap.BackColor;
             InitIDRadioButton();
-            InitEachPlayersCtrlList();
+            InitPlayersCtrlList();
         }
 
         /// <inheritdoc/>
@@ -73,7 +73,7 @@
             }
         }
 
-        private void InitEachPlayersCtrlList()
+        private void InitPlayersCtrlList()
         {
             labelCiv.AddRange(new List<Label> {
                 labelCivP1, labelCivP2, labelCivP3, labelCivP4,

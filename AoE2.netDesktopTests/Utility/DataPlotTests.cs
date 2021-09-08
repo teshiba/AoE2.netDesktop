@@ -26,13 +26,13 @@ namespace AoE2NetDesktop.Form.Tests
         }
 
         [TestMethod()]
-        public void PlotWinRateEachCivilizationTest()
+        public void PlotWinRateCivilizationTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void PlotWinRateEachMapTest()
+        public void PlotWinRateMapTest()
         {
             Assert.Fail();
         }
