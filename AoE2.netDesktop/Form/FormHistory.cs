@@ -1,16 +1,13 @@
 ﻿namespace AoE2NetDesktop.Form
 {
     using System;
-    using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.Drawing;
-    using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using AoE2NetDesktop.From;
     using LibAoE2net;
-
-    using ScottPlot;
 
     /// <summary>
     /// FormHistory class.
@@ -19,7 +16,6 @@
     {
         private PlotHighlight plotHighlightTeam;
         private PlotHighlight plotHighlight1v1;
-        private Dictionary<string, PlayerInfo> matchedPlayerList;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormHistory"/> class.
@@ -79,121 +75,23 @@
         /// <inheritdoc/>
         protected override CtrlHistory Controler { get => (CtrlHistory)base.Controler; }
 
-        private static ListViewItem GetLeaderboardListViewItem(string leaderboardName, Leaderboard leaderboard)
-        {
-            var ret = new ListViewItem(leaderboardName);
-
-            ret.SubItems.Add(leaderboard.Rank.ToString());
-            ret.SubItems.Add(leaderboard.Rating.ToString());
-            ret.SubItems.Add(leaderboard.HighestRating.ToString());
-            ret.SubItems.Add(leaderboard.Games.ToString());
-            ret.SubItems.Add(leaderboard.Wins.ToString());
-            ret.SubItems.Add(leaderboard.Losses.ToString());
-            if (leaderboard.Games == 0) {
-                ret.SubItems.Add("00.0%");
-            } else {
-                var winRate = (double)leaderboard.Wins / leaderboard.Games * 100;
-                ret.SubItems.Add($"{winRate:F1}%");
-            }
-
-            return ret;
-        }
-
-        private static Diplomacy CheckDiplomacy(Player selectedPlayer, Player player)
-        {
-            var ret = Diplomacy.Enemy;
-
-            if (selectedPlayer.Color % 2 == player.Color % 2) {
-                ret = Diplomacy.Ally;
-            }
-
-            return ret;
-        }
-
-        private void UpdateListView(PlayerMatchHistory matches, int profileId)
-        {
-            foreach (var item in matches) {
-                var player = item.GetPlayer(profileId);
-                var listViewItem = new ListViewItem(item.GetMapName());
-                listViewItem.SubItems.Add(CtrlHistory.GetRatingString(player));
-                listViewItem.SubItems.Add(CtrlHistory.GetWinMarkerString(player.Won));
-                listViewItem.SubItems.Add(player.GetCivName());
-                listViewItem.SubItems.Add(player.Color.ToString() ?? "-");
-                listViewItem.SubItems.Add(item.GetOpenedTime().ToString());
-                listViewItem.SubItems.Add(item.Version);
-
-                if (player.Rating != null) {
-                    switch (item.LeaderboardId) {
-                    case LeaderBoardId.OneVOneRandomMap:
-                        listViewHistory1v1.Items.Add(listViewItem);
-                        break;
-                    case LeaderBoardId.TeamRandomMap:
-                        listViewHistoryTeam.Items.Add(listViewItem);
-                        break;
-                    }
-                }
-            }
-        }
-
         private async Task UpdateListViewStatistics()
         {
             var leaderboards = await Controler.ReadLeaderBoardAsync();
             if (leaderboards.Count == 4) {
-                listViewStatistics.Items.Add(GetLeaderboardListViewItem("1v1 RM", leaderboards[LeaderBoardId.OneVOneRandomMap]));
-                listViewStatistics.Items.Add(GetLeaderboardListViewItem("Team RM", leaderboards[LeaderBoardId.TeamRandomMap]));
-                listViewStatistics.Items.Add(GetLeaderboardListViewItem("1v1 DM", leaderboards[LeaderBoardId.OneVOneDeathmatch]));
-                listViewStatistics.Items.Add(GetLeaderboardListViewItem("Team DM", leaderboards[LeaderBoardId.TeamDeathmatch]));
+                listViewStatistics.Items.Clear();
+                listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("1v1 RM", leaderboards[LeaderBoardId.OneVOneRandomMap]));
+                listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("Team RM", leaderboards[LeaderBoardId.TeamRandomMap]));
+                listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("1v1 DM", leaderboards[LeaderBoardId.OneVOneDeathmatch]));
+                listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("Team DM", leaderboards[LeaderBoardId.TeamDeathmatch]));
             } else {
                 Debug.Print("UpdateListViewStatistics ERROR.");
             }
         }
 
-        private void UpdateListViewMatchedPlayers(PlayerMatchHistory matches, int profileId)
+        private void UpdateListViewMatchedPlayers()
         {
-            matchedPlayerList = new Dictionary<string, PlayerInfo>();
-
-            foreach (var match in matches) {
-                var selectedPlayer = match.GetPlayer(profileId);
-                foreach (var player in match.Players) {
-                    if (player != selectedPlayer) {
-                        if (!matchedPlayerList.ContainsKey(player.Name)) {
-                            matchedPlayerList.Add(player.Name, new PlayerInfo());
-                        }
-
-                        matchedPlayerList[player.Name].Country = player.Country;
-                        matchedPlayerList[player.Name].ProfileId = player.ProfilId;
-
-                        switch (match.LeaderboardId) {
-                        case LeaderBoardId.OneVOneRandomMap:
-                            matchedPlayerList[player.Name].Rate1v1RM = player.Rating;
-                            matchedPlayerList[player.Name].Games1v1++;
-                            break;
-                        case LeaderBoardId.TeamRandomMap:
-                            matchedPlayerList[player.Name].RateTeamRM = player.Rating;
-                            matchedPlayerList[player.Name].GamesTeam++;
-
-                            switch (CheckDiplomacy(selectedPlayer, player)) {
-                            case Diplomacy.Ally:
-                                matchedPlayerList[player.Name].GamesAlly++;
-                                break;
-                            case Diplomacy.Enemy:
-                                matchedPlayerList[player.Name].GamesEnemy++;
-                                break;
-                            default:
-                                break;
-                            }
-
-                            break;
-                        default:
-                            break;
-                        }
-
-                        matchedPlayerList[player.Name].LastDate = match.GetOpenedTime();
-                    }
-                }
-            }
-
-            foreach (var player in matchedPlayerList) {
+            foreach (var player in Controler.MatchedPlayerInfos) {
                 var listviewItem = new ListViewItem(player.Key);
                 listviewItem.SubItems.Add(player.Value.Country);
                 listviewItem.SubItems.Add(player.Value.Rate1v1RM.ToString());
@@ -207,28 +105,32 @@
             }
         }
 
-        private void UpdateListViewHistory(PlayerMatchHistory matches, int profileId)
+        private void UpdateListViewHistory()
         {
-            foreach (var item in matches) {
-                var player = item.GetPlayer(profileId);
-                var listViewItem = new ListViewItem(item.GetMapName());
-                listViewItem.SubItems.Add(CtrlHistory.GetRatingString(player));
-                listViewItem.SubItems.Add(CtrlHistory.GetWinMarkerString(player.Won));
-                listViewItem.SubItems.Add(player.GetCivName());
-                listViewItem.SubItems.Add(player.Color.ToString() ?? "-");
-                listViewItem.SubItems.Add(item.GetOpenedTime().ToString());
-                listViewItem.SubItems.Add(item.Version);
+            var listViewitems = Controler.CreateListViewHistory();
+            listViewHistory1v1.Items.AddRange(listViewitems[LeaderBoardId.OneVOneRandomMap]);
+            listViewHistoryTeam.Items.AddRange(listViewitems[LeaderBoardId.TeamRandomMap]);
+        }
 
-                if (player.Rating != null) {
-                    switch (item.LeaderboardId) {
-                    case LeaderBoardId.OneVOneRandomMap:
-                        listViewHistory1v1.Items.Add(listViewItem);
-                        break;
-                    case LeaderBoardId.TeamRandomMap:
-                        listViewHistoryTeam.Items.Add(listViewItem);
-                        break;
-                    }
-                }
+        private void UpdateGraphs()
+        {
+            var dataPloter = Controler.DataPloter;
+            dataPloter.PlotWinRateMap(LeaderBoardId.OneVOneRandomMap, formsPlotWinRate1v1Map.Plot);
+            dataPloter.PlotWinRateMap(LeaderBoardId.TeamRandomMap, formsPlotWinRateTeamMap.Plot);
+            dataPloter.PlotWinRateCivilization(LeaderBoardId.OneVOneRandomMap, formsPlotCiv1v1.Plot);
+            dataPloter.PlotWinRateCivilization(LeaderBoardId.TeamRandomMap, formsPlotCivTeam.Plot);
+            dataPloter.PlotPlayedPlayerCountry(formsPlotCountry.Plot);
+
+            var plotTeam = dataPloter.PlotRate(LeaderBoardId.TeamRandomMap, formsPlotRateTeam.Plot);
+            if (plotTeam != null) {
+                plotHighlightTeam = new PlotHighlight(formsPlotRateTeam, plotTeam);
+                plotHighlightTeam.UpdateHighlight();
+            }
+
+            var plot1v1 = dataPloter.PlotRate(LeaderBoardId.OneVOneRandomMap, formsPlotRate1v1.Plot);
+            if (plot1v1 != null) {
+                plotHighlight1v1 = new PlotHighlight(formsPlotRate1v1, plot1v1);
+                plotHighlight1v1.UpdateHighlight();
             }
         }
 
@@ -238,29 +140,9 @@
         private async void FormHistory_ShownAsync(object sender, EventArgs e)
         {
             if (await Controler.ReadPlayerMatchHistoryAsync()) {
-                UpdateListViewHistory(Controler.PlayerMatchHistory, Controler.ProfileId);
-                UpdateListView(Controler.PlayerMatchHistory, Controler.ProfileId);
-                UpdateListViewMatchedPlayers(Controler.PlayerMatchHistory, Controler.ProfileId);
-
-                var dataPlot = new DataPlot(Controler.PlayerMatchHistory, Controler.ProfileId);
-                dataPlot.PlotWinRateMap(LeaderBoardId.OneVOneRandomMap, formsPlotWinRate1v1Map.Plot);
-                dataPlot.PlotWinRateMap(LeaderBoardId.TeamRandomMap, formsPlotWinRateTeamMap.Plot);
-                dataPlot.PlotWinRateCivilization(LeaderBoardId.OneVOneRandomMap, formsPlotCiv1v1.Plot);
-                dataPlot.PlotWinRateCivilization(LeaderBoardId.TeamRandomMap, formsPlotCivTeam.Plot);
-                dataPlot.PlotPlayedPlayerCountry(formsPlotCountry.Plot);
-
-                var plotTeam = dataPlot.PlotRate(LeaderBoardId.TeamRandomMap, formsPlotRateTeam.Plot);
-                if (plotTeam != null) {
-                    plotHighlightTeam = new PlotHighlight(formsPlotRateTeam, plotTeam);
-                    plotHighlightTeam.UpdateHighlight();
-                }
-
-                var plot1v1 = dataPlot.PlotRate(LeaderBoardId.OneVOneRandomMap, formsPlotRate1v1.Plot);
-                if (plot1v1 != null) {
-                    plotHighlight1v1 = new PlotHighlight(formsPlotRate1v1, plot1v1);
-                    plotHighlight1v1.UpdateHighlight();
-                }
-
+                UpdateListViewHistory();
+                UpdateListViewMatchedPlayers();
+                UpdateGraphs();
                 formsPlotWinRate1v1Map.Render();
                 formsPlotWinRateTeamMap.Render();
                 formsPlotCiv1v1.Render();
@@ -292,19 +174,15 @@
             var selectedItems = listViewMatchedPlayers.SelectedItems;
 
             if (selectedItems.Count != 0) {
-                var profileId = matchedPlayerList[selectedItems[0].Text].ProfileId;
-                if (profileId != null) {
-                    AoE2net.OpenAoE2net((int)profileId);
-                } else {
-                    MessageBox.Show($"{selectedItems[0]} has null profile ID.");
-                }
+                Controler.OpenProfile(selectedItems[0].Text);
             }
         }
 
-        private void ContextMenuStripMatchedPlayers_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void ContextMenuStripMatchedPlayers_Opening(object sender, CancelEventArgs e)
         {
-            Point point = listViewMatchedPlayers.PointToClient(System.Windows.Forms.Cursor.Position);
-            ListViewItem item = listViewMatchedPlayers.HitTest(point).Item;
+            var location = new Point(contextMenuStripMatchedPlayers.Left, contextMenuStripMatchedPlayers.Top);
+            var point = listViewMatchedPlayers.PointToClient(location);
+            var item = listViewMatchedPlayers.HitTest(point).Item;
             if (item?.Bounds.Contains(point) ?? false) {
                 openAoE2NetProfileToolStripMenuItem.Visible = true;
             } else {

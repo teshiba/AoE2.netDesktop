@@ -14,5 +14,10 @@
         /// Diplomacy is Enemy.
         /// </summary>
         Enemy,
+
+        /// <summary>
+        /// Diplomacy is Neutral.
+        /// </summary>
+        Neutral,
     }
 }

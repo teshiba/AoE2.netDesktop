@@ -1,7 +1,10 @@
-﻿using LibAoE2net;
+﻿using AoE2NetDesktop.From;
+
+using LibAoE2net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LibAoE2net.Tests
 {
@@ -18,11 +21,12 @@ namespace LibAoE2net.Tests
         public void GetStringTest(int id, string expVal)
         {
             // Arrange
-            List<StringId> stringIds = new() {
-                new StringId(){Id = 1, String = "testString1"},
-                new StringId(){Id = 2, String = "testString21"},
-                new StringId(){Id = 2, String = "testString22"},
-                new StringId(){Id = 3, String = "testString3"},
+            List<StringId> stringIds = new()
+            {
+                new StringId() { Id = 1, String = "testString1" },
+                new StringId() { Id = 2, String = "testString21" },
+                new StringId() { Id = 2, String = "testString22" },
+                new StringId() { Id = 3, String = "testString3" },
             };
 
             // Act
@@ -40,7 +44,8 @@ namespace LibAoE2net.Tests
             var dateTimeSec = new DateTimeOffset(expVal).ToUnixTimeSeconds();
 
             // Act
-            var testClass = new Match() {
+            var testClass = new Match()
+            {
                 Opened = dateTimeSec,
             };
 
@@ -48,6 +53,63 @@ namespace LibAoE2net.Tests
 
             // Assert
             Assert.AreEqual(expVal.ToString(), actVal.ToString());
+        }
+
+        [TestMethod()]
+        [DataRow(0, "invalid civ:0")]
+        [DataRow(1, "ブリトン")]
+        [DataRow(37, "Sicilians")]
+        [DataRow(40, "invalid civ:40")]
+        [DataRow(null, "invalid civ:null")]
+        public void GetCivNameTest(int? civ, string expVal)
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+            var player = new Player()
+            {
+                Civ = civ,
+            };
+
+            // Act
+            _ = Task.Run(() => StringsExt.InitAsync(Language.ja)).Result;
+
+            var actVal = player.GetCivName();
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
+        }
+
+        [TestMethod()]
+        [DataRow(1, "1")]
+        [DataRow(null, "-")]
+        public void GetColorStringTest(int? color, string expVal)
+        {
+            // Arrange
+            var player = new Player
+            {
+                Color = color,
+            };
+
+            // Act
+            var actVal = player.GetColorString();
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
+        }
+
+        [TestMethod()]
+        public void GetColorStringTestPlayerN()
+        {
+            // Arrange
+            Player player = null;
+
+            // Act
+            // Assert
+            Assert.ThrowsException<ArgumentNullException>(() =>
+            {
+                _ = player.GetColorString();
+            });
+
         }
     }
 }

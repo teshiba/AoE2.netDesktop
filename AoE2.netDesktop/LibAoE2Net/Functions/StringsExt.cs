@@ -18,7 +18,6 @@
         /// <summary>
         /// Initialize the class.
         /// </summary>
-        [ModuleInitializer]
         public static void InitAsync()
         {
             initTask = Task.Run(async () =>
@@ -35,7 +34,7 @@
         /// <returns>controler instance.</returns>
         public static async Task<bool> InitAsync(Language language)
         {
-            initTask.Wait();
+            WaitInitTask();
             await InitApiStringsAsync(language);
 
             return true;
@@ -49,7 +48,7 @@
         /// <returns>Found string.</returns>
         public static string GetString(this List<StringId> stringIds, int id)
         {
-            initTask.Wait();
+            WaitInitTask();
 
             string ret;
             try {
@@ -68,7 +67,7 @@
         /// <returns>map name.</returns>
         public static string GetMapName(this Match match)
         {
-            initTask.Wait();
+            WaitInitTask();
 
             string mapName;
 
@@ -90,7 +89,10 @@
         /// <param name="player">player.</param>
         /// <returns>civilization name in English.</returns>
         public static string GetCivEnName(this Player player)
-            => GetCivName(enStrings, player);
+        {
+            WaitInitTask();
+            return GetCivName(enStrings, player);
+        }
 
         /// <summary>
         /// Get player's civilization name.
@@ -98,15 +100,39 @@
         /// <param name="player">player.</param>
         /// <returns>civilization name.</returns>
         public static string GetCivName(this Player player)
-            => GetCivName(apiStrings, player);
+        {
+            WaitInitTask();
+            return GetCivName(apiStrings, player);
+        }
+
+        /// <summary>
+        /// Get Color Number string.
+        /// </summary>
+        /// <param name="player">Player.</param>
+        /// <returns>Color string or "-" if Color is null.</returns>
+        public static string GetColorString(this Player player)
+        {
+            if (player is null) {
+                throw new ArgumentNullException(nameof(player));
+            }
+
+            return player.Color?.ToString() ?? "-";
+        }
 
         ///////////////////////////////////////////////////////////////////////
         // private
         ///////////////////////////////////////////////////////////////////////
+        private static void WaitInitTask()
+        {
+            if (initTask == null) {
+                InitAsync();
+            }
+
+            initTask.Wait();
+        }
+
         private static string GetCivName(Strings strings, Player player)
         {
-            initTask.Wait();
-
             string ret;
 
             if (player.Civ is int id) {

@@ -413,6 +413,7 @@ namespace LibAoE2net.Tests
             // Assert
             Assert.AreEqual("playerMatchHistoryaoe2de1data1", actVal[0].Server);
             Assert.AreEqual("playerMatchHistoryaoe2de1data2", actVal[1].Server);
+            Assert.AreEqual("playerMatchHistoryaoe2de1data3", actVal[2].Server);
         }
 
         [TestMethod()]

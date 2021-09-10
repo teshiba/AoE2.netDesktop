@@ -39,31 +39,31 @@ namespace LibAoE2net
         public int? HighestRating { get; set; }
 
         [DataMember(Name = "streak")]
-        public int Streak { get; set; }
+        public int? Streak { get; set; }
 
         [DataMember(Name = "lowest_streak")]
-        public int LowestStreak { get; set; }
+        public int? LowestStreak { get; set; }
 
         [DataMember(Name = "highest_streak")]
-        public int HighestStreak { get; set; }
+        public int? HighestStreak { get; set; }
 
         [DataMember(Name = "games")]
-        public int Games { get; set; }
+        public int? Games { get; set; }
 
         [DataMember(Name = "wins")]
-        public int Wins { get; set; }
+        public int? Wins { get; set; }
 
         [DataMember(Name = "losses")]
-        public int Losses { get; set; }
+        public int? Losses { get; set; }
 
         [DataMember(Name = "drops")]
-        public int Drops { get; set; }
+        public int? Drops { get; set; }
 
         [DataMember(Name = "last_match")]
-        public int LastMatch { get; set; }
+        public int? LastMatch { get; set; }
 
         [DataMember(Name = "last_match_time")]
-        public int LastMatchTime { get; set; }
+        public int? LastMatchTime { get; set; }
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

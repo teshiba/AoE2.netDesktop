@@ -14,8 +14,8 @@ namespace AoE2NetDesktop.From.Tests
         public void FormMainTestGUI()
         {
             AoE2net.ComClient = new TestHttpClient();
-            // var testClass = new FormMain(Language.en);
-            //testClass.ShowDialog();
+            var testClass = new FormMain(Language.en);
+            testClass.ShowDialog();
         }
 
         [TestMethod()]
@@ -290,6 +290,36 @@ namespace AoE2NetDesktop.From.Tests
                 // Assert
                 Assert.AreEqual("   Name: Player1", labelSettingsName.Text);
                 Assert.AreEqual("Country: JP", labelSettingsCountry.Text);
+
+                // CleanUp
+                testClass.Close();
+            };
+
+            testClass.ShowDialog();
+
+        }
+
+        [TestMethod()]
+        public void FormMainTestButtonViewHistory_Click()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+            var testClass = new FormMain(Language.en);
+            var buttonViewHistory = testClass.GetControl<Button>("buttonViewHistory");
+            var tabControlMain = testClass.GetControl<TabControl>("tabControlMain");
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SteamId", TestData.AvailableUserSteamId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
+                tabControlMain.SelectedIndex = 1;
+                buttonViewHistory.PerformClick();
+                await testClass.Awaiter.WaitAsync("ButtonViewHistory_Click");
+
+                // Assert
 
                 // CleanUp
                 testClass.Close();

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Drawing;
     using System.Linq;
@@ -22,7 +23,7 @@
         private readonly System.Timers.Timer timerSteamIdVerify;
 
         private Func<Task> delayedFunction;
-        private PlayerLastmatch playerLastmatch;
+        private PlayerLastmatch playerLastmatch = new ();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CtrlMain"/> class.
@@ -50,22 +51,22 @@
         /// <summary>
         /// Gets get user country name.
         /// </summary>
-        public string SteamId { get => playerLastmatch?.SteamId ?? "0"; }
+        public string SteamId { get => playerLastmatch.SteamId; }
 
         /// <summary>
         /// Gets get user country name.
         /// </summary>
-        public int PrifileId { get => playerLastmatch?.ProfileId ?? 0; }
+        public int ProfileId { get => playerLastmatch.ProfileId ?? 0; }
 
         /// <summary>
         /// Gets get user country name.
         /// </summary>
-        public string UserCountry { get => playerLastmatch?.Country ?? InvalidSteamIdString; }
+        public string UserCountry { get => playerLastmatch.Country ?? InvalidSteamIdString; }
 
         /// <summary>
         /// Gets user name.
         /// </summary>
-        public string UserName { get => playerLastmatch?.Name ?? InvalidSteamIdString; }
+        public string UserName { get => playerLastmatch.Name ?? InvalidSteamIdString; }
 
         /// <summary>
         /// Get font style according to the player's status.
@@ -123,25 +124,23 @@
             var ret = userId switch {
                 IdType.Steam => await AoE2net.GetPlayerLastMatchAsync(idText),
                 IdType.Profile => await AoE2net.GetPlayerLastMatchAsync(int.Parse(idText)),
-                _ => null,
+                _ => new PlayerLastmatch(),
             };
 
-            if (ret != null) {
-                foreach (var player in ret.LastMatch.Players) {
-                    List<PlayerRating> rate = null;
-                    if (player.SteamId != null) {
-                        rate = await AoE2net.GetPlayerRatingHistoryAsync(
-                            player.SteamId, ret.LastMatch.LeaderboardId ?? 0, 1);
-                    } else if (player.ProfilId is int profileId) {
-                        rate = await AoE2net.GetPlayerRatingHistoryAsync(
-                            profileId, ret.LastMatch.LeaderboardId ?? 0, 1);
-                    } else {
-                        throw new FormatException($"Invalid profilId of Name:{player.Name}");
-                    }
+            foreach (var player in ret.LastMatch.Players) {
+                List<PlayerRating> rate = null;
+                if (player.SteamId != null) {
+                    rate = await AoE2net.GetPlayerRatingHistoryAsync(
+                        player.SteamId, ret.LastMatch.LeaderboardId ?? 0, 1);
+                } else if (player.ProfilId is int profileId) {
+                    rate = await AoE2net.GetPlayerRatingHistoryAsync(
+                        profileId, ret.LastMatch.LeaderboardId ?? 0, 1);
+                } else {
+                    throw new FormatException($"Invalid profilId of Name:{player.Name}");
+                }
 
-                    if (rate.Count != 0) {
-                        player.Rating ??= rate[0].Rating;
-                    }
+                if (rate.Count != 0) {
+                    player.Rating ??= rate[0].Rating;
                 }
             }
 
@@ -175,6 +174,7 @@
         /// <returns>controler instance.</returns>
         public static async Task<bool> InitAsync(Language language)
         {
+            StringsExt.InitAsync();
             await StringsExt.InitAsync(language);
 
             return true;
@@ -185,7 +185,7 @@
         /// </summary>
         public void ShowHistory()
         {
-            FormHistory = new FormHistory(PrifileId);
+            FormHistory = new FormHistory(ProfileId);
             FormHistory.Show();
         }
 
@@ -206,21 +206,18 @@
         /// <param name="id">User ID.</param>
         /// <param name="idText">steam Id.</param>
         /// <returns>API result.</returns>
-        /// <returns>API run result.</returns>
+        /// <returns>API run result.</returns>1
         public async Task<bool> ReadPlayerDataAsync(IdType id, string idText)
         {
-            try {
-                playerLastmatch = id switch {
-                    IdType.Steam => await GetPlayerLastMatchAsync(id, idText),
-                    IdType.Profile => await GetPlayerLastMatchAsync(id, idText),
-                    _ => null,
-                };
-            } catch (Exception) {
-                playerLastmatch = null;
-                throw;
-            }
+            var ret = true;
 
-            return true;
+            playerLastmatch = id switch {
+                IdType.Steam => await GetPlayerLastMatchAsync(id, idText),
+                IdType.Profile => await GetPlayerLastMatchAsync(id, idText),
+                _ => new PlayerLastmatch(),
+            };
+
+            return ret;
         }
     }
 }

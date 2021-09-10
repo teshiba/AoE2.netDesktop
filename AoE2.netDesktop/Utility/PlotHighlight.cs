@@ -1,5 +1,6 @@
 ﻿namespace AoE2NetDesktop.Form
 {
+    using System;
     using System.Drawing;
 
     using ScottPlot;
@@ -14,7 +15,7 @@
         private readonly ScatterPlot highlightPlot;
         private readonly Tooltip tooltip;
         private readonly FormsPlot formsPlot;
-        private int lastIndex;
+        private int lastIndex = -1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlotHighlight"/> class.
@@ -23,17 +24,19 @@
         /// <param name="scatterPlot">target scatter plot.</param>
         public PlotHighlight(FormsPlot formsPlot, ScatterPlot scatterPlot)
         {
-            plot = scatterPlot ?? throw new System.ArgumentNullException(nameof(scatterPlot));
+            plot = scatterPlot ?? throw new ArgumentNullException(nameof(scatterPlot));
+            this.formsPlot = formsPlot ?? throw new ArgumentNullException(nameof(formsPlot));
+
             highlightPlot = formsPlot.Plot.AddPoint(0, 0);
             highlightPlot.Color = Color.Red;
             highlightPlot.MarkerSize = 10;
             highlightPlot.MarkerShape = MarkerShape.openCircle;
+
             tooltip = formsPlot.Plot.AddTooltip(label: "Rate", x: -1000, y: -1000);
             tooltip.LabelPadding = 0;
             tooltip.FillColor = Color.White;
             tooltip.Font.Size = 16;
             tooltip.Font.Bold = true;
-            this.formsPlot = formsPlot ?? throw new System.ArgumentNullException(nameof(formsPlot));
         }
 
         /// <summary>

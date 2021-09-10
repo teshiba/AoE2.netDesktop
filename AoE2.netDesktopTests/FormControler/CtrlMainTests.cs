@@ -13,6 +13,17 @@ namespace AoE2NetDesktop.From.Tests
     [TestClass()]
     public class CtrlMainTests
     {
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            if (context is null) {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            AoE2net.ComClient = new TestHttpClient();
+            StringsExt.InitAsync();
+        }
+
         [TestMethod()]
         public void CtrlMainTest()
         {
@@ -152,7 +163,7 @@ namespace AoE2NetDesktop.From.Tests
                 ).Result;
 
             // Assert
-            Assert.IsNull(actVal);
+            Assert.IsNull(actVal.ProfileId);
         }
 
         [TestMethod()]
@@ -248,6 +259,7 @@ namespace AoE2NetDesktop.From.Tests
         [TestMethod()]
         [DataRow(IdType.Steam, TestData.AvailableUserSteamId)]
         [DataRow(IdType.Profile, TestData.AvailableUserProfileIdString)]
+        [DataRow(IdType.Profile, TestData.AvailableUserProfileIdWithoutSteamIdString)]
         public void GetPlayerDataAsyncTest(IdType idType, string id)
         {
             // Arrange
@@ -264,6 +276,27 @@ namespace AoE2NetDesktop.From.Tests
             Assert.IsTrue(actVal);
             Assert.AreNotEqual(notExpVal, testClass.UserCountry);
             Assert.AreNotEqual(notExpVal, testClass.UserName);
+        }
+
+        [TestMethod()]
+        public void GetPlayerDataAsyncTestAvailableUserProfileIdWithoutSteamIdString()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+            var notExpVal = "-- Invalid Steam ID --";
+
+            // Act
+            var testClass = new CtrlMain();
+            var actVal = Task.Run(
+                () => testClass.ReadPlayerDataAsync(IdType.Profile, TestData.AvailableUserProfileIdWithoutSteamIdString)
+                ).Result;
+
+            // Assert
+            Assert.IsTrue(actVal);
+            Assert.AreNotEqual(notExpVal, testClass.UserCountry);
+            Assert.AreNotEqual(notExpVal, testClass.UserName);
+            Assert.AreEqual(TestData.AvailableUserProfileIdWithoutSteamId, testClass.ProfileId);
+            Assert.IsNull(testClass.SteamId);
         }
 
         [TestMethod()]
@@ -330,32 +363,6 @@ namespace AoE2NetDesktop.From.Tests
                 ).Result;
 
             var actVal = player.GetCivEnName();
-
-            // Assert
-            Assert.AreEqual(expVal, actVal);
-        }
-
-        [TestMethod()]
-        [DataRow(0, "invalid civ:0")]
-        [DataRow(1, "ブリトン")]
-        [DataRow(37, "Sicilians")]
-        [DataRow(40, "invalid civ:40")]
-        [DataRow(null, "invalid civ:null")]
-        public void GetCivNameTest(int? civ, string expVal)
-        {
-            // Arrange
-            AoE2net.ComClient = new TestHttpClient();
-            var player = new Player() {
-                Civ = civ,
-            };
-
-            // Act
-            var testClass = new CtrlMain();
-            _ = Task.Run(
-                () => CtrlMain.InitAsync(Language.ja)
-                ).Result;
-
-            var actVal = player.GetCivName();
 
             // Assert
             Assert.AreEqual(expVal, actVal);

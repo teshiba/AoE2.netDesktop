@@ -36,6 +36,10 @@
         /// <param name="plot">target plot.</param>
         public void PlotPlayedPlayerCountry(Plot plot)
         {
+            if (plot is null) {
+                throw new ArgumentNullException(nameof(plot));
+            }
+
             var countryList = new Dictionary<string, double>();
 
             foreach (var match in playerMatchHistory) {
@@ -52,22 +56,26 @@
                 }
             }
 
-            var countryNames = countryList.Keys.Select(x =>
-            {
-                if (!CountryCode.ISO31661alpha2.TryGetValue(x, out var countryName)) {
-                    countryName = "N/A";
-                }
+            if (countryList.Count != 0) {
+                var countryNames = countryList.Keys.Select(x =>
+                {
+                    if (!CountryCode.ISO31661alpha2.TryGetValue(x, out var countryName)) {
+                        countryName = "N/A";
+                    }
 
-                return countryName;
-            });
+                    return countryName;
+                });
 
-            var bar = plot.AddBar(countryList.Values.ToArray());
-            bar.Orientation = Orientation.Horizontal;
-            bar.ShowValuesAboveBars = true;
+                var bar = plot.AddBar(countryList.Values.ToArray());
+                bar.Orientation = Orientation.Horizontal;
+                bar.ShowValuesAboveBars = true;
 
-            plot.YTicks(countryNames.ToArray());
-            plot.SetAxisLimits(xMin: 0, yMin: -1);
-            plot.Render();
+                plot.YTicks(countryNames.ToArray());
+                plot.SetAxisLimits(xMin: 0, yMin: -1);
+                plot.Render();
+            } else {
+                Debug.Print($"Nodata was found in {nameof(playerMatchHistory)}");
+            }
         }
 
         /// <summary>
@@ -77,17 +85,20 @@
         /// <param name="plot">target plot object.</param>
         public void PlotWinRateCivilization(LeaderBoardId leaderBoardId, Plot plot)
         {
-            var rateWin = new Dictionary<string, double>();
-            var rateLose = new Dictionary<string, double>();
+            if (plot is null) {
+                throw new ArgumentNullException(nameof(plot));
+            }
+
+            var data = new Dictionary<string, (double lower, double upper)>();
 
             foreach (var item in playerMatchHistory) {
                 if (item.LeaderboardId == leaderBoardId) {
                     var player = item.GetPlayer(profileId);
-                    AddWonRate(rateWin, rateLose, player.Won, player.GetCivName());
+                    AddWonRate(data, player.Won, player.GetCivName());
                 }
             }
 
-            UpdateStackedBarGraph(plot, rateWin.Keys.ToList(), rateWin.Values.ToList(), rateLose.Values.ToList());
+            UpdateStackedBarGraph(plot, data);
             plot.Render();
         }
 
@@ -98,17 +109,20 @@
         /// <param name="plot">target plot object.</param>
         public void PlotWinRateMap(LeaderBoardId leaderBoardId, Plot plot)
         {
-            var rateWin = new Dictionary<string, double>();
-            var rateLose = new Dictionary<string, double>();
+            if (plot is null) {
+                throw new ArgumentNullException(nameof(plot));
+            }
+
+            var data = new Dictionary<string, (double lower, double upper)>();
 
             foreach (var item in playerMatchHistory) {
                 if (item.LeaderboardId == leaderBoardId) {
                     var player = item.GetPlayer(profileId);
-                    AddWonRate(rateWin, rateLose, player.Won, item.GetMapName());
+                    AddWonRate(data, player.Won, item.GetMapName());
                 }
             }
 
-            UpdateStackedBarGraph(plot, rateWin.Keys.ToList(), rateWin.Values.ToList(), rateLose.Values.ToList());
+            UpdateStackedBarGraph(plot, data);
             plot.Render();
         }
 
@@ -120,6 +134,10 @@
         /// <returns>Scatter plot data.</returns>
         public ScatterPlot PlotRate(LeaderBoardId leaderBoardId, Plot plot)
         {
+            if (plot is null) {
+                throw new ArgumentNullException(nameof(plot));
+            }
+
             var dateList = new List<DateTime>();
             var rateList = new List<double>();
             ScatterPlot scatterPlot = null;
@@ -137,7 +155,7 @@
 
             if (dateList.Count != 0) {
                 var xs = dateList.Select(x => x.ToOADate()).ToArray();
-                plot.SetInnerViewLimits(xs.Min() - 10, xs.Max() + 10, rateList.Min() - 10, rateList.Max() + 10);
+                plot.SetOuterViewLimits(xs.Min() - 10, xs.Max() + 10, rateList.Min() - 10, rateList.Max() + 10);
                 plot.XAxis.TickLabelFormat("yyyy/MM/dd", dateTimeFormat: true);
                 plot.XAxis.ManualTickSpacing(1, ScottPlot.Ticks.DateTimeUnit.Month);
                 plot.XAxis.TickLabelStyle(rotation: 45);
@@ -168,7 +186,7 @@
                 candlePlot.ColorDown = Color.Green;
 
                 try {
-                    var bol = candlePlot.GetBollingerBands(ohlc.Count < 7 ? 2 : 7);
+                    var bol = candlePlot.GetBollingerBands(7);
                     plot.AddScatterLines(bol.xs, bol.sma, Color.Blue);
                 } catch (ArgumentException e) {
                     Debug.Print($" Plot Rate ERROR. {e.Message} {e.StackTrace}");
@@ -180,19 +198,11 @@
             return scatterPlot;
         }
 
-        private static void UpdateStackedBarGraph(Plot plot, List<string> ticks, List<double> lowerData, List<double> upperDate)
+        private static void UpdateStackedBarGraph(Plot plot, Dictionary<string, (double lower, double upper)> data)
         {
-            if (plot is null) {
-                throw new ArgumentNullException(nameof(plot));
-            }
-
-            if (ticks is null) {
-                throw new ArgumentNullException(nameof(ticks));
-            }
-
-            if ((lowerData?.Count == upperDate?.Count) && (lowerData?.Count != 0)) {
-                var winList = lowerData.ToArray();
-                var loseList = upperDate.ToArray();
+            if (data.Count != 0) {
+                var winList = data.Select(x => x.Value.lower).ToArray();
+                var loseList = data.Select(x => x.Value.upper).ToArray();
 
                 // to simulate stacking Lose on Win, shift Lose up by Win
                 double[] stackedList = new double[loseList.Length];
@@ -209,23 +219,22 @@
                 barLose.ShowValuesAboveBars = true;
                 barWin.FillColor = Color.Green;
                 barLose.FillColor = Color.IndianRed;
-                plot.YTicks(ticks.ToArray());
+                plot.YTicks(data.Select(x => x.Key).ToArray());
                 plot.SetAxisLimits(xMin: 0, yMin: -1);
             }
         }
 
-        private static void AddWonRate(Dictionary<string, double> rateWin, Dictionary<string, double> rateLose, bool? playerWon, string key)
+        private static void AddWonRate(Dictionary<string, (double lower, double upper)> data, bool? won, string key)
         {
-            if (playerWon != null) {
-                if (!rateWin.ContainsKey(key)) {
-                    rateWin.Add(key, 0);
-                    rateLose.Add(key, 0);
+            if (won != null) {
+                if (!data.ContainsKey(key)) {
+                    data.Add(key, (0, 0));
                 }
 
-                if ((bool)playerWon) {
-                    rateWin[key]++;
+                if ((bool)won) {
+                    data[key] = new (data[key].lower + 1, data[key].upper);
                 } else {
-                    rateLose[key]++;
+                    data[key] = new (data[key].lower, data[key].upper + 1);
                 }
             }
         }

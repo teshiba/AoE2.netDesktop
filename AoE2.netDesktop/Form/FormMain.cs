@@ -219,9 +219,9 @@
                 ret = await Controler.ReadPlayerDataAsync(idType, idText);
 
                 textBoxSettingSteamId.Text = Controler.SteamId;
-                textBoxSettingProfileId.Text = Controler.PrifileId.ToString();
+                textBoxSettingProfileId.Text = Controler.ProfileId.ToString();
                 Settings.Default.SteamId = Controler.SteamId;
-                Settings.Default.ProfileId = Controler.PrifileId;
+                Settings.Default.ProfileId = Controler.ProfileId;
                 buttonUpdate.Enabled = ret;
                 buttonViewHistory.Enabled = ret;
             } catch (Exception ex) {
@@ -239,22 +239,42 @@
             return ret;
         }
 
-        ///////////////////////////////////////////////////////////////////////
-        // Event handlers
-        ///////////////////////////////////////////////////////////////////////
-        private async void ButtonUpdate_Click(object sender, EventArgs e)
+        private async Task<bool> UpdateLastMatch()
         {
+            var ret = false;
+
             buttonUpdate.Enabled = false;
 
             ClearLastMatch();
             try {
                 var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(IdType.Profile, textBoxSettingProfileId.Text);
                 SetLastMatchData(playerLastmatch);
+                ret = true;
             } catch (Exception ex) {
                 labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
             }
 
             buttonUpdate.Enabled = true;
+
+            return ret;
+        }
+
+        private void ResizePanels()
+        {
+            panelTeam1.Width = (tabPagePlayerLastMatch.Width - 10) / 2;
+            panelTeam2.Width = panelTeam1.Width;
+            panelTeam1.Left = 5;
+            panelTeam2.Left = 5 + panelTeam1.Width + 5;
+            panelTeam2.Top = 50;
+            panelTeam1.Top = 50;
+        }
+
+        ///////////////////////////////////////////////////////////////////////
+        // Event handlers
+        ///////////////////////////////////////////////////////////////////////
+        private async void ButtonUpdate_Click(object sender, EventArgs e)
+        {
+            await UpdateLastMatch();
             Awaiter.Complete();
         }
 
@@ -267,6 +287,7 @@
                 _ = await CtrlMain.InitAsync(language);
                 LoadSettings();
                 _ = await ReadProfileAsync();
+                _ = await UpdateLastMatch();
             } catch (Exception ex) {
                 labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
             }
@@ -407,21 +428,12 @@
         private void ButtonViewHistory_Click(object sender, EventArgs e)
         {
             Controler.ShowHistory();
+            Awaiter.Complete();
         }
 
         private void FormMain_Resize(object sender, EventArgs e)
         {
             ResizePanels();
-        }
-
-        private void ResizePanels()
-        {
-            panelTeam1.Width = (tabPagePlayerLastMatch.Width - 10) / 2;
-            panelTeam2.Width = panelTeam1.Width;
-            panelTeam1.Left = 5;
-            panelTeam2.Left = 5 + panelTeam1.Width + 5;
-            panelTeam2.Top = 50;
-            panelTeam1.Top = 50;
         }
 
         private async void ButtonSetId_ClickAsync(object sender, EventArgs e)
