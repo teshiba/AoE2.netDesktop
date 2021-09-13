@@ -376,7 +376,7 @@ namespace AoE2NetDesktop.Form
             this.splitContainerGraphBase.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitContainerGraphBase.Cursor = System.Windows.Forms.Cursors.VSplit;
             this.splitContainerGraphBase.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerGraphBase.Location = new System.Drawing.Point(3, 87);
+            this.splitContainerGraphBase.Location = new System.Drawing.Point(3, 118);
             this.splitContainerGraphBase.Name = "splitContainerGraphBase";
             // 
             // splitContainerGraphBase.Panel1
@@ -386,7 +386,7 @@ namespace AoE2NetDesktop.Form
             // splitContainerGraphBase.Panel2
             // 
             this.splitContainerGraphBase.Panel2.Controls.Add(this.tabControl2);
-            this.splitContainerGraphBase.Size = new System.Drawing.Size(1216, 561);
+            this.splitContainerGraphBase.Size = new System.Drawing.Size(1216, 530);
             this.splitContainerGraphBase.SplitterDistance = 596;
             this.splitContainerGraphBase.TabIndex = 6;
             // 
@@ -406,8 +406,8 @@ namespace AoE2NetDesktop.Form
             // splitContainerRate.Panel2
             // 
             this.splitContainerRate.Panel2.Controls.Add(this.formsPlotRateTeam);
-            this.splitContainerRate.Size = new System.Drawing.Size(596, 561);
-            this.splitContainerRate.SplitterDistance = 273;
+            this.splitContainerRate.Size = new System.Drawing.Size(596, 530);
+            this.splitContainerRate.SplitterDistance = 257;
             this.splitContainerRate.TabIndex = 5;
             // 
             // formsPlotRate1v1
@@ -417,7 +417,7 @@ namespace AoE2NetDesktop.Form
             this.formsPlotRate1v1.Location = new System.Drawing.Point(0, 0);
             this.formsPlotRate1v1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotRate1v1.Name = "formsPlotRate1v1";
-            this.formsPlotRate1v1.Size = new System.Drawing.Size(594, 271);
+            this.formsPlotRate1v1.Size = new System.Drawing.Size(594, 255);
             this.formsPlotRate1v1.TabIndex = 4;
             this.formsPlotRate1v1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormsPlotRate1v1_MouseMove);
             // 
@@ -428,7 +428,7 @@ namespace AoE2NetDesktop.Form
             this.formsPlotRateTeam.Location = new System.Drawing.Point(0, 0);
             this.formsPlotRateTeam.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotRateTeam.Name = "formsPlotRateTeam";
-            this.formsPlotRateTeam.Size = new System.Drawing.Size(594, 282);
+            this.formsPlotRateTeam.Size = new System.Drawing.Size(594, 267);
             this.formsPlotRateTeam.TabIndex = 3;
             this.formsPlotRateTeam.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormsPlotRateTeam_MouseMove);
             // 
@@ -441,7 +441,7 @@ namespace AoE2NetDesktop.Form
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(614, 559);
+            this.tabControl2.Size = new System.Drawing.Size(614, 528);
             this.tabControl2.TabIndex = 7;
             // 
             // tabPageMap
@@ -450,7 +450,7 @@ namespace AoE2NetDesktop.Form
             this.tabPageMap.Location = new System.Drawing.Point(4, 24);
             this.tabPageMap.Name = "tabPageMap";
             this.tabPageMap.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMap.Size = new System.Drawing.Size(606, 531);
+            this.tabPageMap.Size = new System.Drawing.Size(606, 500);
             this.tabPageMap.TabIndex = 0;
             this.tabPageMap.Text = "Map";
             this.tabPageMap.UseVisualStyleBackColor = true;
@@ -471,8 +471,8 @@ namespace AoE2NetDesktop.Form
             // splitContainerMapRate.Panel2
             // 
             this.splitContainerMapRate.Panel2.Controls.Add(this.formsPlotWinRateTeamMap);
-            this.splitContainerMapRate.Size = new System.Drawing.Size(600, 525);
-            this.splitContainerMapRate.SplitterDistance = 248;
+            this.splitContainerMapRate.Size = new System.Drawing.Size(600, 494);
+            this.splitContainerMapRate.SplitterDistance = 233;
             this.splitContainerMapRate.TabIndex = 6;
             // 
             // formsPlotWinRate1v1Map
@@ -482,7 +482,7 @@ namespace AoE2NetDesktop.Form
             this.formsPlotWinRate1v1Map.Location = new System.Drawing.Point(0, 0);
             this.formsPlotWinRate1v1Map.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotWinRate1v1Map.Name = "formsPlotWinRate1v1Map";
-            this.formsPlotWinRate1v1Map.Size = new System.Drawing.Size(598, 246);
+            this.formsPlotWinRate1v1Map.Size = new System.Drawing.Size(598, 231);
             this.formsPlotWinRate1v1Map.TabIndex = 5;
             // 
             // formsPlotWinRateTeamMap
@@ -492,7 +492,7 @@ namespace AoE2NetDesktop.Form
             this.formsPlotWinRateTeamMap.Location = new System.Drawing.Point(0, 0);
             this.formsPlotWinRateTeamMap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotWinRateTeamMap.Name = "formsPlotWinRateTeamMap";
-            this.formsPlotWinRateTeamMap.Size = new System.Drawing.Size(598, 271);
+            this.formsPlotWinRateTeamMap.Size = new System.Drawing.Size(598, 255);
             this.formsPlotWinRateTeamMap.TabIndex = 5;
             // 
             // tabPageCiv
@@ -501,7 +501,7 @@ namespace AoE2NetDesktop.Form
             this.tabPageCiv.Location = new System.Drawing.Point(4, 24);
             this.tabPageCiv.Name = "tabPageCiv";
             this.tabPageCiv.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCiv.Size = new System.Drawing.Size(602, 668);
+            this.tabPageCiv.Size = new System.Drawing.Size(606, 531);
             this.tabPageCiv.TabIndex = 1;
             this.tabPageCiv.Text = "civilization";
             this.tabPageCiv.UseVisualStyleBackColor = true;
@@ -522,8 +522,8 @@ namespace AoE2NetDesktop.Form
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.formsPlotCivTeam);
-            this.splitContainer1.Size = new System.Drawing.Size(596, 662);
-            this.splitContainer1.SplitterDistance = 312;
+            this.splitContainer1.Size = new System.Drawing.Size(600, 525);
+            this.splitContainer1.SplitterDistance = 247;
             this.splitContainer1.TabIndex = 0;
             // 
             // formsPlotCiv1v1
@@ -533,7 +533,7 @@ namespace AoE2NetDesktop.Form
             this.formsPlotCiv1v1.Location = new System.Drawing.Point(0, 0);
             this.formsPlotCiv1v1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotCiv1v1.Name = "formsPlotCiv1v1";
-            this.formsPlotCiv1v1.Size = new System.Drawing.Size(594, 310);
+            this.formsPlotCiv1v1.Size = new System.Drawing.Size(598, 245);
             this.formsPlotCiv1v1.TabIndex = 6;
             // 
             // formsPlotCivTeam
@@ -543,7 +543,7 @@ namespace AoE2NetDesktop.Form
             this.formsPlotCivTeam.Location = new System.Drawing.Point(0, 0);
             this.formsPlotCivTeam.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotCivTeam.Name = "formsPlotCivTeam";
-            this.formsPlotCivTeam.Size = new System.Drawing.Size(594, 344);
+            this.formsPlotCivTeam.Size = new System.Drawing.Size(598, 272);
             this.formsPlotCivTeam.TabIndex = 6;
             // 
             // tabPageCountry
@@ -553,7 +553,7 @@ namespace AoE2NetDesktop.Form
             this.tabPageCountry.Location = new System.Drawing.Point(4, 24);
             this.tabPageCountry.Name = "tabPageCountry";
             this.tabPageCountry.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCountry.Size = new System.Drawing.Size(602, 668);
+            this.tabPageCountry.Size = new System.Drawing.Size(606, 531);
             this.tabPageCountry.TabIndex = 2;
             this.tabPageCountry.Text = "Country";
             this.tabPageCountry.UseVisualStyleBackColor = true;
@@ -565,7 +565,7 @@ namespace AoE2NetDesktop.Form
             this.formsPlotCountry.Location = new System.Drawing.Point(3, 3);
             this.formsPlotCountry.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotCountry.Name = "formsPlotCountry";
-            this.formsPlotCountry.Size = new System.Drawing.Size(596, 662);
+            this.formsPlotCountry.Size = new System.Drawing.Size(600, 525);
             this.formsPlotCountry.TabIndex = 7;
             // 
             // formsPlot2
@@ -575,7 +575,7 @@ namespace AoE2NetDesktop.Form
             this.formsPlot2.Location = new System.Drawing.Point(3, 3);
             this.formsPlot2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlot2.Name = "formsPlot2";
-            this.formsPlot2.Size = new System.Drawing.Size(596, 662);
+            this.formsPlot2.Size = new System.Drawing.Size(600, 525);
             this.formsPlot2.TabIndex = 8;
             // 
             // listViewStatistics
@@ -599,7 +599,7 @@ namespace AoE2NetDesktop.Form
             this.listViewStatistics.HideSelection = false;
             this.listViewStatistics.Location = new System.Drawing.Point(3, 3);
             this.listViewStatistics.Name = "listViewStatistics";
-            this.listViewStatistics.Size = new System.Drawing.Size(1216, 84);
+            this.listViewStatistics.Size = new System.Drawing.Size(1216, 115);
             this.listViewStatistics.TabIndex = 2;
             this.listViewStatistics.UseCompatibleStateImageBehavior = false;
             this.listViewStatistics.View = System.Windows.Forms.View.Details;
