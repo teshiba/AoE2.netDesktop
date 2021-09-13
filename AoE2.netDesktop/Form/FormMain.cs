@@ -207,7 +207,7 @@
         {
             bool ret;
 
-            buttonSetId.Enabled = false;
+            groupBoxPlayer.Enabled = false;
 
             buttonUpdate.Enabled = false;
             buttonViewHistory.Enabled = false;
@@ -232,7 +232,7 @@
             labelSettingsName.Text = $"   Name: {Controler.UserName}";
             labelSettingsCountry.Text = $"Country: {Controler.UserCountry}";
 
-            buttonSetId.Enabled = true;
+            groupBoxPlayer.Enabled = true;
 
             Awaiter.Complete();
 

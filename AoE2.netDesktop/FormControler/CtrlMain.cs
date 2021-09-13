@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Drawing;
     using System.Linq;
@@ -17,7 +16,7 @@
     /// </summary>
     public class CtrlMain : FormControler
     {
-        private const string InvalidSteamIdString = "-- Invalid Steam ID --";
+        private const string InvalidSteamIdString = "-- Invalid ID --";
         private const int VerifyWaitMsec = 1500;
 
         private readonly System.Timers.Timer timerSteamIdVerify;
@@ -211,11 +210,16 @@
         {
             var ret = true;
 
-            playerLastmatch = id switch {
-                IdType.Steam => await GetPlayerLastMatchAsync(id, idText),
-                IdType.Profile => await GetPlayerLastMatchAsync(id, idText),
-                _ => new PlayerLastmatch(),
-            };
+            try {
+                playerLastmatch = id switch {
+                    IdType.Steam => await GetPlayerLastMatchAsync(id, idText),
+                    IdType.Profile => await GetPlayerLastMatchAsync(id, idText),
+                    _ => new PlayerLastmatch(),
+                };
+            } catch (Exception) {
+                playerLastmatch = new PlayerLastmatch();
+                throw;
+            }
 
             return ret;
         }
