@@ -23,7 +23,7 @@ namespace LibAoE2net
         public string Country { get; set; }
 
         [DataMember(Name = "last_match")]
-        public Match LastMatch { get; set; }
+        public Match LastMatch { get; set; } = new ();
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

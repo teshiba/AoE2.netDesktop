@@ -1,11 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LibAoE2net;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibAoE2net.Tests
 {
@@ -15,13 +11,44 @@ namespace LibAoE2net.Tests
         [TestMethod()]
         public void GetOpenedTimeTest()
         {
-            Assert.Fail();
+            // Arrange
+            var expVal = new DateTime(1970, 01, 01, 0, 0, 0).ToLocalTime();
+
+            // Act
+            var testClass = new Match() {
+                Opened = 0,
+            };
+            var actVal = testClass.GetOpenedTime();
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
         }
 
         [TestMethod()]
         public void GetPlayerTest()
         {
-            Assert.Fail();
+            // Arrange
+            var player1 = new Player() { ProfilId = 101, };
+            var player2 = new Player() { ProfilId = 102, };
+            var player3 = new Player() { ProfilId = 103, };
+            var player4 = new Player() { ProfilId = 104, };
+            var expVal = player3;
+
+            // Act
+            var players = new List<Player>
+            {
+                player1,
+                player2,
+                player3,
+                player4,
+            };
+            var testClass = new Match() {
+                Players = players,
+            };
+            var actVal = testClass.GetPlayer(103);
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
         }
     }
 }

@@ -8,10 +8,10 @@
     public static class MatchExt
     {
         /// <summary>
-        /// Get Opened Time.
+        /// Get Opened Time that converted to local time.
         /// </summary>
         /// <param name="match">match.</param>
-        /// <returns>time value as DateTime type.</returns>
+        /// <returns>local time value as DateTime type.</returns>
         public static DateTime GetOpenedTime(this Match match)
         {
             var ret = DateTimeOffset.FromUnixTimeSeconds(match.Opened ?? 0).LocalDateTime;

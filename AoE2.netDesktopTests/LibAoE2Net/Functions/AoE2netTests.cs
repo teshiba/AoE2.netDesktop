@@ -375,8 +375,9 @@ namespace LibAoE2net.Tests
             AoE2net.ComClient = new TestHttpClient();
 
             // Act
-            var actVal = AoE2net.GetPlayerMatchHistoryAsync(
-                                0, 10, TestData.AvailableUserSteamId).Result;
+            var actVal = Task.Run(
+                () => AoE2net.GetPlayerMatchHistoryAsync(0, 10, TestData.AvailableUserSteamId)
+                ).Result;
 
             // Assert
             Assert.AreEqual("playerMatchHistoryaoe2de00000000000000001data1", actVal[0].Server);
@@ -405,12 +406,75 @@ namespace LibAoE2net.Tests
             AoE2net.ComClient = new TestHttpClient();
 
             // Act
-            var actVal = AoE2net.GetPlayerMatchHistoryAsync(
-                                0, 10, TestData.AvailableUserProfileId).Result;
+            var actVal = Task.Run(
+                () => AoE2net.GetPlayerMatchHistoryAsync(0, 10, TestData.AvailableUserProfileId)
+                ).Result;
 
             // Assert
             Assert.AreEqual("playerMatchHistoryaoe2de1data1", actVal[0].Server);
             Assert.AreEqual("playerMatchHistoryaoe2de1data2", actVal[1].Server);
+            Assert.AreEqual("playerMatchHistoryaoe2de1data3", actVal[2].Server);
+        }
+
+        [TestMethod()]
+        public void GetLeaderboardAsyncTestSteamId()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+            var expVal = string.Empty;
+            var expStart = 1;
+            var expCount = 1;
+            var expSteamIdCount = TestData.AvailableUserSteamId;
+            var expLeaderBoardId = LeaderBoardId.TeamRandomMap;
+
+            // Act
+            var actVal = Task.Run(
+                () => AoE2net.GetLeaderboardAsync(
+                    expLeaderBoardId, expStart, expCount, expSteamIdCount)
+                ).Result;
+
+            // Assert
+            Assert.AreEqual(expLeaderBoardId, actVal.LeaderBoardId);
+            Assert.AreEqual(expSteamIdCount, actVal.Leaderboards[0].SteamId);
+            Assert.AreEqual(expStart, actVal.Start);
+            Assert.AreEqual(expCount, actVal.Count);
+        }
+
+        [TestMethod()]
+        public void GetLeaderboardAsyncTestProfileId()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+            var expVal = string.Empty;
+            var expStart = 1;
+            var expCount = 1;
+            var expProfileIdCount = TestData.AvailableUserProfileId;
+            var expLeaderBoardId = LeaderBoardId.TeamRandomMap;
+
+            // Act
+            var actVal = Task.Run(
+                () => AoE2net.GetLeaderboardAsync(
+                    expLeaderBoardId, expStart, expCount, expProfileIdCount)
+                ).Result;
+
+            // Assert
+            Assert.AreEqual(expLeaderBoardId, actVal.LeaderBoardId);
+            Assert.AreEqual(expProfileIdCount, actVal.Leaderboards[0].ProfileId);
+            Assert.AreEqual(expStart, actVal.Start);
+            Assert.AreEqual(expCount, actVal.Count);
+        }
+
+        [TestMethod()]
+        public void OpenAoE2netTest()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+
+            // Act
+            var actVal = AoE2net.OpenAoE2net(TestData.AvailableUserProfileId);
+
+            // Assert
+            Assert.IsNotNull(actVal);
         }
     }
 }

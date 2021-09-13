@@ -6,12 +6,18 @@ namespace AoE2NetDesktop.Tests
 {
     public static class TestUtilityExt
     {
-
         public static T GetField<T>(this object obj, string name)
         {
             var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
             var fieldInfo = obj.GetType().GetField(name, bindingFlags);
             return (T)fieldInfo.GetValue(obj);
+        }
+
+        public static void SetField<T>(this object obj, string name, T value)
+        {
+            var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
+            var fieldInfo = obj.GetType().GetField(name, bindingFlags);
+            fieldInfo.SetValue(obj, value);
         }
 
         public static T GetProperty<T>(this object obj, string name)
@@ -22,6 +28,20 @@ namespace AoE2NetDesktop.Tests
                                 .Where(prop => (prop.Name == name) && (prop.PropertyType == typeof(T)))
                                 .First();
             return (T)propertyInfo.GetValue(obj);
+        }
+
+        public static T Invoke<T>(this object obj, string name, params object[] arg)
+        {
+            var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod;
+            var methodInfo = obj.GetType().GetMethod(name, bindingFlags);
+            return (T)methodInfo.Invoke(obj, arg);
+        }
+
+        public static void Invoke(this object obj, string name, params object[] arg)
+        {
+            var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod;
+            var methodInfo = obj.GetType().GetMethod(name, bindingFlags);
+            methodInfo.Invoke(obj, arg);
         }
 
         public static void SetSettings<TType, TValue>(TType testTargetInstance, string assemblyName, string propertyName, TValue value)

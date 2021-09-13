@@ -1,5 +1,7 @@
 ﻿namespace LibAoE2net
 {
+    using System;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.IO;
     using System.Net.Http;
@@ -46,6 +48,35 @@
                 throw;
             } catch (TaskCanceledException e) {
                 Debug.Print($"Timeout: {e.Message}");
+                throw;
+            }
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Starts the process.
+        /// </summary>
+        /// <param name="requestUri">request Uri.</param>
+        /// <returns>Process.</returns>
+        public virtual Process Start(string requestUri)
+            => Process.Start(new ProcessStartInfo("cmd", $"/c start {requestUri}") { CreateNoWindow = true });
+
+        /// <summary>
+        /// Open specified URI.
+        /// </summary>
+        /// <param name="requestUri">URI string.</param>
+        /// <returns>browser process.</returns>
+        public Process OpenBrowser(string requestUri)
+        {
+            Process ret;
+            try {
+                ret = Start(requestUri);
+            } catch (Win32Exception noBrowser) {
+                Debug.Print(noBrowser.Message);
+                throw;
+            } catch (Exception other) {
+                Debug.Print(other.Message);
                 throw;
             }
 

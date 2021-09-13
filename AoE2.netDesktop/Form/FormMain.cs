@@ -38,13 +38,42 @@
             labelGameId.ForeColor = labelGameId.BackColor;
             labelServer.ForeColor = labelServer.BackColor;
             labelMap.ForeColor = labelMap.BackColor;
-            InitEachPlayersCtrlList();
+            InitIDRadioButton();
+            InitPlayersCtrlList();
         }
 
         /// <inheritdoc/>
         protected override CtrlMain Controler { get => (CtrlMain)base.Controler; }
 
-        private void InitEachPlayersCtrlList()
+        private void RestoreWindowPosition()
+        {
+            Top = Settings.Default.WindowLocation.Y;
+            Left = Settings.Default.WindowLocation.X;
+            Width = Settings.Default.WindowSize.Width;
+            Height = Settings.Default.WindowSize.Height;
+        }
+
+        private void SaveWindowPosition()
+        {
+            Settings.Default.WindowLocation = new Point(Left, Top);
+            Settings.Default.WindowSize = new Size(Width, Height);
+        }
+
+        private void InitIDRadioButton()
+        {
+            Controler.SelectedId = (IdType)Settings.Default.SelectedIdType;
+
+            switch (Controler.SelectedId) {
+            case IdType.Steam:
+                radioButtonSteamID.Checked = true;
+                break;
+            case IdType.Profile:
+                radioButtonProfileID.Checked = true;
+                break;
+            }
+        }
+
+        private void InitPlayersCtrlList()
         {
             labelCiv.AddRange(new List<Label> {
                 labelCivP1, labelCivP2, labelCivP3, labelCivP4,
@@ -178,6 +207,8 @@
         {
             bool ret;
 
+            buttonSetId.Enabled = false;
+
             buttonUpdate.Enabled = false;
             buttonViewHistory.Enabled = false;
 
@@ -188,9 +219,9 @@
                 ret = await Controler.ReadPlayerDataAsync(idType, idText);
 
                 textBoxSettingSteamId.Text = Controler.SteamId;
-                textBoxSettingProfileId.Text = Controler.PrifileId.ToString();
+                textBoxSettingProfileId.Text = Controler.ProfileId.ToString();
                 Settings.Default.SteamId = Controler.SteamId;
-                Settings.Default.ProfileId = Controler.PrifileId;
+                Settings.Default.ProfileId = Controler.ProfileId;
                 buttonUpdate.Enabled = ret;
                 buttonViewHistory.Enabled = ret;
             } catch (Exception ex) {
@@ -201,9 +232,41 @@
             labelSettingsName.Text = $"   Name: {Controler.UserName}";
             labelSettingsCountry.Text = $"Country: {Controler.UserCountry}";
 
+            buttonSetId.Enabled = true;
+
             Awaiter.Complete();
 
             return ret;
+        }
+
+        private async Task<bool> UpdateLastMatch()
+        {
+            var ret = false;
+
+            buttonUpdate.Enabled = false;
+
+            ClearLastMatch();
+            try {
+                var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(IdType.Profile, textBoxSettingProfileId.Text);
+                SetLastMatchData(playerLastmatch);
+                ret = true;
+            } catch (Exception ex) {
+                labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
+            }
+
+            buttonUpdate.Enabled = true;
+
+            return ret;
+        }
+
+        private void ResizePanels()
+        {
+            panelTeam1.Width = (tabPagePlayerLastMatch.Width - 10) / 2;
+            panelTeam2.Width = panelTeam1.Width;
+            panelTeam1.Left = 5;
+            panelTeam2.Left = 5 + panelTeam1.Width + 5;
+            panelTeam2.Top = 50;
+            panelTeam1.Top = 50;
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -211,29 +274,22 @@
         ///////////////////////////////////////////////////////////////////////
         private async void ButtonUpdate_Click(object sender, EventArgs e)
         {
-            buttonUpdate.Enabled = false;
-
-            ClearLastMatch();
-            try {
-                var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(IdType.Profile, textBoxSettingProfileId.Text);
-                SetLastMatchData(playerLastmatch);
-            } catch (Exception ex) {
-                labelErrText.Text = ex.Message + ":" + ex.StackTrace;
-            }
-
-            buttonUpdate.Enabled = true;
+            await UpdateLastMatch();
             Awaiter.Complete();
         }
 
         private async void FormMain_Load(object sender, EventArgs e)
         {
+            RestoreWindowPosition();
+            ResizePanels();
             ClearLastMatch();
             try {
                 _ = await CtrlMain.InitAsync(language);
                 LoadSettings();
                 _ = await ReadProfileAsync();
+                _ = await UpdateLastMatch();
             } catch (Exception ex) {
-                labelErrText.Text = ex.Message + ":" + ex.StackTrace;
+                labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
             }
 
             Awaiter.Complete();
@@ -241,6 +297,7 @@
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            SaveWindowPosition();
             Settings.Default.Save();
         }
 
@@ -346,22 +403,37 @@
 
         private void RadioButtonProfileID_CheckedChanged(object sender, EventArgs e)
         {
-            textBoxSettingProfileId.Enabled = true;
-            textBoxSettingSteamId.Enabled = false;
-            Settings.Default.SelectedIdType = (int)IdType.Profile;
-            Controler.SelectedId = IdType.Profile;
+            var radioButton = (RadioButton)sender;
+
+            textBoxSettingProfileId.Enabled = radioButton.Checked;
+            textBoxSettingSteamId.Enabled = !radioButton.Checked;
+            if (radioButton.Checked) {
+                Settings.Default.SelectedIdType = (int)IdType.Profile;
+                Controler.SelectedId = IdType.Profile;
+            }
         }
 
         private void RadioButtonSteamID_CheckedChanged(object sender, EventArgs e)
         {
-            textBoxSettingProfileId.Enabled = false;
-            textBoxSettingSteamId.Enabled = true;
-            Settings.Default.SelectedIdType = (int)IdType.Steam;
+            var radioButton = (RadioButton)sender;
+
+            textBoxSettingProfileId.Enabled = !radioButton.Checked;
+            textBoxSettingSteamId.Enabled = radioButton.Checked;
+            if (radioButton.Checked) {
+                Settings.Default.SelectedIdType = (int)IdType.Steam;
+                Controler.SelectedId = IdType.Steam;
+            }
         }
 
         private void ButtonViewHistory_Click(object sender, EventArgs e)
         {
             Controler.ShowHistory();
+            Awaiter.Complete();
+        }
+
+        private void FormMain_Resize(object sender, EventArgs e)
+        {
+            ResizePanels();
         }
 
         private async void ButtonSetId_ClickAsync(object sender, EventArgs e)

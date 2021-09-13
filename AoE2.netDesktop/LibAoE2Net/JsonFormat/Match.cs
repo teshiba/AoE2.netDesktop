@@ -2,10 +2,8 @@
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 namespace LibAoE2net
 {
-    using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using System.Windows.Forms;
 
     /// <summary>
     /// Match properties.
@@ -134,7 +132,7 @@ namespace LibAoE2net
         public long? Finished { get; set; }
 
         [DataMember(Name = "players")]
-        public List<Player> Players { get; set; }
+        public List<Player> Players { get; set; } = new ();
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

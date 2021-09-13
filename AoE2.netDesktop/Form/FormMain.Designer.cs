@@ -32,7 +32,7 @@
             this.labelGameId = new System.Windows.Forms.Label();
             this.labelErrText = new System.Windows.Forms.Label();
             this.buttonUpdate = new System.Windows.Forms.Button();
-            this.panelTeam2 = new System.Windows.Forms.Panel();
+            this.panelTeam1 = new System.Windows.Forms.Panel();
             this.labelNameP7 = new System.Windows.Forms.Label();
             this.labelNameP3 = new System.Windows.Forms.Label();
             this.labelNameP5 = new System.Windows.Forms.Label();
@@ -54,7 +54,7 @@
             this.labelColorP5 = new System.Windows.Forms.Label();
             this.labelAveRate1 = new System.Windows.Forms.Label();
             this.labelColorP1 = new System.Windows.Forms.Label();
-            this.panelTeam1 = new System.Windows.Forms.Panel();
+            this.panelTeam2 = new System.Windows.Forms.Panel();
             this.labelNameP2 = new System.Windows.Forms.Label();
             this.labelNameP8 = new System.Windows.Forms.Label();
             this.labelNameP6 = new System.Windows.Forms.Label();
@@ -91,12 +91,12 @@
             this.checkBoxAlwaysOnTop = new System.Windows.Forms.CheckBox();
             this.tabControlMain.SuspendLayout();
             this.tabPagePlayerLastMatch.SuspendLayout();
-            this.panelTeam2.SuspendLayout();
+            this.panelTeam1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panelTeam1.SuspendLayout();
+            this.panelTeam2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -113,7 +113,7 @@
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(362, 521);
+            this.tabControlMain.Size = new System.Drawing.Size(664, 271);
             this.tabControlMain.TabIndex = 0;
             // 
             // tabPagePlayerLastMatch
@@ -122,14 +122,14 @@
             this.tabPagePlayerLastMatch.Controls.Add(this.labelGameId);
             this.tabPagePlayerLastMatch.Controls.Add(this.labelErrText);
             this.tabPagePlayerLastMatch.Controls.Add(this.buttonUpdate);
-            this.tabPagePlayerLastMatch.Controls.Add(this.panelTeam2);
             this.tabPagePlayerLastMatch.Controls.Add(this.panelTeam1);
+            this.tabPagePlayerLastMatch.Controls.Add(this.panelTeam2);
             this.tabPagePlayerLastMatch.Controls.Add(this.labelServer);
             this.tabPagePlayerLastMatch.Controls.Add(this.labelMap);
             this.tabPagePlayerLastMatch.Location = new System.Drawing.Point(4, 24);
             this.tabPagePlayerLastMatch.Name = "tabPagePlayerLastMatch";
             this.tabPagePlayerLastMatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(354, 493);
+            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(656, 243);
             this.tabPagePlayerLastMatch.TabIndex = 0;
             this.tabPagePlayerLastMatch.Text = "Player Last Match";
             this.tabPagePlayerLastMatch.UseVisualStyleBackColor = true;
@@ -138,7 +138,7 @@
             // 
             this.labelGameId.Location = new System.Drawing.Point(8, 31);
             this.labelGameId.Name = "labelGameId";
-            this.labelGameId.Size = new System.Drawing.Size(131, 19);
+            this.labelGameId.Size = new System.Drawing.Size(121, 19);
             this.labelGameId.TabIndex = 9;
             this.labelGameId.Text = "GameID: 88888888";
             this.labelGameId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -149,10 +149,11 @@
             this.labelErrText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelErrText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
-            this.labelErrText.Location = new System.Drawing.Point(8, 447);
+            this.labelErrText.Location = new System.Drawing.Point(1, 246);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(188, 46);
+            this.labelErrText.Size = new System.Drawing.Size(654, 0);
             this.labelErrText.TabIndex = 8;
             // 
             // buttonUpdate
@@ -160,46 +161,44 @@
             this.buttonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonUpdate.Enabled = false;
             this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonUpdate.Location = new System.Drawing.Point(282, 447);
+            this.buttonUpdate.Location = new System.Drawing.Point(571, 6);
             this.buttonUpdate.Name = "buttonUpdate";
-            this.buttonUpdate.Size = new System.Drawing.Size(66, 38);
+            this.buttonUpdate.Size = new System.Drawing.Size(82, 43);
             this.buttonUpdate.TabIndex = 7;
             this.buttonUpdate.Text = "Update";
             this.buttonUpdate.UseVisualStyleBackColor = true;
             this.buttonUpdate.Click += new System.EventHandler(this.ButtonUpdate_Click);
             // 
-            // panelTeam2
+            // panelTeam1
             // 
-            this.panelTeam2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelTeam2.BackColor = System.Drawing.Color.Azure;
-            this.panelTeam2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.panelTeam2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelTeam2.Controls.Add(this.labelNameP7);
-            this.panelTeam2.Controls.Add(this.labelNameP3);
-            this.panelTeam2.Controls.Add(this.labelNameP5);
-            this.panelTeam2.Controls.Add(this.labelNameP1);
-            this.panelTeam2.Controls.Add(this.labelRateP7);
-            this.panelTeam2.Controls.Add(this.labelRateP3);
-            this.panelTeam2.Controls.Add(this.labelRateP5);
-            this.panelTeam2.Controls.Add(this.labelRateP1);
-            this.panelTeam2.Controls.Add(this.labelCivP7);
-            this.panelTeam2.Controls.Add(this.labelCivP3);
-            this.panelTeam2.Controls.Add(this.labelCivP5);
-            this.panelTeam2.Controls.Add(this.labelCivP1);
-            this.panelTeam2.Controls.Add(this.pictureBox7);
-            this.panelTeam2.Controls.Add(this.pictureBox5);
-            this.panelTeam2.Controls.Add(this.pictureBox3);
-            this.panelTeam2.Controls.Add(this.pictureBox1);
-            this.panelTeam2.Controls.Add(this.labelColorP7);
-            this.panelTeam2.Controls.Add(this.labelColorP3);
-            this.panelTeam2.Controls.Add(this.labelColorP5);
-            this.panelTeam2.Controls.Add(this.labelAveRate1);
-            this.panelTeam2.Controls.Add(this.labelColorP1);
-            this.panelTeam2.Location = new System.Drawing.Point(8, 51);
-            this.panelTeam2.Name = "panelTeam2";
-            this.panelTeam2.Size = new System.Drawing.Size(340, 192);
-            this.panelTeam2.TabIndex = 6;
+            this.panelTeam1.BackColor = System.Drawing.Color.Azure;
+            this.panelTeam1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.panelTeam1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelTeam1.Controls.Add(this.labelNameP7);
+            this.panelTeam1.Controls.Add(this.labelNameP3);
+            this.panelTeam1.Controls.Add(this.labelNameP5);
+            this.panelTeam1.Controls.Add(this.labelNameP1);
+            this.panelTeam1.Controls.Add(this.labelRateP7);
+            this.panelTeam1.Controls.Add(this.labelRateP3);
+            this.panelTeam1.Controls.Add(this.labelRateP5);
+            this.panelTeam1.Controls.Add(this.labelRateP1);
+            this.panelTeam1.Controls.Add(this.labelCivP7);
+            this.panelTeam1.Controls.Add(this.labelCivP3);
+            this.panelTeam1.Controls.Add(this.labelCivP5);
+            this.panelTeam1.Controls.Add(this.labelCivP1);
+            this.panelTeam1.Controls.Add(this.pictureBox7);
+            this.panelTeam1.Controls.Add(this.pictureBox5);
+            this.panelTeam1.Controls.Add(this.pictureBox3);
+            this.panelTeam1.Controls.Add(this.pictureBox1);
+            this.panelTeam1.Controls.Add(this.labelColorP7);
+            this.panelTeam1.Controls.Add(this.labelColorP3);
+            this.panelTeam1.Controls.Add(this.labelColorP5);
+            this.panelTeam1.Controls.Add(this.labelAveRate1);
+            this.panelTeam1.Controls.Add(this.labelColorP1);
+            this.panelTeam1.Location = new System.Drawing.Point(3, 51);
+            this.panelTeam1.Name = "panelTeam1";
+            this.panelTeam1.Size = new System.Drawing.Size(344, 192);
+            this.panelTeam1.TabIndex = 6;
             // 
             // labelNameP7
             // 
@@ -207,9 +206,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP7.BackColor = System.Drawing.Color.Azure;
             this.labelNameP7.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelNameP7.Location = new System.Drawing.Point(123, 148);
+            this.labelNameP7.Location = new System.Drawing.Point(123, 147);
             this.labelNameP7.Name = "labelNameP7";
-            this.labelNameP7.Size = new System.Drawing.Size(214, 28);
+            this.labelNameP7.Size = new System.Drawing.Size(218, 28);
             this.labelNameP7.TabIndex = 3;
             this.labelNameP7.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP7.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP7_Paint);
@@ -220,9 +219,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP3.BackColor = System.Drawing.Color.Azure;
             this.labelNameP3.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelNameP3.Location = new System.Drawing.Point(123, 67);
+            this.labelNameP3.Location = new System.Drawing.Point(123, 66);
             this.labelNameP3.Name = "labelNameP3";
-            this.labelNameP3.Size = new System.Drawing.Size(214, 28);
+            this.labelNameP3.Size = new System.Drawing.Size(218, 28);
             this.labelNameP3.TabIndex = 3;
             this.labelNameP3.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP3.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP3_Paint);
@@ -233,9 +232,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP5.BackColor = System.Drawing.Color.Azure;
             this.labelNameP5.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelNameP5.Location = new System.Drawing.Point(123, 108);
+            this.labelNameP5.Location = new System.Drawing.Point(123, 107);
             this.labelNameP5.Name = "labelNameP5";
-            this.labelNameP5.Size = new System.Drawing.Size(214, 28);
+            this.labelNameP5.Size = new System.Drawing.Size(218, 28);
             this.labelNameP5.TabIndex = 3;
             this.labelNameP5.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP5.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP5_Paint);
@@ -246,9 +245,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP1.BackColor = System.Drawing.Color.Azure;
             this.labelNameP1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelNameP1.Location = new System.Drawing.Point(123, 28);
+            this.labelNameP1.Location = new System.Drawing.Point(123, 27);
             this.labelNameP1.Name = "labelNameP1";
-            this.labelNameP1.Size = new System.Drawing.Size(214, 28);
+            this.labelNameP1.Size = new System.Drawing.Size(218, 28);
             this.labelNameP1.TabIndex = 3;
             this.labelNameP1.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP1_Paint);
@@ -258,7 +257,7 @@
             this.labelRateP7.BackColor = System.Drawing.Color.Azure;
             this.labelRateP7.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP7.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelRateP7.Location = new System.Drawing.Point(73, 151);
+            this.labelRateP7.Location = new System.Drawing.Point(73, 150);
             this.labelRateP7.Name = "labelRateP7";
             this.labelRateP7.Size = new System.Drawing.Size(57, 22);
             this.labelRateP7.TabIndex = 3;
@@ -271,7 +270,7 @@
             this.labelRateP3.BackColor = System.Drawing.Color.Azure;
             this.labelRateP3.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP3.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelRateP3.Location = new System.Drawing.Point(73, 70);
+            this.labelRateP3.Location = new System.Drawing.Point(73, 69);
             this.labelRateP3.Name = "labelRateP3";
             this.labelRateP3.Size = new System.Drawing.Size(57, 22);
             this.labelRateP3.TabIndex = 3;
@@ -284,7 +283,7 @@
             this.labelRateP5.BackColor = System.Drawing.Color.Azure;
             this.labelRateP5.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP5.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelRateP5.Location = new System.Drawing.Point(73, 110);
+            this.labelRateP5.Location = new System.Drawing.Point(73, 109);
             this.labelRateP5.Name = "labelRateP5";
             this.labelRateP5.Size = new System.Drawing.Size(57, 22);
             this.labelRateP5.TabIndex = 3;
@@ -297,7 +296,7 @@
             this.labelRateP1.BackColor = System.Drawing.Color.Azure;
             this.labelRateP1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelRateP1.Location = new System.Drawing.Point(73, 29);
+            this.labelRateP1.Location = new System.Drawing.Point(73, 28);
             this.labelRateP1.Name = "labelRateP1";
             this.labelRateP1.Size = new System.Drawing.Size(57, 22);
             this.labelRateP1.TabIndex = 3;
@@ -310,7 +309,7 @@
             this.labelCivP7.BackColor = System.Drawing.Color.Azure;
             this.labelCivP7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP7.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP7.Location = new System.Drawing.Point(45, 171);
+            this.labelCivP7.Location = new System.Drawing.Point(45, 170);
             this.labelCivP7.Name = "labelCivP7";
             this.labelCivP7.Size = new System.Drawing.Size(75, 16);
             this.labelCivP7.TabIndex = 2;
@@ -324,7 +323,7 @@
             this.labelCivP3.BackColor = System.Drawing.Color.Azure;
             this.labelCivP3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP3.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP3.Location = new System.Drawing.Point(45, 91);
+            this.labelCivP3.Location = new System.Drawing.Point(45, 90);
             this.labelCivP3.Name = "labelCivP3";
             this.labelCivP3.Size = new System.Drawing.Size(75, 16);
             this.labelCivP3.TabIndex = 2;
@@ -338,7 +337,7 @@
             this.labelCivP5.BackColor = System.Drawing.Color.Azure;
             this.labelCivP5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP5.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP5.Location = new System.Drawing.Point(45, 131);
+            this.labelCivP5.Location = new System.Drawing.Point(45, 130);
             this.labelCivP5.Name = "labelCivP5";
             this.labelCivP5.Size = new System.Drawing.Size(75, 16);
             this.labelCivP5.TabIndex = 2;
@@ -352,7 +351,7 @@
             this.labelCivP1.BackColor = System.Drawing.Color.Azure;
             this.labelCivP1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP1.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP1.Location = new System.Drawing.Point(45, 51);
+            this.labelCivP1.Location = new System.Drawing.Point(45, 50);
             this.labelCivP1.Name = "labelCivP1";
             this.labelCivP1.Size = new System.Drawing.Size(75, 16);
             this.labelCivP1.TabIndex = 2;
@@ -363,7 +362,7 @@
             // 
             // pictureBox7
             // 
-            this.pictureBox7.Location = new System.Drawing.Point(43, 147);
+            this.pictureBox7.Location = new System.Drawing.Point(43, 146);
             this.pictureBox7.Name = "pictureBox7";
             this.pictureBox7.Size = new System.Drawing.Size(30, 32);
             this.pictureBox7.TabIndex = 6;
@@ -371,7 +370,7 @@
             // 
             // pictureBox5
             // 
-            this.pictureBox5.Location = new System.Drawing.Point(43, 107);
+            this.pictureBox5.Location = new System.Drawing.Point(43, 106);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(30, 32);
             this.pictureBox5.TabIndex = 7;
@@ -379,7 +378,7 @@
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(43, 67);
+            this.pictureBox3.Location = new System.Drawing.Point(43, 66);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(30, 32);
             this.pictureBox3.TabIndex = 8;
@@ -387,7 +386,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(43, 27);
+            this.pictureBox1.Location = new System.Drawing.Point(43, 26);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(30, 32);
             this.pictureBox1.TabIndex = 9;
@@ -400,7 +399,7 @@
             this.labelColorP7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelColorP7.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelColorP7.ForeColor = System.Drawing.Color.White;
-            this.labelColorP7.Location = new System.Drawing.Point(7, 145);
+            this.labelColorP7.Location = new System.Drawing.Point(7, 144);
             this.labelColorP7.Margin = new System.Windows.Forms.Padding(0);
             this.labelColorP7.Name = "labelColorP7";
             this.labelColorP7.Size = new System.Drawing.Size(32, 32);
@@ -416,7 +415,7 @@
             this.labelColorP3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelColorP3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelColorP3.ForeColor = System.Drawing.Color.White;
-            this.labelColorP3.Location = new System.Drawing.Point(7, 65);
+            this.labelColorP3.Location = new System.Drawing.Point(7, 64);
             this.labelColorP3.Margin = new System.Windows.Forms.Padding(0);
             this.labelColorP3.Name = "labelColorP3";
             this.labelColorP3.Size = new System.Drawing.Size(32, 32);
@@ -432,7 +431,7 @@
             this.labelColorP5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelColorP5.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelColorP5.ForeColor = System.Drawing.Color.White;
-            this.labelColorP5.Location = new System.Drawing.Point(7, 105);
+            this.labelColorP5.Location = new System.Drawing.Point(7, 104);
             this.labelColorP5.Margin = new System.Windows.Forms.Padding(0);
             this.labelColorP5.Name = "labelColorP5";
             this.labelColorP5.Size = new System.Drawing.Size(32, 32);
@@ -458,7 +457,7 @@
             this.labelColorP1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelColorP1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelColorP1.ForeColor = System.Drawing.Color.White;
-            this.labelColorP1.Location = new System.Drawing.Point(7, 25);
+            this.labelColorP1.Location = new System.Drawing.Point(7, 24);
             this.labelColorP1.Margin = new System.Windows.Forms.Padding(0);
             this.labelColorP1.Name = "labelColorP1";
             this.labelColorP1.Size = new System.Drawing.Size(32, 32);
@@ -467,37 +466,35 @@
             this.labelColorP1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelColorP1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelColor_Paint);
             // 
-            // panelTeam1
+            // panelTeam2
             // 
-            this.panelTeam1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelTeam1.BackColor = System.Drawing.Color.LavenderBlush;
-            this.panelTeam1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelTeam1.Controls.Add(this.labelNameP2);
-            this.panelTeam1.Controls.Add(this.labelNameP8);
-            this.panelTeam1.Controls.Add(this.labelNameP6);
-            this.panelTeam1.Controls.Add(this.labelNameP4);
-            this.panelTeam1.Controls.Add(this.labelCivP2);
-            this.panelTeam1.Controls.Add(this.labelCivP6);
-            this.panelTeam1.Controls.Add(this.labelCivP4);
-            this.panelTeam1.Controls.Add(this.labelCivP8);
-            this.panelTeam1.Controls.Add(this.labelRateP2);
-            this.panelTeam1.Controls.Add(this.labelRateP6);
-            this.panelTeam1.Controls.Add(this.labelRateP4);
-            this.panelTeam1.Controls.Add(this.labelRateP8);
-            this.panelTeam1.Controls.Add(this.pictureBox8);
-            this.panelTeam1.Controls.Add(this.pictureBox6);
-            this.panelTeam1.Controls.Add(this.pictureBox4);
-            this.panelTeam1.Controls.Add(this.pictureBox2);
-            this.panelTeam1.Controls.Add(this.labelAveRate2);
-            this.panelTeam1.Controls.Add(this.labelColorP8);
-            this.panelTeam1.Controls.Add(this.labelColorP4);
-            this.panelTeam1.Controls.Add(this.labelColorP6);
-            this.panelTeam1.Controls.Add(this.labelColorP2);
-            this.panelTeam1.Location = new System.Drawing.Point(8, 249);
-            this.panelTeam1.Name = "panelTeam1";
-            this.panelTeam1.Size = new System.Drawing.Size(340, 192);
-            this.panelTeam1.TabIndex = 5;
+            this.panelTeam2.BackColor = System.Drawing.Color.LavenderBlush;
+            this.panelTeam2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelTeam2.Controls.Add(this.labelNameP2);
+            this.panelTeam2.Controls.Add(this.labelNameP8);
+            this.panelTeam2.Controls.Add(this.labelNameP6);
+            this.panelTeam2.Controls.Add(this.labelNameP4);
+            this.panelTeam2.Controls.Add(this.labelCivP2);
+            this.panelTeam2.Controls.Add(this.labelCivP6);
+            this.panelTeam2.Controls.Add(this.labelCivP4);
+            this.panelTeam2.Controls.Add(this.labelCivP8);
+            this.panelTeam2.Controls.Add(this.labelRateP2);
+            this.panelTeam2.Controls.Add(this.labelRateP6);
+            this.panelTeam2.Controls.Add(this.labelRateP4);
+            this.panelTeam2.Controls.Add(this.labelRateP8);
+            this.panelTeam2.Controls.Add(this.pictureBox8);
+            this.panelTeam2.Controls.Add(this.pictureBox6);
+            this.panelTeam2.Controls.Add(this.pictureBox4);
+            this.panelTeam2.Controls.Add(this.pictureBox2);
+            this.panelTeam2.Controls.Add(this.labelAveRate2);
+            this.panelTeam2.Controls.Add(this.labelColorP8);
+            this.panelTeam2.Controls.Add(this.labelColorP4);
+            this.panelTeam2.Controls.Add(this.labelColorP6);
+            this.panelTeam2.Controls.Add(this.labelColorP2);
+            this.panelTeam2.Location = new System.Drawing.Point(354, 51);
+            this.panelTeam2.Name = "panelTeam2";
+            this.panelTeam2.Size = new System.Drawing.Size(299, 192);
+            this.panelTeam2.TabIndex = 5;
             // 
             // labelNameP2
             // 
@@ -507,7 +504,7 @@
             this.labelNameP2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP2.Location = new System.Drawing.Point(123, 29);
             this.labelNameP2.Name = "labelNameP2";
-            this.labelNameP2.Size = new System.Drawing.Size(214, 28);
+            this.labelNameP2.Size = new System.Drawing.Size(173, 28);
             this.labelNameP2.TabIndex = 3;
             this.labelNameP2.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP2_Paint);
@@ -520,7 +517,7 @@
             this.labelNameP8.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP8.Location = new System.Drawing.Point(123, 149);
             this.labelNameP8.Name = "labelNameP8";
-            this.labelNameP8.Size = new System.Drawing.Size(214, 28);
+            this.labelNameP8.Size = new System.Drawing.Size(173, 28);
             this.labelNameP8.TabIndex = 3;
             this.labelNameP8.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP8.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP8_Paint);
@@ -533,7 +530,7 @@
             this.labelNameP6.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP6.Location = new System.Drawing.Point(123, 110);
             this.labelNameP6.Name = "labelNameP6";
-            this.labelNameP6.Size = new System.Drawing.Size(214, 28);
+            this.labelNameP6.Size = new System.Drawing.Size(173, 28);
             this.labelNameP6.TabIndex = 3;
             this.labelNameP6.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP6.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP6_Paint);
@@ -546,7 +543,7 @@
             this.labelNameP4.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP4.Location = new System.Drawing.Point(123, 70);
             this.labelNameP4.Name = "labelNameP4";
-            this.labelNameP4.Size = new System.Drawing.Size(214, 28);
+            this.labelNameP4.Size = new System.Drawing.Size(173, 28);
             this.labelNameP4.TabIndex = 3;
             this.labelNameP4.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP4.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP4_Paint);
@@ -773,9 +770,9 @@
             // 
             this.labelServer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelServer.Location = new System.Drawing.Point(145, 31);
+            this.labelServer.Location = new System.Drawing.Point(141, 31);
             this.labelServer.Name = "labelServer";
-            this.labelServer.Size = new System.Drawing.Size(0, 19);
+            this.labelServer.Size = new System.Drawing.Size(509, 19);
             this.labelServer.TabIndex = 2;
             this.labelServer.Text = "Server: ----------";
             this.labelServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -783,12 +780,10 @@
             // 
             // labelMap
             // 
-            this.labelMap.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelMap.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelMap.Location = new System.Drawing.Point(3, 3);
+            this.labelMap.Location = new System.Drawing.Point(8, 3);
             this.labelMap.Name = "labelMap";
-            this.labelMap.Size = new System.Drawing.Size(108, 30);
+            this.labelMap.Size = new System.Drawing.Size(556, 30);
             this.labelMap.TabIndex = 2;
             this.labelMap.Text = "Map : ----------";
             this.labelMap.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
@@ -801,7 +796,7 @@
             this.tabPageSettings.Location = new System.Drawing.Point(4, 24);
             this.tabPageSettings.Name = "tabPageSettings";
             this.tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSettings.Size = new System.Drawing.Size(354, 493);
+            this.tabPageSettings.Size = new System.Drawing.Size(656, 243);
             this.tabPageSettings.TabIndex = 1;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
@@ -821,7 +816,7 @@
             this.groupBoxPlayer.Controls.Add(this.labelSettingsName);
             this.groupBoxPlayer.Location = new System.Drawing.Point(9, 32);
             this.groupBoxPlayer.Name = "groupBoxPlayer";
-            this.groupBoxPlayer.Size = new System.Drawing.Size(337, 453);
+            this.groupBoxPlayer.Size = new System.Drawing.Size(644, 201);
             this.groupBoxPlayer.TabIndex = 6;
             this.groupBoxPlayer.TabStop = false;
             this.groupBoxPlayer.Text = "Player";
@@ -829,9 +824,9 @@
             // buttonSetId
             // 
             this.buttonSetId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSetId.Location = new System.Drawing.Point(256, 20);
+            this.buttonSetId.Location = new System.Drawing.Point(563, 20);
             this.buttonSetId.Name = "buttonSetId";
-            this.buttonSetId.Size = new System.Drawing.Size(76, 48);
+            this.buttonSetId.Size = new System.Drawing.Size(78, 48);
             this.buttonSetId.TabIndex = 7;
             this.buttonSetId.Text = "Set ID";
             this.buttonSetId.UseVisualStyleBackColor = true;
@@ -840,7 +835,7 @@
             // buttonViewHistory
             // 
             this.buttonViewHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonViewHistory.Location = new System.Drawing.Point(216, 135);
+            this.buttonViewHistory.Location = new System.Drawing.Point(526, 135);
             this.buttonViewHistory.Name = "buttonViewHistory";
             this.buttonViewHistory.Size = new System.Drawing.Size(115, 35);
             this.buttonViewHistory.TabIndex = 6;
@@ -879,7 +874,7 @@
             this.textBoxSettingSteamId.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.textBoxSettingSteamId.Location = new System.Drawing.Point(87, 20);
             this.textBoxSettingSteamId.Name = "textBoxSettingSteamId";
-            this.textBoxSettingSteamId.Size = new System.Drawing.Size(163, 23);
+            this.textBoxSettingSteamId.Size = new System.Drawing.Size(470, 23);
             this.textBoxSettingSteamId.TabIndex = 1;
             // 
             // textBoxSettingProfileId
@@ -890,7 +885,7 @@
             this.textBoxSettingProfileId.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.textBoxSettingProfileId.Location = new System.Drawing.Point(87, 45);
             this.textBoxSettingProfileId.Name = "textBoxSettingProfileId";
-            this.textBoxSettingProfileId.Size = new System.Drawing.Size(163, 23);
+            this.textBoxSettingProfileId.Size = new System.Drawing.Size(470, 23);
             this.textBoxSettingProfileId.TabIndex = 1;
             // 
             // labelSettingsCountry
@@ -899,7 +894,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelSettingsCountry.Location = new System.Drawing.Point(8, 109);
             this.labelSettingsCountry.Name = "labelSettingsCountry";
-            this.labelSettingsCountry.Size = new System.Drawing.Size(323, 23);
+            this.labelSettingsCountry.Size = new System.Drawing.Size(630, 23);
             this.labelSettingsCountry.TabIndex = 3;
             this.labelSettingsCountry.Text = "Country: -----";
             // 
@@ -909,7 +904,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelSettingsName.Location = new System.Drawing.Point(8, 86);
             this.labelSettingsName.Name = "labelSettingsName";
-            this.labelSettingsName.Size = new System.Drawing.Size(323, 23);
+            this.labelSettingsName.Size = new System.Drawing.Size(630, 23);
             this.labelSettingsName.TabIndex = 3;
             this.labelSettingsName.Text = "    Name: -----";
             // 
@@ -929,21 +924,23 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(362, 521);
+            this.ClientSize = new System.Drawing.Size(664, 271);
             this.Controls.Add(this.tabControlMain);
-            this.MinimumSize = new System.Drawing.Size(300, 560);
+            this.MinimumSize = new System.Drawing.Size(290, 310);
             this.Name = "FormMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "AoE2.net Desktop";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
+            this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.tabControlMain.ResumeLayout(false);
             this.tabPagePlayerLastMatch.ResumeLayout(false);
-            this.panelTeam2.ResumeLayout(false);
+            this.panelTeam1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panelTeam1.ResumeLayout(false);
+            this.panelTeam2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
@@ -996,8 +993,8 @@
         private System.Windows.Forms.Label labelCivP2;
         private System.Windows.Forms.Label labelServer;
         private System.Windows.Forms.Label labelMap;
-        private System.Windows.Forms.Panel panelTeam2;
         private System.Windows.Forms.Panel panelTeam1;
+        private System.Windows.Forms.Panel panelTeam2;
         private System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.TabPage tabPageSettings;
         private System.Windows.Forms.TextBox textBoxSettingSteamId;
