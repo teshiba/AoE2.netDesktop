@@ -32,8 +32,8 @@ namespace AoE2NetDesktop.From.Tests
             var testClass = new CtrlMain();
 
             // Assert
-            Assert.AreEqual("-- Invalid Steam ID --", testClass.UserCountry);
-            Assert.AreEqual("-- Invalid Steam ID --", testClass.UserName);
+            Assert.AreEqual("-- Invalid ID --", testClass.UserCountry);
+            Assert.AreEqual("-- Invalid ID --", testClass.UserName);
         }
 
         [TestMethod()]
@@ -264,7 +264,7 @@ namespace AoE2NetDesktop.From.Tests
         {
             // Arrange
             AoE2net.ComClient = new TestHttpClient();
-            var notExpVal = "-- Invalid Steam ID --";
+            var notExpVal = "-- Invalid ID --";
 
             // Act
             var testClass = new CtrlMain();
@@ -279,11 +279,37 @@ namespace AoE2NetDesktop.From.Tests
         }
 
         [TestMethod()]
+        public void GetPlayerDataAsyncTestException()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+            var expVal = "-- Invalid ID --";
+
+            // Act
+            var testClass = new CtrlMain();
+            try {
+                var actVal = Task.Run(
+                    () => {
+                        // The following code can read the player data.
+                        _ = testClass.ReadPlayerDataAsync(IdType.Profile, TestData.AvailableUserProfileIdString);
+                        // The following code cannot read the player data, so write null to playerLastmatch..
+                        return testClass.ReadPlayerDataAsync(IdType.Profile, "-1");
+                    }
+                    ).Result;
+            } catch (Exception) {
+            }
+
+            // Assert
+            Assert.AreEqual(expVal, testClass.UserCountry);
+            Assert.AreEqual(expVal, testClass.UserName);
+        }
+
+        [TestMethod()]
         public void GetPlayerDataAsyncTestAvailableUserProfileIdWithoutSteamIdString()
         {
             // Arrange
             AoE2net.ComClient = new TestHttpClient();
-            var notExpVal = "-- Invalid Steam ID --";
+            var notExpVal = "-- Invalid ID --";
 
             // Act
             var testClass = new CtrlMain();
@@ -304,7 +330,7 @@ namespace AoE2NetDesktop.From.Tests
         {
             // Arrange
             AoE2net.ComClient = new TestHttpClient();
-            var expVal = "-- Invalid Steam ID --";
+            var expVal = "-- Invalid ID --";
 
             // Act
             var testClass = new CtrlMain();
