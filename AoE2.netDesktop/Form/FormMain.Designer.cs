@@ -79,6 +79,7 @@
             this.labelServer = new System.Windows.Forms.Label();
             this.labelMap = new System.Windows.Forms.Label();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
+            this.checkBoxHideTitle = new System.Windows.Forms.CheckBox();
             this.groupBoxPlayer = new System.Windows.Forms.GroupBox();
             this.buttonSetId = new System.Windows.Forms.Button();
             this.buttonViewHistory = new System.Windows.Forms.Button();
@@ -113,11 +114,12 @@
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(664, 271);
+            this.tabControlMain.Size = new System.Drawing.Size(664, 275);
             this.tabControlMain.TabIndex = 0;
             // 
             // tabPagePlayerLastMatch
             // 
+            this.tabPagePlayerLastMatch.BackColor = System.Drawing.Color.Transparent;
             this.tabPagePlayerLastMatch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.tabPagePlayerLastMatch.Controls.Add(this.labelGameId);
             this.tabPagePlayerLastMatch.Controls.Add(this.labelErrText);
@@ -129,10 +131,9 @@
             this.tabPagePlayerLastMatch.Location = new System.Drawing.Point(4, 24);
             this.tabPagePlayerLastMatch.Name = "tabPagePlayerLastMatch";
             this.tabPagePlayerLastMatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(656, 243);
+            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(656, 247);
             this.tabPagePlayerLastMatch.TabIndex = 0;
             this.tabPagePlayerLastMatch.Text = "Player Last Match";
-            this.tabPagePlayerLastMatch.UseVisualStyleBackColor = true;
             // 
             // labelGameId
             // 
@@ -153,7 +154,7 @@
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
             this.labelErrText.Location = new System.Drawing.Point(1, 246);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(654, 0);
+            this.labelErrText.Size = new System.Drawing.Size(654, 4);
             this.labelErrText.TabIndex = 8;
             // 
             // buttonUpdate
@@ -791,15 +792,27 @@
             // tabPageSettings
             // 
             this.tabPageSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tabPageSettings.Controls.Add(this.checkBoxHideTitle);
             this.tabPageSettings.Controls.Add(this.groupBoxPlayer);
             this.tabPageSettings.Controls.Add(this.checkBoxAlwaysOnTop);
             this.tabPageSettings.Location = new System.Drawing.Point(4, 24);
             this.tabPageSettings.Name = "tabPageSettings";
             this.tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSettings.Size = new System.Drawing.Size(656, 243);
+            this.tabPageSettings.Size = new System.Drawing.Size(656, 247);
             this.tabPageSettings.TabIndex = 1;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxHideTitle
+            // 
+            this.checkBoxHideTitle.AutoSize = true;
+            this.checkBoxHideTitle.Location = new System.Drawing.Point(113, 8);
+            this.checkBoxHideTitle.Name = "checkBoxHideTitle";
+            this.checkBoxHideTitle.Size = new System.Drawing.Size(74, 19);
+            this.checkBoxHideTitle.TabIndex = 7;
+            this.checkBoxHideTitle.Text = "Hide title";
+            this.checkBoxHideTitle.UseVisualStyleBackColor = true;
+            this.checkBoxHideTitle.CheckedChanged += new System.EventHandler(this.CheckBoxHideTitle_CheckedChanged);
             // 
             // groupBoxPlayer
             // 
@@ -924,7 +937,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(664, 271);
+            this.ClientSize = new System.Drawing.Size(664, 275);
             this.Controls.Add(this.tabControlMain);
             this.MinimumSize = new System.Drawing.Size(290, 310);
             this.Name = "FormMain";
@@ -1017,5 +1030,6 @@
         private System.Windows.Forms.TextBox textBoxSettingProfileId;
         private System.Windows.Forms.Button buttonViewHistory;
         private System.Windows.Forms.Button buttonSetId;
+        private System.Windows.Forms.CheckBox checkBoxHideTitle;
     }
 }

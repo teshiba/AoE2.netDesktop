@@ -21,6 +21,8 @@
         private readonly List<Label> labelName = new ();
         private readonly List<PictureBox> pictureBox = new ();
         private readonly Language language;
+        private int windowTitleTop;
+        private int windowTitleLeft;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormMain"/> class.
@@ -452,6 +454,30 @@
 
             await VerifyId(idtype, idText);
             Awaiter.Complete();
+        }
+
+        private void CheckBoxHideTitle_CheckedChanged(object sender, EventArgs e)
+        {
+            var top = RectangleToScreen(ClientRectangle).Top;
+            var left = RectangleToScreen(ClientRectangle).Left;
+
+            SuspendLayout();
+
+            if (checkBoxHideTitle.Checked) {
+                windowTitleTop = Top;
+                windowTitleLeft = Left;
+                MinimumSize = new Size(290, 275);
+                FormBorderStyle = FormBorderStyle.None;
+                Top = top;
+                Left = left;
+            } else {
+                FormBorderStyle = FormBorderStyle.Sizable;
+                MinimumSize = new Size(290, 310);
+                Top = windowTitleTop;
+                Left = windowTitleLeft;
+            }
+
+            ResumeLayout();
         }
     }
 }

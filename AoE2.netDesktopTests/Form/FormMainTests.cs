@@ -10,7 +10,6 @@ namespace AoE2NetDesktop.From.Tests
     {
         [TestMethod()]
         [TestCategory("GUI")]
-        [Ignore]
         public void FormMainTestGUI()
         {
             AoE2net.ComClient = new TestHttpClient();
