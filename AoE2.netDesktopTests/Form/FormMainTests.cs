@@ -10,6 +10,7 @@ namespace AoE2NetDesktop.From.Tests
     {
         [TestMethod()]
         [TestCategory("GUI")]
+        [Ignore]
         public void FormMainTestGUI()
         {
             AoE2net.ComClient = new TestHttpClient();
@@ -325,7 +326,35 @@ namespace AoE2NetDesktop.From.Tests
             };
 
             testClass.ShowDialog();
+        }
 
+        [TestMethod()]
+        public void FormMainTestCheckBoxHideTitle_CheckedChanged()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+            var testClass = new FormMain(Language.en);
+            var checkBoxHideTitle = testClass.GetControl<CheckBox>("checkBoxHideTitle");
+            var tabControlMain = testClass.GetControl<TabControl>("tabControlMain");
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SteamId", TestData.AvailableUserSteamId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
+                tabControlMain.SelectedIndex = 1;
+                checkBoxHideTitle.Checked = true;
+                checkBoxHideTitle.Checked = false;
+
+                // Assert
+
+                // CleanUp
+                testClass.Close();
+            };
+
+            testClass.ShowDialog();
         }
     }
 }

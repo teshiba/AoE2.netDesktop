@@ -1,0 +1,29 @@
+﻿{
+  "total": 99999,
+  "leaderboard_id": 0,
+  "start": 1,
+  "count": 1,
+  "leaderboard": [
+      {
+          "profile_id": 1,
+          "rank": 1,
+          "rating": 8888,
+          "steam_id": "00000000000000001",
+          "icon": null,
+          "name": "player1",
+          "clan": null,
+          "country": "JP",
+          "previous_rating": 7777,
+          "highest_rating": 9999,
+          "streak": 4,
+          "lowest_streak": -8,
+          "highest_streak": 6,
+          "games": 1000,
+          "wins": 500,
+          "losses": 500,
+          "drops": 0,
+          "last_match": 1630849867,
+          "last_match_time": 1630849867
+      }
+  ]
+}

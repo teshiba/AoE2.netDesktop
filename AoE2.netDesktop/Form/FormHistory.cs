@@ -1,6 +1,7 @@
 ﻿namespace AoE2NetDesktop.Form
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Drawing;
@@ -16,6 +17,7 @@
     {
         private PlotHighlight plotHighlightTeam;
         private PlotHighlight plotHighlight1v1;
+        private Dictionary<LeaderBoardId, List<ListViewItem>> listViewitems;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormHistory"/> class.
@@ -36,61 +38,69 @@
             formsPlotRateTeam.Plot.XLabel("Date");
             formsPlotRateTeam.Render();
 
-            formsPlotWinRate1v1Map.Configuration.LockHorizontalAxis = true;
-            formsPlotWinRate1v1Map.Configuration.LockVerticalAxis = true;
-            formsPlotWinRate1v1Map.Plot.Title("1v1 Random Map Count");
-            formsPlotWinRate1v1Map.Plot.YLabel("Map");
-            formsPlotWinRate1v1Map.Plot.XLabel("Win / Total Game count");
-            formsPlotWinRate1v1Map.Render();
-
-            formsPlotWinRateTeamMap.Configuration.LockHorizontalAxis = true;
-            formsPlotWinRateTeamMap.Configuration.LockVerticalAxis = true;
-            formsPlotWinRateTeamMap.Plot.Title("Team Random Map Count");
-            formsPlotWinRateTeamMap.Plot.YLabel("Map");
-            formsPlotWinRateTeamMap.Plot.XLabel("Win / Total Game count");
-            formsPlotWinRateTeamMap.Render();
-
-            formsPlotCiv1v1.Configuration.LockHorizontalAxis = true;
-            formsPlotCiv1v1.Configuration.LockVerticalAxis = true;
-            formsPlotCiv1v1.Plot.Title("1v1 Random Map");
-            formsPlotCiv1v1.Plot.YLabel("Civilization Name");
-            formsPlotCiv1v1.Plot.XLabel("Win / Total Game Count");
-            formsPlotCiv1v1.Render();
-
-            formsPlotCivTeam.Configuration.LockHorizontalAxis = true;
-            formsPlotCivTeam.Configuration.LockVerticalAxis = true;
-            formsPlotCivTeam.Plot.Title("Team Random Map");
-            formsPlotCivTeam.Plot.YLabel("Civilization Name");
-            formsPlotCivTeam.Plot.XLabel("Win / Total Game Count");
-            formsPlotCivTeam.Render();
-
             formsPlotCountry.Configuration.LockHorizontalAxis = true;
             formsPlotCountry.Configuration.LockVerticalAxis = true;
             formsPlotCountry.Plot.Title("Player's country");
             formsPlotCountry.Plot.YLabel("Country");
             formsPlotCountry.Plot.XLabel("Game count");
             formsPlotCountry.Render();
+
+            formsPlotWinRate.Configuration.LockHorizontalAxis = true;
+            formsPlotWinRate.Configuration.LockVerticalAxis = true;
+            formsPlotWinRate.Plot.Title("Game and win count");
+            formsPlotWinRate.Plot.Layout(top: 40); // for Data source comboBox
+            formsPlotWinRate.Plot.YLabel("---");
+            formsPlotWinRate.Plot.XLabel("Win / Total Game count");
+            formsPlotWinRate.Render();
+
+            comboBoxLeaderboard.Enabled = false;
+            comboBoxDataSource.Enabled = false;
+            comboBoxLeaderboard.Items.AddRange(CtrlHistory.GetLeaderboardStrings());
+            comboBoxDataSource.Items.AddRange(CtrlHistory.GetDataSourceStrings());
         }
 
+        /// <summary>
+        /// Gets count of LeaderboardId.
+        /// </summary>
+        /// <remarks>exclude <see cref="LeaderBoardId.Undefined"/>.</remarks>
+        public static int LeaderboardIdCount => Enum.GetNames(typeof(LeaderBoardId)).Length - 1;
+
+        /// <summary>
+        /// Gets selected data source of graph.
+        /// </summary>
+        public LeaderBoardId SelectedLeaderboard => CtrlHistory.GetLeaderboardId(comboBoxLeaderboard.Text);
+
+        /// <summary>
+        /// Gets selected data source of graph.
+        /// </summary>
+        public DataSource SelectedDataSource => CtrlHistory.GetDataSource(comboBoxDataSource.Text);
+
         /// <inheritdoc/>
-        protected override CtrlHistory Controler { get => (CtrlHistory)base.Controler; }
+        protected override CtrlHistory Controler => (CtrlHistory)base.Controler;
 
         private async Task UpdateListViewStatistics()
         {
             var leaderboards = await Controler.ReadLeaderBoardAsync();
-            if (leaderboards.Count == 4) {
+            if (leaderboards.Count == LeaderboardIdCount) {
+                listViewMatchedPlayers.BeginUpdate();
                 listViewStatistics.Items.Clear();
                 listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("1v1 RM", leaderboards[LeaderBoardId.OneVOneRandomMap]));
                 listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("Team RM", leaderboards[LeaderBoardId.TeamRandomMap]));
                 listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("1v1 DM", leaderboards[LeaderBoardId.OneVOneDeathmatch]));
                 listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("Team DM", leaderboards[LeaderBoardId.TeamDeathmatch]));
+                listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("1v1 EW", leaderboards[LeaderBoardId.OneVOneEmpireWars]));
+                listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("Team EW", leaderboards[LeaderBoardId.TeamEmpireWars]));
+                listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("Unranked", leaderboards[LeaderBoardId.Unranked]));
+                listViewMatchedPlayers.EndUpdate();
             } else {
                 Debug.Print("UpdateListViewStatistics ERROR.");
             }
         }
 
-        private void UpdateListViewMatchedPlayers()
+        private void UpdateListViewPlayers()
         {
+            listViewMatchedPlayers.BeginUpdate();
+            listViewMatchedPlayers.Items.Clear();
             foreach (var player in Controler.MatchedPlayerInfos) {
                 var listviewItem = new ListViewItem(player.Key);
                 listviewItem.SubItems.Add(player.Value.Country);
@@ -103,23 +113,20 @@
                 listviewItem.SubItems.Add(player.Value.LastDate.ToString());
                 listViewMatchedPlayers.Items.Add(listviewItem);
             }
-        }
 
-        private void UpdateListViewHistory()
-        {
-            var listViewitems = Controler.CreateListViewHistory();
-            listViewHistory1v1.Items.AddRange(listViewitems[LeaderBoardId.OneVOneRandomMap]);
-            listViewHistoryTeam.Items.AddRange(listViewitems[LeaderBoardId.TeamRandomMap]);
+            listViewMatchedPlayers.EndUpdate();
         }
 
         private void UpdateGraphs()
         {
+            Controler.DataPloter.PlotPlayedPlayerCountry(formsPlotCountry.Plot);
+            UpdateWinRateGraph();
+            UpdatePlayerRate();
+        }
+
+        private void UpdatePlayerRate()
+        {
             var dataPloter = Controler.DataPloter;
-            dataPloter.PlotWinRateMap(LeaderBoardId.OneVOneRandomMap, formsPlotWinRate1v1Map.Plot);
-            dataPloter.PlotWinRateMap(LeaderBoardId.TeamRandomMap, formsPlotWinRateTeamMap.Plot);
-            dataPloter.PlotWinRateCivilization(LeaderBoardId.OneVOneRandomMap, formsPlotCiv1v1.Plot);
-            dataPloter.PlotWinRateCivilization(LeaderBoardId.TeamRandomMap, formsPlotCivTeam.Plot);
-            dataPloter.PlotPlayedPlayerCountry(formsPlotCountry.Plot);
 
             var plotTeam = dataPloter.PlotRate(LeaderBoardId.TeamRandomMap, formsPlotRateTeam.Plot);
             if (plotTeam != null) {
@@ -134,19 +141,47 @@
             }
         }
 
+        private void UpdateListViewMatchHistory()
+        {
+            listViewMatchedPlayers.BeginUpdate();
+            listViewMatchHistory.Items.Clear();
+            if (SelectedLeaderboard != LeaderBoardId.Undefined) {
+                listViewMatchHistory.Items.AddRange(listViewitems[SelectedLeaderboard].ToArray());
+            }
+
+            listViewMatchedPlayers.EndUpdate();
+        }
+
+        private void UpdateWinRateGraph()
+        {
+            formsPlotWinRate.Plot.YLabel(comboBoxDataSource.Text);
+            Controler.DataPloter.PlotWinRate(SelectedLeaderboard, SelectedDataSource, formsPlotWinRate.Plot);
+            formsPlotWinRate.Render();
+        }
+
+        private void OpenSelectedPlayerFrofile()
+        {
+            var selectedItems = listViewMatchedPlayers.SelectedItems;
+
+            if (selectedItems.Count != 0) {
+                Controler.OpenProfile(selectedItems[0].Text);
+            }
+        }
+
         ///////////////////////////////////////////////////////////////////////
         // event handlers
         ///////////////////////////////////////////////////////////////////////
         private async void FormHistory_ShownAsync(object sender, EventArgs e)
         {
             if (await Controler.ReadPlayerMatchHistoryAsync()) {
-                UpdateListViewHistory();
-                UpdateListViewMatchedPlayers();
+                listViewitems = Controler.CreateListViewHistory();
+                comboBoxLeaderboard.SelectedIndex = 0;
+                comboBoxDataSource.SelectedIndex = 0;
+                comboBoxLeaderboard.Enabled = true;
+                comboBoxDataSource.Enabled = true;
+                UpdateListViewPlayers();
                 UpdateGraphs();
-                formsPlotWinRate1v1Map.Render();
-                formsPlotWinRateTeamMap.Render();
-                formsPlotCiv1v1.Render();
-                formsPlotCivTeam.Render();
+                formsPlotWinRate.Render();
                 formsPlotCountry.Render();
                 formsPlotRateTeam.Render();
                 formsPlotRate1v1.Render();
@@ -171,11 +206,18 @@
 
         private void OpenAoE2NetProfileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var selectedItems = listViewMatchedPlayers.SelectedItems;
+            OpenSelectedPlayerFrofile();
+        }
 
-            if (selectedItems.Count != 0) {
-                Controler.OpenProfile(selectedItems[0].Text);
-            }
+        private void ComboBoxLeaderboard_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateListViewMatchHistory();
+            UpdateWinRateGraph();
+        }
+
+        private void ComboBoxDataSource_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateWinRateGraph();
         }
 
         private void ContextMenuStripMatchedPlayers_Opening(object sender, CancelEventArgs e)

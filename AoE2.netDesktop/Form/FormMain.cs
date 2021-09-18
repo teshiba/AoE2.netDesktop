@@ -267,8 +267,8 @@
             panelTeam2.Width = panelTeam1.Width;
             panelTeam1.Left = 5;
             panelTeam2.Left = 5 + panelTeam1.Width + 5;
-            panelTeam2.Top = 50;
-            panelTeam1.Top = 50;
+            panelTeam2.Top = 35;
+            panelTeam1.Top = 35;
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -466,13 +466,13 @@
             if (checkBoxHideTitle.Checked) {
                 windowTitleTop = Top;
                 windowTitleLeft = Left;
-                MinimumSize = new Size(290, 275);
+                MinimumSize = new Size(290, 230);
                 FormBorderStyle = FormBorderStyle.None;
                 Top = top;
                 Left = left;
             } else {
                 FormBorderStyle = FormBorderStyle.Sizable;
-                MinimumSize = new Size(290, 310);
+                MinimumSize = new Size(290, 295);
                 Top = windowTitleTop;
                 Left = windowTitleLeft;
             }

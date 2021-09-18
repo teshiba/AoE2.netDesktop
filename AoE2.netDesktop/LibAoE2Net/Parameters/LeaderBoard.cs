@@ -6,6 +6,11 @@
     public enum LeaderBoardId
     {
         /// <summary>
+        /// Undefined
+        /// </summary>
+        Undefined = -1,
+
+        /// <summary>
         /// Unranked
         /// </summary>
         Unranked = 0,
@@ -29,5 +34,15 @@
         /// Team Random Map
         /// </summary>
         TeamRandomMap = 4,
+
+        /// <summary>
+        /// 1v1 Empire wars.
+        /// </summary>
+        OneVOneEmpireWars = 13,
+
+        /// <summary>
+        /// Team Empire wars.
+        /// </summary>
+        TeamEmpireWars = 14,
     }
 }

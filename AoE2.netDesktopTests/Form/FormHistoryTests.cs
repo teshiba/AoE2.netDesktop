@@ -41,7 +41,7 @@ namespace AoE2NetDesktop.Form.Tests
             testClass.Shown += async (sender, e) =>
             {
                 await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-                tabControlMain.SelectedIndex = 2;
+                tabControlMain.SelectedIndex = 1;
                 listViewMatchedPlayers.Items[0].Selected = true;
                 toolStripMenuItem.PerformClick();
                 testClass.Close();
@@ -64,7 +64,7 @@ namespace AoE2NetDesktop.Form.Tests
             testClass.Shown += async (sender, e) =>
             {
                 await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-                tabControlMain.SelectedIndex = 2;
+                tabControlMain.SelectedIndex = 1;
                 listViewMatchedPlayers.Items[0].Selected = true;
                 contextMenuStripMatchedPlayers.Show(listViewMatchedPlayers, listViewMatchedPlayers.Items[0].Position);
                 testClass.Close();
@@ -87,7 +87,7 @@ namespace AoE2NetDesktop.Form.Tests
             testClass.Shown += async (sender, e) =>
             {
                 await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-                tabControlMain.SelectedIndex = 2;
+                tabControlMain.SelectedIndex = 1;
                 listViewMatchedPlayers.Items[0].Selected = true;
                 contextMenuStripMatchedPlayers.Show(listViewMatchedPlayers, listViewMatchedPlayers.Location);
                 testClass.Close();

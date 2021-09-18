@@ -54,7 +54,7 @@
                 highlightPlot.Xs[0] = pointX;
                 highlightPlot.Ys[0] = pointY;
                 highlightPlot.Label = $"Rate:{pointY}";
-                tooltip.Label = $"Rate:{pointY}";
+                tooltip.Label = $"Rate:{pointY} {DateTime.FromOADate(pointX)}";
                 tooltip.X = pointX;
                 tooltip.Y = pointY;
 

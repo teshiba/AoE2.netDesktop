@@ -95,7 +95,7 @@ namespace AoE2NetDesktop.Form.Tests
         }
 
         [TestMethod()]
-        public void PlotWinRateCivilizationTest()
+        public void PlotWinRateTestCivilization()
         {
             // Arrange
             AoE2net.ComClient = new TestHttpClient();
@@ -119,7 +119,7 @@ namespace AoE2NetDesktop.Form.Tests
             var plot = new Plot();
 
             // Act
-            testClass.PlotWinRateCivilization(leaderBoardId, plot);
+            testClass.PlotWinRate(leaderBoardId, DataSource.Civilization, plot);
 
             // Assert
         }
@@ -138,7 +138,7 @@ namespace AoE2NetDesktop.Form.Tests
             // Act
             Assert.ThrowsException<ArgumentNullException>(() =>
             {
-                testClass.PlotWinRateCivilization(leaderBoardId, null);
+                testClass.PlotWinRate(leaderBoardId, DataSource.Civilization, null);
             });
 
             // Assert
@@ -154,7 +154,7 @@ namespace AoE2NetDesktop.Form.Tests
             var plot = new Plot();
 
             // Act
-            testClass.PlotWinRateMap(LeaderBoardId.OneVOneRandomMap, plot);
+            testClass.PlotWinRate(LeaderBoardId.OneVOneRandomMap, DataSource.Map, plot);
 
             // Assert
         }
@@ -169,7 +169,7 @@ namespace AoE2NetDesktop.Form.Tests
             // Assert
             Assert.ThrowsException<ArgumentNullException>(() =>
             {
-                testClass.PlotWinRateMap(LeaderBoardId.OneVOneRandomMap, null);
+                testClass.PlotWinRate(LeaderBoardId.OneVOneRandomMap, DataSource.Map, null);
             });
 
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AoE2NetDesktop.Form;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using LibAoE2net;
 using AoE2NetDesktop.Tests;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
 using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -119,7 +121,7 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             AoE2net.ComClient = new TestHttpClient();
-            var expVal = 4;
+            var expVal = Enum.GetNames(typeof(LeaderBoardId)).Length - 1;
 
             // Act
             var testClass = new CtrlHistory(TestData.AvailableUserProfileId);
@@ -265,8 +267,8 @@ namespace AoE2NetDesktop.Form.Tests
             var actVal = testClass.CreateListViewHistory();
 
             // Assert
-            Assert.AreEqual("1", actVal[LeaderBoardId.OneVOneRandomMap][0].SubItems[4].Text); //Color
-            Assert.AreEqual("3", actVal[LeaderBoardId.TeamRandomMap][0].SubItems[4].Text); //Color
+            Assert.AreEqual("1", actVal[LeaderBoardId.OneVOneRandomMap][0].SubItems[4].Text);   //Color
+            Assert.AreEqual("3", actVal[LeaderBoardId.TeamRandomMap][0].SubItems[4].Text);      //Color
         }
 
         [TestMethod()]
@@ -346,6 +348,26 @@ namespace AoE2NetDesktop.Form.Tests
 
             // Assert
             Assert.IsNull(testHttpClient.LastRequest);
+        }
+
+        [TestMethod()]
+        [DataRow("1v1 Random Map", LeaderBoardId.OneVOneRandomMap)]
+        [DataRow("Team Random Map", LeaderBoardId.TeamRandomMap)]
+        [DataRow("1v1 Empire Wars", LeaderBoardId.OneVOneEmpireWars)]
+        [DataRow("Team Empire Wars", LeaderBoardId.TeamEmpireWars)]
+        [DataRow("Unranked", LeaderBoardId.Unranked)]
+        [DataRow("1v1 Death Match", LeaderBoardId.OneVOneDeathmatch)]
+        [DataRow("Team Death Match", LeaderBoardId.TeamDeathmatch)]
+        [DataRow("----", LeaderBoardId.Undefined)]
+        [DataRow(null, LeaderBoardId.Undefined)]
+        public void GetLeaderboardIdTest(string leaderboardString, LeaderBoardId expVal)
+        {
+            // Arrange
+            // Act
+            var actVal = CtrlHistory.GetLeaderboardId(leaderboardString);
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
         }
     }
 }

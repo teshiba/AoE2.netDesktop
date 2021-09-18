@@ -57,15 +57,8 @@
             }
 
             if (countryList.Count != 0) {
-                var countryNames = countryList.Keys.Select(x =>
-                {
-                    if (!CountryCode.ISO31661alpha2.TryGetValue(x, out var countryName)) {
-                        countryName = "N/A";
-                    }
-
-                    return countryName;
-                });
-
+                var countryNames = countryList.Keys.Select(countryCode => CountryCode.ConvertToFullName(countryCode));
+                plot.Clear();
                 var bar = plot.AddBar(countryList.Values.ToArray());
                 bar.Orientation = Orientation.Horizontal;
                 bar.ShowValuesAboveBars = true;
@@ -79,11 +72,12 @@
         }
 
         /// <summary>
-        /// Plot win rate each civilization.
+        /// Plot win rate.
         /// </summary>
         /// <param name="leaderBoardId">target leader board.</param>
+        /// <param name="dataSource">target data source.</param>
         /// <param name="plot">target plot object.</param>
-        public void PlotWinRateCivilization(LeaderBoardId leaderBoardId, Plot plot)
+        public void PlotWinRate(LeaderBoardId leaderBoardId, DataSource dataSource, Plot plot)
         {
             if (plot is null) {
                 throw new ArgumentNullException(nameof(plot));
@@ -94,31 +88,14 @@
             foreach (var item in playerMatchHistory) {
                 if (item.LeaderboardId == leaderBoardId) {
                     var player = item.GetPlayer(profileId);
-                    AddWonRate(data, player.Won, player.GetCivName());
-                }
-            }
-
-            UpdateStackedBarGraph(plot, data);
-            plot.Render();
-        }
-
-        /// <summary>
-        /// Plot win rate each map.
-        /// </summary>
-        /// <param name="leaderBoardId">target leader board.</param>
-        /// <param name="plot">target plot object.</param>
-        public void PlotWinRateMap(LeaderBoardId leaderBoardId, Plot plot)
-        {
-            if (plot is null) {
-                throw new ArgumentNullException(nameof(plot));
-            }
-
-            var data = new Dictionary<string, (double lower, double upper)>();
-
-            foreach (var item in playerMatchHistory) {
-                if (item.LeaderboardId == leaderBoardId) {
-                    var player = item.GetPlayer(profileId);
-                    AddWonRate(data, player.Won, item.GetMapName());
+                    switch (dataSource) {
+                    case DataSource.Map:
+                        AddWonRate(data, player.Won, item.GetMapName());
+                        break;
+                    case DataSource.Civilization:
+                        AddWonRate(data, player.Won, player.GetCivName());
+                        break;
+                    }
                 }
             }
 
@@ -155,6 +132,7 @@
 
             if (dateList.Count != 0) {
                 var xs = dateList.Select(x => x.ToOADate()).ToArray();
+                plot.Clear();
                 plot.SetOuterViewLimits(xs.Min() - 10, xs.Max() + 10, rateList.Min() - 10, rateList.Max() + 10);
                 plot.XAxis.TickLabelFormat("yyyy/MM/dd", dateTimeFormat: true);
                 plot.XAxis.ManualTickSpacing(1, ScottPlot.Ticks.DateTimeUnit.Month);
@@ -200,6 +178,8 @@
 
         private static void UpdateStackedBarGraph(Plot plot, Dictionary<string, (double lower, double upper)> data)
         {
+            plot.Clear();
+
             if (data.Count != 0) {
                 var winList = data.Select(x => x.Value.lower).ToArray();
                 var loseList = data.Select(x => x.Value.upper).ToArray();
@@ -221,6 +201,8 @@
                 barLose.FillColor = Color.IndianRed;
                 plot.YTicks(data.Select(x => x.Key).ToArray());
                 plot.SetAxisLimits(xMin: 0, yMin: -1);
+            } else {
+                plot.YTicks( new string[] { "No Data" });
             }
         }
 
