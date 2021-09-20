@@ -114,7 +114,7 @@
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(675, 261);
+            this.tabControlMain.Size = new System.Drawing.Size(665, 261);
             this.tabControlMain.TabIndex = 0;
             // 
             // tabPagePlayerLastMatch
@@ -131,7 +131,7 @@
             this.tabPagePlayerLastMatch.Location = new System.Drawing.Point(4, 24);
             this.tabPagePlayerLastMatch.Name = "tabPagePlayerLastMatch";
             this.tabPagePlayerLastMatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(667, 233);
+            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(657, 233);
             this.tabPagePlayerLastMatch.TabIndex = 0;
             this.tabPagePlayerLastMatch.Text = "Player Last Match";
             // 
@@ -140,7 +140,7 @@
             this.buttonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonUpdate.Enabled = false;
             this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonUpdate.Location = new System.Drawing.Point(582, 3);
+            this.buttonUpdate.Location = new System.Drawing.Point(572, 3);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(82, 27);
             this.buttonUpdate.TabIndex = 7;
@@ -153,17 +153,16 @@
             this.labelMap.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelMap.Location = new System.Drawing.Point(0, 1);
             this.labelMap.Name = "labelMap";
-            this.labelMap.Size = new System.Drawing.Size(345, 31);
+            this.labelMap.Size = new System.Drawing.Size(347, 29);
             this.labelMap.TabIndex = 2;
             this.labelMap.Text = "Map : ------------------------";
             this.labelMap.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
             // 
             // labelServer
             // 
-            this.labelServer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelServer.Location = new System.Drawing.Point(418, 15);
+            this.labelServer.Location = new System.Drawing.Point(356, 15);
             this.labelServer.Name = "labelServer";
-            this.labelServer.Size = new System.Drawing.Size(160, 19);
+            this.labelServer.Size = new System.Drawing.Size(152, 19);
             this.labelServer.TabIndex = 2;
             this.labelServer.Text = "Server: ----------";
             this.labelServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -171,10 +170,9 @@
             // 
             // labelGameId
             // 
-            this.labelGameId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelGameId.Location = new System.Drawing.Point(418, 0);
+            this.labelGameId.Location = new System.Drawing.Point(356, 0);
             this.labelGameId.Name = "labelGameId";
-            this.labelGameId.Size = new System.Drawing.Size(160, 19);
+            this.labelGameId.Size = new System.Drawing.Size(152, 19);
             this.labelGameId.TabIndex = 9;
             this.labelGameId.Text = "GameID: 88888888";
             this.labelGameId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -189,7 +187,7 @@
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
             this.labelErrText.Location = new System.Drawing.Point(4, 242);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(657, 0);
+            this.labelErrText.Size = new System.Drawing.Size(647, 0);
             this.labelErrText.TabIndex = 8;
             // 
             // panelTeam1
@@ -798,7 +796,7 @@
             this.tabPageSettings.Location = new System.Drawing.Point(4, 24);
             this.tabPageSettings.Name = "tabPageSettings";
             this.tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSettings.Size = new System.Drawing.Size(667, 459);
+            this.tabPageSettings.Size = new System.Drawing.Size(657, 233);
             this.tabPageSettings.TabIndex = 1;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
@@ -848,7 +846,7 @@
             // buttonViewHistory
             // 
             this.buttonViewHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonViewHistory.Location = new System.Drawing.Point(531, 135);
+            this.buttonViewHistory.Location = new System.Drawing.Point(533, 86);
             this.buttonViewHistory.Name = "buttonViewHistory";
             this.buttonViewHistory.Size = new System.Drawing.Size(115, 35);
             this.buttonViewHistory.TabIndex = 6;
@@ -937,7 +935,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(675, 261);
+            this.ClientSize = new System.Drawing.Size(665, 261);
             this.Controls.Add(this.tabControlMain);
             this.MinimumSize = new System.Drawing.Size(290, 300);
             this.Name = "FormMain";

@@ -322,7 +322,7 @@
                 MatchedPlayerInfos = CreateMatchedPlayersInfo(PlayerMatchHistory);
                 DataPloter = new DataPlot(PlayerMatchHistory, ProfileId);
                 ret = true;
-            } catch (Exception e) {
+            } catch (Exception) {
                 PlayerMatchHistory = null;
                 MatchedPlayerInfos = null;
                 DataPloter = null;

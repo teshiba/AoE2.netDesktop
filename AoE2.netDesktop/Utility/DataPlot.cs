@@ -202,7 +202,7 @@
                 plot.YTicks(data.Select(x => x.Key).ToArray());
                 plot.SetAxisLimits(xMin: 0, yMin: -1);
             } else {
-                plot.YTicks( new string[] { "No Data" });
+                plot.YTicks(new string[] { "No Data" });
             }
         }
 

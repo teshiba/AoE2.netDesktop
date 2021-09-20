@@ -49,16 +49,16 @@
 
         private void RestoreWindowPosition()
         {
-            Top = Settings.Default.WindowLocation.Y;
-            Left = Settings.Default.WindowLocation.X;
-            Width = Settings.Default.WindowSize.Width;
-            Height = Settings.Default.WindowSize.Height;
+            Top = Settings.Default.WindowLocationMain.Y;
+            Left = Settings.Default.WindowLocationMain.X;
+            Width = Settings.Default.WindowSizeMain.Width;
+            Height = Settings.Default.WindowSizeMain.Height;
         }
 
         private void SaveWindowPosition()
         {
-            Settings.Default.WindowLocation = new Point(Left, Top);
-            Settings.Default.WindowSize = new Size(Width, Height);
+            Settings.Default.WindowLocationMain = new Point(Left, Top);
+            Settings.Default.WindowSizeMain = new Size(Width, Height);
         }
 
         private void InitIDRadioButton()
@@ -299,6 +299,7 @@
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Controler.FormHistory?.Close();
             SaveWindowPosition();
             Settings.Default.Save();
         }

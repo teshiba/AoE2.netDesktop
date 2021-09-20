@@ -80,9 +80,11 @@
 
         private async Task UpdateListViewStatistics()
         {
+            listViewStatistics.UseWaitCursor = true;
+
             var leaderboards = await Controler.ReadLeaderBoardAsync();
             if (leaderboards.Count == LeaderboardIdCount) {
-                listViewMatchedPlayers.BeginUpdate();
+                listViewStatistics.BeginUpdate();
                 listViewStatistics.Items.Clear();
                 listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("1v1 RM", leaderboards[LeaderBoardId.OneVOneRandomMap]));
                 listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("Team RM", leaderboards[LeaderBoardId.TeamRandomMap]));
@@ -91,10 +93,12 @@
                 listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("1v1 EW", leaderboards[LeaderBoardId.OneVOneEmpireWars]));
                 listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("Team EW", leaderboards[LeaderBoardId.TeamEmpireWars]));
                 listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("Unranked", leaderboards[LeaderBoardId.Unranked]));
-                listViewMatchedPlayers.EndUpdate();
+                listViewStatistics.EndUpdate();
             } else {
                 Debug.Print("UpdateListViewStatistics ERROR.");
             }
+
+            listViewStatistics.UseWaitCursor = false;
         }
 
         private void UpdateListViewPlayers()
@@ -168,15 +172,33 @@
             }
         }
 
+        private void SaveWindowPosition()
+        {
+            Settings.Default.WindowLocationHistory = new Point(Left, Top);
+            Settings.Default.WindowSizeHistory = new Size(Width, Height);
+        }
+
+        private void RestoreWindowPosition()
+        {
+            Top = Settings.Default.WindowLocationHistory.Y;
+            Left = Settings.Default.WindowLocationHistory.X;
+            Width = Settings.Default.WindowSizeHistory.Width;
+            Height = Settings.Default.WindowSizeHistory.Height;
+        }
+
         ///////////////////////////////////////////////////////////////////////
         // event handlers
         ///////////////////////////////////////////////////////////////////////
         private async void FormHistory_ShownAsync(object sender, EventArgs e)
         {
+            tabControlHistory.SelectedIndex = Settings.Default.SelectedIndexTabControlHistory;
+
+            tabControlHistory.UseWaitCursor = true;
+
             if (await Controler.ReadPlayerMatchHistoryAsync()) {
                 listViewitems = Controler.CreateListViewHistory();
-                comboBoxLeaderboard.SelectedIndex = 0;
-                comboBoxDataSource.SelectedIndex = 0;
+                comboBoxLeaderboard.SelectedIndex = Settings.Default.SelectedIndexComboBoxLeaderboard;
+                comboBoxDataSource.SelectedIndex = Settings.Default.SelectedIndexComboBoxDataSource;
                 comboBoxLeaderboard.Enabled = true;
                 comboBoxDataSource.Enabled = true;
                 UpdateListViewPlayers();
@@ -189,8 +211,11 @@
                 Debug.Print("ReadPlayerMatchHistoryAsync ERROR.");
             }
 
+            tabControlHistory.UseWaitCursor = false;
+
             await UpdateListViewStatistics();
 
+            UseWaitCursor = false;
             Awaiter.Complete();
         }
 
@@ -211,12 +236,14 @@
 
         private void ComboBoxLeaderboard_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Settings.Default.SelectedIndexComboBoxLeaderboard = comboBoxLeaderboard.SelectedIndex;
             UpdateListViewMatchHistory();
             UpdateWinRateGraph();
         }
 
         private void ComboBoxDataSource_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Settings.Default.SelectedIndexComboBoxDataSource = comboBoxDataSource.SelectedIndex;
             UpdateWinRateGraph();
         }
 
@@ -230,6 +257,22 @@
             } else {
                 e.Cancel = true;
             }
+        }
+
+        private void FormHistory_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveWindowPosition();
+            Settings.Default.Save();
+        }
+
+        private void FormHistory_Load(object sender, EventArgs e)
+        {
+            RestoreWindowPosition();
+        }
+
+        private void TabControlHistory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Settings.Default.SelectedIndexTabControlHistory = tabControlHistory.SelectedIndex;
         }
     }
 }
