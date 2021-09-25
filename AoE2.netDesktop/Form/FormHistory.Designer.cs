@@ -66,7 +66,7 @@ namespace AoE2NetDesktop.Form
             this.columnHeaderHighestStreak = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderLowestStreak = new System.Windows.Forms.ColumnHeader();
             this.tabPagePlayers = new System.Windows.Forms.TabPage();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.splitContainerPlayers = new System.Windows.Forms.SplitContainer();
             this.listViewMatchedPlayers = new System.Windows.Forms.ListView();
             this.columnHeaderName = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderCountry = new System.Windows.Forms.ColumnHeader();
@@ -91,10 +91,10 @@ namespace AoE2NetDesktop.Form
             this.splitContainerRate.Panel2.SuspendLayout();
             this.splitContainerRate.SuspendLayout();
             this.tabPagePlayers.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerPlayers)).BeginInit();
+            this.splitContainerPlayers.Panel1.SuspendLayout();
+            this.splitContainerPlayers.Panel2.SuspendLayout();
+            this.splitContainerPlayers.SuspendLayout();
             this.tabControlHistory.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -406,7 +406,7 @@ namespace AoE2NetDesktop.Form
             // 
             // tabPagePlayers
             // 
-            this.tabPagePlayers.Controls.Add(this.splitContainer2);
+            this.tabPagePlayers.Controls.Add(this.splitContainerPlayers);
             this.tabPagePlayers.Location = new System.Drawing.Point(4, 24);
             this.tabPagePlayers.Name = "tabPagePlayers";
             this.tabPagePlayers.Padding = new System.Windows.Forms.Padding(3);
@@ -415,24 +415,25 @@ namespace AoE2NetDesktop.Form
             this.tabPagePlayers.Text = "Players";
             this.tabPagePlayers.UseVisualStyleBackColor = true;
             // 
-            // splitContainer2
+            // splitContainerPlayers
             // 
-            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer2.Cursor = System.Windows.Forms.Cursors.VSplit;
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainerPlayers.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainerPlayers.Cursor = System.Windows.Forms.Cursors.VSplit;
+            this.splitContainerPlayers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerPlayers.Location = new System.Drawing.Point(3, 3);
+            this.splitContainerPlayers.Name = "splitContainerPlayers";
             // 
-            // splitContainer2.Panel1
+            // splitContainerPlayers.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.listViewMatchedPlayers);
+            this.splitContainerPlayers.Panel1.Controls.Add(this.listViewMatchedPlayers);
             // 
-            // splitContainer2.Panel2
+            // splitContainerPlayers.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.formsPlotCountry);
-            this.splitContainer2.Size = new System.Drawing.Size(994, 567);
-            this.splitContainer2.SplitterDistance = 514;
-            this.splitContainer2.TabIndex = 9;
+            this.splitContainerPlayers.Panel2.Controls.Add(this.formsPlotCountry);
+            this.splitContainerPlayers.Size = new System.Drawing.Size(994, 567);
+            this.splitContainerPlayers.SplitterDistance = 514;
+            this.splitContainerPlayers.TabIndex = 9;
+            this.splitContainerPlayers.DoubleClick += new System.EventHandler(this.SplitContainerPlayers_DoubleClick);
             // 
             // listViewMatchedPlayers
             // 
@@ -550,10 +551,10 @@ namespace AoE2NetDesktop.Form
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerRate)).EndInit();
             this.splitContainerRate.ResumeLayout(false);
             this.tabPagePlayers.ResumeLayout(false);
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
+            this.splitContainerPlayers.Panel1.ResumeLayout(false);
+            this.splitContainerPlayers.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerPlayers)).EndInit();
+            this.splitContainerPlayers.ResumeLayout(false);
             this.tabControlHistory.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -597,7 +598,7 @@ namespace AoE2NetDesktop.Form
         private System.Windows.Forms.ColumnHeader columnHeaderHighestStreak;
         private System.Windows.Forms.ColumnHeader columnHeaderLowestStreak;
         private System.Windows.Forms.TabPage tabPagePlayers;
-        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.SplitContainer splitContainerPlayers;
         private System.Windows.Forms.ListView listViewMatchedPlayers;
         private System.Windows.Forms.ColumnHeader columnHeaderName;
         private System.Windows.Forms.ColumnHeader columnHeaderCountry;

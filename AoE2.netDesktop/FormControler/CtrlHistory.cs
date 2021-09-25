@@ -72,11 +72,6 @@
         public Dictionary<string, PlayerInfo> MatchedPlayerInfos { get; private set; } = new ();
 
         /// <summary>
-        /// Gets DataPloter.
-        /// </summary>
-        public DataPlot DataPloter { get; private set; }
-
-        /// <summary>
         /// Get rate string.
         /// </summary>
         /// <param name="player">player.</param>
@@ -320,12 +315,10 @@
             try {
                 PlayerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(startCount, ReadCountMax, ProfileId);
                 MatchedPlayerInfos = CreateMatchedPlayersInfo(PlayerMatchHistory);
-                DataPloter = new DataPlot(PlayerMatchHistory, ProfileId);
                 ret = true;
             } catch (Exception) {
                 PlayerMatchHistory = null;
                 MatchedPlayerInfos = null;
-                DataPloter = null;
                 ret = false;
             }
 

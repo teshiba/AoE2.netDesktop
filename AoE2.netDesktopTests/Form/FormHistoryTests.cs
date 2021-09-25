@@ -35,7 +35,7 @@ namespace AoE2NetDesktop.Form.Tests
             var testClass = new FormHistory(TestData.AvailableUserProfileId);
             var toolStripMenuItem = testClass.GetControl<ToolStripMenuItem>("openAoE2NetProfileToolStripMenuItem");
             var listViewMatchedPlayers = testClass.GetControl<ListView>("listViewMatchedPlayers");
-            var tabControlMain = testClass.GetControl<TabControl>("tabControlFormHistory");
+            var tabControlMain = testClass.GetControl<TabControl>("tabControlHistory");
 
             // Act
             testClass.Shown += async (sender, e) =>
@@ -58,7 +58,7 @@ namespace AoE2NetDesktop.Form.Tests
             var testClass = new FormHistory(TestData.AvailableUserProfileId);
             var contextMenuStripMatchedPlayers = testClass.GetControl<ContextMenuStrip>("contextMenuStripMatchedPlayers");
             var listViewMatchedPlayers = testClass.GetControl<ListView>("listViewMatchedPlayers");
-            var tabControlMain = testClass.GetControl<TabControl>("tabControlFormHistory");
+            var tabControlMain = testClass.GetControl<TabControl>("tabControlHistory");
 
             // Act
             testClass.Shown += async (sender, e) =>
@@ -81,7 +81,7 @@ namespace AoE2NetDesktop.Form.Tests
             var testClass = new FormHistory(TestData.AvailableUserProfileId);
             var contextMenuStripMatchedPlayers = testClass.GetControl<ContextMenuStrip>("contextMenuStripMatchedPlayers");
             var listViewMatchedPlayers = testClass.GetControl<ListView>("listViewMatchedPlayers");
-            var tabControlMain = testClass.GetControl<TabControl>("tabControlFormHistory");
+            var tabControlMain = testClass.GetControl<TabControl>("tabControlHistory");
 
             // Act
             testClass.Shown += async (sender, e) =>
@@ -119,6 +119,31 @@ namespace AoE2NetDesktop.Form.Tests
                     testClass.SetField<PlotHighlight>("plotHighlightTeam", null);
                 }
                 testClass.Invoke(method, arg);
+                testClass.Close();
+            };
+
+            testClass.ShowDialog();
+        }
+
+        [TestMethod()]
+        [DataRow(Orientation.Horizontal)]
+        [DataRow(Orientation.Vertical)]
+        public void FormHistoryTestSplitContainerPlayers_DoubleClick(Orientation orientation)
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+            var testClass = new FormHistory(TestData.AvailableUserProfileId);
+            var arg = new object[] {
+                new SplitContainer(),
+                new MouseEventArgs(MouseButtons.Left, 0, 0, 0, 0)
+            };
+            var splitContainerPlayers = testClass.GetControl<SplitContainer>("splitContainerPlayers");
+            splitContainerPlayers.Orientation = orientation;
+
+            // Act
+            testClass.Shown += async (sender, e) => {
+                await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+                testClass.Invoke("SplitContainerPlayers_DoubleClick", arg);
                 testClass.Close();
             };
 

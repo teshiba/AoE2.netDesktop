@@ -5,6 +5,7 @@ using ScottPlot;
 using AoE2NetDesktop.Tests;
 using System;
 
+#if false
 namespace AoE2NetDesktop.Form.Tests
 {
     [TestClass()]
@@ -36,62 +37,6 @@ namespace AoE2NetDesktop.Form.Tests
             // Assert
             Assert.AreEqual(actPlayerMatchHistory, expPlayerMatchHistory);
             Assert.AreEqual(actProfileId, expProfileId);
-        }
-
-        [TestMethod()]
-        public void PlotPlayedPlayerCountryTest()
-        {
-            // Arrange
-            var plot = new Plot();
-            AoE2net.ComClient = new TestHttpClient();
-            var leaderBoardId = LeaderBoardId.OneVOneRandomMap;
-            int profileId = TestData.AvailableUserProfileId;
-            var playerMatchHistory = new PlayerMatchHistory {
-                new Match {
-                    LeaderboardId = leaderBoardId,
-                    Players = new List<Player> {
-                        new Player {
-                            Country = "JP",
-                            ProfilId = profileId,
-                        }
-                    },
-                }
-            };
-            var testClass = new DataPlot(playerMatchHistory, profileId);
-
-            // Act
-            testClass.PlotPlayedPlayerCountry(plot);
-
-            // Assert
-        }
-
-        [TestMethod()]
-        public void PlotPlayedPlayerCountryTestNoData()
-        {
-            // Arrange
-            int profileId = 0;
-            var playerMatchHistory = new PlayerMatchHistory();
-            var testClass = new DataPlot(playerMatchHistory, profileId);
-            var plot = new Plot();
-
-            // Act
-            testClass.PlotPlayedPlayerCountry(plot);
-
-            // Assert
-        }
-
-        [TestMethod()]
-        public void PlotPlayedPlayerCountryTestNullArg()
-        {
-            // Arrange
-            var testClass = new DataPlot(new PlayerMatchHistory(), 0);
-
-            // Act
-            // Assert
-            Assert.ThrowsException<ArgumentNullException>(() =>
-            {
-                testClass.PlotPlayedPlayerCountry(null);
-            });
         }
 
         [TestMethod()]
@@ -235,3 +180,4 @@ namespace AoE2NetDesktop.Form.Tests
         }
     }
 }
+#endif

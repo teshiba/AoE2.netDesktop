@@ -38,25 +38,16 @@
             formsPlotRateTeam.Plot.XLabel("Date");
             formsPlotRateTeam.Render();
 
-            formsPlotCountry.Configuration.LockHorizontalAxis = true;
-            formsPlotCountry.Configuration.LockVerticalAxis = true;
-            formsPlotCountry.Plot.Title("Player's country");
-            formsPlotCountry.Plot.YLabel("Country");
-            formsPlotCountry.Plot.XLabel("Game count");
-            formsPlotCountry.Render();
-
-            formsPlotWinRate.Configuration.LockHorizontalAxis = true;
-            formsPlotWinRate.Configuration.LockVerticalAxis = true;
-            formsPlotWinRate.Plot.Title("Game and win count");
-            formsPlotWinRate.Plot.Layout(top: 40); // for Data source comboBox
-            formsPlotWinRate.Plot.YLabel("---");
-            formsPlotWinRate.Plot.XLabel("Win / Total Game count");
-            formsPlotWinRate.Render();
-
             comboBoxLeaderboard.Enabled = false;
-            comboBoxDataSource.Enabled = false;
             comboBoxLeaderboard.Items.AddRange(CtrlHistory.GetLeaderboardStrings());
+
+            comboBoxDataSource.Enabled = false;
             comboBoxDataSource.Items.AddRange(CtrlHistory.GetDataSourceStrings());
+
+            PlayerCountryStat = new PlayerCountryPlot(formsPlotCountry);
+            Rate1v1History = new PlayerRatePlot(formsPlotRate1v1);
+            RateTeamHistory = new PlayerRatePlot(formsPlotRateTeam);
+            WinRateStat = new WinRatePlot(formsPlotWinRate);
         }
 
         /// <summary>
@@ -64,6 +55,26 @@
         /// </summary>
         /// <remarks>exclude <see cref="LeaderBoardId.Undefined"/>.</remarks>
         public static int LeaderboardIdCount => Enum.GetNames(typeof(LeaderBoardId)).Length - 1;
+
+        /// <summary>
+        /// Gets or sets playerHistory plot object.
+        /// </summary>
+        public PlayerCountryPlot PlayerCountryStat { get; set; }
+
+        /// <summary>
+        /// Gets or sets Rate 1v1 history plot object.
+        /// </summary>
+        public PlayerRatePlot Rate1v1History { get; set; }
+
+        /// <summary>
+        /// Gets or sets Rate team history plot object.
+        /// </summary>
+        public PlayerRatePlot RateTeamHistory { get; set; }
+
+        /// <summary>
+        /// Gets or sets Win rate stat plot object.
+        /// </summary>
+        public WinRatePlot WinRateStat { get; set; }
 
         /// <summary>
         /// Gets selected data source of graph.
@@ -123,22 +134,25 @@
 
         private void UpdateGraphs()
         {
-            Controler.DataPloter.PlotPlayedPlayerCountry(formsPlotCountry.Plot);
+            UpdatePlayerCountryGragh();
             UpdateWinRateGraph();
             UpdatePlayerRate();
         }
 
+        private void UpdatePlayerCountryGragh()
+        {
+            PlayerCountryStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId);
+        }
+
         private void UpdatePlayerRate()
         {
-            var dataPloter = Controler.DataPloter;
-
-            var plotTeam = dataPloter.PlotRate(LeaderBoardId.TeamRandomMap, formsPlotRateTeam.Plot);
+            var plotTeam = Rate1v1History.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, LeaderBoardId.TeamRandomMap);
             if (plotTeam != null) {
                 plotHighlightTeam = new PlotHighlight(formsPlotRateTeam, plotTeam);
                 plotHighlightTeam.UpdateHighlight();
             }
 
-            var plot1v1 = dataPloter.PlotRate(LeaderBoardId.OneVOneRandomMap, formsPlotRate1v1.Plot);
+            var plot1v1 = Rate1v1History.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, LeaderBoardId.OneVOneRandomMap);
             if (plot1v1 != null) {
                 plotHighlight1v1 = new PlotHighlight(formsPlotRate1v1, plot1v1);
                 plotHighlight1v1.UpdateHighlight();
@@ -159,7 +173,7 @@
         private void UpdateWinRateGraph()
         {
             formsPlotWinRate.Plot.YLabel(comboBoxDataSource.Text);
-            Controler.DataPloter.PlotWinRate(SelectedLeaderboard, SelectedDataSource, formsPlotWinRate.Plot);
+            WinRateStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, SelectedLeaderboard, SelectedDataSource);
             formsPlotWinRate.Render();
         }
 
@@ -273,6 +287,20 @@
         private void TabControlHistory_SelectedIndexChanged(object sender, EventArgs e)
         {
             Settings.Default.SelectedIndexTabControlHistory = tabControlHistory.SelectedIndex;
+        }
+
+        private void SplitContainerPlayers_DoubleClick(object sender, EventArgs e)
+        {
+            switch (splitContainerPlayers.Orientation) {
+            case Orientation.Horizontal:
+                splitContainerPlayers.Orientation = Orientation.Vertical;
+                PlayerCountryStat.Orientation = ScottPlot.Orientation.Horizontal;
+                break;
+            case Orientation.Vertical:
+                splitContainerPlayers.Orientation = Orientation.Horizontal;
+                PlayerCountryStat.Orientation = ScottPlot.Orientation.Vertical;
+                break;
+            }
         }
     }
 }
