@@ -11,7 +11,7 @@
     /// </summary>
     public class PlotHighlight
     {
-        private readonly ScatterPlot plot;
+        private readonly ScatterPlot targetPlot;
         private readonly ScatterPlot highlightPlot;
         private readonly Tooltip tooltip;
         private readonly FormsPlot formsPlot;
@@ -24,7 +24,7 @@
         /// <param name="scatterPlot">target scatter plot.</param>
         public PlotHighlight(FormsPlot formsPlot, ScatterPlot scatterPlot)
         {
-            plot = scatterPlot ?? throw new ArgumentNullException(nameof(scatterPlot));
+            targetPlot = scatterPlot ?? throw new ArgumentNullException(nameof(scatterPlot));
             this.formsPlot = formsPlot ?? throw new ArgumentNullException(nameof(formsPlot));
 
             highlightPlot = formsPlot.Plot.AddPoint(0, 0);
@@ -40,28 +40,42 @@
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether plot is visible.
+        /// </summary>
+        public bool IsVisible
+        {
+            get => highlightPlot.IsVisible;
+            set {
+                highlightPlot.IsVisible = value;
+                tooltip.IsVisible = value;
+            }
+        }
+
+        /// <summary>
         /// Update highlight.
         /// </summary>
-        public void UpdateHighlight()
+        public void Update()
         {
             if (formsPlot.Plot != null) {
                 // determine point nearest the cursor
                 (double mouseCoordX, double mouseCoordY) = formsPlot.GetMouseCoordinates();
                 double xyRatio = formsPlot.Plot.XAxis.Dims.PxPerUnit / formsPlot.Plot.YAxis.Dims.PxPerUnit;
-                (double pointX, double pointY, int pointIndex) = plot.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
+                (double pointX, double pointY, int pointIndex) = targetPlot.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
 
-                // place the highlight over the point of interest
-                highlightPlot.Xs[0] = pointX;
-                highlightPlot.Ys[0] = pointY;
-                highlightPlot.Label = $"Rate:{pointY}";
-                tooltip.Label = $"Rate:{pointY} {DateTime.FromOADate(pointX)}";
-                tooltip.X = pointX;
-                tooltip.Y = pointY;
+                if (pointX != double.NegativeInfinity) {
+                    // place the highlight over the point of interest
+                    highlightPlot.Xs[0] = pointX;
+                    highlightPlot.Ys[0] = pointY;
+                    highlightPlot.Label = $"Rate:{pointY}";
+                    tooltip.Label = $"Rate:{pointY} {DateTime.FromOADate(pointX)}";
+                    tooltip.X = pointX;
+                    tooltip.Y = pointY;
 
-                // render if the highlighted point chnaged
-                if (lastIndex != pointIndex) {
-                    lastIndex = pointIndex;
-                    formsPlot.Render();
+                    // render if the highlighted point chnaged
+                    if (lastIndex != pointIndex) {
+                        lastIndex = pointIndex;
+                        formsPlot.Render();
+                    }
                 }
             }
         }

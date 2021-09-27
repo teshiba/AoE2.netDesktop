@@ -17,8 +17,8 @@ namespace AoE2NetDesktop.Form.Tests
             var testClass = new PlotHighlight(formsPlot, scatterPlot);
 
             // Act
-            testClass.UpdateHighlight();
-            testClass.UpdateHighlight();
+            testClass.Update();
+            testClass.Update();
 
             // Assert
         }
@@ -50,6 +50,39 @@ namespace AoE2NetDesktop.Form.Tests
             {
                 _ = new PlotHighlight(formsPlot, null);
             });
+        }
+
+        [TestMethod()]
+        public void UpdateHighlightTestGetIsVisible()
+        {
+            // Arrange
+            bool expVal = true;
+            var formsPlot = new FormsPlot();
+            var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 0 }, new double[] { 0 });
+            var testClass = new PlotHighlight(formsPlot, scatterPlot);
+
+            // Act
+            var actVal = testClass.IsVisible;
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
+        }
+
+        [TestMethod()]
+        public void UpdateHighlightTestSetIsVisible()
+        {
+            // Arrange
+            bool expVal = false;
+            var formsPlot = new FormsPlot();
+            var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 0 }, new double[] { 0 });
+            var testClass = new PlotHighlight(formsPlot, scatterPlot);
+
+            // Act
+            testClass.IsVisible = !testClass.IsVisible;
+            var actVal = testClass.IsVisible;
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
         }
     }
 }

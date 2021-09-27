@@ -18,7 +18,7 @@ namespace AoE2NetDesktop.Form.Tests
             // Arrange
             var plot = new FormsPlot();
             AoE2net.ComClient = new TestHttpClient();
-            var leaderBoardId = LeaderBoardId.OneVOneRandomMap;
+            var leaderBoardId = LeaderboardId.RM1v1;
             int profileId = TestData.AvailableUserProfileId;
             var playerMatchHistory = new PlayerMatchHistory {
                 new Match {

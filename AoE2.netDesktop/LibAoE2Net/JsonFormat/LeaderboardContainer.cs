@@ -13,7 +13,7 @@ namespace LibAoE2net
         public int Total { get; set; }
 
         [DataMember(Name = "leaderboard_id")]
-        public LeaderBoardId LeaderBoardId { get; set; }
+        public LeaderboardId LeaderBoardId { get; set; }
 
         [DataMember(Name = "start")]
         public int Start { get; set; }

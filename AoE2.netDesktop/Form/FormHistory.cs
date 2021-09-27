@@ -15,9 +15,15 @@
     /// </summary>
     public partial class FormHistory : ControllableForm
     {
-        private PlotHighlight plotHighlightTeam;
-        private PlotHighlight plotHighlight1v1;
-        private Dictionary<LeaderBoardId, List<ListViewItem>> listViewitems;
+        private const int IndexRM1v1 = 0;
+        private const int IndexRMTeam = 1;
+        private const int IndexEW1v1 = 2;
+        private const int IndexEWTeam = 3;
+        private const int IndexUnranked = 4;
+        private const int IndexDMTeam = 5;
+        private const int IndexDM1v1 = 6;
+
+        private Dictionary<LeaderboardId, List<ListViewItem>> listViewitems;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormHistory"/> class.
@@ -28,15 +34,10 @@
         {
             InitializeComponent();
 
-            formsPlotRate1v1.Plot.Title("1v1 Random Map Rate");
-            formsPlotRate1v1.Plot.YLabel("Rate");
-            formsPlotRate1v1.Plot.XLabel("Date");
-            formsPlotRate1v1.Render();
-
-            formsPlotRateTeam.Plot.Title("Team Random Map Rate");
-            formsPlotRateTeam.Plot.YLabel("Rate");
-            formsPlotRateTeam.Plot.XLabel("Date");
-            formsPlotRateTeam.Render();
+            formsPlotPlayerRate.Plot.Title("Player Rate");
+            formsPlotPlayerRate.Plot.YLabel("Rate");
+            formsPlotPlayerRate.Plot.XLabel("Date");
+            formsPlotPlayerRate.Render();
 
             comboBoxLeaderboard.Enabled = false;
             comboBoxLeaderboard.Items.AddRange(CtrlHistory.GetLeaderboardStrings());
@@ -45,16 +46,15 @@
             comboBoxDataSource.Items.AddRange(CtrlHistory.GetDataSourceStrings());
 
             PlayerCountryStat = new PlayerCountryPlot(formsPlotCountry);
-            Rate1v1History = new PlayerRatePlot(formsPlotRate1v1);
-            RateTeamHistory = new PlayerRatePlot(formsPlotRateTeam);
             WinRateStat = new WinRatePlot(formsPlotWinRate);
+            PlayerRate = new PlayerRateFormsPlot(formsPlotPlayerRate);
         }
 
         /// <summary>
         /// Gets count of LeaderboardId.
         /// </summary>
-        /// <remarks>exclude <see cref="LeaderBoardId.Undefined"/>.</remarks>
-        public static int LeaderboardIdCount => Enum.GetNames(typeof(LeaderBoardId)).Length - 1;
+        /// <remarks>exclude <see cref="LeaderboardId.Undefined"/>.</remarks>
+        public static int LeaderboardIdCount => Enum.GetNames(typeof(LeaderboardId)).Length - 1;
 
         /// <summary>
         /// Gets or sets playerHistory plot object.
@@ -62,14 +62,9 @@
         public PlayerCountryPlot PlayerCountryStat { get; set; }
 
         /// <summary>
-        /// Gets or sets Rate 1v1 history plot object.
-        /// </summary>
-        public PlayerRatePlot Rate1v1History { get; set; }
-
-        /// <summary>
         /// Gets or sets Rate team history plot object.
         /// </summary>
-        public PlayerRatePlot RateTeamHistory { get; set; }
+        public PlayerRateFormsPlot PlayerRate { get; set; }
 
         /// <summary>
         /// Gets or sets Win rate stat plot object.
@@ -79,7 +74,7 @@
         /// <summary>
         /// Gets selected data source of graph.
         /// </summary>
-        public LeaderBoardId SelectedLeaderboard => CtrlHistory.GetLeaderboardId(comboBoxLeaderboard.Text);
+        public LeaderboardId SelectedLeaderboard => CtrlHistory.GetLeaderboardId(comboBoxLeaderboard.Text);
 
         /// <summary>
         /// Gets selected data source of graph.
@@ -89,7 +84,7 @@
         /// <inheritdoc/>
         protected override CtrlHistory Controler => (CtrlHistory)base.Controler;
 
-        private async Task UpdateListViewStatistics()
+        private async Task UpdateListViewStatisticsAsync()
         {
             listViewStatistics.UseWaitCursor = true;
 
@@ -97,13 +92,16 @@
             if (leaderboards.Count == LeaderboardIdCount) {
                 listViewStatistics.BeginUpdate();
                 listViewStatistics.Items.Clear();
-                listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("1v1 RM", leaderboards[LeaderBoardId.OneVOneRandomMap]));
-                listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("Team RM", leaderboards[LeaderBoardId.TeamRandomMap]));
-                listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("1v1 DM", leaderboards[LeaderBoardId.OneVOneDeathmatch]));
-                listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("Team DM", leaderboards[LeaderBoardId.TeamDeathmatch]));
-                listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("1v1 EW", leaderboards[LeaderBoardId.OneVOneEmpireWars]));
-                listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("Team EW", leaderboards[LeaderBoardId.TeamEmpireWars]));
-                listViewStatistics.Items.Add(CtrlHistory.CreateListViewLeaderboard("Unranked", leaderboards[LeaderBoardId.Unranked]));
+
+                ListViewItem[] listviewItems = new ListViewItem[LeaderboardIdCount];
+                listviewItems[IndexRM1v1] = CtrlHistory.CreateListViewItem("1v1 RM", LeaderboardId.RM1v1, leaderboards);
+                listviewItems[IndexRMTeam] = CtrlHistory.CreateListViewItem("Team RM", LeaderboardId.RMTeam, leaderboards);
+                listviewItems[IndexDM1v1] = CtrlHistory.CreateListViewItem("1v1 DM", LeaderboardId.DM1v1, leaderboards);
+                listviewItems[IndexDMTeam] = CtrlHistory.CreateListViewItem("Team DM", LeaderboardId.DMTeam, leaderboards);
+                listviewItems[IndexEW1v1] = CtrlHistory.CreateListViewItem("1v1 EW", LeaderboardId.EW1v1, leaderboards);
+                listviewItems[IndexEWTeam] = CtrlHistory.CreateListViewItem("Team EW", LeaderboardId.EWTeam, leaderboards);
+                listviewItems[IndexUnranked] = CtrlHistory.CreateListViewItem("Unranked", LeaderboardId.Unranked, leaderboards);
+                listViewStatistics.Items.AddRange(listviewItems);
                 listViewStatistics.EndUpdate();
             } else {
                 Debug.Print("UpdateListViewStatistics ERROR.");
@@ -119,8 +117,8 @@
             foreach (var player in Controler.MatchedPlayerInfos) {
                 var listviewItem = new ListViewItem(player.Key);
                 listviewItem.SubItems.Add(player.Value.Country);
-                listviewItem.SubItems.Add(player.Value.Rate1v1RM.ToString());
-                listviewItem.SubItems.Add(player.Value.RateTeamRM.ToString());
+                listviewItem.SubItems.Add(player.Value.RateRM1v1.ToString());
+                listviewItem.SubItems.Add(player.Value.RateRMTeam.ToString());
                 listviewItem.SubItems.Add(player.Value.GamesTeam.ToString());
                 listviewItem.SubItems.Add(player.Value.GamesAlly.ToString());
                 listviewItem.SubItems.Add(player.Value.GamesEnemy.ToString());
@@ -134,40 +132,9 @@
 
         private void UpdateGraphs()
         {
-            UpdatePlayerCountryGragh();
-            UpdateWinRateGraph();
-            UpdatePlayerRate();
-        }
-
-        private void UpdatePlayerCountryGragh()
-        {
             PlayerCountryStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId);
-        }
-
-        private void UpdatePlayerRate()
-        {
-            var plotTeam = Rate1v1History.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, LeaderBoardId.TeamRandomMap);
-            if (plotTeam != null) {
-                plotHighlightTeam = new PlotHighlight(formsPlotRateTeam, plotTeam);
-                plotHighlightTeam.UpdateHighlight();
-            }
-
-            var plot1v1 = Rate1v1History.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, LeaderBoardId.OneVOneRandomMap);
-            if (plot1v1 != null) {
-                plotHighlight1v1 = new PlotHighlight(formsPlotRate1v1, plot1v1);
-                plotHighlight1v1.UpdateHighlight();
-            }
-        }
-
-        private void UpdateListViewMatchHistory()
-        {
-            listViewMatchedPlayers.BeginUpdate();
-            listViewMatchHistory.Items.Clear();
-            if (SelectedLeaderboard != LeaderBoardId.Undefined) {
-                listViewMatchHistory.Items.AddRange(listViewitems[SelectedLeaderboard].ToArray());
-            }
-
-            listViewMatchedPlayers.EndUpdate();
+            PlayerRate.Plot(Controler.PlayerMatchHistory, Controler.ProfileId);
+            UpdateWinRateGraph();
         }
 
         private void UpdateWinRateGraph()
@@ -175,6 +142,17 @@
             formsPlotWinRate.Plot.YLabel(comboBoxDataSource.Text);
             WinRateStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, SelectedLeaderboard, SelectedDataSource);
             formsPlotWinRate.Render();
+        }
+
+        private void UpdateListViewMatchHistory()
+        {
+            listViewMatchedPlayers.BeginUpdate();
+            listViewMatchHistory.Items.Clear();
+            if (SelectedLeaderboard != LeaderboardId.Undefined) {
+                listViewMatchHistory.Items.AddRange(listViewitems[SelectedLeaderboard].ToArray());
+            }
+
+            listViewMatchedPlayers.EndUpdate();
         }
 
         private void OpenSelectedPlayerFrofile()
@@ -219,28 +197,17 @@
                 UpdateGraphs();
                 formsPlotWinRate.Render();
                 formsPlotCountry.Render();
-                formsPlotRateTeam.Render();
-                formsPlotRate1v1.Render();
+                formsPlotPlayerRate.Render();
             } else {
                 Debug.Print("ReadPlayerMatchHistoryAsync ERROR.");
             }
 
             tabControlHistory.UseWaitCursor = false;
 
-            await UpdateListViewStatistics();
+            await UpdateListViewStatisticsAsync();
 
             UseWaitCursor = false;
             Awaiter.Complete();
-        }
-
-        private void FormsPlotRate1v1_MouseMove(object sender, MouseEventArgs e)
-        {
-            plotHighlight1v1?.UpdateHighlight();
-        }
-
-        private void FormsPlotRateTeam_MouseMove(object sender, MouseEventArgs e)
-        {
-            plotHighlightTeam?.UpdateHighlight();
         }
 
         private void OpenAoE2NetProfileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -301,6 +268,16 @@
                 PlayerCountryStat.Orientation = ScottPlot.Orientation.Vertical;
                 break;
             }
+        }
+
+        private void ListViewStatistics_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            PlayerRate.Plots[(LeaderboardId)e.Item.Tag].IsVisible = e.Item.Checked;
+        }
+
+        private void FormsPlotPlayerRate_MouseMove(object sender, MouseEventArgs e)
+        {
+            PlayerRate.UpdateHighlight();
         }
     }
 }

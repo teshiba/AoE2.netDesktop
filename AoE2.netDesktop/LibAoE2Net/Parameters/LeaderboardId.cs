@@ -3,7 +3,7 @@
     /// <summary>
     /// Leaderboard ID.
     /// </summary>
-    public enum LeaderBoardId
+    public enum LeaderboardId
     {
         /// <summary>
         /// Undefined
@@ -18,31 +18,31 @@
         /// <summary>
         /// 1v1 Deathmatch
         /// </summary>
-        OneVOneDeathmatch = 1,
+        DM1v1 = 1,
 
         /// <summary>
         /// Team Deathmatch
         /// </summary>
-        TeamDeathmatch = 2,
+        DMTeam = 2,
 
         /// <summary>
         /// 1v1 Random Map
         /// </summary>
-        OneVOneRandomMap = 3,
+        RM1v1 = 3,
 
         /// <summary>
         /// Team Random Map
         /// </summary>
-        TeamRandomMap = 4,
+        RMTeam = 4,
 
         /// <summary>
         /// 1v1 Empire wars.
         /// </summary>
-        OneVOneEmpireWars = 13,
+        EW1v1 = 13,
 
         /// <summary>
         /// Team Empire wars.
         /// </summary>
-        TeamEmpireWars = 14,
+        EWTeam = 14,
     }
 }

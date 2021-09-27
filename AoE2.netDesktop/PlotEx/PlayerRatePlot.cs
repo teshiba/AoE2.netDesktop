@@ -14,32 +14,74 @@
     /// </summary>
     public class PlayerRatePlot
     {
+        private readonly FormsPlot formsPlot;
+
+        private ScatterPlot scatterPlot = new (new double[] { double.NegativeInfinity }, new double[] { double.NegativeInfinity });
+        private ScatterPlot scatterLines = new (new double[] { double.NegativeInfinity }, new double[] { double.NegativeInfinity });
+        private FinancePlot candlesticks = new ();
+        private PlotHighlight highlightPlot = new (new FormsPlot(), new ScatterPlot(new double[] { double.NegativeInfinity }, new double[] { double.NegativeInfinity }));
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerRatePlot"/> class.
         /// </summary>
         /// <param name="formsPlot">Parent FormsPlot.</param>
         public PlayerRatePlot(FormsPlot formsPlot)
         {
-            FormsPlot = formsPlot;
+            this.formsPlot = formsPlot;
         }
 
         /// <summary>
-        /// Gets parent formsPlot.
+        /// Gets minimum value of X.
         /// </summary>
-        protected FormsPlot FormsPlot { get; }
+        public double? MinX => scatterPlot.Xs.Min() == double.NegativeInfinity ? null : scatterPlot.Xs.Min();
 
         /// <summary>
-        /// Plot Player rate.
+        /// Gets minimum value of Y.
+        /// </summary>
+        public double? MinY => scatterPlot.Ys.Min() == double.NegativeInfinity ? null : scatterPlot.Ys.Min();
+
+        /// <summary>
+        /// Gets maximum value of X.
+        /// </summary>
+        public double? MaxX => scatterPlot.Xs.Max() == double.NegativeInfinity ? null : scatterPlot.Xs.Max();
+
+        /// <summary>
+        /// Gets maximum value of Y.
+        /// </summary>
+        public double? MaxY => scatterPlot.Ys.Max() == double.NegativeInfinity ? null : scatterPlot.Ys.Max();
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the plot is visible.
+        /// </summary>
+        public bool IsVisible {
+            get => scatterPlot.IsVisible;
+            set {
+                scatterPlot.IsVisible = value;
+                scatterLines.IsVisible = value;
+                candlesticks.IsVisible = value;
+                highlightPlot.IsVisible = value;
+                formsPlot.Render();
+            }
+        }
+
+        /// <summary>
+        /// Update Highlight.
+        /// </summary>
+        public void UpdateHighlight()
+        {
+            highlightPlot.Update();
+        }
+
+        /// <summary>
+        /// Plot player rate.
         /// </summary>
         /// <param name="playerMatchHistory">PlayerMatchHistory.</param>
         /// <param name="profileId">Profile ID.</param>
         /// <param name="leaderBoardId">LeaderBoard Type.</param>
-        /// <returns>Scatter plot data.</returns>
-        public ScatterPlot Plot(PlayerMatchHistory playerMatchHistory, int profileId, LeaderBoardId leaderBoardId)
+        public void Plot(PlayerMatchHistory playerMatchHistory, int profileId, LeaderboardId leaderBoardId)
         {
             var dateList = new List<DateTime>();
             var rateList = new List<double>();
-            ScatterPlot scatterPlot = null;
 
             foreach (var item in playerMatchHistory) {
                 var player = item.GetPlayer(profileId);
@@ -53,12 +95,11 @@
             }
 
             if (dateList.Count != 0) {
+                formsPlot.Plot.Remove(scatterPlot);
+                formsPlot.Plot.Remove(candlesticks);
+                formsPlot.Plot.Remove(scatterLines);
+
                 var xs = dateList.Select(x => x.ToOADate()).ToArray();
-                FormsPlot.Plot.Clear();
-                FormsPlot.Plot.SetOuterViewLimits(xs.Min() - 10, xs.Max() + 10, rateList.Min() - 10, rateList.Max() + 10);
-                FormsPlot.Plot.XAxis.TickLabelFormat("yyyy/MM/dd", dateTimeFormat: true);
-                FormsPlot.Plot.XAxis.ManualTickSpacing(1, ScottPlot.Ticks.DateTimeUnit.Month);
-                FormsPlot.Plot.XAxis.TickLabelStyle(rotation: 45);
 
                 var ohlc = new List<OHLC>();
                 var oneDay = new TimeSpan(1, 0, 0, 0);
@@ -80,22 +121,23 @@
                     }
                 }
 
-                scatterPlot = FormsPlot.Plot.AddScatter(xs, rateList.ToArray(), lineStyle: LineStyle.Dot);
-                var candlePlot = FormsPlot.Plot.AddCandlesticks(ohlc.ToArray());
-                candlePlot.ColorUp = Color.Red;
-                candlePlot.ColorDown = Color.Green;
+                scatterPlot = formsPlot.Plot.AddScatter(xs, rateList.ToArray(), lineStyle: LineStyle.Dot);
+                candlesticks = formsPlot.Plot.AddCandlesticks(ohlc.ToArray());
+                candlesticks.ColorUp = Color.Red;
+                candlesticks.ColorDown = Color.Green;
 
                 try {
-                    var bol = candlePlot.GetBollingerBands(7);
-                    FormsPlot.Plot.AddScatterLines(bol.xs, bol.sma, Color.Blue);
+                    var bol = candlesticks.GetBollingerBands(7);
+                    scatterLines = formsPlot.Plot.AddScatterLines(bol.xs, bol.sma, Color.Blue);
                 } catch (ArgumentException e) {
                     Debug.Print($" Plot Rate ERROR. {e.Message} {e.StackTrace}");
                 }
+
+                highlightPlot = new PlotHighlight(formsPlot, scatterPlot);
+                highlightPlot.Update();
             }
 
-            FormsPlot.Render();
-
-            return scatterPlot;
+            formsPlot.Render();
         }
     }
 }

@@ -31,6 +31,7 @@ namespace AoE2NetDesktop.From.Tests
             var buttonUpdate = testClass.GetControl<Button>("buttonUpdate");
             var buttonSetId = testClass.GetControl<Button>("buttonSetId");
             var tabControlMain = testClass.GetControl<TabControl>("tabControlMain");
+            var done = false;
 
             // Act
             testClass.Shown += async (sender, e) =>
@@ -60,11 +61,14 @@ namespace AoE2NetDesktop.From.Tests
                 await testClass.Awaiter.WaitAsync("LabelNameP8_Paint");
 
                 testClass.Close();
+
+                done = true;
             };
 
             testClass.ShowDialog();
 
             // Assert
+            Assert.IsTrue(done);
         }
 
 
@@ -310,6 +314,7 @@ namespace AoE2NetDesktop.From.Tests
             TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SteamId", TestData.AvailableUserSteamId);
             TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
             TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
+            var done = false;
 
             // Act
             testClass.Shown += async (sender, e) =>
@@ -318,14 +323,16 @@ namespace AoE2NetDesktop.From.Tests
                 tabControlMain.SelectedIndex = 1;
                 buttonViewHistory.PerformClick();
                 await testClass.Awaiter.WaitAsync("ButtonViewHistory_Click");
-
-                // Assert
+                done = true;
 
                 // CleanUp
                 testClass.Close();
             };
 
             testClass.ShowDialog();
+
+            // Assert
+            Assert.IsTrue(done);
         }
 
         [TestMethod()]
@@ -339,6 +346,7 @@ namespace AoE2NetDesktop.From.Tests
             TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SteamId", TestData.AvailableUserSteamId);
             TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
             TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
+            var done = false;
 
             // Act
             testClass.Shown += async (sender, e) =>
@@ -347,14 +355,16 @@ namespace AoE2NetDesktop.From.Tests
                 tabControlMain.SelectedIndex = 1;
                 checkBoxHideTitle.Checked = true;
                 checkBoxHideTitle.Checked = false;
-
-                // Assert
+                done = true;
 
                 // CleanUp
                 testClass.Close();
             };
 
             testClass.ShowDialog();
+
+            // Assert
+            Assert.IsTrue(done);
         }
     }
 }

@@ -16,14 +16,14 @@
     public class CtrlHistory : FormControler
     {
         private const int ReadCountMax = 1000;
-        private static readonly Dictionary<string, LeaderBoardId> LeaderboardNameList = new () {
-            { "1v1 Random Map", LeaderBoardId.OneVOneRandomMap },
-            { "Team Random Map", LeaderBoardId.TeamRandomMap },
-            { "1v1 Empire Wars", LeaderBoardId.OneVOneEmpireWars },
-            { "Team Empire Wars", LeaderBoardId.TeamEmpireWars },
-            { "Unranked", LeaderBoardId.Unranked },
-            { "1v1 Death Match", LeaderBoardId.OneVOneDeathmatch },
-            { "Team Death Match", LeaderBoardId.TeamDeathmatch },
+        private static readonly Dictionary<string, LeaderboardId> LeaderboardNameList = new () {
+            { "1v1 Random Map", LeaderboardId.RM1v1 },
+            { "Team Random Map", LeaderboardId.RMTeam },
+            { "1v1 Empire Wars", LeaderboardId.EW1v1 },
+            { "Team Empire Wars", LeaderboardId.EWTeam },
+            { "Unranked", LeaderboardId.Unranked },
+            { "1v1 Death Match", LeaderboardId.DM1v1 },
+            { "Team Death Match", LeaderboardId.DMTeam },
         };
 
         private static readonly Dictionary<string, DataSource> DataSourceNameList = new () {
@@ -59,7 +59,7 @@
         /// <summary>
         /// Gets or sets leaderboard List.
         /// </summary>
-        public Dictionary<LeaderBoardId, Leaderboard> Leaderboards { get; set; } = new ();
+        public Dictionary<LeaderboardId, Leaderboard> Leaderboards { get; set; } = new ();
 
         /// <summary>
         /// Gets profile ID.
@@ -130,16 +130,16 @@
         /// </summary>
         /// <param name="leaderboardString">string of leaderboard ID.</param>
         /// <returns>LeaderBoardId.</returns>
-        public static LeaderBoardId GetLeaderboardId(string leaderboardString)
+        public static LeaderboardId GetLeaderboardId(string leaderboardString)
         {
-            LeaderBoardId ret;
+            LeaderboardId ret;
 
             if (leaderboardString != null) {
                 if (!LeaderboardNameList.TryGetValue(leaderboardString, out ret)) {
-                    ret = LeaderBoardId.Undefined;
+                    ret = LeaderboardId.Undefined;
                 }
             } else {
-                ret = LeaderBoardId.Undefined;
+                ret = LeaderboardId.Undefined;
             }
 
             return ret;
@@ -167,11 +167,15 @@
         /// Create ListViewItem of leaderboard.
         /// </summary>
         /// <param name="leaderboardName">Leaderboard name.</param>
-        /// <param name="leaderboard">leaderboard data.</param>
+        /// <param name="leaderboardId">Leaderboard ID.</param>
+        /// <param name="leaderboards">Leaderboard data.</param>
         /// <returns>ListViewItem for leaderboard.</returns>
-        public static ListViewItem CreateListViewLeaderboard(string leaderboardName, Leaderboard leaderboard)
+        public static ListViewItem CreateListViewItem(string leaderboardName, LeaderboardId leaderboardId, Dictionary<LeaderboardId, Leaderboard> leaderboards)
         {
-            var ret = new ListViewItem(leaderboardName);
+            var leaderboard = leaderboards[leaderboardId];
+            var ret = new ListViewItem(leaderboardName) {
+                Tag = leaderboardId,
+            };
 
             ret.SubItems.Add(leaderboard.Rank?.ToString() ?? "-");
             ret.SubItems.Add(leaderboard.Rating?.ToString() ?? "-");
@@ -200,16 +204,16 @@
         /// Create listView of PlayerMatchHistory.
         /// </summary>
         /// <returns>LeaderBoardId collections.</returns>
-        public Dictionary<LeaderBoardId, List<ListViewItem>> CreateListViewHistory()
+        public Dictionary<LeaderboardId, List<ListViewItem>> CreateListViewHistory()
         {
-            var ret = new Dictionary<LeaderBoardId, List<ListViewItem>> {
-                { LeaderBoardId.Unranked,           new List<ListViewItem>() },
-                { LeaderBoardId.OneVOneDeathmatch,  new List<ListViewItem>() },
-                { LeaderBoardId.TeamDeathmatch,     new List<ListViewItem>() },
-                { LeaderBoardId.OneVOneRandomMap,   new List<ListViewItem>() },
-                { LeaderBoardId.TeamRandomMap,      new List<ListViewItem>() },
-                { LeaderBoardId.OneVOneEmpireWars,  new List<ListViewItem>() },
-                { LeaderBoardId.TeamEmpireWars,     new List<ListViewItem>() },
+            var ret = new Dictionary<LeaderboardId, List<ListViewItem>> {
+                { LeaderboardId.Unranked, new List<ListViewItem>() },
+                { LeaderboardId.DM1v1, new List<ListViewItem>() },
+                { LeaderboardId.DMTeam, new List<ListViewItem>() },
+                { LeaderboardId.RM1v1, new List<ListViewItem>() },
+                { LeaderboardId.RMTeam, new List<ListViewItem>() },
+                { LeaderboardId.EW1v1, new List<ListViewItem>() },
+                { LeaderboardId.EWTeam, new List<ListViewItem>() },
             };
 
             foreach (var match in PlayerMatchHistory) {
@@ -223,7 +227,7 @@
                 listViewItem.SubItems.Add(match.Version);
 
                 if (match.LeaderboardId != null) {
-                    var leaderboardId = (LeaderBoardId)match.LeaderboardId;
+                    var leaderboardId = (LeaderboardId)match.LeaderboardId;
                     ret[leaderboardId].Add(listViewItem);
                 }
             }
@@ -254,12 +258,12 @@
                         players[name].ProfileId = player.ProfilId;
 
                         switch (match.LeaderboardId) {
-                        case LeaderBoardId.OneVOneRandomMap:
-                            players[name].Rate1v1RM = player.Rating;
+                        case LeaderboardId.RM1v1:
+                            players[name].RateRM1v1 = player.Rating;
                             players[name].Games1v1++;
                             break;
-                        case LeaderBoardId.TeamRandomMap:
-                            players[name].RateTeamRM = player.Rating;
+                        case LeaderboardId.RMTeam:
+                            players[name].RateRMTeam = player.Rating;
                             players[name].GamesTeam++;
 
                             switch (selectedPlayer.CheckDiplomacy(player)) {
@@ -329,26 +333,26 @@
         /// Read player LeaderBoard from AoE2.net.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task<Dictionary<LeaderBoardId, Leaderboard>> ReadLeaderBoardAsync()
+        public async Task<Dictionary<LeaderboardId, Leaderboard>> ReadLeaderBoardAsync()
         {
             try {
-                var leaderboardContainers = new List<LeaderboardContainer>() {
-                    await GetLeaderboardAsync(LeaderBoardId.OneVOneRandomMap),
-                    await GetLeaderboardAsync(LeaderBoardId.OneVOneDeathmatch),
-                    await GetLeaderboardAsync(LeaderBoardId.OneVOneEmpireWars),
-                    await GetLeaderboardAsync(LeaderBoardId.TeamRandomMap),
-                    await GetLeaderboardAsync(LeaderBoardId.TeamDeathmatch),
-                    await GetLeaderboardAsync(LeaderBoardId.TeamEmpireWars),
-                    await GetLeaderboardAsync(LeaderBoardId.Unranked),
+                var containers = new List<LeaderboardContainer>() {
+                    await GetLeaderboardAsync(LeaderboardId.RM1v1),
+                    await GetLeaderboardAsync(LeaderboardId.DM1v1),
+                    await GetLeaderboardAsync(LeaderboardId.EW1v1),
+                    await GetLeaderboardAsync(LeaderboardId.RMTeam),
+                    await GetLeaderboardAsync(LeaderboardId.DMTeam),
+                    await GetLeaderboardAsync(LeaderboardId.EWTeam),
+                    await GetLeaderboardAsync(LeaderboardId.Unranked),
                 };
-                Leaderboards = new Dictionary<LeaderBoardId, Leaderboard> {
-                    { LeaderBoardId.OneVOneRandomMap, leaderboardContainers[0].Leaderboards[0] },
-                    { LeaderBoardId.OneVOneDeathmatch, leaderboardContainers[1].Leaderboards[0] },
-                    { LeaderBoardId.OneVOneEmpireWars, leaderboardContainers[2].Leaderboards[0] },
-                    { LeaderBoardId.TeamRandomMap, leaderboardContainers[3].Leaderboards[0] },
-                    { LeaderBoardId.TeamDeathmatch, leaderboardContainers[4].Leaderboards[0] },
-                    { LeaderBoardId.TeamEmpireWars, leaderboardContainers[5].Leaderboards[0] },
-                    { LeaderBoardId.Unranked, leaderboardContainers[6].Leaderboards[0] },
+                Leaderboards = new Dictionary<LeaderboardId, Leaderboard> {
+                    { LeaderboardId.RM1v1, containers[0].Leaderboards[0] },
+                    { LeaderboardId.DM1v1, containers[1].Leaderboards[0] },
+                    { LeaderboardId.EW1v1, containers[2].Leaderboards[0] },
+                    { LeaderboardId.RMTeam, containers[3].Leaderboards[0] },
+                    { LeaderboardId.DMTeam, containers[4].Leaderboards[0] },
+                    { LeaderboardId.EWTeam, containers[5].Leaderboards[0] },
+                    { LeaderboardId.Unranked, containers[6].Leaderboards[0] },
                 };
             } catch (Exception e) {
                 Debug.Print($"GetLeaderboardAsync Error{e.Message}: {e.StackTrace}");
@@ -357,7 +361,7 @@
             return Leaderboards;
         }
 
-        private async Task<LeaderboardContainer> GetLeaderboardAsync(LeaderBoardId leaderBoardId)
+        private async Task<LeaderboardContainer> GetLeaderboardAsync(LeaderboardId leaderBoardId)
         {
             var ret = await AoE2net.GetLeaderboardAsync(leaderBoardId, 0, 1, ProfileId);
 

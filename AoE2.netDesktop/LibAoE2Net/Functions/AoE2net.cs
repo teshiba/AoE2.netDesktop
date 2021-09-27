@@ -64,7 +64,7 @@
         /// <param name="leaderBoardId">Leaderboard ID.</param>
         /// <param name="count">Number of matches to get (Must be 10000 or less)).</param>
         /// <returns>List of <see cref="PlayerRating"/> deserialized as JSON.</returns>
-        public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(string steamId, LeaderBoardId leaderBoardId, int count)
+        public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(string steamId, LeaderboardId leaderBoardId, int count)
         {
             if (steamId is null) {
                 throw new ArgumentNullException(nameof(steamId));
@@ -83,7 +83,7 @@
         /// <param name="leaderBoardId">Leaderboard ID.</param>
         /// <param name="count">Number of matches to get (Must be 10000 or less)).</param>
         /// <returns>List of <see cref="PlayerRating"/> deserialized as JSON.</returns>
-        public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(int profileId, LeaderBoardId leaderBoardId, int count)
+        public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(int profileId, LeaderboardId leaderBoardId, int count)
         {
             string apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&profile_id={profileId}&count={count}";
 
@@ -158,7 +158,7 @@
         /// <param name="count">Number of leaderboard entries to get (Must be 10000 or less)).</param>
         /// <param name="profileId">Profile ID.</param>
         /// <returns> Leaderboard for the specified user.</returns>
-        public static async Task<LeaderboardContainer> GetLeaderboardAsync(LeaderBoardId leaderBoardId, int start, int count, int profileId)
+        public static async Task<LeaderboardContainer> GetLeaderboardAsync(LeaderboardId leaderBoardId, int start, int count, int profileId)
         {
             var apiEndPoint = $"leaderboard?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&profile_id={profileId}&start={start}&count={count}";
 
@@ -173,7 +173,7 @@
         /// <param name="count">Number of leaderboard entries to get (Must be 10000 or less)).</param>
         /// <param name="steamId">steamID64.</param>
         /// <returns> Leaderboard for the specified user.</returns>
-        public static async Task<LeaderboardContainer> GetLeaderboardAsync(LeaderBoardId leaderBoardId, int start, int count, string steamId)
+        public static async Task<LeaderboardContainer> GetLeaderboardAsync(LeaderboardId leaderBoardId, int start, int count, string steamId)
         {
             var apiEndPoint = $"leaderboard?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&steam_id={steamId}&start={start}&count={count}";
 

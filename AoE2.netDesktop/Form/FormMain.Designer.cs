@@ -153,14 +153,14 @@
             this.labelMap.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelMap.Location = new System.Drawing.Point(0, 1);
             this.labelMap.Name = "labelMap";
-            this.labelMap.Size = new System.Drawing.Size(347, 29);
+            this.labelMap.Size = new System.Drawing.Size(278, 29);
             this.labelMap.TabIndex = 2;
             this.labelMap.Text = "Map : ------------------------";
             this.labelMap.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
             // 
             // labelServer
             // 
-            this.labelServer.Location = new System.Drawing.Point(356, 15);
+            this.labelServer.Location = new System.Drawing.Point(284, 15);
             this.labelServer.Name = "labelServer";
             this.labelServer.Size = new System.Drawing.Size(152, 19);
             this.labelServer.TabIndex = 2;
@@ -170,7 +170,7 @@
             // 
             // labelGameId
             // 
-            this.labelGameId.Location = new System.Drawing.Point(356, 0);
+            this.labelGameId.Location = new System.Drawing.Point(284, 0);
             this.labelGameId.Name = "labelGameId";
             this.labelGameId.Size = new System.Drawing.Size(152, 19);
             this.labelGameId.TabIndex = 9;
@@ -922,10 +922,9 @@
             // checkBoxAlwaysOnTop
             // 
             this.checkBoxAlwaysOnTop.AutoSize = true;
-            this.checkBoxAlwaysOnTop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBoxAlwaysOnTop.Location = new System.Drawing.Point(9, 7);
             this.checkBoxAlwaysOnTop.Name = "checkBoxAlwaysOnTop";
-            this.checkBoxAlwaysOnTop.Size = new System.Drawing.Size(98, 19);
+            this.checkBoxAlwaysOnTop.Size = new System.Drawing.Size(101, 19);
             this.checkBoxAlwaysOnTop.TabIndex = 2;
             this.checkBoxAlwaysOnTop.Text = "Always on top";
             this.checkBoxAlwaysOnTop.UseVisualStyleBackColor = true;

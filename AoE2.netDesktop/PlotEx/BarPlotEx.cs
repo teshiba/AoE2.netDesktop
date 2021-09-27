@@ -11,6 +11,7 @@
     /// </summary>
     public class BarPlotEx
     {
+        private readonly FormsPlot formsPlot;
         private Orientation orientation;
 
         /// <summary>
@@ -19,7 +20,7 @@
         /// <param name="formsPlot">Parent formsPlot.</param>
         public BarPlotEx(FormsPlot formsPlot)
         {
-            FormsPlot = formsPlot;
+            this.formsPlot = formsPlot;
         }
 
         /// <summary>
@@ -69,17 +70,12 @@
         }
 
         /// <summary>
-        /// Gets parent formsPlot.
-        /// </summary>
-        protected FormsPlot FormsPlot { get; }
-
-        /// <summary>
         /// Render graph.
         /// </summary>
         public void Render()
         {
             SetDataToFromsPlot();
-            FormsPlot.Render();
+            formsPlot.Render();
         }
 
         private void SetOrientation(Orientation orientation)
@@ -87,15 +83,15 @@
             if (this.orientation != orientation) {
                 this.orientation = orientation;
                 SetDataToFromsPlot();
-                FormsPlot.Render();
+                formsPlot.Render();
             }
         }
 
         private void SetDataToFromsPlot()
         {
-            FormsPlot.Plot.Clear();
-            FormsPlot.Plot.XTicks();
-            FormsPlot.Plot.YTicks();
+            formsPlot.Plot.Clear();
+            formsPlot.Plot.XTicks();
+            formsPlot.Plot.YTicks();
 
             if (Values.Count != 0) {
                 var stackedLower = Values.Select(x => x.Value.Lower).ToArray();
@@ -108,36 +104,36 @@
                         stackedUpper[i] = stackedLower[i] + upperData[i];
                     }
 
-                    var barUpper = FormsPlot.Plot.AddBar(stackedUpper);
+                    var barUpper = formsPlot.Plot.AddBar(stackedUpper);
                     barUpper.Orientation = orientation;
                     barUpper.ShowValuesAboveBars = ShowValuesAboveBars;
                     barUpper.FillColor = Color.IndianRed;
                 }
 
-                var barLower = FormsPlot.Plot.AddBar(stackedLower);
+                var barLower = formsPlot.Plot.AddBar(stackedLower);
                 barLower.Orientation = orientation;
                 barLower.ShowValuesAboveBars = ShowValuesAboveBars;
                 barLower.FillColor = Color.Green;
 
-                FormsPlot.Plot.SetAxisLimits(xMin: 0, yMin: -1);
+                formsPlot.Plot.SetAxisLimits(xMin: 0, yMin: -1);
 
                 switch (orientation) {
                 case Orientation.Horizontal:
-                    FormsPlot.Plot.YTicks(Values.Keys.ToArray());
-                    FormsPlot.Plot.SetAxisLimits(xMin: YMin, yMin: XMin);
-                    FormsPlot.Plot.XLabel(ValueLabel);
-                    FormsPlot.Plot.YLabel(ItemLabel);
+                    formsPlot.Plot.YTicks(Values.Keys.ToArray());
+                    formsPlot.Plot.SetAxisLimits(xMin: YMin, yMin: XMin);
+                    formsPlot.Plot.XLabel(ValueLabel);
+                    formsPlot.Plot.YLabel(ItemLabel);
                     break;
                 case Orientation.Vertical:
-                    FormsPlot.Plot.XTicks(Values.Keys.ToArray());
-                    FormsPlot.Plot.SetAxisLimits(xMin: XMin, yMin: YMin);
-                    FormsPlot.Plot.XLabel(ItemLabel);
-                    FormsPlot.Plot.YLabel(ValueLabel);
-                    FormsPlot.Plot.XAxis.TickLabelStyle(rotation: ItemLabelRotation);
+                    formsPlot.Plot.XTicks(Values.Keys.ToArray());
+                    formsPlot.Plot.SetAxisLimits(xMin: XMin, yMin: YMin);
+                    formsPlot.Plot.XLabel(ItemLabel);
+                    formsPlot.Plot.YLabel(ValueLabel);
+                    formsPlot.Plot.XAxis.TickLabelStyle(rotation: ItemLabelRotation);
                     break;
                 }
             } else {
-                FormsPlot.Plot.YTicks(new string[] { "No Data" });
+                formsPlot.Plot.YTicks(new string[] { "No Data" });
             }
         }
     }

@@ -1,11 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AoE2NetDesktop.Form;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ScottPlot;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -15,13 +9,15 @@ namespace AoE2NetDesktop.Form.Tests
         [TestMethod()]
         public void BarPlotExTest()
         {
-            Assert.Fail();
-        }
+            // Arrange
+            var expVal = Orientation.Horizontal;
 
-        [TestMethod()]
-        public void RenderTest()
-        {
-            Assert.Fail();
+            // Act
+            var testClass = new BarPlotEx(new FormsPlot());
+            var actVal = testClass.Orientation;
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
         }
     }
 }

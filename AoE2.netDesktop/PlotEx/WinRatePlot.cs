@@ -36,7 +36,7 @@
         /// <param name="profileId">Profile ID.</param>
         /// <param name="leaderBoardId">target leader board.</param>
         /// <param name="dataSource">target data source.</param>
-        public void Plot(PlayerMatchHistory playerMatchHistory, int profileId, LeaderBoardId leaderBoardId, DataSource dataSource)
+        public void Plot(PlayerMatchHistory playerMatchHistory, int profileId, LeaderboardId leaderBoardId, DataSource dataSource)
         {
             if (playerMatchHistory is null) {
                 throw new ArgumentNullException(nameof(playerMatchHistory));
@@ -59,22 +59,20 @@
                 }
             }
 
-            if (Values.Count != 0) {
-                Render();
-            }
+            Render();
         }
 
         private static void AddWonRate(Dictionary<string, StackedBarGraphData> data, bool? won, string key)
         {
             if (won != null) {
                 if (!data.ContainsKey(key)) {
-                    data.Add(key,  new StackedBarGraphData(0, 0));
+                    data.Add(key, new StackedBarGraphData(0, 0));
                 }
 
                 if ((bool)won) {
-                    data[key] = new (data[key].Lower + 1, data[key].Upper);
+                    data[key] = new (data[key].Lower + 1, (double)data[key].Upper);
                 } else {
-                    data[key] = new (data[key].Lower, data[key].Upper + 1);
+                    data[key] = new (data[key].Lower, (double)data[key].Upper + 1);
                 }
             }
         }
