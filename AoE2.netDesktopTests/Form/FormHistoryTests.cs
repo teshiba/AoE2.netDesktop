@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LibAoE2net;
 using AoE2NetDesktop.Tests;
-using AoE2NetDesktop.From.Tests;
 using System.Windows.Forms;
 
 namespace AoE2NetDesktop.Form.Tests

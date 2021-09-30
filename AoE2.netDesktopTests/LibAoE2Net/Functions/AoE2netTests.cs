@@ -1,11 +1,9 @@
-﻿using LibAoE2net;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
 using AoE2NetDesktop.Tests;
-using Accessibility;
 
 namespace LibAoE2net.Tests
 {

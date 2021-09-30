@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop.From
+﻿namespace AoE2NetDesktop.Form
 {
     using System.Threading.Tasks;
     using System.Windows.Forms;

@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop.From
+﻿namespace AoE2NetDesktop.Form
 {
     using System;
     using System.Collections.Generic;
@@ -6,8 +6,6 @@
     using System.Drawing;
     using System.Linq;
     using System.Threading.Tasks;
-
-    using AoE2NetDesktop.Form;
 
     using LibAoE2net;
 

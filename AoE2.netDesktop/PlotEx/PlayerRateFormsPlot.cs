@@ -58,7 +58,11 @@
                 plot.Value.Plot(playerMatchHistory, profileId, plot.Key);
             }
 
-            formsPlot.Plot.SetOuterViewLimits(GetMinX(Plots) - 10, GetMaxX(Plots) + 10, GetMinY(Plots) - 10, GetMaxY(Plots) + 10);
+            formsPlot.Plot.SetOuterViewLimits(
+                GetMinX(Plots) - 10,
+                GetMaxX(Plots) + 10,
+                GetMinY(Plots) - 10,
+                GetMaxY(Plots) + 10);
         }
 
         /// <summary>
@@ -71,12 +75,16 @@
             }
         }
 
-        private static double GetMinX(Dictionary<LeaderboardId, PlayerRatePlot> plots) => plots.Select(x => x.Value.MinX)?.Min() ?? double.NegativeInfinity;
+        private static double GetMinX(Dictionary<LeaderboardId, PlayerRatePlot> plots)
+            => plots.Select(x => x.Value.MinX)?.Min() ?? double.NegativeInfinity;
 
-        private static double GetMinY(Dictionary<LeaderboardId, PlayerRatePlot> plots) => plots.Select(x => x.Value.MinY)?.Min() ?? double.NegativeInfinity;
+        private static double GetMinY(Dictionary<LeaderboardId, PlayerRatePlot> plots)
+            => plots.Select(x => x.Value.MinY)?.Min() ?? double.NegativeInfinity;
 
-        private static double GetMaxX(Dictionary<LeaderboardId, PlayerRatePlot> plots) => plots.Select(x => x.Value.MaxX)?.Max() ?? double.PositiveInfinity;
+        private static double GetMaxX(Dictionary<LeaderboardId, PlayerRatePlot> plots)
+            => plots.Select(x => x.Value.MaxX)?.Max() ?? double.PositiveInfinity;
 
-        private static double GetMaxY(Dictionary<LeaderboardId, PlayerRatePlot> plots) => plots.Select(x => x.Value.MaxY)?.Max() ?? double.PositiveInfinity;
+        private static double GetMaxY(Dictionary<LeaderboardId, PlayerRatePlot> plots)
+            => plots.Select(x => x.Value.MaxY)?.Max() ?? double.PositiveInfinity;
     }
 }

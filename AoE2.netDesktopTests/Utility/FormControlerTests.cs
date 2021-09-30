@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
-namespace AoE2NetDesktop.From.Tests
+namespace AoE2NetDesktop.Form.Tests
 {
     public class CtrlForm : FormControler
     {

@@ -7,7 +7,6 @@
     using System.Drawing;
     using System.Threading.Tasks;
     using System.Windows.Forms;
-    using AoE2NetDesktop.From;
     using LibAoE2net;
 
     /// <summary>

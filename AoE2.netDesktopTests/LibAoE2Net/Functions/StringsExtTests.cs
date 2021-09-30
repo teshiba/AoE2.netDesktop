@@ -1,4 +1,4 @@
-﻿using AoE2NetDesktop.From;
+﻿using AoE2NetDesktop.Form;
 
 using LibAoE2net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

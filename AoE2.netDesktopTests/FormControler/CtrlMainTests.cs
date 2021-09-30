@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using AoE2NetDesktop.Tests;
 
-namespace AoE2NetDesktop.From.Tests
+namespace AoE2NetDesktop.Form.Tests
 {
     [TestClass()]
     public class CtrlMainTests
