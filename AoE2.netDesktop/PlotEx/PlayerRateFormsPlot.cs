@@ -76,15 +76,15 @@
         }
 
         private static double GetMinX(Dictionary<LeaderboardId, PlayerRatePlot> plots)
-            => plots.Select(x => x.Value.MinX)?.Min() ?? double.NegativeInfinity;
+            => plots.Select(x => x.Value.MinX).Min() ?? double.NegativeInfinity;
 
         private static double GetMinY(Dictionary<LeaderboardId, PlayerRatePlot> plots)
-            => plots.Select(x => x.Value.MinY)?.Min() ?? double.NegativeInfinity;
+            => plots.Select(x => x.Value.MinY).Min() ?? double.NegativeInfinity;
 
         private static double GetMaxX(Dictionary<LeaderboardId, PlayerRatePlot> plots)
-            => plots.Select(x => x.Value.MaxX)?.Max() ?? double.PositiveInfinity;
+            => plots.Select(x => x.Value.MaxX).Max() ?? double.PositiveInfinity;
 
         private static double GetMaxY(Dictionary<LeaderboardId, PlayerRatePlot> plots)
-            => plots.Select(x => x.Value.MaxY)?.Max() ?? double.PositiveInfinity;
+            => plots.Select(x => x.Value.MaxY).Max() ?? double.PositiveInfinity;
     }
 }

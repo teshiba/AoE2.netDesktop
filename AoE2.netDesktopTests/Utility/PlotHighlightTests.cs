@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ScottPlot;
-
 using System;
 
 namespace AoE2NetDesktop.Form.Tests

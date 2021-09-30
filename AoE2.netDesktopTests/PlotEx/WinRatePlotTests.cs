@@ -1,11 +1,8 @@
 ﻿using AoE2NetDesktop.Tests;
 
 using LibAoE2net;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using ScottPlot;
-
 using System;
 using System.Collections.Generic;
 
