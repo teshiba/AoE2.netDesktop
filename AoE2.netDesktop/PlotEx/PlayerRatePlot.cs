@@ -16,10 +16,10 @@
     {
         private readonly FormsPlot formsPlot;
 
-        private ScatterPlot scatterPlot = new (new double[] { double.NegativeInfinity }, new double[] { double.NegativeInfinity });
-        private ScatterPlot scatterLines = new (new double[] { double.NegativeInfinity }, new double[] { double.NegativeInfinity });
-        private FinancePlot candlesticks = new ();
-        private PlotHighlight highlightPlot = new (new FormsPlot(), new ScatterPlot(new double[] { double.NegativeInfinity }, new double[] { double.NegativeInfinity }));
+        private ScatterPlot scatterPlot;
+        private ScatterPlot scatterLines;
+        private FinancePlot candlesticks;
+        private PlotHighlight highlightPlot;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerRatePlot"/> class.
@@ -28,6 +28,12 @@
         public PlayerRatePlot(FormsPlot formsPlot)
         {
             this.formsPlot = formsPlot;
+            var initData = new double[] { double.NegativeInfinity };
+
+            scatterPlot = new (initData, initData);
+            scatterLines = new (initData, initData);
+            candlesticks = new ();
+            highlightPlot = new (new FormsPlot(), new ScatterPlot(initData, initData));
         }
 
         /// <summary>
@@ -134,10 +140,8 @@
                 }
 
                 highlightPlot = new PlotHighlight(formsPlot, scatterPlot);
-                highlightPlot.Update();
+                IsVisible = false;
             }
-
-            formsPlot.Render();
         }
     }
 }
