@@ -62,7 +62,7 @@ namespace AoE2NetDesktop.Form.Tests
             // Assert
             Assert.ThrowsException<ArgumentNullException>(() =>
             {
-                _ = new PlayerRateFormsPlot(null);
+                _ = new PlayerRateFormsPlot(null, new LeaderboardColor());
             });
         }
 
@@ -70,7 +70,7 @@ namespace AoE2NetDesktop.Form.Tests
         public void PlotTest()
         {
             // Arrange
-            var testClass = new PlayerRateFormsPlot(new FormsPlot());
+            var testClass = new PlayerRateFormsPlot(new FormsPlot(), new LeaderboardColor());
             var datetimeMaxX = new DateTime(1970, 01, 01, 9, 0, 0);
             var datetimeMinX = new DateTime(1970, 01, 01, 9, 0, 0);
             var rateMaxY = 130;
@@ -90,7 +90,7 @@ namespace AoE2NetDesktop.Form.Tests
         public void PlotTestWithoutRate()
         {
             // Arrange
-            var testClass = new PlayerRateFormsPlot(new FormsPlot());
+            var testClass = new PlayerRateFormsPlot(new FormsPlot(), new LeaderboardColor());
 
             // Act
             testClass.Plot(matchesWithoutRate, profileId);
@@ -106,7 +106,7 @@ namespace AoE2NetDesktop.Form.Tests
         public void UpdateHighlightTest()
         {
             // Arrange
-            var testClass = new PlayerRateFormsPlot(new FormsPlot());
+            var testClass = new PlayerRateFormsPlot(new FormsPlot(), new LeaderboardColor());
 
             // Act
             testClass.UpdateHighlight();

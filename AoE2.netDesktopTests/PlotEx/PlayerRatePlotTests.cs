@@ -34,7 +34,7 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             var expVal = true;
-            var testClass = new PlayerRatePlot(new FormsPlot());
+            var testClass = new PlayerRatePlot(new FormsPlot(), new LeaderboardColor().Unranked);
 
             // Act
             var actVal = testClass.IsVisible;
@@ -48,7 +48,7 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             var expVal = false;
-            var testClass = new PlayerRatePlot(new FormsPlot());
+            var testClass = new PlayerRatePlot(new FormsPlot(), new LeaderboardColor().Unranked);
 
             // Act
             testClass.IsVisible = !testClass.IsVisible;
@@ -59,10 +59,80 @@ namespace AoE2NetDesktop.Form.Tests
         }
 
         [TestMethod()]
+        public void PlayerRatePlotTestGetIsVisibleHighlight()
+        {
+            // Arrange
+            var expVal = true;
+            var testClass = new PlayerRatePlot(new FormsPlot(), new LeaderboardColor().Unranked);
+
+            // Act
+            var actVal = testClass.IsVisibleHighlight;
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
+        }
+
+        [TestMethod()]
+        [DataRow(true)]
+        [DataRow(false)]
+        public void PlayerRatePlotTestGetIsVisibleHighlightAfterSetIsVisible(bool isVisible)
+        {
+            // Arrange
+            var expVal = isVisible;
+            var testClass = new PlayerRatePlot(new FormsPlot(), new LeaderboardColor().Unranked) {
+                IsVisible = isVisible
+            };
+
+            // Act
+            var actVal = testClass.IsVisibleHighlight;
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
+        }
+
+        [TestMethod()]
+        [DataRow(true)]
+        [DataRow(false)]
+        public void PlayerRatePlotTestSetIsVisibleHighlightIfVisibleFalse(bool isVisibleHighlight)
+        {
+            // Arrange
+            var expVal = false;
+            var testClass = new PlayerRatePlot(new FormsPlot(), new LeaderboardColor().Unranked) {
+                IsVisible = false
+            };
+
+            // Act
+            testClass.IsVisibleHighlight = isVisibleHighlight;
+            var actVal = testClass.IsVisibleHighlight;
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
+        }
+
+        [TestMethod()]
+        [DataRow(true)]
+        [DataRow(false)]
+        public void PlayerRatePlotTestSetIsVisibleHighlightIfVisibleTrue(bool isVisibleHighlight)
+        {
+            // Arrange
+            var expVal = isVisibleHighlight;
+            var testClass = new PlayerRatePlot(new FormsPlot(), new LeaderboardColor().Unranked) {
+                IsVisible = true
+            };
+
+            // Act
+            testClass.IsVisibleHighlight = isVisibleHighlight;
+            var actVal = testClass.IsVisibleHighlight;
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
+        }
+
+        [TestMethod()]
         public void UpdateHighlightTest()
         {
             // Arrange
-            var testClass = new PlayerRatePlot(new FormsPlot());
+            var testClass = new PlayerRatePlot(new FormsPlot(), new LeaderboardColor().Unranked);
 
             // Act
             testClass.UpdateHighlight();
@@ -88,7 +158,7 @@ namespace AoE2NetDesktop.Form.Tests
                 CreateMatch(1001, datetime + new TimeSpan(6, 0, 0, 0)),
                 CreateMatch(1001, datetime + new TimeSpan(7, 0, 0, 0)),
             };
-            var testClass = new PlayerRatePlot(new FormsPlot());
+            var testClass = new PlayerRatePlot(new FormsPlot(), new LeaderboardColor().Unranked);
 
             // Act
             testClass.Plot(playerMatchHistory, profileId, LeaderboardId.RM1v1);

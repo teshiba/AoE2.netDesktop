@@ -19,10 +19,20 @@
         private const int IndexEW1v1 = 2;
         private const int IndexEWTeam = 3;
         private const int IndexUnranked = 4;
-        private const int IndexDMTeam = 5;
-        private const int IndexDM1v1 = 6;
+        private const int IndexDM1v1 = 5;
+        private const int IndexDMTeam = 6;
 
         private Dictionary<LeaderboardId, List<ListViewItem>> listViewitems;
+
+        private LeaderboardColor listViewColor = new () {
+            RM1v1 = Color.Blue,
+            RMTeam = Color.Indigo,
+            DM1v1 = Color.DarkGreen,
+            DMTeam = Color.SeaGreen,
+            EW1v1 = Color.Red,
+            EWTeam = Color.OrangeRed,
+            Unranked = Color.SlateGray,
+        };
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormHistory"/> class.
@@ -46,7 +56,7 @@
 
             PlayerCountryStat = new PlayerCountryPlot(formsPlotCountry);
             WinRateStat = new WinRatePlot(formsPlotWinRate);
-            PlayerRate = new PlayerRateFormsPlot(formsPlotPlayerRate);
+            PlayerRate = new PlayerRateFormsPlot(formsPlotPlayerRate, listViewColor);
         }
 
         /// <summary>
@@ -100,6 +110,23 @@
                 listviewItems[IndexEW1v1] = CtrlHistory.CreateListViewItem("1v1 EW", LeaderboardId.EW1v1, leaderboards);
                 listviewItems[IndexEWTeam] = CtrlHistory.CreateListViewItem("Team EW", LeaderboardId.EWTeam, leaderboards);
                 listviewItems[IndexUnranked] = CtrlHistory.CreateListViewItem("Unranked", LeaderboardId.Unranked, leaderboards);
+
+                listviewItems[IndexRM1v1].ForeColor = listViewColor.RM1v1;
+                listviewItems[IndexRMTeam].ForeColor = listViewColor.RMTeam;
+                listviewItems[IndexDM1v1].ForeColor = listViewColor.DM1v1;
+                listviewItems[IndexDMTeam].ForeColor = listViewColor.DMTeam;
+                listviewItems[IndexEW1v1].ForeColor = listViewColor.EW1v1;
+                listviewItems[IndexEWTeam].ForeColor = listViewColor.EWTeam;
+                listviewItems[IndexUnranked].ForeColor = listViewColor.Unranked;
+
+                listviewItems[IndexRM1v1].Font = new Font(listviewItems[IndexRM1v1].Font, FontStyle.Bold);
+                listviewItems[IndexRMTeam].Font = new Font(listviewItems[IndexRMTeam].Font, FontStyle.Bold);
+                listviewItems[IndexDM1v1].Font = new Font(listviewItems[IndexDM1v1].Font, FontStyle.Bold);
+                listviewItems[IndexDMTeam].Font = new Font(listviewItems[IndexDMTeam].Font, FontStyle.Bold);
+                listviewItems[IndexEW1v1].Font = new Font(listviewItems[IndexEW1v1].Font, FontStyle.Bold);
+                listviewItems[IndexEWTeam].Font = new Font(listviewItems[IndexEWTeam].Font, FontStyle.Bold);
+                listviewItems[IndexUnranked].Font = new Font(listviewItems[IndexUnranked].Font, FontStyle.Bold);
+
                 listViewStatistics.Items.AddRange(listviewItems);
                 listViewStatistics.EndUpdate();
             } else {

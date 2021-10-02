@@ -32,7 +32,7 @@ namespace AoE2NetDesktop.Form.Tests
             var testClass = new CtrlMain();
 
             // Assert
-            Assert.AreEqual("-- Invalid ID --", testClass.UserCountry);
+            Assert.AreEqual("N/A", testClass.UserCountry);
             Assert.AreEqual("-- Invalid ID --", testClass.UserName);
         }
 
@@ -264,7 +264,8 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             AoE2net.ComClient = new TestHttpClient();
-            var notExpVal = "-- Invalid ID --";
+            var notExpValUserCountry = "N/A";
+            var notExpValUserName = "-- Invalid ID --";
 
             // Act
             var testClass = new CtrlMain();
@@ -274,8 +275,8 @@ namespace AoE2NetDesktop.Form.Tests
 
             // Assert
             Assert.IsTrue(actVal);
-            Assert.AreNotEqual(notExpVal, testClass.UserCountry);
-            Assert.AreNotEqual(notExpVal, testClass.UserName);
+            Assert.AreNotEqual(notExpValUserCountry, testClass.UserCountry);
+            Assert.AreNotEqual(notExpValUserName, testClass.UserName);
         }
 
         [TestMethod()]
@@ -283,7 +284,8 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             AoE2net.ComClient = new TestHttpClient();
-            var expVal = "-- Invalid ID --";
+            var expValUserCountry = "N/A";
+            var expValUserName = "-- Invalid ID --";
 
             // Act
             var testClass = new CtrlMain();
@@ -300,8 +302,8 @@ namespace AoE2NetDesktop.Form.Tests
             }
 
             // Assert
-            Assert.AreEqual(expVal, testClass.UserCountry);
-            Assert.AreEqual(expVal, testClass.UserName);
+            Assert.AreEqual(expValUserCountry, testClass.UserCountry);
+            Assert.AreEqual(expValUserName, testClass.UserName);
         }
 
         [TestMethod()]
@@ -309,7 +311,9 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             AoE2net.ComClient = new TestHttpClient();
-            var notExpVal = "-- Invalid ID --";
+            var notExpValUserCountry = "N/A";
+            var notExpValUserName = "-- Invalid ID --";
+
 
             // Act
             var testClass = new CtrlMain();
@@ -319,8 +323,8 @@ namespace AoE2NetDesktop.Form.Tests
 
             // Assert
             Assert.IsTrue(actVal);
-            Assert.AreNotEqual(notExpVal, testClass.UserCountry);
-            Assert.AreNotEqual(notExpVal, testClass.UserName);
+            Assert.AreNotEqual(notExpValUserCountry, testClass.UserCountry);
+            Assert.AreNotEqual(notExpValUserName, testClass.UserName);
             Assert.AreEqual(TestData.AvailableUserProfileIdWithoutSteamId, testClass.ProfileId);
             Assert.IsNull(testClass.SteamId);
         }
@@ -330,7 +334,8 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             AoE2net.ComClient = new TestHttpClient();
-            var expVal = "-- Invalid ID --";
+            var expValUserCountry = "N/A";
+            var expValUserName = "-- Invalid ID --";
 
             // Act
             var testClass = new CtrlMain();
@@ -340,8 +345,8 @@ namespace AoE2NetDesktop.Form.Tests
 
             // Assert
             Assert.IsTrue(actVal);
-            Assert.AreEqual(expVal, testClass.UserCountry);
-            Assert.AreEqual(expVal, testClass.UserName);
+            Assert.AreEqual(expValUserCountry, testClass.UserCountry);
+            Assert.AreEqual(expValUserName, testClass.UserName);
         }
 
         [TestMethod()]

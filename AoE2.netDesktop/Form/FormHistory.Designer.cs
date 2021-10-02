@@ -285,10 +285,10 @@ namespace AoE2NetDesktop.Form
             // 
             this.formsPlotPlayerRate.BackColor = System.Drawing.Color.Transparent;
             this.formsPlotPlayerRate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.formsPlotPlayerRate.Location = new System.Drawing.Point(3, 193);
+            this.formsPlotPlayerRate.Location = new System.Drawing.Point(3, 168);
             this.formsPlotPlayerRate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotPlayerRate.Name = "formsPlotPlayerRate";
-            this.formsPlotPlayerRate.Size = new System.Drawing.Size(976, 519);
+            this.formsPlotPlayerRate.Size = new System.Drawing.Size(976, 544);
             this.formsPlotPlayerRate.TabIndex = 6;
             this.formsPlotPlayerRate.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormsPlotPlayerRate_MouseMove);
             // 
@@ -309,12 +309,13 @@ namespace AoE2NetDesktop.Form
             this.columnHeaderHighestStreak,
             this.columnHeaderLowestStreak});
             this.listViewStatistics.Dock = System.Windows.Forms.DockStyle.Top;
+            this.listViewStatistics.Font = new System.Drawing.Font("Yu Gothic UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.listViewStatistics.FullRowSelect = true;
             this.listViewStatistics.GridLines = true;
             this.listViewStatistics.HideSelection = false;
             this.listViewStatistics.Location = new System.Drawing.Point(3, 3);
             this.listViewStatistics.Name = "listViewStatistics";
-            this.listViewStatistics.Size = new System.Drawing.Size(976, 190);
+            this.listViewStatistics.Size = new System.Drawing.Size(976, 165);
             this.listViewStatistics.TabIndex = 2;
             this.listViewStatistics.UseCompatibleStateImageBehavior = false;
             this.listViewStatistics.View = System.Windows.Forms.View.Details;

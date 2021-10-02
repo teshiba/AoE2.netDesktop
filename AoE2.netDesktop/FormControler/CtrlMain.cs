@@ -58,7 +58,7 @@
         /// <summary>
         /// Gets get user country name.
         /// </summary>
-        public string UserCountry { get => playerLastmatch.Country ?? InvalidSteamIdString; }
+        public string UserCountry { get => CountryCode.ConvertToFullName(playerLastmatch.Country); }
 
         /// <summary>
         /// Gets user name.

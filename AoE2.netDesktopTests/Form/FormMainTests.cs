@@ -194,7 +194,7 @@ namespace AoE2NetDesktop.Form.Tests
 
                 // Assert
                 Assert.AreEqual($"   Name: {InvalidSteamIdString}", labelSettingsName.Text);
-                Assert.AreEqual($"Country: {InvalidSteamIdString}", labelSettingsCountry.Text);
+                Assert.AreEqual($"Country: N/A", labelSettingsCountry.Text);
 
                 // CleanUp
                 testClass.Close();
@@ -293,7 +293,7 @@ namespace AoE2NetDesktop.Form.Tests
 
                 // Assert
                 Assert.AreEqual("   Name: Player1", labelSettingsName.Text);
-                Assert.AreEqual("Country: JP", labelSettingsCountry.Text);
+                Assert.AreEqual("Country: Japan", labelSettingsCountry.Text);
 
                 // CleanUp
                 testClass.Close();

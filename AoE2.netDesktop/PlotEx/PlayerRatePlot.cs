@@ -15,6 +15,7 @@
     public class PlayerRatePlot
     {
         private readonly FormsPlot formsPlot;
+        private readonly Color plotLineColor;
 
         private ScatterPlot scatterPlot;
         private ScatterPlot scatterLines;
@@ -25,36 +26,37 @@
         /// Initializes a new instance of the <see cref="PlayerRatePlot"/> class.
         /// </summary>
         /// <param name="formsPlot">Parent FormsPlot.</param>
-        public PlayerRatePlot(FormsPlot formsPlot)
+        /// <param name="lineColor">draw line color.</param>
+        public PlayerRatePlot(FormsPlot formsPlot, Color lineColor)
         {
             this.formsPlot = formsPlot;
-            var initData = new double[] { double.NegativeInfinity };
-
+            var initData = Array.Empty<double>();
+            plotLineColor = lineColor;
             scatterPlot = new (initData, initData);
             scatterLines = new (initData, initData);
             candlesticks = new ();
-            highlightPlot = new (new FormsPlot(), new ScatterPlot(initData, initData));
+            highlightPlot = new (new FormsPlot(), new ScatterPlot(initData, initData), string.Empty);
         }
 
         /// <summary>
         /// Gets minimum value of X.
         /// </summary>
-        public double? MinX => scatterPlot.Xs.Min() == double.NegativeInfinity ? null : scatterPlot.Xs.Min();
+        public double? MinX => scatterPlot.Xs.Length == 0 ? null : scatterPlot.Xs.Min();
 
         /// <summary>
         /// Gets minimum value of Y.
         /// </summary>
-        public double? MinY => scatterPlot.Ys.Min() == double.NegativeInfinity ? null : scatterPlot.Ys.Min();
+        public double? MinY => scatterPlot.Ys.Length == 0 ? null : scatterPlot.Ys.Min();
 
         /// <summary>
         /// Gets maximum value of X.
         /// </summary>
-        public double? MaxX => scatterPlot.Xs.Max() == double.NegativeInfinity ? null : scatterPlot.Xs.Max();
+        public double? MaxX => scatterPlot.Xs.Length == 0 ? null : scatterPlot.Xs.Max();
 
         /// <summary>
         /// Gets maximum value of Y.
         /// </summary>
-        public double? MaxY => scatterPlot.Ys.Max() == double.NegativeInfinity ? null : scatterPlot.Ys.Max();
+        public double? MaxY => scatterPlot.Ys.Length == 0 ? null : scatterPlot.Ys.Max();
 
         /// <summary>
         /// Gets or sets a value indicating whether the plot is visible.
@@ -71,11 +73,25 @@
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the highlight is visible.
+        /// </summary>
+        public bool IsVisibleHighlight
+        {
+            get => highlightPlot.IsVisible;
+            set {
+                if (IsVisible) {
+                    highlightPlot.IsVisible = value;
+                }
+            }
+        }
+
+        /// <summary>
         /// Update Highlight.
         /// </summary>
-        public void UpdateHighlight()
+        /// <returns>X-Y axis value.</returns>
+        public (double pointX, double pointY) UpdateHighlight()
         {
-            highlightPlot.Update();
+            return highlightPlot.Update();
         }
 
         /// <summary>
@@ -127,19 +143,19 @@
                     }
                 }
 
-                scatterPlot = formsPlot.Plot.AddScatter(xs, rateList.ToArray(), lineStyle: LineStyle.Dot);
+                scatterPlot = formsPlot.Plot.AddScatter(xs, rateList.ToArray(), color: plotLineColor, lineStyle: LineStyle.Dot);
                 candlesticks = formsPlot.Plot.AddCandlesticks(ohlc.ToArray());
                 candlesticks.ColorUp = Color.Red;
                 candlesticks.ColorDown = Color.Green;
 
                 try {
                     var bol = candlesticks.GetBollingerBands(7);
-                    scatterLines = formsPlot.Plot.AddScatterLines(bol.xs, bol.sma, Color.Blue);
+                    scatterLines = formsPlot.Plot.AddScatterLines(bol.xs, bol.sma, plotLineColor, 2, LineStyle.Solid, leaderBoardId.ToString());
                 } catch (ArgumentException e) {
                     Debug.Print($" Plot Rate ERROR. {e.Message} {e.StackTrace}");
                 }
 
-                highlightPlot = new PlotHighlight(formsPlot, scatterPlot);
+                highlightPlot = new PlotHighlight(formsPlot, scatterPlot, leaderBoardId.ToString());
                 IsVisible = false;
             }
         }

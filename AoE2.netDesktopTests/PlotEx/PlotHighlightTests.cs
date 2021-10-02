@@ -8,18 +8,35 @@ namespace AoE2NetDesktop.Form.Tests
     public class PlotHighlightTests
     {
         [TestMethod()]
-        public void UpdateHighlightTest()
+        public void UpdateTestDataIsNaN()
         {
             // Arrange
             var formsPlot = new FormsPlot();
-            var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 0 }, new double[] { 0 });
-            var testClass = new PlotHighlight(formsPlot, scatterPlot);
+            var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 10 }, new double[] { 20 });
+            var testClass = new PlotHighlight(formsPlot, scatterPlot, string.Empty);
+
+            // Act
+            var ret = testClass.Update();
+
+            // Assert
+            Assert.AreEqual((0, 0), ret);
+        }
+
+        [TestMethod()]
+        public void UpdateTest()
+        {
+            // Arrange
+            var formsPlot = new FormsPlot();
+            var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 10 }, new double[] { 20 });
+            var testClass = new PlotHighlight(formsPlot, scatterPlot, string.Empty);
+            formsPlot.Render();
 
             // Act
             testClass.Update();
-            testClass.Update();
+            var ret = testClass.Update();
 
             // Assert
+            Assert.AreEqual((10, 20), ret);
         }
 
         [TestMethod()]
@@ -33,7 +50,7 @@ namespace AoE2NetDesktop.Form.Tests
             // Assert
             Assert.ThrowsException<ArgumentNullException>(() =>
             {
-                _ = new PlotHighlight(null, scatterPlot);
+                _ = new PlotHighlight(null, scatterPlot, string.Empty);
             });
         }
 
@@ -47,18 +64,18 @@ namespace AoE2NetDesktop.Form.Tests
             // Assert
             Assert.ThrowsException<ArgumentNullException>(() =>
             {
-                _ = new PlotHighlight(formsPlot, null);
+                _ = new PlotHighlight(formsPlot, null, string.Empty);
             });
         }
 
         [TestMethod()]
-        public void UpdateHighlightTestGetIsVisible()
+        public void PlotHighlightTestGetIsVisible()
         {
             // Arrange
             bool expVal = true;
             var formsPlot = new FormsPlot();
             var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 0 }, new double[] { 0 });
-            var testClass = new PlotHighlight(formsPlot, scatterPlot);
+            var testClass = new PlotHighlight(formsPlot, scatterPlot, string.Empty);
 
             // Act
             var actVal = testClass.IsVisible;
@@ -68,13 +85,13 @@ namespace AoE2NetDesktop.Form.Tests
         }
 
         [TestMethod()]
-        public void UpdateHighlightTestSetIsVisible()
+        public void PlotHighlightTestSetIsVisible()
         {
             // Arrange
             bool expVal = false;
             var formsPlot = new FormsPlot();
             var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 0 }, new double[] { 0 });
-            var testClass = new PlotHighlight(formsPlot, scatterPlot);
+            var testClass = new PlotHighlight(formsPlot, scatterPlot, string.Empty);
 
             // Act
             testClass.IsVisible = !testClass.IsVisible;
