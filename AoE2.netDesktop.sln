@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AFC6AA0D-5D60-4F1E-89C3-E8F3C39978FE}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AoE2.netDesktopTests", "AoE2.netDesktopTests\AoE2.netDesktopTests.csproj", "{A9EAB7D8-87C2-421E-9297-A316C54437F5}"
