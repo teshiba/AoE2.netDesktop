@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop.From
+﻿namespace AoE2NetDesktop.Form
 {
     using System;
     using System.Collections.Generic;
@@ -6,8 +6,6 @@
     using System.Drawing;
     using System.Linq;
     using System.Threading.Tasks;
-
-    using AoE2NetDesktop.Form;
 
     using LibAoE2net;
 
@@ -60,7 +58,7 @@
         /// <summary>
         /// Gets get user country name.
         /// </summary>
-        public string UserCountry { get => playerLastmatch.Country ?? InvalidSteamIdString; }
+        public string UserCountry { get => CountryCode.ConvertToFullName(playerLastmatch.Country); }
 
         /// <summary>
         /// Gets user name.

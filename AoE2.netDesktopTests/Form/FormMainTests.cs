@@ -3,7 +3,7 @@ using LibAoE2net;
 using System.Windows.Forms;
 using AoE2NetDesktop.Tests;
 
-namespace AoE2NetDesktop.From.Tests
+namespace AoE2NetDesktop.Form.Tests
 {
     [TestClass()]
     public class FormMainTests
@@ -31,6 +31,7 @@ namespace AoE2NetDesktop.From.Tests
             var buttonUpdate = testClass.GetControl<Button>("buttonUpdate");
             var buttonSetId = testClass.GetControl<Button>("buttonSetId");
             var tabControlMain = testClass.GetControl<TabControl>("tabControlMain");
+            var done = false;
 
             // Act
             testClass.Shown += async (sender, e) =>
@@ -60,11 +61,14 @@ namespace AoE2NetDesktop.From.Tests
                 await testClass.Awaiter.WaitAsync("LabelNameP8_Paint");
 
                 testClass.Close();
+
+                done = true;
             };
 
             testClass.ShowDialog();
 
             // Assert
+            Assert.IsTrue(done);
         }
 
 
@@ -190,7 +194,7 @@ namespace AoE2NetDesktop.From.Tests
 
                 // Assert
                 Assert.AreEqual($"   Name: {InvalidSteamIdString}", labelSettingsName.Text);
-                Assert.AreEqual($"Country: {InvalidSteamIdString}", labelSettingsCountry.Text);
+                Assert.AreEqual($"Country: N/A", labelSettingsCountry.Text);
 
                 // CleanUp
                 testClass.Close();
@@ -289,7 +293,7 @@ namespace AoE2NetDesktop.From.Tests
 
                 // Assert
                 Assert.AreEqual("   Name: Player1", labelSettingsName.Text);
-                Assert.AreEqual("Country: JP", labelSettingsCountry.Text);
+                Assert.AreEqual("Country: Japan", labelSettingsCountry.Text);
 
                 // CleanUp
                 testClass.Close();
@@ -310,6 +314,7 @@ namespace AoE2NetDesktop.From.Tests
             TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SteamId", TestData.AvailableUserSteamId);
             TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
             TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
+            var done = false;
 
             // Act
             testClass.Shown += async (sender, e) =>
@@ -318,8 +323,7 @@ namespace AoE2NetDesktop.From.Tests
                 tabControlMain.SelectedIndex = 1;
                 buttonViewHistory.PerformClick();
                 await testClass.Awaiter.WaitAsync("ButtonViewHistory_Click");
-
-                // Assert
+                done = true;
 
                 // CleanUp
                 testClass.Close();
@@ -327,6 +331,40 @@ namespace AoE2NetDesktop.From.Tests
 
             testClass.ShowDialog();
 
+            // Assert
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormMainTestCheckBoxHideTitle_CheckedChanged()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient();
+            var testClass = new FormMain(Language.en);
+            var checkBoxHideTitle = testClass.GetControl<CheckBox>("checkBoxHideTitle");
+            var tabControlMain = testClass.GetControl<TabControl>("tabControlMain");
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SteamId", TestData.AvailableUserSteamId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
+            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
+            var done = false;
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
+                tabControlMain.SelectedIndex = 1;
+                checkBoxHideTitle.Checked = true;
+                checkBoxHideTitle.Checked = false;
+                done = true;
+
+                // CleanUp
+                testClass.Close();
+            };
+
+            testClass.ShowDialog();
+
+            // Assert
+            Assert.IsTrue(done);
         }
     }
 }

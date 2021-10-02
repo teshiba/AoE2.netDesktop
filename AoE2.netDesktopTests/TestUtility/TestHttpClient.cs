@@ -93,7 +93,7 @@ namespace LibAoE2net
         {
             var args = requestUri.Split('=', '&', '?');
             var game = args[2];
-            var leaderboardId = (LeaderBoardId)int.Parse(args[4]);
+            var leaderboardId = (LeaderboardId)int.Parse(args[4]);
             var steamId = args[6];
             var count = args[8];
             var readUri = $"{TestDataPath}/playerRatingHistory{game}{steamId}{leaderboardId}{count}.json";
@@ -131,7 +131,7 @@ namespace LibAoE2net
         {
             var args = requestUri.Split('=', '&', '?');
             var game = args[2];
-            var leaderboardId = (LeaderBoardId)int.Parse(args[4]);
+            var leaderboardId = (LeaderboardId)int.Parse(args[4]);
             var profileId = args[6];
             var readUri = $"{TestDataPath}/leaderboard{game}{leaderboardId}{profileId}.json";
 

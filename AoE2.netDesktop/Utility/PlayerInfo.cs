@@ -20,12 +20,12 @@
         /// <summary>
         /// Gets or sets 1v1 Random map rate.
         /// </summary>
-        public int? Rate1v1RM { get; set; }
+        public int? RateRM1v1 { get; set; }
 
         /// <summary>
         /// Gets or sets team Random map rate.
         /// </summary>
-        public int? RateTeamRM { get; set; }
+        public int? RateRMTeam { get; set; }
 
         /// <summary>
         /// Gets or sets game count that player is ally.

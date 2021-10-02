@@ -252,5 +252,24 @@
             { "ZM", "Zambia" },
             { "ZW", "Zimbabwe" },
         };
+
+        /// <summary>
+        /// convert country code to country name.
+        /// </summary>
+        /// <param name="countryCode">country code.</param>
+        /// <returns>country name.</returns>
+        public static string ConvertToFullName(string countryCode)
+        {
+            string countryName;
+            if (countryCode == null) {
+                countryName = "N/A";
+            } else {
+                if (!ISO31661alpha2.TryGetValue(countryCode, out countryName)) {
+                    countryName = "N/A";
+                }
+            }
+
+            return countryName;
+        }
     }
 }

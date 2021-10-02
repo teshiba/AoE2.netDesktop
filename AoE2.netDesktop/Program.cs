@@ -2,7 +2,7 @@ namespace AoE2NetDesktop
 {
     using System;
     using System.Windows.Forms;
-    using AoE2NetDesktop.From;
+    using AoE2NetDesktop.Form;
 
     using LibAoE2net;
 

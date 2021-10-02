@@ -75,7 +75,7 @@ namespace LibAoE2net
         public bool? Ranked { get; set; }
 
         [DataMember(Name = "leaderboard_id")]
-        public LeaderBoardId? LeaderboardId { get; set; }
+        public LeaderboardId? LeaderboardId { get; set; }
 
         [DataMember(Name = "rating_type")]
         public int? RatingType { get; set; }

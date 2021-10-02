@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop.From
+﻿namespace AoE2NetDesktop.Form
 {
     using System;
     using System.Collections.Generic;
@@ -21,6 +21,8 @@
         private readonly List<Label> labelName = new ();
         private readonly List<PictureBox> pictureBox = new ();
         private readonly Language language;
+        private int windowTitleTop;
+        private int windowTitleLeft;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormMain"/> class.
@@ -47,16 +49,16 @@
 
         private void RestoreWindowPosition()
         {
-            Top = Settings.Default.WindowLocation.Y;
-            Left = Settings.Default.WindowLocation.X;
-            Width = Settings.Default.WindowSize.Width;
-            Height = Settings.Default.WindowSize.Height;
+            Top = Settings.Default.WindowLocationMain.Y;
+            Left = Settings.Default.WindowLocationMain.X;
+            Width = Settings.Default.WindowSizeMain.Width;
+            Height = Settings.Default.WindowSizeMain.Height;
         }
 
         private void SaveWindowPosition()
         {
-            Settings.Default.WindowLocation = new Point(Left, Top);
-            Settings.Default.WindowSize = new Size(Width, Height);
+            Settings.Default.WindowLocationMain = new Point(Left, Top);
+            Settings.Default.WindowSizeMain = new Size(Width, Height);
         }
 
         private void InitIDRadioButton()
@@ -265,8 +267,8 @@
             panelTeam2.Width = panelTeam1.Width;
             panelTeam1.Left = 5;
             panelTeam2.Left = 5 + panelTeam1.Width + 5;
-            panelTeam2.Top = 50;
-            panelTeam1.Top = 50;
+            panelTeam2.Top = 35;
+            panelTeam1.Top = 35;
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -297,6 +299,7 @@
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Controler.FormHistory?.Close();
             SaveWindowPosition();
             Settings.Default.Save();
         }
@@ -452,6 +455,30 @@
 
             await VerifyId(idtype, idText);
             Awaiter.Complete();
+        }
+
+        private void CheckBoxHideTitle_CheckedChanged(object sender, EventArgs e)
+        {
+            var top = RectangleToScreen(ClientRectangle).Top;
+            var left = RectangleToScreen(ClientRectangle).Left;
+
+            SuspendLayout();
+
+            if (checkBoxHideTitle.Checked) {
+                windowTitleTop = Top;
+                windowTitleLeft = Left;
+                MinimumSize = new Size(290, 230);
+                FormBorderStyle = FormBorderStyle.None;
+                Top = top;
+                Left = left;
+            } else {
+                FormBorderStyle = FormBorderStyle.Sizable;
+                MinimumSize = new Size(290, 295);
+                Top = windowTitleTop;
+                Left = windowTitleLeft;
+            }
+
+            ResumeLayout();
         }
     }
 }

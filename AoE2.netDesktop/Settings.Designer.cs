@@ -62,24 +62,84 @@ namespace AoE2NetDesktop {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("680, 310")]
-        public global::System.Drawing.Size WindowSize {
+        public global::System.Drawing.Size WindowSizeMain {
             get {
-                return ((global::System.Drawing.Size)(this["WindowSize"]));
+                return ((global::System.Drawing.Size)(this["WindowSizeMain"]));
             }
             set {
-                this["WindowSize"] = value;
+                this["WindowSizeMain"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
-        public global::System.Drawing.Point WindowLocation {
+        public global::System.Drawing.Point WindowLocationMain {
             get {
-                return ((global::System.Drawing.Point)(this["WindowLocation"]));
+                return ((global::System.Drawing.Point)(this["WindowLocationMain"]));
             }
             set {
-                this["WindowLocation"] = value;
+                this["WindowLocationMain"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Point WindowLocationHistory {
+            get {
+                return ((global::System.Drawing.Point)(this["WindowLocationHistory"]));
+            }
+            set {
+                this["WindowLocationHistory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1024, 640")]
+        public global::System.Drawing.Size WindowSizeHistory {
+            get {
+                return ((global::System.Drawing.Size)(this["WindowSizeHistory"]));
+            }
+            set {
+                this["WindowSizeHistory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SelectedIndexTabControlHistory {
+            get {
+                return ((int)(this["SelectedIndexTabControlHistory"]));
+            }
+            set {
+                this["SelectedIndexTabControlHistory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SelectedIndexComboBoxLeaderboard {
+            get {
+                return ((int)(this["SelectedIndexComboBoxLeaderboard"]));
+            }
+            set {
+                this["SelectedIndexComboBoxLeaderboard"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SelectedIndexComboBoxDataSource {
+            get {
+                return ((int)(this["SelectedIndexComboBoxDataSource"]));
+            }
+            set {
+                this["SelectedIndexComboBoxDataSource"] = value;
             }
         }
     }

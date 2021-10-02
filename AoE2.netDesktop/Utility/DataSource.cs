@@ -1,23 +1,23 @@
 ﻿namespace AoE2NetDesktop.Form
 {
     /// <summary>
-    /// ID type.
+    /// Data source type of Graph.
     /// </summary>
-    public enum IdType
+    public enum DataSource
     {
         /// <summary>
-        /// Steam ID.
+        /// Undefined
         /// </summary>
-        Steam,
+        Undefined = -1,
 
         /// <summary>
-        /// Profile ID.
+        /// Map.
         /// </summary>
-        Profile,
+        Map,
 
         /// <summary>
-        /// not selected.
+        /// Civilization.
         /// </summary>
-        NotSelected,
+        Civilization,
     }
 }

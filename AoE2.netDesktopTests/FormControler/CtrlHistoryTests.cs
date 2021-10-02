@@ -5,13 +5,35 @@ using AoE2NetDesktop.Tests;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
-using System.ComponentModel;
 
 namespace AoE2NetDesktop.Form.Tests
 {
     [TestClass()]
     public class CtrlHistoryTests
     {
+        private const int profileId = TestData.AvailableUserProfileId;
+        private const int profileIdp1 = TestData.AvailableUserProfileId + 1;
+        private const int profileIdp2 = TestData.AvailableUserProfileId + 2;
+        private readonly PlayerMatchHistory matches = new() {
+            new Match() {
+                LeaderboardId = LeaderboardId.RM1v1,
+                Opened = 1,
+                Players = new List<Player>{
+                        new Player { Name ="me", ProfilId =  profileId,   Color = 1 },
+                        new Player { Name ="p1", ProfilId =  profileIdp1, Color = 2 },
+                    },
+            },
+            new Match() {
+                LeaderboardId = LeaderboardId.RMTeam,
+                Opened = 2,
+                Players = new List<Player>{
+                        new Player { Name ="me",  ProfilId =  profileId,   Color = 3 },
+                        new Player { Name ="p2",  ProfilId =  profileIdp2, Color = 2 },
+                        new Player { Name ="p1",  ProfilId =  profileIdp1, Color = 1 },
+                    },
+            },
+        };
+
         [TestMethod()]
         public void CtrlHistoryTest()
         {
@@ -31,8 +53,7 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             var expVal = "----";
-            var player = new Player()
-            {
+            var player = new Player() {
                 Rating = null,
             };
 
@@ -48,8 +69,7 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             var expVal = "1234+456";
-            var player = new Player()
-            {
+            var player = new Player() {
                 Rating = 1234,
                 RatingChange = "456",
             };
@@ -66,8 +86,7 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             var expVal = "1234-456";
-            var player = new Player()
-            {
+            var player = new Player() {
                 Rating = 1234,
                 RatingChange = "-456",
             };
@@ -119,7 +138,7 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             AoE2net.ComClient = new TestHttpClient();
-            var expVal = 4;
+            var expVal = Enum.GetNames(typeof(LeaderboardId)).Length - 1;
 
             // Act
             var testClass = new CtrlHistory(TestData.AvailableUserProfileId);
@@ -136,22 +155,26 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             var leaderboardName = "test leaderboard";
-            var leaderboard = new Leaderboard
-            {
-                Rank = 1000,
-                Rating = 1100,
-                HighestRating = 1200,
-                Games = 101,
-                Wins = 61,
-                Losses = 40,
-                Drops = 5,
-                Streak = 10,
-                HighestStreak = 20,
-                LowestStreak = 3
+            var leaderboards = new Dictionary<LeaderboardId, Leaderboard> {
+                {
+                    LeaderboardId.RM1v1,
+                    new Leaderboard{
+                        Rank = 1000,
+                        Rating = 1100,
+                        HighestRating = 1200,
+                        Games = 101,
+                        Wins = 61,
+                        Losses = 40,
+                        Drops = 5,
+                        Streak = 10,
+                        HighestStreak = 20,
+                        LowestStreak = 3,
+                    }
+                }
             };
 
             // Act
-            var testClass = CtrlHistory.CreateListViewLeaderboard(leaderboardName, leaderboard);
+            var testClass = CtrlHistory.CreateListViewItem(leaderboardName, LeaderboardId.RM1v1, leaderboards);
 
             // Assert
             Assert.AreEqual(leaderboardName, testClass.SubItems[0].Text);
@@ -173,10 +196,12 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             var leaderboardName = "test leaderboard";
-            var leaderboard = new Leaderboard();
+            var leaderboards = new Dictionary<LeaderboardId, Leaderboard> {
+                {LeaderboardId.RM1v1, new Leaderboard() }
+            };
 
             // Act
-            var testClass = CtrlHistory.CreateListViewLeaderboard(leaderboardName, leaderboard);
+            var testClass = CtrlHistory.CreateListViewItem(leaderboardName, LeaderboardId.RM1v1, leaderboards);
 
             // Assert
             Assert.AreEqual(leaderboardName, testClass.SubItems[0].Text);
@@ -197,26 +222,8 @@ namespace AoE2NetDesktop.Form.Tests
         public void CreateMatchedPlayersInfoTest()
         {
             // Arrange
-            int profileId = TestData.AvailableUserProfileId;
-            var matches = new PlayerMatchHistory {
-                new Match(){
-                    LeaderboardId = LeaderBoardId.OneVOneRandomMap,
-                    Opened = 1,
-                    Players = new List<Player>{
-                        new Player(){ Name ="me", ProfilId =  profileId,     Color = 1},
-                        new Player(){ Name ="p1", ProfilId =  profileId + 1, Color = 2},
-                    },
-                },
-                new Match(){
-                    LeaderboardId = LeaderBoardId.TeamRandomMap,
-                    Opened = 2,
-                    Players = new List<Player>{
-                        new Player(){ Name ="me",  ProfilId =  profileId,     Color = 3},
-                        new Player(){ Name ="p2",  ProfilId =  profileId + 2, Color = 2},
-                        new Player(){ Name ="p1",  ProfilId =  profileId + 1, Color = 1},
-                    },
-                },
-            };
+            matches[0].Players[1].Name = "p1";
+            matches[1].Players[2].Name = "p1";
 
             // Act
             var testClass = new CtrlHistory(profileId);
@@ -238,35 +245,46 @@ namespace AoE2NetDesktop.Form.Tests
         }
 
         [TestMethod()]
+        public void CreateMatchedPlayersInfoTestNameNull()
+        {
+            // Arrange
+            matches[0].Players[1].Name = null;
+            matches[1].Players[2].Name = null;
+            var expName = $"<Name null: ID: {profileIdp1} >";
+
+            // Act
+            var testClass = new CtrlHistory(profileId);
+            var actVal = testClass.CreateMatchedPlayersInfo(matches);
+
+            // Assert
+            Assert.AreEqual(profileId + 1, actVal[expName].ProfileId);
+            Assert.AreEqual(1, actVal[expName].Games1v1);
+            Assert.AreEqual(1, actVal[expName].GamesAlly);
+            Assert.AreEqual(0, actVal[expName].GamesEnemy);
+            Assert.AreEqual(1, actVal[expName].GamesTeam);
+            Assert.AreEqual(DateTimeOffset.FromUnixTimeSeconds(2).LocalDateTime, actVal[expName].LastDate);
+            Assert.AreEqual(profileId + 2, actVal["p2"].ProfileId);
+            Assert.AreEqual(0, actVal["p2"].Games1v1);
+            Assert.AreEqual(0, actVal["p2"].GamesAlly);
+            Assert.AreEqual(1, actVal["p2"].GamesEnemy);
+            Assert.AreEqual(1, actVal["p2"].GamesTeam);
+            Assert.AreEqual(DateTimeOffset.FromUnixTimeSeconds(2).LocalDateTime, actVal["p2"].LastDate);
+        }
+
+        [TestMethod()]
         public void CreateListViewHistoryTest()
         {
             // Arrange
-            int profileId = TestData.AvailableUserProfileId;
-            var matches = new PlayerMatchHistory {
-                new Match(){
-                    LeaderboardId = LeaderBoardId.OneVOneRandomMap,
-                    Players = new List<Player>{
-                        new Player { Name ="me", ProfilId =  profileId,     Color = 1 },
-                        new Player { Name ="p1", ProfilId =  profileId + 1, Color = 2 },
-                    },
-                },
-                new Match(){
-                    LeaderboardId = LeaderBoardId.TeamRandomMap,
-                    Players = new List<Player>{
-                        new Player { Name ="me",  ProfilId =  profileId,     Color = 3 },
-                        new Player { Name ="p2",  ProfilId =  profileId + 2, Color = 2 },
-                        new Player { Name ="p1",  ProfilId =  profileId + 1, Color = 1 },
-                    },
-                },
-            };
+            matches[0].Players[1].Name = "p1";
+            matches[1].Players[2].Name = "p1";
 
             // Act
             var testClass = new CtrlHistory(profileId, matches);
             var actVal = testClass.CreateListViewHistory();
 
             // Assert
-            Assert.AreEqual("1", actVal[LeaderBoardId.OneVOneRandomMap][0].SubItems[4].Text); //Color
-            Assert.AreEqual("3", actVal[LeaderBoardId.TeamRandomMap][0].SubItems[4].Text); //Color
+            Assert.AreEqual("1", actVal[LeaderboardId.RM1v1][0].SubItems[4].Text);  //Color
+            Assert.AreEqual("3", actVal[LeaderboardId.RMTeam][0].SubItems[4].Text); //Color
         }
 
         [TestMethod()]
@@ -292,8 +310,7 @@ namespace AoE2NetDesktop.Form.Tests
         public void OpenProfileTestWin32Exception()
         {
             // Arrange
-            var testHttpClient = new TestHttpClient
-            {
+            var testHttpClient = new TestHttpClient {
                 ForceWin32Exception = true,
             };
             AoE2net.ComClient = testHttpClient;
@@ -313,8 +330,7 @@ namespace AoE2NetDesktop.Form.Tests
         public void OpenProfileTestException()
         {
             // Arrange
-            var testHttpClient = new TestHttpClient
-            {
+            var testHttpClient = new TestHttpClient {
                 ForceException = true,
             };
             AoE2net.ComClient = testHttpClient;
@@ -346,6 +362,26 @@ namespace AoE2NetDesktop.Form.Tests
 
             // Assert
             Assert.IsNull(testHttpClient.LastRequest);
+        }
+
+        [TestMethod()]
+        [DataRow("1v1 Random Map", LeaderboardId.RM1v1)]
+        [DataRow("Team Random Map", LeaderboardId.RMTeam)]
+        [DataRow("1v1 Empire Wars", LeaderboardId.EW1v1)]
+        [DataRow("Team Empire Wars", LeaderboardId.EWTeam)]
+        [DataRow("Unranked", LeaderboardId.Unranked)]
+        [DataRow("1v1 Death Match", LeaderboardId.DM1v1)]
+        [DataRow("Team Death Match", LeaderboardId.DMTeam)]
+        [DataRow("----", LeaderboardId.Undefined)]
+        [DataRow(null, LeaderboardId.Undefined)]
+        public void GetLeaderboardIdTest(string leaderboardString, LeaderboardId expVal)
+        {
+            // Arrange
+            // Act
+            var actVal = CtrlHistory.GetLeaderboardId(leaderboardString);
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
         }
     }
 }

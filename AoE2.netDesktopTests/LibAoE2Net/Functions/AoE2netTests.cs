@@ -1,11 +1,9 @@
-﻿using LibAoE2net;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
 using AoE2NetDesktop.Tests;
-using Accessibility;
 
 namespace LibAoE2net.Tests
 {
@@ -150,7 +148,7 @@ namespace LibAoE2net.Tests
             Assert.AreEqual(29, actVal.LastMatch.MapType);
             Assert.AreEqual(200, actVal.LastMatch.Pop);
             Assert.AreEqual(true, actVal.LastMatch.Ranked);
-            Assert.AreEqual(LeaderBoardId.TeamRandomMap, actVal.LastMatch.LeaderboardId);
+            Assert.AreEqual(LeaderboardId.RMTeam, actVal.LastMatch.LeaderboardId);
             Assert.AreEqual(4, actVal.LastMatch.RatingType);
             Assert.AreEqual(1, actVal.LastMatch.Resources);
             Assert.AreEqual(null, actVal.LastMatch.Rms);
@@ -221,8 +219,8 @@ namespace LibAoE2net.Tests
         }
 
         [TestMethod()]
-        [DataRow(LeaderBoardId.TeamRandomMap, 1)]
-        public void GetPlayerRatingHistoryAsyncTestSteamId(LeaderBoardId leaderBoardId, int count)
+        [DataRow(LeaderboardId.RMTeam, 1)]
+        public void GetPlayerRatingHistoryAsyncTestSteamId(LeaderboardId leaderBoardId, int count)
         {
             // Arrange
             var expVal = new List<PlayerRating>{
@@ -257,8 +255,8 @@ namespace LibAoE2net.Tests
         }
 
         [TestMethod()]
-        [DataRow(LeaderBoardId.TeamRandomMap, 1)]
-        public void GetPlayerRatingHistoryAsyncTestProfileId(LeaderBoardId leaderBoardId, int count)
+        [DataRow(LeaderboardId.RMTeam, 1)]
+        public void GetPlayerRatingHistoryAsyncTestProfileId(LeaderboardId leaderBoardId, int count)
         {
             // Arrange
             var expVal = new List<PlayerRating>{
@@ -297,7 +295,7 @@ namespace LibAoE2net.Tests
         {
             // Assert
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                AoE2net.GetPlayerRatingHistoryAsync(null, LeaderBoardId.TeamRandomMap, 1)
+                AoE2net.GetPlayerRatingHistoryAsync(null, LeaderboardId.RMTeam, 1)
             );
         }
 
@@ -425,7 +423,7 @@ namespace LibAoE2net.Tests
             var expStart = 1;
             var expCount = 1;
             var expSteamIdCount = TestData.AvailableUserSteamId;
-            var expLeaderBoardId = LeaderBoardId.TeamRandomMap;
+            var expLeaderBoardId = LeaderboardId.RMTeam;
 
             // Act
             var actVal = Task.Run(
@@ -449,7 +447,7 @@ namespace LibAoE2net.Tests
             var expStart = 1;
             var expCount = 1;
             var expProfileIdCount = TestData.AvailableUserProfileId;
-            var expLeaderBoardId = LeaderBoardId.TeamRandomMap;
+            var expLeaderBoardId = LeaderboardId.RMTeam;
 
             // Act
             var actVal = Task.Run(
