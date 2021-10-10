@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using ScottPlot;
 using LibAoE2net;
 using AoE2NetDesktop.Tests;
+using System.Drawing;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -52,6 +53,16 @@ namespace AoE2NetDesktop.Form.Tests
             },
         };
 
+        private readonly Dictionary<LeaderboardId, Color> leaderboardColor = new() {
+            { LeaderboardId.RM1v1, Color.Blue },
+            { LeaderboardId.RMTeam, Color.Indigo },
+            { LeaderboardId.DM1v1, Color.DarkGreen },
+            { LeaderboardId.DMTeam, Color.SeaGreen },
+            { LeaderboardId.EW1v1, Color.Red },
+            { LeaderboardId.EWTeam, Color.OrangeRed },
+            { LeaderboardId.Unranked, Color.SlateGray },
+        };
+
         [TestMethod()]
         public void PlayerRateFormsPlotTest()
         {
@@ -62,7 +73,7 @@ namespace AoE2NetDesktop.Form.Tests
             // Assert
             Assert.ThrowsException<ArgumentNullException>(() =>
             {
-                _ = new PlayerRateFormsPlot(null, new LeaderboardColor());
+                _ = new PlayerRateFormsPlot(null, leaderboardColor);
             });
         }
 
@@ -70,7 +81,7 @@ namespace AoE2NetDesktop.Form.Tests
         public void PlotTest()
         {
             // Arrange
-            var testClass = new PlayerRateFormsPlot(new FormsPlot(), new LeaderboardColor());
+            var testClass = new PlayerRateFormsPlot(new FormsPlot(), leaderboardColor);
             var datetimeMaxX = new DateTime(1970, 01, 01, 9, 0, 0);
             var datetimeMinX = new DateTime(1970, 01, 01, 9, 0, 0);
             var rateMaxY = 130;
@@ -90,7 +101,7 @@ namespace AoE2NetDesktop.Form.Tests
         public void PlotTestWithoutRate()
         {
             // Arrange
-            var testClass = new PlayerRateFormsPlot(new FormsPlot(), new LeaderboardColor());
+            var testClass = new PlayerRateFormsPlot(new FormsPlot(), leaderboardColor);
 
             // Act
             testClass.Plot(matchesWithoutRate, profileId);
@@ -106,7 +117,7 @@ namespace AoE2NetDesktop.Form.Tests
         public void UpdateHighlightTest()
         {
             // Arrange
-            var testClass = new PlayerRateFormsPlot(new FormsPlot(), new LeaderboardColor());
+            var testClass = new PlayerRateFormsPlot(new FormsPlot(), leaderboardColor);
 
             // Act
             testClass.UpdateHighlight();

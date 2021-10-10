@@ -7,6 +7,7 @@
     using System.Drawing;
     using System.Threading.Tasks;
     using System.Windows.Forms;
+
     using LibAoE2net;
 
     /// <summary>
@@ -22,17 +23,17 @@
         private const int IndexDM1v1 = 5;
         private const int IndexDMTeam = 6;
 
-        private Dictionary<LeaderboardId, List<ListViewItem>> listViewitems;
-
-        private LeaderboardColor listViewColor = new () {
-            RM1v1 = Color.Blue,
-            RMTeam = Color.Indigo,
-            DM1v1 = Color.DarkGreen,
-            DMTeam = Color.SeaGreen,
-            EW1v1 = Color.Red,
-            EWTeam = Color.OrangeRed,
-            Unranked = Color.SlateGray,
+        private readonly Dictionary<LeaderboardId, Color> leaderboardColor = new () {
+            { LeaderboardId.RM1v1, Color.Blue },
+            { LeaderboardId.RMTeam, Color.Indigo },
+            { LeaderboardId.DM1v1, Color.DarkGreen },
+            { LeaderboardId.DMTeam, Color.SeaGreen },
+            { LeaderboardId.EW1v1, Color.Red },
+            { LeaderboardId.EWTeam, Color.OrangeRed },
+            { LeaderboardId.Unranked, Color.SlateGray },
         };
+
+        private Dictionary<LeaderboardId, List<ListViewItem>> listViewitems;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormHistory"/> class.
@@ -56,7 +57,7 @@
 
             PlayerCountryStat = new PlayerCountryPlot(formsPlotCountry);
             WinRateStat = new WinRatePlot(formsPlotWinRate);
-            PlayerRate = new PlayerRateFormsPlot(formsPlotPlayerRate, listViewColor);
+            PlayerRate = new PlayerRateFormsPlot(formsPlotPlayerRate, leaderboardColor);
         }
 
         /// <summary>
@@ -103,29 +104,13 @@
                 listViewStatistics.Items.Clear();
 
                 ListViewItem[] listviewItems = new ListViewItem[LeaderboardIdCount];
-                listviewItems[IndexRM1v1] = CtrlHistory.CreateListViewItem("1v1 RM", LeaderboardId.RM1v1, leaderboards);
-                listviewItems[IndexRMTeam] = CtrlHistory.CreateListViewItem("Team RM", LeaderboardId.RMTeam, leaderboards);
-                listviewItems[IndexDM1v1] = CtrlHistory.CreateListViewItem("1v1 DM", LeaderboardId.DM1v1, leaderboards);
-                listviewItems[IndexDMTeam] = CtrlHistory.CreateListViewItem("Team DM", LeaderboardId.DMTeam, leaderboards);
-                listviewItems[IndexEW1v1] = CtrlHistory.CreateListViewItem("1v1 EW", LeaderboardId.EW1v1, leaderboards);
-                listviewItems[IndexEWTeam] = CtrlHistory.CreateListViewItem("Team EW", LeaderboardId.EWTeam, leaderboards);
-                listviewItems[IndexUnranked] = CtrlHistory.CreateListViewItem("Unranked", LeaderboardId.Unranked, leaderboards);
-
-                listviewItems[IndexRM1v1].ForeColor = listViewColor.RM1v1;
-                listviewItems[IndexRMTeam].ForeColor = listViewColor.RMTeam;
-                listviewItems[IndexDM1v1].ForeColor = listViewColor.DM1v1;
-                listviewItems[IndexDMTeam].ForeColor = listViewColor.DMTeam;
-                listviewItems[IndexEW1v1].ForeColor = listViewColor.EW1v1;
-                listviewItems[IndexEWTeam].ForeColor = listViewColor.EWTeam;
-                listviewItems[IndexUnranked].ForeColor = listViewColor.Unranked;
-
-                listviewItems[IndexRM1v1].Font = new Font(listviewItems[IndexRM1v1].Font, FontStyle.Bold);
-                listviewItems[IndexRMTeam].Font = new Font(listviewItems[IndexRMTeam].Font, FontStyle.Bold);
-                listviewItems[IndexDM1v1].Font = new Font(listviewItems[IndexDM1v1].Font, FontStyle.Bold);
-                listviewItems[IndexDMTeam].Font = new Font(listviewItems[IndexDMTeam].Font, FontStyle.Bold);
-                listviewItems[IndexEW1v1].Font = new Font(listviewItems[IndexEW1v1].Font, FontStyle.Bold);
-                listviewItems[IndexEWTeam].Font = new Font(listviewItems[IndexEWTeam].Font, FontStyle.Bold);
-                listviewItems[IndexUnranked].Font = new Font(listviewItems[IndexUnranked].Font, FontStyle.Bold);
+                listviewItems[IndexRM1v1] = CtrlHistory.CreateListViewItem("1v1 RM", LeaderboardId.RM1v1, leaderboards, leaderboardColor);
+                listviewItems[IndexRMTeam] = CtrlHistory.CreateListViewItem("Team RM", LeaderboardId.RMTeam, leaderboards, leaderboardColor);
+                listviewItems[IndexDM1v1] = CtrlHistory.CreateListViewItem("1v1 DM", LeaderboardId.DM1v1, leaderboards, leaderboardColor);
+                listviewItems[IndexDMTeam] = CtrlHistory.CreateListViewItem("Team DM", LeaderboardId.DMTeam, leaderboards, leaderboardColor);
+                listviewItems[IndexEW1v1] = CtrlHistory.CreateListViewItem("1v1 EW", LeaderboardId.EW1v1, leaderboards, leaderboardColor);
+                listviewItems[IndexEWTeam] = CtrlHistory.CreateListViewItem("Team EW", LeaderboardId.EWTeam, leaderboards, leaderboardColor);
+                listviewItems[IndexUnranked] = CtrlHistory.CreateListViewItem("Unranked", LeaderboardId.Unranked, leaderboards, leaderboardColor);
 
                 listViewStatistics.Items.AddRange(listviewItems);
                 listViewStatistics.EndUpdate();
@@ -304,6 +289,15 @@
         private void FormsPlotPlayerRate_MouseMove(object sender, MouseEventArgs e)
         {
             PlayerRate.UpdateHighlight();
+        }
+
+        private void ListViewStatistics_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.A && e.Control) {
+                foreach (ListViewItem item in listViewStatistics.Items) {
+                    item.Selected = true;
+                }
+            }
         }
     }
 }

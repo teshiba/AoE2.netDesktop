@@ -166,7 +166,8 @@
         {
             foreach (var player in players) {
                 if (player.Color - 1 is int index
-                    && index < PlayerNumMax) {
+                    && index < PlayerNumMax
+                    && index > 0) {
                     pictureBox[index].ImageLocation = AoE2net.GetCivImageLocation(player.GetCivEnName());
                     labelRate[index].Text = CtrlMain.GetRateString(player.Rating);
                     labelName[index].Text = CtrlMain.GetPlayerNameString(player.Name);
@@ -479,6 +480,13 @@
             }
 
             ResumeLayout();
+        }
+
+        private void TabControlMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5) {
+                buttonUpdate.PerformClick();
+            }
         }
     }
 }

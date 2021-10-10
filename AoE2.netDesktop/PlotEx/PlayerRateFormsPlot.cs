@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
     using LibAoE2net;
     using ScottPlot;
@@ -19,7 +20,7 @@
         /// </summary>
         /// <param name="formsPlot">Target formsplot.</param>
         /// <param name="color">Leaderboard color.</param>
-        public PlayerRateFormsPlot(FormsPlot formsPlot, LeaderboardColor color)
+        public PlayerRateFormsPlot(FormsPlot formsPlot, Dictionary<LeaderboardId, Color> color)
         {
             if (formsPlot is null) {
                 throw new ArgumentNullException(nameof(formsPlot));
@@ -28,13 +29,13 @@
             this.formsPlot = formsPlot;
 
             Plots = new Dictionary<LeaderboardId, PlayerRatePlot>() {
-                { LeaderboardId.RM1v1, new PlayerRatePlot(formsPlot, color.RM1v1) },
-                { LeaderboardId.RMTeam, new PlayerRatePlot(formsPlot, color.RMTeam) },
-                { LeaderboardId.DM1v1, new PlayerRatePlot(formsPlot, color.DM1v1) },
-                { LeaderboardId.DMTeam, new PlayerRatePlot(formsPlot, color.DMTeam) },
-                { LeaderboardId.EW1v1, new PlayerRatePlot(formsPlot, color.EW1v1) },
-                { LeaderboardId.EWTeam, new PlayerRatePlot(formsPlot, color.EWTeam) },
-                { LeaderboardId.Unranked, new PlayerRatePlot(formsPlot, color.Unranked) },
+                { LeaderboardId.RM1v1, new PlayerRatePlot(formsPlot, color[LeaderboardId.RM1v1]) },
+                { LeaderboardId.RMTeam, new PlayerRatePlot(formsPlot, color[LeaderboardId.RMTeam]) },
+                { LeaderboardId.DM1v1, new PlayerRatePlot(formsPlot, color[LeaderboardId.DM1v1]) },
+                { LeaderboardId.DMTeam, new PlayerRatePlot(formsPlot, color[LeaderboardId.DMTeam]) },
+                { LeaderboardId.EW1v1, new PlayerRatePlot(formsPlot, color[LeaderboardId.EW1v1]) },
+                { LeaderboardId.EWTeam, new PlayerRatePlot(formsPlot, color[LeaderboardId.EWTeam]) },
+                { LeaderboardId.Unranked, new PlayerRatePlot(formsPlot, color[LeaderboardId.Unranked]) },
             };
 
             formsPlot.Plot.XAxis.TickLabelFormat("yyyy/MM/dd", dateTimeFormat: true);

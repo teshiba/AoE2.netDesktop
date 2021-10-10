@@ -116,6 +116,7 @@
             this.tabControlMain.SelectedIndex = 0;
             this.tabControlMain.Size = new System.Drawing.Size(665, 261);
             this.tabControlMain.TabIndex = 0;
+            this.tabControlMain.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TabControlMain_KeyDown);
             // 
             // tabPagePlayerLastMatch
             // 

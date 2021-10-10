@@ -5,6 +5,7 @@ using AoE2NetDesktop.Tests;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
+using System.Drawing;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -32,6 +33,16 @@ namespace AoE2NetDesktop.Form.Tests
                         new Player { Name ="p1",  ProfilId =  profileIdp1, Color = 1 },
                     },
             },
+        };
+
+        private readonly Dictionary<LeaderboardId, Color> leaderboardColor = new() {
+            { LeaderboardId.RM1v1, Color.Blue },
+            { LeaderboardId.RMTeam, Color.Indigo },
+            { LeaderboardId.DM1v1, Color.DarkGreen },
+            { LeaderboardId.DMTeam, Color.SeaGreen },
+            { LeaderboardId.EW1v1, Color.Red },
+            { LeaderboardId.EWTeam, Color.OrangeRed },
+            { LeaderboardId.Unranked, Color.SlateGray },
         };
 
         [TestMethod()]
@@ -174,7 +185,7 @@ namespace AoE2NetDesktop.Form.Tests
             };
 
             // Act
-            var testClass = CtrlHistory.CreateListViewItem(leaderboardName, LeaderboardId.RM1v1, leaderboards);
+            var testClass = CtrlHistory.CreateListViewItem(leaderboardName, LeaderboardId.RM1v1, leaderboards, leaderboardColor);
 
             // Assert
             Assert.AreEqual(leaderboardName, testClass.SubItems[0].Text);
@@ -201,7 +212,7 @@ namespace AoE2NetDesktop.Form.Tests
             };
 
             // Act
-            var testClass = CtrlHistory.CreateListViewItem(leaderboardName, LeaderboardId.RM1v1, leaderboards);
+            var testClass = CtrlHistory.CreateListViewItem(leaderboardName, LeaderboardId.RM1v1, leaderboards, leaderboardColor);
 
             // Assert
             Assert.AreEqual(leaderboardName, testClass.SubItems[0].Text);

@@ -24,6 +24,7 @@
     <Configurations>Debug;Release</Configurations>
     <Description>A desktop application that makes viewing "Age of Empires II: Definitive Edition" play history easily.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
