@@ -79,6 +79,8 @@
             this.labelColorP6 = new System.Windows.Forms.Label();
             this.labelColorP2 = new System.Windows.Forms.Label();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
+            this.labelAoE2NetStatus = new System.Windows.Forms.Label();
+            this.labelAoE2NetStatusLabel = new System.Windows.Forms.Label();
             this.checkBoxHideTitle = new System.Windows.Forms.CheckBox();
             this.groupBoxPlayer = new System.Windows.Forms.GroupBox();
             this.buttonSetId = new System.Windows.Forms.Button();
@@ -114,7 +116,7 @@
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(665, 261);
+            this.tabControlMain.Size = new System.Drawing.Size(667, 261);
             this.tabControlMain.TabIndex = 0;
             this.tabControlMain.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TabControlMain_KeyDown);
             // 
@@ -132,7 +134,7 @@
             this.tabPagePlayerLastMatch.Location = new System.Drawing.Point(4, 24);
             this.tabPagePlayerLastMatch.Name = "tabPagePlayerLastMatch";
             this.tabPagePlayerLastMatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(657, 233);
+            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(659, 233);
             this.tabPagePlayerLastMatch.TabIndex = 0;
             this.tabPagePlayerLastMatch.Text = "Player Last Match";
             // 
@@ -141,7 +143,7 @@
             this.buttonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonUpdate.Enabled = false;
             this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonUpdate.Location = new System.Drawing.Point(572, 3);
+            this.buttonUpdate.Location = new System.Drawing.Point(550, 3);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(82, 27);
             this.buttonUpdate.TabIndex = 7;
@@ -188,7 +190,7 @@
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
             this.labelErrText.Location = new System.Drawing.Point(4, 242);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(647, 0);
+            this.labelErrText.Size = new System.Drawing.Size(625, 0);
             this.labelErrText.TabIndex = 8;
             // 
             // panelTeam1
@@ -791,21 +793,44 @@
             // tabPageSettings
             // 
             this.tabPageSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tabPageSettings.Controls.Add(this.labelAoE2NetStatus);
+            this.tabPageSettings.Controls.Add(this.labelAoE2NetStatusLabel);
             this.tabPageSettings.Controls.Add(this.checkBoxHideTitle);
             this.tabPageSettings.Controls.Add(this.groupBoxPlayer);
             this.tabPageSettings.Controls.Add(this.checkBoxAlwaysOnTop);
             this.tabPageSettings.Location = new System.Drawing.Point(4, 24);
             this.tabPageSettings.Name = "tabPageSettings";
             this.tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSettings.Size = new System.Drawing.Size(657, 233);
+            this.tabPageSettings.Size = new System.Drawing.Size(659, 233);
             this.tabPageSettings.TabIndex = 1;
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
             // 
+            // labelAoE2NetStatus
+            // 
+            this.labelAoE2NetStatus.AutoSize = true;
+            this.labelAoE2NetStatus.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelAoE2NetStatus.ForeColor = System.Drawing.Color.Firebrick;
+            this.labelAoE2NetStatus.Location = new System.Drawing.Point(256, 5);
+            this.labelAoE2NetStatus.Name = "labelAoE2NetStatus";
+            this.labelAoE2NetStatus.Size = new System.Drawing.Size(101, 20);
+            this.labelAoE2NetStatus.TabIndex = 9;
+            this.labelAoE2NetStatus.Text = "Disconnected";
+            // 
+            // labelAoE2NetStatusLabel
+            // 
+            this.labelAoE2NetStatusLabel.AutoSize = true;
+            this.labelAoE2NetStatusLabel.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelAoE2NetStatusLabel.Location = new System.Drawing.Point(188, 5);
+            this.labelAoE2NetStatusLabel.Name = "labelAoE2NetStatusLabel";
+            this.labelAoE2NetStatusLabel.Size = new System.Drawing.Size(70, 20);
+            this.labelAoE2NetStatusLabel.TabIndex = 8;
+            this.labelAoE2NetStatusLabel.Text = "AoE2.net";
+            // 
             // checkBoxHideTitle
             // 
             this.checkBoxHideTitle.AutoSize = true;
-            this.checkBoxHideTitle.Location = new System.Drawing.Point(113, 8);
+            this.checkBoxHideTitle.Location = new System.Drawing.Point(113, 7);
             this.checkBoxHideTitle.Name = "checkBoxHideTitle";
             this.checkBoxHideTitle.Size = new System.Drawing.Size(74, 19);
             this.checkBoxHideTitle.TabIndex = 7;
@@ -828,7 +853,7 @@
             this.groupBoxPlayer.Controls.Add(this.labelSettingsName);
             this.groupBoxPlayer.Location = new System.Drawing.Point(9, 32);
             this.groupBoxPlayer.Name = "groupBoxPlayer";
-            this.groupBoxPlayer.Size = new System.Drawing.Size(649, 424);
+            this.groupBoxPlayer.Size = new System.Drawing.Size(651, 424);
             this.groupBoxPlayer.TabIndex = 6;
             this.groupBoxPlayer.TabStop = false;
             this.groupBoxPlayer.Text = "Player";
@@ -836,7 +861,7 @@
             // buttonSetId
             // 
             this.buttonSetId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSetId.Location = new System.Drawing.Point(568, 20);
+            this.buttonSetId.Location = new System.Drawing.Point(570, 20);
             this.buttonSetId.Name = "buttonSetId";
             this.buttonSetId.Size = new System.Drawing.Size(78, 48);
             this.buttonSetId.TabIndex = 7;
@@ -847,7 +872,7 @@
             // buttonViewHistory
             // 
             this.buttonViewHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonViewHistory.Location = new System.Drawing.Point(533, 86);
+            this.buttonViewHistory.Location = new System.Drawing.Point(535, 86);
             this.buttonViewHistory.Name = "buttonViewHistory";
             this.buttonViewHistory.Size = new System.Drawing.Size(115, 35);
             this.buttonViewHistory.TabIndex = 6;
@@ -886,7 +911,7 @@
             this.textBoxSettingSteamId.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.textBoxSettingSteamId.Location = new System.Drawing.Point(87, 20);
             this.textBoxSettingSteamId.Name = "textBoxSettingSteamId";
-            this.textBoxSettingSteamId.Size = new System.Drawing.Size(475, 23);
+            this.textBoxSettingSteamId.Size = new System.Drawing.Size(477, 23);
             this.textBoxSettingSteamId.TabIndex = 1;
             // 
             // textBoxSettingProfileId
@@ -897,7 +922,7 @@
             this.textBoxSettingProfileId.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.textBoxSettingProfileId.Location = new System.Drawing.Point(87, 45);
             this.textBoxSettingProfileId.Name = "textBoxSettingProfileId";
-            this.textBoxSettingProfileId.Size = new System.Drawing.Size(475, 23);
+            this.textBoxSettingProfileId.Size = new System.Drawing.Size(477, 23);
             this.textBoxSettingProfileId.TabIndex = 1;
             // 
             // labelSettingsCountry
@@ -906,7 +931,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelSettingsCountry.Location = new System.Drawing.Point(8, 109);
             this.labelSettingsCountry.Name = "labelSettingsCountry";
-            this.labelSettingsCountry.Size = new System.Drawing.Size(635, 23);
+            this.labelSettingsCountry.Size = new System.Drawing.Size(637, 23);
             this.labelSettingsCountry.TabIndex = 3;
             this.labelSettingsCountry.Text = "Country: -----";
             // 
@@ -916,7 +941,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelSettingsName.Location = new System.Drawing.Point(8, 86);
             this.labelSettingsName.Name = "labelSettingsName";
-            this.labelSettingsName.Size = new System.Drawing.Size(635, 23);
+            this.labelSettingsName.Size = new System.Drawing.Size(637, 23);
             this.labelSettingsName.TabIndex = 3;
             this.labelSettingsName.Text = "    Name: -----";
             // 
@@ -1029,5 +1054,7 @@
         private System.Windows.Forms.Button buttonViewHistory;
         private System.Windows.Forms.Button buttonSetId;
         private System.Windows.Forms.CheckBox checkBoxHideTitle;
+        private System.Windows.Forms.Label labelAoE2NetStatus;
+        private System.Windows.Forms.Label labelAoE2NetStatusLabel;
     }
 }

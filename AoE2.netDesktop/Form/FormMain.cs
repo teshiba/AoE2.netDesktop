@@ -3,9 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using System.Windows.Forms;
+
     using AoE2NetDesktop;
+
     using LibAoE2net;
 
     /// <summary>
@@ -231,7 +234,8 @@
 
             labelSettingsName.Text = $"   Name: --";
             labelSettingsCountry.Text = $"Country: --";
-
+            AoE2net.OnError = OnErrorHandler;
+            ShowAoE2netStatus(NetStatus.Connecting);
             try {
                 ret = await Controler.ReadPlayerDataAsync(idType, idText);
 
@@ -241,6 +245,7 @@
                 Settings.Default.ProfileId = Controler.ProfileId;
                 buttonUpdate.Enabled = ret;
                 buttonViewHistory.Enabled = ret;
+                ShowAoE2netStatus(NetStatus.Connected);
             } catch (Exception ex) {
                 ret = false;
                 labelErrText.Text = ex.Message + ":" + ex.StackTrace;
@@ -254,6 +259,45 @@
             Awaiter.Complete();
 
             return ret;
+        }
+
+        private void ShowAoE2netStatus(NetStatus status)
+        {
+            switch (status) {
+            case NetStatus.Connected:
+                labelAoE2NetStatus.Text = "Connected";
+                labelAoE2NetStatus.ForeColor = Color.Green;
+                break;
+            case NetStatus.Disconnected:
+                labelAoE2NetStatus.Text = "Disconnected";
+                labelAoE2NetStatus.ForeColor = Color.Firebrick;
+                break;
+            case NetStatus.ServerError:
+                labelAoE2NetStatus.Text = "Server Error";
+                labelAoE2NetStatus.ForeColor = Color.Olive;
+                break;
+            case NetStatus.ComTimeout:
+                labelAoE2NetStatus.Text = "Timeout";
+                labelAoE2NetStatus.ForeColor = Color.Violet;
+                break;
+            case NetStatus.Connecting:
+                labelAoE2NetStatus.Text = "Connecting";
+                labelAoE2NetStatus.ForeColor = Color.DarkSeaGreen;
+                break;
+            default:
+                break;
+            }
+        }
+
+        private void OnErrorHandler(Exception ex)
+        {
+            if (ex.GetType() == typeof(HttpRequestException)) {
+                ShowAoE2netStatus(NetStatus.ServerError);
+            }
+
+            if (ex.GetType() == typeof(TaskCanceledException)) {
+                ShowAoE2netStatus(NetStatus.ComTimeout);
+            }
         }
 
         private async Task<bool> UpdateLastMatch()

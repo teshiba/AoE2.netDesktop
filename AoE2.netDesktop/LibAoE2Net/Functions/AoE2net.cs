@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading.Tasks;
-    using System.Windows.Forms;
 
     /// <summary>
     /// AoE2net API class.
@@ -25,6 +24,15 @@
         /// Gets aoE2Version. ("aoe2de" or "aoe2hd").
         /// </summary>
         public static string AoE2Version { get; } = "aoe2de";
+
+        /// <summary>
+        /// Gets or sets action for recieving Exception.
+        /// </summary>
+        public static Action<Exception> OnError
+        {
+            get => ComClient.OnError;
+            set => ComClient.OnError = value;
+        }
 
         /// <summary>
         /// Gets Player Last Match.
