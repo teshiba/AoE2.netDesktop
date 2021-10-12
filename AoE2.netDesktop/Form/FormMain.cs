@@ -145,10 +145,23 @@
             }
         }
 
-        private void SetLastMatchData(PlayerLastmatch playerLastmatch)
+        private async Task<Match> SetLastMatchData()
         {
+            Match ret;
+            var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(IdType.Profile, textBoxSettingProfileId.Text);
+            var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, int.Parse(textBoxSettingProfileId.Text));
             SetMatchData(playerLastmatch.LastMatch);
-            SetPlayersData(playerLastmatch.LastMatch.Players);
+
+            if (playerMatchHistory.Count != 0
+                && playerMatchHistory[0].MatchId == playerLastmatch.LastMatch.MatchId) {
+                SetPlayersData(playerMatchHistory[0].Players);
+                ret = playerMatchHistory[0];
+            } else {
+                SetPlayersData(playerLastmatch.LastMatch.Players);
+                ret = playerLastmatch.LastMatch;
+            }
+
+            return ret;
         }
 
         private void SetMatchData(Match match)
@@ -167,7 +180,7 @@
             foreach (var player in players) {
                 if (player.Color - 1 is int index
                     && index < PlayerNumMax
-                    && index > 0) {
+                    && index > -1) {
                     pictureBox[index].ImageLocation = AoE2net.GetCivImageLocation(player.GetCivEnName());
                     labelRate[index].Text = CtrlMain.GetRateString(player.Rating);
                     labelName[index].Text = CtrlMain.GetPlayerNameString(player.Name);
@@ -177,6 +190,7 @@
                     labelName[index].Tag = player;
                 } else {
                     labelErrText.Text = $"invalid player.Color[{player.Color}]";
+                    break;
                 }
             }
         }
@@ -250,8 +264,7 @@
 
             ClearLastMatch();
             try {
-                var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(IdType.Profile, textBoxSettingProfileId.Text);
-                SetLastMatchData(playerLastmatch);
+                var match = await SetLastMatchData();
                 ret = true;
             } catch (Exception ex) {
                 labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
@@ -315,7 +328,7 @@
             var labelName = (Label)sender;
             var player = (Player)labelName.Tag;
 
-            if (player?.SteamId == textBoxSettingSteamId.Text) {
+            if (player?.ProfilId.ToString() == textBoxSettingProfileId.Text) {
                 labelName.DrawString(e, 20, Color.Black, Color.DarkOrange);
             } else {
                 labelName.DrawString(e, 20, Color.DarkGreen, Color.LightGreen);
