@@ -50,12 +50,13 @@
         /// <inheritdoc/>
         protected override CtrlMain Controler { get => (CtrlMain)base.Controler; }
 
-        private void RestoreWindowPosition()
+        private void RestoreWindowStatus()
         {
             Top = Settings.Default.WindowLocationMain.Y;
             Left = Settings.Default.WindowLocationMain.X;
             Width = Settings.Default.WindowSizeMain.Width;
             Height = Settings.Default.WindowSizeMain.Height;
+            upDownOpacity.Value = Settings.Default.MainFormOpacityPercent;
         }
 
         private void SaveWindowPosition()
@@ -340,7 +341,7 @@
 
         private async void FormMain_Load(object sender, EventArgs e)
         {
-            RestoreWindowPosition();
+            RestoreWindowStatus();
             ResizePanels();
             ClearLastMatch();
             try {
@@ -544,6 +545,12 @@
             if (e.KeyCode == Keys.F5) {
                 buttonUpdate.PerformClick();
             }
+        }
+
+        private void UpDownOpacity_ValueChanged(object sender, EventArgs e)
+        {
+            Opacity = (double)upDownOpacity.Value * 0.01;
+            Settings.Default.MainFormOpacityPercent = upDownOpacity.Value;
         }
     }
 }

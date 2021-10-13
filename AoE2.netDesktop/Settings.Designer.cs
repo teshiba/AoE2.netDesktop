@@ -142,5 +142,17 @@ namespace AoE2NetDesktop {
                 this["SelectedIndexComboBoxDataSource"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public decimal MainFormOpacityPercent {
+            get {
+                return ((decimal)(this["MainFormOpacityPercent"]));
+            }
+            set {
+                this["MainFormOpacityPercent"] = value;
+            }
+        }
     }
 }
