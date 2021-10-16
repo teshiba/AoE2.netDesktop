@@ -45,6 +45,7 @@
             labelMap.ForeColor = labelMap.BackColor;
             InitIDRadioButton();
             InitPlayersCtrlList();
+            ShowAoE2netStatus(NetStatus.Disconnected);
         }
 
         /// <inheritdoc/>
@@ -235,7 +236,6 @@
 
             labelSettingsName.Text = $"   Name: --";
             labelSettingsCountry.Text = $"Country: --";
-            AoE2net.OnError = OnErrorHandler;
             ShowAoE2netStatus(NetStatus.Connecting);
             try {
                 ret = await Controler.ReadPlayerDataAsync(idType, idText);
@@ -284,8 +284,6 @@
             case NetStatus.Connecting:
                 labelAoE2NetStatus.Text = "Connecting";
                 labelAoE2NetStatus.ForeColor = Color.DarkSeaGreen;
-                break;
-            default:
                 break;
             }
         }
@@ -345,11 +343,12 @@
             ResizePanels();
             ClearLastMatch();
             try {
+                AoE2net.OnError = OnErrorHandler;
                 _ = await CtrlMain.InitAsync(language);
                 LoadSettings();
                 _ = await ReadProfileAsync();
                 _ = await UpdateLastMatch();
-            } catch (Exception ex) {
+            } catch (AggregateException ex) {
                 labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
             }
 

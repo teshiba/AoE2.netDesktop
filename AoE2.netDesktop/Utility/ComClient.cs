@@ -17,7 +17,7 @@
         /// <summary>
         /// Gets or sets action for recieving Exception.
         /// </summary>
-        public Action<Exception> OnError { get; set; }
+        public Action<Exception> OnError { get; set; } = (ex) => { };
 
         /// <summary>
         /// Send a GET request to the specified Uri and return the response body as a string
@@ -50,11 +50,11 @@
                 ret = (TValue)serializer.ReadObject(stream);
             } catch (HttpRequestException e) {
                 Debug.Print($"Request Error: {e.Message}");
-                OnError?.Invoke(e);
+                OnError.Invoke(e);
                 throw;
             } catch (TaskCanceledException e) {
                 Debug.Print($"Timeout: {e.Message}");
-                OnError?.Invoke(e);
+                OnError.Invoke(e);
                 throw;
             }
 

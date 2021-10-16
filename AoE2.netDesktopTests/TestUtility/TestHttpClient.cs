@@ -86,7 +86,7 @@ namespace LibAoE2net
 
             LastRequest = $"Read {readUri}";
 
-            return File.ReadAllTextAsync($"{TestDataPath}/{requestDataFileName}");
+            return ReadTextFIleAsync($"{TestDataPath}/{requestDataFileName}");
         }
 
         private Task<string> ReadPlayerRatingHistoryAsync(string requestUri)
@@ -100,7 +100,7 @@ namespace LibAoE2net
 
             LastRequest = $"Read {readUri}";
 
-            return File.ReadAllTextAsync(readUri);
+            return ReadTextFIleAsync(readUri);
         }
 
         private Task<string> ReadStringsAsync(string requestUri)
@@ -112,7 +112,7 @@ namespace LibAoE2net
 
             LastRequest = $"Read {readUri}";
 
-            return File.ReadAllTextAsync(readUri);
+            return ReadTextFIleAsync(readUri);
         }
 
         private Task<string> ReadGetPlayerMatchHistoryAsync(string requestUri)
@@ -124,7 +124,7 @@ namespace LibAoE2net
 
             LastRequest = $"Read {readUri}";
 
-            return File.ReadAllTextAsync(readUri);
+            return ReadTextFIleAsync(readUri);
         }
 
         private Task<string> ReadLeaderboardAsync(string requestUri)
@@ -137,7 +137,20 @@ namespace LibAoE2net
 
             LastRequest = $"Read {readUri}";
 
-            return File.ReadAllTextAsync(readUri);
+            return ReadTextFIleAsync(readUri);
+        }
+
+        private static Task<string> ReadTextFIleAsync(string filePath)
+        {
+            Task<string> ret;
+
+            try {
+                ret = File.ReadAllTextAsync(filePath);
+            } catch (FileNotFoundException ex) {
+                Debug.Print($"Test stub http read: {ex.Message}");
+                throw;
+            }
+            return ret;
         }
     }
 }

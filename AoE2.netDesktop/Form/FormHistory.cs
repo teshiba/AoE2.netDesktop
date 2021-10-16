@@ -293,7 +293,7 @@
 
         private void ListViewStatistics_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.A && e.Control) {
+            if ((e.KeyCode == Keys.A) && e.Control) {
                 foreach (ListViewItem item in listViewStatistics.Items) {
                     item.Selected = true;
                 }
