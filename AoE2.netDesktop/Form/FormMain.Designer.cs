@@ -1000,6 +1000,8 @@
             this.Text = "AoE2.net Desktop";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FormMain_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMain_MouseMove);
             this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.tabControlMain.ResumeLayout(false);
             this.tabPagePlayerLastMatch.ResumeLayout(false);

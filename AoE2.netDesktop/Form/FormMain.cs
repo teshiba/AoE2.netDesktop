@@ -24,8 +24,8 @@
         private readonly List<Label> labelName = new ();
         private readonly List<PictureBox> pictureBox = new ();
         private readonly Language language;
-        private int windowTitleTop;
-        private int windowTitleLeft;
+
+        private Point mouseDownPoint;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormMain"/> class.
@@ -38,11 +38,6 @@
             Controler.SelectedId = IdType.Steam;
 
             InitializeComponent();
-            labelAveRate1.ForeColor = labelAveRate1.BackColor;
-            labelAveRate2.ForeColor = labelAveRate2.BackColor;
-            labelGameId.ForeColor = labelGameId.BackColor;
-            labelServer.ForeColor = labelServer.BackColor;
-            labelMap.ForeColor = labelMap.BackColor;
             InitIDRadioButton();
             InitPlayersCtrlList();
             ShowAoE2netStatus(NetStatus.Disconnected);
@@ -106,22 +101,6 @@
                 pictureBox1, pictureBox2, pictureBox3, pictureBox4,
                 pictureBox5, pictureBox6, pictureBox7, pictureBox8,
             });
-
-            foreach (var item in labelName) {
-                item.ForeColor = item.BackColor;
-            }
-
-            foreach (var item in labelRate) {
-                item.ForeColor = item.BackColor;
-            }
-
-            foreach (var item in labelCiv) {
-                item.ForeColor = item.BackColor;
-            }
-
-            foreach (var item in labelColor) {
-                item.ForeColor = item.BackColor;
-            }
         }
 
         private void ClearLastMatch()
@@ -279,11 +258,11 @@
                 break;
             case NetStatus.ComTimeout:
                 labelAoE2NetStatus.Text = "Timeout";
-                labelAoE2NetStatus.ForeColor = Color.Violet;
+                labelAoE2NetStatus.ForeColor = Color.Purple;
                 break;
             case NetStatus.Connecting:
                 labelAoE2NetStatus.Text = "Connecting";
-                labelAoE2NetStatus.ForeColor = Color.DarkSeaGreen;
+                labelAoE2NetStatus.ForeColor = Color.MediumSeaGreen;
                 break;
             }
         }
@@ -519,21 +498,21 @@
         {
             var top = RectangleToScreen(ClientRectangle).Top;
             var left = RectangleToScreen(ClientRectangle).Left;
+            var height = RectangleToScreen(ClientRectangle).Height;
 
             SuspendLayout();
 
             if (checkBoxHideTitle.Checked) {
-                windowTitleTop = Top;
-                windowTitleLeft = Left;
-                MinimumSize = new Size(290, 230);
                 FormBorderStyle = FormBorderStyle.None;
+                MinimumSize = new Size(290, 230);
                 Top = top;
                 Left = left;
+                Height = height;
             } else {
                 FormBorderStyle = FormBorderStyle.Sizable;
                 MinimumSize = new Size(290, 295);
-                Top = windowTitleTop;
-                Left = windowTitleLeft;
+                Top -= RectangleToScreen(ClientRectangle).Top - Top;
+                Left -= RectangleToScreen(ClientRectangle).Left - Left;
             }
 
             ResumeLayout();
@@ -550,6 +529,21 @@
         {
             Opacity = (double)upDownOpacity.Value * 0.01;
             Settings.Default.MainFormOpacityPercent = upDownOpacity.Value;
+        }
+
+        private void FormMain_MouseDown(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left) {
+                mouseDownPoint = new Point(e.X, e.Y);
+            }
+        }
+
+        private void FormMain_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left) {
+                Left += e.X - mouseDownPoint.X;
+                Top += e.Y - mouseDownPoint.Y;
+            }
         }
     }
 }
