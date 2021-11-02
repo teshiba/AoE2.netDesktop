@@ -77,6 +77,7 @@ namespace AoE2NetDesktop.Form
             this.columnHeaderLastDate = new System.Windows.Forms.ColumnHeader();
             this.formsPlotCountry = new ScottPlot.FormsPlot();
             this.tabControlHistory = new System.Windows.Forms.TabControl();
+            this.openHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripMatchedPlayers.SuspendLayout();
             this.tabPageMatches.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
@@ -95,16 +96,17 @@ namespace AoE2NetDesktop.Form
             // contextMenuStripMatchedPlayers
             // 
             this.contextMenuStripMatchedPlayers.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openAoE2NetProfileToolStripMenuItem});
+            this.openAoE2NetProfileToolStripMenuItem,
+            this.openHistoryToolStripMenuItem});
             this.contextMenuStripMatchedPlayers.Name = "contextMenuStripMatchedPlayers";
-            this.contextMenuStripMatchedPlayers.Size = new System.Drawing.Size(200, 26);
+            this.contextMenuStripMatchedPlayers.Size = new System.Drawing.Size(191, 48);
             this.contextMenuStripMatchedPlayers.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripMatchedPlayers_Opening);
             // 
             // openAoE2NetProfileToolStripMenuItem
             // 
             this.openAoE2NetProfileToolStripMenuItem.Name = "openAoE2NetProfileToolStripMenuItem";
-            this.openAoE2NetProfileToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
-            this.openAoE2NetProfileToolStripMenuItem.Text = "Open AoE2.net profile...";
+            this.openAoE2NetProfileToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.openAoE2NetProfileToolStripMenuItem.Text = "Open AoE2.net profile";
             this.openAoE2NetProfileToolStripMenuItem.Click += new System.EventHandler(this.OpenAoE2NetProfileToolStripMenuItem_Click);
             // 
             // tabPage1
@@ -429,6 +431,7 @@ namespace AoE2NetDesktop.Form
             this.listViewMatchedPlayers.TabIndex = 2;
             this.listViewMatchedPlayers.UseCompatibleStateImageBehavior = false;
             this.listViewMatchedPlayers.View = System.Windows.Forms.View.Details;
+            this.listViewMatchedPlayers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListViewMatchedPlayers_MouseDoubleClick);
             // 
             // columnHeaderName
             // 
@@ -495,6 +498,13 @@ namespace AoE2NetDesktop.Form
             this.tabControlHistory.Size = new System.Drawing.Size(990, 743);
             this.tabControlHistory.TabIndex = 3;
             this.tabControlHistory.SelectedIndexChanged += new System.EventHandler(this.TabControlHistory_SelectedIndexChanged);
+            // 
+            // openHistoryToolStripMenuItem
+            // 
+            this.openHistoryToolStripMenuItem.Name = "openHistoryToolStripMenuItem";
+            this.openHistoryToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.openHistoryToolStripMenuItem.Text = "Open History";
+            this.openHistoryToolStripMenuItem.Click += new System.EventHandler(this.OpenHistoryToolStripMenuItem_Click);
             // 
             // FormHistory
             // 
@@ -575,5 +585,6 @@ namespace AoE2NetDesktop.Form
         private ScottPlot.FormsPlot formsPlotCountry;
         private System.Windows.Forms.TabControl tabControlHistory;
         private ScottPlot.FormsPlot formsPlotPlayerRate;
+        private System.Windows.Forms.ToolStripMenuItem openHistoryToolStripMenuItem;
     }
 }

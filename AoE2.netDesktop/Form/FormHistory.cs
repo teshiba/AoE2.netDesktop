@@ -166,12 +166,21 @@
             listViewMatchedPlayers.EndUpdate();
         }
 
-        private void OpenSelectedPlayerFrofile()
+        private void OpenSelectedPlayerProfile()
         {
             var selectedItems = listViewMatchedPlayers.SelectedItems;
 
             if (selectedItems.Count != 0) {
                 Controler.OpenProfile(selectedItems[0].Text);
+            }
+        }
+
+        private void OpenSelectedPlayerHistory()
+        {
+            var selectedItems = listViewMatchedPlayers.SelectedItems;
+
+            if (selectedItems.Count != 0) {
+                Controler.OpenHistory(selectedItems[0].Text);
             }
         }
 
@@ -223,7 +232,7 @@
 
         private void OpenAoE2NetProfileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenSelectedPlayerFrofile();
+            OpenSelectedPlayerProfile();
         }
 
         private void ComboBoxLeaderboard_SelectedIndexChanged(object sender, EventArgs e)
@@ -298,6 +307,16 @@
                     item.Selected = true;
                 }
             }
+        }
+
+        private void OpenHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenSelectedPlayerHistory();
+        }
+
+        private void ListViewMatchedPlayers_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            OpenSelectedPlayerHistory();
         }
     }
 }

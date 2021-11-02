@@ -313,6 +313,24 @@
         }
 
         /// <summary>
+        /// Open player's History on new History window.
+        /// </summary>
+        /// <param name="playerName">player name.</param>
+        public void OpenHistory(string playerName)
+        {
+            if (MatchedPlayerInfos.TryGetValue(playerName, out PlayerInfo playerInfo)) {
+                if (playerInfo.ProfileId is int profileId) {
+                    var formHistory = new FormHistory(profileId) {
+                        Text = $"{playerName}'s history - AoE2.net Desktop",
+                    };
+                    formHistory.Show();
+                }
+            } else {
+                Debug.Print($"Unavailable Player Name: {playerName}.");
+            }
+        }
+
+        /// <summary>
         /// Read player match history from AoE2.net.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
