@@ -33,7 +33,7 @@
             { LeaderboardId.Unranked, Color.SlateGray },
         };
 
-        private Dictionary<LeaderboardId, List<ListViewItem>> listViewitems;
+        private Dictionary<LeaderboardId, List<ListViewItem>> listViewHistory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormHistory"/> class.
@@ -58,6 +58,8 @@
             PlayerCountryStat = new PlayerCountryPlot(formsPlotCountry);
             WinRateStat = new WinRatePlot(formsPlotWinRate);
             PlayerRate = new PlayerRateFormsPlot(formsPlotPlayerRate, leaderboardColor);
+
+            InitListviewSorter();
         }
 
         /// <summary>
@@ -94,6 +96,48 @@
         /// <inheritdoc/>
         protected override CtrlHistory Controler => (CtrlHistory)base.Controler;
 
+        private static void SortByColumn(ListView listView, ColumnClickEventArgs e)
+        {
+            var listViewItemComparer = (ListViewItemComparer)listView.ListViewItemSorter;
+            listViewItemComparer.Column = e.Column;
+            listView.Sort();
+        }
+
+        private void InitListviewSorter()
+        {
+            var sorterMatchHistory = new ListViewItemComparer {
+                Column = 5,
+                ColumnModes = new ComparerMode[]
+                {
+                    ComparerMode.String,
+                    ComparerMode.Integer,
+                    ComparerMode.String,
+                    ComparerMode.String,
+                    ComparerMode.Integer,
+                    ComparerMode.DateTime,
+                },
+            };
+
+            var sorterMatchedPlayers = new ListViewItemComparer {
+                Column = 8,
+                ColumnModes = new ComparerMode[]
+                {
+                    ComparerMode.String,
+                    ComparerMode.String,
+                    ComparerMode.String,
+                    ComparerMode.Integer,
+                    ComparerMode.Integer,
+                    ComparerMode.Integer,
+                    ComparerMode.Integer,
+                    ComparerMode.Integer,
+                    ComparerMode.DateTime,
+                },
+            };
+
+            listViewMatchedPlayers.ListViewItemSorter = sorterMatchedPlayers;
+            listViewMatchHistory.ListViewItemSorter = sorterMatchHistory;
+        }
+
         private async Task UpdateListViewStatisticsAsync()
         {
             listViewStatistics.UseWaitCursor = true;
@@ -123,6 +167,8 @@
 
         private void UpdateListViewPlayers()
         {
+            var listViewItems = new List<ListViewItem>();
+
             listViewMatchedPlayers.BeginUpdate();
             listViewMatchedPlayers.Items.Clear();
             foreach (var player in Controler.MatchedPlayerInfos) {
@@ -135,8 +181,12 @@
                 listviewItem.SubItems.Add(player.Value.GamesEnemy.ToString());
                 listviewItem.SubItems.Add(player.Value.Games1v1.ToString());
                 listviewItem.SubItems.Add(player.Value.LastDate.ToString());
-                listViewMatchedPlayers.Items.Add(listviewItem);
+                listViewItems.Add(listviewItem);
             }
+
+            // When calling Add of ListViewItemCollection frequently in foreach etc.,
+            // it takes too much time in the ListViewItemSorte, so AddRange is called once instead.
+            listViewMatchedPlayers.Items.AddRange(listViewItems.ToArray());
 
             listViewMatchedPlayers.EndUpdate();
         }
@@ -160,7 +210,7 @@
             listViewMatchedPlayers.BeginUpdate();
             listViewMatchHistory.Items.Clear();
             if (SelectedLeaderboard != LeaderboardId.Undefined) {
-                listViewMatchHistory.Items.AddRange(listViewitems[SelectedLeaderboard].ToArray());
+                listViewMatchHistory.Items.AddRange(listViewHistory[SelectedLeaderboard].ToArray());
             }
 
             listViewMatchedPlayers.EndUpdate();
@@ -208,7 +258,7 @@
             tabControlHistory.UseWaitCursor = true;
 
             if (await Controler.ReadPlayerMatchHistoryAsync()) {
-                listViewitems = Controler.CreateListViewHistory();
+                listViewHistory = Controler.CreateListViewHistory();
                 comboBoxLeaderboard.SelectedIndex = Settings.Default.SelectedIndexComboBoxLeaderboard;
                 comboBoxDataSource.SelectedIndex = Settings.Default.SelectedIndexComboBoxDataSource;
                 comboBoxLeaderboard.Enabled = true;
@@ -317,6 +367,16 @@
         private void ListViewMatchedPlayers_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             OpenSelectedPlayerHistory();
+        }
+
+        private void ListViewMatchedPlayers_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            SortByColumn((ListView)sender, e);
+        }
+
+        private void ListViewMatchHistory_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            SortByColumn((ListView)sender, e);
         }
     }
 }

@@ -88,17 +88,21 @@
         /// <param name="players">player.</param>
         /// <param name="team">team type.</param>
         /// <returns>team average rate value.</returns>
-        public static int GetAverageRate(List<Player> players, TeamType team)
+        public static int? GetAverageRate(List<Player> players, TeamType team)
         {
+            if (players is null) {
+                throw new ArgumentNullException(nameof(players));
+            }
+
             Func<Player, bool> predicate = team switch {
                 TeamType.EvenColorNo => EvenFunc,
                 TeamType.OddColorNo => OddFunc,
                 _ => throw new ArgumentOutOfRangeException(nameof(team)),
             };
 
-            return (int)players.Where(predicate)
-                               .Select(player => player.Rating)
-                               .Average();
+            return (int?)players.Where(predicate)
+                                .Select(player => player.Rating)
+                                .Average();
 
             [ExcludeFromCodeCoverage]
             static bool EvenFunc(Player player) => player.Color % 2 == 0;

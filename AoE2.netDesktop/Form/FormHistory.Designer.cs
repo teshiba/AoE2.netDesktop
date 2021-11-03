@@ -31,6 +31,7 @@ namespace AoE2NetDesktop.Form
             this.components = new System.ComponentModel.Container();
             this.contextMenuStripMatchedPlayers = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openAoE2NetProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPageMatches = new System.Windows.Forms.TabPage();
@@ -77,7 +78,6 @@ namespace AoE2NetDesktop.Form
             this.columnHeaderLastDate = new System.Windows.Forms.ColumnHeader();
             this.formsPlotCountry = new ScottPlot.FormsPlot();
             this.tabControlHistory = new System.Windows.Forms.TabControl();
-            this.openHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripMatchedPlayers.SuspendLayout();
             this.tabPageMatches.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
@@ -108,6 +108,13 @@ namespace AoE2NetDesktop.Form
             this.openAoE2NetProfileToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.openAoE2NetProfileToolStripMenuItem.Text = "Open AoE2.net profile";
             this.openAoE2NetProfileToolStripMenuItem.Click += new System.EventHandler(this.OpenAoE2NetProfileToolStripMenuItem_Click);
+            // 
+            // openHistoryToolStripMenuItem
+            // 
+            this.openHistoryToolStripMenuItem.Name = "openHistoryToolStripMenuItem";
+            this.openHistoryToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.openHistoryToolStripMenuItem.Text = "Open History";
+            this.openHistoryToolStripMenuItem.Click += new System.EventHandler(this.OpenHistoryToolStripMenuItem_Click);
             // 
             // tabPage1
             // 
@@ -195,6 +202,7 @@ namespace AoE2NetDesktop.Form
             this.listViewMatchHistory.TabIndex = 0;
             this.listViewMatchHistory.UseCompatibleStateImageBehavior = false;
             this.listViewMatchHistory.View = System.Windows.Forms.View.Details;
+            this.listViewMatchHistory.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListViewMatchHistory_ColumnClick);
             // 
             // columnHeader1
             // 
@@ -390,6 +398,7 @@ namespace AoE2NetDesktop.Form
             // splitContainerPlayers
             // 
             this.splitContainerPlayers.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainerPlayers.Cursor = System.Windows.Forms.Cursors.VSplit;
             this.splitContainerPlayers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerPlayers.Location = new System.Drawing.Point(3, 3);
             this.splitContainerPlayers.Name = "splitContainerPlayers";
@@ -402,7 +411,7 @@ namespace AoE2NetDesktop.Form
             // 
             this.splitContainerPlayers.Panel2.Controls.Add(this.formsPlotCountry);
             this.splitContainerPlayers.Size = new System.Drawing.Size(976, 709);
-            this.splitContainerPlayers.SplitterDistance = 504;
+            this.splitContainerPlayers.SplitterDistance = 575;
             this.splitContainerPlayers.TabIndex = 9;
             this.splitContainerPlayers.DoubleClick += new System.EventHandler(this.SplitContainerPlayers_DoubleClick);
             // 
@@ -427,10 +436,11 @@ namespace AoE2NetDesktop.Form
             this.listViewMatchedPlayers.HideSelection = false;
             this.listViewMatchedPlayers.Location = new System.Drawing.Point(0, 0);
             this.listViewMatchedPlayers.Name = "listViewMatchedPlayers";
-            this.listViewMatchedPlayers.Size = new System.Drawing.Size(500, 705);
+            this.listViewMatchedPlayers.Size = new System.Drawing.Size(571, 705);
             this.listViewMatchedPlayers.TabIndex = 2;
             this.listViewMatchedPlayers.UseCompatibleStateImageBehavior = false;
             this.listViewMatchedPlayers.View = System.Windows.Forms.View.Details;
+            this.listViewMatchedPlayers.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListViewMatchedPlayers_ColumnClick);
             this.listViewMatchedPlayers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListViewMatchedPlayers_MouseDoubleClick);
             // 
             // columnHeaderName
@@ -483,7 +493,7 @@ namespace AoE2NetDesktop.Form
             this.formsPlotCountry.Location = new System.Drawing.Point(0, 0);
             this.formsPlotCountry.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotCountry.Name = "formsPlotCountry";
-            this.formsPlotCountry.Size = new System.Drawing.Size(464, 705);
+            this.formsPlotCountry.Size = new System.Drawing.Size(393, 705);
             this.formsPlotCountry.TabIndex = 8;
             // 
             // tabControlHistory
@@ -498,13 +508,6 @@ namespace AoE2NetDesktop.Form
             this.tabControlHistory.Size = new System.Drawing.Size(990, 743);
             this.tabControlHistory.TabIndex = 3;
             this.tabControlHistory.SelectedIndexChanged += new System.EventHandler(this.TabControlHistory_SelectedIndexChanged);
-            // 
-            // openHistoryToolStripMenuItem
-            // 
-            this.openHistoryToolStripMenuItem.Name = "openHistoryToolStripMenuItem";
-            this.openHistoryToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.openHistoryToolStripMenuItem.Text = "Open History";
-            this.openHistoryToolStripMenuItem.Click += new System.EventHandler(this.OpenHistoryToolStripMenuItem_Click);
             // 
             // FormHistory
             // 

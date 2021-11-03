@@ -17,7 +17,7 @@
     public partial class FormMain : ControllableForm
     {
         private const int PlayerNumMax = 8;
-
+        private const int LabelMapMargin = 20;
         private readonly List<Label> labelCiv = new ();
         private readonly List<Label> labelColor = new ();
         private readonly List<Label> labelRate = new ();
@@ -152,11 +152,24 @@
         {
             var aveTeam1 = CtrlMain.GetAverageRate(match.Players, TeamType.OddColorNo);
             var aveTeam2 = CtrlMain.GetAverageRate(match.Players, TeamType.EvenColorNo);
+
             labelAveRate1.Text = $"Team1 Ave. Rate:{aveTeam1}";
             labelAveRate2.Text = $"Team2 Ave. Rate:{aveTeam2}";
             labelMap.Text = $"Map: {match.GetMapName()}";
             labelGameId.Text = $"GameID: {match.MatchId}";
             labelServer.Text = $"Server: {match.Server}";
+
+            ArrangeGameIdAndServerNameLocation();
+        }
+
+        private void ArrangeGameIdAndServerNameLocation()
+        {
+            var graphics = labelMap.CreateGraphics();
+            var stringSize = graphics.MeasureString(labelMap.Text, labelMap.Font);
+            labelMap.Width = (int)stringSize.Width + LabelMapMargin;
+
+            labelGameId.Left = labelMap.Right;
+            labelServer.Left = labelMap.Right;
         }
 
         private void SetPlayersData(List<Player> players)
@@ -245,7 +258,7 @@
         {
             switch (status) {
             case NetStatus.Connected:
-                labelAoE2NetStatus.Text = "Connected";
+                labelAoE2NetStatus.Text = "Online";
                 labelAoE2NetStatus.ForeColor = Color.Green;
                 break;
             case NetStatus.Disconnected:

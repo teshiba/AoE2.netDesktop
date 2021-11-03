@@ -159,7 +159,7 @@
             this.labelMap.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelMap.Location = new System.Drawing.Point(0, 1);
             this.labelMap.Name = "labelMap";
-            this.labelMap.Size = new System.Drawing.Size(278, 29);
+            this.labelMap.Size = new System.Drawing.Size(258, 29);
             this.labelMap.TabIndex = 2;
             this.labelMap.Text = "Map : ------------------------";
             this.labelMap.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
