@@ -118,6 +118,7 @@
 
             foreach (var item in labelName) {
                 item.Text = "----";
+                item.Tag = null;
             }
 
             foreach (var item in labelRate) {
