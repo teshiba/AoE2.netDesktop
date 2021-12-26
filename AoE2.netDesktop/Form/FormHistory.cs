@@ -230,7 +230,8 @@
             var selectedItems = listViewMatchedPlayers.SelectedItems;
 
             if (selectedItems.Count != 0) {
-                Controler.OpenHistory(selectedItems[0].Text);
+                var formHistory = Controler.GenerateFormHistory(selectedItems[0].Text);
+                formHistory.Show();
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using LibAoE2net;
 using System.Windows.Forms;
 using AoE2NetDesktop.Tests;
+using System.Drawing;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -24,6 +25,7 @@ namespace AoE2NetDesktop.Form.Tests
             public RadioButton radioButtonProfileID;
             public NumericUpDown upDownOpacity;
 
+            public Point mouseDownPoint;
             public string InvalidSteamIdString;
 
             public FormMainPrivate()
@@ -46,6 +48,8 @@ namespace AoE2NetDesktop.Form.Tests
                 tabControlMain = this.GetControl<TabControl>("tabControlMain");
                 textBoxSettingSteamId = this.GetControl<TextBox>("textBoxSettingSteamId");
                 upDownOpacity = this.GetControl<NumericUpDown>("upDownOpacity");
+                mouseDownPoint = this.GetField<Point>("mouseDownPoint");
+
                 TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "SteamId", TestData.AvailableUserSteamId);
                 TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
                 TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
@@ -55,6 +59,16 @@ namespace AoE2NetDesktop.Form.Tests
             {
                 this.Invoke("TabControlMain_KeyDown", tabControlMain, new KeyEventArgs(keys));
                 await Awaiter.WaitAsync("ButtonUpdate_Click");
+            }
+
+            public void FormMainOnMouseDown(MouseEventArgs e)
+            {
+                this.Invoke("FormMain_MouseDown", this, e);
+            }
+
+            public void FormMainOnMouseMove(MouseEventArgs e)
+            {
+                this.Invoke("FormMain_MouseMove", this, e);
             }
         }
     }

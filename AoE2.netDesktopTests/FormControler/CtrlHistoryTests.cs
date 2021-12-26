@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AoE2NetDesktop.Form;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using LibAoE2net;
 using AoE2NetDesktop.Tests;
@@ -394,5 +395,70 @@ namespace AoE2NetDesktop.Form.Tests
             // Assert
             Assert.AreEqual(expVal, actVal);
         }
+
+        [TestMethod()]
+        public void OpenHistoryTest()
+        {
+            // Arrange
+            var playerName = "AvailablePlayerName";
+            var done = false;
+            var testClass = new CtrlHistory(TestData.AvailableUserProfileId);
+            var playerInfo = new PlayerInfo {
+                ProfileId = TestData.AvailableUserProfileId,
+            };
+
+            testClass.MatchedPlayerInfos.Add(playerName, playerInfo);
+            var actVal = testClass.GenerateFormHistory(playerName);
+
+            actVal.Shown += async (sender, e) =>
+            {
+                await actVal.Awaiter.WaitAsync("FormHistory_ShownAsync");
+
+                // Assert
+                Assert.AreEqual($"{playerName}'s history - AoE2.net Desktop", actVal.Text);
+
+                actVal.Close();
+                done = true;
+            };
+
+            // Act
+            actVal.ShowDialog();
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void GenerateFormHistoryTestUnavailablePlayerName()
+        {
+            // Arrange
+            var playerName = "AvailablePlayerName";
+            var testClass = new CtrlHistory(TestData.AvailableUserProfileId);
+            var playerInfo = new PlayerInfo {
+                ProfileId = TestData.AvailableUserProfileId,
+            };
+
+            testClass.MatchedPlayerInfos.Add(playerName, playerInfo);
+            var actVal = testClass.GenerateFormHistory("UnavailablePlayerName");
+
+            // Act
+            Assert.IsNull(actVal);
+        }
+
+        [TestMethod()]
+        public void GenerateFormHistoryTestprofileIdNull()
+        {
+            // Arrange
+            var playerName = "AvailablePlayerName";
+            var testClass = new CtrlHistory(TestData.AvailableUserProfileId);
+            var playerInfo = new PlayerInfo {
+                ProfileId = null,
+            };
+
+            testClass.MatchedPlayerInfos.Add(playerName, playerInfo);
+            var actVal = testClass.GenerateFormHistory(playerName);
+
+            // Act
+            Assert.IsNull(actVal);
+        }
+
     }
 }

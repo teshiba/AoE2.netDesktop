@@ -3,6 +3,8 @@ using LibAoE2net;
 using System.Windows.Forms;
 using AoE2NetDesktop.Tests;
 using System;
+using System.Drawing;
+using ScottPlot.Plottable;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -507,6 +509,67 @@ namespace AoE2NetDesktop.Form.Tests
             testClass.ShowDialog();
 
             // Assert
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormMainTestFormMain_MouseDown()
+        {
+            // Arrange
+            var done = false;
+            var point = new Point(10, 20);
+            var testClass = new FormMainPrivate {
+                mouseDownPoint = point,
+            };
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
+                testClass.FormMainOnMouseDown(new MouseEventArgs(MouseButtons.Left, 0, point.X, point.Y, 0));
+                done = true;
+
+                // CleanUp
+                testClass.Close();
+            };
+
+            testClass.ShowDialog();
+
+            // Assert
+            Assert.IsTrue(done);
+            Assert.AreEqual(testClass.mouseDownPoint, point);
+        }
+
+        [TestMethod()]
+        public void FormMainTestFormMain_MouseMove()
+        {
+            // Arrange
+            var expTop = 0;
+            var expLeft = 0;
+            var done = false;
+            var point = new Point(10, 20);
+            var testClass = new FormMainPrivate {
+                mouseDownPoint = point,
+            };
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
+                expTop = testClass.Top + point.Y;
+                expLeft = testClass.Left + point.X;
+                testClass.FormMainOnMouseMove(new MouseEventArgs(MouseButtons.Left, 0, point.X, point.Y, 0));
+                done = true;
+
+                // CleanUp
+                testClass.Close();
+            };
+
+            testClass.ShowDialog();
+
+            // Assert
+            Assert.AreEqual(expTop, testClass.Top);
+            Assert.AreEqual(expLeft, testClass.Left);
             Assert.IsTrue(done);
         }
 

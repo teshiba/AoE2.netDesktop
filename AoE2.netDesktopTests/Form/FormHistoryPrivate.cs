@@ -1,6 +1,7 @@
 ﻿using LibAoE2net;
 using AoE2NetDesktop.Tests;
 using System.Windows.Forms;
+using System;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -11,8 +12,10 @@ namespace AoE2NetDesktop.Form.Tests
             public ContextMenuStrip contextMenuStripMatchedPlayers;
             public ListView listViewStatistics;
             public ListView listViewMatchedPlayers;
+            public ListView listViewMatchHistory;
             public SplitContainer splitContainerPlayers;
             public ToolStripMenuItem openAoE2NetProfileToolStripMenuItem;
+            public ToolStripMenuItem openHistoryToolStripMenuItem;
             public TabControl tabControlHistory;
             public ScottPlot.FormsPlot formsPlotPlayerRate;
 
@@ -23,9 +26,11 @@ namespace AoE2NetDesktop.Form.Tests
                 contextMenuStripMatchedPlayers = this.GetControl<ContextMenuStrip>("contextMenuStripMatchedPlayers");
                 listViewStatistics = this.GetControl<ListView>("listViewStatistics");
                 listViewMatchedPlayers = this.GetControl<ListView>("listViewMatchedPlayers");
+                listViewMatchHistory = this.GetControl<ListView>("listViewMatchHistory");
                 splitContainerPlayers = this.GetControl<SplitContainer>("splitContainerPlayers");
                 tabControlHistory = this.GetControl<TabControl>("tabControlHistory");
                 openAoE2NetProfileToolStripMenuItem = this.GetControl<ToolStripMenuItem>("openAoE2NetProfileToolStripMenuItem");
+                openHistoryToolStripMenuItem = this.GetControl<ToolStripMenuItem>("openHistoryToolStripMenuItem");
                 formsPlotPlayerRate = this.GetControl<ScottPlot.FormsPlot>("formsPlotPlayerRate");
             }
 
@@ -42,6 +47,26 @@ namespace AoE2NetDesktop.Form.Tests
             public void ListViewStatisticsOnKeyDown(KeyEventArgs keys)
             {
                 this.Invoke("ListViewStatistics_KeyDown", listViewStatistics, keys);
+            }
+
+            public void OpenHistoryToolStripMenuItemOnClick(EventArgs e)
+            {
+                this.Invoke("OpenHistoryToolStripMenuItem_Click", openHistoryToolStripMenuItem, e);
+            }
+
+            public void ListViewMatchedPlayersOnMouseDoubleClick(MouseEventArgs e)
+            {
+                this.Invoke("ListViewMatchedPlayers_MouseDoubleClick", listViewMatchedPlayers, e);
+            }
+
+            public void ListViewMatchedPlayersColumnClick(ColumnClickEventArgs e)
+            {
+                this.Invoke("ListViewMatchedPlayers_ColumnClick", listViewMatchedPlayers, e);
+            }
+
+            public void ListViewMatchHistoryOnColumnClick(ColumnClickEventArgs e)
+            {
+                this.Invoke("ListViewMatchHistory_ColumnClick", listViewMatchHistory, e);
             }
         }
     }

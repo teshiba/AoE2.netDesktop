@@ -316,18 +316,22 @@
         /// Open player's History on new History window.
         /// </summary>
         /// <param name="playerName">player name.</param>
-        public void OpenHistory(string playerName)
+        /// <returns>Instance of FormHistory.</returns>
+        public FormHistory GenerateFormHistory(string playerName)
         {
+            FormHistory ret = null;
+
             if (MatchedPlayerInfos.TryGetValue(playerName, out PlayerInfo playerInfo)) {
                 if (playerInfo.ProfileId is int profileId) {
-                    var formHistory = new FormHistory(profileId) {
+                    ret = new FormHistory(profileId) {
                         Text = $"{playerName}'s history - AoE2.net Desktop",
                     };
-                    formHistory.Show();
                 }
             } else {
                 Debug.Print($"Unavailable Player Name: {playerName}.");
             }
+
+            return ret;
         }
 
         /// <summary>

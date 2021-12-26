@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using System;
 using System.Windows.Forms;
 
 namespace AoE2NetDesktop.Form.Tests
@@ -181,5 +182,89 @@ namespace AoE2NetDesktop.Form.Tests
             testClass.ShowDialog();
             Assert.IsTrue(done);
         }
+
+        [TestMethod()]
+        public void FormHistoryTestOpenHistoryToolStripMenuItem_Click()
+        {
+            // Arrange
+            var testClass = new FormHistoryPrivate();
+            var done = false;
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+                testClass.tabControlHistory.SelectedIndex = 1;
+                testClass.listViewMatchedPlayers.Items[0].Selected = true;
+                testClass.listViewMatchedPlayers.Focus();
+                testClass.OpenHistoryToolStripMenuItemOnClick(new EventArgs());
+                testClass.Close();
+                done = true;
+            };
+
+            testClass.ShowDialog();
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormHistoryTestListViewMatchedPlayers_MouseDoubleClick()
+        {
+            // Arrange
+            var testClass = new FormHistoryPrivate();
+            var done = false;
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+                testClass.ListViewMatchedPlayersOnMouseDoubleClick(new MouseEventArgs(MouseButtons.Left, 0, 0, 0, 0));
+                testClass.Close();
+                done = true;
+            };
+
+            testClass.ShowDialog();
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormHistoryTestListViewMatchedPlayersColumnClick()
+        {
+            // Arrange
+            var testClass = new FormHistoryPrivate();
+            var done = false;
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+                testClass.ListViewMatchedPlayersColumnClick(new ColumnClickEventArgs(0));
+                testClass.Close();
+                done = true;
+            };
+
+            testClass.ShowDialog();
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormHistoryTestListViewMatchHistory_ColumnClick()
+        {
+            // Arrange
+            var testClass = new FormHistoryPrivate();
+            var done = false;
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+                testClass.ListViewMatchHistoryOnColumnClick(new ColumnClickEventArgs(0));
+                testClass.Close();
+                done = true;
+            };
+
+            testClass.ShowDialog();
+            Assert.IsTrue(done);
+        }
+
     }
 }

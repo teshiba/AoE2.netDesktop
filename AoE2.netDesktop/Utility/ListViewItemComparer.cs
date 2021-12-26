@@ -7,7 +7,7 @@
     /// <summary>
     /// Comparer for ListView column sorting.
     /// </summary>
-    public partial class ListViewItemComparer : IComparer
+    public class ListViewItemComparer : IComparer
     {
         private int column;
         private ComparerMode[] columnModes;
