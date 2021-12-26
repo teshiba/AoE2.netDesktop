@@ -320,6 +320,7 @@ namespace AoE2NetDesktop.Form
             this.listViewStatistics.UseCompatibleStateImageBehavior = false;
             this.listViewStatistics.View = System.Windows.Forms.View.Details;
             this.listViewStatistics.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewStatistics_ItemChecked);
+            this.listViewStatistics.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ListViewStatistics_KeyDown);
             // 
             // columnHeaderLeaderboard
             // 
