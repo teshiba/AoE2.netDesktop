@@ -12,7 +12,7 @@
     {
         private readonly ScatterPlot targetPlot;
         private readonly string title;
-        private readonly ScatterPlot highlightPlot;
+        private readonly MarkerPlot highlightPlot;
         private readonly Tooltip tooltip;
         private readonly FormsPlot formsPlot;
         private int lastIndex = -1;
@@ -68,8 +68,8 @@
                 (double pointX, double pointY, int pointIndex) = targetPlot.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
 
                 // place the highlight over the point of interest
-                highlightPlot.Xs[0] = pointX;
-                highlightPlot.Ys[0] = pointY;
+                highlightPlot.X = pointX;
+                highlightPlot.Y = pointY;
                 tooltip.Label = $"{title}:{pointY}\n{DateTime.FromOADate(pointX)}";
                 tooltip.X = pointX;
                 tooltip.Y = pointY;

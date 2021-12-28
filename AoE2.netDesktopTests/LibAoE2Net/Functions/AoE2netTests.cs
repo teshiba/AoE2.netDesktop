@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LibAoE2net;
+using System.Collections.Generic;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -127,7 +128,7 @@ namespace LibAoE2net.Tests
             Assert.AreEqual("Player1", actVal.Name);
             Assert.AreEqual("JP", actVal.Country);
             // LastMatch
-            Assert.AreEqual("00000000", actVal.LastMatch.MatchId);
+            Assert.AreEqual("00000001", actVal.LastMatch.MatchId);
             Assert.AreEqual(null, actVal.LastMatch.LobbyId);
             Assert.AreEqual("00000000-0000-0000-0000-000000000000", actVal.LastMatch.MatchUuid);
             Assert.AreEqual("00000", actVal.LastMatch.Version);
@@ -473,6 +474,23 @@ namespace LibAoE2net.Tests
 
             // Assert
             Assert.IsNotNull(actVal);
+        }
+
+        [TestMethod()]
+        public void OnErrorTest()
+        {
+            // Arrange
+            Exception actVal = null;
+            AoE2net.OnError = (ex) => { actVal = ex; };
+            var errAct = AoE2net.OnError;
+
+            // Act
+            var expVal = new Exception("test");
+            errAct.Invoke(expVal);
+
+            // Assert
+            Assert.AreEqual(actVal, expVal);
+
         }
     }
 }

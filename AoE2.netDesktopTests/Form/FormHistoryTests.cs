@@ -1,20 +1,20 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LibAoE2net;
-using AoE2NetDesktop.Tests;
+
+using System;
 using System.Windows.Forms;
 
 namespace AoE2NetDesktop.Form.Tests
 {
     [TestClass()]
-    public class FormHistoryTests
+    public partial class FormHistoryTests
     {
         [TestMethod()]
         public void FormHistoryTest()
         {
             // Arrange
             var expVal = string.Empty;
-            AoE2net.ComClient = new TestHttpClient();
-            var testClass = new FormHistory(TestData.AvailableUserProfileId);
+
+            var testClass = new FormHistoryPrivate();
             var done = false;
 
             // Act
@@ -33,20 +33,16 @@ namespace AoE2NetDesktop.Form.Tests
         public void FormHistoryTestOpenAoE2NetProfileToolStripMenuItem_Click()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
-            var testClass = new FormHistory(TestData.AvailableUserProfileId);
-            var toolStripMenuItem = testClass.GetControl<ToolStripMenuItem>("openAoE2NetProfileToolStripMenuItem");
-            var listViewMatchedPlayers = testClass.GetControl<ListView>("listViewMatchedPlayers");
-            var tabControlMain = testClass.GetControl<TabControl>("tabControlHistory");
+            var testClass = new FormHistoryPrivate();
             var done = false;
 
             // Act
             testClass.Shown += async (sender, e) =>
             {
                 await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-                tabControlMain.SelectedIndex = 1;
-                listViewMatchedPlayers.Items[0].Selected = true;
-                toolStripMenuItem.PerformClick();
+                testClass.tabControlHistory.SelectedIndex = 1;
+                testClass.listViewMatchedPlayers.Items[0].Selected = true;
+                testClass.openAoE2NetProfileToolStripMenuItem.PerformClick();
                 testClass.Close();
                 done = true;
             };
@@ -59,20 +55,16 @@ namespace AoE2NetDesktop.Form.Tests
         public void FormHistoryTestContextMenuStripMatchedPlayers_Opening()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
-            var testClass = new FormHistory(TestData.AvailableUserProfileId);
-            var contextMenuStripMatchedPlayers = testClass.GetControl<ContextMenuStrip>("contextMenuStripMatchedPlayers");
-            var listViewMatchedPlayers = testClass.GetControl<ListView>("listViewMatchedPlayers");
-            var tabControlMain = testClass.GetControl<TabControl>("tabControlHistory");
+            var testClass = new FormHistoryPrivate();
             var done = false;
 
             // Act
             testClass.Shown += async (sender, e) =>
             {
                 await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-                tabControlMain.SelectedIndex = 1;
-                listViewMatchedPlayers.Items[0].Selected = true;
-                contextMenuStripMatchedPlayers.Show(listViewMatchedPlayers, listViewMatchedPlayers.Items[0].Position);
+                testClass.tabControlHistory.SelectedIndex = 1;
+                testClass.listViewMatchedPlayers.Items[0].Selected = true;
+                testClass.contextMenuStripMatchedPlayers.Show(testClass.listViewMatchedPlayers, testClass.listViewMatchedPlayers.Items[0].Position);
                 testClass.Close();
                 done = true;
             };
@@ -85,20 +77,16 @@ namespace AoE2NetDesktop.Form.Tests
         public void FormHistoryTestContextMenuStripMatchedPlayers_OpeningCancel()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
-            var testClass = new FormHistory(TestData.AvailableUserProfileId);
-            var contextMenuStripMatchedPlayers = testClass.GetControl<ContextMenuStrip>("contextMenuStripMatchedPlayers");
-            var listViewMatchedPlayers = testClass.GetControl<ListView>("listViewMatchedPlayers");
-            var tabControlMain = testClass.GetControl<TabControl>("tabControlHistory");
+            var testClass = new FormHistoryPrivate();
             var done = false;
 
             // Act
             testClass.Shown += async (sender, e) =>
             {
                 await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-                tabControlMain.SelectedIndex = 1;
-                listViewMatchedPlayers.Items[0].Selected = true;
-                contextMenuStripMatchedPlayers.Show(listViewMatchedPlayers, listViewMatchedPlayers.Location);
+                testClass.tabControlHistory.SelectedIndex = 1;
+                testClass.listViewMatchedPlayers.Items[0].Selected = true;
+                testClass.contextMenuStripMatchedPlayers.Show(testClass.listViewMatchedPlayers, testClass.listViewMatchedPlayers.Location);
                 testClass.Close();
                 done = true;
             };
@@ -111,19 +99,14 @@ namespace AoE2NetDesktop.Form.Tests
         public void FormHistoryTestMouseMoveNull()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
-            var testClass = new FormHistory(TestData.AvailableUserProfileId);
-            var arg = new object[] {
-                new ScottPlot.FormsPlot(),
-                new MouseEventArgs(MouseButtons.Left, 0, 0, 0, 0)
-            };
-
+            var testClass = new FormHistoryPrivate();
+            var arg = new MouseEventArgs(MouseButtons.Left, 0, 0, 0, 0);
             var done = false;
 
             // Act
             testClass.Shown += async (sender, e) => {
                 await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-                testClass.Invoke("FormsPlotPlayerRate_MouseMove", arg);
+                testClass.FormsPlotPlayerRateOnMouseMove(arg);
                 testClass.Close();
                 done = true;
             };
@@ -138,20 +121,15 @@ namespace AoE2NetDesktop.Form.Tests
         public void FormHistoryTestSplitContainerPlayers_DoubleClick(Orientation orientation)
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
-            var testClass = new FormHistory(TestData.AvailableUserProfileId);
-            var arg = new object[] {
-                new SplitContainer(),
-                new MouseEventArgs(MouseButtons.Left, 0, 0, 0, 0)
-            };
-            var splitContainerPlayers = testClass.GetControl<SplitContainer>("splitContainerPlayers");
-            splitContainerPlayers.Orientation = orientation;
+            var testClass = new FormHistoryPrivate();
+            var arg = new MouseEventArgs(MouseButtons.Left, 0, 0, 0, 0);
             var done = false;
+            testClass.splitContainerPlayers.Orientation = orientation;
 
             // Act
             testClass.Shown += async (sender, e) => {
                 await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-                testClass.Invoke("SplitContainerPlayers_DoubleClick", arg);
+                testClass.SplitContainerPlayersOnDoubleClick(arg);
                 testClass.Close();
                 done = true;
             };
@@ -164,18 +142,15 @@ namespace AoE2NetDesktop.Form.Tests
         public void FormHistoryTestListViewStatistics_ItemChecked()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
-            var testClass = new FormHistory(TestData.AvailableUserProfileId);
-            var listViewStatistics = testClass.GetControl<ListView>("listViewStatistics");
-            var tabControlHistory = testClass.GetControl<TabControl>("tabControlHistory");
+            var testClass = new FormHistoryPrivate();
             var done = false;
 
             // Act
             testClass.Shown += async (sender, e) =>
             {
                 await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-                tabControlHistory.SelectedIndex = 2;
-                listViewStatistics.Items[0].Checked = true;
+                testClass.tabControlHistory.SelectedIndex = 2;
+                testClass.listViewStatistics.Items[0].Checked = true;
                 testClass.Close();
                 done = true;
             };
@@ -183,5 +158,113 @@ namespace AoE2NetDesktop.Form.Tests
             testClass.ShowDialog();
             Assert.IsTrue(done);
         }
+
+        [TestMethod()]
+        [DataRow(Keys.A | Keys.Control, 7)]
+        [DataRow(Keys.A, 0)]
+        [DataRow(Keys.B, 0)]
+        public void FormHistoryTestListViewStatistics_KeyDown(Keys keys, int expVal)
+        {
+            // Arrange
+            var testClass = new FormHistoryPrivate();
+            var done = false;
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+                testClass.ListViewStatisticsOnKeyDown(new KeyEventArgs(keys));
+                Assert.AreEqual(expVal, testClass.listViewStatistics.SelectedItems.Count);
+                testClass.Close();
+                done = true;
+            };
+
+            testClass.ShowDialog();
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormHistoryTestOpenHistoryToolStripMenuItem_Click()
+        {
+            // Arrange
+            var testClass = new FormHistoryPrivate();
+            var done = false;
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+                testClass.tabControlHistory.SelectedIndex = 1;
+                testClass.listViewMatchedPlayers.Items[0].Selected = true;
+                testClass.listViewMatchedPlayers.Focus();
+                testClass.OpenHistoryToolStripMenuItemOnClick(new EventArgs());
+                testClass.Close();
+                done = true;
+            };
+
+            testClass.ShowDialog();
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormHistoryTestListViewMatchedPlayers_MouseDoubleClick()
+        {
+            // Arrange
+            var testClass = new FormHistoryPrivate();
+            var done = false;
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+                testClass.ListViewMatchedPlayersOnMouseDoubleClick(new MouseEventArgs(MouseButtons.Left, 0, 0, 0, 0));
+                testClass.Close();
+                done = true;
+            };
+
+            testClass.ShowDialog();
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormHistoryTestListViewMatchedPlayersColumnClick()
+        {
+            // Arrange
+            var testClass = new FormHistoryPrivate();
+            var done = false;
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+                testClass.ListViewMatchedPlayersColumnClick(new ColumnClickEventArgs(0));
+                testClass.Close();
+                done = true;
+            };
+
+            testClass.ShowDialog();
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormHistoryTestListViewMatchHistory_ColumnClick()
+        {
+            // Arrange
+            var testClass = new FormHistoryPrivate();
+            var done = false;
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+                testClass.ListViewMatchHistoryOnColumnClick(new ColumnClickEventArgs(0));
+                testClass.Close();
+                done = true;
+            };
+
+            testClass.ShowDialog();
+            Assert.IsTrue(done);
+        }
+
     }
 }

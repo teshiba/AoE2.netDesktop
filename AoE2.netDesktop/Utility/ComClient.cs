@@ -15,6 +15,11 @@
     public class ComClient : HttpClient
     {
         /// <summary>
+        /// Gets or sets action for recieving Exception.
+        /// </summary>
+        public Action<Exception> OnError { get; set; } = (ex) => { };
+
+        /// <summary>
         /// Send a GET request to the specified Uri and return the response body as a string
         /// in an asynchronous operation.
         /// </summary>
@@ -45,9 +50,11 @@
                 ret = (TValue)serializer.ReadObject(stream);
             } catch (HttpRequestException e) {
                 Debug.Print($"Request Error: {e.Message}");
+                OnError.Invoke(e);
                 throw;
             } catch (TaskCanceledException e) {
                 Debug.Print($"Timeout: {e.Message}");
+                OnError.Invoke(e);
                 throw;
             }
 

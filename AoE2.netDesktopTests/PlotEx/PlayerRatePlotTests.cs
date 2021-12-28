@@ -7,6 +7,7 @@ using ScottPlot;
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -34,7 +35,7 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             var expVal = true;
-            var testClass = new PlayerRatePlot(new FormsPlot(), new LeaderboardColor().Unranked);
+            var testClass = new PlayerRatePlot(new FormsPlot(), Color.Red);
 
             // Act
             var actVal = testClass.IsVisible;
@@ -48,7 +49,7 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             var expVal = false;
-            var testClass = new PlayerRatePlot(new FormsPlot(), new LeaderboardColor().Unranked);
+            var testClass = new PlayerRatePlot(new FormsPlot(), Color.Red);
 
             // Act
             testClass.IsVisible = !testClass.IsVisible;
@@ -63,7 +64,7 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             var expVal = true;
-            var testClass = new PlayerRatePlot(new FormsPlot(), new LeaderboardColor().Unranked);
+            var testClass = new PlayerRatePlot(new FormsPlot(), Color.Red);
 
             // Act
             var actVal = testClass.IsVisibleHighlight;
@@ -79,7 +80,7 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             var expVal = isVisible;
-            var testClass = new PlayerRatePlot(new FormsPlot(), new LeaderboardColor().Unranked) {
+            var testClass = new PlayerRatePlot(new FormsPlot(), Color.Red) {
                 IsVisible = isVisible
             };
 
@@ -97,7 +98,7 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             var expVal = false;
-            var testClass = new PlayerRatePlot(new FormsPlot(), new LeaderboardColor().Unranked) {
+            var testClass = new PlayerRatePlot(new FormsPlot(), Color.Red) {
                 IsVisible = false
             };
 
@@ -116,7 +117,7 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             var expVal = isVisibleHighlight;
-            var testClass = new PlayerRatePlot(new FormsPlot(), new LeaderboardColor().Unranked) {
+            var testClass = new PlayerRatePlot(new FormsPlot(), Color.Red) {
                 IsVisible = true
             };
 
@@ -132,7 +133,7 @@ namespace AoE2NetDesktop.Form.Tests
         public void UpdateHighlightTest()
         {
             // Arrange
-            var testClass = new PlayerRatePlot(new FormsPlot(), new LeaderboardColor().Unranked);
+            var testClass = new PlayerRatePlot(new FormsPlot(), Color.Red);
 
             // Act
             testClass.UpdateHighlight();
@@ -158,7 +159,7 @@ namespace AoE2NetDesktop.Form.Tests
                 CreateMatch(1001, datetime + new TimeSpan(6, 0, 0, 0)),
                 CreateMatch(1001, datetime + new TimeSpan(7, 0, 0, 0)),
             };
-            var testClass = new PlayerRatePlot(new FormsPlot(), new LeaderboardColor().Unranked);
+            var testClass = new PlayerRatePlot(new FormsPlot(), Color.Red);
 
             // Act
             testClass.Plot(playerMatchHistory, profileId, LeaderboardId.RM1v1);

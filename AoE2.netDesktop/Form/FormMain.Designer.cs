@@ -79,7 +79,8 @@
             this.labelColorP6 = new System.Windows.Forms.Label();
             this.labelColorP2 = new System.Windows.Forms.Label();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
-            this.checkBoxHideTitle = new System.Windows.Forms.CheckBox();
+            this.labelOpacity = new System.Windows.Forms.Label();
+            this.upDownOpacity = new System.Windows.Forms.NumericUpDown();
             this.groupBoxPlayer = new System.Windows.Forms.GroupBox();
             this.buttonSetId = new System.Windows.Forms.Button();
             this.buttonViewHistory = new System.Windows.Forms.Button();
@@ -89,6 +90,9 @@
             this.textBoxSettingProfileId = new System.Windows.Forms.TextBox();
             this.labelSettingsCountry = new System.Windows.Forms.Label();
             this.labelSettingsName = new System.Windows.Forms.Label();
+            this.labelAoE2NetStatus = new System.Windows.Forms.Label();
+            this.labelAoE2NetStatusLabel = new System.Windows.Forms.Label();
+            this.checkBoxHideTitle = new System.Windows.Forms.CheckBox();
             this.checkBoxAlwaysOnTop = new System.Windows.Forms.CheckBox();
             this.tabControlMain.SuspendLayout();
             this.tabPagePlayerLastMatch.SuspendLayout();
@@ -103,6 +107,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabPageSettings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.upDownOpacity)).BeginInit();
             this.groupBoxPlayer.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -116,6 +121,7 @@
             this.tabControlMain.SelectedIndex = 0;
             this.tabControlMain.Size = new System.Drawing.Size(665, 261);
             this.tabControlMain.TabIndex = 0;
+            this.tabControlMain.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TabControlMain_KeyDown);
             // 
             // tabPagePlayerLastMatch
             // 
@@ -140,7 +146,7 @@
             this.buttonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonUpdate.Enabled = false;
             this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonUpdate.Location = new System.Drawing.Point(572, 3);
+            this.buttonUpdate.Location = new System.Drawing.Point(548, 3);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(82, 27);
             this.buttonUpdate.TabIndex = 7;
@@ -153,7 +159,7 @@
             this.labelMap.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelMap.Location = new System.Drawing.Point(0, 1);
             this.labelMap.Name = "labelMap";
-            this.labelMap.Size = new System.Drawing.Size(278, 29);
+            this.labelMap.Size = new System.Drawing.Size(258, 29);
             this.labelMap.TabIndex = 2;
             this.labelMap.Text = "Map : ------------------------";
             this.labelMap.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
@@ -187,7 +193,7 @@
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
             this.labelErrText.Location = new System.Drawing.Point(4, 242);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(647, 0);
+            this.labelErrText.Size = new System.Drawing.Size(623, 0);
             this.labelErrText.TabIndex = 8;
             // 
             // panelTeam1
@@ -790,8 +796,12 @@
             // tabPageSettings
             // 
             this.tabPageSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.tabPageSettings.Controls.Add(this.checkBoxHideTitle);
+            this.tabPageSettings.Controls.Add(this.labelOpacity);
+            this.tabPageSettings.Controls.Add(this.upDownOpacity);
             this.tabPageSettings.Controls.Add(this.groupBoxPlayer);
+            this.tabPageSettings.Controls.Add(this.labelAoE2NetStatus);
+            this.tabPageSettings.Controls.Add(this.labelAoE2NetStatusLabel);
+            this.tabPageSettings.Controls.Add(this.checkBoxHideTitle);
             this.tabPageSettings.Controls.Add(this.checkBoxAlwaysOnTop);
             this.tabPageSettings.Location = new System.Drawing.Point(4, 24);
             this.tabPageSettings.Name = "tabPageSettings";
@@ -801,16 +811,32 @@
             this.tabPageSettings.Text = "Settings";
             this.tabPageSettings.UseVisualStyleBackColor = true;
             // 
-            // checkBoxHideTitle
+            // labelOpacity
             // 
-            this.checkBoxHideTitle.AutoSize = true;
-            this.checkBoxHideTitle.Location = new System.Drawing.Point(113, 8);
-            this.checkBoxHideTitle.Name = "checkBoxHideTitle";
-            this.checkBoxHideTitle.Size = new System.Drawing.Size(74, 19);
-            this.checkBoxHideTitle.TabIndex = 7;
-            this.checkBoxHideTitle.Text = "Hide title";
-            this.checkBoxHideTitle.UseVisualStyleBackColor = true;
-            this.checkBoxHideTitle.CheckedChanged += new System.EventHandler(this.CheckBoxHideTitle_CheckedChanged);
+            this.labelOpacity.AutoSize = true;
+            this.labelOpacity.Location = new System.Drawing.Point(116, 10);
+            this.labelOpacity.Name = "labelOpacity";
+            this.labelOpacity.Size = new System.Drawing.Size(48, 15);
+            this.labelOpacity.TabIndex = 12;
+            this.labelOpacity.Text = "Opacity";
+            // 
+            // upDownOpacity
+            // 
+            this.upDownOpacity.Location = new System.Drawing.Point(170, 7);
+            this.upDownOpacity.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.upDownOpacity.Name = "upDownOpacity";
+            this.upDownOpacity.Size = new System.Drawing.Size(39, 23);
+            this.upDownOpacity.TabIndex = 11;
+            this.upDownOpacity.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.upDownOpacity.ValueChanged += new System.EventHandler(this.UpDownOpacity_ValueChanged);
             // 
             // groupBoxPlayer
             // 
@@ -825,9 +851,9 @@
             this.groupBoxPlayer.Controls.Add(this.textBoxSettingProfileId);
             this.groupBoxPlayer.Controls.Add(this.labelSettingsCountry);
             this.groupBoxPlayer.Controls.Add(this.labelSettingsName);
-            this.groupBoxPlayer.Location = new System.Drawing.Point(9, 32);
+            this.groupBoxPlayer.Location = new System.Drawing.Point(9, 53);
             this.groupBoxPlayer.Name = "groupBoxPlayer";
-            this.groupBoxPlayer.Size = new System.Drawing.Size(649, 424);
+            this.groupBoxPlayer.Size = new System.Drawing.Size(649, 180);
             this.groupBoxPlayer.TabIndex = 6;
             this.groupBoxPlayer.TabStop = false;
             this.groupBoxPlayer.Text = "Player";
@@ -919,10 +945,42 @@
             this.labelSettingsName.TabIndex = 3;
             this.labelSettingsName.Text = "    Name: -----";
             // 
+            // labelAoE2NetStatus
+            // 
+            this.labelAoE2NetStatus.AutoSize = true;
+            this.labelAoE2NetStatus.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelAoE2NetStatus.ForeColor = System.Drawing.Color.Firebrick;
+            this.labelAoE2NetStatus.Location = new System.Drawing.Point(288, 6);
+            this.labelAoE2NetStatus.Name = "labelAoE2NetStatus";
+            this.labelAoE2NetStatus.Size = new System.Drawing.Size(101, 20);
+            this.labelAoE2NetStatus.TabIndex = 9;
+            this.labelAoE2NetStatus.Text = "Disconnected";
+            // 
+            // labelAoE2NetStatusLabel
+            // 
+            this.labelAoE2NetStatusLabel.AutoSize = true;
+            this.labelAoE2NetStatusLabel.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelAoE2NetStatusLabel.Location = new System.Drawing.Point(220, 6);
+            this.labelAoE2NetStatusLabel.Name = "labelAoE2NetStatusLabel";
+            this.labelAoE2NetStatusLabel.Size = new System.Drawing.Size(70, 20);
+            this.labelAoE2NetStatusLabel.TabIndex = 8;
+            this.labelAoE2NetStatusLabel.Text = "AoE2.net";
+            // 
+            // checkBoxHideTitle
+            // 
+            this.checkBoxHideTitle.AutoSize = true;
+            this.checkBoxHideTitle.Location = new System.Drawing.Point(9, 28);
+            this.checkBoxHideTitle.Name = "checkBoxHideTitle";
+            this.checkBoxHideTitle.Size = new System.Drawing.Size(74, 19);
+            this.checkBoxHideTitle.TabIndex = 7;
+            this.checkBoxHideTitle.Text = "Hide title";
+            this.checkBoxHideTitle.UseVisualStyleBackColor = true;
+            this.checkBoxHideTitle.CheckedChanged += new System.EventHandler(this.CheckBoxHideTitle_CheckedChanged);
+            // 
             // checkBoxAlwaysOnTop
             // 
             this.checkBoxAlwaysOnTop.AutoSize = true;
-            this.checkBoxAlwaysOnTop.Location = new System.Drawing.Point(9, 7);
+            this.checkBoxAlwaysOnTop.Location = new System.Drawing.Point(9, 8);
             this.checkBoxAlwaysOnTop.Name = "checkBoxAlwaysOnTop";
             this.checkBoxAlwaysOnTop.Size = new System.Drawing.Size(101, 19);
             this.checkBoxAlwaysOnTop.TabIndex = 2;
@@ -942,6 +1000,8 @@
             this.Text = "AoE2.net Desktop";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FormMain_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMain_MouseMove);
             this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.tabControlMain.ResumeLayout(false);
             this.tabPagePlayerLastMatch.ResumeLayout(false);
@@ -957,6 +1017,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabPageSettings.ResumeLayout(false);
             this.tabPageSettings.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.upDownOpacity)).EndInit();
             this.groupBoxPlayer.ResumeLayout(false);
             this.groupBoxPlayer.PerformLayout();
             this.ResumeLayout(false);
@@ -1028,5 +1089,9 @@
         private System.Windows.Forms.Button buttonViewHistory;
         private System.Windows.Forms.Button buttonSetId;
         private System.Windows.Forms.CheckBox checkBoxHideTitle;
+        private System.Windows.Forms.Label labelAoE2NetStatus;
+        private System.Windows.Forms.Label labelAoE2NetStatusLabel;
+        private System.Windows.Forms.Label labelOpacity;
+        private System.Windows.Forms.NumericUpDown upDownOpacity;
     }
 }

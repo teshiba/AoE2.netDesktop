@@ -7,6 +7,7 @@
     using System.Drawing;
     using System.Threading.Tasks;
     using System.Windows.Forms;
+
     using LibAoE2net;
 
     /// <summary>
@@ -22,17 +23,17 @@
         private const int IndexDM1v1 = 5;
         private const int IndexDMTeam = 6;
 
-        private Dictionary<LeaderboardId, List<ListViewItem>> listViewitems;
-
-        private LeaderboardColor listViewColor = new () {
-            RM1v1 = Color.Blue,
-            RMTeam = Color.Indigo,
-            DM1v1 = Color.DarkGreen,
-            DMTeam = Color.SeaGreen,
-            EW1v1 = Color.Red,
-            EWTeam = Color.OrangeRed,
-            Unranked = Color.SlateGray,
+        private readonly Dictionary<LeaderboardId, Color> leaderboardColor = new () {
+            { LeaderboardId.RM1v1, Color.Blue },
+            { LeaderboardId.RMTeam, Color.Indigo },
+            { LeaderboardId.DM1v1, Color.DarkGreen },
+            { LeaderboardId.DMTeam, Color.SeaGreen },
+            { LeaderboardId.EW1v1, Color.Red },
+            { LeaderboardId.EWTeam, Color.OrangeRed },
+            { LeaderboardId.Unranked, Color.SlateGray },
         };
+
+        private Dictionary<LeaderboardId, List<ListViewItem>> listViewHistory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormHistory"/> class.
@@ -56,7 +57,9 @@
 
             PlayerCountryStat = new PlayerCountryPlot(formsPlotCountry);
             WinRateStat = new WinRatePlot(formsPlotWinRate);
-            PlayerRate = new PlayerRateFormsPlot(formsPlotPlayerRate, listViewColor);
+            PlayerRate = new PlayerRateFormsPlot(formsPlotPlayerRate, leaderboardColor);
+
+            InitListviewSorter();
         }
 
         /// <summary>
@@ -93,6 +96,48 @@
         /// <inheritdoc/>
         protected override CtrlHistory Controler => (CtrlHistory)base.Controler;
 
+        private static void SortByColumn(ListView listView, ColumnClickEventArgs e)
+        {
+            var listViewItemComparer = (ListViewItemComparer)listView.ListViewItemSorter;
+            listViewItemComparer.Column = e.Column;
+            listView.Sort();
+        }
+
+        private void InitListviewSorter()
+        {
+            var sorterMatchHistory = new ListViewItemComparer {
+                Column = 5,
+                ColumnModes = new ComparerMode[]
+                {
+                    ComparerMode.String,
+                    ComparerMode.Integer,
+                    ComparerMode.String,
+                    ComparerMode.String,
+                    ComparerMode.Integer,
+                    ComparerMode.DateTime,
+                },
+            };
+
+            var sorterMatchedPlayers = new ListViewItemComparer {
+                Column = 8,
+                ColumnModes = new ComparerMode[]
+                {
+                    ComparerMode.String,
+                    ComparerMode.String,
+                    ComparerMode.String,
+                    ComparerMode.Integer,
+                    ComparerMode.Integer,
+                    ComparerMode.Integer,
+                    ComparerMode.Integer,
+                    ComparerMode.Integer,
+                    ComparerMode.DateTime,
+                },
+            };
+
+            listViewMatchedPlayers.ListViewItemSorter = sorterMatchedPlayers;
+            listViewMatchHistory.ListViewItemSorter = sorterMatchHistory;
+        }
+
         private async Task UpdateListViewStatisticsAsync()
         {
             listViewStatistics.UseWaitCursor = true;
@@ -103,29 +148,13 @@
                 listViewStatistics.Items.Clear();
 
                 ListViewItem[] listviewItems = new ListViewItem[LeaderboardIdCount];
-                listviewItems[IndexRM1v1] = CtrlHistory.CreateListViewItem("1v1 RM", LeaderboardId.RM1v1, leaderboards);
-                listviewItems[IndexRMTeam] = CtrlHistory.CreateListViewItem("Team RM", LeaderboardId.RMTeam, leaderboards);
-                listviewItems[IndexDM1v1] = CtrlHistory.CreateListViewItem("1v1 DM", LeaderboardId.DM1v1, leaderboards);
-                listviewItems[IndexDMTeam] = CtrlHistory.CreateListViewItem("Team DM", LeaderboardId.DMTeam, leaderboards);
-                listviewItems[IndexEW1v1] = CtrlHistory.CreateListViewItem("1v1 EW", LeaderboardId.EW1v1, leaderboards);
-                listviewItems[IndexEWTeam] = CtrlHistory.CreateListViewItem("Team EW", LeaderboardId.EWTeam, leaderboards);
-                listviewItems[IndexUnranked] = CtrlHistory.CreateListViewItem("Unranked", LeaderboardId.Unranked, leaderboards);
-
-                listviewItems[IndexRM1v1].ForeColor = listViewColor.RM1v1;
-                listviewItems[IndexRMTeam].ForeColor = listViewColor.RMTeam;
-                listviewItems[IndexDM1v1].ForeColor = listViewColor.DM1v1;
-                listviewItems[IndexDMTeam].ForeColor = listViewColor.DMTeam;
-                listviewItems[IndexEW1v1].ForeColor = listViewColor.EW1v1;
-                listviewItems[IndexEWTeam].ForeColor = listViewColor.EWTeam;
-                listviewItems[IndexUnranked].ForeColor = listViewColor.Unranked;
-
-                listviewItems[IndexRM1v1].Font = new Font(listviewItems[IndexRM1v1].Font, FontStyle.Bold);
-                listviewItems[IndexRMTeam].Font = new Font(listviewItems[IndexRMTeam].Font, FontStyle.Bold);
-                listviewItems[IndexDM1v1].Font = new Font(listviewItems[IndexDM1v1].Font, FontStyle.Bold);
-                listviewItems[IndexDMTeam].Font = new Font(listviewItems[IndexDMTeam].Font, FontStyle.Bold);
-                listviewItems[IndexEW1v1].Font = new Font(listviewItems[IndexEW1v1].Font, FontStyle.Bold);
-                listviewItems[IndexEWTeam].Font = new Font(listviewItems[IndexEWTeam].Font, FontStyle.Bold);
-                listviewItems[IndexUnranked].Font = new Font(listviewItems[IndexUnranked].Font, FontStyle.Bold);
+                listviewItems[IndexRM1v1] = CtrlHistory.CreateListViewItem("1v1 RM", LeaderboardId.RM1v1, leaderboards, leaderboardColor);
+                listviewItems[IndexRMTeam] = CtrlHistory.CreateListViewItem("Team RM", LeaderboardId.RMTeam, leaderboards, leaderboardColor);
+                listviewItems[IndexDM1v1] = CtrlHistory.CreateListViewItem("1v1 DM", LeaderboardId.DM1v1, leaderboards, leaderboardColor);
+                listviewItems[IndexDMTeam] = CtrlHistory.CreateListViewItem("Team DM", LeaderboardId.DMTeam, leaderboards, leaderboardColor);
+                listviewItems[IndexEW1v1] = CtrlHistory.CreateListViewItem("1v1 EW", LeaderboardId.EW1v1, leaderboards, leaderboardColor);
+                listviewItems[IndexEWTeam] = CtrlHistory.CreateListViewItem("Team EW", LeaderboardId.EWTeam, leaderboards, leaderboardColor);
+                listviewItems[IndexUnranked] = CtrlHistory.CreateListViewItem("Unranked", LeaderboardId.Unranked, leaderboards, leaderboardColor);
 
                 listViewStatistics.Items.AddRange(listviewItems);
                 listViewStatistics.EndUpdate();
@@ -138,6 +167,8 @@
 
         private void UpdateListViewPlayers()
         {
+            var listViewItems = new List<ListViewItem>();
+
             listViewMatchedPlayers.BeginUpdate();
             listViewMatchedPlayers.Items.Clear();
             foreach (var player in Controler.MatchedPlayerInfos) {
@@ -150,8 +181,12 @@
                 listviewItem.SubItems.Add(player.Value.GamesEnemy.ToString());
                 listviewItem.SubItems.Add(player.Value.Games1v1.ToString());
                 listviewItem.SubItems.Add(player.Value.LastDate.ToString());
-                listViewMatchedPlayers.Items.Add(listviewItem);
+                listViewItems.Add(listviewItem);
             }
+
+            // When calling Add of ListViewItemCollection frequently in foreach etc.,
+            // it takes too much time in the ListViewItemSorte, so AddRange is called once instead.
+            listViewMatchedPlayers.Items.AddRange(listViewItems.ToArray());
 
             listViewMatchedPlayers.EndUpdate();
         }
@@ -175,18 +210,28 @@
             listViewMatchedPlayers.BeginUpdate();
             listViewMatchHistory.Items.Clear();
             if (SelectedLeaderboard != LeaderboardId.Undefined) {
-                listViewMatchHistory.Items.AddRange(listViewitems[SelectedLeaderboard].ToArray());
+                listViewMatchHistory.Items.AddRange(listViewHistory[SelectedLeaderboard].ToArray());
             }
 
             listViewMatchedPlayers.EndUpdate();
         }
 
-        private void OpenSelectedPlayerFrofile()
+        private void OpenSelectedPlayerProfile()
         {
             var selectedItems = listViewMatchedPlayers.SelectedItems;
 
             if (selectedItems.Count != 0) {
                 Controler.OpenProfile(selectedItems[0].Text);
+            }
+        }
+
+        private void OpenSelectedPlayerHistory()
+        {
+            var selectedItems = listViewMatchedPlayers.SelectedItems;
+
+            if (selectedItems.Count != 0) {
+                var formHistory = Controler.GenerateFormHistory(selectedItems[0].Text);
+                formHistory.Show();
             }
         }
 
@@ -214,7 +259,7 @@
             tabControlHistory.UseWaitCursor = true;
 
             if (await Controler.ReadPlayerMatchHistoryAsync()) {
-                listViewitems = Controler.CreateListViewHistory();
+                listViewHistory = Controler.CreateListViewHistory();
                 comboBoxLeaderboard.SelectedIndex = Settings.Default.SelectedIndexComboBoxLeaderboard;
                 comboBoxDataSource.SelectedIndex = Settings.Default.SelectedIndexComboBoxDataSource;
                 comboBoxLeaderboard.Enabled = true;
@@ -238,7 +283,7 @@
 
         private void OpenAoE2NetProfileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenSelectedPlayerFrofile();
+            OpenSelectedPlayerProfile();
         }
 
         private void ComboBoxLeaderboard_SelectedIndexChanged(object sender, EventArgs e)
@@ -304,6 +349,35 @@
         private void FormsPlotPlayerRate_MouseMove(object sender, MouseEventArgs e)
         {
             PlayerRate.UpdateHighlight();
+        }
+
+        private void ListViewStatistics_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyCode == Keys.A) && e.Control) {
+                foreach (ListViewItem item in listViewStatistics.Items) {
+                    item.Selected = true;
+                }
+            }
+        }
+
+        private void OpenHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenSelectedPlayerHistory();
+        }
+
+        private void ListViewMatchedPlayers_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            OpenSelectedPlayerHistory();
+        }
+
+        private void ListViewMatchedPlayers_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            SortByColumn((ListView)sender, e);
+        }
+
+        private void ListViewMatchHistory_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            SortByColumn((ListView)sender, e);
         }
     }
 }

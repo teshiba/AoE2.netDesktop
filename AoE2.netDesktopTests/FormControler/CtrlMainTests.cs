@@ -1,12 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AoE2NetDesktop.Tests;
+
 using LibAoE2net;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Collections.Generic;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Net.Http;
-using AoE2NetDesktop.Tests;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -75,7 +78,7 @@ namespace AoE2NetDesktop.Form.Tests
         [TestMethod()]
         [DataRow(TeamType.OddColorNo, 4)]
         [DataRow(TeamType.EvenColorNo, 40)]
-        public void GetAverageRateTest(TeamType teamType, int expVal)
+        public void GetAverageRateTest(TeamType teamType, int? expVal)
         {
             // Arrange
             var players = new List<Player> {
@@ -99,7 +102,7 @@ namespace AoE2NetDesktop.Form.Tests
         [TestMethod()]
         [DataRow(TeamType.OddColorNo, 3)]
         [DataRow(TeamType.EvenColorNo, 30)]
-        public void GetAverageRateTestIncludeRateNull(TeamType teamType, int expVal)
+        public void GetAverageRateTestIncludeRateNull(TeamType teamType, int? expVal)
         {
             // Arrange
             var players = new List<Player> {
@@ -130,6 +133,42 @@ namespace AoE2NetDesktop.Form.Tests
             {
                 _ = CtrlMain.GetAverageRate(new List<Player>(), (TeamType)(-1));
             });
+        }
+
+        [TestMethod()]
+        public void GetAverageRateTestPlayerNull()
+        {
+            // Arrange
+            // Act
+            // Assert
+            Assert.ThrowsException<ArgumentNullException>(() =>
+            {
+                _ = CtrlMain.GetAverageRate(null, TeamType.OddColorNo);
+            });
+        }
+
+        [TestMethod()]
+        public void GetAverageRateTestRateAllNull()
+        {
+            // Arrange
+            var players = new List<Player> {
+                new Player { Color = 1, Rating = null },
+                new Player { Color = 2, Rating = null },
+                new Player { Color = 3, Rating = null },
+                new Player { Color = 4, Rating = null },
+                new Player { Color = 5, Rating = null },
+                new Player { Color = 6, Rating = null },
+                new Player { Color = 7, Rating = null },
+                new Player { Color = 8, Rating = null },
+            };
+
+            int? expVal = null;
+
+            // Act
+            var actVal = CtrlMain.GetAverageRate(players, TeamType.EvenColorNo);
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
         }
 
         [TestMethod()]

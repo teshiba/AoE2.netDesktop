@@ -1,10 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AoE2NetDesktop.Form;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using LibAoE2net;
 using AoE2NetDesktop.Tests;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
+using System.Drawing;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -32,6 +34,16 @@ namespace AoE2NetDesktop.Form.Tests
                         new Player { Name ="p1",  ProfilId =  profileIdp1, Color = 1 },
                     },
             },
+        };
+
+        private readonly Dictionary<LeaderboardId, Color> leaderboardColor = new() {
+            { LeaderboardId.RM1v1, Color.Blue },
+            { LeaderboardId.RMTeam, Color.Indigo },
+            { LeaderboardId.DM1v1, Color.DarkGreen },
+            { LeaderboardId.DMTeam, Color.SeaGreen },
+            { LeaderboardId.EW1v1, Color.Red },
+            { LeaderboardId.EWTeam, Color.OrangeRed },
+            { LeaderboardId.Unranked, Color.SlateGray },
         };
 
         [TestMethod()]
@@ -174,7 +186,7 @@ namespace AoE2NetDesktop.Form.Tests
             };
 
             // Act
-            var testClass = CtrlHistory.CreateListViewItem(leaderboardName, LeaderboardId.RM1v1, leaderboards);
+            var testClass = CtrlHistory.CreateListViewItem(leaderboardName, LeaderboardId.RM1v1, leaderboards, leaderboardColor);
 
             // Assert
             Assert.AreEqual(leaderboardName, testClass.SubItems[0].Text);
@@ -201,7 +213,7 @@ namespace AoE2NetDesktop.Form.Tests
             };
 
             // Act
-            var testClass = CtrlHistory.CreateListViewItem(leaderboardName, LeaderboardId.RM1v1, leaderboards);
+            var testClass = CtrlHistory.CreateListViewItem(leaderboardName, LeaderboardId.RM1v1, leaderboards, leaderboardColor);
 
             // Assert
             Assert.AreEqual(leaderboardName, testClass.SubItems[0].Text);
@@ -383,5 +395,70 @@ namespace AoE2NetDesktop.Form.Tests
             // Assert
             Assert.AreEqual(expVal, actVal);
         }
+
+        [TestMethod()]
+        public void OpenHistoryTest()
+        {
+            // Arrange
+            var playerName = "AvailablePlayerName";
+            var done = false;
+            var testClass = new CtrlHistory(TestData.AvailableUserProfileId);
+            var playerInfo = new PlayerInfo {
+                ProfileId = TestData.AvailableUserProfileId,
+            };
+
+            testClass.MatchedPlayerInfos.Add(playerName, playerInfo);
+            var actVal = testClass.GenerateFormHistory(playerName);
+
+            actVal.Shown += async (sender, e) =>
+            {
+                await actVal.Awaiter.WaitAsync("FormHistory_ShownAsync");
+
+                // Assert
+                Assert.AreEqual($"{playerName}'s history - AoE2.net Desktop", actVal.Text);
+
+                actVal.Close();
+                done = true;
+            };
+
+            // Act
+            actVal.ShowDialog();
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void GenerateFormHistoryTestUnavailablePlayerName()
+        {
+            // Arrange
+            var playerName = "AvailablePlayerName";
+            var testClass = new CtrlHistory(TestData.AvailableUserProfileId);
+            var playerInfo = new PlayerInfo {
+                ProfileId = TestData.AvailableUserProfileId,
+            };
+
+            testClass.MatchedPlayerInfos.Add(playerName, playerInfo);
+            var actVal = testClass.GenerateFormHistory("UnavailablePlayerName");
+
+            // Act
+            Assert.IsNull(actVal);
+        }
+
+        [TestMethod()]
+        public void GenerateFormHistoryTestprofileIdNull()
+        {
+            // Arrange
+            var playerName = "AvailablePlayerName";
+            var testClass = new CtrlHistory(TestData.AvailableUserProfileId);
+            var playerInfo = new PlayerInfo {
+                ProfileId = null,
+            };
+
+            testClass.MatchedPlayerInfos.Add(playerName, playerInfo);
+            var actVal = testClass.GenerateFormHistory(playerName);
+
+            // Act
+            Assert.IsNull(actVal);
+        }
+
     }
 }

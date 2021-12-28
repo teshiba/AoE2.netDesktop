@@ -51,6 +51,10 @@
                 LineJoin = LineJoin.Round,
             };
 
+            // Hide the default text display by changing ForeColor and BackColor to the same color.
+            label.ForeColor = label.BackColor;
+
+            // Draw bordered text.
             e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
             e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
             e.Graphics.DrawPath(pen, graphicsPath);

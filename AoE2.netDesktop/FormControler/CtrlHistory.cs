@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Drawing;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Forms;
@@ -168,13 +169,18 @@
         /// <param name="leaderboardName">Leaderboard name.</param>
         /// <param name="leaderboardId">Leaderboard ID.</param>
         /// <param name="leaderboards">Leaderboard data.</param>
+        /// <param name="leaderboardColor">Leaderboard Color.</param>
         /// <returns>ListViewItem for leaderboard.</returns>
-        public static ListViewItem CreateListViewItem(string leaderboardName, LeaderboardId leaderboardId, Dictionary<LeaderboardId, Leaderboard> leaderboards)
+        public static ListViewItem CreateListViewItem(string leaderboardName, LeaderboardId leaderboardId, Dictionary<LeaderboardId, Leaderboard> leaderboards, Dictionary<LeaderboardId, Color> leaderboardColor)
         {
             var leaderboard = leaderboards[leaderboardId];
             var ret = new ListViewItem(leaderboardName) {
                 Tag = leaderboardId,
+                ForeColor = leaderboardColor[leaderboardId],
+                Checked = true,
             };
+
+            ret.Font = new Font(ret.Font, FontStyle.Bold);
 
             ret.SubItems.Add(leaderboard.Rank?.ToString() ?? "-");
             ret.SubItems.Add(leaderboard.Rating?.ToString() ?? "-");
@@ -304,6 +310,28 @@
             } else {
                 Debug.Print($"Unavailable Player Name: {playerName}.");
             }
+        }
+
+        /// <summary>
+        /// Open player's History on new History window.
+        /// </summary>
+        /// <param name="playerName">player name.</param>
+        /// <returns>Instance of FormHistory.</returns>
+        public FormHistory GenerateFormHistory(string playerName)
+        {
+            FormHistory ret = null;
+
+            if (MatchedPlayerInfos.TryGetValue(playerName, out PlayerInfo playerInfo)) {
+                if (playerInfo.ProfileId is int profileId) {
+                    ret = new FormHistory(profileId) {
+                        Text = $"{playerName}'s history - AoE2.net Desktop",
+                    };
+                }
+            } else {
+                Debug.Print($"Unavailable Player Name: {playerName}.");
+            }
+
+            return ret;
         }
 
         /// <summary>

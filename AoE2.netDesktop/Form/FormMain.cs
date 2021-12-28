@@ -3,9 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using System.Windows.Forms;
+
     using AoE2NetDesktop;
+
     using LibAoE2net;
 
     /// <summary>
@@ -14,15 +17,15 @@
     public partial class FormMain : ControllableForm
     {
         private const int PlayerNumMax = 8;
-
+        private const int LabelMapMargin = 20;
         private readonly List<Label> labelCiv = new ();
         private readonly List<Label> labelColor = new ();
         private readonly List<Label> labelRate = new ();
         private readonly List<Label> labelName = new ();
         private readonly List<PictureBox> pictureBox = new ();
         private readonly Language language;
-        private int windowTitleTop;
-        private int windowTitleLeft;
+
+        private Point mouseDownPoint;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormMain"/> class.
@@ -35,24 +38,21 @@
             Controler.SelectedId = IdType.Steam;
 
             InitializeComponent();
-            labelAveRate1.ForeColor = labelAveRate1.BackColor;
-            labelAveRate2.ForeColor = labelAveRate2.BackColor;
-            labelGameId.ForeColor = labelGameId.BackColor;
-            labelServer.ForeColor = labelServer.BackColor;
-            labelMap.ForeColor = labelMap.BackColor;
             InitIDRadioButton();
             InitPlayersCtrlList();
+            ShowAoE2netStatus(NetStatus.Disconnected);
         }
 
         /// <inheritdoc/>
         protected override CtrlMain Controler { get => (CtrlMain)base.Controler; }
 
-        private void RestoreWindowPosition()
+        private void RestoreWindowStatus()
         {
             Top = Settings.Default.WindowLocationMain.Y;
             Left = Settings.Default.WindowLocationMain.X;
             Width = Settings.Default.WindowSizeMain.Width;
             Height = Settings.Default.WindowSizeMain.Height;
+            upDownOpacity.Value = Settings.Default.MainFormOpacityPercent;
         }
 
         private void SaveWindowPosition()
@@ -101,22 +101,6 @@
                 pictureBox1, pictureBox2, pictureBox3, pictureBox4,
                 pictureBox5, pictureBox6, pictureBox7, pictureBox8,
             });
-
-            foreach (var item in labelName) {
-                item.ForeColor = item.BackColor;
-            }
-
-            foreach (var item in labelRate) {
-                item.ForeColor = item.BackColor;
-            }
-
-            foreach (var item in labelCiv) {
-                item.ForeColor = item.BackColor;
-            }
-
-            foreach (var item in labelColor) {
-                item.ForeColor = item.BackColor;
-            }
         }
 
         private void ClearLastMatch()
@@ -134,6 +118,7 @@
 
             foreach (var item in labelName) {
                 item.Text = "----";
+                item.Tag = null;
             }
 
             foreach (var item in labelRate) {
@@ -145,28 +130,55 @@
             }
         }
 
-        private void SetLastMatchData(PlayerLastmatch playerLastmatch)
+        private async Task<Match> SetLastMatchData()
         {
+            Match ret;
+            var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(IdType.Profile, textBoxSettingProfileId.Text);
+            var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, int.Parse(textBoxSettingProfileId.Text));
             SetMatchData(playerLastmatch.LastMatch);
-            SetPlayersData(playerLastmatch.LastMatch.Players);
+
+            if (playerMatchHistory.Count != 0
+                && playerMatchHistory[0].MatchId == playerLastmatch.LastMatch.MatchId) {
+                SetPlayersData(playerMatchHistory[0].Players);
+                ret = playerMatchHistory[0];
+            } else {
+                SetPlayersData(playerLastmatch.LastMatch.Players);
+                ret = playerLastmatch.LastMatch;
+            }
+
+            return ret;
         }
 
         private void SetMatchData(Match match)
         {
             var aveTeam1 = CtrlMain.GetAverageRate(match.Players, TeamType.OddColorNo);
             var aveTeam2 = CtrlMain.GetAverageRate(match.Players, TeamType.EvenColorNo);
+
             labelAveRate1.Text = $"Team1 Ave. Rate:{aveTeam1}";
             labelAveRate2.Text = $"Team2 Ave. Rate:{aveTeam2}";
             labelMap.Text = $"Map: {match.GetMapName()}";
             labelGameId.Text = $"GameID: {match.MatchId}";
             labelServer.Text = $"Server: {match.Server}";
+
+            ArrangeGameIdAndServerNameLocation();
+        }
+
+        private void ArrangeGameIdAndServerNameLocation()
+        {
+            var graphics = labelMap.CreateGraphics();
+            var stringSize = graphics.MeasureString(labelMap.Text, labelMap.Font);
+            labelMap.Width = (int)stringSize.Width + LabelMapMargin;
+
+            labelGameId.Left = labelMap.Right;
+            labelServer.Left = labelMap.Right;
         }
 
         private void SetPlayersData(List<Player> players)
         {
             foreach (var player in players) {
                 if (player.Color - 1 is int index
-                    && index < PlayerNumMax) {
+                    && index < PlayerNumMax
+                    && index > -1) {
                     pictureBox[index].ImageLocation = AoE2net.GetCivImageLocation(player.GetCivEnName());
                     labelRate[index].Text = CtrlMain.GetRateString(player.Rating);
                     labelName[index].Text = CtrlMain.GetPlayerNameString(player.Name);
@@ -176,6 +188,7 @@
                     labelName[index].Tag = player;
                 } else {
                     labelErrText.Text = $"invalid player.Color[{player.Color}]";
+                    break;
                 }
             }
         }
@@ -216,7 +229,7 @@
 
             labelSettingsName.Text = $"   Name: --";
             labelSettingsCountry.Text = $"Country: --";
-
+            ShowAoE2netStatus(NetStatus.Connecting);
             try {
                 ret = await Controler.ReadPlayerDataAsync(idType, idText);
 
@@ -226,6 +239,7 @@
                 Settings.Default.ProfileId = Controler.ProfileId;
                 buttonUpdate.Enabled = ret;
                 buttonViewHistory.Enabled = ret;
+                ShowAoE2netStatus(NetStatus.Connected);
             } catch (Exception ex) {
                 ret = false;
                 labelErrText.Text = ex.Message + ":" + ex.StackTrace;
@@ -241,6 +255,43 @@
             return ret;
         }
 
+        private void ShowAoE2netStatus(NetStatus status)
+        {
+            switch (status) {
+            case NetStatus.Connected:
+                labelAoE2NetStatus.Text = "Online";
+                labelAoE2NetStatus.ForeColor = Color.Green;
+                break;
+            case NetStatus.Disconnected:
+                labelAoE2NetStatus.Text = "Disconnected";
+                labelAoE2NetStatus.ForeColor = Color.Firebrick;
+                break;
+            case NetStatus.ServerError:
+                labelAoE2NetStatus.Text = "Server Error";
+                labelAoE2NetStatus.ForeColor = Color.Olive;
+                break;
+            case NetStatus.ComTimeout:
+                labelAoE2NetStatus.Text = "Timeout";
+                labelAoE2NetStatus.ForeColor = Color.Purple;
+                break;
+            case NetStatus.Connecting:
+                labelAoE2NetStatus.Text = "Connecting";
+                labelAoE2NetStatus.ForeColor = Color.MediumSeaGreen;
+                break;
+            }
+        }
+
+        private void OnErrorHandler(Exception ex)
+        {
+            if (ex.GetType() == typeof(HttpRequestException)) {
+                ShowAoE2netStatus(NetStatus.ServerError);
+            }
+
+            if (ex.GetType() == typeof(TaskCanceledException)) {
+                ShowAoE2netStatus(NetStatus.ComTimeout);
+            }
+        }
+
         private async Task<bool> UpdateLastMatch()
         {
             var ret = false;
@@ -249,8 +300,7 @@
 
             ClearLastMatch();
             try {
-                var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(IdType.Profile, textBoxSettingProfileId.Text);
-                SetLastMatchData(playerLastmatch);
+                var match = await SetLastMatchData();
                 ret = true;
             } catch (Exception ex) {
                 labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
@@ -282,15 +332,16 @@
 
         private async void FormMain_Load(object sender, EventArgs e)
         {
-            RestoreWindowPosition();
+            RestoreWindowStatus();
             ResizePanels();
             ClearLastMatch();
             try {
+                AoE2net.OnError = OnErrorHandler;
                 _ = await CtrlMain.InitAsync(language);
                 LoadSettings();
                 _ = await ReadProfileAsync();
                 _ = await UpdateLastMatch();
-            } catch (Exception ex) {
+            } catch (AggregateException ex) {
                 labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
             }
 
@@ -314,7 +365,7 @@
             var labelName = (Label)sender;
             var player = (Player)labelName.Tag;
 
-            if (player?.SteamId == textBoxSettingSteamId.Text) {
+            if (player?.ProfilId.ToString() == textBoxSettingProfileId.Text) {
                 labelName.DrawString(e, 20, Color.Black, Color.DarkOrange);
             } else {
                 labelName.DrawString(e, 20, Color.DarkGreen, Color.LightGreen);
@@ -461,24 +512,52 @@
         {
             var top = RectangleToScreen(ClientRectangle).Top;
             var left = RectangleToScreen(ClientRectangle).Left;
+            var height = RectangleToScreen(ClientRectangle).Height;
 
             SuspendLayout();
 
             if (checkBoxHideTitle.Checked) {
-                windowTitleTop = Top;
-                windowTitleLeft = Left;
-                MinimumSize = new Size(290, 230);
                 FormBorderStyle = FormBorderStyle.None;
+                MinimumSize = new Size(290, 230);
                 Top = top;
                 Left = left;
+                Height = height;
             } else {
                 FormBorderStyle = FormBorderStyle.Sizable;
                 MinimumSize = new Size(290, 295);
-                Top = windowTitleTop;
-                Left = windowTitleLeft;
+                Top -= RectangleToScreen(ClientRectangle).Top - Top;
+                Left -= RectangleToScreen(ClientRectangle).Left - Left;
             }
 
             ResumeLayout();
+        }
+
+        private void TabControlMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5) {
+                buttonUpdate.PerformClick();
+            }
+        }
+
+        private void UpDownOpacity_ValueChanged(object sender, EventArgs e)
+        {
+            Opacity = (double)upDownOpacity.Value * 0.01;
+            Settings.Default.MainFormOpacityPercent = upDownOpacity.Value;
+        }
+
+        private void FormMain_MouseDown(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left) {
+                mouseDownPoint = new Point(e.X, e.Y);
+            }
+        }
+
+        private void FormMain_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left) {
+                Left += e.X - mouseDownPoint.X;
+                Top += e.Y - mouseDownPoint.Y;
+            }
         }
     }
 }

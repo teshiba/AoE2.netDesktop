@@ -10,6 +10,9 @@ namespace AoE2NetDesktop.Tests
         {
             var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
             var fieldInfo = obj.GetType().GetField(name, bindingFlags);
+            if (fieldInfo == null) {
+                fieldInfo = obj.GetType().BaseType.GetField(name, bindingFlags);
+            }
             return (T)fieldInfo.GetValue(obj);
         }
 
@@ -34,6 +37,9 @@ namespace AoE2NetDesktop.Tests
         {
             var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod;
             var methodInfo = obj.GetType().GetMethod(name, bindingFlags);
+            if (methodInfo == null) {
+                methodInfo = obj.GetType().BaseType.GetMethod(name, bindingFlags);
+            }
             return (T)methodInfo.Invoke(obj, arg);
         }
 
@@ -41,6 +47,9 @@ namespace AoE2NetDesktop.Tests
         {
             var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod;
             var methodInfo = obj.GetType().GetMethod(name, bindingFlags);
+            if (methodInfo == null) {
+                methodInfo = obj.GetType().BaseType.GetMethod(name, bindingFlags);
+            }
             methodInfo.Invoke(obj, arg);
         }
 
@@ -55,6 +64,10 @@ namespace AoE2NetDesktop.Tests
             }
 
             var settings = Assembly.GetAssembly(testTargetInstance.GetType()).GetType($"{assemblyName}.Settings");
+            if (settings == null) {
+                settings = Assembly.GetAssembly(testTargetInstance.GetType().BaseType).GetType($"{assemblyName}.Settings");
+            }
+
             var settingsDefault = settings.GetProperty("Default").GetValue(settings);
             settingsDefault.GetType().GetProperty(propertyName).SetValue(settingsDefault, value);
         }
