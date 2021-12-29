@@ -559,5 +559,10 @@
                 Top += e.Y - mouseDownPoint.Y;
             }
         }
+
+        private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ResizePanels();
+        }
     }
 }

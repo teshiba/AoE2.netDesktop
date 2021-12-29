@@ -119,8 +119,9 @@
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(665, 261);
+            this.tabControlMain.Size = new System.Drawing.Size(668, 261);
             this.tabControlMain.TabIndex = 0;
+            this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.tabControlMain_SelectedIndexChanged);
             this.tabControlMain.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TabControlMain_KeyDown);
             // 
             // tabPagePlayerLastMatch
@@ -137,7 +138,7 @@
             this.tabPagePlayerLastMatch.Location = new System.Drawing.Point(4, 24);
             this.tabPagePlayerLastMatch.Name = "tabPagePlayerLastMatch";
             this.tabPagePlayerLastMatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(657, 233);
+            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(660, 233);
             this.tabPagePlayerLastMatch.TabIndex = 0;
             this.tabPagePlayerLastMatch.Text = "Player Last Match";
             // 
@@ -146,7 +147,7 @@
             this.buttonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonUpdate.Enabled = false;
             this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonUpdate.Location = new System.Drawing.Point(548, 3);
+            this.buttonUpdate.Location = new System.Drawing.Point(551, 3);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(82, 27);
             this.buttonUpdate.TabIndex = 7;
@@ -193,7 +194,7 @@
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
             this.labelErrText.Location = new System.Drawing.Point(4, 242);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(623, 0);
+            this.labelErrText.Size = new System.Drawing.Size(648, 0);
             this.labelErrText.TabIndex = 8;
             // 
             // panelTeam1
@@ -992,7 +993,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(665, 261);
+            this.ClientSize = new System.Drawing.Size(668, 261);
             this.Controls.Add(this.tabControlMain);
             this.MinimumSize = new System.Drawing.Size(290, 300);
             this.Name = "FormMain";
