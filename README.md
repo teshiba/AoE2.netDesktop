@@ -3,4 +3,4 @@ A desktop application that makes viewing "Age of Empires II: Definitive Edition"
 
 Please see the latest release for the details and download.  
 
-https://github.com/teshiba/AoE2.netDesktop/releases/tag/v0.2.0
+https://github.com/teshiba/AoE2.netDesktop/releases/tag/v0.3.0
