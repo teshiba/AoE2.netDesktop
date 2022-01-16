@@ -422,22 +422,22 @@
 
         private void LabelRate_Paint(object sender, PaintEventArgs e)
         {
-            ((Label)sender).DrawString(e, 15, Color.Black, Color.DeepSkyBlue);
+            ((Label)sender).DrawString(e, 22, Color.Black, Color.DeepSkyBlue);
         }
 
         private void LabelCiv_Paint(object sender, PaintEventArgs e)
         {
-            ((Label)sender).DrawString(e, 10, Color.Gray, Color.LightGoldenrodYellow);
+            ((Label)sender).DrawString(e, 15, Color.Gray, Color.LightGoldenrodYellow);
         }
 
         private void LabelAveRate_Paint(object sender, PaintEventArgs e)
         {
-            ((Label)sender).DrawString(e, 12, Color.Silver, Color.Black);
+            ((Label)sender).DrawString(e, 18, Color.Silver, Color.Black);
         }
 
         private void LabelColor_Paint(object sender, PaintEventArgs e)
         {
-            ((Label)sender).DrawString(e, 22, Color.Black, Color.White, new Point(3, 3));
+            ((Label)sender).DrawString(e, 26, Color.Black, Color.White, new Point(7, 7));
         }
 
         private void LabelMap_Paint(object sender, PaintEventArgs e)
@@ -447,12 +447,12 @@
 
         private void LabelGameId_Paint(object sender, PaintEventArgs e)
         {
-            ((Label)sender).DrawString(e, 12, Color.Gray, Color.LightGoldenrodYellow);
+            ((Label)sender).DrawString(e, 14, Color.Gray, Color.LightGoldenrodYellow);
         }
 
         private void LabelServer_Paint(object sender, PaintEventArgs e)
         {
-            ((Label)sender).DrawString(e, 12, Color.Gray, Color.LightGoldenrodYellow);
+            ((Label)sender).DrawString(e, 14, Color.Gray, Color.LightGoldenrodYellow);
         }
 
         private void RadioButtonProfileID_CheckedChanged(object sender, EventArgs e)
