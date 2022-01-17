@@ -22,6 +22,7 @@
         private const int IndexUnranked = 4;
         private const int IndexDM1v1 = 5;
         private const int IndexDMTeam = 6;
+        private const int FontSize = 16;
 
         private readonly Dictionary<LeaderboardId, Color> leaderboardColor = new () {
             { LeaderboardId.RM1v1, Color.Blue },
@@ -44,14 +45,8 @@
         {
             InitializeComponent();
 
-            formsPlotPlayerRate.Plot.Title("Player Rate");
-            formsPlotPlayerRate.Plot.YLabel("Rate");
-            formsPlotPlayerRate.Plot.XLabel("Date");
-            formsPlotPlayerRate.Render();
-
             comboBoxLeaderboard.Enabled = false;
             comboBoxLeaderboard.Items.AddRange(CtrlHistory.GetLeaderboardStrings());
-
             comboBoxDataSource.Enabled = false;
             comboBoxDataSource.Items.AddRange(CtrlHistory.GetDataSourceStrings());
 
@@ -59,6 +54,7 @@
             WinRateStat = new WinRatePlot(formsPlotWinRate);
             PlayerRate = new PlayerRateFormsPlot(formsPlotPlayerRate, leaderboardColor);
 
+            SetPlotStyle();
             InitListviewSorter();
         }
 
@@ -101,6 +97,27 @@
             var listViewItemComparer = (ListViewItemComparer)listView.ListViewItemSorter;
             listViewItemComparer.Column = e.Column;
             listView.Sort();
+        }
+
+        private void SetPlotStyle()
+        {
+            formsPlotPlayerRate.Plot.Title("Player Rate");
+            formsPlotPlayerRate.Plot.YLabel("Rate");
+            formsPlotPlayerRate.Plot.XLabel("Date");
+            formsPlotPlayerRate.Plot.YAxis.TickLabelStyle(fontSize: FontSize);
+            formsPlotPlayerRate.Plot.XAxis.TickLabelStyle(fontSize: FontSize);
+            formsPlotPlayerRate.Plot.XAxis.LabelStyle(fontSize: FontSize + 3);
+            formsPlotPlayerRate.Plot.YAxis.LabelStyle(fontSize: FontSize + 3);
+            formsPlotPlayerRate.Render();
+
+            formsPlotCountry.Plot.YAxis.TickLabelStyle(fontSize: FontSize);
+            formsPlotCountry.Plot.XAxis.TickLabelStyle(fontSize: FontSize);
+            formsPlotCountry.Plot.XAxis.LabelStyle(fontSize: FontSize + 3);
+            formsPlotCountry.Plot.YAxis.LabelStyle(fontSize: FontSize + 3);
+            formsPlotWinRate.Plot.YAxis.TickLabelStyle(fontSize: FontSize);
+            formsPlotWinRate.Plot.XAxis.TickLabelStyle(fontSize: FontSize);
+            formsPlotWinRate.Plot.XAxis.LabelStyle(fontSize: FontSize + 3);
+            formsPlotWinRate.Plot.YAxis.LabelStyle(fontSize: FontSize + 3);
         }
 
         private void InitListviewSorter()
@@ -239,6 +256,7 @@
         {
             Settings.Default.WindowLocationHistory = new Point(Left, Top);
             Settings.Default.WindowSizeHistory = new Size(Width, Height);
+            Settings.Default.Save();
         }
 
         private void RestoreWindowPosition()
@@ -314,7 +332,6 @@
         private void FormHistory_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveWindowPosition();
-            Settings.Default.Save();
         }
 
         private void FormHistory_Load(object sender, EventArgs e)

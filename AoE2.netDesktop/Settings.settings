@@ -35,5 +35,8 @@
     <Setting Name="MainFormOpacityPercent" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
+    <Setting Name="ChromaKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#708090</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

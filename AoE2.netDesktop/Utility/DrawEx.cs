@@ -47,7 +47,7 @@
                 point,
                 stringFormat);
 
-            var pen = new Pen(borderColor, 4) {
+            var pen = new Pen(borderColor, 8) {
                 LineJoin = LineJoin.Round,
             };
 

@@ -38,13 +38,13 @@ namespace AoE2NetDesktop.Form
             this.labelComboBoxLeaderboard = new System.Windows.Forms.Label();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.listViewMatchHistory = new System.Windows.Forms.ListView();
-            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderMap = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderRate = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderWin = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderCiv = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderColor = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderDate = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderVersion = new System.Windows.Forms.ColumnHeader();
             this.labelDataSource = new System.Windows.Forms.Label();
             this.comboBoxDataSource = new System.Windows.Forms.ComboBox();
             this.formsPlotWinRate = new ScottPlot.FormsPlot();
@@ -95,24 +95,25 @@ namespace AoE2NetDesktop.Form
             // 
             // contextMenuStripMatchedPlayers
             // 
+            this.contextMenuStripMatchedPlayers.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStripMatchedPlayers.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openAoE2NetProfileToolStripMenuItem,
             this.openHistoryToolStripMenuItem});
             this.contextMenuStripMatchedPlayers.Name = "contextMenuStripMatchedPlayers";
-            this.contextMenuStripMatchedPlayers.Size = new System.Drawing.Size(191, 48);
+            this.contextMenuStripMatchedPlayers.Size = new System.Drawing.Size(226, 52);
             this.contextMenuStripMatchedPlayers.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripMatchedPlayers_Opening);
             // 
             // openAoE2NetProfileToolStripMenuItem
             // 
             this.openAoE2NetProfileToolStripMenuItem.Name = "openAoE2NetProfileToolStripMenuItem";
-            this.openAoE2NetProfileToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.openAoE2NetProfileToolStripMenuItem.Size = new System.Drawing.Size(225, 24);
             this.openAoE2NetProfileToolStripMenuItem.Text = "Open AoE2.net profile";
             this.openAoE2NetProfileToolStripMenuItem.Click += new System.EventHandler(this.OpenAoE2NetProfileToolStripMenuItem_Click);
             // 
             // openHistoryToolStripMenuItem
             // 
             this.openHistoryToolStripMenuItem.Name = "openHistoryToolStripMenuItem";
-            this.openHistoryToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.openHistoryToolStripMenuItem.Size = new System.Drawing.Size(225, 24);
             this.openHistoryToolStripMenuItem.Text = "Open History";
             this.openHistoryToolStripMenuItem.Click += new System.EventHandler(this.OpenHistoryToolStripMenuItem_Click);
             // 
@@ -141,10 +142,11 @@ namespace AoE2NetDesktop.Form
             this.tabPageMatches.Controls.Add(this.labelComboBoxLeaderboard);
             this.tabPageMatches.Controls.Add(this.splitContainer5);
             this.tabPageMatches.Controls.Add(this.comboBoxLeaderboard);
-            this.tabPageMatches.Location = new System.Drawing.Point(4, 24);
+            this.tabPageMatches.Location = new System.Drawing.Point(4, 29);
+            this.tabPageMatches.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPageMatches.Name = "tabPageMatches";
-            this.tabPageMatches.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMatches.Size = new System.Drawing.Size(982, 715);
+            this.tabPageMatches.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tabPageMatches.Size = new System.Drawing.Size(1441, 958);
             this.tabPageMatches.TabIndex = 5;
             this.tabPageMatches.Text = "Matches";
             this.tabPageMatches.UseVisualStyleBackColor = true;
@@ -152,9 +154,9 @@ namespace AoE2NetDesktop.Form
             // labelComboBoxLeaderboard
             // 
             this.labelComboBoxLeaderboard.AutoSize = true;
-            this.labelComboBoxLeaderboard.Location = new System.Drawing.Point(8, 13);
+            this.labelComboBoxLeaderboard.Location = new System.Drawing.Point(9, 17);
             this.labelComboBoxLeaderboard.Name = "labelComboBoxLeaderboard";
-            this.labelComboBoxLeaderboard.Size = new System.Drawing.Size(73, 15);
+            this.labelComboBoxLeaderboard.Size = new System.Drawing.Size(94, 20);
             this.labelComboBoxLeaderboard.TabIndex = 9;
             this.labelComboBoxLeaderboard.Text = "Leaderboard";
             // 
@@ -164,7 +166,9 @@ namespace AoE2NetDesktop.Form
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer5.Location = new System.Drawing.Point(3, 42);
+            this.splitContainer5.Cursor = System.Windows.Forms.Cursors.VSplit;
+            this.splitContainer5.Location = new System.Drawing.Point(3, 56);
+            this.splitContainer5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.splitContainer5.Name = "splitContainer5";
             // 
             // splitContainer5.Panel1
@@ -176,73 +180,76 @@ namespace AoE2NetDesktop.Form
             this.splitContainer5.Panel2.Controls.Add(this.labelDataSource);
             this.splitContainer5.Panel2.Controls.Add(this.comboBoxDataSource);
             this.splitContainer5.Panel2.Controls.Add(this.formsPlotWinRate);
-            this.splitContainer5.Size = new System.Drawing.Size(976, 670);
-            this.splitContainer5.SplitterDistance = 430;
+            this.splitContainer5.Size = new System.Drawing.Size(1433, 893);
+            this.splitContainer5.SplitterDistance = 705;
+            this.splitContainer5.SplitterWidth = 5;
             this.splitContainer5.TabIndex = 8;
             // 
             // listViewMatchHistory
             // 
             this.listViewMatchHistory.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listViewMatchHistory.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4,
-            this.columnHeader5,
-            this.columnHeader6,
-            this.columnHeader7});
+            this.columnHeaderMap,
+            this.columnHeaderRate,
+            this.columnHeaderWin,
+            this.columnHeaderCiv,
+            this.columnHeaderColor,
+            this.columnHeaderDate,
+            this.columnHeaderVersion});
             this.listViewMatchHistory.Cursor = System.Windows.Forms.Cursors.Default;
             this.listViewMatchHistory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewMatchHistory.FullRowSelect = true;
             this.listViewMatchHistory.GridLines = true;
             this.listViewMatchHistory.HideSelection = false;
             this.listViewMatchHistory.Location = new System.Drawing.Point(0, 0);
+            this.listViewMatchHistory.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.listViewMatchHistory.Name = "listViewMatchHistory";
-            this.listViewMatchHistory.Size = new System.Drawing.Size(426, 666);
+            this.listViewMatchHistory.Size = new System.Drawing.Size(701, 889);
             this.listViewMatchHistory.TabIndex = 0;
             this.listViewMatchHistory.UseCompatibleStateImageBehavior = false;
             this.listViewMatchHistory.View = System.Windows.Forms.View.Details;
             this.listViewMatchHistory.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListViewMatchHistory_ColumnClick);
             // 
-            // columnHeader1
+            // columnHeaderMap
             // 
-            this.columnHeader1.Text = "Map";
-            this.columnHeader1.Width = 120;
+            this.columnHeaderMap.Text = "Map";
+            this.columnHeaderMap.Width = 120;
             // 
-            // columnHeader2
+            // columnHeaderRate
             // 
-            this.columnHeader2.Text = "Rate";
+            this.columnHeaderRate.Text = "Rate";
+            this.columnHeaderRate.Width = 90;
             // 
-            // columnHeader3
+            // columnHeaderWin
             // 
-            this.columnHeader3.Text = "Win";
-            this.columnHeader3.Width = 40;
+            this.columnHeaderWin.Text = "Win";
             // 
-            // columnHeader4
+            // columnHeaderCiv
             // 
-            this.columnHeader4.Text = "Civilization";
-            this.columnHeader4.Width = 90;
+            this.columnHeaderCiv.Text = "Civilization";
+            this.columnHeaderCiv.Width = 110;
             // 
-            // columnHeader5
+            // columnHeaderColor
             // 
-            this.columnHeader5.Text = "Color";
-            this.columnHeader5.Width = 50;
+            this.columnHeaderColor.Text = "Color";
+            this.columnHeaderColor.Width = 50;
             // 
-            // columnHeader6
+            // columnHeaderDate
             // 
-            this.columnHeader6.Text = "Date";
-            this.columnHeader6.Width = 120;
+            this.columnHeaderDate.Text = "Date";
+            this.columnHeaderDate.Width = 150;
             // 
-            // columnHeader7
+            // columnHeaderVersion
             // 
-            this.columnHeader7.Text = "Version";
+            this.columnHeaderVersion.Text = "Version";
+            this.columnHeaderVersion.Width = 80;
             // 
             // labelDataSource
             // 
             this.labelDataSource.AutoSize = true;
-            this.labelDataSource.Location = new System.Drawing.Point(13, 15);
+            this.labelDataSource.Location = new System.Drawing.Point(15, 20);
             this.labelDataSource.Name = "labelDataSource";
-            this.labelDataSource.Size = new System.Drawing.Size(69, 15);
+            this.labelDataSource.Size = new System.Drawing.Size(88, 20);
             this.labelDataSource.TabIndex = 10;
             this.labelDataSource.Text = "Data source";
             // 
@@ -252,9 +259,10 @@ namespace AoE2NetDesktop.Form
             this.comboBoxDataSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDataSource.Enabled = false;
             this.comboBoxDataSource.FormattingEnabled = true;
-            this.comboBoxDataSource.Location = new System.Drawing.Point(92, 12);
+            this.comboBoxDataSource.Location = new System.Drawing.Point(110, 16);
+            this.comboBoxDataSource.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.comboBoxDataSource.Name = "comboBoxDataSource";
-            this.comboBoxDataSource.Size = new System.Drawing.Size(89, 23);
+            this.comboBoxDataSource.Size = new System.Drawing.Size(125, 28);
             this.comboBoxDataSource.TabIndex = 7;
             this.comboBoxDataSource.SelectedIndexChanged += new System.EventHandler(this.ComboBoxDataSource_SelectedIndexChanged);
             // 
@@ -262,10 +270,11 @@ namespace AoE2NetDesktop.Form
             // 
             this.formsPlotWinRate.BackColor = System.Drawing.Color.Transparent;
             this.formsPlotWinRate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.formsPlotWinRate.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.formsPlotWinRate.Location = new System.Drawing.Point(0, 0);
-            this.formsPlotWinRate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.formsPlotWinRate.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.formsPlotWinRate.Name = "formsPlotWinRate";
-            this.formsPlotWinRate.Size = new System.Drawing.Size(538, 666);
+            this.formsPlotWinRate.Size = new System.Drawing.Size(719, 889);
             this.formsPlotWinRate.TabIndex = 6;
             // 
             // comboBoxLeaderboard
@@ -273,9 +282,10 @@ namespace AoE2NetDesktop.Form
             this.comboBoxLeaderboard.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxLeaderboard.Enabled = false;
             this.comboBoxLeaderboard.FormattingEnabled = true;
-            this.comboBoxLeaderboard.Location = new System.Drawing.Point(87, 10);
+            this.comboBoxLeaderboard.Location = new System.Drawing.Point(119, 13);
+            this.comboBoxLeaderboard.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.comboBoxLeaderboard.Name = "comboBoxLeaderboard";
-            this.comboBoxLeaderboard.Size = new System.Drawing.Size(128, 23);
+            this.comboBoxLeaderboard.Size = new System.Drawing.Size(179, 28);
             this.comboBoxLeaderboard.TabIndex = 8;
             this.comboBoxLeaderboard.SelectedIndexChanged += new System.EventHandler(this.ComboBoxLeaderboard_SelectedIndexChanged);
             // 
@@ -283,10 +293,11 @@ namespace AoE2NetDesktop.Form
             // 
             this.tabPageStatistics.Controls.Add(this.formsPlotPlayerRate);
             this.tabPageStatistics.Controls.Add(this.listViewStatistics);
-            this.tabPageStatistics.Location = new System.Drawing.Point(4, 24);
+            this.tabPageStatistics.Location = new System.Drawing.Point(4, 29);
+            this.tabPageStatistics.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPageStatistics.Name = "tabPageStatistics";
-            this.tabPageStatistics.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageStatistics.Size = new System.Drawing.Size(982, 715);
+            this.tabPageStatistics.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tabPageStatistics.Size = new System.Drawing.Size(1441, 958);
             this.tabPageStatistics.TabIndex = 1;
             this.tabPageStatistics.Text = "Statistics";
             this.tabPageStatistics.UseVisualStyleBackColor = true;
@@ -295,10 +306,11 @@ namespace AoE2NetDesktop.Form
             // 
             this.formsPlotPlayerRate.BackColor = System.Drawing.Color.Transparent;
             this.formsPlotPlayerRate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.formsPlotPlayerRate.Location = new System.Drawing.Point(3, 168);
-            this.formsPlotPlayerRate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.formsPlotPlayerRate.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.formsPlotPlayerRate.Location = new System.Drawing.Point(3, 223);
+            this.formsPlotPlayerRate.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.formsPlotPlayerRate.Name = "formsPlotPlayerRate";
-            this.formsPlotPlayerRate.Size = new System.Drawing.Size(976, 544);
+            this.formsPlotPlayerRate.Size = new System.Drawing.Size(1435, 731);
             this.formsPlotPlayerRate.TabIndex = 6;
             this.formsPlotPlayerRate.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormsPlotPlayerRate_MouseMove);
             // 
@@ -323,9 +335,10 @@ namespace AoE2NetDesktop.Form
             this.listViewStatistics.FullRowSelect = true;
             this.listViewStatistics.GridLines = true;
             this.listViewStatistics.HideSelection = false;
-            this.listViewStatistics.Location = new System.Drawing.Point(3, 3);
+            this.listViewStatistics.Location = new System.Drawing.Point(3, 4);
+            this.listViewStatistics.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.listViewStatistics.Name = "listViewStatistics";
-            this.listViewStatistics.Size = new System.Drawing.Size(976, 165);
+            this.listViewStatistics.Size = new System.Drawing.Size(1435, 219);
             this.listViewStatistics.TabIndex = 2;
             this.listViewStatistics.UseCompatibleStateImageBehavior = false;
             this.listViewStatistics.View = System.Windows.Forms.View.Details;
@@ -348,7 +361,7 @@ namespace AoE2NetDesktop.Form
             // columnHeaderHighestRating
             // 
             this.columnHeaderHighestRating.Text = "Highest Rating";
-            this.columnHeaderHighestRating.Width = 100;
+            this.columnHeaderHighestRating.Width = 120;
             // 
             // columnHeaderGames
             // 
@@ -377,20 +390,21 @@ namespace AoE2NetDesktop.Form
             // columnHeaderHighestStreak
             // 
             this.columnHeaderHighestStreak.Text = "HighestStreak";
-            this.columnHeaderHighestStreak.Width = 90;
+            this.columnHeaderHighestStreak.Width = 120;
             // 
             // columnHeaderLowestStreak
             // 
             this.columnHeaderLowestStreak.Text = "LowestStreak";
-            this.columnHeaderLowestStreak.Width = 90;
+            this.columnHeaderLowestStreak.Width = 120;
             // 
             // tabPagePlayers
             // 
             this.tabPagePlayers.Controls.Add(this.splitContainerPlayers);
-            this.tabPagePlayers.Location = new System.Drawing.Point(4, 24);
+            this.tabPagePlayers.Location = new System.Drawing.Point(4, 29);
+            this.tabPagePlayers.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPagePlayers.Name = "tabPagePlayers";
-            this.tabPagePlayers.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePlayers.Size = new System.Drawing.Size(982, 715);
+            this.tabPagePlayers.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tabPagePlayers.Size = new System.Drawing.Size(1441, 958);
             this.tabPagePlayers.TabIndex = 3;
             this.tabPagePlayers.Text = "Players";
             this.tabPagePlayers.UseVisualStyleBackColor = true;
@@ -400,7 +414,8 @@ namespace AoE2NetDesktop.Form
             this.splitContainerPlayers.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.splitContainerPlayers.Cursor = System.Windows.Forms.Cursors.VSplit;
             this.splitContainerPlayers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerPlayers.Location = new System.Drawing.Point(3, 3);
+            this.splitContainerPlayers.Location = new System.Drawing.Point(3, 4);
+            this.splitContainerPlayers.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.splitContainerPlayers.Name = "splitContainerPlayers";
             // 
             // splitContainerPlayers.Panel1
@@ -410,8 +425,9 @@ namespace AoE2NetDesktop.Form
             // splitContainerPlayers.Panel2
             // 
             this.splitContainerPlayers.Panel2.Controls.Add(this.formsPlotCountry);
-            this.splitContainerPlayers.Size = new System.Drawing.Size(976, 709);
-            this.splitContainerPlayers.SplitterDistance = 575;
+            this.splitContainerPlayers.Size = new System.Drawing.Size(1435, 950);
+            this.splitContainerPlayers.SplitterDistance = 845;
+            this.splitContainerPlayers.SplitterWidth = 5;
             this.splitContainerPlayers.TabIndex = 9;
             this.splitContainerPlayers.DoubleClick += new System.EventHandler(this.SplitContainerPlayers_DoubleClick);
             // 
@@ -435,8 +451,9 @@ namespace AoE2NetDesktop.Form
             this.listViewMatchedPlayers.GridLines = true;
             this.listViewMatchedPlayers.HideSelection = false;
             this.listViewMatchedPlayers.Location = new System.Drawing.Point(0, 0);
+            this.listViewMatchedPlayers.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.listViewMatchedPlayers.Name = "listViewMatchedPlayers";
-            this.listViewMatchedPlayers.Size = new System.Drawing.Size(571, 705);
+            this.listViewMatchedPlayers.Size = new System.Drawing.Size(841, 946);
             this.listViewMatchedPlayers.TabIndex = 2;
             this.listViewMatchedPlayers.UseCompatibleStateImageBehavior = false;
             this.listViewMatchedPlayers.View = System.Windows.Forms.View.Details;
@@ -451,20 +468,22 @@ namespace AoE2NetDesktop.Form
             // columnHeaderCountry
             // 
             this.columnHeaderCountry.Text = "Country";
+            this.columnHeaderCountry.Width = 90;
             // 
             // columnHeaderRate1v1
             // 
             this.columnHeaderRate1v1.Text = "1v1 Rate";
+            this.columnHeaderRate1v1.Width = 90;
             // 
             // columnHeaderRateTeam
             // 
             this.columnHeaderRateTeam.Text = "Team Rate";
-            this.columnHeaderRateTeam.Width = 70;
+            this.columnHeaderRateTeam.Width = 90;
             // 
             // columnHeaderTeamGameCount
             // 
             this.columnHeaderTeamGameCount.Text = "Team Games";
-            this.columnHeaderTeamGameCount.Width = 80;
+            this.columnHeaderTeamGameCount.Width = 100;
             // 
             // columnHeaderAllyGames
             // 
@@ -483,17 +502,18 @@ namespace AoE2NetDesktop.Form
             // columnHeaderLastDate
             // 
             this.columnHeaderLastDate.Text = "Last Date";
-            this.columnHeaderLastDate.Width = 120;
+            this.columnHeaderLastDate.Width = 150;
             // 
             // formsPlotCountry
             // 
             this.formsPlotCountry.BackColor = System.Drawing.Color.Transparent;
             this.formsPlotCountry.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.formsPlotCountry.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.formsPlotCountry.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.formsPlotCountry.Location = new System.Drawing.Point(0, 0);
-            this.formsPlotCountry.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.formsPlotCountry.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.formsPlotCountry.Name = "formsPlotCountry";
-            this.formsPlotCountry.Size = new System.Drawing.Size(393, 705);
+            this.formsPlotCountry.Size = new System.Drawing.Size(581, 946);
             this.formsPlotCountry.TabIndex = 8;
             // 
             // tabControlHistory
@@ -503,18 +523,20 @@ namespace AoE2NetDesktop.Form
             this.tabControlHistory.Controls.Add(this.tabPageStatistics);
             this.tabControlHistory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlHistory.Location = new System.Drawing.Point(0, 0);
+            this.tabControlHistory.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControlHistory.Name = "tabControlHistory";
             this.tabControlHistory.SelectedIndex = 0;
-            this.tabControlHistory.Size = new System.Drawing.Size(990, 743);
+            this.tabControlHistory.Size = new System.Drawing.Size(1449, 991);
             this.tabControlHistory.TabIndex = 3;
             this.tabControlHistory.SelectedIndexChanged += new System.EventHandler(this.TabControlHistory_SelectedIndexChanged);
             // 
             // FormHistory
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(990, 743);
+            this.ClientSize = new System.Drawing.Size(1449, 991);
             this.Controls.Add(this.tabControlHistory);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FormHistory";
             this.Text = "AoE2.net Desktop - History";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormHistory_FormClosing);
@@ -548,13 +570,13 @@ namespace AoE2NetDesktop.Form
         private System.Windows.Forms.Label labelComboBoxLeaderboard;
         private System.Windows.Forms.SplitContainer splitContainer5;
         private System.Windows.Forms.ListView listViewMatchHistory;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
-        private System.Windows.Forms.ColumnHeader columnHeader6;
-        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ColumnHeader columnHeaderMap;
+        private System.Windows.Forms.ColumnHeader columnHeaderRate;
+        private System.Windows.Forms.ColumnHeader columnHeaderWin;
+        private System.Windows.Forms.ColumnHeader columnHeaderCiv;
+        private System.Windows.Forms.ColumnHeader columnHeaderColor;
+        private System.Windows.Forms.ColumnHeader columnHeaderDate;
+        private System.Windows.Forms.ColumnHeader columnHeaderVersion;
         private System.Windows.Forms.Label labelDataSource;
         private System.Windows.Forms.ComboBox comboBoxDataSource;
         private ScottPlot.FormsPlot formsPlotWinRate;
