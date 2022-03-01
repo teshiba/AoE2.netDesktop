@@ -44,7 +44,7 @@ namespace LibAoE2net
                 throw new TaskCanceledException("Forced TaskCanceledException");
             }
 
-            var apiEndPoint = requestUri.Substring(0, requestUri.IndexOf('?'));
+            var apiEndPoint = requestUri[..requestUri.IndexOf('?')];
             var ret = apiEndPoint switch {
                 "player/lastmatch" => ReadplayerLastMatchAsync(requestUri),
                 "player/ratinghistory" => ReadPlayerRatingHistoryAsync(requestUri),

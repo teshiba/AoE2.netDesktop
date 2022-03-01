@@ -17,7 +17,6 @@
     public partial class FormMain : ControllableForm
     {
         private const int PlayerNumMax = 8;
-        private const int LabelMapMargin = 25;
         private readonly List<Label> labelCiv = new ();
         private readonly List<Label> labelColor = new ();
         private readonly List<Label> labelRate = new ();
@@ -43,6 +42,11 @@
             ShowAoE2netStatus(NetStatus.Disconnected);
             SetChromaKey(Settings.Default.ChromaKey);
         }
+
+        /// <summary>
+        /// Gets or sets ColorDialog.
+        /// </summary>
+        public ColorDialogEx ColorDialog { get; set; } = new ColorDialogEx();
 
         /// <inheritdoc/>
         protected override CtrlMain Controler { get => (CtrlMain)base.Controler; }
@@ -363,18 +367,6 @@
             labelErrText.Height = tabPagePlayerLastMatch.Height - (panelTeam1.Top + panelTeam1.Height + 6);
         }
 
-        private Color OpenColorDialog()
-        {
-            Color ret = Color.Empty;
-
-            var result = colorDialogChromaKey.ShowDialog();
-            if (result == DialogResult.OK) {
-                ret = colorDialogChromaKey.Color;
-            }
-
-            return ret;
-        }
-
         ///////////////////////////////////////////////////////////////////////
         // Async event handlers
         ///////////////////////////////////////////////////////////////////////
@@ -624,7 +616,7 @@
 
         private void PictureBoxChromaKey_Click(object sender, EventArgs e)
         {
-            SetChromaKey(OpenColorDialog());
+            SetChromaKey(ColorDialog.GetColorFromDialog());
         }
 
         private void TextBoxChromaKey_TextChanged(object sender, EventArgs e)

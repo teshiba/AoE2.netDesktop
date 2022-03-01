@@ -573,5 +573,38 @@ namespace AoE2NetDesktop.Form.Tests
             Assert.IsTrue(done);
         }
 
+        [TestMethod()]
+        public void FormMainTestPictureBoxChromaKey_Click()
+        {
+            // Arrange
+            var expTop = 0;
+            var expLeft = 0;
+            var done = false;
+            var testClass = new FormMainPrivate {
+            };
+
+            testClass.ColorDialog = new ColorDialogEx {
+                Color = Color.Red,
+                Opening = () => false,
+            };
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
+                testClass.PictureBoxChromaKeyOnClick(e);
+                done = true;
+
+                // CleanUp
+                testClass.Close();
+            };
+
+            testClass.ShowDialog();
+
+            // Assert
+            Assert.AreEqual(expTop, testClass.Top);
+            Assert.AreEqual(expLeft, testClass.Left);
+            Assert.IsTrue(done);
+        }
     }
 }

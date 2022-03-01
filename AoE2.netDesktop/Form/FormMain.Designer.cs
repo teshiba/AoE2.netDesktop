@@ -331,7 +331,7 @@
             this.labelCivP7.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCivP7.Location = new System.Drawing.Point(51, 224);
             this.labelCivP7.Name = "labelCivP7";
-            this.labelCivP7.Size = new System.Drawing.Size(86, 23);
+            this.labelCivP7.Size = new System.Drawing.Size(299, 23);
             this.labelCivP7.TabIndex = 2;
             this.labelCivP7.Text = "CIVxxxxXXXX";
             this.labelCivP7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -345,7 +345,7 @@
             this.labelCivP3.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCivP3.Location = new System.Drawing.Point(51, 117);
             this.labelCivP3.Name = "labelCivP3";
-            this.labelCivP3.Size = new System.Drawing.Size(86, 23);
+            this.labelCivP3.Size = new System.Drawing.Size(299, 23);
             this.labelCivP3.TabIndex = 2;
             this.labelCivP3.Text = "CIVxxxxXXXX";
             this.labelCivP3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -359,7 +359,7 @@
             this.labelCivP5.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCivP5.Location = new System.Drawing.Point(51, 170);
             this.labelCivP5.Name = "labelCivP5";
-            this.labelCivP5.Size = new System.Drawing.Size(86, 23);
+            this.labelCivP5.Size = new System.Drawing.Size(299, 23);
             this.labelCivP5.TabIndex = 2;
             this.labelCivP5.Text = "CIVxxxxXXXX";
             this.labelCivP5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -373,7 +373,7 @@
             this.labelCivP1.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCivP1.Location = new System.Drawing.Point(51, 62);
             this.labelCivP1.Name = "labelCivP1";
-            this.labelCivP1.Size = new System.Drawing.Size(86, 23);
+            this.labelCivP1.Size = new System.Drawing.Size(299, 23);
             this.labelCivP1.TabIndex = 2;
             this.labelCivP1.Text = "CIVxxxxXXXX";
             this.labelCivP1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -591,7 +591,7 @@
             this.labelCivP2.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCivP2.Location = new System.Drawing.Point(53, 62);
             this.labelCivP2.Name = "labelCivP2";
-            this.labelCivP2.Size = new System.Drawing.Size(86, 23);
+            this.labelCivP2.Size = new System.Drawing.Size(299, 23);
             this.labelCivP2.TabIndex = 2;
             this.labelCivP2.Text = "CIVxxxxXXXX";
             this.labelCivP2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -605,7 +605,7 @@
             this.labelCivP6.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCivP6.Location = new System.Drawing.Point(53, 170);
             this.labelCivP6.Name = "labelCivP6";
-            this.labelCivP6.Size = new System.Drawing.Size(86, 23);
+            this.labelCivP6.Size = new System.Drawing.Size(299, 23);
             this.labelCivP6.TabIndex = 2;
             this.labelCivP6.Text = "CIVxxxxXXXX";
             this.labelCivP6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -619,7 +619,7 @@
             this.labelCivP4.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCivP4.Location = new System.Drawing.Point(53, 117);
             this.labelCivP4.Name = "labelCivP4";
-            this.labelCivP4.Size = new System.Drawing.Size(86, 23);
+            this.labelCivP4.Size = new System.Drawing.Size(299, 23);
             this.labelCivP4.TabIndex = 2;
             this.labelCivP4.Text = "CIVxxxxXXXX";
             this.labelCivP4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -633,7 +633,7 @@
             this.labelCivP8.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCivP8.Location = new System.Drawing.Point(53, 224);
             this.labelCivP8.Name = "labelCivP8";
-            this.labelCivP8.Size = new System.Drawing.Size(86, 23);
+            this.labelCivP8.Size = new System.Drawing.Size(299, 23);
             this.labelCivP8.TabIndex = 2;
             this.labelCivP8.Text = "CIVxxxxXXXX";
             this.labelCivP8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using AoE2NetDesktop.Tests;
 using System.Drawing;
+using System;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -24,6 +25,7 @@ namespace AoE2NetDesktop.Form.Tests
             public RadioButton radioButtonSteamID;
             public RadioButton radioButtonProfileID;
             public NumericUpDown upDownOpacity;
+            public TextBox textBoxChromaKey;
 
             public Point mouseDownPoint;
             public string InvalidSteamIdString;
@@ -49,6 +51,7 @@ namespace AoE2NetDesktop.Form.Tests
                 textBoxSettingSteamId = this.GetControl<TextBox>("textBoxSettingSteamId");
                 upDownOpacity = this.GetControl<NumericUpDown>("upDownOpacity");
                 mouseDownPoint = this.GetField<Point>("mouseDownPoint");
+                textBoxChromaKey = this.GetControl<TextBox>("textBoxChromaKey");
 
                 TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "SteamId", TestData.AvailableUserSteamId);
                 TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
@@ -69,6 +72,11 @@ namespace AoE2NetDesktop.Form.Tests
             public void FormMainOnMouseMove(MouseEventArgs e)
             {
                 this.Invoke("FormMain_MouseMove", this, e);
+            }
+
+            public void PictureBoxChromaKeyOnClick(EventArgs e)
+            {
+                this.Invoke("PictureBoxChromaKey_Click", this, e);
             }
         }
     }

@@ -31,14 +31,14 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.0.1" />
     <PackageReference Include="Microsoft.CodeCoverage" Version="17.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.7" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.7" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
     <PackageReference Include="coverlet.collector" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="ScottPlot" Version="4.1.27" />
-    <PackageReference Include="ScottPlot.WinForms" Version="4.1.27" />
+    <PackageReference Include="ScottPlot" Version="4.1.31" />
+    <PackageReference Include="ScottPlot.WinForms" Version="4.1.31" />
   </ItemGroup>
 
   <ItemGroup>
