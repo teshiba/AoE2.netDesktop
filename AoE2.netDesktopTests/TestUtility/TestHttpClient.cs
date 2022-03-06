@@ -140,16 +140,17 @@ namespace LibAoE2net
             return ReadTextFIleAsync(readUri);
         }
 
-        private static Task<string> ReadTextFIleAsync(string filePath)
+        private static async Task<string> ReadTextFIleAsync(string filePath)
         {
-            Task<string> ret;
+            string ret;
 
             try {
-                ret = File.ReadAllTextAsync(filePath);
-            } catch (FileNotFoundException ex) {
+                ret = await File.ReadAllTextAsync(filePath).ConfigureAwait(false);
+            } catch (Exception ex) {
                 Debug.Print($"Test stub http read: {ex.Message}");
-                throw;
+                throw new HttpRequestException(ex.Message, null, System.Net.HttpStatusCode.NotFound);
             }
+
             return ret;
         }
     }

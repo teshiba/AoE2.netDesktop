@@ -256,7 +256,6 @@
         {
             Settings.Default.WindowLocationHistory = new Point(Left, Top);
             Settings.Default.WindowSizeHistory = new Size(Width, Height);
-            Settings.Default.Save();
         }
 
         private void RestoreWindowPosition()
@@ -332,6 +331,7 @@
         private void FormHistory_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveWindowPosition();
+            Settings.Default.Save();
         }
 
         private void FormHistory_Load(object sender, EventArgs e)

@@ -13,7 +13,7 @@
         /// Gets or sets handler that is called before the dialog is opened.<br></br>
         /// if return <see langword="false"/>, Opening dialog will be canceled.
         /// </summary>
-        public Func<bool> Opening { get; set; }
+        public Func<bool> Opening { get; set; } = new Func<bool>(() => true);
 
         /// <summary>
         /// Open <see cref="ColorDialog"/> and get <see cref="Color"/>.

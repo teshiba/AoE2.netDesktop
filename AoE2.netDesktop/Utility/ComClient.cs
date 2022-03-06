@@ -26,7 +26,9 @@
         /// <param name="requestUri">The Uri the request is sent to.</param>
         /// <returns>The task object representing the asynchronous operation.</returns>
         public new virtual async Task<string> GetStringAsync(string requestUri)
-            => await base.GetStringAsync(requestUri);
+        {
+            return await base.GetStringAsync(requestUri).ConfigureAwait(false);
+        }
 
         /// <summary>
         /// Sends a GET request to the specified Uri and returns the value
@@ -42,11 +44,11 @@
             try {
                 Debug.Print($"Send Request {BaseAddress}{requestUri}");
 
-                var jsonText = await GetStringAsync(requestUri);
+                var jsonText = await GetStringAsync(requestUri).ConfigureAwait(false);
                 Debug.Print($"Get JSON {typeof(TValue)} {jsonText}");
 
+                using var stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonText));
                 var serializer = new DataContractJsonSerializer(typeof(TValue));
-                var stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonText));
                 ret = (TValue)serializer.ReadObject(stream);
             } catch (HttpRequestException e) {
                 Debug.Print($"Request Error: {e.Message}");

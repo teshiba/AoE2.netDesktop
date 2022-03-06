@@ -55,8 +55,8 @@
             label.ForeColor = label.BackColor;
 
             // Draw bordered text.
-            e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+            e.Graphics.PixelOffsetMode = PixelOffsetMode.None;
+            e.Graphics.SmoothingMode = SmoothingMode.None;
             e.Graphics.DrawPath(pen, graphicsPath);
             e.Graphics.FillPath(new SolidBrush(fillColor), graphicsPath);
         }

@@ -14,56 +14,17 @@
     /// </summary>
     public class CtrlMain : FormControler
     {
-        private const string InvalidSteamIdString = "-- Invalid ID --";
-        private const int VerifyWaitMsec = 1500;
-
-        private readonly System.Timers.Timer timerSteamIdVerify;
-
-        private Func<Task> delayedFunction;
-        private PlayerLastmatch playerLastmatch = new ();
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CtrlMain"/> class.
         /// </summary>
         public CtrlMain()
         {
-            timerSteamIdVerify = new System.Timers.Timer(VerifyWaitMsec);
-            timerSteamIdVerify.Elapsed += (sender, e) =>
-            {
-                timerSteamIdVerify.Stop();
-                Invoke(delayedFunction);
-            };
         }
 
         /// <summary>
         /// Gets selected ID type.
         /// </summary>
         public FormHistory FormHistory { get; private set; }
-
-        /// <summary>
-        /// Gets or sets selected ID type.
-        /// </summary>
-        public IdType SelectedId { get; set; }
-
-        /// <summary>
-        /// Gets get user country name.
-        /// </summary>
-        public string SteamId { get => playerLastmatch.SteamId; }
-
-        /// <summary>
-        /// Gets get user country name.
-        /// </summary>
-        public int ProfileId { get => playerLastmatch.ProfileId ?? 0; }
-
-        /// <summary>
-        /// Gets get user country name.
-        /// </summary>
-        public string UserCountry { get => CountryCode.ConvertToFullName(playerLastmatch.Country); }
-
-        /// <summary>
-        /// Gets user name.
-        /// </summary>
-        public string UserName { get => playerLastmatch.Name ?? InvalidSteamIdString; }
 
         /// <summary>
         /// Get font style according to the player's status.
@@ -123,7 +84,7 @@
             }
 
             var ret = userId switch {
-                IdType.Steam => await AoE2net.GetPlayerLastMatchAsync(idText),
+                IdType.Steam => await AoE2net.GetPlayerLastMatchAsync(idText).ConfigureAwait(false),
                 IdType.Profile => await AoE2net.GetPlayerLastMatchAsync(int.Parse(idText)),
                 _ => new PlayerLastmatch(),
             };
@@ -171,7 +132,7 @@
         /// <summary>
         /// Initialize the class.
         /// </summary>
-        /// <param name="language">language used.</param>
+        /// <param name="language">target language.</param>
         /// <returns>controler instance.</returns>
         public static async Task<bool> InitAsync(Language language)
         {
@@ -179,51 +140,6 @@
             await StringsExt.InitAsync(language);
 
             return true;
-        }
-
-        /// <summary>
-        /// Show History.
-        /// </summary>
-        public void ShowHistory()
-        {
-            FormHistory = new FormHistory(ProfileId);
-            FormHistory.Show();
-        }
-
-        /// <summary>
-        /// start the specified function with a delay.
-        /// </summary>
-        /// <param name="function">function.</param>
-        public void DelayStart(Func<Task> function)
-        {
-            timerSteamIdVerify.Stop();
-            delayedFunction = function;
-            timerSteamIdVerify.Start();
-        }
-
-        /// <summary>
-        /// Get user data from AoE2.net.
-        /// </summary>
-        /// <param name="id">User ID.</param>
-        /// <param name="idText">steam Id.</param>
-        /// <returns>API result.</returns>
-        /// <returns>API run result.</returns>1
-        public async Task<bool> ReadPlayerDataAsync(IdType id, string idText)
-        {
-            var ret = true;
-
-            try {
-                playerLastmatch = id switch {
-                    IdType.Steam => await GetPlayerLastMatchAsync(id, idText),
-                    IdType.Profile => await GetPlayerLastMatchAsync(id, idText),
-                    _ => new PlayerLastmatch(),
-                };
-            } catch (Exception) {
-                playerLastmatch = new PlayerLastmatch();
-                throw;
-            }
-
-            return ret;
         }
     }
 }

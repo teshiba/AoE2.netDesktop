@@ -27,11 +27,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControlMain = new System.Windows.Forms.TabControl();
-            this.tabPagePlayerLastMatch = new System.Windows.Forms.TabPage();
+            this.components = new System.ComponentModel.Container();
             this.labelServer = new System.Windows.Forms.Label();
             this.labelGameId = new System.Windows.Forms.Label();
-            this.buttonUpdate = new System.Windows.Forms.Button();
             this.panelTeam1 = new System.Windows.Forms.Panel();
             this.labelNameP7 = new System.Windows.Forms.Label();
             this.labelNameP3 = new System.Windows.Forms.Label();
@@ -54,19 +52,21 @@
             this.labelColorP5 = new System.Windows.Forms.Label();
             this.labelAveRate1 = new System.Windows.Forms.Label();
             this.labelColorP1 = new System.Windows.Forms.Label();
+            this.colorDialogChromaKey = new System.Windows.Forms.ColorDialog();
+            this.labelErrText = new System.Windows.Forms.Label();
             this.panelTeam2 = new System.Windows.Forms.Panel();
             this.labelNameP2 = new System.Windows.Forms.Label();
             this.labelNameP8 = new System.Windows.Forms.Label();
             this.labelNameP6 = new System.Windows.Forms.Label();
             this.labelNameP4 = new System.Windows.Forms.Label();
-            this.labelCivP2 = new System.Windows.Forms.Label();
-            this.labelCivP6 = new System.Windows.Forms.Label();
-            this.labelCivP4 = new System.Windows.Forms.Label();
-            this.labelCivP8 = new System.Windows.Forms.Label();
             this.labelRateP2 = new System.Windows.Forms.Label();
             this.labelRateP6 = new System.Windows.Forms.Label();
             this.labelRateP4 = new System.Windows.Forms.Label();
             this.labelRateP8 = new System.Windows.Forms.Label();
+            this.labelCivP2 = new System.Windows.Forms.Label();
+            this.labelCivP6 = new System.Windows.Forms.Label();
+            this.labelCivP4 = new System.Windows.Forms.Label();
+            this.labelCivP8 = new System.Windows.Forms.Label();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
@@ -77,29 +77,11 @@
             this.labelColorP6 = new System.Windows.Forms.Label();
             this.labelColorP2 = new System.Windows.Forms.Label();
             this.labelMap = new System.Windows.Forms.Label();
-            this.labelErrText = new System.Windows.Forms.Label();
-            this.tabPageSettings = new System.Windows.Forms.TabPage();
-            this.textBoxChromaKey = new System.Windows.Forms.TextBox();
-            this.pictureBoxChromaKey = new System.Windows.Forms.PictureBox();
-            this.labelChromaKey = new System.Windows.Forms.Label();
-            this.labelOpacity = new System.Windows.Forms.Label();
-            this.upDownOpacity = new System.Windows.Forms.NumericUpDown();
-            this.groupBoxPlayer = new System.Windows.Forms.GroupBox();
-            this.buttonSetId = new System.Windows.Forms.Button();
-            this.buttonViewHistory = new System.Windows.Forms.Button();
-            this.radioButtonSteamID = new System.Windows.Forms.RadioButton();
-            this.radioButtonProfileID = new System.Windows.Forms.RadioButton();
-            this.textBoxSettingSteamId = new System.Windows.Forms.TextBox();
-            this.textBoxSettingProfileId = new System.Windows.Forms.TextBox();
-            this.labelSettingsCountry = new System.Windows.Forms.Label();
-            this.labelSettingsName = new System.Windows.Forms.Label();
-            this.labelAoE2NetStatus = new System.Windows.Forms.Label();
-            this.labelAoE2NetStatusLabel = new System.Windows.Forms.Label();
-            this.checkBoxHideTitle = new System.Windows.Forms.CheckBox();
-            this.checkBoxAlwaysOnTop = new System.Windows.Forms.CheckBox();
-            this.colorDialogChromaKey = new System.Windows.Forms.ColorDialog();
-            this.tabControlMain.SuspendLayout();
-            this.tabPagePlayerLastMatch.SuspendLayout();
+            this.contextMenuStripMain = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showMyHistoryHToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelTeam1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -110,52 +92,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.tabPageSettings.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxChromaKey)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.upDownOpacity)).BeginInit();
-            this.groupBoxPlayer.SuspendLayout();
+            this.contextMenuStripMain.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tabControlMain
-            // 
-            this.tabControlMain.Controls.Add(this.tabPagePlayerLastMatch);
-            this.tabControlMain.Controls.Add(this.tabPageSettings);
-            this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlMain.Location = new System.Drawing.Point(0, 0);
-            this.tabControlMain.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabControlMain.Name = "tabControlMain";
-            this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(805, 403);
-            this.tabControlMain.TabIndex = 0;
-            this.tabControlMain.SelectedIndexChanged += new System.EventHandler(this.TabControlMain_SelectedIndexChanged);
-            this.tabControlMain.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TabControlMain_KeyDown);
-            // 
-            // tabPagePlayerLastMatch
-            // 
-            this.tabPagePlayerLastMatch.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPagePlayerLastMatch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.tabPagePlayerLastMatch.Controls.Add(this.labelServer);
-            this.tabPagePlayerLastMatch.Controls.Add(this.labelGameId);
-            this.tabPagePlayerLastMatch.Controls.Add(this.buttonUpdate);
-            this.tabPagePlayerLastMatch.Controls.Add(this.panelTeam1);
-            this.tabPagePlayerLastMatch.Controls.Add(this.panelTeam2);
-            this.tabPagePlayerLastMatch.Controls.Add(this.labelMap);
-            this.tabPagePlayerLastMatch.Controls.Add(this.labelErrText);
-            this.tabPagePlayerLastMatch.Location = new System.Drawing.Point(4, 29);
-            this.tabPagePlayerLastMatch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPagePlayerLastMatch.Name = "tabPagePlayerLastMatch";
-            this.tabPagePlayerLastMatch.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPagePlayerLastMatch.Size = new System.Drawing.Size(797, 370);
-            this.tabPagePlayerLastMatch.TabIndex = 0;
-            this.tabPagePlayerLastMatch.Text = "Player Last Match";
             // 
             // labelServer
             // 
             this.labelServer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelServer.BackColor = System.Drawing.SystemColors.Control;
-            this.labelServer.Location = new System.Drawing.Point(591, 22);
+            this.labelServer.Location = new System.Drawing.Point(704, 29);
             this.labelServer.Name = "labelServer";
-            this.labelServer.Size = new System.Drawing.Size(200, 25);
+            this.labelServer.Size = new System.Drawing.Size(175, 19);
             this.labelServer.TabIndex = 2;
             this.labelServer.Text = "Server: ----------";
             this.labelServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -165,29 +111,13 @@
             // 
             this.labelGameId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelGameId.BackColor = System.Drawing.SystemColors.Control;
-            this.labelGameId.Location = new System.Drawing.Point(591, 3);
+            this.labelGameId.Location = new System.Drawing.Point(703, 8);
             this.labelGameId.Name = "labelGameId";
-            this.labelGameId.Size = new System.Drawing.Size(200, 25);
+            this.labelGameId.Size = new System.Drawing.Size(175, 19);
             this.labelGameId.TabIndex = 9;
             this.labelGameId.Text = "GameID: 88888888";
             this.labelGameId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelGameId.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelGameId_Paint);
-            // 
-            // buttonUpdate
-            // 
-            this.buttonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonUpdate.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonUpdate.Enabled = false;
-            this.buttonUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonUpdate.ForeColor = System.Drawing.Color.Black;
-            this.buttonUpdate.Location = new System.Drawing.Point(695, 318);
-            this.buttonUpdate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonUpdate.Name = "buttonUpdate";
-            this.buttonUpdate.Size = new System.Drawing.Size(94, 46);
-            this.buttonUpdate.TabIndex = 14;
-            this.buttonUpdate.Text = "Update";
-            this.buttonUpdate.UseVisualStyleBackColor = false;
-            this.buttonUpdate.Click += new System.EventHandler(this.ButtonUpdate_Click);
             // 
             // panelTeam1
             // 
@@ -214,72 +144,67 @@
             this.panelTeam1.Controls.Add(this.labelColorP5);
             this.panelTeam1.Controls.Add(this.labelAveRate1);
             this.panelTeam1.Controls.Add(this.labelColorP1);
-            this.panelTeam1.Location = new System.Drawing.Point(2, 55);
-            this.panelTeam1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panelTeam1.Location = new System.Drawing.Point(11, 53);
             this.panelTeam1.Name = "panelTeam1";
-            this.panelTeam1.Size = new System.Drawing.Size(393, 255);
+            this.panelTeam1.Size = new System.Drawing.Size(444, 265);
             this.panelTeam1.TabIndex = 6;
             // 
             // labelNameP7
             // 
-            this.labelNameP7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP7.BackColor = System.Drawing.SystemColors.Control;
             this.labelNameP7.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelNameP7.Location = new System.Drawing.Point(144, 195);
+            this.labelNameP7.Location = new System.Drawing.Point(144, 197);
             this.labelNameP7.Name = "labelNameP7";
-            this.labelNameP7.Size = new System.Drawing.Size(246, 37);
+            this.labelNameP7.Size = new System.Drawing.Size(295, 34);
             this.labelNameP7.TabIndex = 3;
             this.labelNameP7.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP7.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP7_Paint);
+            this.labelNameP7.DoubleClick += new System.EventHandler(this.LabelName_DoubleClick);
             // 
             // labelNameP3
             // 
-            this.labelNameP3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP3.BackColor = System.Drawing.SystemColors.Control;
             this.labelNameP3.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP3.Location = new System.Drawing.Point(144, 88);
             this.labelNameP3.Name = "labelNameP3";
-            this.labelNameP3.Size = new System.Drawing.Size(246, 37);
+            this.labelNameP3.Size = new System.Drawing.Size(295, 28);
             this.labelNameP3.TabIndex = 3;
             this.labelNameP3.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP3.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP3_Paint);
+            this.labelNameP3.DoubleClick += new System.EventHandler(this.LabelName_DoubleClick);
             // 
             // labelNameP5
             // 
-            this.labelNameP5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP5.BackColor = System.Drawing.SystemColors.Control;
             this.labelNameP5.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelNameP5.Location = new System.Drawing.Point(144, 142);
+            this.labelNameP5.Location = new System.Drawing.Point(144, 143);
             this.labelNameP5.Name = "labelNameP5";
-            this.labelNameP5.Size = new System.Drawing.Size(246, 37);
+            this.labelNameP5.Size = new System.Drawing.Size(295, 34);
             this.labelNameP5.TabIndex = 3;
             this.labelNameP5.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP5.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP5_Paint);
+            this.labelNameP5.DoubleClick += new System.EventHandler(this.LabelName_DoubleClick);
             // 
             // labelNameP1
             // 
-            this.labelNameP1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP1.BackColor = System.Drawing.SystemColors.Control;
             this.labelNameP1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelNameP1.Location = new System.Drawing.Point(144, 35);
+            this.labelNameP1.Location = new System.Drawing.Point(144, 33);
             this.labelNameP1.Name = "labelNameP1";
-            this.labelNameP1.Size = new System.Drawing.Size(246, 37);
+            this.labelNameP1.Size = new System.Drawing.Size(295, 28);
             this.labelNameP1.TabIndex = 3;
             this.labelNameP1.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP1_Paint);
+            this.labelNameP1.DoubleClick += new System.EventHandler(this.LabelName_DoubleClick);
             // 
             // labelRateP7
             // 
             this.labelRateP7.BackColor = System.Drawing.SystemColors.Control;
             this.labelRateP7.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP7.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelRateP7.Location = new System.Drawing.Point(87, 196);
+            this.labelRateP7.Location = new System.Drawing.Point(85, 197);
             this.labelRateP7.Name = "labelRateP7";
-            this.labelRateP7.Size = new System.Drawing.Size(65, 29);
+            this.labelRateP7.Size = new System.Drawing.Size(57, 28);
             this.labelRateP7.TabIndex = 3;
             this.labelRateP7.Text = "####";
             this.labelRateP7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -290,9 +215,9 @@
             this.labelRateP3.BackColor = System.Drawing.SystemColors.Control;
             this.labelRateP3.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP3.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelRateP3.Location = new System.Drawing.Point(87, 86);
+            this.labelRateP3.Location = new System.Drawing.Point(85, 87);
             this.labelRateP3.Name = "labelRateP3";
-            this.labelRateP3.Size = new System.Drawing.Size(65, 29);
+            this.labelRateP3.Size = new System.Drawing.Size(57, 28);
             this.labelRateP3.TabIndex = 3;
             this.labelRateP3.Text = "####";
             this.labelRateP3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -303,9 +228,9 @@
             this.labelRateP5.BackColor = System.Drawing.SystemColors.Control;
             this.labelRateP5.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP5.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelRateP5.Location = new System.Drawing.Point(87, 142);
+            this.labelRateP5.Location = new System.Drawing.Point(85, 142);
             this.labelRateP5.Name = "labelRateP5";
-            this.labelRateP5.Size = new System.Drawing.Size(65, 29);
+            this.labelRateP5.Size = new System.Drawing.Size(57, 28);
             this.labelRateP5.TabIndex = 3;
             this.labelRateP5.Text = "####";
             this.labelRateP5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -316,9 +241,9 @@
             this.labelRateP1.BackColor = System.Drawing.SystemColors.Control;
             this.labelRateP1.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelRateP1.Location = new System.Drawing.Point(87, 33);
+            this.labelRateP1.Location = new System.Drawing.Point(85, 32);
             this.labelRateP1.Name = "labelRateP1";
-            this.labelRateP1.Size = new System.Drawing.Size(65, 29);
+            this.labelRateP1.Size = new System.Drawing.Size(57, 28);
             this.labelRateP1.TabIndex = 3;
             this.labelRateP1.Text = "####";
             this.labelRateP1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -329,9 +254,9 @@
             this.labelCivP7.BackColor = System.Drawing.SystemColors.Control;
             this.labelCivP7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP7.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP7.Location = new System.Drawing.Point(51, 224);
+            this.labelCivP7.Location = new System.Drawing.Point(50, 226);
             this.labelCivP7.Name = "labelCivP7";
-            this.labelCivP7.Size = new System.Drawing.Size(299, 23);
+            this.labelCivP7.Size = new System.Drawing.Size(262, 26);
             this.labelCivP7.TabIndex = 2;
             this.labelCivP7.Text = "CIVxxxxXXXX";
             this.labelCivP7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -343,9 +268,9 @@
             this.labelCivP3.BackColor = System.Drawing.SystemColors.Control;
             this.labelCivP3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP3.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP3.Location = new System.Drawing.Point(51, 117);
+            this.labelCivP3.Location = new System.Drawing.Point(50, 118);
             this.labelCivP3.Name = "labelCivP3";
-            this.labelCivP3.Size = new System.Drawing.Size(299, 23);
+            this.labelCivP3.Size = new System.Drawing.Size(262, 26);
             this.labelCivP3.TabIndex = 2;
             this.labelCivP3.Text = "CIVxxxxXXXX";
             this.labelCivP3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -357,9 +282,9 @@
             this.labelCivP5.BackColor = System.Drawing.SystemColors.Control;
             this.labelCivP5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP5.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP5.Location = new System.Drawing.Point(51, 170);
+            this.labelCivP5.Location = new System.Drawing.Point(50, 172);
             this.labelCivP5.Name = "labelCivP5";
-            this.labelCivP5.Size = new System.Drawing.Size(299, 23);
+            this.labelCivP5.Size = new System.Drawing.Size(262, 26);
             this.labelCivP5.TabIndex = 2;
             this.labelCivP5.Text = "CIVxxxxXXXX";
             this.labelCivP5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -371,9 +296,9 @@
             this.labelCivP1.BackColor = System.Drawing.SystemColors.Control;
             this.labelCivP1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP1.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP1.Location = new System.Drawing.Point(51, 62);
+            this.labelCivP1.Location = new System.Drawing.Point(50, 64);
             this.labelCivP1.Name = "labelCivP1";
-            this.labelCivP1.Size = new System.Drawing.Size(299, 23);
+            this.labelCivP1.Size = new System.Drawing.Size(262, 26);
             this.labelCivP1.TabIndex = 2;
             this.labelCivP1.Text = "CIVxxxxXXXX";
             this.labelCivP1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -384,8 +309,7 @@
             // 
             this.pictureBox7.BackColor = System.Drawing.SystemColors.Control;
             this.pictureBox7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox7.Location = new System.Drawing.Point(55, 196);
-            this.pictureBox7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox7.Location = new System.Drawing.Point(53, 196);
             this.pictureBox7.Name = "pictureBox7";
             this.pictureBox7.Size = new System.Drawing.Size(32, 32);
             this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -396,8 +320,7 @@
             // 
             this.pictureBox5.BackColor = System.Drawing.SystemColors.Control;
             this.pictureBox5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox5.Location = new System.Drawing.Point(55, 142);
-            this.pictureBox5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox5.Location = new System.Drawing.Point(53, 142);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(32, 32);
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -408,8 +331,7 @@
             // 
             this.pictureBox3.BackColor = System.Drawing.SystemColors.Control;
             this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox3.Location = new System.Drawing.Point(55, 89);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox3.Location = new System.Drawing.Point(53, 88);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(32, 32);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -420,8 +342,7 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(55, 36);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox1.Location = new System.Drawing.Point(53, 34);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(32, 32);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -435,10 +356,10 @@
             this.labelColorP7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelColorP7.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelColorP7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.labelColorP7.Location = new System.Drawing.Point(8, 192);
+            this.labelColorP7.Location = new System.Drawing.Point(7, 193);
             this.labelColorP7.Margin = new System.Windows.Forms.Padding(0);
             this.labelColorP7.Name = "labelColorP7";
-            this.labelColorP7.Size = new System.Drawing.Size(42, 42);
+            this.labelColorP7.Size = new System.Drawing.Size(40, 40);
             this.labelColorP7.TabIndex = 4;
             this.labelColorP7.Text = "７";
             this.labelColorP7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -451,10 +372,10 @@
             this.labelColorP3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelColorP3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelColorP3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.labelColorP3.Location = new System.Drawing.Point(8, 85);
+            this.labelColorP3.Location = new System.Drawing.Point(7, 85);
             this.labelColorP3.Margin = new System.Windows.Forms.Padding(0);
             this.labelColorP3.Name = "labelColorP3";
-            this.labelColorP3.Size = new System.Drawing.Size(42, 42);
+            this.labelColorP3.Size = new System.Drawing.Size(40, 40);
             this.labelColorP3.TabIndex = 4;
             this.labelColorP3.Text = "３";
             this.labelColorP3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -467,10 +388,10 @@
             this.labelColorP5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelColorP5.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelColorP5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.labelColorP5.Location = new System.Drawing.Point(8, 139);
+            this.labelColorP5.Location = new System.Drawing.Point(7, 139);
             this.labelColorP5.Margin = new System.Windows.Forms.Padding(0);
             this.labelColorP5.Name = "labelColorP5";
-            this.labelColorP5.Size = new System.Drawing.Size(42, 42);
+            this.labelColorP5.Size = new System.Drawing.Size(40, 40);
             this.labelColorP5.TabIndex = 4;
             this.labelColorP5.Text = "５";
             this.labelColorP5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -479,9 +400,9 @@
             // labelAveRate1
             // 
             this.labelAveRate1.BackColor = System.Drawing.SystemColors.Control;
-            this.labelAveRate1.Location = new System.Drawing.Point(2, 4);
+            this.labelAveRate1.Location = new System.Drawing.Point(2, 3);
             this.labelAveRate1.Name = "labelAveRate1";
-            this.labelAveRate1.Size = new System.Drawing.Size(373, 29);
+            this.labelAveRate1.Size = new System.Drawing.Size(213, 27);
             this.labelAveRate1.TabIndex = 3;
             this.labelAveRate1.Text = "Team1 Ave. Rate : ####";
             this.labelAveRate1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelAveRate_Paint);
@@ -493,14 +414,29 @@
             this.labelColorP1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelColorP1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelColorP1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.labelColorP1.Location = new System.Drawing.Point(8, 32);
+            this.labelColorP1.Location = new System.Drawing.Point(7, 31);
             this.labelColorP1.Margin = new System.Windows.Forms.Padding(0);
             this.labelColorP1.Name = "labelColorP1";
-            this.labelColorP1.Size = new System.Drawing.Size(42, 42);
+            this.labelColorP1.Size = new System.Drawing.Size(40, 40);
             this.labelColorP1.TabIndex = 4;
             this.labelColorP1.Text = "１";
             this.labelColorP1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelColorP1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelColor_Paint);
+            // 
+            // colorDialogChromaKey
+            // 
+            this.colorDialogChromaKey.Color = System.Drawing.Color.SlateGray;
+            // 
+            // labelErrText
+            // 
+            this.labelErrText.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.labelErrText.BackColor = System.Drawing.Color.DarkGray;
+            this.labelErrText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelErrText.ForeColor = System.Drawing.Color.Red;
+            this.labelErrText.Location = new System.Drawing.Point(12, 322);
+            this.labelErrText.Name = "labelErrText";
+            this.labelErrText.Size = new System.Drawing.Size(868, 83);
+            this.labelErrText.TabIndex = 8;
             // 
             // panelTeam2
             // 
@@ -509,14 +445,14 @@
             this.panelTeam2.Controls.Add(this.labelNameP8);
             this.panelTeam2.Controls.Add(this.labelNameP6);
             this.panelTeam2.Controls.Add(this.labelNameP4);
-            this.panelTeam2.Controls.Add(this.labelCivP2);
-            this.panelTeam2.Controls.Add(this.labelCivP6);
-            this.panelTeam2.Controls.Add(this.labelCivP4);
-            this.panelTeam2.Controls.Add(this.labelCivP8);
             this.panelTeam2.Controls.Add(this.labelRateP2);
             this.panelTeam2.Controls.Add(this.labelRateP6);
             this.panelTeam2.Controls.Add(this.labelRateP4);
             this.panelTeam2.Controls.Add(this.labelRateP8);
+            this.panelTeam2.Controls.Add(this.labelCivP2);
+            this.panelTeam2.Controls.Add(this.labelCivP6);
+            this.panelTeam2.Controls.Add(this.labelCivP4);
+            this.panelTeam2.Controls.Add(this.labelCivP8);
             this.panelTeam2.Controls.Add(this.pictureBox8);
             this.panelTeam2.Controls.Add(this.pictureBox6);
             this.panelTeam2.Controls.Add(this.pictureBox4);
@@ -526,10 +462,9 @@
             this.panelTeam2.Controls.Add(this.labelColorP4);
             this.panelTeam2.Controls.Add(this.labelColorP6);
             this.panelTeam2.Controls.Add(this.labelColorP2);
-            this.panelTeam2.Location = new System.Drawing.Point(401, 55);
-            this.panelTeam2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panelTeam2.Location = new System.Drawing.Point(461, 53);
             this.panelTeam2.Name = "panelTeam2";
-            this.panelTeam2.Size = new System.Drawing.Size(393, 255);
+            this.panelTeam2.Size = new System.Drawing.Size(417, 265);
             this.panelTeam2.TabIndex = 5;
             // 
             // labelNameP2
@@ -538,12 +473,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP2.BackColor = System.Drawing.SystemColors.Control;
             this.labelNameP2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelNameP2.Location = new System.Drawing.Point(145, 35);
+            this.labelNameP2.Location = new System.Drawing.Point(142, 33);
             this.labelNameP2.Name = "labelNameP2";
-            this.labelNameP2.Size = new System.Drawing.Size(245, 37);
+            this.labelNameP2.Size = new System.Drawing.Size(272, 34);
             this.labelNameP2.TabIndex = 3;
             this.labelNameP2.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP2_Paint);
+            this.labelNameP2.DoubleClick += new System.EventHandler(this.LabelName_DoubleClick);
             // 
             // labelNameP8
             // 
@@ -551,12 +487,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP8.BackColor = System.Drawing.SystemColors.Control;
             this.labelNameP8.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelNameP8.Location = new System.Drawing.Point(145, 195);
+            this.labelNameP8.Location = new System.Drawing.Point(142, 196);
             this.labelNameP8.Name = "labelNameP8";
-            this.labelNameP8.Size = new System.Drawing.Size(245, 37);
+            this.labelNameP8.Size = new System.Drawing.Size(272, 34);
             this.labelNameP8.TabIndex = 3;
             this.labelNameP8.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP8.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP8_Paint);
+            this.labelNameP8.DoubleClick += new System.EventHandler(this.LabelName_DoubleClick);
             // 
             // labelNameP6
             // 
@@ -564,12 +501,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP6.BackColor = System.Drawing.SystemColors.Control;
             this.labelNameP6.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelNameP6.Location = new System.Drawing.Point(145, 142);
+            this.labelNameP6.Location = new System.Drawing.Point(142, 142);
             this.labelNameP6.Name = "labelNameP6";
-            this.labelNameP6.Size = new System.Drawing.Size(245, 37);
+            this.labelNameP6.Size = new System.Drawing.Size(272, 34);
             this.labelNameP6.TabIndex = 3;
             this.labelNameP6.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP6.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP6_Paint);
+            this.labelNameP6.DoubleClick += new System.EventHandler(this.LabelName_DoubleClick);
             // 
             // labelNameP4
             // 
@@ -577,21 +515,74 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP4.BackColor = System.Drawing.SystemColors.Control;
             this.labelNameP4.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelNameP4.Location = new System.Drawing.Point(145, 88);
+            this.labelNameP4.Location = new System.Drawing.Point(142, 88);
             this.labelNameP4.Name = "labelNameP4";
-            this.labelNameP4.Size = new System.Drawing.Size(245, 37);
+            this.labelNameP4.Size = new System.Drawing.Size(272, 34);
             this.labelNameP4.TabIndex = 3;
             this.labelNameP4.Text = "PlayerXxxxxxxxxxxxxxx";
             this.labelNameP4.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelNameP4_Paint);
+            this.labelNameP4.DoubleClick += new System.EventHandler(this.LabelName_DoubleClick);
+            // 
+            // labelRateP2
+            // 
+            this.labelRateP2.BackColor = System.Drawing.SystemColors.Control;
+            this.labelRateP2.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelRateP2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelRateP2.Location = new System.Drawing.Point(84, 32);
+            this.labelRateP2.Name = "labelRateP2";
+            this.labelRateP2.Size = new System.Drawing.Size(57, 28);
+            this.labelRateP2.TabIndex = 3;
+            this.labelRateP2.Text = "####";
+            this.labelRateP2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelRateP2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelRate_Paint);
+            // 
+            // labelRateP6
+            // 
+            this.labelRateP6.BackColor = System.Drawing.SystemColors.Control;
+            this.labelRateP6.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelRateP6.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelRateP6.Location = new System.Drawing.Point(84, 141);
+            this.labelRateP6.Name = "labelRateP6";
+            this.labelRateP6.Size = new System.Drawing.Size(57, 28);
+            this.labelRateP6.TabIndex = 3;
+            this.labelRateP6.Text = "####";
+            this.labelRateP6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelRateP6.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelRate_Paint);
+            // 
+            // labelRateP4
+            // 
+            this.labelRateP4.BackColor = System.Drawing.SystemColors.Control;
+            this.labelRateP4.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelRateP4.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelRateP4.Location = new System.Drawing.Point(84, 87);
+            this.labelRateP4.Name = "labelRateP4";
+            this.labelRateP4.Size = new System.Drawing.Size(57, 28);
+            this.labelRateP4.TabIndex = 3;
+            this.labelRateP4.Text = "####";
+            this.labelRateP4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelRateP4.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelRate_Paint);
+            // 
+            // labelRateP8
+            // 
+            this.labelRateP8.BackColor = System.Drawing.SystemColors.Control;
+            this.labelRateP8.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelRateP8.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelRateP8.Location = new System.Drawing.Point(84, 196);
+            this.labelRateP8.Name = "labelRateP8";
+            this.labelRateP8.Size = new System.Drawing.Size(57, 28);
+            this.labelRateP8.TabIndex = 3;
+            this.labelRateP8.Text = "####";
+            this.labelRateP8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelRateP8.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelRate_Paint);
             // 
             // labelCivP2
             // 
             this.labelCivP2.BackColor = System.Drawing.SystemColors.Control;
             this.labelCivP2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP2.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP2.Location = new System.Drawing.Point(53, 62);
+            this.labelCivP2.Location = new System.Drawing.Point(51, 64);
             this.labelCivP2.Name = "labelCivP2";
-            this.labelCivP2.Size = new System.Drawing.Size(299, 23);
+            this.labelCivP2.Size = new System.Drawing.Size(262, 26);
             this.labelCivP2.TabIndex = 2;
             this.labelCivP2.Text = "CIVxxxxXXXX";
             this.labelCivP2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -603,9 +594,9 @@
             this.labelCivP6.BackColor = System.Drawing.SystemColors.Control;
             this.labelCivP6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP6.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP6.Location = new System.Drawing.Point(53, 170);
+            this.labelCivP6.Location = new System.Drawing.Point(51, 171);
             this.labelCivP6.Name = "labelCivP6";
-            this.labelCivP6.Size = new System.Drawing.Size(299, 23);
+            this.labelCivP6.Size = new System.Drawing.Size(262, 26);
             this.labelCivP6.TabIndex = 2;
             this.labelCivP6.Text = "CIVxxxxXXXX";
             this.labelCivP6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -617,9 +608,9 @@
             this.labelCivP4.BackColor = System.Drawing.SystemColors.Control;
             this.labelCivP4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP4.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP4.Location = new System.Drawing.Point(53, 117);
+            this.labelCivP4.Location = new System.Drawing.Point(51, 118);
             this.labelCivP4.Name = "labelCivP4";
-            this.labelCivP4.Size = new System.Drawing.Size(299, 23);
+            this.labelCivP4.Size = new System.Drawing.Size(262, 26);
             this.labelCivP4.TabIndex = 2;
             this.labelCivP4.Text = "CIVxxxxXXXX";
             this.labelCivP4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -631,73 +622,20 @@
             this.labelCivP8.BackColor = System.Drawing.SystemColors.Control;
             this.labelCivP8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP8.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP8.Location = new System.Drawing.Point(53, 224);
+            this.labelCivP8.Location = new System.Drawing.Point(51, 225);
             this.labelCivP8.Name = "labelCivP8";
-            this.labelCivP8.Size = new System.Drawing.Size(299, 23);
+            this.labelCivP8.Size = new System.Drawing.Size(262, 26);
             this.labelCivP8.TabIndex = 2;
             this.labelCivP8.Text = "CIVxxxxXXXX";
             this.labelCivP8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelCivP8.UseMnemonic = false;
             this.labelCivP8.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelCiv_Paint);
             // 
-            // labelRateP2
-            // 
-            this.labelRateP2.BackColor = System.Drawing.SystemColors.Control;
-            this.labelRateP2.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelRateP2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelRateP2.Location = new System.Drawing.Point(87, 33);
-            this.labelRateP2.Name = "labelRateP2";
-            this.labelRateP2.Size = new System.Drawing.Size(65, 29);
-            this.labelRateP2.TabIndex = 3;
-            this.labelRateP2.Text = "####";
-            this.labelRateP2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelRateP2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelRate_Paint);
-            // 
-            // labelRateP6
-            // 
-            this.labelRateP6.BackColor = System.Drawing.SystemColors.Control;
-            this.labelRateP6.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelRateP6.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelRateP6.Location = new System.Drawing.Point(87, 142);
-            this.labelRateP6.Name = "labelRateP6";
-            this.labelRateP6.Size = new System.Drawing.Size(65, 29);
-            this.labelRateP6.TabIndex = 3;
-            this.labelRateP6.Text = "####";
-            this.labelRateP6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelRateP6.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelRate_Paint);
-            // 
-            // labelRateP4
-            // 
-            this.labelRateP4.BackColor = System.Drawing.SystemColors.Control;
-            this.labelRateP4.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelRateP4.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelRateP4.Location = new System.Drawing.Point(87, 86);
-            this.labelRateP4.Name = "labelRateP4";
-            this.labelRateP4.Size = new System.Drawing.Size(65, 29);
-            this.labelRateP4.TabIndex = 3;
-            this.labelRateP4.Text = "####";
-            this.labelRateP4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelRateP4.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelRate_Paint);
-            // 
-            // labelRateP8
-            // 
-            this.labelRateP8.BackColor = System.Drawing.SystemColors.Control;
-            this.labelRateP8.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelRateP8.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelRateP8.Location = new System.Drawing.Point(87, 196);
-            this.labelRateP8.Name = "labelRateP8";
-            this.labelRateP8.Size = new System.Drawing.Size(65, 29);
-            this.labelRateP8.TabIndex = 3;
-            this.labelRateP8.Text = "####";
-            this.labelRateP8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelRateP8.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelRate_Paint);
-            // 
             // pictureBox8
             // 
             this.pictureBox8.BackColor = System.Drawing.SystemColors.Control;
             this.pictureBox8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox8.Location = new System.Drawing.Point(54, 196);
-            this.pictureBox8.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox8.Location = new System.Drawing.Point(52, 195);
             this.pictureBox8.Name = "pictureBox8";
             this.pictureBox8.Size = new System.Drawing.Size(32, 32);
             this.pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -708,8 +646,7 @@
             // 
             this.pictureBox6.BackColor = System.Drawing.SystemColors.Control;
             this.pictureBox6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox6.Location = new System.Drawing.Point(54, 142);
-            this.pictureBox6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox6.Location = new System.Drawing.Point(52, 141);
             this.pictureBox6.Name = "pictureBox6";
             this.pictureBox6.Size = new System.Drawing.Size(32, 32);
             this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -720,8 +657,7 @@
             // 
             this.pictureBox4.BackColor = System.Drawing.SystemColors.Control;
             this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox4.Location = new System.Drawing.Point(54, 89);
-            this.pictureBox4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox4.Location = new System.Drawing.Point(52, 88);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(32, 32);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -733,8 +669,7 @@
             this.pictureBox2.BackColor = System.Drawing.SystemColors.Control;
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox2.InitialImage = null;
-            this.pictureBox2.Location = new System.Drawing.Point(54, 36);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pictureBox2.Location = new System.Drawing.Point(52, 34);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(32, 32);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -744,9 +679,9 @@
             // labelAveRate2
             // 
             this.labelAveRate2.BackColor = System.Drawing.SystemColors.Control;
-            this.labelAveRate2.Location = new System.Drawing.Point(2, 4);
+            this.labelAveRate2.Location = new System.Drawing.Point(2, 3);
             this.labelAveRate2.Name = "labelAveRate2";
-            this.labelAveRate2.Size = new System.Drawing.Size(370, 29);
+            this.labelAveRate2.Size = new System.Drawing.Size(217, 27);
             this.labelAveRate2.TabIndex = 3;
             this.labelAveRate2.Text = "Team2 Ave. Rate : ####";
             this.labelAveRate2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelAveRate_Paint);
@@ -758,10 +693,10 @@
             this.labelColorP8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelColorP8.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelColorP8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.labelColorP8.Location = new System.Drawing.Point(8, 192);
+            this.labelColorP8.Location = new System.Drawing.Point(7, 192);
             this.labelColorP8.Margin = new System.Windows.Forms.Padding(0);
             this.labelColorP8.Name = "labelColorP8";
-            this.labelColorP8.Size = new System.Drawing.Size(42, 42);
+            this.labelColorP8.Size = new System.Drawing.Size(40, 40);
             this.labelColorP8.TabIndex = 4;
             this.labelColorP8.Text = "８";
             this.labelColorP8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -774,10 +709,10 @@
             this.labelColorP4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelColorP4.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelColorP4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.labelColorP4.Location = new System.Drawing.Point(8, 85);
+            this.labelColorP4.Location = new System.Drawing.Point(7, 85);
             this.labelColorP4.Margin = new System.Windows.Forms.Padding(0);
             this.labelColorP4.Name = "labelColorP4";
-            this.labelColorP4.Size = new System.Drawing.Size(42, 42);
+            this.labelColorP4.Size = new System.Drawing.Size(40, 40);
             this.labelColorP4.TabIndex = 4;
             this.labelColorP4.Text = "４";
             this.labelColorP4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -790,10 +725,10 @@
             this.labelColorP6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelColorP6.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelColorP6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.labelColorP6.Location = new System.Drawing.Point(8, 139);
+            this.labelColorP6.Location = new System.Drawing.Point(7, 138);
             this.labelColorP6.Margin = new System.Windows.Forms.Padding(0);
             this.labelColorP6.Name = "labelColorP6";
-            this.labelColorP6.Size = new System.Drawing.Size(42, 42);
+            this.labelColorP6.Size = new System.Drawing.Size(40, 40);
             this.labelColorP6.TabIndex = 4;
             this.labelColorP6.Text = "６";
             this.labelColorP6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -806,10 +741,10 @@
             this.labelColorP2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelColorP2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelColorP2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.labelColorP2.Location = new System.Drawing.Point(8, 32);
+            this.labelColorP2.Location = new System.Drawing.Point(7, 31);
             this.labelColorP2.Margin = new System.Windows.Forms.Padding(0);
             this.labelColorP2.Name = "labelColorP2";
-            this.labelColorP2.Size = new System.Drawing.Size(42, 42);
+            this.labelColorP2.Size = new System.Drawing.Size(40, 40);
             this.labelColorP2.TabIndex = 4;
             this.labelColorP2.Text = "２";
             this.labelColorP2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -819,288 +754,78 @@
             // 
             this.labelMap.BackColor = System.Drawing.SystemColors.Control;
             this.labelMap.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelMap.Location = new System.Drawing.Point(1, 1);
+            this.labelMap.Location = new System.Drawing.Point(1, 2);
             this.labelMap.Name = "labelMap";
-            this.labelMap.Size = new System.Drawing.Size(299, 43);
+            this.labelMap.Size = new System.Drawing.Size(264, 40);
             this.labelMap.TabIndex = 2;
             this.labelMap.Text = "Map : ------------------------";
             this.labelMap.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
             // 
-            // labelErrText
+            // contextMenuStripMain
             // 
-            this.labelErrText.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.labelErrText.BackColor = System.Drawing.Color.DarkGray;
-            this.labelErrText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelErrText.ForeColor = System.Drawing.Color.Red;
-            this.labelErrText.Location = new System.Drawing.Point(3, 314);
-            this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(791, 54);
-            this.labelErrText.TabIndex = 8;
+            this.contextMenuStripMain.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.settingsToolStripMenuItem,
+            this.showMyHistoryHToolStripMenuItem,
+            this.updateToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.contextMenuStripMain.Name = "contextMenuStripMain";
+            this.contextMenuStripMain.Size = new System.Drawing.Size(187, 92);
             // 
-            // tabPageSettings
+            // settingsToolStripMenuItem
             // 
-            this.tabPageSettings.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.tabPageSettings.Controls.Add(this.textBoxChromaKey);
-            this.tabPageSettings.Controls.Add(this.pictureBoxChromaKey);
-            this.tabPageSettings.Controls.Add(this.labelChromaKey);
-            this.tabPageSettings.Controls.Add(this.labelOpacity);
-            this.tabPageSettings.Controls.Add(this.upDownOpacity);
-            this.tabPageSettings.Controls.Add(this.groupBoxPlayer);
-            this.tabPageSettings.Controls.Add(this.labelAoE2NetStatus);
-            this.tabPageSettings.Controls.Add(this.labelAoE2NetStatusLabel);
-            this.tabPageSettings.Controls.Add(this.checkBoxHideTitle);
-            this.tabPageSettings.Controls.Add(this.checkBoxAlwaysOnTop);
-            this.tabPageSettings.Location = new System.Drawing.Point(4, 29);
-            this.tabPageSettings.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPageSettings.Name = "tabPageSettings";
-            this.tabPageSettings.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPageSettings.Size = new System.Drawing.Size(797, 370);
-            this.tabPageSettings.TabIndex = 1;
-            this.tabPageSettings.Text = "Settings";
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.settingsToolStripMenuItem.Text = "Settings...(&S)";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
-            // textBoxChromaKey
+            // showMyHistoryHToolStripMenuItem
             // 
-            this.textBoxChromaKey.Location = new System.Drawing.Point(227, 43);
-            this.textBoxChromaKey.Name = "textBoxChromaKey";
-            this.textBoxChromaKey.Size = new System.Drawing.Size(75, 27);
-            this.textBoxChromaKey.TabIndex = 14;
-            this.textBoxChromaKey.Text = "#708090";
-            this.textBoxChromaKey.TextChanged += new System.EventHandler(this.TextBoxChromaKey_TextChanged);
+            this.showMyHistoryHToolStripMenuItem.Name = "showMyHistoryHToolStripMenuItem";
+            this.showMyHistoryHToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.showMyHistoryHToolStripMenuItem.Text = "Show my history...(&H)";
+            this.showMyHistoryHToolStripMenuItem.Click += new System.EventHandler(this.ShowMyHistoryHToolStripMenuItem_Click);
             // 
-            // pictureBoxChromaKey
+            // updateToolStripMenuItem
             // 
-            this.pictureBoxChromaKey.BackColor = System.Drawing.Color.SlateGray;
-            this.pictureBoxChromaKey.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxChromaKey.ErrorImage = null;
-            this.pictureBoxChromaKey.InitialImage = null;
-            this.pictureBoxChromaKey.Location = new System.Drawing.Point(312, 38);
-            this.pictureBoxChromaKey.Name = "pictureBoxChromaKey";
-            this.pictureBoxChromaKey.Size = new System.Drawing.Size(36, 36);
-            this.pictureBoxChromaKey.TabIndex = 13;
-            this.pictureBoxChromaKey.TabStop = false;
-            this.pictureBoxChromaKey.Click += new System.EventHandler(this.PictureBoxChromaKey_Click);
+            this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
+            this.updateToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.updateToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.updateToolStripMenuItem.Text = "Update(&U)";
+            this.updateToolStripMenuItem.Click += new System.EventHandler(this.UpdateToolStripMenuItem_ClickAsync);
             // 
-            // labelChromaKey
+            // exitToolStripMenuItem
             // 
-            this.labelChromaKey.AutoSize = true;
-            this.labelChromaKey.Location = new System.Drawing.Point(134, 46);
-            this.labelChromaKey.Name = "labelChromaKey";
-            this.labelChromaKey.Size = new System.Drawing.Size(89, 20);
-            this.labelChromaKey.TabIndex = 12;
-            this.labelChromaKey.Text = "Chroma Key";
-            // 
-            // labelOpacity
-            // 
-            this.labelOpacity.AutoSize = true;
-            this.labelOpacity.Location = new System.Drawing.Point(133, 13);
-            this.labelOpacity.Name = "labelOpacity";
-            this.labelOpacity.Size = new System.Drawing.Size(60, 20);
-            this.labelOpacity.TabIndex = 12;
-            this.labelOpacity.Text = "Opacity";
-            // 
-            // upDownOpacity
-            // 
-            this.upDownOpacity.Location = new System.Drawing.Point(227, 9);
-            this.upDownOpacity.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.upDownOpacity.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.upDownOpacity.Name = "upDownOpacity";
-            this.upDownOpacity.Size = new System.Drawing.Size(75, 27);
-            this.upDownOpacity.TabIndex = 11;
-            this.upDownOpacity.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.upDownOpacity.ValueChanged += new System.EventHandler(this.UpDownOpacity_ValueChanged);
-            // 
-            // groupBoxPlayer
-            // 
-            this.groupBoxPlayer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxPlayer.Controls.Add(this.buttonSetId);
-            this.groupBoxPlayer.Controls.Add(this.buttonViewHistory);
-            this.groupBoxPlayer.Controls.Add(this.radioButtonSteamID);
-            this.groupBoxPlayer.Controls.Add(this.radioButtonProfileID);
-            this.groupBoxPlayer.Controls.Add(this.textBoxSettingSteamId);
-            this.groupBoxPlayer.Controls.Add(this.textBoxSettingProfileId);
-            this.groupBoxPlayer.Controls.Add(this.labelSettingsCountry);
-            this.groupBoxPlayer.Controls.Add(this.labelSettingsName);
-            this.groupBoxPlayer.Location = new System.Drawing.Point(10, 84);
-            this.groupBoxPlayer.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBoxPlayer.Name = "groupBoxPlayer";
-            this.groupBoxPlayer.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBoxPlayer.Size = new System.Drawing.Size(779, 277);
-            this.groupBoxPlayer.TabIndex = 6;
-            this.groupBoxPlayer.TabStop = false;
-            this.groupBoxPlayer.Text = "Player";
-            // 
-            // buttonSetId
-            // 
-            this.buttonSetId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSetId.Location = new System.Drawing.Point(684, 27);
-            this.buttonSetId.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonSetId.Name = "buttonSetId";
-            this.buttonSetId.Size = new System.Drawing.Size(89, 60);
-            this.buttonSetId.TabIndex = 7;
-            this.buttonSetId.Text = "Set ID";
-            this.buttonSetId.UseVisualStyleBackColor = true;
-            this.buttonSetId.Click += new System.EventHandler(this.ButtonSetId_ClickAsync);
-            // 
-            // buttonViewHistory
-            // 
-            this.buttonViewHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonViewHistory.Location = new System.Drawing.Point(642, 95);
-            this.buttonViewHistory.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.buttonViewHistory.Name = "buttonViewHistory";
-            this.buttonViewHistory.Size = new System.Drawing.Size(131, 47);
-            this.buttonViewHistory.TabIndex = 6;
-            this.buttonViewHistory.Text = "ViewHistory(&V)...";
-            this.buttonViewHistory.UseVisualStyleBackColor = true;
-            this.buttonViewHistory.Click += new System.EventHandler(this.ButtonViewHistory_Click);
-            // 
-            // radioButtonSteamID
-            // 
-            this.radioButtonSteamID.AutoSize = true;
-            this.radioButtonSteamID.Checked = true;
-            this.radioButtonSteamID.Location = new System.Drawing.Point(7, 29);
-            this.radioButtonSteamID.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.radioButtonSteamID.Name = "radioButtonSteamID";
-            this.radioButtonSteamID.Size = new System.Drawing.Size(93, 24);
-            this.radioButtonSteamID.TabIndex = 4;
-            this.radioButtonSteamID.TabStop = true;
-            this.radioButtonSteamID.Text = "Steam-ID";
-            this.radioButtonSteamID.UseVisualStyleBackColor = true;
-            this.radioButtonSteamID.CheckedChanged += new System.EventHandler(this.RadioButtonSteamID_CheckedChanged);
-            // 
-            // radioButtonProfileID
-            // 
-            this.radioButtonProfileID.AutoSize = true;
-            this.radioButtonProfileID.Location = new System.Drawing.Point(7, 63);
-            this.radioButtonProfileID.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.radioButtonProfileID.Name = "radioButtonProfileID";
-            this.radioButtonProfileID.Size = new System.Drawing.Size(94, 24);
-            this.radioButtonProfileID.TabIndex = 5;
-            this.radioButtonProfileID.Text = "Profile-ID";
-            this.radioButtonProfileID.UseVisualStyleBackColor = true;
-            this.radioButtonProfileID.CheckedChanged += new System.EventHandler(this.RadioButtonProfileID_CheckedChanged);
-            // 
-            // textBoxSettingSteamId
-            // 
-            this.textBoxSettingSteamId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxSettingSteamId.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.textBoxSettingSteamId.Location = new System.Drawing.Point(106, 27);
-            this.textBoxSettingSteamId.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBoxSettingSteamId.Name = "textBoxSettingSteamId";
-            this.textBoxSettingSteamId.Size = new System.Drawing.Size(572, 27);
-            this.textBoxSettingSteamId.TabIndex = 1;
-            // 
-            // textBoxSettingProfileId
-            // 
-            this.textBoxSettingProfileId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxSettingProfileId.Enabled = false;
-            this.textBoxSettingProfileId.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.textBoxSettingProfileId.Location = new System.Drawing.Point(106, 60);
-            this.textBoxSettingProfileId.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBoxSettingProfileId.Name = "textBoxSettingProfileId";
-            this.textBoxSettingProfileId.Size = new System.Drawing.Size(572, 27);
-            this.textBoxSettingProfileId.TabIndex = 1;
-            // 
-            // labelSettingsCountry
-            // 
-            this.labelSettingsCountry.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelSettingsCountry.Location = new System.Drawing.Point(13, 145);
-            this.labelSettingsCountry.Name = "labelSettingsCountry";
-            this.labelSettingsCountry.Size = new System.Drawing.Size(615, 31);
-            this.labelSettingsCountry.TabIndex = 3;
-            this.labelSettingsCountry.Text = "Country: -----";
-            // 
-            // labelSettingsName
-            // 
-            this.labelSettingsName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelSettingsName.Location = new System.Drawing.Point(13, 115);
-            this.labelSettingsName.Name = "labelSettingsName";
-            this.labelSettingsName.Size = new System.Drawing.Size(615, 31);
-            this.labelSettingsName.TabIndex = 3;
-            this.labelSettingsName.Text = "Name: -----";
-            // 
-            // labelAoE2NetStatus
-            // 
-            this.labelAoE2NetStatus.AutoSize = true;
-            this.labelAoE2NetStatus.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelAoE2NetStatus.ForeColor = System.Drawing.Color.Firebrick;
-            this.labelAoE2NetStatus.Location = new System.Drawing.Point(402, 8);
-            this.labelAoE2NetStatus.Name = "labelAoE2NetStatus";
-            this.labelAoE2NetStatus.Size = new System.Drawing.Size(128, 25);
-            this.labelAoE2NetStatus.TabIndex = 9;
-            this.labelAoE2NetStatus.Text = "Disconnected";
-            // 
-            // labelAoE2NetStatusLabel
-            // 
-            this.labelAoE2NetStatusLabel.AutoSize = true;
-            this.labelAoE2NetStatusLabel.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelAoE2NetStatusLabel.Location = new System.Drawing.Point(314, 8);
-            this.labelAoE2NetStatusLabel.Name = "labelAoE2NetStatusLabel";
-            this.labelAoE2NetStatusLabel.Size = new System.Drawing.Size(90, 25);
-            this.labelAoE2NetStatusLabel.TabIndex = 8;
-            this.labelAoE2NetStatusLabel.Text = "AoE2.net";
-            // 
-            // checkBoxHideTitle
-            // 
-            this.checkBoxHideTitle.AutoSize = true;
-            this.checkBoxHideTitle.Location = new System.Drawing.Point(10, 37);
-            this.checkBoxHideTitle.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.checkBoxHideTitle.Name = "checkBoxHideTitle";
-            this.checkBoxHideTitle.Size = new System.Drawing.Size(93, 24);
-            this.checkBoxHideTitle.TabIndex = 7;
-            this.checkBoxHideTitle.Text = "Hide title";
-            this.checkBoxHideTitle.UseVisualStyleBackColor = true;
-            this.checkBoxHideTitle.CheckedChanged += new System.EventHandler(this.CheckBoxHideTitle_CheckedChanged);
-            // 
-            // checkBoxAlwaysOnTop
-            // 
-            this.checkBoxAlwaysOnTop.AutoSize = true;
-            this.checkBoxAlwaysOnTop.Location = new System.Drawing.Point(10, 11);
-            this.checkBoxAlwaysOnTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.checkBoxAlwaysOnTop.Name = "checkBoxAlwaysOnTop";
-            this.checkBoxAlwaysOnTop.Size = new System.Drawing.Size(125, 24);
-            this.checkBoxAlwaysOnTop.TabIndex = 2;
-            this.checkBoxAlwaysOnTop.Text = "Always on top";
-            this.checkBoxAlwaysOnTop.UseVisualStyleBackColor = true;
-            this.checkBoxAlwaysOnTop.CheckedChanged += new System.EventHandler(this.CheckBoxAlwaysOnTop_CheckedChanged);
-            // 
-            // colorDialogChromaKey
-            // 
-            this.colorDialogChromaKey.Color = System.Drawing.Color.SlateGray;
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(805, 403);
-            this.Controls.Add(this.tabControlMain);
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.MinimumSize = new System.Drawing.Size(411, 380);
+            this.ClientSize = new System.Drawing.Size(887, 321);
+            this.ContextMenuStrip = this.contextMenuStripMain;
+            this.Controls.Add(this.labelErrText);
+            this.Controls.Add(this.panelTeam1);
+            this.Controls.Add(this.panelTeam2);
+            this.Controls.Add(this.labelServer);
+            this.Controls.Add(this.labelGameId);
+            this.Controls.Add(this.labelMap);
+            this.MinimumSize = new System.Drawing.Size(300, 360);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "AoE2.net Desktop";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FormMain_MouseClick);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FormMain_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMain_MouseMove);
             this.Resize += new System.EventHandler(this.FormMain_Resize);
-            this.tabControlMain.ResumeLayout(false);
-            this.tabPagePlayerLastMatch.ResumeLayout(false);
             this.panelTeam1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
@@ -1111,20 +836,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.tabPageSettings.ResumeLayout(false);
-            this.tabPageSettings.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxChromaKey)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.upDownOpacity)).EndInit();
-            this.groupBoxPlayer.ResumeLayout(false);
-            this.groupBoxPlayer.PerformLayout();
+            this.contextMenuStripMain.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControlMain;
-        private System.Windows.Forms.TabPage tabPagePlayerLastMatch;
         private System.Windows.Forms.Label labelColorP7;
         private System.Windows.Forms.Label labelColorP3;
         private System.Windows.Forms.Label labelColorP8;
@@ -1163,8 +881,6 @@
         private System.Windows.Forms.Label labelMap;
         private System.Windows.Forms.Panel panelTeam1;
         private System.Windows.Forms.Panel panelTeam2;
-        private System.Windows.Forms.TabPage tabPageSettings;
-        private System.Windows.Forms.TextBox textBoxSettingSteamId;
         private System.Windows.Forms.Label labelErrText;
         private System.Windows.Forms.PictureBox pictureBox8;
         private System.Windows.Forms.PictureBox pictureBox6;
@@ -1175,24 +891,11 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label labelGameId;
-        private System.Windows.Forms.CheckBox checkBoxAlwaysOnTop;
-        private System.Windows.Forms.Label labelSettingsCountry;
-        private System.Windows.Forms.Label labelSettingsName;
-        private System.Windows.Forms.GroupBox groupBoxPlayer;
-        private System.Windows.Forms.RadioButton radioButtonSteamID;
-        private System.Windows.Forms.RadioButton radioButtonProfileID;
-        private System.Windows.Forms.TextBox textBoxSettingProfileId;
-        private System.Windows.Forms.Button buttonViewHistory;
-        private System.Windows.Forms.Button buttonSetId;
-        private System.Windows.Forms.CheckBox checkBoxHideTitle;
-        private System.Windows.Forms.Label labelAoE2NetStatus;
-        private System.Windows.Forms.Label labelAoE2NetStatusLabel;
-        private System.Windows.Forms.Label labelOpacity;
-        private System.Windows.Forms.NumericUpDown upDownOpacity;
-        private System.Windows.Forms.Button buttonUpdate;
-        private System.Windows.Forms.TextBox textBoxChromaKey;
-        private System.Windows.Forms.PictureBox pictureBoxChromaKey;
-        private System.Windows.Forms.Label labelChromaKey;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripMain;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem updateToolStripMenuItem;
         private System.Windows.Forms.ColorDialog colorDialogChromaKey;
+        private System.Windows.Forms.ToolStripMenuItem showMyHistoryHToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }

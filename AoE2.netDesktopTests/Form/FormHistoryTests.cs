@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using LibAoE2net;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
 using System.Windows.Forms;
@@ -8,6 +10,22 @@ namespace AoE2NetDesktop.Form.Tests
     [TestClass()]
     public partial class FormHistoryTests
     {
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            if (context is null) {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            StringsExt.InitAsync();
+        }
+
+        [TestInitialize]
+        public void InitTest()
+        {
+            AoE2net.ComClient = new TestHttpClient();
+        }
+
         [TestMethod()]
         public void FormHistoryTest()
         {
@@ -104,7 +122,8 @@ namespace AoE2NetDesktop.Form.Tests
             var done = false;
 
             // Act
-            testClass.Shown += async (sender, e) => {
+            testClass.Shown += async (sender, e) =>
+            {
                 await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
                 testClass.FormsPlotPlayerRateOnMouseMove(arg);
                 testClass.Close();
@@ -127,7 +146,8 @@ namespace AoE2NetDesktop.Form.Tests
             testClass.splitContainerPlayers.Orientation = orientation;
 
             // Act
-            testClass.Shown += async (sender, e) => {
+            testClass.Shown += async (sender, e) => 
+            {
                 await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
                 testClass.SplitContainerPlayersOnDoubleClick(arg);
                 testClass.Close();

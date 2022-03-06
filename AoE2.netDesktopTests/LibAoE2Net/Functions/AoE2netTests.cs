@@ -1,5 +1,4 @@
-﻿using LibAoE2net;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -8,9 +7,20 @@ using AoE2NetDesktop.Tests;
 
 namespace LibAoE2net.Tests
 {
+
     [TestClass()]
     public class AoE2netTests
     {
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            if (context is null) {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            AoE2net.ComClient = new TestHttpClient();
+        }
+
         [TestMethod()]
         public void GetPlayerLastMatchAsyncTestSteamId()
         {
@@ -114,8 +124,6 @@ namespace LibAoE2net.Tests
                 },
             };
 
-            AoE2net.ComClient = new TestHttpClient();
-
             // Act
             var actVal = Task.Run(
                 () => AoE2net.GetPlayerLastMatchAsync(TestData.AvailableUserSteamId)
@@ -195,7 +203,6 @@ namespace LibAoE2net.Tests
         public void GetPlayerLastMatchAsyncTestProfileId()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
 
             // Act
             var actVal = Task.Run(
@@ -226,16 +233,14 @@ namespace LibAoE2net.Tests
             // Arrange
             var expVal = new List<PlayerRating>{
                 new PlayerRating {
-                Drops = 0,
-                NumLosses = 100,
-                NumWins = 100,
-                Rating = 1111,
-                Streak = 0,
-                TimeStamp = 1643808142,
+                    Drops = 0,
+                    NumLosses = 100,
+                    NumWins = 100,
+                    Rating = 1111,
+                    Streak = 0,
+                    TimeStamp = 1643808142,
                 },
             };
-
-            AoE2net.ComClient = new TestHttpClient();
 
             // Act
             var actVal = Task.Run(
@@ -262,16 +267,14 @@ namespace LibAoE2net.Tests
             // Arrange
             var expVal = new List<PlayerRating>{
                 new PlayerRating {
-                Drops = 0,
-                NumLosses = 100,
-                NumWins = 100,
-                Rating = 9999,
-                Streak = 0,
-                TimeStamp = 1643808142,
+                    Drops = 0,
+                    NumLosses = 100,
+                    NumWins = 100,
+                    Rating = 9999,
+                    Streak = 0,
+                    TimeStamp = 1643808142,
                 },
             };
-
-            AoE2net.ComClient = new TestHttpClient();
 
             // Act
             var actVal = Task.Run(
@@ -305,7 +308,6 @@ namespace LibAoE2net.Tests
         public void GetStringsAsyncTest(Language language)
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
 
             // Act
             var actVal = Task.Run(()
@@ -345,7 +347,6 @@ namespace LibAoE2net.Tests
         {
             // Arrange
             var expVal = $"https://aoe2.net/assets/images/crests/25x25/aztecs.png";
-            AoE2net.ComClient = new TestHttpClient();
 
             // Act
             var actVal = AoE2net.GetCivImageLocation(civ);
@@ -358,7 +359,6 @@ namespace LibAoE2net.Tests
         public void GetCivImageLocationTestNull()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
 
             // Act
             var actVal = AoE2net.GetCivImageLocation(null);
@@ -371,7 +371,6 @@ namespace LibAoE2net.Tests
         public void GetPlayerMatchHistoryAsyncTeststeamId()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
 
             // Act
             var actVal = Task.Run(
@@ -387,7 +386,6 @@ namespace LibAoE2net.Tests
         public void GetPlayerMatchHistoryAsyncTeststeamIdIsNull()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
 
             // Act
 
@@ -402,7 +400,6 @@ namespace LibAoE2net.Tests
         public void GetPlayerMatchHistoryAsyncTestprofileId()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
 
             // Act
             var actVal = Task.Run(
@@ -419,7 +416,6 @@ namespace LibAoE2net.Tests
         public void GetLeaderboardAsyncTestSteamId()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
             var expVal = string.Empty;
             var expStart = 1;
             var expCount = 1;
@@ -443,7 +439,6 @@ namespace LibAoE2net.Tests
         public void GetLeaderboardAsyncTestProfileId()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
             var expVal = string.Empty;
             var expStart = 1;
             var expCount = 1;
@@ -467,7 +462,6 @@ namespace LibAoE2net.Tests
         public void OpenAoE2netTest()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
 
             // Act
             var actVal = AoE2net.OpenAoE2net(TestData.AvailableUserProfileId);
