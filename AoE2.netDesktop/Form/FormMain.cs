@@ -288,7 +288,7 @@
                 }
 
                 _ = await UpdateLastMatch(CtrlSettings.ProfileId);
-            } catch (AggregateException ex) {
+            } catch (Exception ex) {
                 labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
             }
 
