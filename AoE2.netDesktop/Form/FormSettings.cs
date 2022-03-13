@@ -127,28 +127,43 @@
 
         private void ShowAoE2netStatus(NetStatus status)
         {
+            string statusText = string.Empty;
+            Color textColor = default;
+
             switch (status) {
             case NetStatus.Connected:
-                labelAoE2NetStatus.Text = "Online";
-                labelAoE2NetStatus.ForeColor = Color.Green;
+                statusText = "Online";
+                textColor = Color.Green;
                 break;
             case NetStatus.Disconnected:
-                labelAoE2NetStatus.Text = "Disconnected";
-                labelAoE2NetStatus.ForeColor = Color.Firebrick;
+                statusText = "Disconnected";
+                textColor = Color.Firebrick;
                 break;
             case NetStatus.ServerError:
-                labelAoE2NetStatus.Text = "Server Error";
-                labelAoE2NetStatus.ForeColor = Color.Olive;
+                statusText = "Server Error";
+                textColor = Color.Olive;
                 break;
             case NetStatus.ComTimeout:
-                labelAoE2NetStatus.Text = "Timeout";
-                labelAoE2NetStatus.ForeColor = Color.Purple;
+                statusText = "Timeout";
+                textColor = Color.Purple;
                 break;
             case NetStatus.Connecting:
-                labelAoE2NetStatus.Text = "Connecting";
-                labelAoE2NetStatus.ForeColor = Color.MediumSeaGreen;
+                statusText = "Connecting";
+                textColor = Color.MediumSeaGreen;
                 break;
             }
+
+            if (labelAoE2NetStatus.InvokeRequired) {
+                labelAoE2NetStatus.Invoke(() => SetStatus(statusText, textColor));
+            } else {
+                SetStatus(statusText, textColor);
+            }
+        }
+
+        private void SetStatus(string statusText, Color textColor)
+        {
+            labelAoE2NetStatus.Text = statusText;
+            labelAoE2NetStatus.ForeColor = textColor;
         }
 
         private void OnErrorHandler(Exception ex)
@@ -217,9 +232,11 @@
             switch (idtype) {
             case IdType.Steam:
                 idText = textBoxSettingSteamId.Text;
+                Settings.Default.SteamId = idText;
                 break;
             case IdType.Profile:
                 idText = textBoxSettingProfileId.Text;
+                Settings.Default.ProfileId = int.Parse(idText);
                 break;
             }
 
