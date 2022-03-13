@@ -99,7 +99,7 @@
             // 
             this.labelServer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelServer.BackColor = System.Drawing.SystemColors.Control;
-            this.labelServer.Location = new System.Drawing.Point(704, 29);
+            this.labelServer.Location = new System.Drawing.Point(191, 29);
             this.labelServer.Name = "labelServer";
             this.labelServer.Size = new System.Drawing.Size(175, 19);
             this.labelServer.TabIndex = 2;
@@ -111,7 +111,7 @@
             // 
             this.labelGameId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelGameId.BackColor = System.Drawing.SystemColors.Control;
-            this.labelGameId.Location = new System.Drawing.Point(703, 8);
+            this.labelGameId.Location = new System.Drawing.Point(190, 8);
             this.labelGameId.Name = "labelGameId";
             this.labelGameId.Size = new System.Drawing.Size(175, 19);
             this.labelGameId.TabIndex = 9;
@@ -433,7 +433,7 @@
             this.labelErrText.BackColor = System.Drawing.Color.DarkGray;
             this.labelErrText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
-            this.labelErrText.Location = new System.Drawing.Point(12, 322);
+            this.labelErrText.Location = new System.Drawing.Point(-244, 322);
             this.labelErrText.Name = "labelErrText";
             this.labelErrText.Size = new System.Drawing.Size(868, 83);
             this.labelErrText.TabIndex = 8;
@@ -807,7 +807,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(887, 321);
+            this.ClientSize = new System.Drawing.Size(374, 321);
             this.ContextMenuStrip = this.contextMenuStripMain;
             this.Controls.Add(this.labelErrText);
             this.Controls.Add(this.panelTeam1);
@@ -815,9 +815,9 @@
             this.Controls.Add(this.labelServer);
             this.Controls.Add(this.labelGameId);
             this.Controls.Add(this.labelMap);
-            this.MinimumSize = new System.Drawing.Size(300, 360);
+            this.MinimumSize = new System.Drawing.Size(390, 360);
             this.Name = "FormMain";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AoE2.net Desktop";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);

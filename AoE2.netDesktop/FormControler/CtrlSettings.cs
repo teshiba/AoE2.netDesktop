@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Net.Http;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using System.Windows.Forms;
@@ -191,27 +192,31 @@
         public async Task<bool> ReadProfileAsync()
         {
             var ret = true;
-            playerLastmatch = SelectedIdType switch {
-                IdType.Steam => await AoE2net.GetPlayerLastMatchAsync(SteamId),
-                IdType.Profile => await AoE2net.GetPlayerLastMatchAsync(ProfileId),
-                _ => new PlayerLastmatch(),
-            };
+            try {
+                playerLastmatch = SelectedIdType switch {
+                    IdType.Steam => await AoE2net.GetPlayerLastMatchAsync(SteamId),
+                    IdType.Profile => await AoE2net.GetPlayerLastMatchAsync(ProfileId),
+                    _ => new PlayerLastmatch(),
+                };
 
-            foreach (var player in playerLastmatch.LastMatch.Players) {
-                List<PlayerRating> rate = null;
-                var leaderBoardId = playerLastmatch.LastMatch.LeaderboardId ?? 0;
+                foreach (var player in playerLastmatch.LastMatch.Players) {
+                    List<PlayerRating> rate = null;
+                    var leaderBoardId = playerLastmatch.LastMatch.LeaderboardId ?? 0;
 
-                if (player.SteamId != null) {
-                    rate = await AoE2net.GetPlayerRatingHistoryAsync(player.SteamId, leaderBoardId, 1);
-                } else if (player.ProfilId is int profileId) {
-                    rate = await AoE2net.GetPlayerRatingHistoryAsync(profileId, leaderBoardId, 1);
-                } else {
-                    throw new FormatException($"Invalid profilId of Name:{player.Name}");
+                    if (player.SteamId != null) {
+                        rate = await AoE2net.GetPlayerRatingHistoryAsync(player.SteamId, leaderBoardId, 1);
+                    } else if (player.ProfilId is int profileId) {
+                        rate = await AoE2net.GetPlayerRatingHistoryAsync(profileId, leaderBoardId, 1);
+                    } else {
+                        throw new FormatException($"Invalid profilId of Name:{player.Name}");
+                    }
+
+                    if (rate.Count != 0) {
+                        player.Rating ??= rate[0].Rating;
+                    }
                 }
-
-                if (rate.Count != 0) {
-                    player.Rating ??= rate[0].Rating;
-                }
+            } catch (HttpRequestException) {
+                ret = false;
             }
 
             return ret;

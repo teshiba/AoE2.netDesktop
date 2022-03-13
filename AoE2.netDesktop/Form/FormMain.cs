@@ -337,13 +337,13 @@
 
             if (isHide) {
                 FormBorderStyle = FormBorderStyle.None;
-                MinimumSize = new Size(290, 230);
+                MinimumSize = new Size(410, 310);
                 Top = top;
                 Left = left;
                 Height = height;
             } else {
                 FormBorderStyle = FormBorderStyle.Sizable;
-                MinimumSize = new Size(290, 295);
+                MinimumSize = new Size(410, 340);
                 Top -= RectangleToScreen(ClientRectangle).Top - Top;
                 Left -= RectangleToScreen(ClientRectangle).Left - Left;
             }
