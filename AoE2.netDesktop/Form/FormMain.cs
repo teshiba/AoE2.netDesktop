@@ -3,12 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
-    using System.Net.Http;
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
     using AoE2NetDesktop;
-
     using LibAoE2net;
 
     /// <summary>
@@ -16,8 +14,7 @@
     /// </summary>
     public partial class FormMain : ControllableForm
     {
-        private const int PlayerNumMax = 8;
-        private const int LabelMapMargin = 20;
+        private const int PlayerNumMax = AoE2DE.PlayerNumMax;
         private readonly List<Label> labelCiv = new ();
         private readonly List<Label> labelColor = new ();
         private readonly List<Label> labelRate = new ();
@@ -34,17 +31,91 @@
         public FormMain(Language language)
             : base(new CtrlMain())
         {
-            this.language = language;
-            Controler.SelectedId = IdType.Steam;
-
             InitializeComponent();
-            InitIDRadioButton();
+            InitEventHandler();
             InitPlayersCtrlList();
-            ShowAoE2netStatus(NetStatus.Disconnected);
+            ClearLastMatch();
+            LoadSettings();
+
+            // formMain hold the app settings.
+            CtrlSettings = new CtrlSettings() {
+                OnChangeIsAlwaysOnTop = OnChangeIsAlwaysOnTop,
+                OnChangeIsHideTitle = OnChangeIsHideTitle,
+                OnChangeOpacity = OnChangeOpacity,
+                OnChangeChromaKey = OnChangeChromaKey,
+                OnChangeIsTransparency = OnChangeIsTransparency,
+            };
+
+            this.language = language;
         }
+
+        /// <summary>
+        /// Gets Settings.
+        /// </summary>
+        public CtrlSettings CtrlSettings { get; private set; }
 
         /// <inheritdoc/>
         protected override CtrlMain Controler { get => (CtrlMain)base.Controler; }
+
+        private void InitEventHandler()
+        {
+            foreach (Control item in Controls) {
+                item.MouseDown += Controls_MouseDown;
+                item.MouseMove += Controls_MouseMove;
+            }
+
+            foreach (Control item in panelTeam1.Controls) {
+                item.MouseDown += Controls_MouseDown;
+                item.MouseMove += Controls_MouseMove;
+            }
+
+            foreach (Control item in panelTeam2.Controls) {
+                item.MouseDown += Controls_MouseDown;
+                item.MouseMove += Controls_MouseMove;
+            }
+        }
+
+        private void LoadSettings()
+        {
+            OnChangeIsAlwaysOnTop(Settings.Default.MainFormIsAlwaysOnTop);
+            OnChangeIsHideTitle(Settings.Default.MainFormIsHideTitle);
+            OnChangeOpacity((double)Settings.Default.MainFormOpacityPercent * 0.01);
+            OnChangeChromaKey(Settings.Default.ChromaKey);
+            OnChangeIsTransparency(Settings.Default.MainFormTransparency);
+        }
+
+        private void SetChromaKey(string htmlColor)
+        {
+            Color chromaKey;
+
+            try {
+                chromaKey = ColorTranslator.FromHtml(htmlColor);
+            } catch (ArgumentException) {
+                chromaKey = Color.Empty;
+            }
+
+            SetChromaKey(chromaKey);
+        }
+
+        private void SetChromaKey(Color chromaKey)
+        {
+            for (int i = 0; i < PlayerNumMax; i++) {
+                labelCiv[i].BackColor = Color.Transparent;
+                labelName[i].BackColor = chromaKey;
+                labelRate[i].BackColor = chromaKey;
+                pictureBox[i].BackColor = chromaKey;
+                pictureBox[i].SizeMode = PictureBoxSizeMode.Normal;
+            }
+
+            BackColor = chromaKey;
+            panelTeam1.BackColor = chromaKey;
+            panelTeam2.BackColor = chromaKey;
+            labelAveRate1.BackColor = chromaKey;
+            labelAveRate2.BackColor = chromaKey;
+            labelMap.BackColor = chromaKey;
+            labelGameId.BackColor = chromaKey;
+            labelServer.BackColor = chromaKey;
+        }
 
         private void RestoreWindowStatus()
         {
@@ -52,27 +123,12 @@
             Left = Settings.Default.WindowLocationMain.X;
             Width = Settings.Default.WindowSizeMain.Width;
             Height = Settings.Default.WindowSizeMain.Height;
-            upDownOpacity.Value = Settings.Default.MainFormOpacityPercent;
         }
 
         private void SaveWindowPosition()
         {
             Settings.Default.WindowLocationMain = new Point(Left, Top);
             Settings.Default.WindowSizeMain = new Size(Width, Height);
-        }
-
-        private void InitIDRadioButton()
-        {
-            Controler.SelectedId = (IdType)Settings.Default.SelectedIdType;
-
-            switch (Controler.SelectedId) {
-            case IdType.Steam:
-                radioButtonSteamID.Checked = true;
-                break;
-            case IdType.Profile:
-                radioButtonProfileID.Checked = true;
-                break;
-            }
         }
 
         private void InitPlayersCtrlList()
@@ -130,11 +186,11 @@
             }
         }
 
-        private async Task<Match> SetLastMatchData()
+        private async Task<Match> SetLastMatchData(int profileId)
         {
             Match ret;
-            var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(IdType.Profile, textBoxSettingProfileId.Text);
-            var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, int.Parse(textBoxSettingProfileId.Text));
+            var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
+            var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId);
             SetMatchData(playerLastmatch.LastMatch);
 
             if (playerMatchHistory.Count != 0
@@ -159,18 +215,6 @@
             labelMap.Text = $"Map: {match.GetMapName()}";
             labelGameId.Text = $"GameID: {match.MatchId}";
             labelServer.Text = $"Server: {match.Server}";
-
-            ArrangeGameIdAndServerNameLocation();
-        }
-
-        private void ArrangeGameIdAndServerNameLocation()
-        {
-            var graphics = labelMap.CreateGraphics();
-            var stringSize = graphics.MeasureString(labelMap.Text, labelMap.Font);
-            labelMap.Width = (int)stringSize.Width + LabelMapMargin;
-
-            labelGameId.Left = labelMap.Right;
-            labelServer.Left = labelMap.Right;
         }
 
         private void SetPlayersData(List<Player> players)
@@ -193,161 +237,129 @@
             }
         }
 
-        private void LoadSettings()
-        {
-            textBoxSettingSteamId.Text = Settings.Default.SteamId.ToString();
-            textBoxSettingProfileId.Text = Settings.Default.ProfileId.ToString();
-            Controler.SelectedId = (IdType)Settings.Default.SelectedIdType;
-        }
-
-        private async Task<bool> ReadProfileAsync()
-        {
-            var idText = string.Empty;
-
-            switch (Controler.SelectedId) {
-            case IdType.Steam:
-                radioButtonSteamID.Checked = true;
-                idText = textBoxSettingSteamId.Text;
-                break;
-            case IdType.Profile:
-                radioButtonProfileID.Checked = true;
-                idText = textBoxSettingProfileId.Text;
-                break;
-            }
-
-            return await VerifyId(Controler.SelectedId, idText);
-        }
-
-        private async Task<bool> VerifyId(IdType idType, string idText)
-        {
-            bool ret;
-
-            groupBoxPlayer.Enabled = false;
-
-            buttonUpdate.Enabled = false;
-            buttonViewHistory.Enabled = false;
-
-            labelSettingsName.Text = $"   Name: --";
-            labelSettingsCountry.Text = $"Country: --";
-            ShowAoE2netStatus(NetStatus.Connecting);
-            try {
-                ret = await Controler.ReadPlayerDataAsync(idType, idText);
-
-                textBoxSettingSteamId.Text = Controler.SteamId;
-                textBoxSettingProfileId.Text = Controler.ProfileId.ToString();
-                Settings.Default.SteamId = Controler.SteamId;
-                Settings.Default.ProfileId = Controler.ProfileId;
-                buttonUpdate.Enabled = ret;
-                buttonViewHistory.Enabled = ret;
-                ShowAoE2netStatus(NetStatus.Connected);
-            } catch (Exception ex) {
-                ret = false;
-                labelErrText.Text = ex.Message + ":" + ex.StackTrace;
-            }
-
-            labelSettingsName.Text = $"   Name: {Controler.UserName}";
-            labelSettingsCountry.Text = $"Country: {Controler.UserCountry}";
-
-            groupBoxPlayer.Enabled = true;
-
-            Awaiter.Complete();
-
-            return ret;
-        }
-
-        private void ShowAoE2netStatus(NetStatus status)
-        {
-            switch (status) {
-            case NetStatus.Connected:
-                labelAoE2NetStatus.Text = "Online";
-                labelAoE2NetStatus.ForeColor = Color.Green;
-                break;
-            case NetStatus.Disconnected:
-                labelAoE2NetStatus.Text = "Disconnected";
-                labelAoE2NetStatus.ForeColor = Color.Firebrick;
-                break;
-            case NetStatus.ServerError:
-                labelAoE2NetStatus.Text = "Server Error";
-                labelAoE2NetStatus.ForeColor = Color.Olive;
-                break;
-            case NetStatus.ComTimeout:
-                labelAoE2NetStatus.Text = "Timeout";
-                labelAoE2NetStatus.ForeColor = Color.Purple;
-                break;
-            case NetStatus.Connecting:
-                labelAoE2NetStatus.Text = "Connecting";
-                labelAoE2NetStatus.ForeColor = Color.MediumSeaGreen;
-                break;
-            }
-        }
-
-        private void OnErrorHandler(Exception ex)
-        {
-            if (ex.GetType() == typeof(HttpRequestException)) {
-                ShowAoE2netStatus(NetStatus.ServerError);
-            }
-
-            if (ex.GetType() == typeof(TaskCanceledException)) {
-                ShowAoE2netStatus(NetStatus.ComTimeout);
-            }
-        }
-
-        private async Task<bool> UpdateLastMatch()
+        private async Task<bool> UpdateLastMatch(int profileId)
         {
             var ret = false;
 
-            buttonUpdate.Enabled = false;
+            updateToolStripMenuItem.Enabled = false;
 
             ClearLastMatch();
             try {
-                var match = await SetLastMatchData();
+                var match = await SetLastMatchData(profileId);
                 ret = true;
             } catch (Exception ex) {
                 labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
             }
 
-            buttonUpdate.Enabled = true;
+            updateToolStripMenuItem.Enabled = true;
 
             return ret;
         }
 
         private void ResizePanels()
         {
-            panelTeam1.Width = (tabPagePlayerLastMatch.Width - 10) / 2;
+            panelTeam1.Width = (Width - 15) / 2;
             panelTeam2.Width = panelTeam1.Width;
-            panelTeam1.Left = 5;
-            panelTeam2.Left = 5 + panelTeam1.Width + 5;
-            panelTeam2.Top = 35;
-            panelTeam1.Top = 35;
+            panelTeam1.Left = 3;
+            panelTeam2.Left = 3 + panelTeam1.Width;
+            panelTeam2.Top = 50;
+            panelTeam1.Top = 50;
+
+            labelErrText.Top = panelTeam1.Top + panelTeam1.Height + 3;
+            labelErrText.Left = 3;
+            labelErrText.Width = Width - 22;
+            labelErrText.Height = Height - labelErrText.Top - 50;
+        }
+
+        ///////////////////////////////////////////////////////////////////////
+        // Async event handlers
+        ///////////////////////////////////////////////////////////////////////
+        private async void FormMain_Load(object sender, EventArgs e)
+        {
+            RestoreWindowStatus();
+            ResizePanels();
+
+            try {
+                _ = await CtrlMain.InitAsync(language);
+
+                // if the app is opened first, need to set user profile.
+                if (!await CtrlSettings.ReadProfileAsync()) {
+                    OpenSettings();
+                }
+
+                _ = await UpdateLastMatch(CtrlSettings.ProfileId);
+            } catch (AggregateException ex) {
+                labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
+            }
+
+            SetChromaKey(CtrlSettings.ChromaKey);
+
+            Awaiter.Complete();
+        }
+
+        private async void UpdateToolStripMenuItem_ClickAsync(object sender, EventArgs e)
+        {
+            _ = await UpdateLastMatch(CtrlSettings.ProfileId);
+            Awaiter.Complete();
+        }
+
+        private void OnChangeIsAlwaysOnTop(bool isAlwaysOnTop)
+        {
+            TopMost = isAlwaysOnTop;
+        }
+
+        private void OnChangeChromaKey(string chromaKey)
+        {
+            SetChromaKey(chromaKey);
+        }
+
+        private void OnChangeOpacity(double value)
+        {
+            Opacity = value;
+        }
+
+        private void OnChangeIsTransparency(bool isTransparency)
+        {
+            if (isTransparency) {
+                TransparencyKey = ColorTranslator.FromHtml(Settings.Default.ChromaKey);
+            } else {
+                TransparencyKey = default;
+            }
+        }
+
+        private void OnChangeIsHideTitle(bool isHide)
+        {
+            var top = RectangleToScreen(ClientRectangle).Top;
+            var left = RectangleToScreen(ClientRectangle).Left;
+            var height = RectangleToScreen(ClientRectangle).Height;
+
+            SuspendLayout();
+
+            if (isHide) {
+                FormBorderStyle = FormBorderStyle.None;
+                MinimumSize = new Size(290, 230);
+                Top = top;
+                Left = left;
+                Height = height;
+            } else {
+                FormBorderStyle = FormBorderStyle.Sizable;
+                MinimumSize = new Size(290, 295);
+                Top -= RectangleToScreen(ClientRectangle).Top - Top;
+                Left -= RectangleToScreen(ClientRectangle).Left - Left;
+            }
+
+            ResumeLayout();
+        }
+
+        private void OpenSettings()
+        {
+            var formSettings = new FormSettings(CtrlSettings);
+            formSettings.Show(this);
         }
 
         ///////////////////////////////////////////////////////////////////////
         // Event handlers
         ///////////////////////////////////////////////////////////////////////
-        private async void ButtonUpdate_Click(object sender, EventArgs e)
-        {
-            await UpdateLastMatch();
-            Awaiter.Complete();
-        }
-
-        private async void FormMain_Load(object sender, EventArgs e)
-        {
-            RestoreWindowStatus();
-            ResizePanels();
-            ClearLastMatch();
-            try {
-                AoE2net.OnError = OnErrorHandler;
-                _ = await CtrlMain.InitAsync(language);
-                LoadSettings();
-                _ = await ReadProfileAsync();
-                _ = await UpdateLastMatch();
-            } catch (AggregateException ex) {
-                labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
-            }
-
-            Awaiter.Complete();
-        }
-
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             Controler.FormHistory?.Close();
@@ -355,20 +367,15 @@
             Settings.Default.Save();
         }
 
-        private void CheckBoxAlwaysOnTop_CheckedChanged(object sender, EventArgs e)
-        {
-            TopMost = checkBoxAlwaysOnTop.Checked;
-        }
-
         private void LabelName_Paint(object sender, PaintEventArgs e)
         {
             var labelName = (Label)sender;
             var player = (Player)labelName.Tag;
 
-            if (player?.ProfilId.ToString() == textBoxSettingProfileId.Text) {
+            if (player?.ProfilId == CtrlSettings.ProfileId) {
                 labelName.DrawString(e, 20, Color.Black, Color.DarkOrange);
             } else {
-                labelName.DrawString(e, 20, Color.DarkGreen, Color.LightGreen);
+                labelName.DrawString(e, 20, Color.Black, Color.MediumSeaGreen);
             }
         }
 
@@ -422,127 +429,42 @@
 
         private void LabelRate_Paint(object sender, PaintEventArgs e)
         {
-            ((Label)sender).DrawString(e, 15, Color.Black, Color.DeepSkyBlue);
+            ((Label)sender).DrawString(e, 22, Color.Black, Color.DeepSkyBlue);
         }
 
         private void LabelCiv_Paint(object sender, PaintEventArgs e)
         {
-            ((Label)sender).DrawString(e, 10, Color.Gray, Color.LightGoldenrodYellow);
+            ((Label)sender).DrawString(e, 15, Color.Black, Color.YellowGreen);
         }
 
         private void LabelAveRate_Paint(object sender, PaintEventArgs e)
         {
-            ((Label)sender).DrawString(e, 12, Color.Silver, Color.Black);
+            ((Label)sender).DrawString(e, 18, Color.Black, Color.DarkGoldenrod);
         }
 
         private void LabelColor_Paint(object sender, PaintEventArgs e)
         {
-            ((Label)sender).DrawString(e, 22, Color.Black, Color.White, new Point(3, 3));
+            ((Label)sender).DrawString(e, 23, Color.Black, Color.White, new Point(6, 6));
         }
 
         private void LabelMap_Paint(object sender, PaintEventArgs e)
         {
-            ((Label)sender).DrawString(e, 20, Color.Black, Color.White);
+            ((Label)sender).DrawString(e, 28, Color.Black, Color.DarkKhaki);
         }
 
         private void LabelGameId_Paint(object sender, PaintEventArgs e)
         {
-            ((Label)sender).DrawString(e, 12, Color.Gray, Color.LightGoldenrodYellow);
+            ((Label)sender).DrawString(e, 14, Color.Black, Color.LightSeaGreen);
         }
 
         private void LabelServer_Paint(object sender, PaintEventArgs e)
         {
-            ((Label)sender).DrawString(e, 12, Color.Gray, Color.LightGoldenrodYellow);
-        }
-
-        private void RadioButtonProfileID_CheckedChanged(object sender, EventArgs e)
-        {
-            var radioButton = (RadioButton)sender;
-
-            textBoxSettingProfileId.Enabled = radioButton.Checked;
-            textBoxSettingSteamId.Enabled = !radioButton.Checked;
-            if (radioButton.Checked) {
-                Settings.Default.SelectedIdType = (int)IdType.Profile;
-                Controler.SelectedId = IdType.Profile;
-            }
-        }
-
-        private void RadioButtonSteamID_CheckedChanged(object sender, EventArgs e)
-        {
-            var radioButton = (RadioButton)sender;
-
-            textBoxSettingProfileId.Enabled = !radioButton.Checked;
-            textBoxSettingSteamId.Enabled = radioButton.Checked;
-            if (radioButton.Checked) {
-                Settings.Default.SelectedIdType = (int)IdType.Steam;
-                Controler.SelectedId = IdType.Steam;
-            }
-        }
-
-        private void ButtonViewHistory_Click(object sender, EventArgs e)
-        {
-            Controler.ShowHistory();
-            Awaiter.Complete();
+            ((Label)sender).DrawString(e, 14, Color.Black, Color.LightSeaGreen);
         }
 
         private void FormMain_Resize(object sender, EventArgs e)
         {
             ResizePanels();
-        }
-
-        private async void ButtonSetId_ClickAsync(object sender, EventArgs e)
-        {
-            var idtype = Controler.SelectedId;
-            var idText = string.Empty;
-
-            switch (idtype) {
-            case IdType.Steam:
-                idText = textBoxSettingSteamId.Text;
-                break;
-            case IdType.Profile:
-                idText = textBoxSettingProfileId.Text;
-                break;
-            }
-
-            await VerifyId(idtype, idText);
-            Awaiter.Complete();
-        }
-
-        private void CheckBoxHideTitle_CheckedChanged(object sender, EventArgs e)
-        {
-            var top = RectangleToScreen(ClientRectangle).Top;
-            var left = RectangleToScreen(ClientRectangle).Left;
-            var height = RectangleToScreen(ClientRectangle).Height;
-
-            SuspendLayout();
-
-            if (checkBoxHideTitle.Checked) {
-                FormBorderStyle = FormBorderStyle.None;
-                MinimumSize = new Size(290, 230);
-                Top = top;
-                Left = left;
-                Height = height;
-            } else {
-                FormBorderStyle = FormBorderStyle.Sizable;
-                MinimumSize = new Size(290, 295);
-                Top -= RectangleToScreen(ClientRectangle).Top - Top;
-                Left -= RectangleToScreen(ClientRectangle).Left - Left;
-            }
-
-            ResumeLayout();
-        }
-
-        private void TabControlMain_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.F5) {
-                buttonUpdate.PerformClick();
-            }
-        }
-
-        private void UpDownOpacity_ValueChanged(object sender, EventArgs e)
-        {
-            Opacity = (double)upDownOpacity.Value * 0.01;
-            Settings.Default.MainFormOpacityPercent = upDownOpacity.Value;
         }
 
         private void FormMain_MouseDown(object sender, MouseEventArgs e)
@@ -558,6 +480,93 @@
                 Left += e.X - mouseDownPoint.X;
                 Top += e.Y - mouseDownPoint.Y;
             }
+        }
+
+        private void Controls_MouseDown(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left) {
+                mouseDownPoint = new Point(e.X, e.Y);
+            }
+        }
+
+        private void Controls_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left) {
+                Left += e.X - mouseDownPoint.X;
+                Top += e.Y - mouseDownPoint.Y;
+            }
+        }
+
+        private void FormMain_MouseClick(object sender, MouseEventArgs e)
+        {
+            var form = (FormMain)sender;
+
+            if (e.Button == MouseButtons.Right) {
+                form.contextMenuStripMain.Show();
+            }
+        }
+
+        private void FormMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode) {
+            case Keys.F5:
+                updateToolStripMenuItem.PerformClick();
+                break;
+            default:
+                Size size = GetWindowResizeParams(e);
+                Size += size;
+                break;
+            }
+
+            Awaiter.Complete();
+
+            // local function
+            static Size GetWindowResizeParams(KeyEventArgs e)
+            {
+                var changeSize = 0;
+
+                if (e.Alt) {
+                    if (e.Shift) {
+                        changeSize = 1;
+                    } else {
+                        changeSize = 10;
+                    }
+                }
+
+                var size = e.KeyCode switch {
+                    Keys.Right => new Size(changeSize, 0),
+                    Keys.Left => new Size(-changeSize, 0),
+                    Keys.Up => new Size(0, -changeSize),
+                    Keys.Down => new Size(0, changeSize),
+                    _ => new Size(0, 0),
+                };
+
+                return size;
+            }
+        }
+
+        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenSettings();
+        }
+
+        private void LabelName_DoubleClick(object sender, EventArgs e)
+        {
+            var labelName = (Label)sender;
+            var player = (Player)labelName.Tag;
+
+            var formHistory = CtrlHistory.GenerateFormHistory(player.Name, player.ProfilId);
+            formHistory.Show();
+        }
+
+        private void ShowMyHistoryHToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CtrlSettings.ShowMyHistory();
+        }
+
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using AoE2NetDesktop.Tests;
-
 using LibAoE2net;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -23,27 +20,19 @@ namespace AoE2NetDesktop.Form.Tests
                 throw new ArgumentNullException(nameof(context));
             }
 
-            AoE2net.ComClient = new TestHttpClient();
             StringsExt.InitAsync();
         }
 
-        [TestMethod()]
-        public void CtrlMainTest()
+        [TestInitialize]
+        public void InitTest()
         {
-            // Arrange
-            // Act
-            var testClass = new CtrlMain();
-
-            // Assert
-            Assert.AreEqual("N/A", testClass.UserCountry);
-            Assert.AreEqual("-- Invalid ID --", testClass.UserName);
+            AoE2net.ComClient = new TestHttpClient();
         }
 
         [TestMethod()]
         public void InitAsyncTest()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
 
             // Act
             var testClass = new CtrlMain();
@@ -177,7 +166,6 @@ namespace AoE2NetDesktop.Form.Tests
         public void GetPlayerLastMatchAsyncTest(IdType idType, string id)
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
 
             // Act
             var actVal = Task.Run(
@@ -194,7 +182,6 @@ namespace AoE2NetDesktop.Form.Tests
         public void GetPlayerLastMatchAsyncTestInvalidArg()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
 
             // Act
             var actVal = Task.Run(
@@ -209,20 +196,16 @@ namespace AoE2NetDesktop.Form.Tests
         public async Task GetPlayerLastMatchAsyncTestFormatExceptionAsync()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
 
-            // Act
-            // Assert
-            await Assert.ThrowsExceptionAsync<FormatException>(() =>
-                CtrlMain.GetPlayerLastMatchAsync(IdType.Steam, "FormatException")
-            );
+            _ = await Assert.ThrowsExceptionAsync<FormatException>(
+                () => CtrlMain.GetPlayerLastMatchAsync(IdType.Steam, "FormatException")
+                ).ConfigureAwait(false);
         }
 
         [TestMethod()]
         public async Task GetPlayerLastMatchAsyncTestNullAsync()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
 
             // Act
             // Assert
@@ -272,123 +255,6 @@ namespace AoE2NetDesktop.Form.Tests
         }
 
         [TestMethod()]
-        public void DelayStartTest()
-        {
-            // Arrange
-            var isCalledFunction = false;
-
-            // Act
-            var testClass = new CtrlMain() {
-                Scheduler = TaskScheduler.Current,
-            };
-
-            Task function()
-            {
-                isCalledFunction = true;
-                return Task.CompletedTask;
-            };
-
-            testClass.DelayStart(function);
-            Task.Delay(1600).Wait();
-
-            // Assert
-            Assert.IsTrue(isCalledFunction);
-        }
-
-        [TestMethod()]
-        [DataRow(IdType.Steam, TestData.AvailableUserSteamId)]
-        [DataRow(IdType.Profile, TestData.AvailableUserProfileIdString)]
-        [DataRow(IdType.Profile, TestData.AvailableUserProfileIdWithoutSteamIdString)]
-        public void GetPlayerDataAsyncTest(IdType idType, string id)
-        {
-            // Arrange
-            AoE2net.ComClient = new TestHttpClient();
-            var notExpValUserCountry = "N/A";
-            var notExpValUserName = "-- Invalid ID --";
-
-            // Act
-            var testClass = new CtrlMain();
-            var actVal = Task.Run(
-                () => testClass.ReadPlayerDataAsync(idType, id)
-                ).Result;
-
-            // Assert
-            Assert.IsTrue(actVal);
-            Assert.AreNotEqual(notExpValUserCountry, testClass.UserCountry);
-            Assert.AreNotEqual(notExpValUserName, testClass.UserName);
-        }
-
-        [TestMethod()]
-        public void GetPlayerDataAsyncTestException()
-        {
-            // Arrange
-            AoE2net.ComClient = new TestHttpClient();
-            var expValUserCountry = "N/A";
-            var expValUserName = "-- Invalid ID --";
-
-            // Act
-            var testClass = new CtrlMain();
-            try {
-                var actVal = Task.Run(
-                    () => {
-                        // The following code can read the player data.
-                        _ = testClass.ReadPlayerDataAsync(IdType.Profile, TestData.AvailableUserProfileIdString);
-                        // The following code cannot read the player data, so write null to playerLastmatch..
-                        return testClass.ReadPlayerDataAsync(IdType.Profile, "-1");
-                    }
-                    ).Result;
-            } catch (Exception) {
-            }
-
-            // Assert
-            Assert.AreEqual(expValUserCountry, testClass.UserCountry);
-            Assert.AreEqual(expValUserName, testClass.UserName);
-        }
-
-        [TestMethod()]
-        public void GetPlayerDataAsyncTestAvailableUserProfileIdWithoutSteamIdString()
-        {
-            // Arrange
-            AoE2net.ComClient = new TestHttpClient();
-            var notExpValUserCountry = "N/A";
-            var notExpValUserName = "-- Invalid ID --";
-
-
-            // Act
-            var testClass = new CtrlMain();
-            var actVal = Task.Run(
-                () => testClass.ReadPlayerDataAsync(IdType.Profile, TestData.AvailableUserProfileIdWithoutSteamIdString)
-                ).Result;
-
-            // Assert
-            Assert.IsTrue(actVal);
-            Assert.AreNotEqual(notExpValUserCountry, testClass.UserCountry);
-            Assert.AreNotEqual(notExpValUserName, testClass.UserName);
-            Assert.AreEqual(TestData.AvailableUserProfileIdWithoutSteamId, testClass.ProfileId);
-            Assert.IsNull(testClass.SteamId);
-        }
-
-        [TestMethod()]
-        public void GetPlayerDataAsyncTestInvalidArg()
-        {
-            // Arrange
-            AoE2net.ComClient = new TestHttpClient();
-            var expValUserCountry = "N/A";
-            var expValUserName = "-- Invalid ID --";
-
-            // Act
-            var testClass = new CtrlMain();
-            var actVal = Task.Run(
-                () => testClass.ReadPlayerDataAsync(IdType.NotSelected, TestData.AvailableUserSteamId)
-                ).Result;
-
-            // Assert
-            Assert.IsTrue(actVal);
-            Assert.AreEqual(expValUserCountry, testClass.UserCountry);
-            Assert.AreEqual(expValUserName, testClass.UserName);
-        }
-
-        [TestMethod()]
         [DataRow(9, "Arabia")]
         [DataRow(0, "Unknown(Map No.0)")]
         [DataRow(null, "Unknown(Map No. N/A)")]
@@ -421,7 +287,6 @@ namespace AoE2NetDesktop.Form.Tests
         public void GetCivEnNameTest(int? civ, string expVal)
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
             var player = new Player() {
                 Civ = civ,
             };
@@ -436,21 +301,6 @@ namespace AoE2NetDesktop.Form.Tests
 
             // Assert
             Assert.AreEqual(expVal, actVal);
-        }
-
-        [TestMethod()]
-        public void ShowHistoryTest()
-        {
-            // Arrange
-
-            // Act
-            var testClass = new CtrlMain() {
-                SelectedId = IdType.Steam,
-            };
-
-            testClass.ShowHistory();
-
-            // Assert
         }
     }
 }

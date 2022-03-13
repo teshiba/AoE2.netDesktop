@@ -12,7 +12,7 @@ namespace AoE2NetDesktop {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.1.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -152,6 +152,78 @@ namespace AoE2NetDesktop {
             }
             set {
                 this["MainFormOpacityPercent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#708090")]
+        public string ChromaKey {
+            get {
+                return ((string)(this["ChromaKey"]));
+            }
+            set {
+                this["ChromaKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MainFormIsHideTitle {
+            get {
+                return ((bool)(this["MainFormIsHideTitle"]));
+            }
+            set {
+                this["MainFormIsHideTitle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MainFormIsAlwaysOnTop {
+            get {
+                return ((bool)(this["MainFormIsAlwaysOnTop"]));
+            }
+            set {
+                this["MainFormIsAlwaysOnTop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Size WindowSizeSettings {
+            get {
+                return ((global::System.Drawing.Size)(this["WindowSizeSettings"]));
+            }
+            set {
+                this["WindowSizeSettings"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Point WindowLocationSettings {
+            get {
+                return ((global::System.Drawing.Point)(this["WindowLocationSettings"]));
+            }
+            set {
+                this["WindowLocationSettings"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MainFormTransparency {
+            get {
+                return ((bool)(this["MainFormTransparency"]));
+            }
+            set {
+                this["MainFormTransparency"] = value;
             }
         }
     }

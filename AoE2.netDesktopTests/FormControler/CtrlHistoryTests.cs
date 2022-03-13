@@ -1,5 +1,4 @@
-﻿using AoE2NetDesktop.Form;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using LibAoE2net;
 using AoE2NetDesktop.Tests;
@@ -460,5 +459,34 @@ namespace AoE2NetDesktop.Form.Tests
             Assert.IsNull(actVal);
         }
 
+        [TestMethod()]
+        public void ShowHistoryTest()
+        {
+            // Arrange
+            var player = new Player() {
+                ProfilId = TestData.AvailableUserProfileId,
+            };
+
+            // Act
+            var ret = CtrlHistory.GenerateFormHistory(player.Name, player.ProfilId);
+
+            // Assert
+            Assert.IsNotNull(ret);
+        }
+
+        [TestMethod()]
+        public void ShowHistoryTestInvalidProfileId()
+        {
+            // Arrange
+            var player = new Player() {
+                ProfilId = null,
+            };
+
+            // Act
+            var ret = CtrlHistory.GenerateFormHistory(player.Name, player.ProfilId);
+
+            // Assert
+            Assert.IsNull(ret);
+        }
     }
 }

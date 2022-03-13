@@ -21,8 +21,8 @@
         {
             initTask = Task.Run(async () =>
             {
-                enStrings = await AoE2net.GetStringsAsync(Language.en);
-                await InitApiStringsAsync(Language.en);
+                enStrings = await AoE2net.GetStringsAsync(Language.en).ConfigureAwait(false);
+                await InitApiStringsAsync(Language.en).ConfigureAwait(false);
             });
         }
 
@@ -34,7 +34,7 @@
         public static async Task<bool> InitAsync(Language language)
         {
             WaitInitTask();
-            await InitApiStringsAsync(language);
+            await InitApiStringsAsync(language).ConfigureAwait(false);
 
             return true;
         }
@@ -149,7 +149,7 @@
         private static async Task InitApiStringsAsync(Language language)
         {
             if (apiStrings?.Language != language.ToApiString()) {
-                apiStrings = await AoE2net.GetStringsAsync(language);
+                apiStrings = await AoE2net.GetStringsAsync(language).ConfigureAwait(false);
             }
         }
     }

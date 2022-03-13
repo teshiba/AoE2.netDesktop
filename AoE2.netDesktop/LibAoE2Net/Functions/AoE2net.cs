@@ -44,7 +44,7 @@
         {
             var apiEndPoint = $"player/lastmatch?game={AoE2Version}&profile_id={profileId}";
 
-            return await ComClient.GetFromJsonAsync<PlayerLastmatch>(apiEndPoint);
+            return await ComClient.GetFromJsonAsync<PlayerLastmatch>(apiEndPoint).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@
 
             var apiEndPoint = $"player/lastmatch?game={AoE2Version}&steam_id={steamId}";
 
-            return await ComClient.GetFromJsonAsync<PlayerLastmatch>(apiEndPoint);
+            return await ComClient.GetFromJsonAsync<PlayerLastmatch>(apiEndPoint).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@
 
             string apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&steam_id={steamId}&count={count}";
 
-            return await ComClient.GetFromJsonAsync<List<PlayerRating>>(apiEndPoint);
+            return await ComClient.GetFromJsonAsync<List<PlayerRating>>(apiEndPoint).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@
         {
             string apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&profile_id={profileId}&count={count}";
 
-            return await ComClient.GetFromJsonAsync<List<PlayerRating>>(apiEndPoint);
+            return await ComClient.GetFromJsonAsync<List<PlayerRating>>(apiEndPoint).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@
         public static async Task<Strings> GetStringsAsync(Language language)
         {
             var apiEndPoint = $"strings?game={AoE2Version}&language={language.ToApiString()}";
-            return await ComClient.GetFromJsonAsync<Strings>(apiEndPoint);
+            return await ComClient.GetFromJsonAsync<Strings>(apiEndPoint).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@
 
             var apiEndPoint = $"player/matches?game={AoE2Version}&steam_id={steamId}&start={start}&count={count}";
 
-            return await ComClient.GetFromJsonAsync<PlayerMatchHistory>(apiEndPoint);
+            return await ComClient.GetFromJsonAsync<PlayerMatchHistory>(apiEndPoint).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@
         {
             var apiEndPoint = $"player/matches?game={AoE2Version}&profile_id={profileId}&start={start}&count={count}";
 
-            return await ComClient.GetFromJsonAsync<PlayerMatchHistory>(apiEndPoint);
+            return await ComClient.GetFromJsonAsync<PlayerMatchHistory>(apiEndPoint).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@
         {
             var apiEndPoint = $"leaderboard?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&profile_id={profileId}&start={start}&count={count}";
 
-            return await ComClient.GetFromJsonAsync<LeaderboardContainer>(apiEndPoint);
+            return await ComClient.GetFromJsonAsync<LeaderboardContainer>(apiEndPoint).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -185,7 +185,7 @@
         {
             var apiEndPoint = $"leaderboard?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&steam_id={steamId}&start={start}&count={count}";
 
-            return await ComClient.GetFromJsonAsync<LeaderboardContainer>(apiEndPoint);
+            return await ComClient.GetFromJsonAsync<LeaderboardContainer>(apiEndPoint).ConfigureAwait(false);
         }
 
         /// <summary>

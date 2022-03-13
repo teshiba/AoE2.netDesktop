@@ -164,6 +164,25 @@
         }
 
         /// <summary>
+        /// Show History.
+        /// </summary>
+        /// <param name="playerName">player name.</param>
+        /// <param name="profileId">profile ID.</param>
+        /// <returns>FormHistory Instance.</returns>
+        public static FormHistory GenerateFormHistory(string playerName, int? profileId)
+        {
+            FormHistory ret = null;
+
+            if (profileId is int id) {
+                ret = new FormHistory(id) {
+                    Text = $"{playerName}'s history - AoE2.net Desktop",
+                };
+            }
+
+            return ret;
+        }
+
+        /// <summary>
         /// Create ListViewItem of leaderboard.
         /// </summary>
         /// <param name="leaderboardName">Leaderboard name.</param>
@@ -322,11 +341,7 @@
             FormHistory ret = null;
 
             if (MatchedPlayerInfos.TryGetValue(playerName, out PlayerInfo playerInfo)) {
-                if (playerInfo.ProfileId is int profileId) {
-                    ret = new FormHistory(profileId) {
-                        Text = $"{playerName}'s history - AoE2.net Desktop",
-                    };
-                }
+                ret = GenerateFormHistory(playerName, playerInfo.ProfileId);
             } else {
                 Debug.Print($"Unavailable Player Name: {playerName}.");
             }

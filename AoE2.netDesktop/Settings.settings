@@ -35,5 +35,23 @@
     <Setting Name="MainFormOpacityPercent" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
+    <Setting Name="ChromaKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#708090</Value>
+    </Setting>
+    <Setting Name="MainFormIsHideTitle" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="MainFormIsAlwaysOnTop" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="WindowSizeSettings" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">0, 0</Value>
+    </Setting>
+    <Setting Name="WindowLocationSettings" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)">0, 0</Value>
+    </Setting>
+    <Setting Name="MainFormTransparency" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

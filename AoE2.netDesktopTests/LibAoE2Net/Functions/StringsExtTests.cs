@@ -1,7 +1,4 @@
-﻿using AoE2NetDesktop.Form;
-
-using LibAoE2net;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -44,8 +41,7 @@ namespace LibAoE2net.Tests
             var dateTimeSec = new DateTimeOffset(expVal).ToUnixTimeSeconds();
 
             // Act
-            var testClass = new Match()
-            {
+            var testClass = new Match() {
                 Opened = dateTimeSec,
             };
 
@@ -64,9 +60,7 @@ namespace LibAoE2net.Tests
         public void GetCivNameTest(int? civ, string expVal)
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
-            var player = new Player()
-            {
+            var player = new Player() {
                 Civ = civ,
             };
 
