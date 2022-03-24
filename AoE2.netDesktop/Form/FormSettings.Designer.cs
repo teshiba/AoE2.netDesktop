@@ -51,6 +51,7 @@
             this.checkBoxAlwaysOnTop = new System.Windows.Forms.CheckBox();
             this.labelErrText = new System.Windows.Forms.Label();
             this.checkBoxTransparencyWindow = new System.Windows.Forms.CheckBox();
+            this.checkBoxDrawQuality = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxChromaKey)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.upDownOpacity)).BeginInit();
             this.groupBoxPlayer.SuspendLayout();
@@ -234,7 +235,7 @@
             // checkBoxHideTitle
             // 
             this.checkBoxHideTitle.AutoSize = true;
-            this.checkBoxHideTitle.Location = new System.Drawing.Point(10, 32);
+            this.checkBoxHideTitle.Location = new System.Drawing.Point(10, 35);
             this.checkBoxHideTitle.Name = "checkBoxHideTitle";
             this.checkBoxHideTitle.Size = new System.Drawing.Size(74, 19);
             this.checkBoxHideTitle.TabIndex = 17;
@@ -245,7 +246,7 @@
             // checkBoxAlwaysOnTop
             // 
             this.checkBoxAlwaysOnTop.AutoSize = true;
-            this.checkBoxAlwaysOnTop.Location = new System.Drawing.Point(10, 9);
+            this.checkBoxAlwaysOnTop.Location = new System.Drawing.Point(10, 10);
             this.checkBoxAlwaysOnTop.Name = "checkBoxAlwaysOnTop";
             this.checkBoxAlwaysOnTop.Size = new System.Drawing.Size(101, 19);
             this.checkBoxAlwaysOnTop.TabIndex = 15;
@@ -269,7 +270,7 @@
             // checkBoxTransparencyWindow
             // 
             this.checkBoxTransparencyWindow.AutoSize = true;
-            this.checkBoxTransparencyWindow.Location = new System.Drawing.Point(10, 56);
+            this.checkBoxTransparencyWindow.Location = new System.Drawing.Point(10, 62);
             this.checkBoxTransparencyWindow.Name = "checkBoxTransparencyWindow";
             this.checkBoxTransparencyWindow.Size = new System.Drawing.Size(142, 19);
             this.checkBoxTransparencyWindow.TabIndex = 26;
@@ -277,11 +278,23 @@
             this.checkBoxTransparencyWindow.UseVisualStyleBackColor = true;
             this.checkBoxTransparencyWindow.CheckedChanged += new System.EventHandler(this.CheckBoxTransparencyWindow_CheckedChanged);
             // 
+            // checkBoxDrawQuality
+            // 
+            this.checkBoxDrawQuality.AutoSize = true;
+            this.checkBoxDrawQuality.Location = new System.Drawing.Point(157, 62);
+            this.checkBoxDrawQuality.Name = "checkBoxDrawQuality";
+            this.checkBoxDrawQuality.Size = new System.Drawing.Size(119, 19);
+            this.checkBoxDrawQuality.TabIndex = 26;
+            this.checkBoxDrawQuality.Text = "Draw high quality";
+            this.checkBoxDrawQuality.UseVisualStyleBackColor = true;
+            this.checkBoxDrawQuality.CheckedChanged += new System.EventHandler(this.CheckBoxDrawQuality_CheckedChanged);
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(534, 221);
+            this.Controls.Add(this.checkBoxDrawQuality);
             this.Controls.Add(this.checkBoxTransparencyWindow);
             this.Controls.Add(this.textBoxChromaKey);
             this.Controls.Add(this.pictureBoxChromaKey);
@@ -333,5 +346,6 @@
         private CheckBox checkBoxAlwaysOnTop;
         private Label labelErrText;
         private CheckBox checkBoxTransparencyWindow;
+        private CheckBox checkBoxDrawQuality;
     }
 }

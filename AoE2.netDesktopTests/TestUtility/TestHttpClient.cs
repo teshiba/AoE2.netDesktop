@@ -145,6 +145,7 @@ namespace LibAoE2net
             string ret;
 
             try {
+                Debug.Print($"Open {Path.GetFullPath(filePath)}");
                 ret = await File.ReadAllTextAsync(filePath).ConfigureAwait(false);
             } catch (Exception ex) {
                 Debug.Print($"Test stub http read: {ex.Message}");

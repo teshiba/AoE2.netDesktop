@@ -226,5 +226,17 @@ namespace AoE2NetDesktop {
                 this["MainFormTransparency"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DrawHighQuality {
+            get {
+                return ((bool)(this["DrawHighQuality"]));
+            }
+            set {
+                this["DrawHighQuality"] = value;
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Drawing;
     using System.Threading.Tasks;
     using System.Windows.Forms;
@@ -35,16 +36,17 @@
             InitEventHandler();
             InitPlayersCtrlList();
             ClearLastMatch();
-            LoadSettings();
 
             // formMain hold the app settings.
-            CtrlSettings = new CtrlSettings() {
-                OnChangeIsAlwaysOnTop = OnChangeIsAlwaysOnTop,
-                OnChangeIsHideTitle = OnChangeIsHideTitle,
-                OnChangeOpacity = OnChangeOpacity,
-                OnChangeChromaKey = OnChangeChromaKey,
-                OnChangeIsTransparency = OnChangeIsTransparency,
-            };
+            CtrlSettings = new CtrlSettings();
+            CtrlSettings.PropertySetting.PropertyChanged += OnChangeProperty;
+
+            SetChromaKey(CtrlSettings.PropertySetting.ChromaKey);
+            OnChangeIsHideTitle(CtrlSettings.PropertySetting.IsHideTitle);
+            TopMost = CtrlSettings.PropertySetting.IsAlwaysOnTop;
+            Opacity = CtrlSettings.PropertySetting.Opacity;
+            OnChangeIsTransparency(CtrlSettings.PropertySetting.IsTransparency);
+            DrawEx.DrawHighQuality = CtrlSettings.PropertySetting.DrawHighQuality;
 
             this.language = language;
         }
@@ -56,6 +58,34 @@
 
         /// <inheritdoc/>
         protected override CtrlMain Controler { get => (CtrlMain)base.Controler; }
+
+        private void OnChangeProperty(object sender, PropertyChangedEventArgs e)
+        {
+            var propertySettings = (PropertySettings)sender;
+            switch (e.PropertyName) {
+            case "ChromaKey":
+                SetChromaKey(propertySettings.ChromaKey);
+                break;
+            case "IsHideTitle":
+                OnChangeIsHideTitle(propertySettings.IsHideTitle);
+                break;
+            case "IsAlwaysOnTop":
+                TopMost = propertySettings.IsAlwaysOnTop;
+                break;
+            case "Opacity":
+                Opacity = propertySettings.Opacity;
+                break;
+            case "IsTransparency":
+                OnChangeIsTransparency(propertySettings.IsTransparency);
+                break;
+            case "DrawHighQuality":
+                DrawEx.DrawHighQuality = propertySettings.DrawHighQuality;
+                Refresh();
+                break;
+            default:
+                break;
+            }
+        }
 
         private void InitEventHandler()
         {
@@ -75,13 +105,43 @@
             }
         }
 
-        private void LoadSettings()
+        private void OnChangeIsTransparency(bool isTransparency)
         {
-            OnChangeIsAlwaysOnTop(Settings.Default.MainFormIsAlwaysOnTop);
-            OnChangeIsHideTitle(Settings.Default.MainFormIsHideTitle);
-            OnChangeOpacity((double)Settings.Default.MainFormOpacityPercent * 0.01);
-            OnChangeChromaKey(Settings.Default.ChromaKey);
-            OnChangeIsTransparency(Settings.Default.MainFormTransparency);
+            if (isTransparency) {
+                TransparencyKey = ColorTranslator.FromHtml(CtrlSettings.PropertySetting.ChromaKey);
+            } else {
+                TransparencyKey = default;
+            }
+        }
+
+        private void OnChangeIsHideTitle(bool isHide)
+        {
+            var top = RectangleToScreen(ClientRectangle).Top;
+            var left = RectangleToScreen(ClientRectangle).Left;
+            var height = RectangleToScreen(ClientRectangle).Height;
+
+            SuspendLayout();
+
+            if (isHide && FormBorderStyle != FormBorderStyle.None) {
+                FormBorderStyle = FormBorderStyle.None;
+                MinimumSize = new Size(410, 310);
+                Top = top;
+                Left = left;
+                Height = height;
+            } else if (!isHide && FormBorderStyle != FormBorderStyle.Sizable) {
+                FormBorderStyle = FormBorderStyle.Sizable;
+                MinimumSize = new Size(410, 340);
+                Top -= RectangleToScreen(ClientRectangle).Top - Top;
+                Left -= RectangleToScreen(ClientRectangle).Left - Left;
+            }
+
+            ResumeLayout();
+        }
+
+        private void OpenSettings()
+        {
+            var formSettings = new FormSettings(CtrlSettings);
+            formSettings.Show(this);
         }
 
         private void SetChromaKey(string htmlColor)
@@ -90,7 +150,7 @@
 
             try {
                 chromaKey = ColorTranslator.FromHtml(htmlColor);
-            } catch (ArgumentException) {
+            } catch (Exception) {
                 chromaKey = Color.Empty;
             }
 
@@ -189,7 +249,7 @@
         private async Task<Match> SetLastMatchData(int profileId)
         {
             Match ret;
-            var playerLastmatch = await CtrlMain.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
+            var playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
             var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId);
             SetMatchData(playerLastmatch.LastMatch);
 
@@ -292,7 +352,7 @@
                 labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
             }
 
-            SetChromaKey(CtrlSettings.ChromaKey);
+            SetChromaKey(CtrlSettings.PropertySetting.ChromaKey);
 
             Awaiter.Complete();
         }
@@ -301,60 +361,6 @@
         {
             _ = await UpdateLastMatch(CtrlSettings.ProfileId);
             Awaiter.Complete();
-        }
-
-        private void OnChangeIsAlwaysOnTop(bool isAlwaysOnTop)
-        {
-            TopMost = isAlwaysOnTop;
-        }
-
-        private void OnChangeChromaKey(string chromaKey)
-        {
-            SetChromaKey(chromaKey);
-        }
-
-        private void OnChangeOpacity(double value)
-        {
-            Opacity = value;
-        }
-
-        private void OnChangeIsTransparency(bool isTransparency)
-        {
-            if (isTransparency) {
-                TransparencyKey = ColorTranslator.FromHtml(Settings.Default.ChromaKey);
-            } else {
-                TransparencyKey = default;
-            }
-        }
-
-        private void OnChangeIsHideTitle(bool isHide)
-        {
-            var top = RectangleToScreen(ClientRectangle).Top;
-            var left = RectangleToScreen(ClientRectangle).Left;
-            var height = RectangleToScreen(ClientRectangle).Height;
-
-            SuspendLayout();
-
-            if (isHide) {
-                FormBorderStyle = FormBorderStyle.None;
-                MinimumSize = new Size(410, 310);
-                Top = top;
-                Left = left;
-                Height = height;
-            } else {
-                FormBorderStyle = FormBorderStyle.Sizable;
-                MinimumSize = new Size(410, 340);
-                Top -= RectangleToScreen(ClientRectangle).Top - Top;
-                Left -= RectangleToScreen(ClientRectangle).Left - Left;
-            }
-
-            ResumeLayout();
-        }
-
-        private void OpenSettings()
-        {
-            var formSettings = new FormSettings(CtrlSettings);
-            formSettings.Show(this);
         }
 
         ///////////////////////////////////////////////////////////////////////

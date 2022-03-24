@@ -21,8 +21,8 @@
         {
             InitializeComponent();
             InitIDRadioButton();
-            ShowAoE2netStatus(NetStatus.Disconnected);
-            SetChromaKey(Controler.ChromaKey);
+            labelAoE2NetStatus.SetAoE2netStatus(NetStatus.Disconnected);
+            SetChromaKey(Controler.PropertySetting.ChromaKey);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@
             try {
                 chromaKey = ColorTranslator.FromHtml(htmlColor);
             } catch (ArgumentException) {
-                chromaKey = Color.Empty;
+                chromaKey = ColorTranslator.FromHtml("#000000");
             }
 
             SetChromaKey(chromaKey);
@@ -48,8 +48,8 @@
 
         private void SetChromaKey(Color chromaKey)
         {
-            Controler.ChromaKey = $"#{chromaKey.R:X02}{chromaKey.G:X02}{chromaKey.B:X02}";
-            textBoxChromaKey.Text = Controler.ChromaKey;
+            Controler.PropertySetting.ChromaKey = $"#{chromaKey.R:X02}{chromaKey.G:X02}{chromaKey.B:X02}";
+            textBoxChromaKey.Text = Controler.PropertySetting.ChromaKey;
             pictureBoxChromaKey.BackColor = chromaKey;
             Settings.Default.ChromaKey = ColorTranslator.ToHtml(chromaKey);
         }
@@ -68,12 +68,19 @@
 
         private void LoadSettings()
         {
-            upDownOpacity.Value = Settings.Default.MainFormOpacityPercent;
             textBoxSettingSteamId.Text = Settings.Default.SteamId;
             textBoxSettingProfileId.Text = Settings.Default.ProfileId.ToString();
-            checkBoxAlwaysOnTop.Checked = Settings.Default.MainFormIsAlwaysOnTop;
-            checkBoxHideTitle.Checked = Settings.Default.MainFormIsHideTitle;
-            checkBoxTransparencyWindow.Checked = Settings.Default.MainFormTransparency;
+
+            LoadMainFormSettings();
+        }
+
+        private void LoadMainFormSettings()
+        {
+            upDownOpacity.Value = (decimal)Controler.PropertySetting.Opacity * 100;
+            checkBoxAlwaysOnTop.Checked = Controler.PropertySetting.IsAlwaysOnTop;
+            checkBoxHideTitle.Checked = Controler.PropertySetting.IsHideTitle;
+            checkBoxTransparencyWindow.Checked = Controler.PropertySetting.IsTransparency;
+            checkBoxDrawQuality.Checked = Controler.PropertySetting.DrawHighQuality;
 
             switch (Controler.SelectedIdType) {
             case IdType.Steam:
@@ -87,17 +94,15 @@
 
         private async Task<bool> ReloadProfileAsync(IdType idtype, string idText)
         {
-            bool ret;
-
-            ShowAoE2netStatus(NetStatus.Connecting);
+            labelAoE2NetStatus.SetAoE2netStatus(NetStatus.Connecting);
             groupBoxPlayer.Enabled = false;
             labelSettingsName.Text = $"   Name: --";
             labelSettingsCountry.Text = $"Country: --";
 
-            try {
-                ret = await Controler.ReloadProfileAsync(idtype, idText);
-                ShowAoE2netStatus(NetStatus.Connected);
+            var ret = await Controler.ReloadProfileAsync(idtype, idText);
 
+            if (ret) {
+                labelAoE2NetStatus.SetAoE2netStatus(NetStatus.Connected);
                 switch (Controler.SelectedIdType) {
                 case IdType.Steam:
                     textBoxSettingProfileId.Text = Controler.ProfileId.ToString();
@@ -107,13 +112,12 @@
                     textBoxSettingSteamId.Text = Controler.SteamId;
                     Settings.Default.SteamId = Controler.SteamId;
                     break;
+#if false // This code does not pass.
                 case IdType.NotSelected:
                 default:
                     throw new Exception($"Invalid IdType:{Controler.SelectedIdType}");
+#endif
                 }
-            } catch (Exception ex) {
-                ret = false;
-                labelErrText.Text = ex.Message + ":" + ex.StackTrace;
             }
 
             labelSettingsName.Text = $"   Name: {Controler.UserName}";
@@ -125,55 +129,18 @@
             return ret;
         }
 
-        private void ShowAoE2netStatus(NetStatus status)
-        {
-            string statusText = string.Empty;
-            Color textColor = default;
-
-            switch (status) {
-            case NetStatus.Connected:
-                statusText = "Online";
-                textColor = Color.Green;
-                break;
-            case NetStatus.Disconnected:
-                statusText = "Disconnected";
-                textColor = Color.Firebrick;
-                break;
-            case NetStatus.ServerError:
-                statusText = "Server Error";
-                textColor = Color.Olive;
-                break;
-            case NetStatus.ComTimeout:
-                statusText = "Timeout";
-                textColor = Color.Purple;
-                break;
-            case NetStatus.Connecting:
-                statusText = "Connecting";
-                textColor = Color.MediumSeaGreen;
-                break;
-            }
-
-            if (labelAoE2NetStatus.InvokeRequired) {
-                labelAoE2NetStatus.Invoke(() => SetStatus(statusText, textColor));
-            } else {
-                SetStatus(statusText, textColor);
-            }
-        }
-
-        private void SetStatus(string statusText, Color textColor)
-        {
-            labelAoE2NetStatus.Text = statusText;
-            labelAoE2NetStatus.ForeColor = textColor;
-        }
-
         private void OnErrorHandler(Exception ex)
         {
             if (ex.GetType() == typeof(HttpRequestException)) {
-                ShowAoE2netStatus(NetStatus.ServerError);
+                if (ex.Message.Contains("404")) {
+                    labelAoE2NetStatus.SetAoE2netStatus(NetStatus.InvalidRequest);
+                } else {
+                    labelAoE2NetStatus.SetAoE2netStatus(NetStatus.ServerError);
+                }
             }
 
             if (ex.GetType() == typeof(TaskCanceledException)) {
-                ShowAoE2netStatus(NetStatus.ComTimeout);
+                labelAoE2NetStatus.SetAoE2netStatus(NetStatus.ComTimeout);
             }
         }
 
@@ -197,27 +164,26 @@
 
         private async void FormSettings_Load(object sender, EventArgs e)
         {
-            RestoreWindowStatus();
-
             AoE2net.OnError = OnErrorHandler;
 
+            RestoreWindowStatus();
+            LoadSettings();
+
+            var idtype = Controler.SelectedIdType;
+            var idText = string.Empty;
+
+            switch (idtype) {
+            case IdType.Steam:
+                idText = Controler.SteamId;
+                break;
+            case IdType.Profile:
+                idText = Controler.ProfileId.ToString();
+                break;
+            }
+
             try {
-                LoadSettings();
-
-                var idtype = Controler.SelectedIdType;
-                var idText = string.Empty;
-
-                switch (idtype) {
-                case IdType.Steam:
-                    idText = Controler.SteamId;
-                    break;
-                case IdType.Profile:
-                    idText = Controler.ProfileId.ToString();
-                    break;
-                }
-
                 _ = await ReloadProfileAsync(idtype, idText);
-            } catch (AggregateException ex) {
+            } catch (Exception ex) {
                 labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
             }
 
@@ -278,26 +244,32 @@
 
         private void UpDownOpacity_ValueChanged(object sender, EventArgs e)
         {
-            Controler.Opacity = (double)upDownOpacity.Value * 0.01;
+            Controler.PropertySetting.Opacity = (double)upDownOpacity.Value * 0.01;
             Settings.Default.MainFormOpacityPercent = upDownOpacity.Value;
         }
 
         private void CheckBoxAlwaysOnTop_CheckedChanged(object sender, EventArgs e)
         {
-            Controler.IsAlwaysOnTop = ((CheckBox)sender).Checked;
-            Settings.Default.MainFormIsAlwaysOnTop = Controler.IsAlwaysOnTop;
+            Controler.PropertySetting.IsAlwaysOnTop = ((CheckBox)sender).Checked;
+            Settings.Default.MainFormIsAlwaysOnTop = Controler.PropertySetting.IsAlwaysOnTop;
         }
 
         private void CheckBoxHideTitle_CheckedChanged(object sender, EventArgs e)
         {
-            Controler.IsHideTitle = ((CheckBox)sender).Checked;
-            Settings.Default.MainFormIsHideTitle = Controler.IsHideTitle;
+            Controler.PropertySetting.IsHideTitle = ((CheckBox)sender).Checked;
+            Settings.Default.MainFormIsHideTitle = Controler.PropertySetting.IsHideTitle;
         }
 
         private void CheckBoxTransparencyWindow_CheckedChanged(object sender, EventArgs e)
         {
-            Controler.IsTransparency = ((CheckBox)sender).Checked;
-            Settings.Default.MainFormTransparency = Controler.IsTransparency;
+            Controler.PropertySetting.IsTransparency = ((CheckBox)sender).Checked;
+            Settings.Default.MainFormTransparency = Controler.PropertySetting.IsTransparency;
+        }
+
+        private void CheckBoxDrawQuality_CheckedChanged(object sender, EventArgs e)
+        {
+            Controler.PropertySetting.DrawHighQuality = ((CheckBox)sender).Checked;
+            Settings.Default.DrawHighQuality = Controler.PropertySetting.DrawHighQuality;
         }
 
         private void PictureBoxChromaKey_Click(object sender, EventArgs e)
@@ -313,7 +285,7 @@
 
         private void TextBoxChromaKey_Leave(object sender, EventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
+            var textBox = (TextBox)sender;
             if (!textBox.Text.StartsWith("#")) {
                 textBox.Text = $"#{textBox.Text}";
             }

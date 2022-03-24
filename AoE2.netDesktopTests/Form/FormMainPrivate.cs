@@ -23,9 +23,9 @@ namespace AoE2NetDesktop.Form.Tests
                 mouseDownPoint = this.GetField<Point>("mouseDownPoint");
                 updateToolStripMenuItem = this.GetControl<ToolStripMenuItem>("updateToolStripMenuItem");
 
-                TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "SteamId", TestData.AvailableUserSteamId);
-                TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
-                TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
+                TestUtilityExt.SetSettings(this, "SteamId", TestData.AvailableUserSteamId);
+                TestUtilityExt.SetSettings(this, "ProfileId", TestData.AvailableUserProfileId);
+                TestUtilityExt.SetSettings(this, "SelectedIdType", IdType.Profile);
             }
 
             public async void FormMainOnKeyDown(Keys keys)

@@ -2,9 +2,6 @@
 using AoE2NetDesktop.Tests;
 using LibAoE2net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using ScottPlot;
-
 using System;
 using System.Threading.Tasks;
 
@@ -106,7 +103,7 @@ namespace AoE2NetDesktop.Form.Tests
                 ).Result;
 
             // Assert
-            Assert.IsTrue(actVal);
+            Assert.IsFalse(actVal);
             Assert.AreEqual(expValUserCountry, testClass.UserCountry);
             Assert.AreEqual(expValUserName, testClass.UserName);
         }
@@ -143,7 +140,29 @@ namespace AoE2NetDesktop.Form.Tests
             testClass.ShowMyHistory();
 
             // Assert
-            Assert.IsNotNull(testClass.FormHistory);
+            Assert.IsNotNull(testClass.FormMyHistory);
+        }
+
+        [TestMethod()]
+        public void ReadProfileAsyncTest()
+        {
+            // Arrange
+            var notExpValUserCountry = "N/A";
+            var notExpValUserName = "-- Invalid ID --";
+
+            // Act
+            var testClass = new CtrlSettings();
+            TestUtilityExt.SetSettings(testClass, "SteamId", TestData.AvailableUserSteamId);
+            TestUtilityExt.SetSettings(testClass, "ProfileId", TestData.AvailableUserProfileId);
+            TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.NotSelected);
+            var actVal = Task.Run(
+                () => testClass.ReadProfileAsync()
+                ).Result;
+
+            // Assert
+            Assert.IsTrue(actVal);
+            Assert.AreNotEqual(notExpValUserCountry, testClass.UserCountry);
+            Assert.AreNotEqual(notExpValUserName, testClass.UserName);
         }
     }
 }

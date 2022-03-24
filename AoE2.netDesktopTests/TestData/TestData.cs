@@ -15,6 +15,7 @@ namespace AoE2NetDesktop.Tests
         public static void AssemblyIntiialize(TestContext testContext)
         {
             _ = testContext;
+            TestUtilityExt.AssemblyName = "AoE2NetDesktop";
         }
 
     }

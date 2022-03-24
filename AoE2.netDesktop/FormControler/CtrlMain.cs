@@ -72,44 +72,6 @@
         }
 
         /// <summary>
-        /// Get player last match.
-        /// </summary>
-        /// <param name="userId">ID type.</param>
-        /// <param name="idText">ID text.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(IdType userId, string idText)
-        {
-            if (idText is null) {
-                throw new ArgumentNullException(nameof(idText));
-            }
-
-            var ret = userId switch {
-                IdType.Steam => await AoE2net.GetPlayerLastMatchAsync(idText).ConfigureAwait(false),
-                IdType.Profile => await AoE2net.GetPlayerLastMatchAsync(int.Parse(idText)),
-                _ => new PlayerLastmatch(),
-            };
-
-            foreach (var player in ret.LastMatch.Players) {
-                List<PlayerRating> rate = null;
-                if (player.SteamId != null) {
-                    rate = await AoE2net.GetPlayerRatingHistoryAsync(
-                        player.SteamId, ret.LastMatch.LeaderboardId ?? 0, 1);
-                } else if (player.ProfilId is int profileId) {
-                    rate = await AoE2net.GetPlayerRatingHistoryAsync(
-                        profileId, ret.LastMatch.LeaderboardId ?? 0, 1);
-                } else {
-                    throw new FormatException($"Invalid profilId of Name:{player.Name}");
-                }
-
-                if (rate.Count != 0) {
-                    player.Rating ??= rate[0].Rating;
-                }
-            }
-
-            return ret;
-        }
-
-        /// <summary>
         /// Get the rate string.
         /// </summary>
         /// <param name="rate">rate.</param>

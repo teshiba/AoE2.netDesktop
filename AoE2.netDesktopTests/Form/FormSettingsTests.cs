@@ -36,7 +36,7 @@ namespace AoE2NetDesktop.Form.Tests
             testClass.ShowDialog();
 
             // Assert
-            Assert.AreEqual(expVal, ColorTranslator.FromHtml(testClass.Controler.ChromaKey));
+            Assert.AreEqual(expVal, ColorTranslator.FromHtml(testClass.Controler.PropertySetting.ChromaKey));
             Assert.AreEqual(expVal, testClass.pictureBoxChromaKey.BackColor);
             Assert.AreEqual(expVal, ColorTranslator.FromHtml(testClass.textBoxChromaKey.Text));
             Assert.IsTrue(done);
@@ -58,7 +58,7 @@ namespace AoE2NetDesktop.Form.Tests
                 testClass.httpClient.ForceHttpRequestException = true;
                 testClass.upDownOpacity.Value = expVal;
                 // Assert
-                Assert.AreEqual(expVal, testClass.Controler.Opacity * 100);
+                Assert.AreEqual(expVal, testClass.Controler.PropertySetting.Opacity * 100);
 
                 // CleanUp
                 testClass.Close();
@@ -142,7 +142,6 @@ namespace AoE2NetDesktop.Form.Tests
                 await testClass.Awaiter.WaitAsync("FormSettings_Load");
 
                 // Assert
-                Assert.IsTrue(testClass.labelErrText.Text.Contains("Forced HttpRequestException"));
                 Assert.IsTrue(testClass.labelAoE2NetStatus.Text.Contains("Server Error"));
 
                 // CleanUp
@@ -155,7 +154,7 @@ namespace AoE2NetDesktop.Form.Tests
         }
 
         [TestMethod()]
-        public void FormSettingsTestExceptionFormSettings_LoadHTaskCanceledException()
+        public void FormSettingsTestExceptionFormSettings_LoadNetStatusTimeout()
         {
             // Arrange
             var expVal = string.Empty;
@@ -169,7 +168,6 @@ namespace AoE2NetDesktop.Form.Tests
                 await testClass.Awaiter.WaitAsync("FormSettings_Load");
 
                 // Assert
-                Assert.IsTrue(testClass.labelErrText.Text.Contains("Forced TaskCanceledException"));
                 Assert.IsTrue(testClass.labelAoE2NetStatus.Text.Contains("Timeout"));
 
                 // CleanUp
@@ -218,8 +216,8 @@ namespace AoE2NetDesktop.Form.Tests
             var expVal = string.Empty;
             var done = false;
             var testClass = new FormSettingsPrivate();
-            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", 100);
-            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
+            TestUtilityExt.SetSettings(testClass, "ProfileId", 100);
+            TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Profile);
 
             // Act
             testClass.Shown += async (sender, e) =>
@@ -248,8 +246,8 @@ namespace AoE2NetDesktop.Form.Tests
             var expVal = string.Empty;
             var done = false;
             var testClass = new FormSettingsPrivate();
-            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", 101);
-            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
+            TestUtilityExt.SetSettings(testClass, "ProfileId", 101);
+            TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Profile);
 
             // Act
             testClass.Shown += async (sender, e) =>
@@ -285,7 +283,7 @@ namespace AoE2NetDesktop.Form.Tests
                 testClass.checkBoxAlwaysOnTop.Checked = true;
 
                 // Assert
-                Assert.IsTrue(testClass.Controler.IsAlwaysOnTop);
+                Assert.IsTrue(testClass.Controler.PropertySetting.IsAlwaysOnTop);
 
                 // CleanUp
                 testClass.Close();
@@ -346,6 +344,40 @@ namespace AoE2NetDesktop.Form.Tests
 
             // Assert
             Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void SetChromaKeyTest()
+        {
+            // Arrange
+            var testClass = new FormSettingsPrivate();
+            var expValue = "#123456";
+
+            // Act
+            testClass.SetChromaKey(expValue);
+
+            // Assert
+            Assert.AreEqual(expValue, testClass.Controler.PropertySetting.ChromaKey);
+            Assert.AreEqual(expValue, testClass.textBoxChromaKey.Text);
+            Assert.AreEqual(ColorTranslator.FromHtml(expValue), testClass.pictureBoxChromaKey.BackColor);
+            Assert.AreEqual(expValue, TestUtilityExt.GetSettings<string>(testClass, "ChromaKey"));
+        }
+
+        [TestMethod()]
+        public void SetChromaKeyTestException()
+        {
+            // Arrange
+            var testClass = new FormSettingsPrivate();
+            var expValue = "#000000";
+
+            // Act
+            testClass.SetChromaKey("invalidColorName");
+
+            // Assert
+            Assert.AreEqual(expValue, testClass.Controler.PropertySetting.ChromaKey);
+            Assert.AreEqual(expValue, testClass.textBoxChromaKey.Text);
+            Assert.AreEqual(ColorTranslator.FromHtml(expValue), testClass.pictureBoxChromaKey.BackColor);
+            Assert.AreEqual(expValue, TestUtilityExt.GetSettings<string>(testClass, "ChromaKey"));
         }
     }
 }

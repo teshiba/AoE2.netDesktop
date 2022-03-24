@@ -28,7 +28,7 @@ namespace AoE2NetDesktop.Form.Tests
             public new CtrlSettings Controler => base.Controler;
 
             public FormSettingsPrivate()
-                :base (new CtrlSettings())
+                : base(new CtrlSettings())
             {
                 httpClient = new TestHttpClient();
                 AoE2net.ComClient = httpClient;
@@ -47,9 +47,9 @@ namespace AoE2NetDesktop.Form.Tests
                 textBoxChromaKey = this.GetControl<TextBox>("textBoxChromaKey");
                 pictureBoxChromaKey = this.GetControl<PictureBox>("pictureBoxChromaKey");
 
-                TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "SteamId", TestData.AvailableUserSteamId);
-                TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
-                TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
+                TestUtilityExt.SetSettings(this, "SteamId", TestData.AvailableUserSteamId);
+                TestUtilityExt.SetSettings(this, "ProfileId", TestData.AvailableUserProfileId);
+                TestUtilityExt.SetSettings(this, "SelectedIdType", IdType.Profile);
             }
 
             public void FormMainOnMouseDown(MouseEventArgs e)
@@ -65,6 +65,11 @@ namespace AoE2NetDesktop.Form.Tests
             public void PictureBoxChromaKeyOnClick(EventArgs e)
             {
                 this.Invoke("PictureBoxChromaKey_Click", this, e);
+            }
+
+            public void SetChromaKey(string htmlColor)
+            {
+                this.Invoke("SetChromaKey", htmlColor);
             }
         }
     }

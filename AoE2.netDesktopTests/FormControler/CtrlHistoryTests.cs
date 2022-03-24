@@ -45,6 +45,12 @@ namespace AoE2NetDesktop.Form.Tests
             { LeaderboardId.Unranked, Color.SlateGray },
         };
 
+        [TestInitialize]
+        public void InitTest()
+        {
+            AoE2net.ComClient = new TestHttpClient();
+        }
+
         [TestMethod()]
         public void CtrlHistoryTest()
         {
@@ -128,7 +134,6 @@ namespace AoE2NetDesktop.Form.Tests
         public void ReadPlayerMatchHistoryAsyncTest()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
             var expVal = 3;
 
             // Act
@@ -148,7 +153,6 @@ namespace AoE2NetDesktop.Form.Tests
         public void ReadLeaderBoardAsyncTest()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient();
             var expVal = Enum.GetNames(typeof(LeaderboardId)).Length - 1;
 
             // Act

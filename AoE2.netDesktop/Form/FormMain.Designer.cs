@@ -99,9 +99,9 @@
             // 
             this.labelServer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelServer.BackColor = System.Drawing.SystemColors.Control;
-            this.labelServer.Location = new System.Drawing.Point(191, 29);
+            this.labelServer.Location = new System.Drawing.Point(727, 29);
             this.labelServer.Name = "labelServer";
-            this.labelServer.Size = new System.Drawing.Size(175, 19);
+            this.labelServer.Size = new System.Drawing.Size(152, 19);
             this.labelServer.TabIndex = 2;
             this.labelServer.Text = "Server: ----------";
             this.labelServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -111,9 +111,9 @@
             // 
             this.labelGameId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelGameId.BackColor = System.Drawing.SystemColors.Control;
-            this.labelGameId.Location = new System.Drawing.Point(190, 8);
+            this.labelGameId.Location = new System.Drawing.Point(726, 8);
             this.labelGameId.Name = "labelGameId";
-            this.labelGameId.Size = new System.Drawing.Size(175, 19);
+            this.labelGameId.Size = new System.Drawing.Size(152, 19);
             this.labelGameId.TabIndex = 9;
             this.labelGameId.Text = "GameID: 88888888";
             this.labelGameId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -433,7 +433,7 @@
             this.labelErrText.BackColor = System.Drawing.Color.DarkGray;
             this.labelErrText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
-            this.labelErrText.Location = new System.Drawing.Point(-244, 322);
+            this.labelErrText.Location = new System.Drawing.Point(11, 322);
             this.labelErrText.Name = "labelErrText";
             this.labelErrText.Size = new System.Drawing.Size(868, 83);
             this.labelErrText.TabIndex = 8;
@@ -756,7 +756,7 @@
             this.labelMap.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelMap.Location = new System.Drawing.Point(1, 2);
             this.labelMap.Name = "labelMap";
-            this.labelMap.Size = new System.Drawing.Size(264, 40);
+            this.labelMap.Size = new System.Drawing.Size(711, 40);
             this.labelMap.TabIndex = 2;
             this.labelMap.Text = "Map : ------------------------";
             this.labelMap.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
@@ -807,7 +807,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(374, 321);
+            this.ClientSize = new System.Drawing.Size(885, 321);
             this.ContextMenuStrip = this.contextMenuStripMain;
             this.Controls.Add(this.labelErrText);
             this.Controls.Add(this.panelTeam1);

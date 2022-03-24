@@ -144,7 +144,7 @@ namespace AoE2NetDesktop.Form
             this.tabPageMatches.Controls.Add(this.comboBoxLeaderboard);
             this.tabPageMatches.Location = new System.Drawing.Point(4, 24);
             this.tabPageMatches.Name = "tabPageMatches";
-            this.tabPageMatches.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageMatches.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageMatches.Size = new System.Drawing.Size(1260, 715);
             this.tabPageMatches.TabIndex = 5;
             this.tabPageMatches.Text = "Matches";
@@ -165,7 +165,6 @@ namespace AoE2NetDesktop.Form
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer5.Cursor = System.Windows.Forms.Cursors.VSplit;
             this.splitContainer5.Location = new System.Drawing.Point(3, 42);
             this.splitContainer5.Name = "splitContainer5";
             // 
@@ -193,6 +192,7 @@ namespace AoE2NetDesktop.Form
             this.columnHeaderColor,
             this.columnHeaderDate,
             this.columnHeaderVersion});
+            this.listViewMatchHistory.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.listViewMatchHistory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewMatchHistory.FullRowSelect = true;
             this.listViewMatchHistory.GridLines = true;
@@ -249,6 +249,7 @@ namespace AoE2NetDesktop.Form
             // 
             // comboBoxDataSource
             // 
+            this.comboBoxDataSource.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.comboBoxDataSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDataSource.Enabled = false;
             this.comboBoxDataSource.FormattingEnabled = true;
@@ -261,6 +262,7 @@ namespace AoE2NetDesktop.Form
             // formsPlotWinRate
             // 
             this.formsPlotWinRate.BackColor = System.Drawing.Color.Transparent;
+            this.formsPlotWinRate.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.formsPlotWinRate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.formsPlotWinRate.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.formsPlotWinRate.Location = new System.Drawing.Point(0, 0);
@@ -286,7 +288,7 @@ namespace AoE2NetDesktop.Form
             this.tabPageStatistics.Controls.Add(this.listViewStatistics);
             this.tabPageStatistics.Location = new System.Drawing.Point(4, 24);
             this.tabPageStatistics.Name = "tabPageStatistics";
-            this.tabPageStatistics.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageStatistics.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageStatistics.Size = new System.Drawing.Size(1260, 715);
             this.tabPageStatistics.TabIndex = 1;
             this.tabPageStatistics.Text = "Statistics";
@@ -390,7 +392,7 @@ namespace AoE2NetDesktop.Form
             this.tabPagePlayers.Controls.Add(this.splitContainerPlayers);
             this.tabPagePlayers.Location = new System.Drawing.Point(4, 24);
             this.tabPagePlayers.Name = "tabPagePlayers";
-            this.tabPagePlayers.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPagePlayers.Padding = new System.Windows.Forms.Padding(3);
             this.tabPagePlayers.Size = new System.Drawing.Size(1260, 715);
             this.tabPagePlayers.TabIndex = 3;
             this.tabPagePlayers.Text = "Players";
@@ -399,7 +401,6 @@ namespace AoE2NetDesktop.Form
             // splitContainerPlayers
             // 
             this.splitContainerPlayers.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainerPlayers.Cursor = System.Windows.Forms.Cursors.VSplit;
             this.splitContainerPlayers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerPlayers.Location = new System.Drawing.Point(3, 3);
             this.splitContainerPlayers.Name = "splitContainerPlayers";
@@ -430,6 +431,7 @@ namespace AoE2NetDesktop.Form
             this.columnHeader1v1GameCount,
             this.columnHeaderLastDate});
             this.listViewMatchedPlayers.ContextMenuStrip = this.contextMenuStripMatchedPlayers;
+            this.listViewMatchedPlayers.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.listViewMatchedPlayers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewMatchedPlayers.FullRowSelect = true;
             this.listViewMatchedPlayers.GridLines = true;
@@ -490,6 +492,7 @@ namespace AoE2NetDesktop.Form
             // 
             this.formsPlotCountry.BackColor = System.Drawing.Color.Transparent;
             this.formsPlotCountry.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.formsPlotCountry.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.formsPlotCountry.Dock = System.Windows.Forms.DockStyle.Fill;
             this.formsPlotCountry.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.formsPlotCountry.Location = new System.Drawing.Point(0, 0);

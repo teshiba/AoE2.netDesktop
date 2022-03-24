@@ -24,8 +24,8 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             var testClass = new FormMainPrivate();
-            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Steam);
-            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", 1);
+            TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Steam);
+            TestUtilityExt.SetSettings(testClass, "ProfileId", 1);
             var expVal = string.Empty;
             var done = false;
 
@@ -61,7 +61,7 @@ namespace AoE2NetDesktop.Form.Tests
             // Arrange
             var expVal = string.Empty;
             var testClass = new FormMainPrivate();
-            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Steam);
+            TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Steam);
 
             // Act
             testClass.Shown += async (sender, e) =>
@@ -92,7 +92,7 @@ namespace AoE2NetDesktop.Form.Tests
             // Arrange
             var testClass = new FormMainPrivate();
             testClass.httpClient.PlayerLastMatchUri = "playerLastMatchInvalidPlayerColor.json";
-            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Steam);
+            TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Steam);
 
             // Act
             testClass.Shown += async (sender, e) =>
