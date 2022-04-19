@@ -1,10 +1,8 @@
-﻿using AoE2NetDesktop.Tests;
-using LibAoE2net;
+﻿using LibAoE2net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 

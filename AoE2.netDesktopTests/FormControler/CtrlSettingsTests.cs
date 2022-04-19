@@ -1,5 +1,4 @@
-﻿using AoE2NetDesktop.Form;
-using AoE2NetDesktop.Tests;
+﻿using AoE2NetDesktop.Tests;
 using LibAoE2net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -71,18 +70,15 @@ namespace AoE2NetDesktop.Form.Tests
             var testClass = new CtrlSettings() {
                 SelectedIdType = IdType.Profile,
             };
-            try {
-                var actVal = Task.Run(
-                    async () =>
-                    {
-                        // The following code can read the player data.
-                        _ = await testClass.ReloadProfileAsync(IdType.Profile, TestData.AvailableUserProfileIdString);
-                        // The following code cannot read the player data, so write null to playerLastmatch..
-                        return await testClass.ReloadProfileAsync(IdType.Profile, "-1");
-                    }
-                    ).Result;
-            } catch (Exception) {
-            }
+            var actVal = Task.Run(
+                async () =>
+                {
+                    // The following code can read the player data.
+                    _ = await testClass.ReloadProfileAsync(IdType.Profile, TestData.AvailableUserProfileIdString);
+                    // The following code cannot read the player data, so write null to playerLastmatch..
+                    return await testClass.ReloadProfileAsync(IdType.Profile, "-1");
+                }
+                ).Result;
 
             // Assert
             Assert.AreEqual(expValUserCountry, testClass.UserCountry);
@@ -95,15 +91,14 @@ namespace AoE2NetDesktop.Form.Tests
             // Arrange
             var expValUserCountry = "N/A";
             var expValUserName = "-- Invalid ID --";
-
-            // Act
             var testClass = new CtrlSettings();
-            var actVal = Task.Run(
-                () => testClass.ReloadProfileAsync(IdType.NotSelected, TestData.AvailableUserSteamId)
-                ).Result;
 
             // Assert
-            Assert.IsFalse(actVal);
+            Assert.ThrowsExceptionAsync<Exception>(() =>
+                // Act
+                testClass.ReloadProfileAsync(IdType.NotSelected, TestData.AvailableUserSteamId)
+            );
+
             Assert.AreEqual(expValUserCountry, testClass.UserCountry);
             Assert.AreEqual(expValUserName, testClass.UserName);
         }

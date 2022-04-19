@@ -3,6 +3,7 @@ using LibAoE2net;
 using System.Windows.Forms;
 using AoE2NetDesktop.Tests;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -83,9 +84,6 @@ namespace AoE2NetDesktop.Form.Tests
             testClass.ShowDialog();
         }
 
-
-
-
         [TestMethod()]
         public void FormMainTestGetInvalidPlayerColor()
         {
@@ -113,9 +111,6 @@ namespace AoE2NetDesktop.Form.Tests
 
         }
 
-
-
-
         [TestMethod()]
         public void FormMainTestTabControlMain_KeyDownF5()
         {
@@ -128,7 +123,7 @@ namespace AoE2NetDesktop.Form.Tests
             {
                 await testClass.Awaiter.WaitAsync("FormMain_Load");
                 testClass.httpClient.ForceHttpRequestException = true;
-                testClass.FormMainOnKeyDown(Keys.F5);
+                testClass.FormMain_KeyDown(Keys.F5);
                 done = true;
 
                 // Assert
@@ -156,7 +151,7 @@ namespace AoE2NetDesktop.Form.Tests
             {
                 await testClass.Awaiter.WaitAsync("FormMain_Load");
                 testClass.httpClient.ForceHttpRequestException = true;
-                testClass.FormMainOnKeyDown(Keys.F4);
+                testClass.FormMain_KeyDown(Keys.F4);
                 done = true;
 
                 // Assert
@@ -186,7 +181,7 @@ namespace AoE2NetDesktop.Form.Tests
             testClass.Shown += async (sender, e) =>
             {
                 await testClass.Awaiter.WaitAsync("FormMain_Load");
-                testClass.FormMainOnMouseDown(new MouseEventArgs(MouseButtons.Left, 0, point.X, point.Y, 0));
+                testClass.FormMain_MouseDown(new MouseEventArgs(MouseButtons.Left, 0, point.X, point.Y, 0));
                 done = true;
 
                 // CleanUp
@@ -218,7 +213,7 @@ namespace AoE2NetDesktop.Form.Tests
                 await testClass.Awaiter.WaitAsync("FormMain_Load");
                 expTop = testClass.Top + point.Y;
                 expLeft = testClass.Left + point.X;
-                testClass.FormMainOnMouseMove(new MouseEventArgs(MouseButtons.Left, 0, point.X, point.Y, 0));
+                testClass.FormMain_MouseMove(new MouseEventArgs(MouseButtons.Left, 0, point.X, point.Y, 0));
                 done = true;
 
                 // CleanUp
@@ -230,6 +225,181 @@ namespace AoE2NetDesktop.Form.Tests
             // Assert
             Assert.AreEqual(expTop, testClass.Top);
             Assert.AreEqual(expLeft, testClass.Left);
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormMainTestControls_MouseDown()
+        {
+            // Arrange
+            var expTop = 0;
+            var expLeft = 0;
+            var done = false;
+            var point = new Point(10, 20);
+            var testClass = new FormMainPrivate {
+                mouseDownPoint = point,
+            };
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
+                expTop = testClass.Top + point.Y;
+                expLeft = testClass.Left + point.X;
+                testClass.Controls_MouseDown(new MouseEventArgs(MouseButtons.Left, 0, point.X, point.Y, 0));
+                done = true;
+
+                // CleanUp
+                testClass.Close();
+            };
+
+            testClass.ShowDialog();
+
+            // Assert
+            Assert.AreEqual(expTop, testClass.Top);
+            Assert.AreEqual(expLeft, testClass.Left);
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormMainTestControls_MouseMove()
+        {
+            // Arrange
+            var expTop = 0;
+            var expLeft = 0;
+            var done = false;
+            var point = new Point(10, 20);
+            var testClass = new FormMainPrivate {
+                mouseDownPoint = point,
+            };
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
+                expTop = testClass.Top + point.Y;
+                expLeft = testClass.Left + point.X;
+                testClass.Controls_MouseMove(new MouseEventArgs(MouseButtons.Left, 0, point.X, point.Y, 0));
+                done = true;
+
+                // CleanUp
+                testClass.Close();
+            };
+
+            testClass.ShowDialog();
+
+            // Assert
+            Assert.AreEqual(expTop, testClass.Top);
+            Assert.AreEqual(expLeft, testClass.Left);
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormMainTestFormMain_MouseClick()
+        {
+            // Arrange
+            var expTop = 0;
+            var expLeft = 0;
+            var done = false;
+            var point = new Point(10, 20);
+            var testClass = new FormMainPrivate {
+                mouseDownPoint = point,
+            };
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
+                expTop = testClass.Top + point.Y;
+                expLeft = testClass.Left + point.X;
+                testClass.FormMain_MouseClick(new MouseEventArgs(MouseButtons.Right, 0, point.X, point.Y, 0));
+                done = true;
+
+                // CleanUp
+                testClass.Close();
+            };
+
+            testClass.ShowDialog();
+
+            // Assert
+            Assert.AreEqual(expTop, testClass.Top);
+            Assert.AreEqual(expLeft, testClass.Left);
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        [DataRow("ChromaKey")]
+        [DataRow("IsHideTitle")]
+        [DataRow("IsAlwaysOnTop")]
+        [DataRow("Opacity")]
+        [DataRow("IsTransparency")]
+        [DataRow("DrawHighQuality")]
+        [DataRow("")]
+        public void FormMainTestOnChangeProperty(string propertyName)
+        {
+            // Arrange
+            var testClass = new FormMainPrivate();
+            var propertySettings = new PropertySettings() {
+                ChromaKey = "#123456",
+                DrawHighQuality = true,
+                IsAlwaysOnTop = true,
+                IsHideTitle = true,
+                IsTransparency = true,
+                Opacity = 0
+            };
+
+            // Act
+            testClass.OnChangeProperty(propertySettings, new PropertyChangedEventArgs(propertyName));
+
+            // Assert
+        }
+
+        [TestMethod()]
+        public void FormMainTestFormMain_Load()
+        {
+            // Arrange
+            var testClass = new FormMainPrivate();
+            testClass.httpClient.PlayerLastMatchUri = "FileNameDoesNotExist.json";
+            var expVal = string.Empty;
+            var done = false;
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
+
+                testClass.Close();
+
+                done = true;
+            };
+
+            testClass.ShowDialog();
+
+            // Assert
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormMainTestFormMain_FormClosingWithFormHistoryOpening()
+        {
+            // Arrange
+            var testClass = new FormMainPrivate();
+            var expVal = string.Empty;
+            var done = false;
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
+                testClass.CtrlSettings.ShowMyHistory();
+                testClass.Close();
+
+                done = true;
+            };
+
+            testClass.ShowDialog();
+
+            // Assert
             Assert.IsTrue(done);
         }
     }

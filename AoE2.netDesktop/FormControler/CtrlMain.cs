@@ -22,11 +22,6 @@
         }
 
         /// <summary>
-        /// Gets selected ID type.
-        /// </summary>
-        public FormHistory FormHistory { get; private set; }
-
-        /// <summary>
         /// Get font style according to the player's status.
         /// </summary>
         /// <param name="player">player.</param>
