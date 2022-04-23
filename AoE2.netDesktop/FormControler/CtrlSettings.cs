@@ -25,7 +25,9 @@
                 IsTransparency = Settings.Default.MainFormTransparency,
                 IsHideTitle = Settings.Default.MainFormIsHideTitle,
                 DrawHighQuality = Settings.Default.DrawHighQuality,
+                IsAutoReloadLastMatch = Settings.Default.IsAutoReloadLastMatch,
             };
+
             SelectedIdType = (IdType)Settings.Default.SelectedIdType;
 
             playerLastmatch = new PlayerLastmatch() {

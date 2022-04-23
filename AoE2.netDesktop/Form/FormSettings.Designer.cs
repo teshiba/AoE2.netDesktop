@@ -52,6 +52,7 @@
             this.labelErrText = new System.Windows.Forms.Label();
             this.checkBoxTransparencyWindow = new System.Windows.Forms.CheckBox();
             this.checkBoxDrawQuality = new System.Windows.Forms.CheckBox();
+            this.checkBoxAutoReloadLastMatch = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxChromaKey)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.upDownOpacity)).BeginInit();
             this.groupBoxPlayer.SuspendLayout();
@@ -289,11 +290,23 @@
             this.checkBoxDrawQuality.UseVisualStyleBackColor = true;
             this.checkBoxDrawQuality.CheckedChanged += new System.EventHandler(this.CheckBoxDrawQuality_CheckedChanged);
             // 
+            // checkBoxAutoReloadLastMatch
+            // 
+            this.checkBoxAutoReloadLastMatch.AutoSize = true;
+            this.checkBoxAutoReloadLastMatch.Location = new System.Drawing.Point(382, 62);
+            this.checkBoxAutoReloadLastMatch.Name = "checkBoxAutoReloadLastMatch";
+            this.checkBoxAutoReloadLastMatch.Size = new System.Drawing.Size(145, 19);
+            this.checkBoxAutoReloadLastMatch.TabIndex = 27;
+            this.checkBoxAutoReloadLastMatch.Text = "Auto reload last match";
+            this.checkBoxAutoReloadLastMatch.UseVisualStyleBackColor = true;
+            this.checkBoxAutoReloadLastMatch.CheckedChanged += new System.EventHandler(this.CheckBoxAutoReloadLastMatch_CheckedChanged);
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(534, 221);
+            this.Controls.Add(this.checkBoxAutoReloadLastMatch);
             this.Controls.Add(this.checkBoxDrawQuality);
             this.Controls.Add(this.checkBoxTransparencyWindow);
             this.Controls.Add(this.textBoxChromaKey);
@@ -347,5 +360,6 @@
         private Label labelErrText;
         private CheckBox checkBoxTransparencyWindow;
         private CheckBox checkBoxDrawQuality;
+        private CheckBox checkBoxAutoReloadLastMatch;
     }
 }

@@ -38,12 +38,14 @@
             // formMain hold the app settings.
             CtrlSettings = new CtrlSettings();
             CtrlSettings.PropertySetting.PropertyChanged += OnChangeProperty;
+            LastMatchLoader = new LastMatchLoader(OnTimerAsync);
 
             SetChromaKey(CtrlSettings.PropertySetting.ChromaKey);
             OnChangeIsHideTitle(CtrlSettings.PropertySetting.IsHideTitle);
             TopMost = CtrlSettings.PropertySetting.IsAlwaysOnTop;
             Opacity = CtrlSettings.PropertySetting.Opacity;
             OnChangeIsTransparency(CtrlSettings.PropertySetting.IsTransparency);
+            OnChangeIsAutoReloadLastMatch(CtrlSettings.PropertySetting.IsAutoReloadLastMatch);
             DrawEx.DrawHighQuality = CtrlSettings.PropertySetting.DrawHighQuality;
 
             this.language = language;
@@ -76,6 +78,9 @@
             case "DrawHighQuality":
                 DrawEx.DrawHighQuality = propertySettings.DrawHighQuality;
                 Refresh();
+                break;
+            case "IsAutoReloadLastMatch":
+                OnChangeIsAutoReloadLastMatch(propertySettings.IsAutoReloadLastMatch);
                 break;
             default:
                 break;
@@ -116,7 +121,7 @@
                     OpenSettings();
                 }
 
-                _ = await UpdateLastMatch(CtrlSettings.ProfileId);
+                _ = await RedrawLastMatchAsync(CtrlSettings.ProfileId);
             } catch (Exception ex) {
                 labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
             }
@@ -128,7 +133,7 @@
 
         private async void UpdateToolStripMenuItem_ClickAsync(object sender, EventArgs e)
         {
-            _ = await UpdateLastMatch(CtrlSettings.ProfileId);
+            _ = await RedrawLastMatchAsync(CtrlSettings.ProfileId);
             Awaiter.Complete();
         }
 

@@ -81,6 +81,7 @@
             checkBoxHideTitle.Checked = Controler.PropertySetting.IsHideTitle;
             checkBoxTransparencyWindow.Checked = Controler.PropertySetting.IsTransparency;
             checkBoxDrawQuality.Checked = Controler.PropertySetting.DrawHighQuality;
+            checkBoxAutoReloadLastMatch.Checked = Controler.PropertySetting.IsAutoReloadLastMatch;
 
             switch (Controler.SelectedIdType) {
             case IdType.Steam:
@@ -270,6 +271,12 @@
         {
             Controler.PropertySetting.DrawHighQuality = ((CheckBox)sender).Checked;
             Settings.Default.DrawHighQuality = Controler.PropertySetting.DrawHighQuality;
+        }
+
+        private void CheckBoxAutoReloadLastMatch_CheckedChanged(object sender, EventArgs e)
+        {
+            Controler.PropertySetting.IsAutoReloadLastMatch = ((CheckBox)sender).Checked;
+            Settings.Default.IsAutoReloadLastMatch = Controler.PropertySetting.IsAutoReloadLastMatch;
         }
 
         private void PictureBoxChromaKey_Click(object sender, EventArgs e)

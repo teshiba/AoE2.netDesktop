@@ -16,6 +16,7 @@
             { nameof(Opacity), new PropertyChangedEventArgs(nameof(Opacity)) },
             { nameof(IsTransparency), new PropertyChangedEventArgs(nameof(IsTransparency)) },
             { nameof(DrawHighQuality), new PropertyChangedEventArgs(nameof(DrawHighQuality)) },
+            { nameof(IsAutoReloadLastMatch), new PropertyChangedEventArgs(nameof(IsAutoReloadLastMatch)) },
         };
 
         private string chromaKey;
@@ -24,6 +25,7 @@
         private double opacity;
         private bool isTransparency;
         private bool drawHighQuality;
+        private bool isAutoReloadLastMatch;
 
         /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
@@ -80,6 +82,15 @@
         {
             get => drawHighQuality;
             set => SetProperty(ref drawHighQuality, value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether auto reload last match.
+        /// </summary>
+        public bool IsAutoReloadLastMatch
+        {
+            get => isAutoReloadLastMatch;
+            set => SetProperty(ref isAutoReloadLastMatch, value);
         }
 
         /// <summary>

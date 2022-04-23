@@ -14,6 +14,11 @@
     {
         private const int PlayerNumMax = AoE2DE.PlayerNumMax;
 
+        /// <summary>
+        /// Gets lastMatchLoader.
+        /// </summary>
+        public LastMatchLoader LastMatchLoader { get; }
+
         private void OnChangeIsHideTitle(bool isHide)
         {
             var top = RectangleToScreen(ClientRectangle).Top;
@@ -107,6 +112,15 @@
             });
         }
 
+        private void OnChangeIsAutoReloadLastMatch(bool isAutoReloadLastMatch)
+        {
+            if (isAutoReloadLastMatch) {
+                LastMatchLoader.Start();
+            } else {
+                LastMatchLoader.Stop();
+            }
+        }
+
         private void OnChangeIsTransparency(bool isTransparency)
         {
             if (isTransparency) {
@@ -170,11 +184,12 @@
             labelServer.BackColor = chromaKey;
         }
 
-        private async Task<Match> SetLastMatchData(int profileId)
+        private async Task<Match> SetLastMatchDataAsync(int profileId)
         {
             Match ret;
             var playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
             var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId);
+
             SetMatchData(playerLastmatch.LastMatch);
 
             if (playerMatchHistory.Count != 0
@@ -221,22 +236,30 @@
             }
         }
 
-        private async Task<bool> UpdateLastMatch(int profileId)
+        private async Task<bool> RedrawLastMatchAsync(int profileId)
+        {
+            ClearLastMatch();
+            return await UpdateLastMatchAsync(profileId);
+        }
+
+        private async void OnTimerAsync(object sender, EventArgs e)
+        {
+            await UpdateLastMatchAsync(CtrlSettings.ProfileId);
+        }
+
+        private async Task<bool> UpdateLastMatchAsync(int profileId)
         {
             var ret = false;
-
             updateToolStripMenuItem.Enabled = false;
 
-            ClearLastMatch();
             try {
-                var match = await SetLastMatchData(profileId);
+                var match = await SetLastMatchDataAsync(profileId);
                 ret = true;
             } catch (Exception ex) {
                 labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
             }
 
             updateToolStripMenuItem.Enabled = true;
-
             return ret;
         }
     }
