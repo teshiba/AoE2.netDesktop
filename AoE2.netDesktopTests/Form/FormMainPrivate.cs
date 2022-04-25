@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using AoE2NetDesktop.Tests;
 using System.Drawing;
 using System.ComponentModel;
+using System;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -13,7 +14,14 @@ namespace AoE2NetDesktop.Form.Tests
             public TestHttpClient httpClient;
             public Label labelErrText;
             public ToolStripMenuItem updateToolStripMenuItem;
-            public Point mouseDownPoint;
+            public ContextMenuStrip contextMenuStripMain;
+
+            public Point MouseDownPoint {
+                get => this.GetField<Point>("mouseDownPoint");
+                set {
+                    this.SetField("mouseDownPoint", value);
+                }
+            }
 
             public FormMainPrivate()
                 : base(Language.en)
@@ -21,8 +29,8 @@ namespace AoE2NetDesktop.Form.Tests
                 httpClient = new TestHttpClient();
                 AoE2net.ComClient = httpClient;
                 labelErrText = this.GetControl<Label>("labelErrText");
-                mouseDownPoint = this.GetField<Point>("mouseDownPoint");
                 updateToolStripMenuItem = this.GetControl<ToolStripMenuItem>("updateToolStripMenuItem");
+                contextMenuStripMain = this.GetControl<ContextMenuStrip>("contextMenuStripMain");
 
                 TestUtilityExt.SetSettings(this, "SteamId", TestData.AvailableUserSteamId);
                 TestUtilityExt.SetSettings(this, "ProfileId", TestData.AvailableUserProfileId);
@@ -50,7 +58,6 @@ namespace AoE2NetDesktop.Form.Tests
                 this.Invoke("Controls_MouseDown", this, e);
             }
 
-
             public void Controls_MouseMove(MouseEventArgs e)
             {
                 this.Invoke("Controls_MouseMove", this, e);
@@ -65,7 +72,31 @@ namespace AoE2NetDesktop.Form.Tests
             {
                 this.Invoke("OnChangeProperty", sender, e);
             }
-            
+
+            public void OnTimerAsync(object sender, EventArgs e)
+            {
+                this.Invoke("OnTimerAsync", sender, e);
+            }
+
+            public void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
+            {
+                this.Invoke("SettingsToolStripMenuItem_Click", sender, e);
+            }
+
+            public void LabelName_DoubleClick(object sender, EventArgs e)
+            {
+                this.Invoke("LabelName_DoubleClick", sender, e);
+            }
+
+            public void ShowMyHistoryHToolStripMenuItem_Click(object sender, EventArgs e)
+            {
+                this.Invoke("ShowMyHistoryHToolStripMenuItem_Click", sender, e);
+            }
+
+            public void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+            {
+                this.Invoke("ExitToolStripMenuItem_Click", sender, e);
+            }
         }
     }
 }

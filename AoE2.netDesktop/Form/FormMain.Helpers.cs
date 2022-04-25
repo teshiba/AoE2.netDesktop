@@ -245,6 +245,7 @@
         private async void OnTimerAsync(object sender, EventArgs e)
         {
             await UpdateLastMatchAsync(CtrlSettings.ProfileId);
+            Awaiter.Complete();
         }
 
         private async Task<bool> UpdateLastMatchAsync(int profileId)

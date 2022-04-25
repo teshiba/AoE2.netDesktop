@@ -23,6 +23,9 @@ namespace AoE2NetDesktop.Tests
         {
             var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
             var fieldInfo = obj.GetType().GetField(name, bindingFlags);
+            if (fieldInfo == null) {
+                fieldInfo = obj.GetType().BaseType.GetField(name, bindingFlags);
+            }
             fieldInfo.SetValue(obj, value);
         }
 

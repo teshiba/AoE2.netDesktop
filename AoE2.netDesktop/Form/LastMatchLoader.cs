@@ -1,34 +1,21 @@
 ﻿namespace AoE2NetDesktop.Form
 {
-    using System;
-    using System.Windows.Forms;
+    using System.Timers;
 
     /// <summary>
     /// LastMatch loader class.
     /// </summary>
-    public class LastMatchLoader
+    public class LastMatchLoader : Timer
     {
-        private readonly Timer timer = new () {
-            Interval = 1000 * 60 * 5,
-        };
-
         /// <summary>
         /// Initializes a new instance of the <see cref="LastMatchLoader"/> class.
         /// </summary>
         /// <param name="action">Action.</param>
-        public LastMatchLoader(EventHandler action)
+        /// <param name="intervalSec">interval time [second].</param>
+        public LastMatchLoader(ElapsedEventHandler action, int intervalSec)
+            : base(intervalSec * 1000)
         {
-            timer.Tick += new EventHandler(action);
+            Elapsed += action;
         }
-
-        /// <summary>
-        /// Start last match loader.
-        /// </summary>
-        public void Start() => timer.Start();
-
-        /// <summary>
-        /// Stop last match loader.
-        /// </summary>
-        public void Stop() => timer.Stop();
     }
 }

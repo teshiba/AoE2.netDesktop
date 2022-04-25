@@ -74,6 +74,32 @@ namespace AoE2NetDesktop.Form.Tests
         }
 
         [TestMethod()]
+        public void FormSettingsTestCheckBoxAutoReloadLastMatch_CheckedChanged()
+        {
+            // Arrange
+            var done = false;
+            var testClass = new FormSettingsPrivate();
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormSettings_Load");
+                testClass.checkBoxAutoReloadLastMatch.Checked = true;
+
+                // CleanUp
+                testClass.Close();
+                done = true;
+            };
+
+            testClass.ShowDialog();
+
+            // Assert
+            Assert.IsTrue(testClass.Controler.PropertySetting.IsAutoReloadLastMatch);
+            Assert.IsTrue(TestUtilityExt.GetSettings<bool>(testClass, "IsAutoReloadLastMatch"));
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
         [DataRow("123456", "#123456")]
         [DataRow("#123456", "#123456")]
         public void FormSettingsTestTextBoxChromaKey_Leave(string keyValue, string expValTextBox)

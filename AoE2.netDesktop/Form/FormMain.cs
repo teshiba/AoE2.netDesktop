@@ -38,7 +38,7 @@
             // formMain hold the app settings.
             CtrlSettings = new CtrlSettings();
             CtrlSettings.PropertySetting.PropertyChanged += OnChangeProperty;
-            LastMatchLoader = new LastMatchLoader(OnTimerAsync);
+            LastMatchLoader = new LastMatchLoader(OnTimerAsync, 60 * 5); // reload every 5min.
 
             SetChromaKey(CtrlSettings.PropertySetting.ChromaKey);
             OnChangeIsHideTitle(CtrlSettings.PropertySetting.IsHideTitle);
@@ -60,30 +60,30 @@
         {
             var propertySettings = (PropertySettings)sender;
             switch (e.PropertyName) {
-            case "ChromaKey":
+            case nameof(PropertySettings.ChromaKey):
                 SetChromaKey(propertySettings.ChromaKey);
                 break;
-            case "IsHideTitle":
+            case nameof(PropertySettings.IsHideTitle):
                 OnChangeIsHideTitle(propertySettings.IsHideTitle);
                 break;
-            case "IsAlwaysOnTop":
+            case nameof(PropertySettings.IsAlwaysOnTop):
                 TopMost = propertySettings.IsAlwaysOnTop;
                 break;
-            case "Opacity":
+            case nameof(PropertySettings.Opacity):
                 Opacity = propertySettings.Opacity;
                 break;
-            case "IsTransparency":
+            case nameof(PropertySettings.IsTransparency):
                 OnChangeIsTransparency(propertySettings.IsTransparency);
                 break;
-            case "DrawHighQuality":
+            case nameof(PropertySettings.DrawHighQuality):
                 DrawEx.DrawHighQuality = propertySettings.DrawHighQuality;
                 Refresh();
                 break;
-            case "IsAutoReloadLastMatch":
+            case nameof(PropertySettings.IsAutoReloadLastMatch):
                 OnChangeIsAutoReloadLastMatch(propertySettings.IsAutoReloadLastMatch);
                 break;
             default:
-                break;
+                throw new ArgumentOutOfRangeException($"Invalid {nameof(e.PropertyName)}: {e.PropertyName}");
             }
         }
 
@@ -333,8 +333,14 @@
             var labelName = (Label)sender;
             var player = (Player)labelName.Tag;
 
-            var formHistory = CtrlHistory.GenerateFormHistory(player.Name, player.ProfilId);
-            formHistory.Show();
+            if (player != null) {
+                var formHistory = CtrlHistory.GenerateFormHistory(player.Name, player.ProfilId);
+                if (formHistory != null) {
+                    formHistory.Show();
+                } else {
+                    labelErrText.Text = $"invalid player Name:{player.Name} ProfilId:{player.ProfilId}";
+                }
+            }
         }
 
         private void ShowMyHistoryHToolStripMenuItem_Click(object sender, EventArgs e)

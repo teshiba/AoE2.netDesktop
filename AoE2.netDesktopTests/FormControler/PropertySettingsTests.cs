@@ -85,7 +85,6 @@ namespace AoE2NetDesktop.Form.Tests
             var testClass = new PropertySettings();
             testClass.PropertyChanged += OnChangeProperty;
             testClass.DrawHighQuality = expVal;
-            testClass.PropertyChanged += OnChangeProperty;
 
             // Assert
             Assert.AreEqual(expVal, testClass.DrawHighQuality);

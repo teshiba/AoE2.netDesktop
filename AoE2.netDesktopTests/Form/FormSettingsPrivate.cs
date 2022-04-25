@@ -14,6 +14,7 @@ namespace AoE2NetDesktop.Form.Tests
             public CheckBox checkBoxAlwaysOnTop;
             public CheckBox checkBoxHideTitle;
             public CheckBox checkBoxDrawQuality;
+            public CheckBox checkBoxAutoReloadLastMatch;
             public Label labelAoE2NetStatus;
             public Label labelErrText;
             public Label labelSettingsName;
@@ -38,6 +39,7 @@ namespace AoE2NetDesktop.Form.Tests
                 checkBoxAlwaysOnTop = this.GetControl<CheckBox>("checkBoxAlwaysOnTop");
                 checkBoxHideTitle = this.GetControl<CheckBox>("checkBoxHideTitle");
                 checkBoxDrawQuality = this.GetControl<CheckBox>("checkBoxDrawQuality");
+                checkBoxAutoReloadLastMatch = this.GetControl<CheckBox>("checkBoxAutoReloadLastMatch");
                 labelAoE2NetStatus = this.GetControl<Label>("labelAoE2NetStatus");
                 labelErrText = this.GetControl<Label>("labelErrText");
                 labelSettingsName = this.GetControl<Label>("labelSettingsName");
