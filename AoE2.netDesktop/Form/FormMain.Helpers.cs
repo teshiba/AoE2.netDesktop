@@ -66,6 +66,11 @@
             labelAveRate2.Text = $"Team2 Ave. Rate: ----";
             labelErrText.Text = string.Empty;
 
+            ClearPlayersLabel();
+        }
+
+        private void ClearPlayersLabel()
+        {
             foreach (var item in labelCiv) {
                 item.Text = "----";
             }
@@ -209,15 +214,17 @@
             var aveTeam1 = CtrlMain.GetAverageRate(match.Players, TeamType.OddColorNo);
             var aveTeam2 = CtrlMain.GetAverageRate(match.Players, TeamType.EvenColorNo);
 
+            labelMap.Text = $"Map: {match.GetMapName()}";
+            labelServer.Text = $"Server: {match.Server}";
+            labelGameId.Text = $"GameID: {match.MatchId}";
             labelAveRate1.Text = $"Team1 Ave. Rate:{aveTeam1}";
             labelAveRate2.Text = $"Team2 Ave. Rate:{aveTeam2}";
-            labelMap.Text = $"Map: {match.GetMapName()}";
-            labelGameId.Text = $"GameID: {match.MatchId}";
-            labelServer.Text = $"Server: {match.Server}";
         }
 
         private void SetPlayersData(List<Player> players)
         {
+            ClearPlayersLabel();
+
             foreach (var player in players) {
                 if (player.Color - 1 is int index
                     && index < PlayerNumMax
