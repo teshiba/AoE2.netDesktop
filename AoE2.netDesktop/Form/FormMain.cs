@@ -14,6 +14,8 @@
     /// </summary>
     public partial class FormMain : ControllableForm
     {
+        private const int IntervalSec = 60 * 5;
+
         private readonly List<Label> labelCiv = new ();
         private readonly List<Label> labelColor = new ();
         private readonly List<Label> labelRate = new ();
@@ -38,7 +40,7 @@
             // formMain hold the app settings.
             CtrlSettings = new CtrlSettings();
             CtrlSettings.PropertySetting.PropertyChanged += OnChangeProperty;
-            LastMatchLoader = new LastMatchLoader(OnTimerAsync, 60 * 5); // reload every 5min.
+            LastMatchLoader = new LastMatchLoader(OnTimerAsync, IntervalSec);
 
             SetChromaKey(CtrlSettings.PropertySetting.ChromaKey);
             OnChangeIsHideTitle(CtrlSettings.PropertySetting.IsHideTitle);
@@ -133,7 +135,14 @@
 
         private async void UpdateToolStripMenuItem_ClickAsync(object sender, EventArgs e)
         {
+            LastMatchLoader.Stop();
+
             _ = await RedrawLastMatchAsync(CtrlSettings.ProfileId);
+
+            if (CtrlSettings.PropertySetting.IsAutoReloadLastMatch) {
+                LastMatchLoader.Start();
+            }
+
             Awaiter.Complete();
         }
 

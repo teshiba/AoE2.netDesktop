@@ -193,16 +193,19 @@
         {
             Match ret;
             var playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
-            var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId);
 
-            SetMatchData(playerLastmatch.LastMatch);
-
-            if (playerMatchHistory.Count != 0
-                && playerMatchHistory[0].MatchId == playerLastmatch.LastMatch.MatchId) {
-                SetPlayersData(playerMatchHistory[0].Players);
-                ret = playerMatchHistory[0];
+            if (labelGameId.Text != $"GameID: {playerLastmatch.LastMatch.MatchId}") {
+                var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId);
+                SetMatchData(playerLastmatch.LastMatch);
+                if (playerMatchHistory.Count != 0
+                    && playerMatchHistory[0].MatchId == playerLastmatch.LastMatch.MatchId) {
+                    SetPlayersData(playerMatchHistory[0].Players);
+                    ret = playerMatchHistory[0];
+                } else {
+                    SetPlayersData(playerLastmatch.LastMatch.Players);
+                    ret = playerLastmatch.LastMatch;
+                }
             } else {
-                SetPlayersData(playerLastmatch.LastMatch.Players);
                 ret = playerLastmatch.LastMatch;
             }
 
@@ -245,18 +248,6 @@
 
         private async Task<bool> RedrawLastMatchAsync(int profileId)
         {
-            ClearLastMatch();
-            return await UpdateLastMatchAsync(profileId);
-        }
-
-        private async void OnTimerAsync(object sender, EventArgs e)
-        {
-            await UpdateLastMatchAsync(CtrlSettings.ProfileId);
-            Awaiter.Complete();
-        }
-
-        private async Task<bool> UpdateLastMatchAsync(int profileId)
-        {
             var ret = false;
             updateToolStripMenuItem.Enabled = false;
 
@@ -269,6 +260,18 @@
 
             updateToolStripMenuItem.Enabled = true;
             return ret;
+        }
+
+        private void OnTimerAsync(object sender, EventArgs e)
+        {
+            LastMatchLoader.Stop();
+            if (InvokeRequired) {
+                Invoke(() => updateToolStripMenuItem.PerformClick());
+            } else {
+                updateToolStripMenuItem.PerformClick();
+            }
+
+            Awaiter.Complete();
         }
     }
 }

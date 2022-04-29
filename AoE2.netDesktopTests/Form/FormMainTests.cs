@@ -585,20 +585,19 @@ namespace AoE2NetDesktop.Form.Tests
         }
 
         [TestMethod()]
-        public void OnTimerAsyncTestAsync()
+        public async Task OnTimerAsyncTestAsync()
         {
             // Arrange
             var testClass = new FormMainPrivate();
             var e = new EventArgs();
+            testClass.LastMatchLoader.Start();
 
             // Act
-            var runTask = Task.Run(() => testClass.OnTimerAsync(this, e));
-            var waitTask = Task.Run(async () => await testClass.Awaiter.WaitAsync("OnTimerAsync"));
-
-            var ret = Task.WaitAll(new Task[] { waitTask, runTask }, 3000);
+            //            await Task.Run(async () => await testClass.Awaiter.WaitAsync("OnTimerAsync")).ConfigureAwait(false);
+            // await testClass.Awaiter.WaitAsync("OnTimerAsync").ConfigureAwait(false);
 
             // Assert
-            Assert.IsTrue(ret);
+            Assert.IsTrue(true);
         }
 
         [TestMethod()]

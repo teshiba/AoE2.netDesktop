@@ -31,20 +31,21 @@
 
             foreach (var player in ret.LastMatch.Players) {
                 List<PlayerRating> rate;
-                var leaderBoardId = ret.LastMatch.LeaderboardId ?? 0;
 
-                if (player.SteamId != null) {
-                    rate = await AoE2net.GetPlayerRatingHistoryAsync(player.SteamId, leaderBoardId, 1);
-                } else if (player.ProfilId is int profileId) {
-                    rate = await AoE2net.GetPlayerRatingHistoryAsync(profileId, leaderBoardId, 1);
-                } else {
-                    rate = new List<PlayerRating>();
-                }
+                if (player.Rating == null) {
+                    var leaderBoardId = ret.LastMatch.LeaderboardId ?? 0;
 
-                if (rate.Count != 0) {
-                    player.Rating ??= rate[0].Rating;
-                } else {
-                    player.Rating = null;
+                    if (player.SteamId != null) {
+                        rate = await AoE2net.GetPlayerRatingHistoryAsync(player.SteamId, leaderBoardId, 1);
+                    } else if (player.ProfilId is int profileId) {
+                        rate = await AoE2net.GetPlayerRatingHistoryAsync(profileId, leaderBoardId, 1);
+                    } else {
+                        rate = new List<PlayerRating>();
+                    }
+
+                    if (rate.Count != 0) {
+                        player.Rating = rate[0].Rating;
+                    }
                 }
             }
 
