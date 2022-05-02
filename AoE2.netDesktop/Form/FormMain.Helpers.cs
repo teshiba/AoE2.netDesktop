@@ -31,6 +31,7 @@
             switch (e.PropertyName) {
             case nameof(PropertySettings.ChromaKey):
                 SetChromaKey(propertySettings.ChromaKey);
+                OnChangeIsTransparency(propertySettings.IsTransparency);
                 break;
             case nameof(PropertySettings.IsHideTitle):
                 OnChangeIsHideTitle(propertySettings.IsHideTitle);
