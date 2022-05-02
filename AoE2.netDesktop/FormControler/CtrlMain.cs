@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Drawing;
     using System.Linq;
     using System.Threading.Tasks;
@@ -60,9 +59,7 @@
                                 .Select(player => player.Rating)
                                 .Average();
 
-            [ExcludeFromCodeCoverage]
             static bool EvenFunc(Player player) => player.Color % 2 == 0;
-            [ExcludeFromCodeCoverage]
             static bool OddFunc(Player player) => player.Color % 2 != 0;
         }
 

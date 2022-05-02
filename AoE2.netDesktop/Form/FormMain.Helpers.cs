@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Drawing;
     using System.Threading.Tasks;
     using System.Windows.Forms;
@@ -18,6 +19,60 @@
         /// Gets lastMatchLoader.
         /// </summary>
         public LastMatchLoader LastMatchLoader { get; }
+
+        /// <summary>
+        /// Gets Settings.
+        /// </summary>
+        public CtrlSettings CtrlSettings { get; private set; }
+
+        private void OnChangeProperty(object sender, PropertyChangedEventArgs e)
+        {
+            var propertySettings = (PropertySettings)sender;
+            switch (e.PropertyName) {
+            case nameof(PropertySettings.ChromaKey):
+                SetChromaKey(propertySettings.ChromaKey);
+                break;
+            case nameof(PropertySettings.IsHideTitle):
+                OnChangeIsHideTitle(propertySettings.IsHideTitle);
+                break;
+            case nameof(PropertySettings.IsAlwaysOnTop):
+                TopMost = propertySettings.IsAlwaysOnTop;
+                break;
+            case nameof(PropertySettings.Opacity):
+                Opacity = propertySettings.Opacity;
+                break;
+            case nameof(PropertySettings.IsTransparency):
+                OnChangeIsTransparency(propertySettings.IsTransparency);
+                break;
+            case nameof(PropertySettings.DrawHighQuality):
+                DrawEx.DrawHighQuality = propertySettings.DrawHighQuality;
+                Refresh();
+                break;
+            case nameof(PropertySettings.IsAutoReloadLastMatch):
+                OnChangeIsAutoReloadLastMatch(propertySettings.IsAutoReloadLastMatch);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException($"Invalid {nameof(e.PropertyName)}: {e.PropertyName}");
+            }
+        }
+
+        private void InitEventHandler()
+        {
+            foreach (Control item in Controls) {
+                item.MouseDown += Controls_MouseDown;
+                item.MouseMove += Controls_MouseMove;
+            }
+
+            foreach (Control item in panelTeam1.Controls) {
+                item.MouseDown += Controls_MouseDown;
+                item.MouseMove += Controls_MouseMove;
+            }
+
+            foreach (Control item in panelTeam2.Controls) {
+                item.MouseDown += Controls_MouseDown;
+                item.MouseMove += Controls_MouseMove;
+            }
+        }
 
         private void OnChangeIsHideTitle(bool isHide)
         {
@@ -38,6 +93,8 @@
                 MinimumSize = new Size(410, 340);
                 Top -= RectangleToScreen(ClientRectangle).Top - Top;
                 Left -= RectangleToScreen(ClientRectangle).Left - Left;
+            } else {
+                // nothing to do.
             }
 
             ResumeLayout();
@@ -162,7 +219,7 @@
 
             try {
                 chromaKey = ColorTranslator.FromHtml(htmlColor);
-            } catch (Exception) {
+            } catch (ArgumentException) {
                 chromaKey = Color.Empty;
             }
 
@@ -195,8 +252,9 @@
             var playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
 
             if (labelGameId.Text != $"GameID: {playerLastmatch.LastMatch.MatchId}") {
-                var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId);
                 SetMatchData(playerLastmatch.LastMatch);
+
+                var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId);
                 if (playerMatchHistory.Count != 0
                     && playerMatchHistory[0].MatchId == playerLastmatch.LastMatch.MatchId) {
                     SetPlayersData(playerMatchHistory[0].Players);
@@ -265,12 +323,7 @@
         private void OnTimerAsync(object sender, EventArgs e)
         {
             LastMatchLoader.Stop();
-            if (InvokeRequired) {
-                Invoke(() => updateToolStripMenuItem.PerformClick());
-            } else {
-                updateToolStripMenuItem.PerformClick();
-            }
-
+            Invoke(() => updateToolStripMenuItem.PerformClick());
             Awaiter.Complete();
         }
     }

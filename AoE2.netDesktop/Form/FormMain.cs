@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Drawing;
     using System.Windows.Forms;
 
@@ -14,7 +13,7 @@
     /// </summary>
     public partial class FormMain : ControllableForm
     {
-        private const int IntervalSec = 60 * 5;
+        private const int IntervalSec = 5;
 
         private readonly List<Label> labelCiv = new ();
         private readonly List<Label> labelColor = new ();
@@ -53,61 +52,7 @@
             this.language = language;
         }
 
-        /// <summary>
-        /// Gets Settings.
-        /// </summary>
-        public CtrlSettings CtrlSettings { get; private set; }
-
-        private void OnChangeProperty(object sender, PropertyChangedEventArgs e)
-        {
-            var propertySettings = (PropertySettings)sender;
-            switch (e.PropertyName) {
-            case nameof(PropertySettings.ChromaKey):
-                SetChromaKey(propertySettings.ChromaKey);
-                break;
-            case nameof(PropertySettings.IsHideTitle):
-                OnChangeIsHideTitle(propertySettings.IsHideTitle);
-                break;
-            case nameof(PropertySettings.IsAlwaysOnTop):
-                TopMost = propertySettings.IsAlwaysOnTop;
-                break;
-            case nameof(PropertySettings.Opacity):
-                Opacity = propertySettings.Opacity;
-                break;
-            case nameof(PropertySettings.IsTransparency):
-                OnChangeIsTransparency(propertySettings.IsTransparency);
-                break;
-            case nameof(PropertySettings.DrawHighQuality):
-                DrawEx.DrawHighQuality = propertySettings.DrawHighQuality;
-                Refresh();
-                break;
-            case nameof(PropertySettings.IsAutoReloadLastMatch):
-                OnChangeIsAutoReloadLastMatch(propertySettings.IsAutoReloadLastMatch);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException($"Invalid {nameof(e.PropertyName)}: {e.PropertyName}");
-            }
-        }
-
-        private void InitEventHandler()
-        {
-            foreach (Control item in Controls) {
-                item.MouseDown += Controls_MouseDown;
-                item.MouseMove += Controls_MouseMove;
-            }
-
-            foreach (Control item in panelTeam1.Controls) {
-                item.MouseDown += Controls_MouseDown;
-                item.MouseMove += Controls_MouseMove;
-            }
-
-            foreach (Control item in panelTeam2.Controls) {
-                item.MouseDown += Controls_MouseDown;
-                item.MouseMove += Controls_MouseMove;
-            }
-        }
-
-        ///////////////////////////////////////////////////////////////////////
+         ///////////////////////////////////////////////////////////////////////
         // Async event handlers
         ///////////////////////////////////////////////////////////////////////
         private async void FormMain_Load(object sender, EventArgs e)

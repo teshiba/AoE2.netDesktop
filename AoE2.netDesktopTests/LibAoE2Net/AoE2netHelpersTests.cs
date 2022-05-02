@@ -60,6 +60,10 @@ namespace AoE2NetDesktop.Form.Tests
             Assert.IsNull(actVal.ProfileId);
         }
 
+        //////////////////////////////////////////////////////////////////////////////////////////
+        /// ThrowsExceptionAsync test
+        //////////////////////////////////////////////////////////////////////////////////////////
+
         [TestMethod()]
         public async Task GetPlayerLastMatchAsyncTestSerializationException()
         {

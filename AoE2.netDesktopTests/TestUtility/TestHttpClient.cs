@@ -35,13 +35,18 @@ namespace LibAoE2net
         public override Task<string> GetStringAsync(string requestUri)
         {
             if (ForceHttpRequestException) {
-                LastRequest = "ForceHttpRequestException";
+                LastRequest = nameof(ForceHttpRequestException);
                 throw new HttpRequestException("Forced HttpRequestException");
             }
 
             if (ForceTaskCanceledException) {
-                LastRequest = "ForceTaskCanceledException";
+                LastRequest = nameof(ForceTaskCanceledException);
                 throw new TaskCanceledException("Forced TaskCanceledException");
+            }
+
+            if (ForceException) {
+                LastRequest = nameof(ForceException);
+                throw new Exception("Force Exception");
             }
 
             var apiEndPoint = requestUri[..requestUri.IndexOf('?')];

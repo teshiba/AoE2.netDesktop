@@ -370,177 +370,36 @@ namespace AoE2NetDesktop.Form.Tests
         }
 
         [TestMethod()]
-        public void OnChangePropertyTestException()
-        {
-            // Arrange
-            var testClass = new FormMainPrivate();
-            var propertySettings = new PropertySettings();
-            var e = new PropertyChangedEventArgs("");
-
-            // Assert
-            var ex = Assert.ThrowsException<TargetInvocationException>(() =>
-            {
-                // Act
-                testClass.OnChangeProperty(propertySettings, e);
-            });
-
-            Assert.AreEqual(typeof(ArgumentOutOfRangeException), ex.InnerException.GetType());
-        }
-
-        [TestMethod()]
-        public void OnChangePropertyOpacityTest()
-        {
-            // Arrange
-            var testClass = new FormMainPrivate();
-            var expVal = 0.5;
-            var propertySettings = new PropertySettings() {
-                Opacity = expVal,
-            };
-            var e = new PropertyChangedEventArgs(nameof(propertySettings.Opacity));
-
-            // Act
-            testClass.OnChangeProperty(propertySettings, e);
-
-            // Assert
-            Assert.AreEqual(expVal, testClass.Opacity);
-        }
-
-        [TestMethod()]
-        [DataRow(true)]
-        [DataRow(false)]
-        public void OnChangePropertyIsHideTitleTest(bool value)
-        {
-            // Arrange
-            FormBorderStyle formBorderStyle;
-            if (value) {
-                formBorderStyle = FormBorderStyle.None;
-            } else {
-                formBorderStyle = FormBorderStyle.Sizable;
-            }
-
-            var testClass = new FormMainPrivate();
-            var propertySettings = new PropertySettings() {
-                IsHideTitle = value,
-            };
-            var e = new PropertyChangedEventArgs(nameof(propertySettings.IsHideTitle));
-
-            // Act
-            testClass.OnChangeProperty(propertySettings, e);
-
-            // Assert
-            Assert.AreEqual(formBorderStyle, testClass.FormBorderStyle);
-        }
-
-        [TestMethod()]
-        [DataRow(true)]
-        [DataRow(false)]
-        public void OnChangePropertyIsAlwaysOnTopTest(bool value)
-        {
-            // Arrange
-            var testClass = new FormMainPrivate();
-            var propertySettings = new PropertySettings() {
-                IsAlwaysOnTop = value,
-            };
-            var e = new PropertyChangedEventArgs(nameof(propertySettings.IsAlwaysOnTop));
-
-            // Act
-            testClass.OnChangeProperty(propertySettings, e);
-
-            // Assert
-            Assert.AreEqual(value, testClass.TopMost);
-        }
-
-        [TestMethod()]
-        public void OnChangePropertyChromaKeyTest()
-        {
-            // Arrange
-            var testClass = new FormMainPrivate();
-            var propertySettings = new PropertySettings() {
-                ChromaKey = "#123456",
-            };
-            var expVal = ColorTranslator.FromHtml(propertySettings.ChromaKey);
-            var e = new PropertyChangedEventArgs(nameof(propertySettings.ChromaKey));
-
-            // Act
-            testClass.OnChangeProperty(propertySettings, e);
-
-            // Assert
-            Assert.AreEqual(expVal, testClass.BackColor);
-        }
-
-        [TestMethod()]
-        [DataRow(true)]
-        [DataRow(false)]
-        public void OnChangePropertyIsTransparencyTest(bool value)
-        {
-            // Arrange
-            var testClass = new FormMainPrivate();
-            var propertySettings = new PropertySettings() {
-                IsTransparency = value,
-                ChromaKey = "#123456",
-            };
-            testClass.CtrlSettings.PropertySetting.ChromaKey = propertySettings.ChromaKey;
-
-            Color expVal;
-            if (value) {
-                expVal = ColorTranslator.FromHtml(propertySettings.ChromaKey);
-            } else {
-                expVal = default;
-            }
-            var e = new PropertyChangedEventArgs(nameof(propertySettings.IsTransparency));
-
-            // Act
-            testClass.OnChangeProperty(propertySettings, e);
-
-            // Assert
-
-            Assert.AreEqual(expVal, testClass.TransparencyKey);
-        }
-
-        [TestMethod()]
-        [DataRow(true)]
-        [DataRow(false)]
-        public void OnChangePropertyDrawHighQualityTest(bool value)
-        {
-            // Arrange
-            var testClass = new FormMainPrivate();
-            var propertySettings = new PropertySettings() {
-                DrawHighQuality = value,
-            };
-            var e = new PropertyChangedEventArgs(nameof(propertySettings.DrawHighQuality));
-
-            // Act
-            testClass.OnChangeProperty(propertySettings, e);
-
-            // Assert
-            Assert.AreEqual(value, DrawEx.DrawHighQuality);
-        }
-
-        [TestMethod()]
-        [DataRow(true)]
-        [DataRow(false)]
-        public void OnChangePropertyIsAutoReloadLastMatchTest(bool value)
-        {
-            // Arrange
-            var testClass = new FormMainPrivate();
-            var propertySettings = new PropertySettings() {
-                IsAutoReloadLastMatch = value,
-            };
-            var e = new PropertyChangedEventArgs(nameof(propertySettings.IsAutoReloadLastMatch));
-
-            // Act
-            testClass.OnChangeProperty(propertySettings, e);
-
-            // Assert
-            Assert.AreEqual(value, testClass.LastMatchLoader.Enabled);
-        }
-
-        [TestMethod()]
         public void FormMainTestFormMain_Load()
         {
             // Arrange
             var testClass = new FormMainPrivate();
             testClass.httpClient.PlayerLastMatchUri = "FileNameDoesNotExist.json";
+            var expVal = string.Empty;
+            var done = false;
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormMain_Load");
+
+                testClass.Close();
+
+                done = true;
+            };
+
+            testClass.ShowDialog();
+
+            // Assert
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormMainTestFormMain_LoadException()
+        {
+            // Arrange
+            var testClass = new FormMainPrivate();
+            testClass.httpClient.ForceException = true;
             var expVal = string.Empty;
             var done = false;
 
@@ -585,30 +444,11 @@ namespace AoE2NetDesktop.Form.Tests
         }
 
         [TestMethod()]
-        public async Task OnTimerAsyncTestAsync()
-        {
-            // Arrange
-            var testClass = new FormMainPrivate();
-            var e = new EventArgs();
-            testClass.LastMatchLoader.Start();
-
-            // Act
-            //            await Task.Run(async () => await testClass.Awaiter.WaitAsync("OnTimerAsync")).ConfigureAwait(false);
-            // await testClass.Awaiter.WaitAsync("OnTimerAsync").ConfigureAwait(false);
-
-            // Assert
-            Assert.IsTrue(true);
-        }
-
-        [TestMethod()]
         public void SettingsToolStripMenuItem_ClickTest()
         {
             // Arrange
             var testClass = new FormMainPrivate();
             var e = new EventArgs();
-            var label = new Label() {
-                Tag = new Player(),
-            };
 
             // Act
             testClass.SettingsToolStripMenuItem_Click(testClass, e);

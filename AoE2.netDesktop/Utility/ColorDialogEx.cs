@@ -23,10 +23,13 @@
         {
             var ret = Color;
 
-            if ((bool)Opening?.Invoke()) {
-                if (ShowDialog() == DialogResult.OK) {
-                    ret = Color;
-                }
+            if (Opening == null) {
+                throw new NullReferenceException($"{nameof(Opening)} is set null.");
+            }
+
+            if (Opening.Invoke()) {
+                _ = ShowDialog();
+                ret = Color;
             }
 
             return ret;

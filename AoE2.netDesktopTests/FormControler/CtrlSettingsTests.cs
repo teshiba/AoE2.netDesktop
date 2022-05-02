@@ -139,7 +139,23 @@ namespace AoE2NetDesktop.Form.Tests
         }
 
         [TestMethod()]
-        public void ReadProfileAsyncTest()
+        public void ReadProfileAsyncTestIdTypeNotSelected()
+        {
+            // Arrange
+            var testClass = new CtrlSettings();
+            TestUtilityExt.SetSettings(testClass, "SteamId", TestData.AvailableUserSteamId);
+            TestUtilityExt.SetSettings(testClass, "ProfileId", TestData.AvailableUserProfileId);
+            TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.NotSelected);
+            testClass = new CtrlSettings();
+
+            // Assert
+            Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
+                testClass.ReadProfileAsync()
+            );
+        }
+
+        [TestMethod()]
+        public void ReadProfileAsyncTestIdTypeSteamId()
         {
             // Arrange
             var notExpValUserCountry = "N/A";
@@ -149,7 +165,31 @@ namespace AoE2NetDesktop.Form.Tests
             var testClass = new CtrlSettings();
             TestUtilityExt.SetSettings(testClass, "SteamId", TestData.AvailableUserSteamId);
             TestUtilityExt.SetSettings(testClass, "ProfileId", TestData.AvailableUserProfileId);
-            TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.NotSelected);
+            TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Steam);
+            testClass = new CtrlSettings();
+            var actVal = Task.Run(
+                () => testClass.ReadProfileAsync()
+                ).Result;
+
+            // Assert
+            Assert.IsTrue(actVal);
+            Assert.AreNotEqual(notExpValUserCountry, testClass.UserCountry);
+            Assert.AreNotEqual(notExpValUserName, testClass.UserName);
+        }
+
+        [TestMethod()]
+        public void ReadProfileAsyncTestIdTypeProfileId()
+        {
+            // Arrange
+            var notExpValUserCountry = "N/A";
+            var notExpValUserName = "-- Invalid ID --";
+
+            // Act
+            var testClass = new CtrlSettings();
+            TestUtilityExt.SetSettings(testClass, "SteamId", TestData.AvailableUserSteamId);
+            TestUtilityExt.SetSettings(testClass, "ProfileId", TestData.AvailableUserProfileId);
+            TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Profile);
+            testClass = new CtrlSettings();
             var actVal = Task.Run(
                 () => testClass.ReadProfileAsync()
                 ).Result;

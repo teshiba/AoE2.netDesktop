@@ -25,7 +25,7 @@
 
             var ret = userIdType switch {
                 IdType.Steam => await AoE2net.GetPlayerLastMatchAsync(idText).ConfigureAwait(false),
-                IdType.Profile => await AoE2net.GetPlayerLastMatchAsync(int.Parse(idText)),
+                IdType.Profile => await AoE2net.GetPlayerLastMatchAsync(int.Parse(idText)).ConfigureAwait(false),
                 _ => new PlayerLastmatch(),
             };
 

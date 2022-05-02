@@ -4,6 +4,7 @@ using AoE2NetDesktop.Tests;
 using System.Drawing;
 using System.ComponentModel;
 using System;
+using System.Threading.Tasks;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -13,6 +14,7 @@ namespace AoE2NetDesktop.Form.Tests
         {
             public TestHttpClient httpClient;
             public Label labelErrText;
+            public Label labelGameId;
             public ToolStripMenuItem updateToolStripMenuItem;
             public ContextMenuStrip contextMenuStripMain;
 
@@ -29,6 +31,7 @@ namespace AoE2NetDesktop.Form.Tests
                 httpClient = new TestHttpClient();
                 AoE2net.ComClient = httpClient;
                 labelErrText = this.GetControl<Label>("labelErrText");
+                labelGameId = this.GetControl<Label>("labelGameId");
                 updateToolStripMenuItem = this.GetControl<ToolStripMenuItem>("updateToolStripMenuItem");
                 contextMenuStripMain = this.GetControl<ContextMenuStrip>("contextMenuStripMain");
 
@@ -96,6 +99,11 @@ namespace AoE2NetDesktop.Form.Tests
             public void ExitToolStripMenuItem_Click(object sender, EventArgs e)
             {
                 this.Invoke("ExitToolStripMenuItem_Click", sender, e);
+            }
+
+            public async Task<Match> SetLastMatchDataAsync(int profileId)
+            {
+                return await this.Invoke<Task<Match>>("SetLastMatchDataAsync", profileId);
             }
         }
     }

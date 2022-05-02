@@ -331,7 +331,7 @@ namespace AoE2NetDesktop.Form.Tests
             var expVal = string.Empty;
             var done = false;
             var testClass = new FormSettingsPrivate();
-            TestUtilityExt.SetSettings(testClass, "ProfileId", 101);
+            TestUtilityExt.SetSettings(testClass, "ProfileId", TestData.AvailableUserProfileIdWithoutHistory);
             TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Profile);
 
             // Act
