@@ -1,12 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AoE2NetDesktop.Form;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
+using System.Threading.Tasks;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -14,7 +10,7 @@ namespace AoE2NetDesktop.Form.Tests
     public class ColorDialogExTests
     {
         [TestMethod()]
-        public void GetColorFromDialogTest()
+        public void GetColorFromDialogTestCancelOpening()
         {
             // Arrange
             var expVal = Color.FromArgb(255, 255, 0, 0);
@@ -29,6 +25,90 @@ namespace AoE2NetDesktop.Form.Tests
 
             // Assert
             Assert.AreEqual(expVal, actVal);
+        }
+
+        [TestMethod()]
+        public void GetColorFromDialogTestwithOpeningAction()
+        {
+            // Arrange
+            var expVal = Color.FromArgb(255, 255, 0, 0);
+            Color actVal = default;
+            var form = new System.Windows.Forms.Form();
+            var testClass = new ColorDialogEx {
+                Color = expVal,
+                Opening = () => true,
+            };
+
+            var task1 = Task.Run(() =>
+            {
+                form.Shown += (sender, e) =>
+                {
+                    // Act
+                    actVal = testClass.GetColorFromDialog();
+                    form.Close();
+                };
+                form.ShowDialog();
+            });
+
+            var task2 = Task.Run(() =>
+            {
+                Task.Delay(1000).Wait();
+                form.Invoke(() => form.Dispose());
+            });
+
+            Task.WaitAll(task1, task2);
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
+        }
+
+        [TestMethod()]
+        public void GetColorFromDialogTestOpenDialog()
+        {
+            // Arrange
+            var expVal = Color.FromArgb(255, 255, 0, 0);
+            Color actVal = default;
+            var form = new System.Windows.Forms.Form();
+            var testClass = new ColorDialogEx {
+                Color = expVal,
+            };
+
+            var task1 = Task.Run(() =>
+            {
+                form.Shown += (sender, e) => 
+                {
+                    // Act
+                    actVal = testClass.GetColorFromDialog();
+                    form.Close();
+                };
+                form.ShowDialog();
+            });
+
+            var task2 = Task.Run(() =>
+            {
+                Task.Delay(1000).Wait();
+                form.Invoke(()=> form.Dispose());
+            });
+
+            Task.WaitAll(task1, task2);
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
+        }
+
+        [TestMethod()]
+        public void GetColorFromDialogTestOpenDialogOpeningNull()
+        {
+            // Arrange
+            var testClass = new ColorDialogEx {
+                Opening = null,
+            };
+
+            // Assert
+            Assert.ThrowsException<NullReferenceException>(() =>
+            {
+                _ = testClass.GetColorFromDialog();
+            });
         }
     }
 }

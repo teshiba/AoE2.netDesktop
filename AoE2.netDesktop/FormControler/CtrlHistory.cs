@@ -261,6 +261,7 @@
 
         /// <summary>
         /// Create MatchedPlayers info.
+        /// The player's rating is the rating when they played with you.
         /// </summary>
         /// <param name="matches">Player match history.</param>
         /// <returns>Matched players info.</returns>

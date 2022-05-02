@@ -1,7 +1,12 @@
 ﻿using AoE2NetDesktop.Tests;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -26,7 +31,7 @@ namespace AoE2NetDesktop.Form.Tests
             testClass.Shown += async (sender, e) =>
             {
                 await testClass.Awaiter.WaitAsync("FormSettings_Load");
-                testClass.PictureBoxChromaKeyOnClick(e);
+                testClass.PictureBoxChromaKey_Click(e);
 
                 // CleanUp
                 testClass.Close();
@@ -36,9 +41,89 @@ namespace AoE2NetDesktop.Form.Tests
             testClass.ShowDialog();
 
             // Assert
-            Assert.AreEqual(expVal, ColorTranslator.FromHtml(testClass.Controler.ChromaKey));
+            Assert.AreEqual(expVal, ColorTranslator.FromHtml(testClass.Controler.PropertySetting.ChromaKey));
             Assert.AreEqual(expVal, testClass.pictureBoxChromaKey.BackColor);
             Assert.AreEqual(expVal, ColorTranslator.FromHtml(testClass.textBoxChromaKey.Text));
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormSettingsTestCheckBoxDrawQuality_CheckedChanged()
+        {
+            // Arrange
+            var done = false;
+            var testClass = new FormSettingsPrivate();
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormSettings_Load");
+                testClass.checkBoxDrawQuality.Checked = true;
+
+                // CleanUp
+                testClass.Close();
+                done = true;
+            };
+
+            testClass.ShowDialog();
+
+            // Assert
+            Assert.IsTrue(testClass.Controler.PropertySetting.DrawHighQuality);
+            Assert.IsTrue(TestUtilityExt.GetSettings<bool>(testClass, "DrawHighQuality"));
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormSettingsTestCheckBoxAutoReloadLastMatch_CheckedChanged()
+        {
+            // Arrange
+            var done = false;
+            var testClass = new FormSettingsPrivate();
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormSettings_Load");
+                testClass.checkBoxAutoReloadLastMatch.Checked = true;
+
+                // CleanUp
+                testClass.Close();
+                done = true;
+            };
+
+            testClass.ShowDialog();
+
+            // Assert
+            Assert.IsTrue(testClass.Controler.PropertySetting.IsAutoReloadLastMatch);
+            Assert.IsTrue(TestUtilityExt.GetSettings<bool>(testClass, "IsAutoReloadLastMatch"));
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        [DataRow("123456", "#123456")]
+        [DataRow("#123456", "#123456")]
+        public void FormSettingsTestTextBoxChromaKey_Leave(string keyValue, string expValTextBox)
+        {
+            // Arrange
+            var done = false;
+            var testClass = new FormSettingsPrivate();
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormSettings_Load");
+                testClass.textBoxChromaKey.Text = keyValue;
+                testClass.TextBoxChromaKey_Leave(new EventArgs());
+
+                // CleanUp
+                testClass.Close();
+                done = true;
+            };
+
+            testClass.ShowDialog();
+
+            // Assert
+            Assert.AreEqual(expValTextBox, testClass.textBoxChromaKey.Text);
             Assert.IsTrue(done);
         }
 
@@ -58,7 +143,7 @@ namespace AoE2NetDesktop.Form.Tests
                 testClass.httpClient.ForceHttpRequestException = true;
                 testClass.upDownOpacity.Value = expVal;
                 // Assert
-                Assert.AreEqual(expVal, testClass.Controler.Opacity * 100);
+                Assert.AreEqual(expVal, testClass.Controler.PropertySetting.Opacity * 100);
 
                 // CleanUp
                 testClass.Close();
@@ -142,7 +227,6 @@ namespace AoE2NetDesktop.Form.Tests
                 await testClass.Awaiter.WaitAsync("FormSettings_Load");
 
                 // Assert
-                Assert.IsTrue(testClass.labelErrText.Text.Contains("Forced HttpRequestException"));
                 Assert.IsTrue(testClass.labelAoE2NetStatus.Text.Contains("Server Error"));
 
                 // CleanUp
@@ -155,7 +239,7 @@ namespace AoE2NetDesktop.Form.Tests
         }
 
         [TestMethod()]
-        public void FormSettingsTestExceptionFormSettings_LoadHTaskCanceledException()
+        public void FormSettingsTestExceptionFormSettings_LoadNetStatusTimeout()
         {
             // Arrange
             var expVal = string.Empty;
@@ -169,7 +253,6 @@ namespace AoE2NetDesktop.Form.Tests
                 await testClass.Awaiter.WaitAsync("FormSettings_Load");
 
                 // Assert
-                Assert.IsTrue(testClass.labelErrText.Text.Contains("Forced TaskCanceledException"));
                 Assert.IsTrue(testClass.labelAoE2NetStatus.Text.Contains("Timeout"));
 
                 // CleanUp
@@ -218,8 +301,8 @@ namespace AoE2NetDesktop.Form.Tests
             var expVal = string.Empty;
             var done = false;
             var testClass = new FormSettingsPrivate();
-            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", 100);
-            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
+            TestUtilityExt.SetSettings(testClass, "ProfileId", 100);
+            TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Profile);
 
             // Act
             testClass.Shown += async (sender, e) =>
@@ -248,8 +331,8 @@ namespace AoE2NetDesktop.Form.Tests
             var expVal = string.Empty;
             var done = false;
             var testClass = new FormSettingsPrivate();
-            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "ProfileId", 101);
-            TestUtilityExt.SetSettings(testClass, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
+            TestUtilityExt.SetSettings(testClass, "ProfileId", TestData.AvailableUserProfileIdWithoutHistory);
+            TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Profile);
 
             // Act
             testClass.Shown += async (sender, e) =>
@@ -285,7 +368,7 @@ namespace AoE2NetDesktop.Form.Tests
                 testClass.checkBoxAlwaysOnTop.Checked = true;
 
                 // Assert
-                Assert.IsTrue(testClass.Controler.IsAlwaysOnTop);
+                Assert.IsTrue(testClass.Controler.PropertySetting.IsAlwaysOnTop);
 
                 // CleanUp
                 testClass.Close();
@@ -297,11 +380,15 @@ namespace AoE2NetDesktop.Form.Tests
         }
 
         [TestMethod()]
-        public void FormSettingsTestButtonSetId_ClickAsyncProfileId()
+        [DataRow(IdType.Steam)]
+        [DataRow(IdType.Profile)]
+        public void FormSettingsTestButtonSetId_ClickAsync(IdType idType)
         {
             // Arrange
             var testClass = new FormSettingsPrivate();
             var done = false;
+
+            TestUtilityExt.SetSettings(testClass, "SelectedIdType", idType);
 
             // Act
             testClass.Shown += async (sender, e) =>
@@ -313,6 +400,34 @@ namespace AoE2NetDesktop.Form.Tests
                 // Assert
                 Assert.AreEqual("   Name: Player1", testClass.labelSettingsName.Text);
                 Assert.AreEqual("Country: Japan", testClass.labelSettingsCountry.Text);
+
+                // CleanUp
+                testClass.Close();
+                done = true;
+            };
+
+            testClass.ShowDialog();
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void FormSettingsTestButtonSetId_ClickAsyncCatchException()
+        {
+            // Arrange
+            var testClass = new FormSettingsPrivate();
+            var done = false;
+
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormSettings_Load");
+                testClass.httpClient.ForceTaskCanceledException = true;
+                testClass.buttonSetId.PerformClick();
+                await testClass.Awaiter.WaitAsync("ButtonSetId_ClickAsync");
+
+                // Assert
+                Assert.IsTrue(testClass.labelAoE2NetStatus.Text.Contains("Timeout"));
 
                 // CleanUp
                 testClass.Close();
@@ -346,6 +461,113 @@ namespace AoE2NetDesktop.Form.Tests
 
             // Assert
             Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void SetChromaKeyTest()
+        {
+            // Arrange
+            var testClass = new FormSettingsPrivate();
+            var expValue = "#123456";
+
+            // Act
+            testClass.SetChromaKey(expValue);
+
+            // Assert
+            Assert.AreEqual(expValue, testClass.Controler.PropertySetting.ChromaKey);
+            Assert.AreEqual(expValue, testClass.textBoxChromaKey.Text);
+            Assert.AreEqual(ColorTranslator.FromHtml(expValue), testClass.pictureBoxChromaKey.BackColor);
+            Assert.AreEqual(expValue, TestUtilityExt.GetSettings<string>(testClass, "ChromaKey"));
+        }
+
+        [TestMethod()]
+        public void SetChromaKeyTestException()
+        {
+            // Arrange
+            var testClass = new FormSettingsPrivate();
+            var expValue = "#000000";
+
+            // Act
+            testClass.SetChromaKey("invalidColorName");
+
+            // Assert
+            Assert.AreEqual(expValue, testClass.Controler.PropertySetting.ChromaKey);
+            Assert.AreEqual(expValue, testClass.textBoxChromaKey.Text);
+            Assert.AreEqual(ColorTranslator.FromHtml(expValue), testClass.pictureBoxChromaKey.BackColor);
+            Assert.AreEqual(expValue, TestUtilityExt.GetSettings<string>(testClass, "ChromaKey"));
+        }
+
+        [TestMethod()]
+        [DataRow(IdType.Steam, TestData.AvailableUserSteamId)]
+        [DataRow(IdType.Profile, TestData.AvailableUserProfileIdString)]
+        [DataRow(IdType.Profile, TestData.AvailableUserProfileIdWithoutSteamIdString)]
+        public void ReloadProfileAsyncTest(IdType idtype, string idText)
+        {
+            // Arrange
+            var testClass = new FormSettingsPrivate();
+            var done = false;
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormSettings_Load");
+                testClass.ReloadProfileAsync(idtype, idText);
+
+                // CleanUp
+                testClass.Close();
+                done = true;
+            };
+
+            testClass.ShowDialog();
+
+            // Assert
+            Assert.IsTrue(done);
+        }
+
+        [TestMethod()]
+        public void ReloadProfileAsyncTestIdTypeNotSelected()
+        {
+            // Arrange
+            var testClass = new FormSettingsPrivate();
+            var done = false;
+
+            // Act
+            testClass.Shown += async (sender, e) =>
+            {
+                await testClass.Awaiter.WaitAsync("FormSettings_Load");
+                testClass.ReloadProfileAsync(IdType.NotSelected, TestData.AvailableUserProfileIdWithoutSteamIdString);
+
+                // CleanUp
+                testClass.Close();
+                done = true;
+            };
+
+            testClass.ShowDialog();
+
+            // Assert
+            Assert.IsTrue(done);
+        }
+
+        private static IEnumerable<object[]> OnErrorHandlerTestData => new List<object[]>
+        {
+            new object[] { new HttpRequestException("404"), "Invalid ID" , Color.Red },
+            new object[] { new HttpRequestException(""), "Server Error", Color.Olive },
+            new object[] { new TaskCanceledException(), "Timeout", Color.Purple },
+        };
+
+        [TestMethod()]
+        [DynamicData(nameof(OnErrorHandlerTestData))]
+        public void OnErrorHandlerTest(Exception ex, string expValueText, Color expValueForeColor)
+        {
+            // Arrange
+            var testClass = new FormSettingsPrivate();
+
+            // Act
+            testClass.OnErrorHandler(ex);
+
+            // Assert
+            Assert.AreEqual(expValueText, testClass.labelAoE2NetStatus.Text);
+            Assert.AreEqual(expValueForeColor, testClass.labelAoE2NetStatus.ForeColor);
         }
     }
 }

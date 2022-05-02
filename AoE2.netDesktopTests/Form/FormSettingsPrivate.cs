@@ -13,6 +13,8 @@ namespace AoE2NetDesktop.Form.Tests
             public Button buttonSetId;
             public CheckBox checkBoxAlwaysOnTop;
             public CheckBox checkBoxHideTitle;
+            public CheckBox checkBoxDrawQuality;
+            public CheckBox checkBoxAutoReloadLastMatch;
             public Label labelAoE2NetStatus;
             public Label labelErrText;
             public Label labelSettingsName;
@@ -28,7 +30,7 @@ namespace AoE2NetDesktop.Form.Tests
             public new CtrlSettings Controler => base.Controler;
 
             public FormSettingsPrivate()
-                :base (new CtrlSettings())
+                : base(new CtrlSettings())
             {
                 httpClient = new TestHttpClient();
                 AoE2net.ComClient = httpClient;
@@ -36,6 +38,8 @@ namespace AoE2NetDesktop.Form.Tests
                 buttonSetId = this.GetControl<Button>("buttonSetId");
                 checkBoxAlwaysOnTop = this.GetControl<CheckBox>("checkBoxAlwaysOnTop");
                 checkBoxHideTitle = this.GetControl<CheckBox>("checkBoxHideTitle");
+                checkBoxDrawQuality = this.GetControl<CheckBox>("checkBoxDrawQuality");
+                checkBoxAutoReloadLastMatch = this.GetControl<CheckBox>("checkBoxAutoReloadLastMatch");
                 labelAoE2NetStatus = this.GetControl<Label>("labelAoE2NetStatus");
                 labelErrText = this.GetControl<Label>("labelErrText");
                 labelSettingsName = this.GetControl<Label>("labelSettingsName");
@@ -47,24 +51,51 @@ namespace AoE2NetDesktop.Form.Tests
                 textBoxChromaKey = this.GetControl<TextBox>("textBoxChromaKey");
                 pictureBoxChromaKey = this.GetControl<PictureBox>("pictureBoxChromaKey");
 
-                TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "SteamId", TestData.AvailableUserSteamId);
-                TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
-                TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
+                TestUtilityExt.SetSettings(this, "SteamId", TestData.AvailableUserSteamId);
+                TestUtilityExt.SetSettings(this, "ProfileId", TestData.AvailableUserProfileId);
+                TestUtilityExt.SetSettings(this, "SelectedIdType", IdType.Profile);
             }
 
-            public void FormMainOnMouseDown(MouseEventArgs e)
+            ///////////////////////////////////////////////////////////////////////
+            // private method
+            ///////////////////////////////////////////////////////////////////////
+
+            public void SetChromaKey(string htmlColor)
+            {
+                this.Invoke("SetChromaKey", htmlColor);
+            }
+
+            public void ReloadProfileAsync(IdType idtype, string idText)
+            {
+                this.Invoke("ReloadProfileAsync", idtype, idText);
+            }
+
+            public void OnErrorHandler(Exception ex)
+            {
+                this.Invoke("OnErrorHandler", ex);
+            }
+
+            ///////////////////////////////////////////////////////////////////////
+            // Event handlers
+            ///////////////////////////////////////////////////////////////////////
+            public void FormMain_MouseDown(MouseEventArgs e)
             {
                 this.Invoke("FormMain_MouseDown", this, e);
             }
 
-            public void FormMainOnMouseMove(MouseEventArgs e)
+            public void FormMain_MouseMove(MouseEventArgs e)
             {
                 this.Invoke("FormMain_MouseMove", this, e);
             }
 
-            public void PictureBoxChromaKeyOnClick(EventArgs e)
+            public void PictureBoxChromaKey_Click(EventArgs e)
             {
-                this.Invoke("PictureBoxChromaKey_Click", this, e);
+                this.Invoke("PictureBoxChromaKey_Click", pictureBoxChromaKey, e);
+            }
+
+            public void TextBoxChromaKey_Leave(EventArgs e)
+            {
+                this.Invoke("TextBoxChromaKey_Leave", textBoxChromaKey, e);
             }
         }
     }

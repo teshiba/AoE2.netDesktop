@@ -1,10 +1,6 @@
-﻿using AoE2NetDesktop.Form;
-using AoE2NetDesktop.Tests;
+﻿using AoE2NetDesktop.Tests;
 using LibAoE2net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using ScottPlot;
-
 using System;
 using System.Threading.Tasks;
 
@@ -74,18 +70,15 @@ namespace AoE2NetDesktop.Form.Tests
             var testClass = new CtrlSettings() {
                 SelectedIdType = IdType.Profile,
             };
-            try {
-                var actVal = Task.Run(
-                    async () =>
-                    {
-                        // The following code can read the player data.
-                        _ = await testClass.ReloadProfileAsync(IdType.Profile, TestData.AvailableUserProfileIdString);
-                        // The following code cannot read the player data, so write null to playerLastmatch..
-                        return await testClass.ReloadProfileAsync(IdType.Profile, "-1");
-                    }
-                    ).Result;
-            } catch (Exception) {
-            }
+            var actVal = Task.Run(
+                async () =>
+                {
+                    // The following code can read the player data.
+                    _ = await testClass.ReloadProfileAsync(IdType.Profile, TestData.AvailableUserProfileIdString);
+                    // The following code cannot read the player data, so write null to playerLastmatch..
+                    return await testClass.ReloadProfileAsync(IdType.Profile, "-1");
+                }
+                ).Result;
 
             // Assert
             Assert.AreEqual(expValUserCountry, testClass.UserCountry);
@@ -98,15 +91,14 @@ namespace AoE2NetDesktop.Form.Tests
             // Arrange
             var expValUserCountry = "N/A";
             var expValUserName = "-- Invalid ID --";
-
-            // Act
             var testClass = new CtrlSettings();
-            var actVal = Task.Run(
-                () => testClass.ReloadProfileAsync(IdType.NotSelected, TestData.AvailableUserSteamId)
-                ).Result;
 
             // Assert
-            Assert.IsTrue(actVal);
+            Assert.ThrowsExceptionAsync<Exception>(() =>
+                // Act
+                testClass.ReloadProfileAsync(IdType.NotSelected, TestData.AvailableUserSteamId)
+            );
+
             Assert.AreEqual(expValUserCountry, testClass.UserCountry);
             Assert.AreEqual(expValUserName, testClass.UserName);
         }
@@ -143,7 +135,69 @@ namespace AoE2NetDesktop.Form.Tests
             testClass.ShowMyHistory();
 
             // Assert
-            Assert.IsNotNull(testClass.FormHistory);
+            Assert.IsNotNull(testClass.FormMyHistory);
+        }
+
+        [TestMethod()]
+        public void ReadProfileAsyncTestIdTypeNotSelected()
+        {
+            // Arrange
+            var testClass = new CtrlSettings();
+            TestUtilityExt.SetSettings(testClass, "SteamId", TestData.AvailableUserSteamId);
+            TestUtilityExt.SetSettings(testClass, "ProfileId", TestData.AvailableUserProfileId);
+            TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.NotSelected);
+            testClass = new CtrlSettings();
+
+            // Assert
+            Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
+                testClass.ReadProfileAsync()
+            );
+        }
+
+        [TestMethod()]
+        public void ReadProfileAsyncTestIdTypeSteamId()
+        {
+            // Arrange
+            var notExpValUserCountry = "N/A";
+            var notExpValUserName = "-- Invalid ID --";
+
+            // Act
+            var testClass = new CtrlSettings();
+            TestUtilityExt.SetSettings(testClass, "SteamId", TestData.AvailableUserSteamId);
+            TestUtilityExt.SetSettings(testClass, "ProfileId", TestData.AvailableUserProfileId);
+            TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Steam);
+            testClass = new CtrlSettings();
+            var actVal = Task.Run(
+                () => testClass.ReadProfileAsync()
+                ).Result;
+
+            // Assert
+            Assert.IsTrue(actVal);
+            Assert.AreNotEqual(notExpValUserCountry, testClass.UserCountry);
+            Assert.AreNotEqual(notExpValUserName, testClass.UserName);
+        }
+
+        [TestMethod()]
+        public void ReadProfileAsyncTestIdTypeProfileId()
+        {
+            // Arrange
+            var notExpValUserCountry = "N/A";
+            var notExpValUserName = "-- Invalid ID --";
+
+            // Act
+            var testClass = new CtrlSettings();
+            TestUtilityExt.SetSettings(testClass, "SteamId", TestData.AvailableUserSteamId);
+            TestUtilityExt.SetSettings(testClass, "ProfileId", TestData.AvailableUserProfileId);
+            TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Profile);
+            testClass = new CtrlSettings();
+            var actVal = Task.Run(
+                () => testClass.ReadProfileAsync()
+                ).Result;
+
+            // Assert
+            Assert.IsTrue(actVal);
+            Assert.AreNotEqual(notExpValUserCountry, testClass.UserCountry);
+            Assert.AreNotEqual(notExpValUserName, testClass.UserName);
         }
     }
 }

@@ -1,10 +1,8 @@
-﻿using AoE2NetDesktop.Tests;
-using LibAoE2net;
+﻿using LibAoE2net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -160,73 +158,7 @@ namespace AoE2NetDesktop.Form.Tests
             Assert.AreEqual(expVal, actVal);
         }
 
-        [TestMethod()]
-        [DataRow(IdType.Steam, TestData.AvailableUserSteamId)]
-        [DataRow(IdType.Profile, TestData.AvailableUserProfileIdString)]
-        public void GetPlayerLastMatchAsyncTest(IdType idType, string id)
-        {
-            // Arrange
 
-            // Act
-            var actVal = Task.Run(
-                () => CtrlMain.GetPlayerLastMatchAsync(idType, id)
-                ).Result;
-
-            // Assert
-            Assert.AreEqual(TestData.AvailableUserSteamId, actVal.SteamId);
-            Assert.AreEqual(TestData.AvailableUserProfileId, actVal.ProfileId);
-            Assert.AreEqual(3333, actVal.LastMatch.Players[2].Rating);
-        }
-
-        [TestMethod()]
-        public void GetPlayerLastMatchAsyncTestInvalidArg()
-        {
-            // Arrange
-
-            // Act
-            var actVal = Task.Run(
-                () => CtrlMain.GetPlayerLastMatchAsync(IdType.NotSelected, TestData.AvailableUserSteamId)
-                ).Result;
-
-            // Assert
-            Assert.IsNull(actVal.ProfileId);
-        }
-
-        [TestMethod()]
-        public async Task GetPlayerLastMatchAsyncTestFormatExceptionAsync()
-        {
-            // Arrange
-
-            _ = await Assert.ThrowsExceptionAsync<FormatException>(
-                () => CtrlMain.GetPlayerLastMatchAsync(IdType.Steam, "FormatException")
-                ).ConfigureAwait(false);
-        }
-
-        [TestMethod()]
-        public async Task GetPlayerLastMatchAsyncTestNullAsync()
-        {
-            // Arrange
-
-            // Act
-            // Assert
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                CtrlMain.GetPlayerLastMatchAsync(IdType.Steam, null)
-            );
-        }
-
-        [TestMethod()]
-        public async Task GetPlayerLastMatchAsyncTestHttpRequestExceptionAsync()
-        {
-            // Arrange
-            AoE2net.ComClient = new TestHttpClient() {
-                ForceHttpRequestException = true,
-            };
-            // Act
-            // Assert
-            await Assert.ThrowsExceptionAsync<HttpRequestException>(() =>
-                CtrlMain.GetPlayerLastMatchAsync(IdType.Steam, TestData.AvailableUserSteamId)
-            );
-        }
 
         [TestMethod()]
         [DataRow(1, "1")]

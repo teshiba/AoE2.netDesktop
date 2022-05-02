@@ -6,9 +6,9 @@
     public enum NetStatus
     {
         /// <summary>
-        /// Connecting Now.
+        /// Communication timeout.
         /// </summary>
-        Connecting,
+        ComTimeout,
 
         /// <summary>
         /// Network has connected.
@@ -16,18 +16,23 @@
         Connected,
 
         /// <summary>
+        /// Connecting Now.
+        /// </summary>
+        Connecting,
+
+        /// <summary>
         /// Network does not connected yet.
         /// </summary>
         Disconnected,
 
         /// <summary>
-        /// server error.
+        /// Request with invalid parameter.
         /// </summary>
-        ServerError,
+        InvalidRequest,
 
         /// <summary>
-        /// communication timeout.
+        /// Server error.
         /// </summary>
-        ComTimeout,
+        ServerError,
     }
 }

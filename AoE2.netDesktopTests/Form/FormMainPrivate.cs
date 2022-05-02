@@ -2,6 +2,9 @@
 using System.Windows.Forms;
 using AoE2NetDesktop.Tests;
 using System.Drawing;
+using System.ComponentModel;
+using System;
+using System.Threading.Tasks;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -11,8 +14,16 @@ namespace AoE2NetDesktop.Form.Tests
         {
             public TestHttpClient httpClient;
             public Label labelErrText;
+            public Label labelGameId;
             public ToolStripMenuItem updateToolStripMenuItem;
-            public Point mouseDownPoint;
+            public ContextMenuStrip contextMenuStripMain;
+
+            public Point MouseDownPoint {
+                get => this.GetField<Point>("mouseDownPoint");
+                set {
+                    this.SetField("mouseDownPoint", value);
+                }
+            }
 
             public FormMainPrivate()
                 : base(Language.en)
@@ -20,28 +31,79 @@ namespace AoE2NetDesktop.Form.Tests
                 httpClient = new TestHttpClient();
                 AoE2net.ComClient = httpClient;
                 labelErrText = this.GetControl<Label>("labelErrText");
-                mouseDownPoint = this.GetField<Point>("mouseDownPoint");
+                labelGameId = this.GetControl<Label>("labelGameId");
                 updateToolStripMenuItem = this.GetControl<ToolStripMenuItem>("updateToolStripMenuItem");
+                contextMenuStripMain = this.GetControl<ContextMenuStrip>("contextMenuStripMain");
 
-                TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "SteamId", TestData.AvailableUserSteamId);
-                TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "ProfileId", TestData.AvailableUserProfileId);
-                TestUtilityExt.SetSettings(this, "AoE2NetDesktop", "SelectedIdType", IdType.Profile);
+                TestUtilityExt.SetSettings(this, "SteamId", TestData.AvailableUserSteamId);
+                TestUtilityExt.SetSettings(this, "ProfileId", TestData.AvailableUserProfileId);
+                TestUtilityExt.SetSettings(this, "SelectedIdType", IdType.Profile);
             }
 
-            public async void FormMainOnKeyDown(Keys keys)
+            public async void FormMain_KeyDown(Keys keys)
             {
                 this.Invoke("FormMain_KeyDown", this, new KeyEventArgs(keys));
                 await Awaiter.WaitAsync("FormMain_KeyDown");
             }
 
-            public void FormMainOnMouseDown(MouseEventArgs e)
+            public void FormMain_MouseDown(MouseEventArgs e)
             {
                 this.Invoke("FormMain_MouseDown", this, e);
             }
 
-            public void FormMainOnMouseMove(MouseEventArgs e)
+            public void FormMain_MouseMove(MouseEventArgs e)
             {
                 this.Invoke("FormMain_MouseMove", this, e);
+            }
+
+            public void Controls_MouseDown(MouseEventArgs e)
+            {
+                this.Invoke("Controls_MouseDown", this, e);
+            }
+
+            public void Controls_MouseMove(MouseEventArgs e)
+            {
+                this.Invoke("Controls_MouseMove", this, e);
+            }
+
+            public void FormMain_MouseClick(MouseEventArgs e)
+            {
+                this.Invoke("FormMain_MouseClick", this, e);
+            }
+
+            public void OnChangeProperty(object sender, PropertyChangedEventArgs e)
+            {
+                this.Invoke("OnChangeProperty", sender, e);
+            }
+
+            public void OnTimerAsync(object sender, EventArgs e)
+            {
+                this.Invoke("OnTimerAsync", sender, e);
+            }
+
+            public void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
+            {
+                this.Invoke("SettingsToolStripMenuItem_Click", sender, e);
+            }
+
+            public void LabelName_DoubleClick(object sender, EventArgs e)
+            {
+                this.Invoke("LabelName_DoubleClick", sender, e);
+            }
+
+            public void ShowMyHistoryHToolStripMenuItem_Click(object sender, EventArgs e)
+            {
+                this.Invoke("ShowMyHistoryHToolStripMenuItem_Click", sender, e);
+            }
+
+            public void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+            {
+                this.Invoke("ExitToolStripMenuItem_Click", sender, e);
+            }
+
+            public async Task<Match> SetLastMatchDataAsync(int profileId)
+            {
+                return await this.Invoke<Task<Match>>("SetLastMatchDataAsync", profileId);
             }
         }
     }

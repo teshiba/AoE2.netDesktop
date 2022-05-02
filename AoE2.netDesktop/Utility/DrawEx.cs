@@ -10,6 +10,11 @@
     public static class DrawEx
     {
         /// <summary>
+        /// Gets or sets a value indicating whether draw Quality is high.
+        /// </summary>
+        public static bool DrawHighQuality { get; set; }
+
+        /// <summary>
         /// Draw String.
         /// </summary>
         /// <param name="label">Label to be drawn.</param>
@@ -55,8 +60,14 @@
             label.ForeColor = label.BackColor;
 
             // Draw bordered text.
-            e.Graphics.PixelOffsetMode = PixelOffsetMode.None;
-            e.Graphics.SmoothingMode = SmoothingMode.None;
+            if (DrawHighQuality) {
+                e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            } else {
+                e.Graphics.PixelOffsetMode = PixelOffsetMode.None;
+                e.Graphics.SmoothingMode = SmoothingMode.None;
+            }
+
             e.Graphics.DrawPath(pen, graphicsPath);
             e.Graphics.FillPath(new SolidBrush(fillColor), graphicsPath);
         }

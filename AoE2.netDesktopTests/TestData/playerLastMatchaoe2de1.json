@@ -179,8 +179,8 @@
         "won": false
       },
       {
-        "profile_id": 8,
-        "steam_id": "00000000000000008",
+        "profile_id": null,
+        "steam_id": null,
         "name": "Player8",
         "clan": null,
         "country": null,

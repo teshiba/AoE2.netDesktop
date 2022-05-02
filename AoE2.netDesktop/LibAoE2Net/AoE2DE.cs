@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop.Form
+﻿namespace AoE2NetDesktop
 {
     /// <summary>
     /// AoE2DE spec.

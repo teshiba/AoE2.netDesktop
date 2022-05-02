@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,31 +10,24 @@ namespace AoE2NetDesktop.Tests
     public class DrawExTests
     {
         [TestMethod()]
-        public void DrawStringTest()
+        [DataRow(true, PixelOffsetMode.HighQuality, SmoothingMode.AntiAlias)]
+        [DataRow(false, PixelOffsetMode.None, SmoothingMode.None)]
+        public void DrawStringTest(bool drawHighQuality, 
+                    PixelOffsetMode expValuePixelOffsetMode, SmoothingMode expValueSmoothingMode)
         {
             // Arrange
             Label label = new();
             var graphics = label.CreateGraphics();
             var e = new PaintEventArgs(graphics, new Rectangle(0, 0, 100, 100));
 
-            // Act
-            label.DrawString(e, 10, Color.Red, Color.Orange);
-
-            // Assert
-        }
-
-        [TestMethod()]
-        public void DrawStringTest1()
-        {
-            // Arrange
-            Label label = new();
-            var graphics = label.CreateGraphics();
-            var e = new PaintEventArgs(graphics, new Rectangle(0, 0, 100, 100));
+            DrawEx.DrawHighQuality = drawHighQuality;
 
             // Act
             label.DrawString(e, 10, Color.Red, Color.Orange);
 
             // Assert
+            Assert.AreEqual(expValuePixelOffsetMode, e.Graphics.PixelOffsetMode);
+            Assert.AreEqual(expValueSmoothingMode, e.Graphics.SmoothingMode);
         }
     }
 }

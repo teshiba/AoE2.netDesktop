@@ -64,11 +64,11 @@ namespace LibAoE2net.Tests
                 },
                 new Player() {
                     ProfilId = 4,
-                    SteamId = "00000000000000004",
+                    SteamId = null,
                     Name = "Player4",
                     Slot = 4,
                     SlotType = 1,
-                    Rating = 4444,
+                    Rating = null,
                     Color = 4,
                     Team = 2,
                     Civ = 11,
