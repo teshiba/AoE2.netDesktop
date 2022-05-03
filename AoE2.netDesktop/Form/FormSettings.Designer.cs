@@ -131,7 +131,7 @@
             this.groupBoxPlayer.Controls.Add(this.labelSettingsName);
             this.groupBoxPlayer.Location = new System.Drawing.Point(10, 78);
             this.groupBoxPlayer.Name = "groupBoxPlayer";
-            this.groupBoxPlayer.Size = new System.Drawing.Size(517, 136);
+            this.groupBoxPlayer.Size = new System.Drawing.Size(513, 136);
             this.groupBoxPlayer.TabIndex = 16;
             this.groupBoxPlayer.TabStop = false;
             this.groupBoxPlayer.Text = "Player";
@@ -139,7 +139,7 @@
             // buttonSetId
             // 
             this.buttonSetId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSetId.Location = new System.Drawing.Point(434, 21);
+            this.buttonSetId.Location = new System.Drawing.Point(430, 21);
             this.buttonSetId.Name = "buttonSetId";
             this.buttonSetId.Size = new System.Drawing.Size(78, 45);
             this.buttonSetId.TabIndex = 7;
@@ -178,7 +178,7 @@
             this.textBoxSettingSteamId.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.textBoxSettingSteamId.Location = new System.Drawing.Point(93, 21);
             this.textBoxSettingSteamId.Name = "textBoxSettingSteamId";
-            this.textBoxSettingSteamId.Size = new System.Drawing.Size(337, 23);
+            this.textBoxSettingSteamId.Size = new System.Drawing.Size(333, 23);
             this.textBoxSettingSteamId.TabIndex = 1;
             // 
             // textBoxSettingProfileId
@@ -189,7 +189,7 @@
             this.textBoxSettingProfileId.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.textBoxSettingProfileId.Location = new System.Drawing.Point(93, 46);
             this.textBoxSettingProfileId.Name = "textBoxSettingProfileId";
-            this.textBoxSettingProfileId.Size = new System.Drawing.Size(337, 23);
+            this.textBoxSettingProfileId.Size = new System.Drawing.Size(333, 23);
             this.textBoxSettingProfileId.TabIndex = 1;
             // 
             // labelSettingsCountry
@@ -198,7 +198,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelSettingsCountry.Location = new System.Drawing.Point(11, 105);
             this.labelSettingsCountry.Name = "labelSettingsCountry";
-            this.labelSettingsCountry.Size = new System.Drawing.Size(501, 23);
+            this.labelSettingsCountry.Size = new System.Drawing.Size(497, 23);
             this.labelSettingsCountry.TabIndex = 3;
             this.labelSettingsCountry.Text = "Country: -----";
             // 
@@ -208,7 +208,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelSettingsName.Location = new System.Drawing.Point(11, 80);
             this.labelSettingsName.Name = "labelSettingsName";
-            this.labelSettingsName.Size = new System.Drawing.Size(501, 23);
+            this.labelSettingsName.Size = new System.Drawing.Size(497, 23);
             this.labelSettingsName.TabIndex = 3;
             this.labelSettingsName.Text = "Name: -----";
             // 
@@ -265,7 +265,7 @@
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
             this.labelErrText.Location = new System.Drawing.Point(10, 203);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(512, 10);
+            this.labelErrText.Size = new System.Drawing.Size(508, 6);
             this.labelErrText.TabIndex = 25;
             // 
             // checkBoxTransparencyWindow
@@ -320,6 +320,7 @@
             this.Controls.Add(this.checkBoxHideTitle);
             this.Controls.Add(this.checkBoxAlwaysOnTop);
             this.Controls.Add(this.labelErrText);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(550, 260);
