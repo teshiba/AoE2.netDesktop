@@ -13,8 +13,6 @@
     /// </summary>
     public partial class FormMain : ControllableForm
     {
-        private const int PlayerNumMax = AoE2DE.PlayerNumMax;
-
         /// <summary>
         /// Gets lastMatchLoader.
         /// </summary>
@@ -229,7 +227,7 @@
 
         private void SetChromaKey(Color chromaKey)
         {
-            for (int i = 0; i < PlayerNumMax; i++) {
+            for (int i = 0; i < AoE2DE.PlayerNumMax; i++) {
                 labelCiv[i].BackColor = Color.Transparent;
                 labelName[i].BackColor = chromaKey;
                 labelRate[i].BackColor = chromaKey;
@@ -289,7 +287,7 @@
 
             foreach (var player in players) {
                 if (player.Color - 1 is int index
-                    && index < PlayerNumMax
+                    && index < AoE2DE.PlayerNumMax
                     && index > -1) {
                     pictureBox[index].ImageLocation = AoE2net.GetCivImageLocation(player.GetCivEnName());
                     labelRate[index].Text = CtrlMain.GetRateString(player.Rating);
@@ -312,6 +310,7 @@
 
             try {
                 var match = await SetLastMatchDataAsync(profileId);
+                labelDateTime.Text = $"Last match data updated: {DateTime.Now}";
                 ret = true;
             } catch (Exception ex) {
                 labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
@@ -323,8 +322,14 @@
 
         private void OnTimerAsync(object sender, EventArgs e)
         {
-            LastMatchLoader.Stop();
-            Invoke(() => updateToolStripMenuItem.PerformClick());
+            if (CtrlMain.IsAoE2deActive()) {
+                LastMatchLoader.Stop();
+                labelAoE2DEActive.Invoke(() => { labelAoE2DEActive.Text = "AoE2DE active"; });
+                Invoke(() => updateToolStripMenuItem.PerformClick());
+            } else {
+                labelAoE2DEActive.Invoke(() => { labelAoE2DEActive.Text = "AoE2DE NOT active"; });
+            }
+
             Awaiter.Complete();
         }
     }

@@ -45,6 +45,10 @@
     <ProjectReference Include="..\AoE2.netDesktop\AoE2.netDesktop.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TestResults\" />
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

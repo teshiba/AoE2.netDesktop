@@ -82,6 +82,9 @@
             this.showMyHistoryHToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.labelDateTime = new System.Windows.Forms.Label();
+            this.panelDebug = new System.Windows.Forms.Panel();
+            this.labelAoE2DEActive = new System.Windows.Forms.Label();
             this.panelTeam1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -93,13 +96,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.contextMenuStripMain.SuspendLayout();
+            this.panelDebug.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelServer
             // 
             this.labelServer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelServer.BackColor = System.Drawing.SystemColors.Control;
-            this.labelServer.Location = new System.Drawing.Point(727, 29);
+            this.labelServer.Location = new System.Drawing.Point(725, 29);
             this.labelServer.Name = "labelServer";
             this.labelServer.Size = new System.Drawing.Size(152, 19);
             this.labelServer.TabIndex = 2;
@@ -111,7 +115,7 @@
             // 
             this.labelGameId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelGameId.BackColor = System.Drawing.SystemColors.Control;
-            this.labelGameId.Location = new System.Drawing.Point(726, 8);
+            this.labelGameId.Location = new System.Drawing.Point(724, 8);
             this.labelGameId.Name = "labelGameId";
             this.labelGameId.Size = new System.Drawing.Size(152, 19);
             this.labelGameId.TabIndex = 9;
@@ -429,13 +433,15 @@
             // 
             // labelErrText
             // 
-            this.labelErrText.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.labelErrText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelErrText.BackColor = System.Drawing.Color.DarkGray;
             this.labelErrText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
-            this.labelErrText.Location = new System.Drawing.Point(11, 322);
+            this.labelErrText.Location = new System.Drawing.Point(4, 25);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(868, 83);
+            this.labelErrText.Size = new System.Drawing.Size(857, 143);
             this.labelErrText.TabIndex = 8;
             // 
             // panelTeam2
@@ -802,14 +808,48 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
+            // labelDateTime
+            // 
+            this.labelDateTime.AutoSize = true;
+            this.labelDateTime.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelDateTime.Location = new System.Drawing.Point(113, 0);
+            this.labelDateTime.Name = "labelDateTime";
+            this.labelDateTime.Size = new System.Drawing.Size(367, 25);
+            this.labelDateTime.TabIndex = 10;
+            this.labelDateTime.Text = "Last match data updated: ----/--/-- --:--:--";
+            // 
+            // panelDebug
+            // 
+            this.panelDebug.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelDebug.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.panelDebug.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelDebug.Controls.Add(this.labelAoE2DEActive);
+            this.panelDebug.Controls.Add(this.labelErrText);
+            this.panelDebug.Controls.Add(this.labelDateTime);
+            this.panelDebug.Location = new System.Drawing.Point(11, 324);
+            this.panelDebug.Name = "panel1";
+            this.panelDebug.Size = new System.Drawing.Size(868, 178);
+            this.panelDebug.TabIndex = 11;
+            // 
+            // labelAoE2DEActive
+            // 
+            this.labelAoE2DEActive.AutoSize = true;
+            this.labelAoE2DEActive.Location = new System.Drawing.Point(3, 8);
+            this.labelAoE2DEActive.Name = "labelAoE2DEActive";
+            this.labelAoE2DEActive.Size = new System.Drawing.Size(109, 15);
+            this.labelAoE2DEActive.TabIndex = 11;
+            this.labelAoE2DEActive.Text = "AoE2DE NOT active";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(885, 321);
+            this.ClientSize = new System.Drawing.Size(883, 506);
             this.ContextMenuStrip = this.contextMenuStripMain;
-            this.Controls.Add(this.labelErrText);
+            this.Controls.Add(this.panelDebug);
             this.Controls.Add(this.panelTeam1);
             this.Controls.Add(this.panelTeam2);
             this.Controls.Add(this.labelServer);
@@ -837,6 +877,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.contextMenuStripMain.ResumeLayout(false);
+            this.panelDebug.ResumeLayout(false);
+            this.panelDebug.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -897,5 +939,8 @@
         private System.Windows.Forms.ColorDialog colorDialogChromaKey;
         private System.Windows.Forms.ToolStripMenuItem showMyHistoryHToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.Label labelDateTime;
+        private System.Windows.Forms.Panel panelDebug;
+        private System.Windows.Forms.Label labelAoE2DEActive;
     }
 }

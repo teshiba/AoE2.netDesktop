@@ -13,8 +13,6 @@
     /// </summary>
     public partial class FormMain : ControllableForm
     {
-        private const int IntervalSec = 5;
-
         private readonly List<Label> labelCiv = new ();
         private readonly List<Label> labelColor = new ();
         private readonly List<Label> labelRate = new ();
@@ -39,7 +37,7 @@
             // formMain hold the app settings.
             CtrlSettings = new CtrlSettings();
             CtrlSettings.PropertySetting.PropertyChanged += OnChangeProperty;
-            LastMatchLoader = new LastMatchLoader(OnTimerAsync, IntervalSec);
+            LastMatchLoader = new LastMatchLoader(OnTimerAsync, CtrlMain.IntervalSec);
 
             SetChromaKey(CtrlSettings.PropertySetting.ChromaKey);
             OnChangeIsHideTitle(CtrlSettings.PropertySetting.IsHideTitle);

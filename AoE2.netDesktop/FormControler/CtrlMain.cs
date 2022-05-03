@@ -2,8 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Diagnostics;
     using System.Drawing;
     using System.Linq;
+    using System.Runtime.InteropServices;
+    using System.Text;
     using System.Threading.Tasks;
 
     using LibAoE2net;
@@ -13,6 +17,13 @@
     /// </summary>
     public class CtrlMain : FormControler
     {
+        /// <summary>
+        /// Auto reload interval second.
+        /// </summary>
+        public const int IntervalSec = 60 * 5;
+
+        private const string AoE2DEprocessName = "AoE2DE_s";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CtrlMain"/> class.
         /// </summary>
@@ -95,5 +106,36 @@
 
             return true;
         }
+
+        /// <summary>
+        /// Gets whether AoE2de is the active window.
+        /// </summary>
+        /// <returns>true: AoE2de is the active window.</returns>
+        public static bool IsAoE2deActive()
+        {
+            var ret = false;
+
+            try {
+                _ = GetWindowThreadProcessId(GetForegroundWindow(), out int processid);
+                if (processid != 0) {
+                    if (Process.GetProcessById(processid).ProcessName == AoE2DEprocessName) {
+                        ret = true;
+                    }
+                }
+            } catch (Win32Exception) {
+                // nothing to do.
+            }
+
+            return ret;
+        }
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll", EntryPoint = "GetWindowText", CharSet = CharSet.Unicode)]
+        private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+        [DllImport("user32.dll")]
+        private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
     }
 }
