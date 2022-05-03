@@ -251,6 +251,7 @@
             var playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
 
             if (labelGameId.Text != $"GameID: {playerLastmatch.LastMatch.MatchId}") {
+                labelDateTime.Text = $"Last match data updated: {DateTime.Now}";
                 SetMatchData(playerLastmatch.LastMatch);
 
                 var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId);
@@ -310,7 +311,6 @@
 
             try {
                 var match = await SetLastMatchDataAsync(profileId);
-                labelDateTime.Text = $"Last match data updated: {DateTime.Now}";
                 ret = true;
             } catch (Exception ex) {
                 labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
