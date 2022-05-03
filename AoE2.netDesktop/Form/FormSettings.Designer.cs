@@ -102,6 +102,11 @@
             // 
             // upDownOpacity
             // 
+            this.upDownOpacity.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             this.upDownOpacity.Location = new System.Drawing.Point(233, 8);
             this.upDownOpacity.Minimum = new decimal(new int[] {
             10,
@@ -141,7 +146,7 @@
             this.buttonSetId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSetId.Location = new System.Drawing.Point(430, 21);
             this.buttonSetId.Name = "buttonSetId";
-            this.buttonSetId.Size = new System.Drawing.Size(78, 45);
+            this.buttonSetId.Size = new System.Drawing.Size(78, 48);
             this.buttonSetId.TabIndex = 7;
             this.buttonSetId.Text = "Set ID";
             this.buttonSetId.UseVisualStyleBackColor = true;
