@@ -31,9 +31,10 @@ namespace AoE2NetDesktop.Form.Tests
         public void InitAsyncTest()
         {
             // Arrange
+            CtrlMain.SystemApi = new SystemApiStub(1);
+            var testClass = new CtrlMain();
 
             // Act
-            var testClass = new CtrlMain();
             var actVal = Task.Run(
                 () => CtrlMain.InitAsync(Language.en)
                 ).Result;
@@ -194,12 +195,13 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             AoE2net.ComClient = new TestHttpClient();
+            CtrlMain.SystemApi = new SystemApiStub(1);
+            var testClass = new CtrlMain();
             var match = new Match() {
                 MapType = mapType,
             };
 
             // Act
-            var testClass = new CtrlMain();
             _ = Task.Run(
                 () => CtrlMain.InitAsync(Language.en)
                 ).Result;
@@ -222,9 +224,10 @@ namespace AoE2NetDesktop.Form.Tests
             var player = new Player() {
                 Civ = civ,
             };
+            CtrlMain.SystemApi = new SystemApiStub(1);
+            var testClass = new CtrlMain();
 
             // Act
-            var testClass = new CtrlMain();
             _ = Task.Run(
                 () => CtrlMain.InitAsync(Language.en)
                 ).Result;

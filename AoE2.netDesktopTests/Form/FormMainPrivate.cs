@@ -15,8 +15,17 @@ namespace AoE2NetDesktop.Form.Tests
             public TestHttpClient httpClient;
             public Label labelErrText;
             public Label labelGameId;
+            public Label labelAoE2DEActive;
             public ToolStripMenuItem updateToolStripMenuItem;
             public ContextMenuStrip contextMenuStripMain;
+
+            public FormSettings FormSettings
+            {
+                get => this.GetField<FormSettings>("formSettings");
+                set {
+                    this.SetField("formSettings", value);
+                }
+            }
 
             public Point MouseDownPoint {
                 get => this.GetField<Point>("mouseDownPoint");
@@ -32,6 +41,7 @@ namespace AoE2NetDesktop.Form.Tests
                 AoE2net.ComClient = httpClient;
                 labelErrText = this.GetControl<Label>("labelErrText");
                 labelGameId = this.GetControl<Label>("labelGameId");
+                labelAoE2DEActive = this.GetControl<Label>("labelAoE2DEActive");
                 updateToolStripMenuItem = this.GetControl<ToolStripMenuItem>("updateToolStripMenuItem");
                 contextMenuStripMain = this.GetControl<ContextMenuStrip>("contextMenuStripMain");
 
@@ -104,6 +114,11 @@ namespace AoE2NetDesktop.Form.Tests
             public async Task<Match> SetLastMatchDataAsync(int profileId)
             {
                 return await this.Invoke<Task<Match>>("SetLastMatchDataAsync", profileId);
+            }
+
+            public void OpenSettings()
+            {
+                this.Invoke("OpenSettings");
             }
         }
     }

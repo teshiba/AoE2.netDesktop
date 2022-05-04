@@ -193,10 +193,15 @@ namespace AoE2NetDesktop.Form.Tests
         }
 
         [TestMethod()]
-        public void OnTimerAsyncTestAsync()
+        public void OnTimerAsyncTestAsyncIsAoE2deActive()
         {
             // Arrange
+            CtrlMain.IntervalSec = 1;
+            CtrlMain.SystemApi = new SystemApiStub(1);
             var testClass = new FormMainPrivate();
+            testClass.labelAoE2DEActive.Text = string.Empty;
+
+            // Act
             testClass.LastMatchLoader.Start();
 
             while (testClass.LastMatchLoader.Enabled) {
@@ -204,6 +209,28 @@ namespace AoE2NetDesktop.Form.Tests
             }
             testClass.Awaiter.WaitAsync("OnTimerAsync").ConfigureAwait(false);
 
+            // Assert
+            Assert.IsTrue(true);
+        }
+
+        [TestMethod()]
+        public void OnTimerAsyncTestAsyncIsNotAoE2deActive()
+        {
+            // Arrange
+            CtrlMain.IntervalSec = 1;
+            CtrlMain.SystemApi = new SystemApiStub(0);
+            var testClass = new FormMainPrivate();
+            testClass.labelAoE2DEActive.Text = string.Empty;
+
+            // Act
+            testClass.LastMatchLoader.Start();
+
+            while (testClass.LastMatchLoader.Enabled) {
+                Task.Delay(500);
+            }
+            testClass.Awaiter.WaitAsync("OnTimerAsync").ConfigureAwait(false);
+
+            // Assert
             Assert.IsTrue(true);
         }
 

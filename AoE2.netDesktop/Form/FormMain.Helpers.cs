@@ -328,12 +328,13 @@
 
         private void OnTimerAsync(object sender, EventArgs e)
         {
+            LastMatchLoader.Stop();
             if (CtrlMain.IsAoE2deActive()) {
-                LastMatchLoader.Stop();
                 labelAoE2DEActive.Invoke(() => { labelAoE2DEActive.Text = "AoE2DE active"; });
                 Invoke(() => updateToolStripMenuItem.PerformClick());
             } else {
                 labelAoE2DEActive.Invoke(() => { labelAoE2DEActive.Text = "AoE2DE NOT active"; });
+                LastMatchLoader.Start();
             }
 
             Awaiter.Complete();

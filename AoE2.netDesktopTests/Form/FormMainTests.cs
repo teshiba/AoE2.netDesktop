@@ -3,10 +3,7 @@ using LibAoE2net;
 using System.Windows.Forms;
 using AoE2NetDesktop.Tests;
 using System.Drawing;
-using System.ComponentModel;
 using System;
-using System.Threading.Tasks;
-using System.Reflection;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -452,8 +449,42 @@ namespace AoE2NetDesktop.Form.Tests
 
             // Act
             testClass.SettingsToolStripMenuItem_Click(testClass, e);
+
             // Assert
 
+        }
+
+        [TestMethod()]
+        public void OpenSettingsTestFormSettingsIsNull()
+        {
+            // Arrange
+            var testClass = new FormMainPrivate {
+                FormSettings = null
+            };
+
+            // Act
+            testClass.OpenSettings();
+
+            // Assert
+            Assert.IsTrue(testClass.FormSettings.Visible);
+        }
+
+        [TestMethod()]
+        public void OpenSettingsTestFormSettingsIsDisposed()
+        {
+            // Arrange
+            var testClass = new FormMainPrivate {
+                FormSettings = null
+            };
+
+            // Act
+            testClass.OpenSettings();
+            testClass.FormSettings.Dispose();
+            Assert.IsFalse(testClass.FormSettings.Visible);
+            testClass.OpenSettings();
+
+            // Assert
+            Assert.IsTrue(testClass.FormSettings.Visible);
         }
 
         [TestMethod()]

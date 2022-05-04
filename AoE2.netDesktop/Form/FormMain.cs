@@ -44,11 +44,6 @@
             this.language = language;
         }
 
-        /// <summary>
-        /// Gets formControler.
-        /// </summary>
-        protected override CtrlMain Controler => (CtrlMain)base.Controler;
-
         private void SetOptionParams()
         {
             SetChromaKey(CtrlSettings.PropertySetting.ChromaKey);
