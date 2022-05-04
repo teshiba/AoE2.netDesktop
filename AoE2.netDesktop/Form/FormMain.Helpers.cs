@@ -13,6 +13,8 @@
     /// </summary>
     public partial class FormMain : ControllableForm
     {
+        private FormSettings formSettings;
+
         /// <summary>
         /// Gets lastMatchLoader.
         /// </summary>
@@ -193,8 +195,12 @@
 
         private void OpenSettings()
         {
-            var formSettings = new FormSettings(CtrlSettings);
+            if (formSettings == null || formSettings.IsDisposed) {
+                formSettings = new FormSettings(CtrlSettings);
+            }
+
             formSettings.Show();
+            formSettings.Activate();
         }
 
         private void ResizePanels()

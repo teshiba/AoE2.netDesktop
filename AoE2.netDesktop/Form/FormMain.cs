@@ -39,6 +39,18 @@
             CtrlSettings.PropertySetting.PropertyChanged += OnChangeProperty;
             LastMatchLoader = new LastMatchLoader(OnTimerAsync, CtrlMain.IntervalSec);
 
+            SetOptionParams();
+
+            this.language = language;
+        }
+
+        /// <summary>
+        /// Gets formControler.
+        /// </summary>
+        protected override CtrlMain Controler => (CtrlMain)base.Controler;
+
+        private void SetOptionParams()
+        {
             SetChromaKey(CtrlSettings.PropertySetting.ChromaKey);
             OnChangeIsHideTitle(CtrlSettings.PropertySetting.IsHideTitle);
             TopMost = CtrlSettings.PropertySetting.IsAlwaysOnTop;
@@ -46,11 +58,9 @@
             OnChangeIsTransparency(CtrlSettings.PropertySetting.IsTransparency);
             OnChangeIsAutoReloadLastMatch(CtrlSettings.PropertySetting.IsAutoReloadLastMatch);
             DrawEx.DrawHighQuality = CtrlSettings.PropertySetting.DrawHighQuality;
-
-            this.language = language;
         }
 
-         ///////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
         // Async event handlers
         ///////////////////////////////////////////////////////////////////////
         private async void FormMain_Load(object sender, EventArgs e)
