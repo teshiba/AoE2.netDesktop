@@ -357,10 +357,17 @@
         public async Task<bool> ReadPlayerMatchHistoryAsync()
         {
             bool ret;
-            int startCount = 0;
 
             try {
-                PlayerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(startCount, ReadCountMax, ProfileId);
+                PlayerMatchHistory readPlayerMatchHistory;
+                PlayerMatchHistory.Clear();
+
+                do {
+                    var startCount = PlayerMatchHistory.Count;
+                    readPlayerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(startCount, ReadCountMax, ProfileId);
+                    PlayerMatchHistory.AddRange(readPlayerMatchHistory);
+                } while (readPlayerMatchHistory.Count == ReadCountMax);
+
                 MatchedPlayerInfos = CreateMatchedPlayersInfo(PlayerMatchHistory);
                 ret = true;
             } catch (Exception) {

@@ -133,6 +133,11 @@ namespace LibAoE2net
 
         [DataMember(Name = "players")]
         public List<Player> Players { get; set; } = new ();
+
+        public override string ToString()
+        {
+            return $"{this.GetOpenedTime()} {Players.Count} Players Map:{this.GetMapName()}";
+        }
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
