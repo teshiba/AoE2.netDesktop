@@ -12,7 +12,6 @@
     /// </summary>
     public partial class FormHistory : ControllableForm
     {
-
         /// <summary>
         /// Gets or sets player country plot object.
         /// </summary>

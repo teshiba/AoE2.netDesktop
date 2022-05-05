@@ -32,13 +32,17 @@
             foreach (var player in ret.LastMatch.Players) {
                 List<PlayerRating> rate;
 
-                if (player.Rating == null) {
+                if (player.Rating == null || player.Name == null) {
                     var leaderBoardId = ret.LastMatch.LeaderboardId ?? 0;
 
                     if (player.SteamId != null) {
                         rate = await AoE2net.GetPlayerRatingHistoryAsync(player.SteamId, leaderBoardId, 1);
+                        var lastMatch = await AoE2net.GetPlayerLastMatchAsync(player.SteamId);
+                        player.Name = lastMatch.Name;
                     } else if (player.ProfilId is int profileId) {
                         rate = await AoE2net.GetPlayerRatingHistoryAsync(profileId, leaderBoardId, 1);
+                        var lastMatch = await AoE2net.GetPlayerLastMatchAsync(profileId);
+                        player.Name = lastMatch.Name;
                     } else {
                         rate = new List<PlayerRating>();
                     }
