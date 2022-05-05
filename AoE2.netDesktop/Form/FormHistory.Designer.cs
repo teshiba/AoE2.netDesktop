@@ -36,7 +36,7 @@ namespace AoE2NetDesktop.Form
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPageMatches = new System.Windows.Forms.TabPage();
             this.labelComboBoxLeaderboard = new System.Windows.Forms.Label();
-            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.splitContainerMatches = new System.Windows.Forms.SplitContainer();
             this.listViewMatchHistory = new System.Windows.Forms.ListView();
             this.columnHeaderMap = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderRate = new System.Windows.Forms.ColumnHeader();
@@ -80,10 +80,10 @@ namespace AoE2NetDesktop.Form
             this.tabControlHistory = new System.Windows.Forms.TabControl();
             this.contextMenuStripMatchedPlayers.SuspendLayout();
             this.tabPageMatches.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
-            this.splitContainer5.Panel1.SuspendLayout();
-            this.splitContainer5.Panel2.SuspendLayout();
-            this.splitContainer5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMatches)).BeginInit();
+            this.splitContainerMatches.Panel1.SuspendLayout();
+            this.splitContainerMatches.Panel2.SuspendLayout();
+            this.splitContainerMatches.SuspendLayout();
             this.tabPageStatistics.SuspendLayout();
             this.tabPagePlayers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerPlayers)).BeginInit();
@@ -140,7 +140,7 @@ namespace AoE2NetDesktop.Form
             // tabPageMatches
             // 
             this.tabPageMatches.Controls.Add(this.labelComboBoxLeaderboard);
-            this.tabPageMatches.Controls.Add(this.splitContainer5);
+            this.tabPageMatches.Controls.Add(this.splitContainerMatches);
             this.tabPageMatches.Controls.Add(this.comboBoxLeaderboard);
             this.tabPageMatches.Location = new System.Drawing.Point(4, 24);
             this.tabPageMatches.Name = "tabPageMatches";
@@ -159,27 +159,27 @@ namespace AoE2NetDesktop.Form
             this.labelComboBoxLeaderboard.TabIndex = 9;
             this.labelComboBoxLeaderboard.Text = "Leaderboard";
             // 
-            // splitContainer5
+            // splitContainerMatches
             // 
-            this.splitContainer5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.splitContainerMatches.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer5.Location = new System.Drawing.Point(3, 42);
-            this.splitContainer5.Name = "splitContainer5";
+            this.splitContainerMatches.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainerMatches.Location = new System.Drawing.Point(3, 42);
+            this.splitContainerMatches.Name = "splitContainerMatches";
             // 
-            // splitContainer5.Panel1
+            // splitContainerMatches.Panel1
             // 
-            this.splitContainer5.Panel1.Controls.Add(this.listViewMatchHistory);
+            this.splitContainerMatches.Panel1.Controls.Add(this.listViewMatchHistory);
             // 
-            // splitContainer5.Panel2
+            // splitContainerMatches.Panel2
             // 
-            this.splitContainer5.Panel2.Controls.Add(this.labelDataSource);
-            this.splitContainer5.Panel2.Controls.Add(this.comboBoxDataSource);
-            this.splitContainer5.Panel2.Controls.Add(this.formsPlotWinRate);
-            this.splitContainer5.Size = new System.Drawing.Size(1254, 670);
-            this.splitContainer5.SplitterDistance = 616;
-            this.splitContainer5.TabIndex = 8;
+            this.splitContainerMatches.Panel2.Controls.Add(this.labelDataSource);
+            this.splitContainerMatches.Panel2.Controls.Add(this.comboBoxDataSource);
+            this.splitContainerMatches.Panel2.Controls.Add(this.formsPlotWinRate);
+            this.splitContainerMatches.Size = new System.Drawing.Size(1254, 670);
+            this.splitContainerMatches.SplitterDistance = 616;
+            this.splitContainerMatches.TabIndex = 8;
             // 
             // listViewMatchHistory
             // 
@@ -431,7 +431,6 @@ namespace AoE2NetDesktop.Form
             this.columnHeader1v1GameCount,
             this.columnHeaderLastDate});
             this.listViewMatchedPlayers.ContextMenuStrip = this.contextMenuStripMatchedPlayers;
-            this.listViewMatchedPlayers.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.listViewMatchedPlayers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewMatchedPlayers.FullRowSelect = true;
             this.listViewMatchedPlayers.GridLines = true;
@@ -529,11 +528,11 @@ namespace AoE2NetDesktop.Form
             this.contextMenuStripMatchedPlayers.ResumeLayout(false);
             this.tabPageMatches.ResumeLayout(false);
             this.tabPageMatches.PerformLayout();
-            this.splitContainer5.Panel1.ResumeLayout(false);
-            this.splitContainer5.Panel2.ResumeLayout(false);
-            this.splitContainer5.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
-            this.splitContainer5.ResumeLayout(false);
+            this.splitContainerMatches.Panel1.ResumeLayout(false);
+            this.splitContainerMatches.Panel2.ResumeLayout(false);
+            this.splitContainerMatches.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerMatches)).EndInit();
+            this.splitContainerMatches.ResumeLayout(false);
             this.tabPageStatistics.ResumeLayout(false);
             this.tabPagePlayers.ResumeLayout(false);
             this.splitContainerPlayers.Panel1.ResumeLayout(false);
@@ -552,7 +551,7 @@ namespace AoE2NetDesktop.Form
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPageMatches;
         private System.Windows.Forms.Label labelComboBoxLeaderboard;
-        private System.Windows.Forms.SplitContainer splitContainer5;
+        private System.Windows.Forms.SplitContainer splitContainerMatches;
         private System.Windows.Forms.ListView listViewMatchHistory;
         private System.Windows.Forms.ColumnHeader columnHeaderMap;
         private System.Windows.Forms.ColumnHeader columnHeaderRate;
