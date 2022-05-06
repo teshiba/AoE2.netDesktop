@@ -190,7 +190,11 @@
         /// <param name="leaderboards">Leaderboard data.</param>
         /// <param name="leaderboardColor">Leaderboard Color.</param>
         /// <returns>ListViewItem for leaderboard.</returns>
-        public static ListViewItem CreateListViewItem(string leaderboardName, LeaderboardId leaderboardId, Dictionary<LeaderboardId, Leaderboard> leaderboards, Dictionary<LeaderboardId, Color> leaderboardColor)
+        public static ListViewItem CreateListViewItem(
+            string leaderboardName,
+            LeaderboardId leaderboardId,
+            Dictionary<LeaderboardId, Leaderboard> leaderboards,
+            Dictionary<LeaderboardId, Color> leaderboardColor)
         {
             var leaderboard = leaderboards[leaderboardId];
             var ret = new ListViewItem(leaderboardName) {
@@ -200,26 +204,17 @@
             };
 
             ret.Font = new Font(ret.Font, FontStyle.Bold);
-
-            ret.SubItems.Add(leaderboard.Rank?.ToString() ?? "-");
-            ret.SubItems.Add(leaderboard.Rating?.ToString() ?? "-");
-            ret.SubItems.Add(leaderboard.HighestRating?.ToString() ?? "-");
-            ret.SubItems.Add(leaderboard.Games?.ToString() ?? "0");
-
-            var games = leaderboard.Games ?? 0;
-            if (games == 0) {
-                ret.SubItems.Add("00.0%");
-            } else {
-                var winRate = (double)(leaderboard.Wins ?? 0) / games * 100;
-                ret.SubItems.Add($"{winRate:F1}%");
-            }
-
-            ret.SubItems.Add(leaderboard.Wins?.ToString() ?? "0");
-            ret.SubItems.Add(leaderboard.Losses?.ToString() ?? "0");
-            ret.SubItems.Add(leaderboard.Drops?.ToString() ?? "0");
-            ret.SubItems.Add(leaderboard.Streak?.ToString() ?? "0");
-            ret.SubItems.Add(leaderboard.HighestStreak?.ToString() ?? "0");
-            ret.SubItems.Add(leaderboard.LowestStreak?.ToString() ?? "0");
+            ret.SubItems.Add(leaderboard.RankToString());
+            ret.SubItems.Add(leaderboard.RatingToString());
+            ret.SubItems.Add(leaderboard.HighestRatingToString());
+            ret.SubItems.Add(leaderboard.GamesToString());
+            ret.SubItems.Add(leaderboard.WinRateToString());
+            ret.SubItems.Add(leaderboard.WinsToString());
+            ret.SubItems.Add(leaderboard.LossesToString());
+            ret.SubItems.Add(leaderboard.DropsToString());
+            ret.SubItems.Add(leaderboard.StreakToString());
+            ret.SubItems.Add(leaderboard.HighestStreakToString());
+            ret.SubItems.Add(leaderboard.LowestStreakToString());
 
             return ret;
         }

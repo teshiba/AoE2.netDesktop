@@ -35,18 +35,9 @@
             comboBoxDataSource.Enabled = false;
             comboBoxDataSource.Items.AddRange(CtrlHistory.GetDataSourceStrings());
 
-            SetPlotStyleFormsPlotWinRate();
             InitListViewMatchHistorySorter();
 
-            WinRateStat = new WinRatePlot(formsPlotWinRate);
-        }
-
-        private void SetPlotStyleFormsPlotWinRate()
-        {
-            formsPlotWinRate.Plot.YAxis.TickLabelStyle(fontSize: FontSize);
-            formsPlotWinRate.Plot.XAxis.TickLabelStyle(fontSize: FontSize);
-            formsPlotWinRate.Plot.XAxis.LabelStyle(fontSize: FontSize + 3);
-            formsPlotWinRate.Plot.YAxis.LabelStyle(fontSize: FontSize + 3);
+            WinRateStat = new WinRatePlot(formsPlotWinRate, FontSize);
         }
 
         private void InitListViewMatchHistorySorter()
@@ -91,9 +82,7 @@
 
         private void UpdateMatchesTabGraph()
         {
-            formsPlotWinRate.Plot.YLabel(comboBoxDataSource.Text);
             WinRateStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, SelectedLeaderboard, SelectedDataSource);
-            formsPlotWinRate.Render();
         }
 
         ///////////////////////////////////////////////////////////////////////

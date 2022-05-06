@@ -30,7 +30,7 @@ namespace AoE2NetDesktop.Form.Tests
                     },
                 }
             };
-            var testClass = new PlayerCountryPlot(plot);
+            var testClass = new PlayerCountryPlot(plot, 16);
 
             // Act
             testClass.Plot(playerMatchHistory, profileId);
@@ -45,7 +45,7 @@ namespace AoE2NetDesktop.Form.Tests
             var playerMatchHistory = new PlayerMatchHistory();
             int profileId = TestData.AvailableUserProfileId;
             var plot = new FormsPlot();
-            var testClass = new PlayerCountryPlot(plot);
+            var testClass = new PlayerCountryPlot(plot, 16);
 
             // Act
             testClass.Plot(playerMatchHistory, profileId);
@@ -58,7 +58,7 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             var plot = new FormsPlot();
-            var testClass = new PlayerCountryPlot(plot);
+            var testClass = new PlayerCountryPlot(plot, 16);
 
             // Act
             // Assert

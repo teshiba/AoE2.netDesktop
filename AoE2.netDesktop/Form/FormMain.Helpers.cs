@@ -13,6 +13,7 @@
     /// </summary>
     public partial class FormMain : ControllableForm
     {
+        private Dictionary<string, Action<PropertySettings>> onChangePropertyHandler;
         private FormSettings formSettings;
 
         /// <summary>
@@ -25,35 +26,77 @@
         /// </summary>
         public CtrlSettings CtrlSettings { get; private set; }
 
+        private void InitOnChangePropertyHandler()
+        {
+            onChangePropertyHandler = new () {
+                { nameof(PropertySettings.ChromaKey), OnChangePropertyChromaKey },
+                { nameof(PropertySettings.IsHideTitle), OnChangeIsHideTitle },
+                { nameof(PropertySettings.IsAlwaysOnTop), OnChangePropertyIsAlwaysOnTop },
+                { nameof(PropertySettings.Opacity), OnChangePropertyOpacity },
+                { nameof(PropertySettings.IsTransparency), OnChangePropertyIsTransparency },
+                { nameof(PropertySettings.DrawHighQuality), OnChangePropertyDrawHighQuality },
+                { nameof(PropertySettings.IsAutoReloadLastMatch), OnChangeIsAutoReloadLastMatch },
+            };
+        }
+
+        private void SetOptionParams()
+        {
+            SetChromaKey(CtrlSettings.PropertySetting.ChromaKey);
+            OnChangeIsHideTitle(CtrlSettings.PropertySetting);
+            TopMost = CtrlSettings.PropertySetting.IsAlwaysOnTop;
+            Opacity = CtrlSettings.PropertySetting.Opacity;
+            OnChangePropertyIsTransparency(CtrlSettings.PropertySetting);
+            OnChangeIsAutoReloadLastMatch(CtrlSettings.PropertySetting);
+            DrawEx.DrawHighQuality = CtrlSettings.PropertySetting.DrawHighQuality;
+        }
+
         private void OnChangeProperty(object sender, PropertyChangedEventArgs e)
         {
-            var propertySettings = (PropertySettings)sender;
-            switch (e.PropertyName) {
-            case nameof(PropertySettings.ChromaKey):
-                SetChromaKey(propertySettings.ChromaKey);
-                OnChangeIsTransparency(propertySettings.IsTransparency);
-                break;
-            case nameof(PropertySettings.IsHideTitle):
-                OnChangeIsHideTitle(propertySettings.IsHideTitle);
-                break;
-            case nameof(PropertySettings.IsAlwaysOnTop):
-                TopMost = propertySettings.IsAlwaysOnTop;
-                break;
-            case nameof(PropertySettings.Opacity):
-                Opacity = propertySettings.Opacity;
-                break;
-            case nameof(PropertySettings.IsTransparency):
-                OnChangeIsTransparency(propertySettings.IsTransparency);
-                break;
-            case nameof(PropertySettings.DrawHighQuality):
-                DrawEx.DrawHighQuality = propertySettings.DrawHighQuality;
-                Refresh();
-                break;
-            case nameof(PropertySettings.IsAutoReloadLastMatch):
-                OnChangeIsAutoReloadLastMatch(propertySettings.IsAutoReloadLastMatch);
-                break;
-            default:
+            onChangePropertyHandler.TryGetValue(e.PropertyName, out Action<PropertySettings> action);
+            if (action != null) {
+                action.Invoke((PropertySettings)sender);
+            } else {
                 throw new ArgumentOutOfRangeException($"Invalid {nameof(e.PropertyName)}: {e.PropertyName}");
+            }
+        }
+
+        private void OnChangePropertyChromaKey(PropertySettings propertySettings)
+        {
+            SetChromaKey(propertySettings.ChromaKey);
+            OnChangePropertyIsTransparency(propertySettings);
+        }
+
+        private void OnChangePropertyDrawHighQuality(PropertySettings propertySettings)
+        {
+            DrawEx.DrawHighQuality = propertySettings.DrawHighQuality;
+            Refresh();
+        }
+
+        private void OnChangePropertyIsTransparency(PropertySettings propertySettings)
+        {
+            if (propertySettings.IsTransparency) {
+                TransparencyKey = ColorTranslator.FromHtml(CtrlSettings.PropertySetting.ChromaKey);
+            } else {
+                TransparencyKey = default;
+            }
+        }
+
+        private void OnChangePropertyOpacity(PropertySettings propertySettings)
+        {
+            Opacity = propertySettings.Opacity;
+        }
+
+        private void OnChangePropertyIsAlwaysOnTop(PropertySettings propertySettings)
+        {
+            TopMost = propertySettings.IsAlwaysOnTop;
+        }
+
+        private void OnChangeIsAutoReloadLastMatch(PropertySettings propertySettings)
+        {
+            if (propertySettings.IsAutoReloadLastMatch) {
+                LastMatchLoader.Start();
+            } else {
+                LastMatchLoader.Stop();
             }
         }
 
@@ -75,7 +118,7 @@
             }
         }
 
-        private void OnChangeIsHideTitle(bool isHide)
+        private void OnChangeIsHideTitle(PropertySettings propertySettings)
         {
             var top = RectangleToScreen(ClientRectangle).Top;
             var left = RectangleToScreen(ClientRectangle).Left;
@@ -83,13 +126,13 @@
 
             SuspendLayout();
 
-            if (isHide && FormBorderStyle != FormBorderStyle.None) {
+            if (propertySettings.IsHideTitle && FormBorderStyle != FormBorderStyle.None) {
                 FormBorderStyle = FormBorderStyle.None;
                 MinimumSize = new Size(410, 310);
                 Top = top;
                 Left = left;
                 Height = height;
-            } else if (!isHide && FormBorderStyle != FormBorderStyle.Sizable) {
+            } else if (!propertySettings.IsHideTitle && FormBorderStyle != FormBorderStyle.Sizable) {
                 FormBorderStyle = FormBorderStyle.Sizable;
                 MinimumSize = new Size(410, 340);
                 Top -= RectangleToScreen(ClientRectangle).Top - Top;
@@ -173,24 +216,6 @@
                 pictureBox1, pictureBox2, pictureBox3, pictureBox4,
                 pictureBox5, pictureBox6, pictureBox7, pictureBox8,
             });
-        }
-
-        private void OnChangeIsAutoReloadLastMatch(bool isAutoReloadLastMatch)
-        {
-            if (isAutoReloadLastMatch) {
-                LastMatchLoader.Start();
-            } else {
-                LastMatchLoader.Stop();
-            }
-        }
-
-        private void OnChangeIsTransparency(bool isTransparency)
-        {
-            if (isTransparency) {
-                TransparencyKey = ColorTranslator.FromHtml(CtrlSettings.PropertySetting.ChromaKey);
-            } else {
-                TransparencyKey = default;
-            }
         }
 
         private void OpenSettings()

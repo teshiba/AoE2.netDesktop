@@ -31,6 +31,7 @@
         {
             InitializeComponent();
             InitEventHandler();
+            InitOnChangePropertyHandler();
             InitPlayersCtrlList();
             ClearLastMatch();
 
@@ -42,17 +43,6 @@
             SetOptionParams();
 
             this.language = language;
-        }
-
-        private void SetOptionParams()
-        {
-            SetChromaKey(CtrlSettings.PropertySetting.ChromaKey);
-            OnChangeIsHideTitle(CtrlSettings.PropertySetting.IsHideTitle);
-            TopMost = CtrlSettings.PropertySetting.IsAlwaysOnTop;
-            Opacity = CtrlSettings.PropertySetting.Opacity;
-            OnChangeIsTransparency(CtrlSettings.PropertySetting.IsTransparency);
-            OnChangeIsAutoReloadLastMatch(CtrlSettings.PropertySetting.IsAutoReloadLastMatch);
-            DrawEx.DrawHighQuality = CtrlSettings.PropertySetting.DrawHighQuality;
         }
 
         ///////////////////////////////////////////////////////////////////////

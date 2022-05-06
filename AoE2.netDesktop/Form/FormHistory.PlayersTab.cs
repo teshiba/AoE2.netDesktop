@@ -19,22 +19,13 @@
 
         private void InitPlayersTab()
         {
-            SetPlotStyleFormsPlotCountry();
             InitListViewMatchedPlayersSorter();
-            PlayerCountryStat = new PlayerCountryPlot(formsPlotCountry);
+            PlayerCountryStat = new PlayerCountryPlot(formsPlotCountry, FontSize);
         }
 
         private void UpdatePlayersTabGraph()
         {
             PlayerCountryStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId);
-        }
-
-        private void SetPlotStyleFormsPlotCountry()
-        {
-            formsPlotCountry.Plot.YAxis.TickLabelStyle(fontSize: FontSize);
-            formsPlotCountry.Plot.XAxis.TickLabelStyle(fontSize: FontSize);
-            formsPlotCountry.Plot.XAxis.LabelStyle(fontSize: FontSize + 3);
-            formsPlotCountry.Plot.YAxis.LabelStyle(fontSize: FontSize + 3);
         }
 
         private void InitListViewMatchedPlayersSorter()

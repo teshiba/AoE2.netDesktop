@@ -19,8 +19,9 @@
         /// Initializes a new instance of the <see cref="PlayerRateFormsPlot"/> class.
         /// </summary>
         /// <param name="formsPlot">Target formsplot.</param>
-        /// <param name="color">Leaderboard color.</param>
-        public PlayerRateFormsPlot(FormsPlot formsPlot, Dictionary<LeaderboardId, Color> color)
+        /// <param name="colorList">Leaderboard color.</param>
+        /// <param name="fontSize">Font size.</param>
+        public PlayerRateFormsPlot(FormsPlot formsPlot, Dictionary<LeaderboardId, Color> colorList, float fontSize)
         {
             if (formsPlot is null) {
                 throw new ArgumentNullException(nameof(formsPlot));
@@ -28,14 +29,23 @@
 
             this.formsPlot = formsPlot;
 
+            formsPlot.Plot.Title("Player Rate");
+            formsPlot.Plot.YLabel("Rate");
+            formsPlot.Plot.XLabel("Date");
+            formsPlot.Plot.YAxis.TickLabelStyle(fontSize: fontSize);
+            formsPlot.Plot.XAxis.TickLabelStyle(fontSize: fontSize);
+            formsPlot.Plot.XAxis.LabelStyle(fontSize: fontSize + 3);
+            formsPlot.Plot.YAxis.LabelStyle(fontSize: fontSize + 3);
+            formsPlot.Render();
+
             Plots = new Dictionary<LeaderboardId, PlayerRatePlot>() {
-                { LeaderboardId.RM1v1, new PlayerRatePlot(formsPlot, color[LeaderboardId.RM1v1]) },
-                { LeaderboardId.RMTeam, new PlayerRatePlot(formsPlot, color[LeaderboardId.RMTeam]) },
-                { LeaderboardId.DM1v1, new PlayerRatePlot(formsPlot, color[LeaderboardId.DM1v1]) },
-                { LeaderboardId.DMTeam, new PlayerRatePlot(formsPlot, color[LeaderboardId.DMTeam]) },
-                { LeaderboardId.EW1v1, new PlayerRatePlot(formsPlot, color[LeaderboardId.EW1v1]) },
-                { LeaderboardId.EWTeam, new PlayerRatePlot(formsPlot, color[LeaderboardId.EWTeam]) },
-                { LeaderboardId.Unranked, new PlayerRatePlot(formsPlot, color[LeaderboardId.Unranked]) },
+                { LeaderboardId.RM1v1, new PlayerRatePlot(formsPlot, colorList[LeaderboardId.RM1v1]) },
+                { LeaderboardId.RMTeam, new PlayerRatePlot(formsPlot, colorList[LeaderboardId.RMTeam]) },
+                { LeaderboardId.DM1v1, new PlayerRatePlot(formsPlot, colorList[LeaderboardId.DM1v1]) },
+                { LeaderboardId.DMTeam, new PlayerRatePlot(formsPlot, colorList[LeaderboardId.DMTeam]) },
+                { LeaderboardId.EW1v1, new PlayerRatePlot(formsPlot, colorList[LeaderboardId.EW1v1]) },
+                { LeaderboardId.EWTeam, new PlayerRatePlot(formsPlot, colorList[LeaderboardId.EWTeam]) },
+                { LeaderboardId.Unranked, new PlayerRatePlot(formsPlot, colorList[LeaderboardId.Unranked]) },
             };
 
             formsPlot.Plot.XAxis.TickLabelFormat("yyyy/MM/dd", dateTimeFormat: true);

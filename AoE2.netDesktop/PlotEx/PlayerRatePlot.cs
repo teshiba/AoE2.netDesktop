@@ -108,9 +108,8 @@
             foreach (var item in playerMatchHistory) {
                 var player = item.GetPlayer(profileId);
                 if (player.Rating != null) {
-                    int rate = (int)player.Rating;
                     if (item.LeaderboardId == leaderBoardId) {
-                        rateList.Add(rate);
+                        rateList.Add((double)player.Rating);
                         dateList.Add(item.GetOpenedTime());
                     }
                 }

@@ -829,7 +829,7 @@
             this.panelDebug.Controls.Add(this.labelErrText);
             this.panelDebug.Controls.Add(this.labelDateTime);
             this.panelDebug.Location = new System.Drawing.Point(11, 324);
-            this.panelDebug.Name = "panel1";
+            this.panelDebug.Name = "panelDebug";
             this.panelDebug.Size = new System.Drawing.Size(868, 178);
             this.panelDebug.TabIndex = 11;
             // 

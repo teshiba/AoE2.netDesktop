@@ -64,6 +64,40 @@ namespace LibAoE2net
 
         [DataMember(Name = "last_match_time")]
         public int? LastMatchTime { get; set; }
+
+        public string RankToString() => Rank?.ToString() ?? "-";
+
+        public string RatingToString() => Rating?.ToString() ?? "-";
+
+        public string HighestRatingToString() => HighestRating?.ToString() ?? "-";
+
+        public string GamesToString() => Games?.ToString() ?? "0";
+
+        public string WinsToString() => Wins?.ToString() ?? "0";
+
+        public string LossesToString() => Losses?.ToString() ?? "0";
+
+        public string DropsToString() => Drops?.ToString() ?? "0";
+
+        public string StreakToString() => Streak?.ToString() ?? "0";
+
+        public string HighestStreakToString() => HighestStreak?.ToString() ?? "0";
+
+        public string LowestStreakToString() => LowestStreak?.ToString() ?? "0";
+
+        public string WinRateToString()
+        {
+            string ret;
+            var games = Games ?? 0;
+            if (games == 0) {
+                ret = "00.0%";
+            } else {
+                var winRate = (double)(Wins ?? 0) / games * 100;
+                ret = $"{winRate:F1}%";
+            }
+
+            return ret;
+        }
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

@@ -14,7 +14,8 @@
         /// Initializes a new instance of the <see cref="WinRatePlot"/> class.
         /// </summary>
         /// <param name="formsPlot">Parent FormsPlot.</param>
-        public WinRatePlot(FormsPlot formsPlot)
+        /// <param name="fontSize">Font size.</param>
+        public WinRatePlot(FormsPlot formsPlot, float fontSize)
             : base(formsPlot)
         {
             formsPlot.Configuration.LockHorizontalAxis = true;
@@ -26,6 +27,12 @@
             ValueLabel = "Win / Total Game count";
             ItemLabelRotation = 45;
             Orientation = Orientation.Horizontal;
+
+            formsPlot.Plot.YAxis.TickLabelStyle(fontSize: fontSize);
+            formsPlot.Plot.XAxis.TickLabelStyle(fontSize: fontSize);
+            formsPlot.Plot.XAxis.LabelStyle(fontSize: fontSize + 3);
+            formsPlot.Plot.YAxis.LabelStyle(fontSize: fontSize + 3);
+
             formsPlot.Render();
         }
 

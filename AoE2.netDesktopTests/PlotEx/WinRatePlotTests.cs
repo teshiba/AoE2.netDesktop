@@ -77,7 +77,7 @@ namespace AoE2NetDesktop.Form.Tests
             // Arrange
 
             // Act
-            var testClass = new WinRatePlot(new FormsPlot());
+            var testClass = new WinRatePlot(new FormsPlot(), 16);
             testClass.Plot(playerMatchHistory, profileId, leaderboardId, DataSource.Map);
 
             // Assert
@@ -91,7 +91,7 @@ namespace AoE2NetDesktop.Form.Tests
             // Arrange
 
             // Act
-            var testClass = new WinRatePlot(new FormsPlot());
+            var testClass = new WinRatePlot(new FormsPlot(), 16);
             testClass.Plot(playerMatchHistory, profileId, leaderboardId, DataSource.Civilization);
 
             // Assert
@@ -105,7 +105,7 @@ namespace AoE2NetDesktop.Form.Tests
             // Arrange
 
             // Act
-            var testClass = new WinRatePlot(new FormsPlot());
+            var testClass = new WinRatePlot(new FormsPlot(), 16);
 
             // Assert
             Assert.ThrowsException<ArgumentNullException>(() =>
