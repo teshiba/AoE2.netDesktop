@@ -1,7 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AoE2NetDesktop.PlotEx;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ScottPlot;
 
-namespace AoE2NetDesktop.Form.Tests
+namespace AoE2NetDesktop.PlotEx.Tests
 {
     [TestClass()]
     public class BarPlotExTests

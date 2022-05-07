@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop.Form;
+﻿namespace AoE2NetDesktop.PlotEx;
 
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,6 @@ using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Form;
 
 using ScottPlot;
 

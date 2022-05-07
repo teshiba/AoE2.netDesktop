@@ -9,9 +9,8 @@ using System.Windows.Forms;
 
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.PlotEx;
 using AoE2NetDesktop.Utility.Forms;
-
-using LibAoE2net;
 
 /// <summary>
 /// Statistics Tab of FormHistory class.

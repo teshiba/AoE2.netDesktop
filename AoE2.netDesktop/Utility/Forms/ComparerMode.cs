@@ -1,4 +1,4 @@
-﻿namespace LibAoE2net;
+﻿namespace AoE2NetDesktop.Utility.Forms;
 
 /// <summary>
 /// Comparer Mode.

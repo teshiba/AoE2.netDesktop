@@ -86,6 +86,7 @@
             this.labelDateTime = new System.Windows.Forms.Label();
             this.panelDebug = new System.Windows.Forms.Panel();
             this.labelAoE2DEActive = new System.Windows.Forms.Label();
+            this.panelGameInfo = new System.Windows.Forms.Panel();
             this.panelTeam1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -99,12 +100,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.contextMenuStripMain.SuspendLayout();
             this.panelDebug.SuspendLayout();
+            this.panelGameInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelServer
             // 
             this.labelServer.BackColor = System.Drawing.SystemColors.Control;
-            this.labelServer.Location = new System.Drawing.Point(104, 354);
+            this.labelServer.Location = new System.Drawing.Point(99, 81);
             this.labelServer.Name = "labelServer";
             this.labelServer.Size = new System.Drawing.Size(152, 19);
             this.labelServer.TabIndex = 2;
@@ -115,7 +117,7 @@
             // labelGameId
             // 
             this.labelGameId.BackColor = System.Drawing.SystemColors.Control;
-            this.labelGameId.Location = new System.Drawing.Point(104, 336);
+            this.labelGameId.Location = new System.Drawing.Point(99, 63);
             this.labelGameId.Name = "labelGameId";
             this.labelGameId.Size = new System.Drawing.Size(152, 19);
             this.labelGameId.TabIndex = 9;
@@ -430,7 +432,7 @@
             // pictureBoxDDS
             // 
             this.pictureBoxDDS.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxDDS.Location = new System.Drawing.Point(8, 276);
+            this.pictureBoxDDS.Location = new System.Drawing.Point(3, 3);
             this.pictureBoxDDS.Name = "pictureBoxDDS";
             this.pictureBoxDDS.Size = new System.Drawing.Size(105, 97);
             this.pictureBoxDDS.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -449,9 +451,9 @@
             this.labelErrText.BackColor = System.Drawing.Color.DarkGray;
             this.labelErrText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
-            this.labelErrText.Location = new System.Drawing.Point(4, 20);
+            this.labelErrText.Location = new System.Drawing.Point(4, 29);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(872, 450);
+            this.labelErrText.Size = new System.Drawing.Size(1277, 0);
             this.labelErrText.TabIndex = 8;
             // 
             // panelTeam2
@@ -770,11 +772,11 @@
             // 
             this.labelMap.BackColor = System.Drawing.Color.Transparent;
             this.labelMap.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelMap.Location = new System.Drawing.Point(97, 269);
+            this.labelMap.Location = new System.Drawing.Point(92, -4);
             this.labelMap.Name = "labelMap";
-            this.labelMap.Size = new System.Drawing.Size(599, 40);
+            this.labelMap.Size = new System.Drawing.Size(331, 40);
             this.labelMap.TabIndex = 2;
-            this.labelMap.Text = "Map : ------------------------";
+            this.labelMap.Text = "Map : -----------------------";
             this.labelMap.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
             // 
             // contextMenuStripMain
@@ -822,7 +824,7 @@
             // 
             this.labelDateTime.AutoSize = true;
             this.labelDateTime.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelDateTime.Location = new System.Drawing.Point(262, 355);
+            this.labelDateTime.Location = new System.Drawing.Point(199, 0);
             this.labelDateTime.Name = "labelDateTime";
             this.labelDateTime.Size = new System.Drawing.Size(437, 19);
             this.labelDateTime.TabIndex = 10;
@@ -836,38 +838,46 @@
             this.panelDebug.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.panelDebug.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelDebug.Controls.Add(this.labelErrText);
-            this.panelDebug.Location = new System.Drawing.Point(11, 392);
+            this.panelDebug.Controls.Add(this.labelAoE2DEActive);
+            this.panelDebug.Controls.Add(this.labelDateTime);
+            this.panelDebug.Location = new System.Drawing.Point(11, 276);
             this.panelDebug.Name = "panelDebug";
-            this.panelDebug.Size = new System.Drawing.Size(883, 480);
+            this.panelDebug.Size = new System.Drawing.Size(1299, 23);
             this.panelDebug.TabIndex = 11;
             // 
             // labelAoE2DEActive
             // 
             this.labelAoE2DEActive.AutoSize = true;
             this.labelAoE2DEActive.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelAoE2DEActive.Location = new System.Drawing.Point(262, 336);
+            this.labelAoE2DEActive.Location = new System.Drawing.Point(4, 0);
             this.labelAoE2DEActive.Name = "labelAoE2DEActive";
             this.labelAoE2DEActive.Size = new System.Drawing.Size(189, 19);
             this.labelAoE2DEActive.TabIndex = 11;
             this.labelAoE2DEActive.Text = "AoE2DE NOT active";
+            // 
+            // panelGameInfo
+            // 
+            this.panelGameInfo.Controls.Add(this.labelServer);
+            this.panelGameInfo.Controls.Add(this.labelGameId);
+            this.panelGameInfo.Controls.Add(this.labelMap);
+            this.panelGameInfo.Controls.Add(this.pictureBoxDDS);
+            this.panelGameInfo.Location = new System.Drawing.Point(880, 148);
+            this.panelGameInfo.Name = "panelGameInfo";
+            this.panelGameInfo.Size = new System.Drawing.Size(428, 114);
+            this.panelGameInfo.TabIndex = 13;
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(898, 876);
+            this.ClientSize = new System.Drawing.Size(1314, 311);
             this.ContextMenuStrip = this.contextMenuStripMain;
-            this.Controls.Add(this.labelServer);
-            this.Controls.Add(this.labelGameId);
-            this.Controls.Add(this.labelMap);
-            this.Controls.Add(this.labelAoE2DEActive);
-            this.Controls.Add(this.pictureBoxDDS);
-            this.Controls.Add(this.labelDateTime);
+            this.Controls.Add(this.panelGameInfo);
             this.Controls.Add(this.panelDebug);
             this.Controls.Add(this.panelTeam1);
             this.Controls.Add(this.panelTeam2);
-            this.MinimumSize = new System.Drawing.Size(390, 360);
+            this.MinimumSize = new System.Drawing.Size(390, 300);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AoE2.net Desktop";
@@ -891,8 +901,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.contextMenuStripMain.ResumeLayout(false);
             this.panelDebug.ResumeLayout(false);
+            this.panelDebug.PerformLayout();
+            this.panelGameInfo.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -956,5 +967,6 @@
         private System.Windows.Forms.Panel panelDebug;
         private System.Windows.Forms.Label labelAoE2DEActive;
         private System.Windows.Forms.PictureBox pictureBoxDDS;
+        private System.Windows.Forms.Panel panelGameInfo;
     }
 }

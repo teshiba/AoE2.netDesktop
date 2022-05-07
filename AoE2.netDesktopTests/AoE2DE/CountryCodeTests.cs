@@ -1,9 +1,6 @@
-﻿
-using AoE2NetDesktop.AoE2DE;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace AoE2NetDesktop.Tests
+namespace AoE2NetDesktop.AoE2DE.Tests
 {
     [TestClass()]
     public class CountryCodeTests

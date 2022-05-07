@@ -7,6 +7,7 @@ using System;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using System.Threading.Tasks;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -28,8 +29,11 @@ namespace AoE2NetDesktop.Form.Tests
         {
             // Arrange
             var testClass = new FormMainPrivate();
+
             TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Steam);
             TestUtilityExt.SetSettings(testClass, "ProfileId", 1);
+            TestUtilityExt.SetSettings(testClass, "WindowLocationMain", new Point(0,0));
+            TestUtilityExt.SetSettings(testClass, "WindowSizeMain", new Size(1330, 350));
             var expVal = string.Empty;
             var done = false;
 
@@ -37,8 +41,6 @@ namespace AoE2NetDesktop.Form.Tests
             testClass.Shown += async (sender, e) =>
             {
                 await testClass.Awaiter.WaitAsync("FormMain_Load");
-                testClass.updateToolStripMenuItem.PerformClick();
-                await testClass.Awaiter.WaitAsync("UpdateToolStripMenuItem_ClickAsync");
                 await testClass.Awaiter.WaitAsync("LabelNameP1_Paint");
                 await testClass.Awaiter.WaitAsync("LabelNameP2_Paint");
                 await testClass.Awaiter.WaitAsync("LabelNameP3_Paint");

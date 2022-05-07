@@ -2,6 +2,8 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using System.Reflection;
+
 namespace AoE2NetDesktop.Form.Tests
 {
     [TestClass()]
@@ -38,6 +40,24 @@ namespace AoE2NetDesktop.Form.Tests
 
             // Assert
             Assert.AreEqual(expVal, ret);
+        }
+
+        [TestMethod()]
+        public void GetProcessFilePathTest()
+        {
+            // Arrange
+            var expVal = Assembly.GetExecutingAssembly().Location;
+            string processName = "testhost";
+            var user32api = new User32ApiStub {
+                ProcessId = 1
+            };
+            var testClass = new SystemApi(user32api);
+
+            // Act
+            var ret = testClass.GetProcessFilePath(processName);
+
+            // Assert
+            Assert.IsTrue(expVal.Contains(ret));
         }
     }
 }

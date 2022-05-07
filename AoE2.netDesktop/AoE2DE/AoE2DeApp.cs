@@ -11,7 +11,7 @@ public class AoE2DeApp
     public const string ProcessName = "AoE2DE_s";
 
     /// <summary>
-    /// AoE2DE Max Player Number .
+    /// AoE2DE Max Player Number.
     /// </summary>
     public const int PlayerNumMax = 8;
 }

@@ -43,7 +43,7 @@ public class SystemApi : ISystemApi
         foreach (var process in processes) {
             if (process.ProcessName == processName) {
                 ret = process.MainModule.FileVersionInfo.FileName;
-                ret = ret.Replace(processName, string.Empty);
+                ret = ret.Replace($"{processName}.exe", string.Empty);
             }
         }
 

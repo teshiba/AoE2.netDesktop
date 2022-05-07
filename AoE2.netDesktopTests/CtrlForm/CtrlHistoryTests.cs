@@ -12,7 +12,7 @@ using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.AoE2DE;
 
-namespace AoE2NetDesktop.Form.Tests
+namespace AoE2NetDesktop.CtrlForm.Tests
 {
     [TestClass()]
     public class CtrlHistoryTests

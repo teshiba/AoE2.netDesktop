@@ -6,21 +6,19 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
+using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility.DDS;
 using AoE2NetDesktop.Utility.Forms;
 using AoE2NetDesktop.Utility.User32;
-
-using LibAoE2net;
 
 /// <summary>
 /// FormMain controler.
 /// </summary>
 public class CtrlMain : FormControler
 {
-    private const string AoE2DEprocessName = "AoE2DE_s";
-
     /// <summary>
     /// Initializes a new instance of the <see cref="CtrlMain"/> class.
     /// </summary>
@@ -120,6 +118,17 @@ public class CtrlMain : FormControler
     /// <returns>true: AoE2de is the active window.</returns>
     public static bool IsAoE2deActive()
     {
-        return SystemApi.GetActiveProcess() == AoE2DEprocessName;
+        return SystemApi.GetActiveProcess() == AoE2DeApp.ProcessName;
+    }
+
+    /// <summary>
+    /// Load map icon.
+    /// </summary>
+    /// <param name="mapType">map type ID.</param>
+    /// <returns>Icon image.</returns>
+    public static Image LoadMapIcon(int? mapType)
+    {
+        var filePath = MapIcons.GetFileName(mapType);
+        return new ImageLoader(filePath).BitmapImage;
     }
 }

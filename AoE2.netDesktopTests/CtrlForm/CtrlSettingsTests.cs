@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
 
-namespace AoE2NetDesktop.Form.Tests
+namespace AoE2NetDesktop.CtrlForm.Tests
 {
     [TestClass()]
     public class CtrlSettingsTests

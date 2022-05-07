@@ -1,4 +1,5 @@
 ﻿using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
 
 using System;
@@ -16,11 +17,6 @@ namespace LibAoE2net
     public class TestHttpClient : ComClient
     {
         private const int EFAIL = -2147467259;
-
-        /// <summary>
-        /// Gets json text PlayerLastmatch.
-        /// </summary>
-        public const string TestDataPath = @"../../../TestData";
 
         public bool ForceHttpRequestException { get; set; }
         public bool ForceException { get; set; }
@@ -90,11 +86,11 @@ namespace LibAoE2net
             var game = args[2];
             var steamId = args[4];
             var requestDataFileName = PlayerLastMatchUri ?? $"playerLastMatch{game}{steamId}.json";
-            string readUri = $"{TestDataPath}/{requestDataFileName}";
+            string readUri = $"{TestData.Path}/{requestDataFileName}";
 
             LastRequest = $"Read {readUri}";
 
-            return ReadTextFIleAsync($"{TestDataPath}/{requestDataFileName}");
+            return ReadTextFIleAsync($"{TestData.Path}/{requestDataFileName}");
         }
 
         private Task<string> ReadPlayerRatingHistoryAsync(string requestUri)
@@ -104,7 +100,7 @@ namespace LibAoE2net
             var leaderboardId = (LeaderboardId)int.Parse(args[4]);
             var steamId = args[6];
             var count = args[8];
-            var readUri = $"{TestDataPath}/playerRatingHistory{game}{steamId}{leaderboardId}{count}.json";
+            var readUri = $"{TestData.Path}/playerRatingHistory{game}{steamId}{leaderboardId}{count}.json";
 
             LastRequest = $"Read {readUri}";
 
@@ -116,7 +112,7 @@ namespace LibAoE2net
             var args = requestUri.Split('=', '&', '?');
             var game = args[2];
             var language = args[4];
-            var readUri = $"{TestDataPath}/Strings-{game}-{language}.json";
+            var readUri = $"{TestData.Path}/Strings-{game}-{language}.json";
 
             LastRequest = $"Read {readUri}";
 
@@ -128,7 +124,7 @@ namespace LibAoE2net
             var args = requestUri.Split('=', '&', '?');
             var game = args[2];
             var steamId = args[4];
-            var readUri = $"{TestDataPath}/playerMatchHistory{game}{steamId}.json";
+            var readUri = $"{TestData.Path}/playerMatchHistory{game}{steamId}.json";
 
             LastRequest = $"Read {readUri}";
 
@@ -141,7 +137,7 @@ namespace LibAoE2net
             var game = args[2];
             var leaderboardId = (LeaderboardId)int.Parse(args[4]);
             var profileId = args[6];
-            var readUri = $"{TestDataPath}/leaderboard{game}{leaderboardId}{profileId}.json";
+            var readUri = $"{TestData.Path}/leaderboard{game}{leaderboardId}{profileId}.json";
 
             LastRequest = $"Read {readUri}";
 

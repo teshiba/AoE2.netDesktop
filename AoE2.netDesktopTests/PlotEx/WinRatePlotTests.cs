@@ -2,6 +2,7 @@
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.PlotEx;
 using AoE2NetDesktop.Tests;
 
 using LibAoE2net;

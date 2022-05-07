@@ -20,5 +20,19 @@ namespace AoE2NetDesktop.Form.Tests
             // Assert
             Assert.AreEqual(expVal, actVal);
         }
+
+        [TestMethod()]
+        public void GetProcessFilePathTest()
+        {
+            // Arrange
+            var expVal = "AoE2DE_s";
+
+            // Act
+            var testClass = new SystemApiStub(1);
+            var actVal = testClass.GetProcessFilePath(expVal);
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
+        }
     }
 }

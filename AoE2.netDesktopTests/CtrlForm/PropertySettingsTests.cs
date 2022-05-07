@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
 using System.Drawing;
 
-namespace AoE2NetDesktop.Form.Tests
+namespace AoE2NetDesktop.CtrlForm.Tests
 {
     [TestClass()]
     public class PropertySettingsTests

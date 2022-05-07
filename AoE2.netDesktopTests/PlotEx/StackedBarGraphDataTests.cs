@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AoE2NetDesktop.PlotEx;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AoE2NetDesktop.Form.Tests
 {

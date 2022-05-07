@@ -6,9 +6,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
+using AoE2NetDesktop.PlotEx;
 using AoE2NetDesktop.Utility.Forms;
-
-using LibAoE2net;
 
 /// <summary>
 /// Players Tab of FormHistory class.

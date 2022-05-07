@@ -1,7 +1,5 @@
 ﻿namespace AoE2NetDesktop.Utility.Forms;
 
-using LibAoE2net;
-
 using System;
 using System.Collections;
 using System.Windows.Forms;

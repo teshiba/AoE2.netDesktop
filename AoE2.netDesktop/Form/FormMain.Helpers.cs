@@ -135,13 +135,13 @@ public partial class FormMain : ControllableForm
 
         if (propertySettings.IsHideTitle && FormBorderStyle != FormBorderStyle.None) {
             FormBorderStyle = FormBorderStyle.None;
-            MinimumSize = new Size(410, 310);
+            MinimumSize = new Size(410, 280);
             Top = top;
             Left = left;
             Height = height;
         } else if (!propertySettings.IsHideTitle && FormBorderStyle != FormBorderStyle.Sizable) {
             FormBorderStyle = FormBorderStyle.Sizable;
-            MinimumSize = new Size(410, 340);
+            MinimumSize = new Size(410, 300);
             Top -= RectangleToScreen(ClientRectangle).Top - Top;
             Left -= RectangleToScreen(ClientRectangle).Left - Left;
         } else {
@@ -175,6 +175,7 @@ public partial class FormMain : ControllableForm
         labelErrText.Text = string.Empty;
 
         ClearPlayersLabel();
+        Refresh();
     }
 
     private void ClearPlayersLabel()
@@ -237,15 +238,19 @@ public partial class FormMain : ControllableForm
 
     private void ResizePanels()
     {
-        panelTeam1.Width = (Width - 15) / 2;
+        const int ctrlMargin = 3;
+
+        panelTeam1.Width = (Width - panelGameInfo.Width - 15) / 2;
         panelTeam2.Width = panelTeam1.Width;
-        panelTeam1.Left = 3;
-        panelTeam2.Left = 3 + panelTeam1.Width;
+        panelTeam1.Left = ctrlMargin;
+        panelTeam2.Left = ctrlMargin + panelTeam1.Width;
         panelTeam2.Top = 5;
         panelTeam1.Top = 5;
 
-        labelErrText.Top = panelTeam1.Top + panelTeam1.Height + 3;
-        labelErrText.Left = 3;
+        panelGameInfo.Left = panelTeam2.Left + panelTeam2.Width + ctrlMargin;
+
+        labelErrText.Top = panelTeam1.Top + panelTeam1.Height + ctrlMargin;
+        labelErrText.Left = ctrlMargin;
         labelErrText.Width = Width - 22;
         labelErrText.Height = Height - labelErrText.Top - 50;
     }
@@ -286,10 +291,10 @@ public partial class FormMain : ControllableForm
     private async Task<Match> SetLastMatchDataAsync(int profileId)
     {
         Match ret;
-        var playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString()).ConfigureAwait(false);
+        var playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
 
         if (labelGameId.Text != $"GameID: {playerLastmatch.LastMatch.MatchId}") {
-            // labelDateTime.Text = $"Last match data updated: {DateTime.Now}";
+            labelDateTime.Text = $"Last match data updated: {DateTime.Now}";
             SetMatchData(playerLastmatch.LastMatch);
 
             var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId);
@@ -312,7 +317,7 @@ public partial class FormMain : ControllableForm
     {
         var aveTeam1 = CtrlMain.GetAverageRate(match.Players, TeamType.OddColorNo);
         var aveTeam2 = CtrlMain.GetAverageRate(match.Players, TeamType.EvenColorNo);
-
+        pictureBoxDDS.Image = CtrlMain.LoadMapIcon(match.MapType);
         labelMap.Text = $"Map: {match.GetMapName()}";
         labelServer.Text = $"Server: {match.Server}";
         labelGameId.Text = $"GameID: {match.MatchId}";

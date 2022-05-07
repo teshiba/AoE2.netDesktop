@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop.Form;
+﻿namespace AoE2NetDesktop.PlotEx;
 
 using System.Collections.Generic;
 using System.Drawing;

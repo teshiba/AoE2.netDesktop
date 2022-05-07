@@ -14,7 +14,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AoE2NetDesktop.Form.Tests
+namespace AoE2NetDesktop.CtrlForm.Tests
 {
     [TestClass()]
     public class CtrlMainTests
