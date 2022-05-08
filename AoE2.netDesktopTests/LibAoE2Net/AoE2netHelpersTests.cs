@@ -6,6 +6,9 @@ using AoE2NetDesktop.Tests;
 using LibAoE2net;
 using System.Net.Http;
 using System.Runtime.Serialization;
+using AoE2NetDesktop.LibAoE2Net;
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 namespace AoE2NetDesktop.Form.Tests
 {

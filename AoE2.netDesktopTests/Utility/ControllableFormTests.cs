@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AoE2NetDesktop.Tests;
+using AoE2NetDesktop.Utility.Forms;
 
 namespace AoE2NetDesktop.Form.Tests
 {

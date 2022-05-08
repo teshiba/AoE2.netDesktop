@@ -1,40 +1,41 @@
-﻿namespace LibAoE2net
+﻿namespace AoE2NetDesktop.LibAoE2Net.Functions;
+
+using System;
+
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+
+/// <summary>
+/// Extention of Match class.
+/// </summary>
+public static class MatchExt
 {
-    using System;
+    /// <summary>
+    /// Get Opened Time that converted to local time.
+    /// </summary>
+    /// <param name="match">match.</param>
+    /// <returns>local time value as DateTime type.</returns>
+    public static DateTime GetOpenedTime(this Match match)
+    {
+        var ret = DateTimeOffset.FromUnixTimeSeconds(match.Opened ?? 0).LocalDateTime;
+        return ret;
+    }
 
     /// <summary>
-    /// Extention of Match class.
+    /// Get specified Player.
     /// </summary>
-    public static class MatchExt
+    /// <param name="match">Search target.</param>
+    /// <param name="profileId">profile ID.</param>
+    /// <returns>Player.</returns>
+    public static Player GetPlayer(this Match match, int profileId)
     {
-        /// <summary>
-        /// Get Opened Time that converted to local time.
-        /// </summary>
-        /// <param name="match">match.</param>
-        /// <returns>local time value as DateTime type.</returns>
-        public static DateTime GetOpenedTime(this Match match)
-        {
-            var ret = DateTimeOffset.FromUnixTimeSeconds(match.Opened ?? 0).LocalDateTime;
-            return ret;
-        }
+        Player ret = null;
 
-        /// <summary>
-        /// Get specified Player.
-        /// </summary>
-        /// <param name="match">Search target.</param>
-        /// <param name="profileId">profile ID.</param>
-        /// <returns>Player.</returns>
-        public static Player GetPlayer(this Match match, int profileId)
-        {
-            Player ret = null;
-
-            foreach (var item in match.Players) {
-                if (item.ProfilId == profileId) {
-                    ret = item;
-                }
+        foreach (var item in match.Players) {
+            if (item.ProfilId == profileId) {
+                ret = item;
             }
-
-            return ret;
         }
+
+        return ret;
     }
 }

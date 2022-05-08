@@ -6,7 +6,10 @@ using System;
 using System.Threading.Tasks;
 using System.Reflection;
 using AoE2NetDesktop.Tests;
-using LibAoE2net;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.Utility.Forms;
+using AoE2NetDesktop.Utility.User32;
 
 namespace AoE2NetDesktop.Form.Tests
 {

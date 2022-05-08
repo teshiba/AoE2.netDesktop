@@ -3,7 +3,8 @@
 using System.Windows.Forms;
 using System.Drawing;
 using System.Collections.Generic;
-using LibAoE2net;
+using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.CtrlForm;
 
 namespace AoE2NetDesktop.Form.Tests
 {

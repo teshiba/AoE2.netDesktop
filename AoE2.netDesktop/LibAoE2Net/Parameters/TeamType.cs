@@ -1,18 +1,17 @@
-﻿namespace AoE2NetDesktop.Form
+﻿namespace AoE2NetDesktop.LibAoE2Net.Parameters;
+
+/// <summary>
+/// Team type.
+/// </summary>
+public enum TeamType
 {
     /// <summary>
-    /// Team type.
+    /// even Color No.
     /// </summary>
-    public enum TeamType
-    {
-        /// <summary>
-        /// even Color No.
-        /// </summary>
-        EvenColorNo,
+    EvenColorNo,
 
-        /// <summary>
-        /// odd Color No.
-        /// </summary>
-        OddColorNo,
-    }
+    /// <summary>
+    /// odd Color No.
+    /// </summary>
+    OddColorNo,
 }

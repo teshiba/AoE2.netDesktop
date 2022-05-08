@@ -1,5 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AoE2NetDesktop;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Functions;
 
 namespace LibAoE2net.Tests
 {

@@ -16,6 +16,8 @@ rem output ReportGenerator result directory
 set OUTPUT_DIR="Coverage"
 set HISTORY_DIR="Coverage/History"
 set REPORT_FILE_FILTERS="-*.Designer.cs;-*Program.cs"
+set REPORTTYPES="Html_Light"
+rem set REPORTTYPES="Badges;MarkdownSummary;Html;Html_Light;Html_Dark;HtmlChart;HtmlInline;HtmlSummary;TextSummary;MHtml"
 
 rem test option
 set TEST_FILTERS="TestCategory!=GUI"
@@ -39,5 +41,5 @@ rem ===========================================================================
 rem Report test result
 echo on
 
-%REPORTGEN% -filefilters:%REPORT_FILE_FILTERS% -targetdir:%OUTPUT_DIR% -historydir:%HISTORY_DIR% -reports:%COVERAGE_RESULT%
+%REPORTGEN% -filefilters:%REPORT_FILE_FILTERS% -targetdir:%OUTPUT_DIR% -historydir:%HISTORY_DIR% -reports:%COVERAGE_RESULT% -reporttypes:%REPORTTYPES%
 %OUTPUT_DIR%\index.htm

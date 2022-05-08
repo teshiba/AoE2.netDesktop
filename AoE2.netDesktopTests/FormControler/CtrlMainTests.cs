@@ -1,5 +1,13 @@
-﻿using LibAoE2net;
+﻿using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility.User32;
+
+using LibAoE2net;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -190,7 +198,7 @@ namespace AoE2NetDesktop.Form.Tests
         [TestMethod()]
         [DataRow(9, "Arabia")]
         [DataRow(0, "Unknown(Map No.0)")]
-        [DataRow(null, "Unknown(Map No. N/A)")]
+        [DataRow(null, "Unknown(Map No.)")]
         public void GetMapNameTest(int? mapType, string expVal)
         {
             // Arrange
@@ -217,7 +225,7 @@ namespace AoE2NetDesktop.Form.Tests
         [DataRow(1, "Britons")]
         [DataRow(37, "Sicilians")]
         [DataRow(40, "invalid civ:40")]
-        [DataRow(null, "invalid civ:null")]
+        [DataRow(null, "invalid civ:")]
         public void GetCivEnNameTest(int? civ, string expVal)
         {
             // Arrange

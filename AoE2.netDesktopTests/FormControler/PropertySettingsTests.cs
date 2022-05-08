@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AoE2NetDesktop.CtrlForm;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.ComponentModel;
 using System.Drawing;

@@ -1,6 +1,12 @@
-﻿using AoE2NetDesktop.Tests;
+﻿using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Tests;
+
 using LibAoE2net;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System;
 using System.Threading.Tasks;
 

@@ -5,6 +5,9 @@ using System.Drawing;
 using System.ComponentModel;
 using System;
 using System.Threading.Tasks;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 namespace AoE2NetDesktop.Form.Tests
 {
@@ -113,7 +116,7 @@ namespace AoE2NetDesktop.Form.Tests
 
             public async Task<Match> SetLastMatchDataAsync(int profileId)
             {
-                return await this.Invoke<Task<Match>>("SetLastMatchDataAsync", profileId);
+                return await this.Invoke<Task<Match>>("SetLastMatchDataAsync", profileId).ConfigureAwait(false);
             }
 
             public void OpenSettings()

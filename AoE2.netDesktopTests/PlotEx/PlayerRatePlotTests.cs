@@ -1,8 +1,9 @@
-﻿using AoE2NetDesktop.Tests;
-
-using LibAoE2net;
+﻿using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Tests;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using ScottPlot;
 
 using System;

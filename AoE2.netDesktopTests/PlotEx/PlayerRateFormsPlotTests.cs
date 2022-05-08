@@ -6,6 +6,8 @@ using ScottPlot;
 using LibAoE2net;
 using AoE2NetDesktop.Tests;
 using System.Drawing;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 namespace AoE2NetDesktop.Form.Tests
 {

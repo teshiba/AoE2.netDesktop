@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AoE2NetDesktop.Utility.Forms;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
 using System.Drawing;

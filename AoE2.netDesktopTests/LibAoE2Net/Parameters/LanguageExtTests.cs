@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AoE2NetDesktop.LibAoE2Net.Parameters;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
 namespace LibAoE2net.Tests

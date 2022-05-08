@@ -1,110 +1,115 @@
-﻿namespace AoE2NetDesktop.Form
+﻿namespace AoE2NetDesktop.Form;
+
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+
+using AoE2NetDesktop.AoE2DE;
+using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility.Forms;
+
+using LibAoE2net;
+
+/// <summary>
+/// Matches Tab of FormHistory class.
+/// </summary>
+public partial class FormHistory : ControllableForm
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Windows.Forms;
-    using LibAoE2net;
+    private Dictionary<LeaderboardId, List<ListViewItem>> listViewHistory;
 
     /// <summary>
-    /// Matches Tab of FormHistory class.
+    /// Gets or sets Win rate stat plot object.
     /// </summary>
-    public partial class FormHistory : ControllableForm
+    public WinRatePlot WinRateStat { get; set; }
+
+    /// <summary>
+    /// Gets selected data source of graph.
+    /// </summary>
+    public DataSource SelectedDataSource => CtrlHistory.GetDataSource(comboBoxDataSource.Text);
+
+    /// <summary>
+    /// Gets selected data source of graph.
+    /// </summary>
+    public LeaderboardId SelectedLeaderboard => CtrlHistory.GetLeaderboardId(comboBoxLeaderboard.Text);
+
+    private void InitMatchesTab()
     {
-        private Dictionary<LeaderboardId, List<ListViewItem>> listViewHistory;
+        comboBoxLeaderboard.Enabled = false;
+        comboBoxLeaderboard.Items.AddRange(CtrlHistory.GetLeaderboardStrings());
 
-        /// <summary>
-        /// Gets or sets Win rate stat plot object.
-        /// </summary>
-        public WinRatePlot WinRateStat { get; set; }
+        comboBoxDataSource.Enabled = false;
+        comboBoxDataSource.Items.AddRange(CtrlHistory.GetDataSourceStrings());
 
-        /// <summary>
-        /// Gets selected data source of graph.
-        /// </summary>
-        public DataSource SelectedDataSource => CtrlHistory.GetDataSource(comboBoxDataSource.Text);
+        InitListViewMatchHistorySorter();
 
-        /// <summary>
-        /// Gets selected data source of graph.
-        /// </summary>
-        public LeaderboardId SelectedLeaderboard => CtrlHistory.GetLeaderboardId(comboBoxLeaderboard.Text);
+        WinRateStat = new WinRatePlot(formsPlotWinRate, FontSize);
+    }
 
-        private void InitMatchesTab()
-        {
-            comboBoxLeaderboard.Enabled = false;
-            comboBoxLeaderboard.Items.AddRange(CtrlHistory.GetLeaderboardStrings());
+    private void InitListViewMatchHistorySorter()
+    {
+        var sorterMatchHistory = new ListViewItemComparer {
+            Column = 5,
+            ColumnModes = new ComparerMode[]
+            {
+                ComparerMode.String,
+                ComparerMode.Integer,
+                ComparerMode.String,
+                ComparerMode.String,
+                ComparerMode.Integer,
+                ComparerMode.DateTime,
+            },
+        };
+        listViewMatchHistory.ListViewItemSorter = sorterMatchHistory;
+    }
 
-            comboBoxDataSource.Enabled = false;
-            comboBoxDataSource.Items.AddRange(CtrlHistory.GetDataSourceStrings());
-
-            InitListViewMatchHistorySorter();
-
-            WinRateStat = new WinRatePlot(formsPlotWinRate, FontSize);
+    private void UpdateListViewMatchHistory()
+    {
+        listViewMatchHistory.BeginUpdate();
+        listViewMatchHistory.Items.Clear();
+        if (SelectedLeaderboard != LeaderboardId.Undefined) {
+            listViewMatchHistory.Items.AddRange(listViewHistory[SelectedLeaderboard].ToArray());
         }
 
-        private void InitListViewMatchHistorySorter()
-        {
-            var sorterMatchHistory = new ListViewItemComparer {
-                Column = 5,
-                ColumnModes = new ComparerMode[]
-                {
-                    ComparerMode.String,
-                    ComparerMode.Integer,
-                    ComparerMode.String,
-                    ComparerMode.String,
-                    ComparerMode.Integer,
-                    ComparerMode.DateTime,
-                },
-            };
-            listViewMatchHistory.ListViewItemSorter = sorterMatchHistory;
-        }
+        listViewMatchHistory.EndUpdate();
+    }
 
-        private void UpdateListViewMatchHistory()
-        {
-            listViewMatchHistory.BeginUpdate();
-            listViewMatchHistory.Items.Clear();
-            if (SelectedLeaderboard != LeaderboardId.Undefined) {
-                listViewMatchHistory.Items.AddRange(listViewHistory[SelectedLeaderboard].ToArray());
-            }
+    private void UpdateMatchesTabView()
+    {
+        listViewHistory = Controler.CreateListViewHistory();
 
-            listViewMatchHistory.EndUpdate();
-        }
+        comboBoxLeaderboard.SelectedIndex = Settings.Default.SelectedIndexComboBoxLeaderboard;
+        comboBoxLeaderboard.Enabled = true;
+        comboBoxDataSource.SelectedIndex = Settings.Default.SelectedIndexComboBoxDataSource;
+        comboBoxDataSource.Enabled = true;
 
-        private void UpdateMatchesTabView()
-        {
-            listViewHistory = Controler.CreateListViewHistory();
+        UpdateMatchesTabGraph();
+    }
 
-            comboBoxLeaderboard.SelectedIndex = Settings.Default.SelectedIndexComboBoxLeaderboard;
-            comboBoxLeaderboard.Enabled = true;
-            comboBoxDataSource.SelectedIndex = Settings.Default.SelectedIndexComboBoxDataSource;
-            comboBoxDataSource.Enabled = true;
+    private void UpdateMatchesTabGraph()
+    {
+        WinRateStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, SelectedLeaderboard, SelectedDataSource);
+    }
 
-            UpdateMatchesTabGraph();
-        }
+    ///////////////////////////////////////////////////////////////////////
+    // event handlers
+    ///////////////////////////////////////////////////////////////////////
 
-        private void UpdateMatchesTabGraph()
-        {
-            WinRateStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, SelectedLeaderboard, SelectedDataSource);
-        }
+    private void ListViewMatchHistory_ColumnClick(object sender, ColumnClickEventArgs e)
+    {
+        SortByColumn((ListView)sender, e);
+    }
 
-        ///////////////////////////////////////////////////////////////////////
-        // event handlers
-        ///////////////////////////////////////////////////////////////////////
+    private void ComboBoxLeaderboard_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        Settings.Default.SelectedIndexComboBoxLeaderboard = comboBoxLeaderboard.SelectedIndex;
+        UpdateListViewMatchHistory();
+        UpdateMatchesTabGraph();
+    }
 
-        private void ListViewMatchHistory_ColumnClick(object sender, ColumnClickEventArgs e)
-        {
-            SortByColumn((ListView)sender, e);
-        }
-
-        private void ComboBoxLeaderboard_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Settings.Default.SelectedIndexComboBoxLeaderboard = comboBoxLeaderboard.SelectedIndex;
-            UpdateListViewMatchHistory();
-            UpdateMatchesTabGraph();
-        }
-
-        private void ComboBoxDataSource_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Settings.Default.SelectedIndexComboBoxDataSource = comboBoxDataSource.SelectedIndex;
-            UpdateMatchesTabGraph();
-        }
+    private void ComboBoxDataSource_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        Settings.Default.SelectedIndexComboBoxDataSource = comboBoxDataSource.SelectedIndex;
+        UpdateMatchesTabGraph();
     }
 }

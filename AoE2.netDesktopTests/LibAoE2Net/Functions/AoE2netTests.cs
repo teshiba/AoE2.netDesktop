@@ -4,6 +4,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
 using AoE2NetDesktop.Tests;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 namespace LibAoE2net.Tests
 {

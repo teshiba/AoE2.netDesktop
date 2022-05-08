@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using AoE2NetDesktop.Utility;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AoE2NetDesktop.Tests

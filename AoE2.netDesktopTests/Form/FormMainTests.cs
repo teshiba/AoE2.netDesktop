@@ -4,6 +4,9 @@ using System.Windows.Forms;
 using AoE2NetDesktop.Tests;
 using System.Drawing;
 using System;
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 
 namespace AoE2NetDesktop.Form.Tests
 {

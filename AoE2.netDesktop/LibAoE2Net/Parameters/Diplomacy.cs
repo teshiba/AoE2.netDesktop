@@ -1,23 +1,22 @@
-﻿namespace AoE2NetDesktop
+﻿namespace AoE2NetDesktop.LibAoE2Net.Parameters;
+
+/// <summary>
+/// Diplomacy.
+/// </summary>
+public enum Diplomacy
 {
     /// <summary>
-    /// Diplomacy.
+    /// Diplomacy is Ally.
     /// </summary>
-    public enum Diplomacy
-    {
-        /// <summary>
-        /// Diplomacy is Ally.
-        /// </summary>
-        Ally,
+    Ally,
 
-        /// <summary>
-        /// Diplomacy is Enemy.
-        /// </summary>
-        Enemy,
+    /// <summary>
+    /// Diplomacy is Enemy.
+    /// </summary>
+    Enemy,
 
-        /// <summary>
-        /// Diplomacy is Neutral.
-        /// </summary>
-        Neutral,
-    }
+    /// <summary>
+    /// Diplomacy is Neutral.
+    /// </summary>
+    Neutral,
 }

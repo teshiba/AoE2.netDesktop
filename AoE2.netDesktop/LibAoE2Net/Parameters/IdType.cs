@@ -1,23 +1,22 @@
-﻿namespace AoE2NetDesktop.Form
+﻿namespace AoE2NetDesktop.LibAoE2Net.Parameters;
+
+/// <summary>
+/// ID type.
+/// </summary>
+public enum IdType
 {
     /// <summary>
-    /// ID type.
+    /// Steam ID.
     /// </summary>
-    public enum IdType
-    {
-        /// <summary>
-        /// Steam ID.
-        /// </summary>
-        Steam,
+    Steam,
 
-        /// <summary>
-        /// Profile ID.
-        /// </summary>
-        Profile,
+    /// <summary>
+    /// Profile ID.
+    /// </summary>
+    Profile,
 
-        /// <summary>
-        /// not selected.
-        /// </summary>
-        NotSelected,
-    }
+    /// <summary>
+    /// not selected.
+    /// </summary>
+    NotSelected,
 }

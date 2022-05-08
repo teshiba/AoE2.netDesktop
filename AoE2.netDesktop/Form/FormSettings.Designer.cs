@@ -1,5 +1,7 @@
 ﻿namespace AoE2NetDesktop.Form
 {
+    using AoE2NetDesktop.Utility.Forms;
+
     using System.Windows.Forms;
 
     /// <summary>

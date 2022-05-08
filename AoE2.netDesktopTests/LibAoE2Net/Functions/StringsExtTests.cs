@@ -1,4 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,7 +20,7 @@ namespace LibAoE2net.Tests
         [DataRow(2, "testString21")]
         [DataRow(3, "testString3")]
         [DataRow(4, null)]
-        public void GetStringTest(int id, string expVal)
+        public void GetStringTest(int? id, string expVal)
         {
             // Arrange
             List<StringId> stringIds = new()
@@ -56,7 +61,7 @@ namespace LibAoE2net.Tests
         [DataRow(1, "ブリトン")]
         [DataRow(37, "Sicilians")]
         [DataRow(40, "invalid civ:40")]
-        [DataRow(null, "invalid civ:null")]
+        [DataRow(null, "invalid civ:")]
         public void GetCivNameTest(int? civ, string expVal)
         {
             // Arrange

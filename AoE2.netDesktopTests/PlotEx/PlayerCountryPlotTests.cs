@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using ScottPlot;
 using LibAoE2net;
 using AoE2NetDesktop.Tests;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 namespace AoE2NetDesktop.Form.Tests
 {

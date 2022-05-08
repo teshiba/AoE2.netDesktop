@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AoE2NetDesktop.Utility;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.ComponentModel;
 using System.Net.Http;

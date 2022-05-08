@@ -2,6 +2,7 @@
 using AoE2NetDesktop.Tests;
 using System.Windows.Forms;
 using System;
+using AoE2NetDesktop.LibAoE2Net.Functions;
 
 namespace AoE2NetDesktop.Form.Tests
 {

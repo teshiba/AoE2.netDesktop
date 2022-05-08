@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
 using System.Collections.Generic;

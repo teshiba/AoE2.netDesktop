@@ -1,4 +1,6 @@
-﻿using LibAoE2net;
+﻿using AoE2NetDesktop.LibAoE2Net.Functions;
+
+using LibAoE2net;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
