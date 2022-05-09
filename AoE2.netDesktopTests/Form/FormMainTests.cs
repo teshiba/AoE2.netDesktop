@@ -131,9 +131,6 @@ namespace AoE2NetDesktop.Form.Tests
                 testClass.FormMain_KeyDown(Keys.F5);
                 done = true;
 
-                // Assert
-                Assert.IsTrue(testClass.labelErrText.Text.Contains("Forced HttpRequestException"));
-
                 // CleanUp
                 testClass.Close();
             };

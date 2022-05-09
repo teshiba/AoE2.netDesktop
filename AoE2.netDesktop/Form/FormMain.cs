@@ -79,6 +79,12 @@ public partial class FormMain : ControllableForm
     {
         LastMatchLoader.Stop();
 
+        if (!CtrlMain.IsTimerReloading) {
+            ClearLastMatch();
+        } else {
+            CtrlMain.IsTimerReloading = false;
+        }
+
         _ = await RedrawLastMatchAsync(CtrlSettings.ProfileId);
 
         if (CtrlSettings.PropertySetting.IsAutoReloadLastMatch) {
@@ -238,8 +244,7 @@ public partial class FormMain : ControllableForm
     private void FormMain_KeyDown(object sender, KeyEventArgs e)
     {
         switch (e.KeyCode) {
-        case Keys.F5:
-            updateToolStripMenuItem.PerformClick();
+        case Keys.F5: // is called by shortcut key settings of ToolStripMenuItem;
             break;
         default:
             Size size = GetWindowResizeParams(e);

@@ -368,6 +368,7 @@ public partial class FormMain : ControllableForm
         LastMatchLoader.Stop();
         if (CtrlMain.IsAoE2deActive()) {
             labelAoE2DEActive.Invoke(() => { labelAoE2DEActive.Text = "AoE2DE active"; });
+            CtrlMain.IsTimerReloading = true;
             Invoke(() => updateToolStripMenuItem.PerformClick());
         } else {
             labelAoE2DEActive.Invoke(() => { labelAoE2DEActive.Text = "AoE2DE NOT active"; });

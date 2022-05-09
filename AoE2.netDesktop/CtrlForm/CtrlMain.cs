@@ -32,6 +32,11 @@ public class CtrlMain : FormControler
     public static int IntervalSec { get; set; } = 60 * 5;
 
     /// <summary>
+    /// Gets or sets a value indicating whether reloading by timer.
+    /// </summary>
+    public static bool IsTimerReloading { get; set; } = false;
+
+    /// <summary>
     /// Gets or sets system API.
     /// </summary>
     public static ISystemApi SystemApi { get; set; } = new SystemApi(new User32Api());
