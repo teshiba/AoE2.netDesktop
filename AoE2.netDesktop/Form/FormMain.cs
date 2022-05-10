@@ -204,21 +204,6 @@ public partial class FormMain : ControllableForm
         ResizePanels();
     }
 
-    private void FormMain_MouseDown(object sender, MouseEventArgs e)
-    {
-        if ((e.Button & MouseButtons.Left) == MouseButtons.Left) {
-            mouseDownPoint = new Point(e.X, e.Y);
-        }
-    }
-
-    private void FormMain_MouseMove(object sender, MouseEventArgs e)
-    {
-        if ((e.Button & MouseButtons.Left) == MouseButtons.Left) {
-            Left += e.X - mouseDownPoint.X;
-            Top += e.Y - mouseDownPoint.Y;
-        }
-    }
-
     private void Controls_MouseDown(object sender, MouseEventArgs e)
     {
         if ((e.Button & MouseButtons.Left) == MouseButtons.Left) {

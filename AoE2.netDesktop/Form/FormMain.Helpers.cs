@@ -123,6 +123,11 @@ public partial class FormMain : ControllableForm
             item.MouseDown += Controls_MouseDown;
             item.MouseMove += Controls_MouseMove;
         }
+
+        foreach (Control item in panelGameInfo.Controls) {
+            item.MouseDown += Controls_MouseDown;
+            item.MouseMove += Controls_MouseMove;
+        }
     }
 
     private void OnChangeIsHideTitle(PropertySettings propertySettings)
