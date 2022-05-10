@@ -275,7 +275,6 @@ public partial class FormMain : ControllableForm
             labelName[i].BackColor = chromaKey;
             labelRate[i].BackColor = chromaKey;
             pictureBox[i].BackColor = chromaKey;
-            pictureBox[i].SizeMode = PictureBoxSizeMode.Normal;
         }
 
         BackColor = chromaKey;
@@ -333,7 +332,7 @@ public partial class FormMain : ControllableForm
             if (player.Color - 1 is int index
                 && index < AoE2netHelpers.PlayerNumMax
                 && index > -1) {
-                pictureBox[index].ImageLocation = AoE2net.GetCivImageLocation(player.GetCivEnName());
+                pictureBox[index].ImageLocation = AoE2DeApp.GetCivImageLocation(player.GetCivEnName());
                 labelRate[index].Text = CtrlMain.GetRateString(player.Rating);
                 labelName[index].Text = CtrlMain.GetPlayerNameString(player.Name);
                 labelCiv[index].Text = player.GetCivName();

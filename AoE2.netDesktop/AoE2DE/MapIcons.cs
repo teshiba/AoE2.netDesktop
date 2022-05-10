@@ -1,14 +1,12 @@
 ﻿namespace AoE2NetDesktop.AoE2DE;
 
 using System.Collections.Generic;
-using AoE2NetDesktop.Utility.User32;
 
 /// <summary>
 /// Map Icons class.
 /// </summary>
 public class MapIcons
 {
-    private const string SteamAppDefaultPath = $@"C:\Program Files (x86)\Steam\steamapps\common\AoE2DE\";
     private const string MapiconsPath = $@"widgetui\textures\menu\mapicons\";
 
 #if false // Not defined!
@@ -182,8 +180,6 @@ public class MapIcons
         { 174, "rm_wade" },
     };
 
-    private static ISystemApi SystemApi { get; set; } = new SystemApi(new User32Api());
-
     /// <summary>
     /// Get map icon file name.
     /// </summary>
@@ -191,10 +187,7 @@ public class MapIcons
     /// <returns>File name.</returns>
     public static string GetFileName(int? mapId)
     {
-        var appPath = SystemApi.GetProcessFilePath(AoE2DeApp.ProcessName);
-        if (string.IsNullOrEmpty(appPath)) {
-            appPath = SteamAppDefaultPath;
-        }
+        var appPath = AoE2DeApp.GetPath();
 
         string ret = $"{appPath}{MapiconsPath}cm_generic.DDS";
 
