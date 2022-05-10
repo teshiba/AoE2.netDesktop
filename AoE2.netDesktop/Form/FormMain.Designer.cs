@@ -106,7 +106,7 @@
             // labelServer
             // 
             this.labelServer.BackColor = System.Drawing.SystemColors.Control;
-            this.labelServer.Location = new System.Drawing.Point(99, 81);
+            this.labelServer.Location = new System.Drawing.Point(99, 83);
             this.labelServer.Name = "labelServer";
             this.labelServer.Size = new System.Drawing.Size(152, 19);
             this.labelServer.TabIndex = 2;
@@ -260,7 +260,7 @@
             this.labelCivP7.BackColor = System.Drawing.SystemColors.Control;
             this.labelCivP7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP7.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP7.Location = new System.Drawing.Point(102, 226);
+            this.labelCivP7.Location = new System.Drawing.Point(97, 226);
             this.labelCivP7.Name = "labelCivP7";
             this.labelCivP7.Size = new System.Drawing.Size(262, 26);
             this.labelCivP7.TabIndex = 2;
@@ -274,7 +274,7 @@
             this.labelCivP3.BackColor = System.Drawing.SystemColors.Control;
             this.labelCivP3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP3.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP3.Location = new System.Drawing.Point(102, 118);
+            this.labelCivP3.Location = new System.Drawing.Point(97, 118);
             this.labelCivP3.Name = "labelCivP3";
             this.labelCivP3.Size = new System.Drawing.Size(262, 26);
             this.labelCivP3.TabIndex = 2;
@@ -288,7 +288,7 @@
             this.labelCivP5.BackColor = System.Drawing.SystemColors.Control;
             this.labelCivP5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP5.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP5.Location = new System.Drawing.Point(102, 172);
+            this.labelCivP5.Location = new System.Drawing.Point(97, 172);
             this.labelCivP5.Name = "labelCivP5";
             this.labelCivP5.Size = new System.Drawing.Size(262, 26);
             this.labelCivP5.TabIndex = 2;
@@ -302,7 +302,7 @@
             this.labelCivP1.BackColor = System.Drawing.SystemColors.Control;
             this.labelCivP1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP1.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP1.Location = new System.Drawing.Point(102, 64);
+            this.labelCivP1.Location = new System.Drawing.Point(97, 64);
             this.labelCivP1.Name = "labelCivP1";
             this.labelCivP1.Size = new System.Drawing.Size(262, 26);
             this.labelCivP1.TabIndex = 2;
@@ -453,7 +453,7 @@
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
             this.labelErrText.Location = new System.Drawing.Point(4, 29);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(1229, 113);
+            this.labelErrText.Size = new System.Drawing.Size(1236, 113);
             this.labelErrText.TabIndex = 8;
             // 
             // panelTeam2
@@ -598,7 +598,7 @@
             this.labelCivP2.BackColor = System.Drawing.SystemColors.Control;
             this.labelCivP2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP2.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP2.Location = new System.Drawing.Point(101, 64);
+            this.labelCivP2.Location = new System.Drawing.Point(96, 64);
             this.labelCivP2.Name = "labelCivP2";
             this.labelCivP2.Size = new System.Drawing.Size(262, 26);
             this.labelCivP2.TabIndex = 2;
@@ -612,7 +612,7 @@
             this.labelCivP6.BackColor = System.Drawing.SystemColors.Control;
             this.labelCivP6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP6.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP6.Location = new System.Drawing.Point(101, 171);
+            this.labelCivP6.Location = new System.Drawing.Point(96, 171);
             this.labelCivP6.Name = "labelCivP6";
             this.labelCivP6.Size = new System.Drawing.Size(262, 26);
             this.labelCivP6.TabIndex = 2;
@@ -626,7 +626,7 @@
             this.labelCivP4.BackColor = System.Drawing.SystemColors.Control;
             this.labelCivP4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP4.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP4.Location = new System.Drawing.Point(101, 118);
+            this.labelCivP4.Location = new System.Drawing.Point(96, 118);
             this.labelCivP4.Name = "labelCivP4";
             this.labelCivP4.Size = new System.Drawing.Size(262, 26);
             this.labelCivP4.TabIndex = 2;
@@ -640,7 +640,7 @@
             this.labelCivP8.BackColor = System.Drawing.SystemColors.Control;
             this.labelCivP8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelCivP8.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCivP8.Location = new System.Drawing.Point(101, 225);
+            this.labelCivP8.Location = new System.Drawing.Point(96, 225);
             this.labelCivP8.Name = "labelCivP8";
             this.labelCivP8.Size = new System.Drawing.Size(262, 26);
             this.labelCivP8.TabIndex = 2;
@@ -824,7 +824,7 @@
             // 
             this.labelDateTime.AutoSize = true;
             this.labelDateTime.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelDateTime.Location = new System.Drawing.Point(199, 0);
+            this.labelDateTime.Location = new System.Drawing.Point(198, 2);
             this.labelDateTime.Name = "labelDateTime";
             this.labelDateTime.Size = new System.Drawing.Size(437, 19);
             this.labelDateTime.TabIndex = 10;
@@ -840,16 +840,16 @@
             this.panelDebug.Controls.Add(this.labelErrText);
             this.panelDebug.Controls.Add(this.labelAoE2DEActive);
             this.panelDebug.Controls.Add(this.labelDateTime);
-            this.panelDebug.Location = new System.Drawing.Point(11, 276);
+            this.panelDebug.Location = new System.Drawing.Point(7, 276);
             this.panelDebug.Name = "panelDebug";
-            this.panelDebug.Size = new System.Drawing.Size(1251, 151);
+            this.panelDebug.Size = new System.Drawing.Size(1258, 151);
             this.panelDebug.TabIndex = 11;
             // 
             // labelAoE2DEActive
             // 
             this.labelAoE2DEActive.AutoSize = true;
             this.labelAoE2DEActive.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelAoE2DEActive.Location = new System.Drawing.Point(4, 0);
+            this.labelAoE2DEActive.Location = new System.Drawing.Point(2, 2);
             this.labelAoE2DEActive.Name = "labelAoE2DEActive";
             this.labelAoE2DEActive.Size = new System.Drawing.Size(189, 19);
             this.labelAoE2DEActive.TabIndex = 11;
@@ -861,7 +861,7 @@
             this.panelGameInfo.Controls.Add(this.labelGameId);
             this.panelGameInfo.Controls.Add(this.labelMap);
             this.panelGameInfo.Controls.Add(this.pictureBoxDDS);
-            this.panelGameInfo.Location = new System.Drawing.Point(880, 148);
+            this.panelGameInfo.Location = new System.Drawing.Point(873, 156);
             this.panelGameInfo.Name = "panelGameInfo";
             this.panelGameInfo.Size = new System.Drawing.Size(385, 114);
             this.panelGameInfo.TabIndex = 13;
