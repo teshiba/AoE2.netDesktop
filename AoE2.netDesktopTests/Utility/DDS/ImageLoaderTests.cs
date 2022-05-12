@@ -1,25 +1,23 @@
-﻿using AoE2NetDesktop.Tests;
+﻿namespace AoE2NetDesktop.Utility.DDS.Tests;
 
+using AoE2NetDesktop.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AoE2NetDesktop.Utility.DDS.Tests
+[TestClass]
+public class ImageLoaderTests
 {
-    [TestClass()]
-    public class ImageLoaderTests
+    [TestMethod]
+    [DataRow(TestData.DdsFile, ImageLoaderError.Non)]
+    [DataRow(TestData.DdsFileUnexpectedDwFlags, ImageLoaderError.InvalidDddsPfFlags)]
+    [DataRow(TestData.DdsFileUnexpectedMagic, ImageLoaderError.InvalidMagic)]
+    public void ImageLoaderTest(string filePath, ImageLoaderError expErr)
     {
-        [TestMethod()]
-        [DataRow(TestData.ddsfile, ImageLoaderError.Non)]
-        [DataRow(TestData.ddsfileUnexpectedDwFlags, ImageLoaderError.InvalidDddsPfFlags)]
-        [DataRow(TestData.ddsfileUnexpectedMagic, ImageLoaderError.InvalidMagic)]
-        public void ImageLoaderTest(string filePath, ImageLoaderError expErr)
-        {
-            // Arrange
+        // Arrange
 
-            // Act
-            var testClass = new ImageLoader(filePath);
+        // Act
+        var testClass = new ImageLoader(filePath);
 
-            // Assert
-            Assert.AreEqual(expErr, testClass.ErrorCode);
-        }
+        // Assert
+        Assert.AreEqual(expErr, testClass.ErrorCode);
     }
 }

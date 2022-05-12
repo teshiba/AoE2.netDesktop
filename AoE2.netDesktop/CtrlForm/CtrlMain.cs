@@ -111,7 +111,7 @@ public class CtrlMain : FormControler
     /// <returns>controler instance.</returns>
     public static async Task<bool> InitAsync(Language language)
     {
-        StringsExt.InitAsync();
+        StringsExt.Init();
         await StringsExt.InitAsync(language);
 
         return true;

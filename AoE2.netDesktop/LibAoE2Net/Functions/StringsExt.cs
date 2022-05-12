@@ -2,11 +2,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
 
 /// <summary>
 /// Extention of Language enum.
@@ -20,7 +22,7 @@ public static class StringsExt
     /// <summary>
     /// Initialize the class.
     /// </summary>
-    public static void InitAsync()
+    public static void Init()
     {
         initTask = Task.Run(async () =>
         {
@@ -118,10 +120,11 @@ public static class StringsExt
     ///////////////////////////////////////////////////////////////////////
     // private
     ///////////////////////////////////////////////////////////////////////
+    [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
     private static void WaitInitTask()
     {
         if (initTask == null) {
-            InitAsync();
+            Init();
         }
 
         initTask.Wait();

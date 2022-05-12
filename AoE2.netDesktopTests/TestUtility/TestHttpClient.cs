@@ -1,6 +1,4 @@
-﻿using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Tests;
-using AoE2NetDesktop.Utility;
+﻿namespace LibAoE2net;
 
 using System;
 using System.ComponentModel;
@@ -8,155 +6,163 @@ using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Tests;
+using AoE2NetDesktop.Utility;
 
-namespace LibAoE2net
+/// <summary>
+/// Communication client Interface.
+/// </summary>
+public class TestHttpClient : ComClient
 {
+    private const int EFAIL = -2147467259;
+
+    public bool ForceHttpRequestException { get; set; }
+
+    public bool ForceException { get; set; }
+
+    public bool ForceWin32Exception { get; set; }
+
+    public bool ForceTaskCanceledException { get; set; }
+
+    public string PlayerLastMatchUri { get; set; }
+
+    public string LastRequest { get; set; }
+
     /// <summary>
-    /// Communication client Interface.
+    /// Send a GET request to the specified Uri and return the response body as a string
+    /// in an asynchronous operation.
     /// </summary>
-    public class TestHttpClient : ComClient
+    /// <param name="requestUri">URI string.</param>
+    /// <returns>string.</returns>
+    public override Task<string> GetStringAsync(string requestUri)
     {
-        private const int EFAIL = -2147467259;
-
-        public bool ForceHttpRequestException { get; set; }
-        public bool ForceException { get; set; }
-        public bool ForceWin32Exception { get; set; }
-        public bool ForceTaskCanceledException { get; set; }
-        public string PlayerLastMatchUri { get; set; }
-
-        public string LastRequest { get; set; }
-        /// <summary>
-        /// Send a GET request to the specified Uri and return the response body as a string
-        /// in an asynchronous operation.
-        /// </summary>
-        /// <param name="requestUri"></param>
-        /// <returns></returns>
-        public override Task<string> GetStringAsync(string requestUri)
-        {
-            if (ForceHttpRequestException) {
-                LastRequest = nameof(ForceHttpRequestException);
-                throw new HttpRequestException("Forced HttpRequestException");
-            }
-
-            if (ForceTaskCanceledException) {
-                LastRequest = nameof(ForceTaskCanceledException);
-                throw new TaskCanceledException("Forced TaskCanceledException");
-            }
-
-            if (ForceException) {
-                LastRequest = nameof(ForceException);
-                throw new Exception("Force Exception");
-            }
-
-            var apiEndPoint = requestUri[..requestUri.IndexOf('?')];
-            var ret = apiEndPoint switch {
-                "player/lastmatch" => ReadplayerLastMatchAsync(requestUri),
-                "player/ratinghistory" => ReadPlayerRatingHistoryAsync(requestUri),
-                "player/matches" => ReadGetPlayerMatchHistoryAsync(requestUri),
-                "leaderboard" => ReadLeaderboardAsync(requestUri),
-                "strings" => ReadStringsAsync(requestUri),
-                _ => null,
-            };
-
-            return ret;
+        if (ForceHttpRequestException) {
+            LastRequest = nameof(ForceHttpRequestException);
+            throw new HttpRequestException("Forced HttpRequestException");
         }
 
-        /// <summary>
-        /// Open specified URI.
-        /// </summary>
-        /// <param name="requestUri">URI string.</param>
-        public override Process Start(string requestUri)
-        {
-            if (ForceWin32Exception) {
-                throw new Win32Exception(EFAIL, "Forced ForceWin32Exception");
-            }
-
-            if (ForceException) {
-                throw new Exception("Forced Exception");
-            }
-
-            LastRequest = $"Start {requestUri}";
-
-            return new Process();
+        if (ForceTaskCanceledException) {
+            LastRequest = nameof(ForceTaskCanceledException);
+            throw new TaskCanceledException("Forced TaskCanceledException");
         }
 
-        private Task<string> ReadplayerLastMatchAsync(string requestUri)
-        {
-            var args = requestUri.Split('=', '&', '?');
-            var game = args[2];
-            var steamId = args[4];
-            var requestDataFileName = PlayerLastMatchUri ?? $"playerLastMatch{game}{steamId}.json";
-            string readUri = $"{TestData.Path}/{requestDataFileName}";
-
-            LastRequest = $"Read {readUri}";
-
-            return ReadTextFIleAsync($"{TestData.Path}/{requestDataFileName}");
+        if (ForceException) {
+            LastRequest = nameof(ForceException);
+            throw new Exception("Force Exception");
         }
 
-        private Task<string> ReadPlayerRatingHistoryAsync(string requestUri)
-        {
-            var args = requestUri.Split('=', '&', '?');
-            var game = args[2];
-            var leaderboardId = (LeaderboardId)int.Parse(args[4]);
-            var steamId = args[6];
-            var count = args[8];
-            var readUri = $"{TestData.Path}/playerRatingHistory{game}{steamId}{leaderboardId}{count}.json";
+        var apiEndPoint = requestUri[..requestUri.IndexOf('?')];
+        var ret = apiEndPoint switch {
+            "player/lastmatch" => ReadplayerLastMatchAsync(requestUri),
+            "player/ratinghistory" => ReadPlayerRatingHistoryAsync(requestUri),
+            "player/matches" => ReadGetPlayerMatchHistoryAsync(requestUri),
+            "leaderboard" => ReadLeaderboardAsync(requestUri),
+            "strings" => ReadStringsAsync(requestUri),
+            _ => null,
+        };
 
-            LastRequest = $"Read {readUri}";
+        return ret;
+    }
 
-            return ReadTextFIleAsync(readUri);
+    /// <summary>
+    /// Open specified URI.
+    /// </summary>
+    /// <param name="requestUri">URI string.</param>
+    /// <returns>start process.</returns>
+    /// <exception cref="Win32Exception">Win32Exception.</exception>
+    /// <exception cref="Exception">Exception.</exception>
+    public override Process Start(string requestUri)
+    {
+        if (ForceWin32Exception) {
+            throw new Win32Exception(EFAIL, "Forced ForceWin32Exception");
         }
 
-        private Task<string> ReadStringsAsync(string requestUri)
-        {
-            var args = requestUri.Split('=', '&', '?');
-            var game = args[2];
-            var language = args[4];
-            var readUri = $"{TestData.Path}/Strings-{game}-{language}.json";
-
-            LastRequest = $"Read {readUri}";
-
-            return ReadTextFIleAsync(readUri);
+        if (ForceException) {
+            throw new Exception("Forced Exception");
         }
 
-        private Task<string> ReadGetPlayerMatchHistoryAsync(string requestUri)
-        {
-            var args = requestUri.Split('=', '&', '?');
-            var game = args[2];
-            var steamId = args[4];
-            var readUri = $"{TestData.Path}/playerMatchHistory{game}{steamId}.json";
+        LastRequest = $"Start {requestUri}";
 
-            LastRequest = $"Read {readUri}";
+        return new Process();
+    }
 
-            return ReadTextFIleAsync(readUri);
+    private static async Task<string> ReadTextFIleAsync(string filePath)
+    {
+        string ret;
+
+        try {
+            Debug.Print($"Open {Path.GetFullPath(filePath)}");
+            ret = await File.ReadAllTextAsync(filePath).ConfigureAwait(false);
+        } catch (Exception ex) {
+            Debug.Print($"Test stub http read: {ex.Message}");
+            throw new HttpRequestException(ex.Message, null, System.Net.HttpStatusCode.NotFound);
         }
 
-        private Task<string> ReadLeaderboardAsync(string requestUri)
-        {
-            var args = requestUri.Split('=', '&', '?');
-            var game = args[2];
-            var leaderboardId = (LeaderboardId)int.Parse(args[4]);
-            var profileId = args[6];
-            var readUri = $"{TestData.Path}/leaderboard{game}{leaderboardId}{profileId}.json";
+        return ret;
+    }
 
-            LastRequest = $"Read {readUri}";
+    private Task<string> ReadplayerLastMatchAsync(string requestUri)
+    {
+        var args = requestUri.Split('=', '&', '?');
+        var game = args[2];
+        var steamId = args[4];
+        var requestDataFileName = PlayerLastMatchUri ?? $"playerLastMatch{game}{steamId}.json";
+        string readUri = $"{TestData.Path}/{requestDataFileName}";
 
-            return ReadTextFIleAsync(readUri);
-        }
+        LastRequest = $"Read {readUri}";
 
-        private static async Task<string> ReadTextFIleAsync(string filePath)
-        {
-            string ret;
+        return ReadTextFIleAsync($"{TestData.Path}/{requestDataFileName}");
+    }
 
-            try {
-                Debug.Print($"Open {Path.GetFullPath(filePath)}");
-                ret = await File.ReadAllTextAsync(filePath).ConfigureAwait(false);
-            } catch (Exception ex) {
-                Debug.Print($"Test stub http read: {ex.Message}");
-                throw new HttpRequestException(ex.Message, null, System.Net.HttpStatusCode.NotFound);
-            }
+    private Task<string> ReadPlayerRatingHistoryAsync(string requestUri)
+    {
+        var args = requestUri.Split('=', '&', '?');
+        var game = args[2];
+        var leaderboardId = (LeaderboardId)int.Parse(args[4]);
+        var steamId = args[6];
+        var count = args[8];
+        var readUri = $"{TestData.Path}/playerRatingHistory{game}{steamId}{leaderboardId}{count}.json";
 
-            return ret;
-        }
+        LastRequest = $"Read {readUri}";
+
+        return ReadTextFIleAsync(readUri);
+    }
+
+    private Task<string> ReadStringsAsync(string requestUri)
+    {
+        var args = requestUri.Split('=', '&', '?');
+        var game = args[2];
+        var language = args[4];
+        var readUri = $"{TestData.Path}/Strings-{game}-{language}.json";
+
+        LastRequest = $"Read {readUri}";
+
+        return ReadTextFIleAsync(readUri);
+    }
+
+    private Task<string> ReadGetPlayerMatchHistoryAsync(string requestUri)
+    {
+        var args = requestUri.Split('=', '&', '?');
+        var game = args[2];
+        var steamId = args[4];
+        var readUri = $"{TestData.Path}/playerMatchHistory{game}{steamId}.json";
+
+        LastRequest = $"Read {readUri}";
+
+        return ReadTextFIleAsync(readUri);
+    }
+
+    private Task<string> ReadLeaderboardAsync(string requestUri)
+    {
+        var args = requestUri.Split('=', '&', '?');
+        var game = args[2];
+        var leaderboardId = (LeaderboardId)int.Parse(args[4]);
+        var profileId = args[6];
+        var readUri = $"{TestData.Path}/leaderboard{game}{leaderboardId}{profileId}.json";
+
+        LastRequest = $"Read {readUri}";
+
+        return ReadTextFIleAsync(readUri);
     }
 }

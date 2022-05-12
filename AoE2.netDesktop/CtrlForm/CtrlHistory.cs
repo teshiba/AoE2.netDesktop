@@ -281,31 +281,7 @@ public class CtrlHistory : FormControler
                         players.Add(name, new PlayerInfo());
                     }
 
-                    players[name].Country = CountryCode.ConvertToFullName(player.Country);
-                    players[name].ProfileId = player.ProfilId;
-
-                    switch (match.LeaderboardId) {
-                    case LeaderboardId.RM1v1:
-                        players[name].RateRM1v1 = player.Rating;
-                        players[name].Games1v1++;
-                        break;
-                    case LeaderboardId.RMTeam:
-                        players[name].RateRMTeam = player.Rating;
-                        players[name].GamesTeam++;
-
-                        switch (selectedPlayer.CheckDiplomacy(player)) {
-                        case Diplomacy.Ally:
-                            players[name].GamesAlly++;
-                            break;
-                        case Diplomacy.Enemy:
-                            players[name].GamesEnemy++;
-                            break;
-                        }
-
-                        break;
-                    }
-
-                    players[name].LastDate = match.GetOpenedTime();
+                    GetplayerInfo(match, player, selectedPlayer.CheckDiplomacy(player), players[name]);
                 }
             }
         }
@@ -411,6 +387,35 @@ public class CtrlHistory : FormControler
         }
 
         return Leaderboards;
+    }
+
+    private static void GetplayerInfo(Match match, Player player, Diplomacy diplomacy, PlayerInfo playerInfo)
+    {
+        playerInfo.Country = CountryCode.ConvertToFullName(player.Country);
+        playerInfo.ProfileId = player.ProfilId;
+
+        switch (match.LeaderboardId) {
+        case LeaderboardId.RM1v1:
+            playerInfo.RateRM1v1 = player.Rating;
+            playerInfo.Games1v1++;
+            break;
+        case LeaderboardId.RMTeam:
+            playerInfo.RateRMTeam = player.Rating;
+            playerInfo.GamesTeam++;
+
+            switch (diplomacy) {
+            case Diplomacy.Ally:
+                playerInfo.GamesAlly++;
+                break;
+            case Diplomacy.Enemy:
+                playerInfo.GamesEnemy++;
+                break;
+            }
+
+            break;
+        }
+
+        playerInfo.LastDate = match.GetOpenedTime();
     }
 
     private async Task<LeaderboardContainer> GetLeaderboardAsync(LeaderboardId leaderBoardId)

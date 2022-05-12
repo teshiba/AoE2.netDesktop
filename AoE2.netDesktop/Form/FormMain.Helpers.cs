@@ -367,7 +367,7 @@ public partial class FormMain : ControllableForm
         return ret;
     }
 
-    private void OnTimerAsync(object sender, EventArgs e)
+    private void OnTimer(object sender, EventArgs e)
     {
         LastMatchLoader.Stop();
         if (CtrlMain.IsAoE2deActive()) {

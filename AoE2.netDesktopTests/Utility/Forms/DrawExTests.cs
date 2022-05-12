@@ -1,35 +1,31 @@
-﻿using System.Drawing;
+﻿namespace AoE2NetDesktop.Tests;
+
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-
 using AoE2NetDesktop.Utility.Forms;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AoE2NetDesktop.Tests
+[TestClass]
+public class DrawExTests
 {
-    [TestClass()]
-    public class DrawExTests
+    [TestMethod]
+    [DataRow(true, PixelOffsetMode.HighQuality, SmoothingMode.AntiAlias)]
+    [DataRow(false, PixelOffsetMode.None, SmoothingMode.None)]
+    public void DrawStringTest(bool drawHighQuality, PixelOffsetMode expValuePixelOffsetMode, SmoothingMode expValueSmoothingMode)
     {
-        [TestMethod()]
-        [DataRow(true, PixelOffsetMode.HighQuality, SmoothingMode.AntiAlias)]
-        [DataRow(false, PixelOffsetMode.None, SmoothingMode.None)]
-        public void DrawStringTest(bool drawHighQuality, 
-                    PixelOffsetMode expValuePixelOffsetMode, SmoothingMode expValueSmoothingMode)
-        {
-            // Arrange
-            Label label = new();
-            var graphics = label.CreateGraphics();
-            var e = new PaintEventArgs(graphics, new Rectangle(0, 0, 100, 100));
+        // Arrange
+        Label label = new ();
+        var graphics = label.CreateGraphics();
+        var e = new PaintEventArgs(graphics, new Rectangle(0, 0, 100, 100));
 
-            DrawEx.DrawHighQuality = drawHighQuality;
+        DrawEx.DrawHighQuality = drawHighQuality;
 
-            // Act
-            label.DrawString(e, 10, Color.Red, Color.Orange);
+        // Act
+        label.DrawString(e, 10, Color.Red, Color.Orange);
 
-            // Assert
-            Assert.AreEqual(expValuePixelOffsetMode, e.Graphics.PixelOffsetMode);
-            Assert.AreEqual(expValueSmoothingMode, e.Graphics.SmoothingMode);
-        }
+        // Assert
+        Assert.AreEqual(expValuePixelOffsetMode, e.Graphics.PixelOffsetMode);
+        Assert.AreEqual(expValueSmoothingMode, e.Graphics.SmoothingMode);
     }
 }

@@ -2,10 +2,12 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
 
 using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
 
 /// <summary>
@@ -53,6 +55,8 @@ public partial class FormHistory : ControllableForm
     ///////////////////////////////////////////////////////////////////////
     // event handlers
     ///////////////////////////////////////////////////////////////////////
+    [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = SuppressReason.GuiEvent)]
+    [SuppressMessage("Style", "VSTHRD200:Use \"Async\" suffix for async methods", Justification = SuppressReason.GuiEvent)]
     private async void FormHistory_ShownAsync(object sender, EventArgs e)
     {
         tabControlHistory.SelectedIndex = Settings.Default.SelectedIndexTabControlHistory;

@@ -336,7 +336,7 @@
             this.ShowInTaskbar = false;
             this.Text = "Settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormSettings_FormClosing);
-            this.Load += new System.EventHandler(this.FormSettings_Load);
+            this.Load += new System.EventHandler(this.FormSettings_LoadAsync);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxChromaKey)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.upDownOpacity)).EndInit();
             this.groupBoxPlayer.ResumeLayout(false);

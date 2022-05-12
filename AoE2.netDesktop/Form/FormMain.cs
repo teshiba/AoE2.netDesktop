@@ -11,6 +11,8 @@ using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.Forms;
+using System.Diagnostics.CodeAnalysis;
+using AoE2NetDesktop.Utility;
 
 /// <summary>
 /// App main form.
@@ -42,7 +44,7 @@ public partial class FormMain : ControllableForm
         // formMain hold the app settings.
         CtrlSettings = new CtrlSettings();
         CtrlSettings.PropertySetting.PropertyChanged += OnChangeProperty;
-        LastMatchLoader = new LastMatchLoader(OnTimerAsync, CtrlMain.IntervalSec);
+        LastMatchLoader = new LastMatchLoader(OnTimer, CtrlMain.IntervalSec);
 
         SetOptionParams();
 
@@ -52,7 +54,10 @@ public partial class FormMain : ControllableForm
     ///////////////////////////////////////////////////////////////////////
     // Async event handlers
     ///////////////////////////////////////////////////////////////////////
-    private async void FormMain_Load(object sender, EventArgs e)
+
+    [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = SuppressReason.GuiEvent)]
+    [SuppressMessage("Style", "VSTHRD200:Use \"Async\" suffix for async methods", Justification = SuppressReason.GuiEvent)]
+    private async void FormMain_LoadAsync(object sender, EventArgs e)
     {
         RestoreWindowStatus();
         ResizePanels();
@@ -75,6 +80,8 @@ public partial class FormMain : ControllableForm
         Awaiter.Complete();
     }
 
+    [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = SuppressReason.GuiEvent)]
+    [SuppressMessage("Style", "VSTHRD200:Use \"Async\" suffix for async methods", Justification = SuppressReason.GuiEvent)]
     private async void UpdateToolStripMenuItem_ClickAsync(object sender, EventArgs e)
     {
         LastMatchLoader.Stop();

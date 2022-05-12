@@ -1,31 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-using AoE2NetDesktop.Utility;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace AoE2NetDesktop.Tests
+﻿namespace AoE2NetDesktop.Tests
 {
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using AoE2NetDesktop.Utility;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class AsyncMethodAwaiterTests
     {
-        private const string MethodName = nameof(RunComplete);
+        private const string MethodName = nameof(RunCompleteAsync);
         private AsyncMethodAwaiter testClass;
         private Dictionary<string, ManualResetEvent> state;
         private Task targetTask;
-
-        private Task RunComplete()
-        {
-            targetTask = Task.Run(() => testClass.Complete());
-            return targetTask;
-        }
-
-        private Task RunWait()
-        {
-            return Task.Run(() => testClass.WaitAsync(MethodName));
-        }
 
         [TestInitialize]
         public void TestInit()
@@ -37,12 +24,13 @@ namespace AoE2NetDesktop.Tests
         // ////////////////////////////////////////////////////////////////////
         // Complete
         // ////////////////////////////////////////////////////////////////////
+#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
         [TestMethod]
         public void CompleteTestAfterInitialize()
         {
             // Arrenge
             // Act
-            RunComplete().Wait();
+            RunCompleteAsync().Wait();
 
             // Assert
             Assert.IsTrue(state.TryGetValue(MethodName, out _));
@@ -52,8 +40,8 @@ namespace AoE2NetDesktop.Tests
         public void CompleteTestAfterCompleteCall()
         {
             // Arrenge
-            RunComplete().Wait();
-            RunComplete().Wait();
+            RunCompleteAsync().Wait();
+            RunCompleteAsync().Wait();
 
             // Act
             // Assert
@@ -64,10 +52,10 @@ namespace AoE2NetDesktop.Tests
         public void CompleteTestAfterWaitCall()
         {
             // Arrenge
-            var task = RunWait();
+            var task = RunWaitAsync();
 
             // Act
-            Task.WaitAll(task, RunComplete());
+            Task.WaitAll(task, RunCompleteAsync());
 
             // Assert
             Assert.IsFalse(state.TryGetValue(MethodName, out _));
@@ -81,14 +69,14 @@ namespace AoE2NetDesktop.Tests
         {
             // Arrenge
             // Act
-            var task = RunWait();
+            var task = RunWaitAsync();
             Thread.Sleep(100);
 
             // Assert
             Assert.IsTrue(state.TryGetValue(MethodName, out _));
 
             // CleanUp
-            RunComplete().Wait();
+            RunCompleteAsync().Wait();
             task.Wait();
         }
 
@@ -96,10 +84,10 @@ namespace AoE2NetDesktop.Tests
         public void WaitTestAfterCompleteCall()
         {
             // Arrenge
-            RunComplete().Wait();
+            RunCompleteAsync().Wait();
 
             // Act
-            RunWait().Wait();
+            RunWaitAsync().Wait();
 
             // Assert
             Assert.IsFalse(state.TryGetValue(MethodName, out _));
@@ -109,19 +97,31 @@ namespace AoE2NetDesktop.Tests
         public void WaitTestAfterWaitCall()
         {
             // Arrenge
-            var taskPrepare = RunWait();
+            var taskPrepare = RunWaitAsync();
 
             // Act
-            var task = RunWait();
+            var task = RunWaitAsync();
             Thread.Sleep(100);
- 
+
             // Assert
             Assert.IsTrue(state.TryGetValue(MethodName, out _));
 
             // CleanUp
-            RunComplete().Wait();
+            RunCompleteAsync().Wait();
             taskPrepare.Wait();
             task.Wait();
+        }
+#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
+
+        private Task RunCompleteAsync()
+        {
+            targetTask = Task.Run(() => testClass.Complete());
+            return targetTask;
+        }
+
+        private Task RunWaitAsync()
+        {
+            return Task.Run(() => testClass.WaitAsync(MethodName));
         }
     }
 }

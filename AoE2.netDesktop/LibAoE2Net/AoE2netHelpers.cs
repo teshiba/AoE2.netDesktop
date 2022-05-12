@@ -39,18 +39,18 @@ public static class AoE2netHelpers
 
         foreach (var player in ret.LastMatch.Players) {
             if (player.Rating == null) {
-                await TryFillRate(ret, player).ConfigureAwait(false);
+                await TryFillRateAsync(ret, player).ConfigureAwait(false);
             }
 
             if (player.Name == null) {
-                await TryFillPlayerName(player).ConfigureAwait(false);
+                await TryFillPlayerNameAsync(player).ConfigureAwait(false);
             }
         }
 
         return ret;
     }
 
-    private static async Task TryFillRate(PlayerLastmatch ret, Player player)
+    private static async Task TryFillRateAsync(PlayerLastmatch ret, Player player)
     {
         List<PlayerRating> rate;
         var leaderBoardId = ret.LastMatch.LeaderboardId ?? 0;
@@ -68,7 +68,7 @@ public static class AoE2netHelpers
         }
     }
 
-    private static async Task TryFillPlayerName(Player player)
+    private static async Task TryFillPlayerNameAsync(Player player)
     {
         PlayerLastmatch lastMatch;
 

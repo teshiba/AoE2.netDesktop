@@ -1,6 +1,7 @@
 ﻿namespace AoE2NetDesktop.Form;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -168,7 +169,9 @@ public partial class FormSettings : ControllableForm
     // Event handlers (Async)
     ///////////////////////////////////////////////////////////////////////
 
-    private async void FormSettings_Load(object sender, EventArgs e)
+    [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = SuppressReason.GuiTest)]
+    [SuppressMessage("Style", "VSTHRD200:Use \"Async\" suffix for async methods", Justification = SuppressReason.GuiTest)]
+    private async void FormSettings_LoadAsync(object sender, EventArgs e)
     {
         AoE2net.OnError = OnErrorHandler;
 
@@ -196,6 +199,8 @@ public partial class FormSettings : ControllableForm
         Awaiter.Complete();
     }
 
+    [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = SuppressReason.GuiTest)]
+    [SuppressMessage("Style", "VSTHRD200:Use \"Async\" suffix for async methods", Justification = SuppressReason.GuiTest)]
     private async void ButtonSetId_ClickAsync(object sender, EventArgs e)
     {
         var idtype = Controler.SelectedIdType;

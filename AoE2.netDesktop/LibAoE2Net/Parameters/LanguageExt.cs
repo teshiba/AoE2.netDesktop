@@ -96,6 +96,7 @@ public enum Language
     /// </summary>
     zh_TW,
 }
+#pragma warning restore SA1300 // Element should begin with upper-case letter
 
 /// <summary>
 /// extention of Language enum.
@@ -112,4 +113,3 @@ public static class LanguageExt
         return language.ToString().Replace('_', '-');
     }
 }
-#pragma warning restore SA1300 // Element should begin with upper-case letter

@@ -453,7 +453,7 @@
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
             this.labelErrText.Location = new System.Drawing.Point(4, 29);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(1236, 113);
+            this.labelErrText.Size = new System.Drawing.Size(1229, 113);
             this.labelErrText.TabIndex = 8;
             // 
             // panelTeam2
@@ -842,7 +842,7 @@
             this.panelDebug.Controls.Add(this.labelDateTime);
             this.panelDebug.Location = new System.Drawing.Point(7, 276);
             this.panelDebug.Name = "panelDebug";
-            this.panelDebug.Size = new System.Drawing.Size(1258, 151);
+            this.panelDebug.Size = new System.Drawing.Size(1251, 151);
             this.panelDebug.TabIndex = 11;
             // 
             // labelAoE2DEActive
@@ -871,7 +871,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1274, 439);
+            this.ClientSize = new System.Drawing.Size(1264, 439);
             this.ContextMenuStrip = this.contextMenuStripMain;
             this.Controls.Add(this.panelGameInfo);
             this.Controls.Add(this.panelDebug);
@@ -882,7 +882,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AoE2.net Desktop";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
-            this.Load += new System.EventHandler(this.FormMain_Load);
+            this.Load += new System.EventHandler(this.FormMain_LoadAsync);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FormMain_MouseClick);
             this.Resize += new System.EventHandler(this.FormMain_Resize);

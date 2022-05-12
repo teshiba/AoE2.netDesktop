@@ -1,38 +1,36 @@
-﻿using AoE2NetDesktop.Utility.User32;
+﻿namespace AoE2NetDesktop.Form.Tests;
 
+using AoE2NetDesktop.Utility.User32;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AoE2NetDesktop.Form.Tests
+[TestClass]
+public class SystemApiStubTests
 {
-    [TestClass()]
-    public class SystemApiStubTests
+    [TestMethod]
+    public void GetActiveProcessTest()
     {
-        [TestMethod()]
-        public void GetActiveProcessTest()
-        {
-            // Arrange
-            var expVal = "AoE2DE_s";
+        // Arrange
+        var expVal = "AoE2DE_s";
 
-            // Act
-            var testClass = new SystemApiStub(1);
-            var actVal = testClass.GetActiveProcess();
+        // Act
+        var testClass = new SystemApiStub(1);
+        var actVal = testClass.GetActiveProcess();
 
-            // Assert
-            Assert.AreEqual(expVal, actVal);
-        }
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
 
-        [TestMethod()]
-        public void GetProcessFilePathTest()
-        {
-            // Arrange
-            var expVal = "AoE2DE_s";
+    [TestMethod]
+    public void GetProcessFilePathTest()
+    {
+        // Arrange
+        var expVal = "AoE2DE_s";
 
-            // Act
-            var testClass = new SystemApiStub(1);
-            var actVal = testClass.GetProcessFilePath(expVal);
+        // Act
+        var testClass = new SystemApiStub(1);
+        var actVal = testClass.GetProcessFilePath(expVal);
 
-            // Assert
-            Assert.AreEqual(expVal, actVal);
-        }
+        // Assert
+        Assert.AreEqual(expVal, actVal);
     }
 }
