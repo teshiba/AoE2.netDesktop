@@ -94,4 +94,16 @@ public partial class FormHistory : ControllableForm
     {
         Settings.Default.SelectedIndexTabControlHistory = tabControlHistory.SelectedIndex;
     }
+
+    private void TextBoxFindName_TextChanged(object sender, EventArgs e)
+    {
+        var textbox = (TextBox)sender;
+        UpdateListViewPlayers(textbox.Text, checkBoxIgnoreCase.Checked);
+    }
+
+    private void CheckBoxIgnoreCase_CheckedChanged(object sender, EventArgs e)
+    {
+        var checkBox = (CheckBox)sender;
+        UpdateListViewPlayers(textBoxFindName.Text, checkBox.Checked);
+    }
 }

@@ -28,6 +28,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.labelServer = new System.Windows.Forms.Label();
             this.labelGameId = new System.Windows.Forms.Label();
             this.panelTeam1 = new System.Windows.Forms.Panel();

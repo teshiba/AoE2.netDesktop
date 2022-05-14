@@ -134,21 +134,22 @@ public partial class FormMain : ControllableForm
     {
         var top = RectangleToScreen(ClientRectangle).Top;
         var left = RectangleToScreen(ClientRectangle).Left;
-        var height = RectangleToScreen(ClientRectangle).Height;
+        var width = RectangleToScreen(ClientRectangle).Width;
 
         SuspendLayout();
 
         if (propertySettings.IsHideTitle && FormBorderStyle != FormBorderStyle.None) {
+            MinimumSize = new Size(835, 280);
             FormBorderStyle = FormBorderStyle.None;
-            MinimumSize = new Size(410, 280);
             Top = top;
             Left = left;
-            Height = height;
+            Width = width + 13;
         } else if (!propertySettings.IsHideTitle && FormBorderStyle != FormBorderStyle.Sizable) {
+            MinimumSize = new Size(835, 300);
             FormBorderStyle = FormBorderStyle.Sizable;
-            MinimumSize = new Size(410, 300);
             Top -= RectangleToScreen(ClientRectangle).Top - Top;
             Left -= RectangleToScreen(ClientRectangle).Left - Left;
+            Width = width - 13;
         } else {
             // nothing to do.
         }

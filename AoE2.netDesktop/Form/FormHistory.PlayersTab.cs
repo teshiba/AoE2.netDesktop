@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 using AoE2NetDesktop.PlotEx;
@@ -51,13 +52,23 @@ public partial class FormHistory : ControllableForm
         listViewMatchedPlayers.ListViewItemSorter = sorterMatchedPlayers;
     }
 
-    private void UpdateListViewPlayers()
+    private void UpdateListViewPlayers() => UpdateListViewPlayers(string.Empty, true);
+
+    private void UpdateListViewPlayers(string text, bool ignoreCase)
     {
         var listViewItems = new List<ListViewItem>();
 
         listViewMatchedPlayers.BeginUpdate();
         listViewMatchedPlayers.Items.Clear();
-        foreach (var player in Controler.MatchedPlayerInfos) {
+
+        StringComparison stringComparison;
+        if (ignoreCase) {
+            stringComparison = StringComparison.CurrentCultureIgnoreCase;
+        } else {
+            stringComparison = StringComparison.CurrentCulture;
+        }
+
+        foreach (var player in Controler.MatchedPlayerInfos.Where(x => x.Key.Contains(text, stringComparison))) {
             var listviewItem = new ListViewItem(player.Key);
             listviewItem.SubItems.Add(player.Value.Country);
             listviewItem.SubItems.Add(player.Value.RateRM1v1.ToString());
