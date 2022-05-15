@@ -52,9 +52,30 @@ public partial class FormHistory : ControllableForm
         listViewMatchedPlayers.ListViewItemSorter = sorterMatchedPlayers;
     }
 
-    private void UpdateListViewPlayers() => UpdateListViewPlayers(string.Empty, true);
+    private void UpdatePlayersTabListViewFilterCountory()
+    {
+        listViewFilterCountory.BeginUpdate();
+        listViewFilterCountory.Items.Clear();
 
-    private void UpdateListViewPlayers(string text, bool ignoreCase)
+        var listviewItems = new List<ListViewItem>();
+
+        foreach (var country in Controler.MatchedPlayerInfos.Select(x => x.Value.Country)) {
+            if(!listviewItems.Exists((item) => item.Text == country)) {
+                listviewItems.Add(new ListViewItem(country));
+            }
+        }
+
+        listviewItems.Sort(new Comparison<ListViewItem>((item1, item2) => string.Compare(item1.Text, item2.Text)));
+        foreach(var item in listviewItems) {
+            listViewFilterCountory.Items.Add(item.Text, item.Text, null);
+        }
+
+        listViewFilterCountory.EndUpdate();
+    }
+
+    private void UpdatePlayersTabListView() => UpdateListViewPlayers(string.Empty, true, new List<string>());
+
+    private void UpdateListViewPlayers(string playerName, bool ignoreCase, List<string> countries)
     {
         var listViewItems = new List<ListViewItem>();
 
@@ -68,7 +89,11 @@ public partial class FormHistory : ControllableForm
             stringComparison = StringComparison.CurrentCulture;
         }
 
-        foreach (var player in Controler.MatchedPlayerInfos.Where(x => x.Key.Contains(text, stringComparison))) {
+        foreach (var player in Controler.MatchedPlayerInfos.Where(x =>
+        {
+            return x.Key.Contains(playerName, stringComparison)
+            &&　(countries.Count == 0 || countries.Contains(x.Value.Country));
+        })) {
             var listviewItem = new ListViewItem(player.Key);
             listviewItem.SubItems.Add(player.Value.Country);
             listviewItem.SubItems.Add(player.Value.RateRM1v1.ToString());
@@ -111,6 +136,16 @@ public partial class FormHistory : ControllableForm
     // event handlers
     ///////////////////////////////////////////////////////////////////////
 
+    private void ListViewMatchedPlayers_MouseClick(object sender, MouseEventArgs e)
+    {
+        listViewFilterCountory.Visible = false;
+    }
+
+    private void ListViewMatchedPlayers_MouseDown(object sender, MouseEventArgs e)
+    {
+        listViewFilterCountory.Visible = false;
+    }
+
     private void ListViewMatchedPlayers_MouseDoubleClick(object sender, MouseEventArgs e)
     {
         OpenSelectedPlayerHistory();
@@ -130,7 +165,49 @@ public partial class FormHistory : ControllableForm
             openAoE2NetProfileToolStripMenuItem.Visible = true;
         } else {
             e.Cancel = true;
+            listViewFilterCountory.Location = new Point(point.X - 5, point.Y - 5);
+            listViewFilterCountory.Width = (int)((listViewMatchedPlayers.Width - point.X) * 0.9);
+            listViewFilterCountory.Height = (int)(listViewFilterCountory.Width / 1.618);
+            listViewFilterCountory.Visible = true;
         }
+    }
+
+    private void TextBoxFindName_TextChanged(object sender, EventArgs e)
+    {
+        var textbox = (TextBox)sender;
+        UpdateListViewPlayers(textbox.Text, checkBoxIgnoreCase.Checked, GetCountryFilterList());
+    }
+
+    private List<string> GetCountryFilterList()
+    {
+        var list = new List<string>();
+        foreach(ListViewItem item in listViewFilterCountory.CheckedItems) {
+            list.Add(item.Text);
+        }
+
+        return list;
+    }
+
+    private void ListViewFilterCountory_ItemChecked(object sender, ItemCheckedEventArgs e)
+    {
+        // When listViewFilterCountory shows first,
+        // each item's checkboxes are initialized, and this handler is called.
+        // But the player list does not need updating.
+        if(e.Item.Focused) {
+            UpdateListViewPlayers(textBoxFindName.Text, checkBoxIgnoreCase.Checked, GetCountryFilterList());
+        }
+    }
+
+    private void CheckBoxIgnoreCase_CheckedChanged(object sender, EventArgs e)
+    {
+        var checkBox = (CheckBox)sender;
+        UpdateListViewPlayers(textBoxFindName.Text, checkBox.Checked, GetCountryFilterList());
+    }
+
+    private void ListViewFilterCountory_MouseLeave(object sender, EventArgs e)
+    {
+        var listview = (ListView)sender;
+        listview.Visible = false;
     }
 
     private void SplitContainerPlayers_DoubleClick(object sender, EventArgs e)

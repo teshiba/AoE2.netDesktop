@@ -67,10 +67,10 @@ namespace AoE2NetDesktop.Form
             this.columnHeaderHighestStreak = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderLowestStreak = new System.Windows.Forms.ColumnHeader();
             this.tabPagePlayers = new System.Windows.Forms.TabPage();
-            this.checkBoxIgnoreCase = new System.Windows.Forms.CheckBox();
-            this.textBoxFindName = new System.Windows.Forms.TextBox();
-            this.labelFind = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.splitContainerPlayers = new System.Windows.Forms.SplitContainer();
+            this.listViewFilterCountory = new System.Windows.Forms.ListView();
+            this.Country = new System.Windows.Forms.ColumnHeader();
             this.listViewMatchedPlayers = new System.Windows.Forms.ListView();
             this.columnHeaderName = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderCountry = new System.Windows.Forms.ColumnHeader();
@@ -82,9 +82,11 @@ namespace AoE2NetDesktop.Form
             this.columnHeader1v1GameCount = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderLastDate = new System.Windows.Forms.ColumnHeader();
             this.formsPlotCountry = new ScottPlot.FormsPlot();
-            this.tabControlHistory = new System.Windows.Forms.TabControl();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.textBoxFindName = new System.Windows.Forms.TextBox();
+            this.labelFind = new System.Windows.Forms.Label();
+            this.checkBoxIgnoreCase = new System.Windows.Forms.CheckBox();
+            this.tabControlHistory = new System.Windows.Forms.TabControl();
             this.contextMenuStripMatchedPlayers.SuspendLayout();
             this.tabPageMatches.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -95,13 +97,13 @@ namespace AoE2NetDesktop.Form
             this.panel1.SuspendLayout();
             this.tabPageStatistics.SuspendLayout();
             this.tabPagePlayers.SuspendLayout();
+            this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerPlayers)).BeginInit();
             this.splitContainerPlayers.Panel1.SuspendLayout();
             this.splitContainerPlayers.Panel2.SuspendLayout();
             this.splitContainerPlayers.SuspendLayout();
-            this.tabControlHistory.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.panel4.SuspendLayout();
+            this.tabControlHistory.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStripMatchedPlayers
@@ -155,7 +157,7 @@ namespace AoE2NetDesktop.Form
             this.tabPageMatches.Location = new System.Drawing.Point(4, 24);
             this.tabPageMatches.Name = "tabPageMatches";
             this.tabPageMatches.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMatches.Size = new System.Drawing.Size(1965, 998);
+            this.tabPageMatches.Size = new System.Drawing.Size(2635, 1240);
             this.tabPageMatches.TabIndex = 5;
             this.tabPageMatches.Text = "Matches";
             this.tabPageMatches.UseVisualStyleBackColor = true;
@@ -164,9 +166,9 @@ namespace AoE2NetDesktop.Form
             // 
             this.panel2.Controls.Add(this.splitContainerMatches);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(3, 36);
+            this.panel2.Location = new System.Drawing.Point(3, 32);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1959, 959);
+            this.panel2.Size = new System.Drawing.Size(2629, 1205);
             this.panel2.TabIndex = 11;
             // 
             // splitContainerMatches
@@ -185,8 +187,8 @@ namespace AoE2NetDesktop.Form
             this.splitContainerMatches.Panel2.Controls.Add(this.labelDataSource);
             this.splitContainerMatches.Panel2.Controls.Add(this.comboBoxDataSource);
             this.splitContainerMatches.Panel2.Controls.Add(this.formsPlotWinRate);
-            this.splitContainerMatches.Size = new System.Drawing.Size(1959, 959);
-            this.splitContainerMatches.SplitterDistance = 957;
+            this.splitContainerMatches.Size = new System.Drawing.Size(2629, 1205);
+            this.splitContainerMatches.SplitterDistance = 1283;
             this.splitContainerMatches.TabIndex = 8;
             // 
             // listViewMatchHistory
@@ -205,7 +207,7 @@ namespace AoE2NetDesktop.Form
             this.listViewMatchHistory.GridLines = true;
             this.listViewMatchHistory.Location = new System.Drawing.Point(0, 0);
             this.listViewMatchHistory.Name = "listViewMatchHistory";
-            this.listViewMatchHistory.Size = new System.Drawing.Size(953, 955);
+            this.listViewMatchHistory.Size = new System.Drawing.Size(1279, 1201);
             this.listViewMatchHistory.TabIndex = 0;
             this.listViewMatchHistory.UseCompatibleStateImageBehavior = false;
             this.listViewMatchHistory.View = System.Windows.Forms.View.Details;
@@ -273,7 +275,7 @@ namespace AoE2NetDesktop.Form
             this.formsPlotWinRate.Location = new System.Drawing.Point(0, 0);
             this.formsPlotWinRate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotWinRate.Name = "formsPlotWinRate";
-            this.formsPlotWinRate.Size = new System.Drawing.Size(994, 955);
+            this.formsPlotWinRate.Size = new System.Drawing.Size(1338, 1201);
             this.formsPlotWinRate.TabIndex = 6;
             // 
             // panel1
@@ -283,7 +285,7 @@ namespace AoE2NetDesktop.Form
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1959, 33);
+            this.panel1.Size = new System.Drawing.Size(2629, 29);
             this.panel1.TabIndex = 10;
             // 
             // labelComboBoxLeaderboard
@@ -313,7 +315,7 @@ namespace AoE2NetDesktop.Form
             this.tabPageStatistics.Location = new System.Drawing.Point(4, 24);
             this.tabPageStatistics.Name = "tabPageStatistics";
             this.tabPageStatistics.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageStatistics.Size = new System.Drawing.Size(1965, 998);
+            this.tabPageStatistics.Size = new System.Drawing.Size(2635, 1240);
             this.tabPageStatistics.TabIndex = 1;
             this.tabPageStatistics.Text = "Statistics";
             this.tabPageStatistics.UseVisualStyleBackColor = true;
@@ -326,7 +328,7 @@ namespace AoE2NetDesktop.Form
             this.formsPlotPlayerRate.Location = new System.Drawing.Point(3, 168);
             this.formsPlotPlayerRate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotPlayerRate.Name = "formsPlotPlayerRate";
-            this.formsPlotPlayerRate.Size = new System.Drawing.Size(1959, 827);
+            this.formsPlotPlayerRate.Size = new System.Drawing.Size(2629, 1069);
             this.formsPlotPlayerRate.TabIndex = 6;
             this.formsPlotPlayerRate.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormsPlotPlayerRate_MouseMove);
             // 
@@ -352,7 +354,7 @@ namespace AoE2NetDesktop.Form
             this.listViewStatistics.GridLines = true;
             this.listViewStatistics.Location = new System.Drawing.Point(3, 3);
             this.listViewStatistics.Name = "listViewStatistics";
-            this.listViewStatistics.Size = new System.Drawing.Size(1959, 165);
+            this.listViewStatistics.Size = new System.Drawing.Size(2629, 165);
             this.listViewStatistics.TabIndex = 2;
             this.listViewStatistics.UseCompatibleStateImageBehavior = false;
             this.listViewStatistics.View = System.Windows.Forms.View.Details;
@@ -418,40 +420,19 @@ namespace AoE2NetDesktop.Form
             this.tabPagePlayers.Location = new System.Drawing.Point(4, 24);
             this.tabPagePlayers.Name = "tabPagePlayers";
             this.tabPagePlayers.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePlayers.Size = new System.Drawing.Size(1965, 998);
+            this.tabPagePlayers.Size = new System.Drawing.Size(2635, 1240);
             this.tabPagePlayers.TabIndex = 3;
             this.tabPagePlayers.Text = "Players";
             this.tabPagePlayers.UseVisualStyleBackColor = true;
             // 
-            // checkBoxIgnoreCase
+            // panel4
             // 
-            this.checkBoxIgnoreCase.AutoSize = true;
-            this.checkBoxIgnoreCase.Checked = true;
-            this.checkBoxIgnoreCase.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxIgnoreCase.Location = new System.Drawing.Point(240, 5);
-            this.checkBoxIgnoreCase.Name = "checkBoxIgnoreCase";
-            this.checkBoxIgnoreCase.Size = new System.Drawing.Size(86, 19);
-            this.checkBoxIgnoreCase.TabIndex = 13;
-            this.checkBoxIgnoreCase.Text = "Ignore case";
-            this.checkBoxIgnoreCase.UseVisualStyleBackColor = true;
-            this.checkBoxIgnoreCase.CheckedChanged += new System.EventHandler(this.CheckBoxIgnoreCase_CheckedChanged);
-            // 
-            // textBoxFindName
-            // 
-            this.textBoxFindName.Location = new System.Drawing.Point(40, 3);
-            this.textBoxFindName.Name = "textBoxFindName";
-            this.textBoxFindName.Size = new System.Drawing.Size(182, 23);
-            this.textBoxFindName.TabIndex = 12;
-            this.textBoxFindName.TextChanged += new System.EventHandler(this.TextBoxFindName_TextChanged);
-            // 
-            // labelFind
-            // 
-            this.labelFind.AutoSize = true;
-            this.labelFind.Location = new System.Drawing.Point(4, 6);
-            this.labelFind.Name = "labelFind";
-            this.labelFind.Size = new System.Drawing.Size(30, 15);
-            this.labelFind.TabIndex = 11;
-            this.labelFind.Text = "Find";
+            this.panel4.Controls.Add(this.splitContainerPlayers);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(3, 36);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(2629, 1201);
+            this.panel4.TabIndex = 15;
             // 
             // splitContainerPlayers
             // 
@@ -462,15 +443,40 @@ namespace AoE2NetDesktop.Form
             // 
             // splitContainerPlayers.Panel1
             // 
+            this.splitContainerPlayers.Panel1.Controls.Add(this.listViewFilterCountory);
             this.splitContainerPlayers.Panel1.Controls.Add(this.listViewMatchedPlayers);
             // 
             // splitContainerPlayers.Panel2
             // 
             this.splitContainerPlayers.Panel2.Controls.Add(this.formsPlotCountry);
-            this.splitContainerPlayers.Size = new System.Drawing.Size(1959, 960);
-            this.splitContainerPlayers.SplitterDistance = 1269;
+            this.splitContainerPlayers.Size = new System.Drawing.Size(2629, 1201);
+            this.splitContainerPlayers.SplitterDistance = 1702;
             this.splitContainerPlayers.TabIndex = 9;
             this.splitContainerPlayers.DoubleClick += new System.EventHandler(this.SplitContainerPlayers_DoubleClick);
+            // 
+            // listViewFilterCountory
+            // 
+            this.listViewFilterCountory.CheckBoxes = true;
+            this.listViewFilterCountory.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Country});
+            this.listViewFilterCountory.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.listViewFilterCountory.GridLines = true;
+            this.listViewFilterCountory.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listViewFilterCountory.Location = new System.Drawing.Point(175, 32);
+            this.listViewFilterCountory.MultiSelect = false;
+            this.listViewFilterCountory.Name = "listViewFilterCountory";
+            this.listViewFilterCountory.Size = new System.Drawing.Size(819, 405);
+            this.listViewFilterCountory.TabIndex = 14;
+            this.listViewFilterCountory.UseCompatibleStateImageBehavior = false;
+            this.listViewFilterCountory.View = System.Windows.Forms.View.List;
+            this.listViewFilterCountory.Visible = false;
+            this.listViewFilterCountory.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewFilterCountory_ItemChecked);
+            this.listViewFilterCountory.MouseLeave += new System.EventHandler(this.ListViewFilterCountory_MouseLeave);
+            // 
+            // Country
+            // 
+            this.Country.Text = "Country";
+            this.Country.Width = 200;
             // 
             // listViewMatchedPlayers
             // 
@@ -491,12 +497,14 @@ namespace AoE2NetDesktop.Form
             this.listViewMatchedPlayers.GridLines = true;
             this.listViewMatchedPlayers.Location = new System.Drawing.Point(0, 0);
             this.listViewMatchedPlayers.Name = "listViewMatchedPlayers";
-            this.listViewMatchedPlayers.Size = new System.Drawing.Size(1265, 956);
+            this.listViewMatchedPlayers.Size = new System.Drawing.Size(1698, 1197);
             this.listViewMatchedPlayers.TabIndex = 2;
             this.listViewMatchedPlayers.UseCompatibleStateImageBehavior = false;
             this.listViewMatchedPlayers.View = System.Windows.Forms.View.Details;
             this.listViewMatchedPlayers.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListViewMatchedPlayers_ColumnClick);
+            this.listViewMatchedPlayers.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListViewMatchedPlayers_MouseClick);
             this.listViewMatchedPlayers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListViewMatchedPlayers_MouseDoubleClick);
+            this.listViewMatchedPlayers.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ListViewMatchedPlayers_MouseDown);
             // 
             // columnHeaderName
             // 
@@ -551,8 +559,49 @@ namespace AoE2NetDesktop.Form
             this.formsPlotCountry.Location = new System.Drawing.Point(0, 0);
             this.formsPlotCountry.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotCountry.Name = "formsPlotCountry";
-            this.formsPlotCountry.Size = new System.Drawing.Size(682, 956);
+            this.formsPlotCountry.Size = new System.Drawing.Size(919, 1197);
             this.formsPlotCountry.TabIndex = 8;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.textBoxFindName);
+            this.panel3.Controls.Add(this.labelFind);
+            this.panel3.Controls.Add(this.checkBoxIgnoreCase);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(2629, 33);
+            this.panel3.TabIndex = 14;
+            // 
+            // textBoxFindName
+            // 
+            this.textBoxFindName.Location = new System.Drawing.Point(40, 3);
+            this.textBoxFindName.Name = "textBoxFindName";
+            this.textBoxFindName.Size = new System.Drawing.Size(182, 23);
+            this.textBoxFindName.TabIndex = 12;
+            this.textBoxFindName.TextChanged += new System.EventHandler(this.TextBoxFindName_TextChanged);
+            // 
+            // labelFind
+            // 
+            this.labelFind.AutoSize = true;
+            this.labelFind.Location = new System.Drawing.Point(4, 7);
+            this.labelFind.Name = "labelFind";
+            this.labelFind.Size = new System.Drawing.Size(30, 15);
+            this.labelFind.TabIndex = 11;
+            this.labelFind.Text = "Find";
+            // 
+            // checkBoxIgnoreCase
+            // 
+            this.checkBoxIgnoreCase.AutoSize = true;
+            this.checkBoxIgnoreCase.Checked = true;
+            this.checkBoxIgnoreCase.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxIgnoreCase.Location = new System.Drawing.Point(240, 5);
+            this.checkBoxIgnoreCase.Name = "checkBoxIgnoreCase";
+            this.checkBoxIgnoreCase.Size = new System.Drawing.Size(86, 19);
+            this.checkBoxIgnoreCase.TabIndex = 13;
+            this.checkBoxIgnoreCase.Text = "Ignore case";
+            this.checkBoxIgnoreCase.UseVisualStyleBackColor = true;
+            this.checkBoxIgnoreCase.CheckedChanged += new System.EventHandler(this.CheckBoxIgnoreCase_CheckedChanged);
             // 
             // tabControlHistory
             // 
@@ -563,35 +612,15 @@ namespace AoE2NetDesktop.Form
             this.tabControlHistory.Location = new System.Drawing.Point(0, 0);
             this.tabControlHistory.Name = "tabControlHistory";
             this.tabControlHistory.SelectedIndex = 0;
-            this.tabControlHistory.Size = new System.Drawing.Size(1973, 1026);
+            this.tabControlHistory.Size = new System.Drawing.Size(2643, 1268);
             this.tabControlHistory.TabIndex = 3;
             this.tabControlHistory.SelectedIndexChanged += new System.EventHandler(this.TabControlHistory_SelectedIndexChanged);
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.textBoxFindName);
-            this.panel3.Controls.Add(this.labelFind);
-            this.panel3.Controls.Add(this.checkBoxIgnoreCase);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(3, 3);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1959, 32);
-            this.panel3.TabIndex = 14;
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.splitContainerPlayers);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(3, 35);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1959, 960);
-            this.panel4.TabIndex = 15;
             // 
             // FormHistory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1973, 1026);
+            this.ClientSize = new System.Drawing.Size(2643, 1268);
             this.Controls.Add(this.tabControlHistory);
             this.Name = "FormHistory";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -611,14 +640,14 @@ namespace AoE2NetDesktop.Form
             this.panel1.PerformLayout();
             this.tabPageStatistics.ResumeLayout(false);
             this.tabPagePlayers.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
             this.splitContainerPlayers.Panel1.ResumeLayout(false);
             this.splitContainerPlayers.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerPlayers)).EndInit();
             this.splitContainerPlayers.ResumeLayout(false);
-            this.tabControlHistory.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            this.panel4.ResumeLayout(false);
+            this.tabControlHistory.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -680,5 +709,7 @@ namespace AoE2NetDesktop.Form
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.ColumnHeader Country;
+        private System.Windows.Forms.ListView listViewFilterCountory;
     }
 }
