@@ -49,6 +49,7 @@ public partial class FormMain : ControllableForm
         SetOptionParams();
 
         this.language = language;
+        Icon = Properties.Resources.aoe2netDesktop;
     }
 
     ///////////////////////////////////////////////////////////////////////
