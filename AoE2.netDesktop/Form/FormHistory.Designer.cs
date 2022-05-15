@@ -502,9 +502,7 @@ namespace AoE2NetDesktop.Form
             this.listViewMatchedPlayers.UseCompatibleStateImageBehavior = false;
             this.listViewMatchedPlayers.View = System.Windows.Forms.View.Details;
             this.listViewMatchedPlayers.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListViewMatchedPlayers_ColumnClick);
-            this.listViewMatchedPlayers.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListViewMatchedPlayers_MouseClick);
             this.listViewMatchedPlayers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListViewMatchedPlayers_MouseDoubleClick);
-            this.listViewMatchedPlayers.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ListViewMatchedPlayers_MouseDown);
             // 
             // columnHeaderName
             // 

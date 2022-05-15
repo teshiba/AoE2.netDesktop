@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
+using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.PlotEx;
 using AoE2NetDesktop.Utility.Forms;
 
@@ -89,11 +90,7 @@ public partial class FormHistory : ControllableForm
             stringComparison = StringComparison.CurrentCulture;
         }
 
-        foreach (var player in Controler.MatchedPlayerInfos.Where(x =>
-        {
-            return x.Key.Contains(playerName, stringComparison)
-            &&　(countries.Count == 0 || countries.Contains(x.Value.Country));
-        })) {
+        foreach (var player in Controler.MatchedPlayerInfos.Where(Predicate)) {
             var listviewItem = new ListViewItem(player.Key);
             listviewItem.SubItems.Add(player.Value.Country);
             listviewItem.SubItems.Add(player.Value.RateRM1v1.ToString());
@@ -111,6 +108,20 @@ public partial class FormHistory : ControllableForm
         listViewMatchedPlayers.Items.AddRange(listViewItems.ToArray());
 
         listViewMatchedPlayers.EndUpdate();
+
+        // local function
+        bool Predicate(KeyValuePair<string, PlayerInfo> x)
+        {
+            var ret = false;
+
+            if(x.Key.Contains(playerName, stringComparison)) {
+                if(countries.Count == 0 || countries.Contains(x.Value.Country)) {
+                    ret = true;
+                }
+            }
+
+            return ret;
+        }
     }
 
     private void OpenSelectedPlayerProfile()
@@ -135,16 +146,6 @@ public partial class FormHistory : ControllableForm
     ///////////////////////////////////////////////////////////////////////
     // event handlers
     ///////////////////////////////////////////////////////////////////////
-
-    private void ListViewMatchedPlayers_MouseClick(object sender, MouseEventArgs e)
-    {
-        listViewFilterCountory.Visible = false;
-    }
-
-    private void ListViewMatchedPlayers_MouseDown(object sender, MouseEventArgs e)
-    {
-        listViewFilterCountory.Visible = false;
-    }
 
     private void ListViewMatchedPlayers_MouseDoubleClick(object sender, MouseEventArgs e)
     {
@@ -176,6 +177,8 @@ public partial class FormHistory : ControllableForm
     {
         var textbox = (TextBox)sender;
         UpdateListViewPlayers(textbox.Text, checkBoxIgnoreCase.Checked, GetCountryFilterList());
+
+        Awaiter.Complete();
     }
 
     private List<string> GetCountryFilterList()

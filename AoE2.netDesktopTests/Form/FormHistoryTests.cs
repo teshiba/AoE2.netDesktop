@@ -6,6 +6,8 @@ using AoE2NetDesktop.LibAoE2Net.Functions;
 using LibAoE2net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using static System.Windows.Forms.ListView;
+
 [TestClass]
 public partial class FormHistoryTests
 {
@@ -125,7 +127,7 @@ public partial class FormHistoryTests
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-            testClass.FormsPlotPlayerRateOnMouseMove(arg);
+            testClass.FormsPlotPlayerRate_MouseMove(arg);
             testClass.Close();
             done = true;
         };
@@ -149,7 +151,7 @@ public partial class FormHistoryTests
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-            testClass.SplitContainerPlayersOnDoubleClick(arg);
+            testClass.SplitContainerPlayers_DoubleClick(arg);
             testClass.Close();
             done = true;
         };
@@ -193,7 +195,7 @@ public partial class FormHistoryTests
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-            testClass.ListViewStatisticsOnKeyDown(new KeyEventArgs(keys));
+            testClass.ListViewStatistics_KeyDown(new KeyEventArgs(keys));
             Assert.AreEqual(expVal, testClass.listViewStatistics.SelectedItems.Count);
             testClass.Close();
             done = true;
@@ -217,7 +219,7 @@ public partial class FormHistoryTests
             testClass.tabControlHistory.SelectedIndex = 1;
             testClass.listViewMatchedPlayers.Items[0].Selected = true;
             testClass.listViewMatchedPlayers.Focus();
-            testClass.OpenHistoryToolStripMenuItemOnClick(new EventArgs());
+            testClass.OpenHistoryToolStripMenuItem_Click(new EventArgs());
             testClass.Close();
             done = true;
         };
@@ -237,7 +239,7 @@ public partial class FormHistoryTests
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-            testClass.ListViewMatchedPlayersOnMouseDoubleClick(new MouseEventArgs(MouseButtons.Left, 0, 0, 0, 0));
+            testClass.ListViewMatchedPlayers_MouseDoubleClick(new MouseEventArgs(MouseButtons.Left, 0, 0, 0, 0));
             testClass.Close();
             done = true;
         };
@@ -257,7 +259,7 @@ public partial class FormHistoryTests
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-            testClass.ListViewMatchedPlayersColumnClick(new ColumnClickEventArgs(0));
+            testClass.ListViewMatchedPlayers_ColumnClick(new ColumnClickEventArgs(0));
             testClass.Close();
             done = true;
         };
@@ -277,7 +279,78 @@ public partial class FormHistoryTests
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-            testClass.ListViewMatchHistoryOnColumnClick(new ColumnClickEventArgs(0));
+            testClass.ListViewMatchHistory_ColumnClick(new ColumnClickEventArgs(0));
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
+        Assert.IsTrue(done);
+    }
+
+    [TestMethod]
+    [DataRow(true, "player2", 1)]
+    [DataRow(false, "player2", 0)]
+    [DataRow(true, "Player2", 1)]
+    [DataRow(false, "Player2", 1)]
+    public void FormHistoryTestTextBoxFindName_TextChanged(bool ignoreCase, string expFindName, int expFindCount)
+    {
+        // Arrange
+        var testClass = new FormHistoryPrivate();
+        var done = false;
+        ListViewItemCollection actVal = null;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+            testClass.checkBoxIgnoreCase.Checked = ignoreCase;
+            testClass.textBoxFindName.Text = expFindName;
+            actVal = testClass.listViewMatchedPlayers.Items;
+            await testClass.Awaiter.WaitAsync("TextBoxFindName_TextChanged");
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
+        Assert.IsTrue(done);
+        Assert.AreEqual(expFindCount, actVal.Count);
+    }
+
+    [TestMethod]
+    public void FormHistoryTestListViewFilterCountory_ItemChecked()
+    {
+        // Arrange
+        var testClass = new FormHistoryPrivate();
+        var done = false;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+            testClass.listViewFilterCountory.Visible = true;
+            testClass.listViewFilterCountory.Items[0].Focused = true;
+            testClass.listViewFilterCountory.Items[0].Checked = true;
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
+        Assert.IsTrue(done);
+    }
+
+    [TestMethod]
+    public void FormHistoryTestListViewFilterCountory_MouseLeave()
+    {
+        // Arrange
+        var testClass = new FormHistoryPrivate();
+        var done = false;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+            testClass.ListViewFilterCountory_MouseLeave(new EventArgs());
             testClass.Close();
             done = true;
         };

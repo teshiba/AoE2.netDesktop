@@ -14,6 +14,9 @@ public partial class FormHistoryTests
         public ListView listViewStatistics;
         public ListView listViewMatchedPlayers;
         public ListView listViewMatchHistory;
+        public ListView listViewFilterCountory;
+        public TextBox textBoxFindName;
+        public CheckBox checkBoxIgnoreCase;
         public SplitContainer splitContainerPlayers;
         public ToolStripMenuItem openAoE2NetProfileToolStripMenuItem;
         public ToolStripMenuItem openHistoryToolStripMenuItem;
@@ -28,6 +31,9 @@ public partial class FormHistoryTests
             listViewStatistics = this.GetControl<ListView>("listViewStatistics");
             listViewMatchedPlayers = this.GetControl<ListView>("listViewMatchedPlayers");
             listViewMatchHistory = this.GetControl<ListView>("listViewMatchHistory");
+            listViewFilterCountory = this.GetControl<ListView>("listViewFilterCountory");
+            textBoxFindName = this.GetControl<TextBox>("textBoxFindName");
+            checkBoxIgnoreCase = this.GetControl<CheckBox>("checkBoxIgnoreCase");
             splitContainerPlayers = this.GetControl<SplitContainer>("splitContainerPlayers");
             tabControlHistory = this.GetControl<TabControl>("tabControlHistory");
             openAoE2NetProfileToolStripMenuItem = this.GetControl<ToolStripMenuItem>("openAoE2NetProfileToolStripMenuItem");
@@ -35,37 +41,42 @@ public partial class FormHistoryTests
             formsPlotPlayerRate = this.GetControl<ScottPlot.FormsPlot>("formsPlotPlayerRate");
         }
 
-        public void FormsPlotPlayerRateOnMouseMove(MouseEventArgs arg)
+        public void ListViewFilterCountory_MouseLeave(EventArgs e)
+        {
+            this.Invoke("ListViewFilterCountory_MouseLeave", listViewFilterCountory, e);
+        }
+
+        public void FormsPlotPlayerRate_MouseMove(MouseEventArgs arg)
         {
             this.Invoke("FormsPlotPlayerRate_MouseMove", formsPlotPlayerRate, arg);
         }
 
-        public void SplitContainerPlayersOnDoubleClick(MouseEventArgs arg)
+        public void SplitContainerPlayers_DoubleClick(MouseEventArgs arg)
         {
             this.Invoke("SplitContainerPlayers_DoubleClick", splitContainerPlayers, arg);
         }
 
-        public void ListViewStatisticsOnKeyDown(KeyEventArgs keys)
+        public void ListViewStatistics_KeyDown(KeyEventArgs keys)
         {
             this.Invoke("ListViewStatistics_KeyDown", listViewStatistics, keys);
         }
 
-        public void OpenHistoryToolStripMenuItemOnClick(EventArgs e)
+        public void OpenHistoryToolStripMenuItem_Click(EventArgs e)
         {
             this.Invoke("OpenHistoryToolStripMenuItem_Click", openHistoryToolStripMenuItem, e);
         }
 
-        public void ListViewMatchedPlayersOnMouseDoubleClick(MouseEventArgs e)
+        public void ListViewMatchedPlayers_MouseDoubleClick(MouseEventArgs e)
         {
             this.Invoke("ListViewMatchedPlayers_MouseDoubleClick", listViewMatchedPlayers, e);
         }
 
-        public void ListViewMatchedPlayersColumnClick(ColumnClickEventArgs e)
+        public void ListViewMatchedPlayers_ColumnClick(ColumnClickEventArgs e)
         {
             this.Invoke("ListViewMatchedPlayers_ColumnClick", listViewMatchedPlayers, e);
         }
 
-        public void ListViewMatchHistoryOnColumnClick(ColumnClickEventArgs e)
+        public void ListViewMatchHistory_ColumnClick(ColumnClickEventArgs e)
         {
             this.Invoke("ListViewMatchHistory_ColumnClick", listViewMatchHistory, e);
         }

@@ -106,7 +106,7 @@
             // labelServer
             // 
             this.labelServer.BackColor = System.Drawing.SystemColors.Control;
-            this.labelServer.Location = new System.Drawing.Point(99, 83);
+            this.labelServer.Location = new System.Drawing.Point(10, 154);
             this.labelServer.Name = "labelServer";
             this.labelServer.Size = new System.Drawing.Size(152, 19);
             this.labelServer.TabIndex = 2;
@@ -117,7 +117,7 @@
             // labelGameId
             // 
             this.labelGameId.BackColor = System.Drawing.SystemColors.Control;
-            this.labelGameId.Location = new System.Drawing.Point(99, 63);
+            this.labelGameId.Location = new System.Drawing.Point(10, 135);
             this.labelGameId.Name = "labelGameId";
             this.labelGameId.Size = new System.Drawing.Size(152, 19);
             this.labelGameId.TabIndex = 9;
@@ -453,7 +453,7 @@
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
             this.labelErrText.Location = new System.Drawing.Point(4, 29);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(1229, 113);
+            this.labelErrText.Size = new System.Drawing.Size(1120, 131);
             this.labelErrText.TabIndex = 8;
             // 
             // panelTeam2
@@ -772,9 +772,9 @@
             // 
             this.labelMap.BackColor = System.Drawing.Color.Transparent;
             this.labelMap.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelMap.Location = new System.Drawing.Point(92, -4);
+            this.labelMap.Location = new System.Drawing.Point(10, 96);
             this.labelMap.Name = "labelMap";
-            this.labelMap.Size = new System.Drawing.Size(293, 40);
+            this.labelMap.Size = new System.Drawing.Size(266, 42);
             this.labelMap.TabIndex = 2;
             this.labelMap.Text = "Map : -----------------------";
             this.labelMap.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
@@ -842,7 +842,7 @@
             this.panelDebug.Controls.Add(this.labelDateTime);
             this.panelDebug.Location = new System.Drawing.Point(7, 276);
             this.panelDebug.Name = "panelDebug";
-            this.panelDebug.Size = new System.Drawing.Size(1251, 151);
+            this.panelDebug.Size = new System.Drawing.Size(1142, 169);
             this.panelDebug.TabIndex = 11;
             // 
             // labelAoE2DEActive
@@ -857,13 +857,13 @@
             // 
             // panelGameInfo
             // 
+            this.panelGameInfo.Controls.Add(this.pictureBoxDDS);
             this.panelGameInfo.Controls.Add(this.labelServer);
             this.panelGameInfo.Controls.Add(this.labelGameId);
             this.panelGameInfo.Controls.Add(this.labelMap);
-            this.panelGameInfo.Controls.Add(this.pictureBoxDDS);
-            this.panelGameInfo.Location = new System.Drawing.Point(873, 156);
+            this.panelGameInfo.Location = new System.Drawing.Point(873, 97);
             this.panelGameInfo.Name = "panelGameInfo";
-            this.panelGameInfo.Size = new System.Drawing.Size(385, 114);
+            this.panelGameInfo.Size = new System.Drawing.Size(275, 173);
             this.panelGameInfo.TabIndex = 13;
             // 
             // FormMain
@@ -871,7 +871,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1264, 439);
+            this.ClientSize = new System.Drawing.Size(1155, 457);
             this.ContextMenuStrip = this.contextMenuStripMain;
             this.Controls.Add(this.panelGameInfo);
             this.Controls.Add(this.panelDebug);
