@@ -52,7 +52,7 @@
             this.labelColorP5 = new System.Windows.Forms.Label();
             this.labelAveRate1 = new System.Windows.Forms.Label();
             this.labelColorP1 = new System.Windows.Forms.Label();
-            this.pictureBoxDDS = new System.Windows.Forms.PictureBox();
+            this.pictureBoxMap = new System.Windows.Forms.PictureBox();
             this.colorDialogChromaKey = new System.Windows.Forms.ColorDialog();
             this.labelErrText = new System.Windows.Forms.Label();
             this.panelTeam2 = new System.Windows.Forms.Panel();
@@ -87,12 +87,40 @@
             this.panelDebug = new System.Windows.Forms.Panel();
             this.labelAoE2DEActive = new System.Windows.Forms.Label();
             this.panelGameInfo = new System.Windows.Forms.Panel();
+            this.panel1v1 = new System.Windows.Forms.Panel();
+            this.labelWins1v1P1 = new System.Windows.Forms.Label();
+            this.labelLoses1v1P1 = new System.Windows.Forms.Label();
+            this.labelRate1v1P1 = new System.Windows.Forms.Label();
+            this.labelGameId1v1 = new System.Windows.Forms.Label();
+            this.labelServer1v1 = new System.Windows.Forms.Label();
+            this.labelMap1v1 = new System.Windows.Forms.Label();
+            this.pictureBoxMap1v1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1v1RateHistoryP2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1v1RateHistoryP1 = new System.Windows.Forms.PictureBox();
+            this.labelRate1v1P2 = new System.Windows.Forms.Label();
+            this.labelName1v1P2 = new System.Windows.Forms.Label();
+            this.label1v1ColorP1 = new System.Windows.Forms.Label();
+            this.label1v1ColorP2 = new System.Windows.Forms.Label();
+            this.pictureBoxCiv1v1P2 = new System.Windows.Forms.PictureBox();
+            this.labelName1v1P1 = new System.Windows.Forms.Label();
+            this.labelWins1v1 = new System.Windows.Forms.Label();
+            this.labelWins1v1P2 = new System.Windows.Forms.Label();
+            this.labelLoses1v1P2 = new System.Windows.Forms.Label();
+            this.labelLoses = new System.Windows.Forms.Label();
+            this.labelRate1v1 = new System.Windows.Forms.Label();
+            this.labelCiv1v1P2 = new System.Windows.Forms.Label();
+            this.labelTeamResultP2 = new System.Windows.Forms.Label();
+            this.labelTeamResultP1 = new System.Windows.Forms.Label();
+            this.labelCiv1v1P1 = new System.Windows.Forms.Label();
+            this.pictureBoxUnit1v1P2 = new System.Windows.Forms.PictureBox();
+            this.pictureBoxUnit1v1P1 = new System.Windows.Forms.PictureBox();
+            this.pictureBoxCiv1v1P1 = new System.Windows.Forms.PictureBox();
             this.panelTeam1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDDS)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMap)).BeginInit();
             this.panelTeam2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
@@ -101,6 +129,14 @@
             this.contextMenuStripMain.SuspendLayout();
             this.panelDebug.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
+            this.panel1v1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMap1v1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1v1RateHistoryP2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1v1RateHistoryP1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCiv1v1P2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUnit1v1P2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUnit1v1P1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCiv1v1P1)).BeginInit();
             this.SuspendLayout();
             // 
             // labelServer
@@ -368,7 +404,7 @@
             this.labelColorP7.Size = new System.Drawing.Size(40, 40);
             this.labelColorP7.TabIndex = 4;
             this.labelColorP7.Text = "７";
-            this.labelColorP7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelColorP7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelColorP7.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelColor_Paint);
             // 
             // labelColorP3
@@ -384,7 +420,7 @@
             this.labelColorP3.Size = new System.Drawing.Size(40, 40);
             this.labelColorP3.TabIndex = 4;
             this.labelColorP3.Text = "３";
-            this.labelColorP3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelColorP3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelColorP3.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelColor_Paint);
             // 
             // labelColorP5
@@ -400,7 +436,7 @@
             this.labelColorP5.Size = new System.Drawing.Size(40, 40);
             this.labelColorP5.TabIndex = 4;
             this.labelColorP5.Text = "５";
-            this.labelColorP5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelColorP5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelColorP5.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelColor_Paint);
             // 
             // labelAveRate1
@@ -426,18 +462,18 @@
             this.labelColorP1.Size = new System.Drawing.Size(40, 40);
             this.labelColorP1.TabIndex = 4;
             this.labelColorP1.Text = "１";
-            this.labelColorP1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelColorP1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelColorP1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelColor_Paint);
             // 
-            // pictureBoxDDS
+            // pictureBoxMap
             // 
-            this.pictureBoxDDS.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxDDS.Location = new System.Drawing.Point(3, 3);
-            this.pictureBoxDDS.Name = "pictureBoxDDS";
-            this.pictureBoxDDS.Size = new System.Drawing.Size(105, 97);
-            this.pictureBoxDDS.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxDDS.TabIndex = 12;
-            this.pictureBoxDDS.TabStop = false;
+            this.pictureBoxMap.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxMap.Location = new System.Drawing.Point(3, 3);
+            this.pictureBoxMap.Name = "pictureBoxMap";
+            this.pictureBoxMap.Size = new System.Drawing.Size(105, 97);
+            this.pictureBoxMap.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxMap.TabIndex = 12;
+            this.pictureBoxMap.TabStop = false;
             // 
             // colorDialogChromaKey
             // 
@@ -453,7 +489,7 @@
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
             this.labelErrText.Location = new System.Drawing.Point(4, 29);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(1120, 131);
+            this.labelErrText.Size = new System.Drawing.Size(1500, 204);
             this.labelErrText.TabIndex = 8;
             // 
             // panelTeam2
@@ -717,7 +753,7 @@
             this.labelColorP8.Size = new System.Drawing.Size(40, 40);
             this.labelColorP8.TabIndex = 4;
             this.labelColorP8.Text = "８";
-            this.labelColorP8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelColorP8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelColorP8.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelColor_Paint);
             // 
             // labelColorP4
@@ -733,7 +769,7 @@
             this.labelColorP4.Size = new System.Drawing.Size(40, 40);
             this.labelColorP4.TabIndex = 4;
             this.labelColorP4.Text = "４";
-            this.labelColorP4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelColorP4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelColorP4.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelColor_Paint);
             // 
             // labelColorP6
@@ -749,7 +785,7 @@
             this.labelColorP6.Size = new System.Drawing.Size(40, 40);
             this.labelColorP6.TabIndex = 4;
             this.labelColorP6.Text = "６";
-            this.labelColorP6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelColorP6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelColorP6.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelColor_Paint);
             // 
             // labelColorP2
@@ -765,7 +801,7 @@
             this.labelColorP2.Size = new System.Drawing.Size(40, 40);
             this.labelColorP2.TabIndex = 4;
             this.labelColorP2.Text = "２";
-            this.labelColorP2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelColorP2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelColorP2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelColor_Paint);
             // 
             // labelMap
@@ -774,7 +810,7 @@
             this.labelMap.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelMap.Location = new System.Drawing.Point(10, 96);
             this.labelMap.Name = "labelMap";
-            this.labelMap.Size = new System.Drawing.Size(266, 42);
+            this.labelMap.Size = new System.Drawing.Size(313, 42);
             this.labelMap.TabIndex = 2;
             this.labelMap.Text = "Map : -----------------------";
             this.labelMap.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
@@ -840,9 +876,9 @@
             this.panelDebug.Controls.Add(this.labelErrText);
             this.panelDebug.Controls.Add(this.labelAoE2DEActive);
             this.panelDebug.Controls.Add(this.labelDateTime);
-            this.panelDebug.Location = new System.Drawing.Point(7, 276);
+            this.panelDebug.Location = new System.Drawing.Point(7, 557);
             this.panelDebug.Name = "panelDebug";
-            this.panelDebug.Size = new System.Drawing.Size(1142, 169);
+            this.panelDebug.Size = new System.Drawing.Size(1511, 246);
             this.panelDebug.TabIndex = 11;
             // 
             // labelAoE2DEActive
@@ -857,27 +893,408 @@
             // 
             // panelGameInfo
             // 
-            this.panelGameInfo.Controls.Add(this.pictureBoxDDS);
+            this.panelGameInfo.Controls.Add(this.pictureBoxMap);
             this.panelGameInfo.Controls.Add(this.labelServer);
             this.panelGameInfo.Controls.Add(this.labelGameId);
             this.panelGameInfo.Controls.Add(this.labelMap);
             this.panelGameInfo.Location = new System.Drawing.Point(873, 97);
             this.panelGameInfo.Name = "panelGameInfo";
-            this.panelGameInfo.Size = new System.Drawing.Size(275, 173);
+            this.panelGameInfo.Size = new System.Drawing.Size(337, 173);
             this.panelGameInfo.TabIndex = 13;
+            // 
+            // panel1v1
+            // 
+            this.panel1v1.Controls.Add(this.labelWins1v1P1);
+            this.panel1v1.Controls.Add(this.labelLoses1v1P1);
+            this.panel1v1.Controls.Add(this.labelRate1v1P1);
+            this.panel1v1.Controls.Add(this.labelGameId1v1);
+            this.panel1v1.Controls.Add(this.labelServer1v1);
+            this.panel1v1.Controls.Add(this.labelMap1v1);
+            this.panel1v1.Controls.Add(this.pictureBoxMap1v1);
+            this.panel1v1.Controls.Add(this.pictureBox1v1RateHistoryP2);
+            this.panel1v1.Controls.Add(this.pictureBox1v1RateHistoryP1);
+            this.panel1v1.Controls.Add(this.labelRate1v1P2);
+            this.panel1v1.Controls.Add(this.labelName1v1P2);
+            this.panel1v1.Controls.Add(this.label1v1ColorP1);
+            this.panel1v1.Controls.Add(this.label1v1ColorP2);
+            this.panel1v1.Controls.Add(this.pictureBoxCiv1v1P2);
+            this.panel1v1.Controls.Add(this.labelName1v1P1);
+            this.panel1v1.Controls.Add(this.labelWins1v1);
+            this.panel1v1.Controls.Add(this.labelWins1v1P2);
+            this.panel1v1.Controls.Add(this.labelLoses1v1P2);
+            this.panel1v1.Controls.Add(this.labelLoses);
+            this.panel1v1.Controls.Add(this.labelRate1v1);
+            this.panel1v1.Controls.Add(this.labelCiv1v1P2);
+            this.panel1v1.Controls.Add(this.labelTeamResultP2);
+            this.panel1v1.Controls.Add(this.labelTeamResultP1);
+            this.panel1v1.Controls.Add(this.labelCiv1v1P1);
+            this.panel1v1.Controls.Add(this.pictureBoxUnit1v1P2);
+            this.panel1v1.Controls.Add(this.pictureBoxUnit1v1P1);
+            this.panel1v1.Controls.Add(this.pictureBoxCiv1v1P1);
+            this.panel1v1.Location = new System.Drawing.Point(7, 286);
+            this.panel1v1.Name = "panel1v1";
+            this.panel1v1.Size = new System.Drawing.Size(830, 265);
+            this.panel1v1.TabIndex = 14;
+            this.panel1v1.Visible = false;
+            // 
+            // labelWins1v1P1
+            // 
+            this.labelWins1v1P1.BackColor = System.Drawing.SystemColors.Control;
+            this.labelWins1v1P1.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelWins1v1P1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelWins1v1P1.Location = new System.Drawing.Point(325, 32);
+            this.labelWins1v1P1.Name = "labelWins1v1P1";
+            this.labelWins1v1P1.Size = new System.Drawing.Size(59, 24);
+            this.labelWins1v1P1.TabIndex = 15;
+            this.labelWins1v1P1.Text = "####";
+            this.labelWins1v1P1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelWins1v1P1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelWins1v1P1_Paint);
+            // 
+            // labelLoses1v1P1
+            // 
+            this.labelLoses1v1P1.BackColor = System.Drawing.SystemColors.Control;
+            this.labelLoses1v1P1.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelLoses1v1P1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelLoses1v1P1.Location = new System.Drawing.Point(325, 65);
+            this.labelLoses1v1P1.Name = "labelLoses1v1P1";
+            this.labelLoses1v1P1.Size = new System.Drawing.Size(59, 24);
+            this.labelLoses1v1P1.TabIndex = 15;
+            this.labelLoses1v1P1.Text = "####";
+            this.labelLoses1v1P1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelLoses1v1P1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelLoses1v1P1_Paint);
+            // 
+            // labelRate1v1P1
+            // 
+            this.labelRate1v1P1.BackColor = System.Drawing.SystemColors.Control;
+            this.labelRate1v1P1.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelRate1v1P1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelRate1v1P1.Location = new System.Drawing.Point(325, 1);
+            this.labelRate1v1P1.Name = "labelRate1v1P1";
+            this.labelRate1v1P1.Size = new System.Drawing.Size(59, 24);
+            this.labelRate1v1P1.TabIndex = 15;
+            this.labelRate1v1P1.Text = "####";
+            this.labelRate1v1P1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelRate1v1P1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelRate1v1P1_Paint);
+            // 
+            // labelGameId1v1
+            // 
+            this.labelGameId1v1.BackColor = System.Drawing.SystemColors.Control;
+            this.labelGameId1v1.Location = new System.Drawing.Point(250, 244);
+            this.labelGameId1v1.Name = "labelGameId1v1";
+            this.labelGameId1v1.Size = new System.Drawing.Size(141, 19);
+            this.labelGameId1v1.TabIndex = 9;
+            this.labelGameId1v1.Text = "GameID: 88888888";
+            this.labelGameId1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelGameId1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelGameId_Paint);
+            // 
+            // labelServer1v1
+            // 
+            this.labelServer1v1.BackColor = System.Drawing.SystemColors.Control;
+            this.labelServer1v1.Location = new System.Drawing.Point(446, 244);
+            this.labelServer1v1.Name = "labelServer1v1";
+            this.labelServer1v1.Size = new System.Drawing.Size(141, 19);
+            this.labelServer1v1.TabIndex = 2;
+            this.labelServer1v1.Text = "Server: ----------";
+            this.labelServer1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelServer1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelServer_Paint);
+            // 
+            // labelMap1v1
+            // 
+            this.labelMap1v1.BackColor = System.Drawing.Color.Transparent;
+            this.labelMap1v1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelMap1v1.Location = new System.Drawing.Point(263, 92);
+            this.labelMap1v1.Name = "labelMap1v1";
+            this.labelMap1v1.Size = new System.Drawing.Size(308, 32);
+            this.labelMap1v1.TabIndex = 2;
+            this.labelMap1v1.Text = "-----------------------";
+            this.labelMap1v1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelMap1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
+            // 
+            // pictureBoxMap1v1
+            // 
+            this.pictureBoxMap1v1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxMap1v1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBoxMap1v1.InitialImage = null;
+            this.pictureBoxMap1v1.Location = new System.Drawing.Point(348, 128);
+            this.pictureBoxMap1v1.Name = "pictureBoxMap1v1";
+            this.pictureBoxMap1v1.Size = new System.Drawing.Size(135, 135);
+            this.pictureBoxMap1v1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxMap1v1.TabIndex = 18;
+            this.pictureBoxMap1v1.TabStop = false;
+            // 
+            // pictureBox1v1RateHistoryP2
+            // 
+            this.pictureBox1v1RateHistoryP2.Location = new System.Drawing.Point(598, 151);
+            this.pictureBox1v1RateHistoryP2.Name = "pictureBox1v1RateHistoryP2";
+            this.pictureBox1v1RateHistoryP2.Size = new System.Drawing.Size(225, 110);
+            this.pictureBox1v1RateHistoryP2.TabIndex = 20;
+            this.pictureBox1v1RateHistoryP2.TabStop = false;
+            // 
+            // pictureBox1v1RateHistoryP1
+            // 
+            this.pictureBox1v1RateHistoryP1.Location = new System.Drawing.Point(7, 151);
+            this.pictureBox1v1RateHistoryP1.Name = "pictureBox1v1RateHistoryP1";
+            this.pictureBox1v1RateHistoryP1.Size = new System.Drawing.Size(225, 110);
+            this.pictureBox1v1RateHistoryP1.TabIndex = 20;
+            this.pictureBox1v1RateHistoryP1.TabStop = false;
+            // 
+            // labelRate1v1P2
+            // 
+            this.labelRate1v1P2.BackColor = System.Drawing.SystemColors.Control;
+            this.labelRate1v1P2.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelRate1v1P2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelRate1v1P2.Location = new System.Drawing.Point(446, 1);
+            this.labelRate1v1P2.Name = "labelRate1v1P2";
+            this.labelRate1v1P2.Size = new System.Drawing.Size(58, 24);
+            this.labelRate1v1P2.TabIndex = 8;
+            this.labelRate1v1P2.Text = "####";
+            this.labelRate1v1P2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelRate1v1P2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelRate1v1P2_Paint);
+            // 
+            // labelName1v1P2
+            // 
+            this.labelName1v1P2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelName1v1P2.BackColor = System.Drawing.SystemColors.Control;
+            this.labelName1v1P2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelName1v1P2.Location = new System.Drawing.Point(543, 3);
+            this.labelName1v1P2.Name = "labelName1v1P2";
+            this.labelName1v1P2.Size = new System.Drawing.Size(219, 34);
+            this.labelName1v1P2.TabIndex = 7;
+            this.labelName1v1P2.Text = "PlayerXxxxxxxxxxxxxxx";
+            this.labelName1v1P2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelName1v1P2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName1v1P2_Paint);
+            // 
+            // label1v1ColorP1
+            // 
+            this.label1v1ColorP1.BackColor = System.Drawing.Color.Transparent;
+            this.label1v1ColorP1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label1v1ColorP1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label1v1ColorP1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label1v1ColorP1.ForeColor = System.Drawing.Color.Black;
+            this.label1v1ColorP1.Location = new System.Drawing.Point(290, 4);
+            this.label1v1ColorP1.Margin = new System.Windows.Forms.Padding(0);
+            this.label1v1ColorP1.Name = "label1v1ColorP1";
+            this.label1v1ColorP1.Size = new System.Drawing.Size(32, 32);
+            this.label1v1ColorP1.TabIndex = 16;
+            this.label1v1ColorP1.Text = "１";
+            this.label1v1ColorP1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label1v1ColorP1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelColor_Paint);
+            // 
+            // label1v1ColorP2
+            // 
+            this.label1v1ColorP2.BackColor = System.Drawing.Color.Transparent;
+            this.label1v1ColorP2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label1v1ColorP2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label1v1ColorP2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label1v1ColorP2.ForeColor = System.Drawing.Color.Black;
+            this.label1v1ColorP2.Location = new System.Drawing.Point(508, 4);
+            this.label1v1ColorP2.Margin = new System.Windows.Forms.Padding(0);
+            this.label1v1ColorP2.Name = "label1v1ColorP2";
+            this.label1v1ColorP2.Size = new System.Drawing.Size(32, 32);
+            this.label1v1ColorP2.TabIndex = 10;
+            this.label1v1ColorP2.Text = "２";
+            this.label1v1ColorP2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label1v1ColorP2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelColor_Paint);
+            // 
+            // pictureBoxCiv1v1P2
+            // 
+            this.pictureBoxCiv1v1P2.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBoxCiv1v1P2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBoxCiv1v1P2.InitialImage = null;
+            this.pictureBoxCiv1v1P2.Location = new System.Drawing.Point(764, 2);
+            this.pictureBoxCiv1v1P2.Name = "pictureBoxCiv1v1P2";
+            this.pictureBoxCiv1v1P2.Size = new System.Drawing.Size(64, 64);
+            this.pictureBoxCiv1v1P2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxCiv1v1P2.TabIndex = 11;
+            this.pictureBoxCiv1v1P2.TabStop = false;
+            // 
+            // labelName1v1P1
+            // 
+            this.labelName1v1P1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelName1v1P1.BackColor = System.Drawing.SystemColors.Control;
+            this.labelName1v1P1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelName1v1P1.Location = new System.Drawing.Point(67, 3);
+            this.labelName1v1P1.Name = "labelName1v1P1";
+            this.labelName1v1P1.Size = new System.Drawing.Size(220, 34);
+            this.labelName1v1P1.TabIndex = 14;
+            this.labelName1v1P1.Text = "PlayerXxxxxxxxxxxxxxx";
+            this.labelName1v1P1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelName1v1P1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelName1v1P1_Paint);
+            // 
+            // labelWins1v1
+            // 
+            this.labelWins1v1.BackColor = System.Drawing.SystemColors.Control;
+            this.labelWins1v1.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelWins1v1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelWins1v1.Location = new System.Drawing.Point(384, 28);
+            this.labelWins1v1.Name = "labelWins1v1";
+            this.labelWins1v1.Size = new System.Drawing.Size(62, 32);
+            this.labelWins1v1.TabIndex = 15;
+            this.labelWins1v1.Text = "Wins";
+            this.labelWins1v1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelWins1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelWins1v1_Paint);
+            // 
+            // labelWins1v1P2
+            // 
+            this.labelWins1v1P2.BackColor = System.Drawing.SystemColors.Control;
+            this.labelWins1v1P2.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelWins1v1P2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelWins1v1P2.Location = new System.Drawing.Point(446, 32);
+            this.labelWins1v1P2.Name = "labelWins1v1P2";
+            this.labelWins1v1P2.Size = new System.Drawing.Size(58, 24);
+            this.labelWins1v1P2.TabIndex = 15;
+            this.labelWins1v1P2.Text = "####";
+            this.labelWins1v1P2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelWins1v1P2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelWins1v1P2_Paint);
+            // 
+            // labelLoses1v1P2
+            // 
+            this.labelLoses1v1P2.BackColor = System.Drawing.SystemColors.Control;
+            this.labelLoses1v1P2.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelLoses1v1P2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelLoses1v1P2.Location = new System.Drawing.Point(446, 65);
+            this.labelLoses1v1P2.Name = "labelLoses1v1P2";
+            this.labelLoses1v1P2.Size = new System.Drawing.Size(58, 24);
+            this.labelLoses1v1P2.TabIndex = 15;
+            this.labelLoses1v1P2.Text = "####";
+            this.labelLoses1v1P2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelLoses1v1P2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelLoses1v1P2_Paint);
+            // 
+            // labelLoses
+            // 
+            this.labelLoses.BackColor = System.Drawing.SystemColors.Control;
+            this.labelLoses.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelLoses.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelLoses.Location = new System.Drawing.Point(384, 61);
+            this.labelLoses.Name = "labelLoses";
+            this.labelLoses.Size = new System.Drawing.Size(62, 32);
+            this.labelLoses.TabIndex = 15;
+            this.labelLoses.Text = "Loses";
+            this.labelLoses.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelLoses.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelLoses_Paint);
+            // 
+            // labelRate1v1
+            // 
+            this.labelRate1v1.BackColor = System.Drawing.SystemColors.Control;
+            this.labelRate1v1.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelRate1v1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelRate1v1.Location = new System.Drawing.Point(383, -3);
+            this.labelRate1v1.Name = "labelRate1v1";
+            this.labelRate1v1.Size = new System.Drawing.Size(62, 32);
+            this.labelRate1v1.TabIndex = 15;
+            this.labelRate1v1.Text = "Rate";
+            this.labelRate1v1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelRate1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelRate1v1_Paint);
+            // 
+            // labelCiv1v1P2
+            // 
+            this.labelCiv1v1P2.BackColor = System.Drawing.SystemColors.Control;
+            this.labelCiv1v1P2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelCiv1v1P2.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelCiv1v1P2.Location = new System.Drawing.Point(582, 38);
+            this.labelCiv1v1P2.Name = "labelCiv1v1P2";
+            this.labelCiv1v1P2.Size = new System.Drawing.Size(170, 26);
+            this.labelCiv1v1P2.TabIndex = 11;
+            this.labelCiv1v1P2.Text = "CIVxxxxXXXX";
+            this.labelCiv1v1P2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelCiv1v1P2.UseMnemonic = false;
+            this.labelCiv1v1P2.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelCiv_Paint);
+            // 
+            // labelTeamResultP2
+            // 
+            this.labelTeamResultP2.BackColor = System.Drawing.SystemColors.Control;
+            this.labelTeamResultP2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelTeamResultP2.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelTeamResultP2.Location = new System.Drawing.Point(656, 70);
+            this.labelTeamResultP2.Name = "labelTeamResultP2";
+            this.labelTeamResultP2.Size = new System.Drawing.Size(170, 26);
+            this.labelTeamResultP2.TabIndex = 11;
+            this.labelTeamResultP2.Text = "Team R:xxx W:xxx L:xxx";
+            this.labelTeamResultP2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelTeamResultP2.UseMnemonic = false;
+            // 
+            // labelTeamResultP1
+            // 
+            this.labelTeamResultP1.BackColor = System.Drawing.SystemColors.Control;
+            this.labelTeamResultP1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelTeamResultP1.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelTeamResultP1.Location = new System.Drawing.Point(4, 70);
+            this.labelTeamResultP1.Name = "labelTeamResultP1";
+            this.labelTeamResultP1.Size = new System.Drawing.Size(170, 26);
+            this.labelTeamResultP1.TabIndex = 11;
+            this.labelTeamResultP1.Text = "Team R:xxx W:xxx L:xxx";
+            this.labelTeamResultP1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelTeamResultP1.UseMnemonic = false;
+            // 
+            // labelCiv1v1P1
+            // 
+            this.labelCiv1v1P1.BackColor = System.Drawing.SystemColors.Control;
+            this.labelCiv1v1P1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.labelCiv1v1P1.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelCiv1v1P1.Location = new System.Drawing.Point(77, 38);
+            this.labelCiv1v1P1.Name = "labelCiv1v1P1";
+            this.labelCiv1v1P1.Size = new System.Drawing.Size(170, 26);
+            this.labelCiv1v1P1.TabIndex = 11;
+            this.labelCiv1v1P1.Text = "CIVxxxxXXXX";
+            this.labelCiv1v1P1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelCiv1v1P1.UseMnemonic = false;
+            this.labelCiv1v1P1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelCiv_Paint);
+            // 
+            // pictureBoxUnit1v1P2
+            // 
+            this.pictureBoxUnit1v1P2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxUnit1v1P2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBoxUnit1v1P2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBoxUnit1v1P2.ErrorImage = null;
+            this.pictureBoxUnit1v1P2.InitialImage = null;
+            this.pictureBoxUnit1v1P2.Location = new System.Drawing.Point(492, 142);
+            this.pictureBoxUnit1v1P2.Name = "pictureBoxUnit1v1P2";
+            this.pictureBoxUnit1v1P2.Size = new System.Drawing.Size(100, 100);
+            this.pictureBoxUnit1v1P2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxUnit1v1P2.TabIndex = 18;
+            this.pictureBoxUnit1v1P2.TabStop = false;
+            // 
+            // pictureBoxUnit1v1P1
+            // 
+            this.pictureBoxUnit1v1P1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxUnit1v1P1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBoxUnit1v1P1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBoxUnit1v1P1.ErrorImage = null;
+            this.pictureBoxUnit1v1P1.InitialImage = null;
+            this.pictureBoxUnit1v1P1.Location = new System.Drawing.Point(240, 142);
+            this.pictureBoxUnit1v1P1.Name = "pictureBoxUnit1v1P1";
+            this.pictureBoxUnit1v1P1.Size = new System.Drawing.Size(100, 100);
+            this.pictureBoxUnit1v1P1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxUnit1v1P1.TabIndex = 18;
+            this.pictureBoxUnit1v1P1.TabStop = false;
+            // 
+            // pictureBoxCiv1v1P1
+            // 
+            this.pictureBoxCiv1v1P1.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBoxCiv1v1P1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBoxCiv1v1P1.InitialImage = null;
+            this.pictureBoxCiv1v1P1.Location = new System.Drawing.Point(2, 2);
+            this.pictureBoxCiv1v1P1.Name = "pictureBoxCiv1v1P1";
+            this.pictureBoxCiv1v1P1.Size = new System.Drawing.Size(64, 64);
+            this.pictureBoxCiv1v1P1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxCiv1v1P1.TabIndex = 18;
+            this.pictureBoxCiv1v1P1.TabStop = false;
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1155, 457);
+            this.ClientSize = new System.Drawing.Size(1524, 815);
             this.ContextMenuStrip = this.contextMenuStripMain;
+            this.Controls.Add(this.panel1v1);
             this.Controls.Add(this.panelGameInfo);
             this.Controls.Add(this.panelDebug);
             this.Controls.Add(this.panelTeam1);
             this.Controls.Add(this.panelTeam2);
-            this.MinimumSize = new System.Drawing.Size(390, 300);
+            this.MinimumSize = new System.Drawing.Size(855, 320);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AoE2.net Desktop";
@@ -891,7 +1308,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDDS)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMap)).EndInit();
             this.panelTeam2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
@@ -901,6 +1318,14 @@
             this.panelDebug.ResumeLayout(false);
             this.panelDebug.PerformLayout();
             this.panelGameInfo.ResumeLayout(false);
+            this.panel1v1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMap1v1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1v1RateHistoryP2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1v1RateHistoryP1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCiv1v1P2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUnit1v1P2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUnit1v1P1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCiv1v1P1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -964,7 +1389,35 @@
         private System.Windows.Forms.Label labelDateTime;
         private System.Windows.Forms.Panel panelDebug;
         private System.Windows.Forms.Label labelAoE2DEActive;
-        private System.Windows.Forms.PictureBox pictureBoxDDS;
+        private System.Windows.Forms.PictureBox pictureBoxMap;
         private System.Windows.Forms.Panel panelGameInfo;
+        private System.Windows.Forms.Label labelRate1v1P2;
+        private System.Windows.Forms.Label labelRate1v1;
+        private System.Windows.Forms.Label labelLoses;
+        private System.Windows.Forms.Label labelWins1v1;
+        private System.Windows.Forms.Label labelWins1v1P1;
+        private System.Windows.Forms.Label labelLoses1v1P1;
+        private System.Windows.Forms.Label labelWins1v1P2;
+        private System.Windows.Forms.Label labelRate1v1P1;
+        private System.Windows.Forms.Label labelLoses1v1P2;
+        private System.Windows.Forms.Panel panel1v1;
+        private System.Windows.Forms.PictureBox pictureBox1v1RateHistoryP2;
+        private System.Windows.Forms.Label labelServer1v1;
+        private System.Windows.Forms.PictureBox pictureBox1v1RateHistoryP1;
+        private System.Windows.Forms.Label labelGameId1v1;
+        private System.Windows.Forms.Label labelMap1v1;
+        private System.Windows.Forms.Label labelName1v1P2;
+        private System.Windows.Forms.Label label1v1ColorP1;
+        private System.Windows.Forms.Label label1v1ColorP2;
+        private System.Windows.Forms.PictureBox pictureBoxCiv1v1P2;
+        private System.Windows.Forms.Label labelName1v1P1;
+        private System.Windows.Forms.Label labelCiv1v1P2;
+        private System.Windows.Forms.Label labelTeamResultP2;
+        private System.Windows.Forms.Label labelTeamResultP1;
+        private System.Windows.Forms.Label labelCiv1v1P1;
+        private System.Windows.Forms.PictureBox pictureBoxMap1v1;
+        private System.Windows.Forms.PictureBox pictureBoxUnit1v1P2;
+        private System.Windows.Forms.PictureBox pictureBoxUnit1v1P1;
+        private System.Windows.Forms.PictureBox pictureBoxCiv1v1P1;
     }
 }

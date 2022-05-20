@@ -39,6 +39,7 @@ public partial class FormMainTests
             TestUtilityExt.SetSettings(this, "SteamId", TestData.AvailableUserSteamId);
             TestUtilityExt.SetSettings(this, "ProfileId", TestData.AvailableUserProfileId);
             TestUtilityExt.SetSettings(this, "SelectedIdType", IdType.Profile);
+            TestUtilityExt.SetSettings(this, "IsAutoReloadLastMatch", false);
         }
 
         public FormSettings FormSettings

@@ -112,6 +112,51 @@ public partial class FormMain : ControllableForm
         Settings.Default.Save();
     }
 
+    private void LabelRate1v1P2_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+    }
+
+    private void LabelWins1v1P2_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+    }
+
+    private void LabelLoses1v1P2_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+    }
+
+    private void LabelLoses1v1P1_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+    }
+
+    private void LabelWins1v1P1_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+    }
+
+    private void LabelRate1v1P1_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+    }
+
+    private void LabelRate1v1_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 18, Color.Black, Color.DarkGoldenrod);
+    }
+
+    private void LabelWins1v1_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 18, Color.Black, Color.DarkGoldenrod);
+    }
+
+    private void LabelLoses_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 18, Color.Black, Color.DarkGoldenrod);
+    }
+
     private void LabelName_Paint(object sender, PaintEventArgs e)
     {
         var labelName = (Label)sender;
@@ -122,6 +167,18 @@ public partial class FormMain : ControllableForm
         } else {
             labelName.DrawString(e, 20, Color.Black, Color.MediumSeaGreen);
         }
+    }
+
+    private void LabelName1v1P1_Paint(object sender, PaintEventArgs e)
+    {
+        LabelName_Paint(sender, e);
+        Awaiter.Complete();
+    }
+
+    private void LabelName1v1P2_Paint(object sender, PaintEventArgs e)
+    {
+        LabelName_Paint(sender, e);
+        Awaiter.Complete();
     }
 
     private void LabelNameP1_Paint(object sender, PaintEventArgs e)
@@ -189,7 +246,7 @@ public partial class FormMain : ControllableForm
 
     private void LabelColor_Paint(object sender, PaintEventArgs e)
     {
-        ((Label)sender).DrawString(e, 23, Color.Black, Color.White, new Point(6, 6));
+        ((Label)sender).DrawString(e, 23, Color.Black, Color.White);
     }
 
     private void LabelMap_Paint(object sender, PaintEventArgs e)

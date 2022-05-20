@@ -16,21 +16,30 @@ public class ImageLoader
     /// </summary>
     /// <param name="filePath">File path.</param>
     public ImageLoader(string filePath)
+        : this(filePath, Color.Transparent)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ImageLoader"/> class.
+    /// </summary>
+    /// <param name="filePath">File path.</param>
+    /// <param name="backColor">Back color.</param>
+    public ImageLoader(string filePath, Color backColor)
     {
         var rawData = File.ReadAllBytes(filePath);
         using var stream = new MemoryStream(rawData);
         using var reader = new BinaryReader(stream);
 
-        if (Encoding.UTF8.GetString(reader.ReadBytes(4)) != DwMagic) {
+        if(Encoding.UTF8.GetString(reader.ReadBytes(4)) != DwMagic) {
             BitmapImage = new Bitmap(1, 1);
             ErrorCode = ImageLoaderError.InvalidMagic;
         } else {
             var header = ReadHeader(reader);
 
-            if (header.Ddspf.DwFlags == (DDPF.RGB | DDPF.ALPHAPIXELS)) {
+            if(header.Ddspf.DwFlags == (DDPF.RGB | DDPF.ALPHAPIXELS)) {
                 var bitmapData = reader.ReadBytes(header.DwWidth * header.DwHeight * header.Ddspf.DwRGBBitCount);
-                BitmapImage = ConvertToBitmap(bitmapData, header.DwWidth, header.DwHeight);
-                BitmapImage.MakeTransparent(Color.Black);
+                BitmapImage = ConvertToBitmap(bitmapData, header.DwWidth, header.DwHeight, backColor);
             } else {
                 BitmapImage = new Bitmap(1, 1);
                 ErrorCode = ImageLoaderError.InvalidDddsPfFlags;
@@ -87,7 +96,7 @@ public class ImageLoader
         pixelFormat.DwABitMask = reader.ReadInt32();
     }
 
-    private static Bitmap ConvertToBitmap(byte[] byteData, int width, int height)
+    private static Bitmap ConvertToBitmap(byte[] byteData, int width, int height, Color backColor)
     {
         var bitmap = new Bitmap(width, height);
         using var stream = new MemoryStream(byteData);
@@ -96,11 +105,15 @@ public class ImageLoader
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 var pixelData = reader.ReadInt32();
-                bitmap.SetPixel(x, y, Color.FromArgb(
-                    (int)((pixelData & 0xff000000) >> 24),
-                    pixelData & 0x000000ff,
-                    (pixelData & 0x0000ff00) >> 8,
-                    (pixelData & 0x00ff0000) >> 16));
+                if((int)((pixelData & 0xff000000) >> 24) != 0x00) {
+                    bitmap.SetPixel(x, y, Color.FromArgb(
+                        (int)((pixelData & 0xff000000) >> 24),
+                        pixelData & 0x000000ff,
+                        (pixelData & 0x0000ff00) >> 8,
+                        (pixelData & 0x00ff0000) >> 16));
+                } else {
+                    bitmap.SetPixel(x, y, backColor);
+                }
             }
         }
 

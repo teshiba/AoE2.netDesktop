@@ -24,6 +24,20 @@ public partial class FormMainTests
         testClass.ShowDialog();
     }
 
+    [TestMethod]
+    [TestCategory("GUI")]
+    [Ignore]
+    public void FormMainTestGUI1v1()
+    {
+        var testHttpClient = new TestHttpClient() {
+            PlayerLastMatchUri = "playerLastMatchaoe2de1v1.json",
+        };
+
+        AoE2net.ComClient = testHttpClient;
+        var testClass = new FormMain(Language.en);
+        testClass.ShowDialog();
+    }
+
 #pragma warning disable VSTHRD101 // Avoid unsupported async delegates
     [TestMethod]
     public void FormMainTest()

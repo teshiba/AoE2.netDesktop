@@ -38,9 +38,54 @@ public static class DrawEx
     /// <param name="point">start position of drawing.</param>
     public static void DrawString(this Label label, PaintEventArgs e, float fontSize, Color borderColor, Color fillColor, Point point)
     {
+        var alignment = label.TextAlign switch {
+            ContentAlignment.TopLeft => new StringFormat {
+                Alignment = StringAlignment.Near,
+                LineAlignment = StringAlignment.Near,
+            },
+            ContentAlignment.TopCenter => new StringFormat {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Near,
+            },
+            ContentAlignment.TopRight => new StringFormat {
+                Alignment = StringAlignment.Far,
+                LineAlignment = StringAlignment.Near,
+            },
+            ContentAlignment.MiddleLeft => new StringFormat {
+                Alignment = StringAlignment.Near,
+                LineAlignment = StringAlignment.Center,
+            },
+            ContentAlignment.MiddleCenter => new StringFormat {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center,
+            },
+            ContentAlignment.MiddleRight => new StringFormat {
+                Alignment = StringAlignment.Far,
+                LineAlignment = StringAlignment.Center,
+            },
+            ContentAlignment.BottomLeft => new StringFormat {
+                Alignment = StringAlignment.Near,
+                LineAlignment = StringAlignment.Far,
+            },
+            ContentAlignment.BottomCenter => new StringFormat {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Far,
+            },
+            ContentAlignment.BottomRight => new StringFormat {
+                Alignment = StringAlignment.Far,
+                LineAlignment = StringAlignment.Far,
+            },
+            _ => new StringFormat() {
+                Alignment = StringAlignment.Near,
+                LineAlignment = StringAlignment.Near,
+            },
+        };
+
         var stringFormat = new StringFormat {
             FormatFlags = StringFormatFlags.NoWrap,
             Trimming = StringTrimming.None,
+            Alignment = alignment.Alignment,
+            LineAlignment = alignment.LineAlignment,
         };
 
         var graphicsPath = new GraphicsPath();
@@ -49,7 +94,7 @@ public static class DrawEx
             label.Font.FontFamily,
             (int)FontStyle.Bold,
             fontSize,
-            point,
+            new Rectangle(point, label.Size),
             stringFormat);
 
         var pen = new Pen(borderColor, 8) {
