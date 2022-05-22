@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 using AoE2NetDesktop;
-using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.Form;
 using AoE2NetDesktop.LibAoE2Net;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;

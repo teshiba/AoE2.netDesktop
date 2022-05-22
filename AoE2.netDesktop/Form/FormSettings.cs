@@ -275,6 +275,7 @@ public partial class FormSettings : ControllableForm
     {
         Controler.PropertySetting.IsTransparency = ((CheckBox)sender).Checked;
         Settings.Default.MainFormTransparency = Controler.PropertySetting.IsTransparency;
+        Awaiter.Complete();
     }
 
     private void CheckBoxDrawQuality_CheckedChanged(object sender, EventArgs e)

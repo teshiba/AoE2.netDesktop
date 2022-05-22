@@ -26,4 +26,9 @@ public static class SuppressReason
     /// For private invoke test.
     /// </summary>
     public const string PrivateInvokeTest = "For private invoke test";
+
+    /// <summary>
+    /// For intentional sync test.
+    /// </summary>
+    public const string IntentionalSyncWait = "For intentional sync wait";
 }

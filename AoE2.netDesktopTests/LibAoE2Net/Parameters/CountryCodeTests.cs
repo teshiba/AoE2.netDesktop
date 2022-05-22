@@ -1,4 +1,6 @@
-﻿namespace AoE2NetDesktop.AoE2DE.Tests;
+﻿namespace AoE2NetDesktop.LibAoE2Net.Parameters.Tests;
+
+using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

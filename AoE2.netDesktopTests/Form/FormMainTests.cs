@@ -43,12 +43,11 @@ public partial class FormMainTests
     public void FormMainTest()
     {
         // Arrange
+        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
+        TestUtilityExt.SetSettings("ProfileId", 1);
+        TestUtilityExt.SetSettings("WindowLocationMain", new Point(0, 0));
+        TestUtilityExt.SetSettings("WindowSizeMain", new Size(1330, 350));
         var testClass = new FormMainPrivate();
-
-        TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Steam);
-        TestUtilityExt.SetSettings(testClass, "ProfileId", 1);
-        TestUtilityExt.SetSettings(testClass, "WindowLocationMain", new Point(0, 0));
-        TestUtilityExt.SetSettings(testClass, "WindowSizeMain", new Size(1330, 350));
         var expVal = string.Empty;
         var done = false;
 
@@ -77,12 +76,53 @@ public partial class FormMainTests
     }
 
     [TestMethod]
+    public void FormMainTest1v1()
+    {
+        // Arrange
+        TestUtilityExt.SetSettings("WindowLocationMain", new Point(0, 0));
+        TestUtilityExt.SetSettings("WindowSizeMain", new Size(1330, 350));
+        var testClass = new FormMainPrivate();
+        testClass.httpClient.PlayerLastMatchUri = "playerLastMatchaoe2de1v1.json";
+        var expVal = string.Empty;
+        var done = false;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("LabelRate1v1P2_Paint");
+            await testClass.Awaiter.WaitAsync("LabelWins1v1P2_Paint");
+            await testClass.Awaiter.WaitAsync("LabelLoses1v1P2_Paint");
+            await testClass.Awaiter.WaitAsync("LabelLoses1v1P1_Paint");
+            await testClass.Awaiter.WaitAsync("LabelWins1v1P1_Paint");
+            await testClass.Awaiter.WaitAsync("LabelRate1v1P1_Paint");
+            await testClass.Awaiter.WaitAsync("LabelRate1v1_Paint");
+            await testClass.Awaiter.WaitAsync("LabelWins1v1_Paint");
+            await testClass.Awaiter.WaitAsync("LabelLoses_Paint");
+            await testClass.Awaiter.WaitAsync("LabelName_Paint");
+            await testClass.Awaiter.WaitAsync("LabelName1v1P1_Paint");
+            await testClass.Awaiter.WaitAsync("LabelName1v1P2_Paint");
+
+            testClass.Close();
+
+            done = true;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+    }
+
+    [TestMethod]
     public void FormMainException_UpdateToolStripMenuItem_ClickAsyncTest()
     {
         // Arrange
+        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
+        TestUtilityExt.SetSettings("IsAutoReloadLastMatch", false);
         var expVal = string.Empty;
         var testClass = new FormMainPrivate();
-        TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Steam);
+        var done = false;
 
         // Act
         testClass.Shown += async (sender, e) =>
@@ -98,19 +138,89 @@ public partial class FormMainTests
             Assert.IsTrue(testClass.labelErrText.Text.Contains("Forced HttpRequestException"));
 
             // CleanUp
+            done = true;
             testClass.Close();
         };
 
         testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+    }
+
+    [TestMethod]
+    public void UpdateToolStripMenuItem_ClickAsyncTestIsAutoReloadLastMatchTrue()
+    {
+        // Arrange
+        var expVal = string.Empty;
+        var testClass = new FormMainPrivate();
+        var done = false;
+        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
+        TestUtilityExt.SetSettings("IsAutoReloadLastMatch", true);
+        testClass = new FormMainPrivate();
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+
+            testClass.updateToolStripMenuItem.PerformClick();
+            await testClass.Awaiter.WaitAsync("UpdateToolStripMenuItem_ClickAsync");
+
+            // Assert
+            Assert.IsTrue(testClass.LastMatchLoader.Enabled);
+
+            // CleanUp
+            done = true;
+            testClass.Close();
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+    }
+
+    [TestMethod]
+    public void UpdateToolStripMenuItem_ClickAsyncTestIsAutoReloadLastMatchFalse()
+    {
+        // Arrange
+        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
+        TestUtilityExt.SetSettings("IsAutoReloadLastMatch", false);
+        var expVal = string.Empty;
+        var done = false;
+        var testClass = new FormMainPrivate();
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+
+            testClass.updateToolStripMenuItem.PerformClick();
+            await testClass.Awaiter.WaitAsync("UpdateToolStripMenuItem_ClickAsync");
+
+            // Assert
+            Assert.IsFalse(testClass.LastMatchLoader.Enabled);
+
+            // CleanUp
+            done = true;
+            testClass.Close();
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
     }
 
     [TestMethod]
     public void FormMainTestGetInvalidPlayerColor()
     {
         // Arrange
+        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
+        var done = false;
         var testClass = new FormMainPrivate();
         testClass.httpClient.PlayerLastMatchUri = "playerLastMatchInvalidPlayerColor.json";
-        TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Steam);
 
         // Act
         testClass.Shown += async (sender, e) =>
@@ -124,18 +234,22 @@ public partial class FormMainTests
             Assert.IsTrue(testClass.labelErrText.Text.Contains($"invalid player.Color[{null}]"));
 
             // CleanUp
+            done = true;
             testClass.Close();
         };
 
         testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
     }
 
     [TestMethod]
     public void FormMainTestTabControlMain_KeyDownF5()
     {
         // Arrange
-        var testClass = new FormMainPrivate();
         var done = false;
+        var testClass = new FormMainPrivate();
 
         // Act
         testClass.Shown += async (sender, e) =>
@@ -143,9 +257,9 @@ public partial class FormMainTests
             await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
             testClass.httpClient.ForceHttpRequestException = true;
             testClass.FormMain_KeyDown(Keys.F5);
-            done = true;
 
             // CleanUp
+            done = true;
             testClass.Close();
         };
 
@@ -171,8 +285,8 @@ public partial class FormMainTests
     public void FormMainTestTabControlMain_KeyDownWindowResize(Keys keys, Keys alt, Keys shift, int width, int height)
     {
         // Arrange
-        var testClass = new FormMainPrivate();
         var done = false;
+        var testClass = new FormMainPrivate();
 
         // Act
         testClass.Shown += async (sender, e) =>

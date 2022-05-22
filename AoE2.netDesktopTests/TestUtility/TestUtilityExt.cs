@@ -7,14 +7,25 @@ using System.Reflection;
 
 public static class TestUtilityExt
 {
+    private static Assembly assemblyInstance;
+
     public static string AssemblyName { get; set; }
 
     public static T GetField<T>(this object obj, string name)
     {
-        var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
-        var fieldInfo = obj.GetType().GetField(name, bindingFlags);
+        Type type;
+        var bindingFlags = BindingFlags.NonPublic | BindingFlags.Static;
+
+        if (obj.GetType().FullName == "System.RuntimeType") {
+            type = (Type)obj;
+        } else {
+            bindingFlags |= BindingFlags.Instance;
+            type = obj.GetType();
+        }
+
+        var fieldInfo = type.GetField(name, bindingFlags);
         if (fieldInfo == null) {
-            fieldInfo = obj.GetType().BaseType.GetField(name, bindingFlags);
+            fieldInfo = type.BaseType.GetField(name, bindingFlags);
         }
 
         return (T)fieldInfo.GetValue(obj);
@@ -34,10 +45,7 @@ public static class TestUtilityExt
     public static T GetProperty<T>(this object obj, string name)
     {
         var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
-        var propertyInfo = obj.GetType()
-                            .GetProperties(bindingFlags)
-                            .Where(prop => (prop.Name == name) && (prop.PropertyType == typeof(T)))
-                            .First();
+        var propertyInfo = obj.GetType().GetProperty(name, bindingFlags);
         return (T)propertyInfo.GetValue(obj);
     }
 
@@ -77,7 +85,7 @@ public static class TestUtilityExt
         methodInfo.Invoke(obj, arg);
     }
 
-    public static void SetSettings<TValue>(object testTargetInstance, string propertyName, TValue value)
+    public static void SetSettings<TValue>(string propertyName, TValue value)
     {
         if (AssemblyName is null) {
             throw new InvalidOperationException($"{nameof(AssemblyName)} is not set.");
@@ -87,16 +95,16 @@ public static class TestUtilityExt
             throw new ArgumentNullException(nameof(propertyName));
         }
 
-        var settings = Assembly.GetAssembly(testTargetInstance.GetType()).GetType($"{AssemblyName}.Settings");
-        if (settings == null) {
-            settings = Assembly.GetAssembly(testTargetInstance.GetType().BaseType).GetType($"{AssemblyName}.Settings");
+        if (assemblyInstance is null) {
+            assemblyInstance = Assembly.LoadFrom(AssemblyName);
         }
 
+        var settings = assemblyInstance.GetType($"{AssemblyName}.Settings");
         var settingsDefault = settings.GetProperty("Default").GetValue(settings);
         settingsDefault.GetType().GetProperty(propertyName).SetValue(settingsDefault, value);
     }
 
-    public static TValue GetSettings<TValue>(object testTargetInstance, string propertyName)
+    public static TValue GetSettings<TValue>(string propertyName)
     {
         if (AssemblyName is null) {
             throw new InvalidOperationException($"{nameof(AssemblyName)} is not set.");
@@ -106,11 +114,11 @@ public static class TestUtilityExt
             throw new ArgumentNullException(nameof(propertyName));
         }
 
-        var settings = Assembly.GetAssembly(testTargetInstance.GetType()).GetType($"{AssemblyName}.Settings");
-        if (settings == null) {
-            settings = Assembly.GetAssembly(testTargetInstance.GetType().BaseType).GetType($"{AssemblyName}.Settings");
+        if (assemblyInstance is null) {
+            assemblyInstance = Assembly.LoadFrom(AssemblyName);
         }
 
+        var settings = assemblyInstance.GetType($"{AssemblyName}.Settings");
         var settingsDefault = settings.GetProperty("Default").GetValue(settings);
 
         return (TValue)settingsDefault.GetType().GetProperty(propertyName).GetValue(settingsDefault);

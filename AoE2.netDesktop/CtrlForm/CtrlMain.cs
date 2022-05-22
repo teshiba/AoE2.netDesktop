@@ -136,4 +136,26 @@ public class CtrlMain : FormControler
         var filePath = MapIcons.GetFileName(mapType);
         return new ImageLoader(filePath).BitmapImage;
     }
+
+    /// <summary>
+    /// Get the number of losses.
+    /// </summary>
+    /// <param name="player">player.</param>
+    /// <returns>lose count.</returns>
+    public static string GetLossesString(Player player)
+    {
+        var loses = player.Games - player.Wins;
+
+        return loses?.ToString() ?? "N/A";
+    }
+
+    /// <summary>
+    /// Get the number of wins.
+    /// </summary>
+    /// <param name="player">player.</param>
+    /// <returns>win count.</returns>
+    public static string GetWinsString(Player player)
+    {
+        return player.Wins?.ToString() ?? "N/A";
+    }
 }

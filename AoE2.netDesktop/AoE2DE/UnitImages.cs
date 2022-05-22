@@ -12,7 +12,7 @@ public class UnitImages
 {
     private const string Path = $@"widgetui\textures\ingame\units\";
 
-    private static readonly Dictionary<string, string> FielNames = new () {
+    private static readonly Dictionary<string, string> FileNames = new () {
         { "Britons", "041_50730" },
         { "Franks", "046_50730" },
         { "Goths", "050_50730" },
@@ -71,7 +71,7 @@ public class UnitImages
 
             ret = $"{appPath}{Path}265_50730.DDS";
 
-            if(FielNames.TryGetValue(civName, out string fileName)) {
+            if(FileNames.TryGetValue(civName, out string fileName)) {
                 ret = $"{appPath}{Path}{fileName}.DDS";
             }
         }

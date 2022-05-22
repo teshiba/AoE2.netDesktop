@@ -387,8 +387,8 @@ public partial class FormMain : ControllableForm
         pictureBoxCiv1v1P1.ImageLocation = AoE2DeApp.GetCivImageLocation(player1.GetCivEnName());
         pictureBoxUnit1v1P1.Image = UnitImages.Load(player1.GetCivEnName(), player1.GetColor());
         labelRate1v1P1.Text = CtrlMain.GetRateString(player1.Rating);
-        labelWins1v1P1.Text = player1.Wins.ToString();
-        labelLoses1v1P1.Text = (player1.Games - player1.Wins).ToString();
+        labelWins1v1P1.Text = CtrlMain.GetWinsString(player1);
+        labelLoses1v1P1.Text = CtrlMain.GetLossesString(player1);
         labelCiv1v1P1.Text = player1.GetCivName();
         labelTeamResultP1.Text = $"";
 
@@ -400,8 +400,8 @@ public partial class FormMain : ControllableForm
         pictureBoxCiv1v1P2.ImageLocation = AoE2DeApp.GetCivImageLocation(player2.GetCivEnName());
         pictureBoxUnit1v1P2.Image = UnitImages.Load(player2.GetCivEnName(), player2.GetColor());
         labelRate1v1P2.Text = CtrlMain.GetRateString(player2.Rating);
-        labelWins1v1P2.Text = player2.Wins.ToString();
-        labelLoses1v1P2.Text = (player2.Games - player2.Wins).ToString();
+        labelWins1v1P2.Text = CtrlMain.GetWinsString(player2);
+        labelLoses1v1P2.Text = CtrlMain.GetLossesString(player2);
         labelCiv1v1P2.Text = player2.GetCivName();
         labelTeamResultP2.Text = $"";
     }

@@ -2,11 +2,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Tests;
+using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -77,7 +79,7 @@ public partial class FormSettingsTests
 
         // Assert
         Assert.IsTrue(testClass.Controler.PropertySetting.DrawHighQuality);
-        Assert.IsTrue(TestUtilityExt.GetSettings<bool>(testClass, "DrawHighQuality"));
+        Assert.IsTrue(TestUtilityExt.GetSettings<bool>("DrawHighQuality"));
         Assert.IsTrue(done);
     }
 
@@ -103,7 +105,7 @@ public partial class FormSettingsTests
 
         // Assert
         Assert.IsTrue(testClass.Controler.PropertySetting.IsAutoReloadLastMatch);
-        Assert.IsTrue(TestUtilityExt.GetSettings<bool>(testClass, "IsAutoReloadLastMatch"));
+        Assert.IsTrue(TestUtilityExt.GetSettings<bool>("IsAutoReloadLastMatch"));
         Assert.IsTrue(done);
     }
 
@@ -283,11 +285,11 @@ public partial class FormSettingsTests
     public void FormSettingsTestSameLastMatchAndMatchHistory0()
     {
         // Arrange
+        TestUtilityExt.SetSettings("ProfileId", 100);
+        TestUtilityExt.SetSettings("SelectedIdType", IdType.Profile);
         var expVal = string.Empty;
         var done = false;
         var testClass = new FormSettingsPrivate();
-        TestUtilityExt.SetSettings(testClass, "ProfileId", 100);
-        TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Profile);
 
         // Act
         testClass.Shown += async (sender, e) =>
@@ -313,11 +315,11 @@ public partial class FormSettingsTests
     public void FormSettingsTestNonMatchHistory()
     {
         // Arrange
+        TestUtilityExt.SetSettings("ProfileId", TestData.AvailableUserProfileIdWithoutHistory);
+        TestUtilityExt.SetSettings("SelectedIdType", IdType.Profile);
         var expVal = string.Empty;
         var done = false;
         var testClass = new FormSettingsPrivate();
-        TestUtilityExt.SetSettings(testClass, "ProfileId", TestData.AvailableUserProfileIdWithoutHistory);
-        TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Profile);
 
         // Act
         testClass.Shown += async (sender, e) =>
@@ -345,10 +347,9 @@ public partial class FormSettingsTests
     public void FormSettingsTestButtonSetId_Click(IdType idType)
     {
         // Arrange
+        TestUtilityExt.SetSettings("SelectedIdType", idType);
         var testClass = new FormSettingsPrivate();
         var done = false;
-
-        TestUtilityExt.SetSettings(testClass, "SelectedIdType", idType);
 
         // Act
         testClass.Shown += async (sender, e) =>
@@ -524,6 +525,34 @@ public partial class FormSettingsTests
     }
 
     [TestMethod]
+    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
+    public void FormSettingsTestCheckBoxTransparencyWindow_CheckedChanged()
+    {
+        // Arrange
+        var expVal = string.Empty;
+        var testClass = new FormSettingsPrivate();
+        var done = false;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            testClass.checkBoxTransparencyWindow.Checked = false;
+            testClass.checkBoxTransparencyWindow.Checked = true;
+            await testClass.Awaiter.WaitAsync("CheckBoxTransparencyWindow_CheckedChanged");
+
+            // CleanUp
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(testClass.Controler.PropertySetting.IsTransparency);
+        Assert.IsTrue(done);
+    }
+
+    [TestMethod]
     public void SetChromaKeyTest()
     {
         // Arrange
@@ -537,7 +566,7 @@ public partial class FormSettingsTests
         Assert.AreEqual(expValue, testClass.Controler.PropertySetting.ChromaKey);
         Assert.AreEqual(expValue, testClass.textBoxChromaKey.Text);
         Assert.AreEqual(ColorTranslator.FromHtml(expValue), testClass.pictureBoxChromaKey.BackColor);
-        Assert.AreEqual(expValue, TestUtilityExt.GetSettings<string>(testClass, "ChromaKey"));
+        Assert.AreEqual(expValue, TestUtilityExt.GetSettings<string>("ChromaKey"));
     }
 
     [TestMethod]
@@ -554,7 +583,7 @@ public partial class FormSettingsTests
         Assert.AreEqual(expValue, testClass.Controler.PropertySetting.ChromaKey);
         Assert.AreEqual(expValue, testClass.textBoxChromaKey.Text);
         Assert.AreEqual(ColorTranslator.FromHtml(expValue), testClass.pictureBoxChromaKey.BackColor);
-        Assert.AreEqual(expValue, TestUtilityExt.GetSettings<string>(testClass, "ChromaKey"));
+        Assert.AreEqual(expValue, TestUtilityExt.GetSettings<string>("ChromaKey"));
     }
 
     [TestMethod]

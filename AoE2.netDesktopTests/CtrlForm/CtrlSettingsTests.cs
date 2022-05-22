@@ -153,11 +153,10 @@ public class CtrlSettingsTests
     public void ReadProfileAsyncTestIdTypeNotSelected()
     {
         // Arrange
+        TestUtilityExt.SetSettings("SteamId", TestData.AvailableUserSteamId);
+        TestUtilityExt.SetSettings("ProfileId", TestData.AvailableUserProfileId);
+        TestUtilityExt.SetSettings("SelectedIdType", IdType.NotSelected);
         var testClass = new CtrlSettings();
-        TestUtilityExt.SetSettings(testClass, "SteamId", TestData.AvailableUserSteamId);
-        TestUtilityExt.SetSettings(testClass, "ProfileId", TestData.AvailableUserProfileId);
-        TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.NotSelected);
-        testClass = new CtrlSettings();
 
         // Assert
         _ = Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
@@ -174,11 +173,10 @@ public class CtrlSettingsTests
         var notExpValUserName = "-- Invalid ID --";
 
         // Act
+        TestUtilityExt.SetSettings("SteamId", TestData.AvailableUserSteamId);
+        TestUtilityExt.SetSettings("ProfileId", TestData.AvailableUserProfileId);
+        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
         var testClass = new CtrlSettings();
-        TestUtilityExt.SetSettings(testClass, "SteamId", TestData.AvailableUserSteamId);
-        TestUtilityExt.SetSettings(testClass, "ProfileId", TestData.AvailableUserProfileId);
-        TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Steam);
-        testClass = new CtrlSettings();
         var actVal = Task.Run(
             () => testClass.ReadProfileAsync())
             .Result;
@@ -199,11 +197,10 @@ public class CtrlSettingsTests
         var notExpValUserName = "-- Invalid ID --";
 
         // Act
+        TestUtilityExt.SetSettings("SteamId", TestData.AvailableUserSteamId);
+        TestUtilityExt.SetSettings("ProfileId", TestData.AvailableUserProfileId);
+        TestUtilityExt.SetSettings("SelectedIdType", IdType.Profile);
         var testClass = new CtrlSettings();
-        TestUtilityExt.SetSettings(testClass, "SteamId", TestData.AvailableUserSteamId);
-        TestUtilityExt.SetSettings(testClass, "ProfileId", TestData.AvailableUserProfileId);
-        TestUtilityExt.SetSettings(testClass, "SelectedIdType", IdType.Profile);
-        testClass = new CtrlSettings();
         var actVal = Task.Run(
             () => testClass.ReadProfileAsync())
             .Result;

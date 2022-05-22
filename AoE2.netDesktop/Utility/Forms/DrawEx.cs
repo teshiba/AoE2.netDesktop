@@ -38,48 +38,64 @@ public static class DrawEx
     /// <param name="point">start position of drawing.</param>
     public static void DrawString(this Label label, PaintEventArgs e, float fontSize, Color borderColor, Color fillColor, Point point)
     {
-        var alignment = label.TextAlign switch {
-            ContentAlignment.TopLeft => new StringFormat {
-                Alignment = StringAlignment.Near,
-                LineAlignment = StringAlignment.Near,
-            },
-            ContentAlignment.TopCenter => new StringFormat {
-                Alignment = StringAlignment.Center,
-                LineAlignment = StringAlignment.Near,
-            },
-            ContentAlignment.TopRight => new StringFormat {
-                Alignment = StringAlignment.Far,
-                LineAlignment = StringAlignment.Near,
-            },
-            ContentAlignment.MiddleLeft => new StringFormat {
-                Alignment = StringAlignment.Near,
-                LineAlignment = StringAlignment.Center,
-            },
-            ContentAlignment.MiddleCenter => new StringFormat {
-                Alignment = StringAlignment.Center,
-                LineAlignment = StringAlignment.Center,
-            },
-            ContentAlignment.MiddleRight => new StringFormat {
-                Alignment = StringAlignment.Far,
-                LineAlignment = StringAlignment.Center,
-            },
-            ContentAlignment.BottomLeft => new StringFormat {
-                Alignment = StringAlignment.Near,
-                LineAlignment = StringAlignment.Far,
-            },
-            ContentAlignment.BottomCenter => new StringFormat {
-                Alignment = StringAlignment.Center,
-                LineAlignment = StringAlignment.Far,
-            },
-            ContentAlignment.BottomRight => new StringFormat {
-                Alignment = StringAlignment.Far,
-                LineAlignment = StringAlignment.Far,
-            },
-            _ => new StringFormat() {
-                Alignment = StringAlignment.Near,
-                LineAlignment = StringAlignment.Near,
-            },
-        };
+        var alignment = new StringFormat();
+
+        switch(label.TextAlign) {
+            case ContentAlignment.TopLeft:
+                alignment = new StringFormat {
+                    Alignment = StringAlignment.Near,
+                    LineAlignment = StringAlignment.Near,
+                };
+                break;
+            case ContentAlignment.TopCenter:
+                alignment = new StringFormat {
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Near,
+                };
+                break;
+            case ContentAlignment.TopRight:
+                alignment = new StringFormat {
+                    Alignment = StringAlignment.Far,
+                    LineAlignment = StringAlignment.Near,
+                };
+                break;
+            case ContentAlignment.MiddleLeft:
+                alignment = new StringFormat {
+                    Alignment = StringAlignment.Near,
+                    LineAlignment = StringAlignment.Center,
+                };
+                break;
+            case ContentAlignment.MiddleCenter:
+                alignment = new StringFormat {
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Center,
+                };
+                break;
+            case ContentAlignment.MiddleRight:
+                alignment = new StringFormat {
+                    Alignment = StringAlignment.Far,
+                    LineAlignment = StringAlignment.Center,
+                };
+                break;
+            case ContentAlignment.BottomLeft:
+                alignment = new StringFormat {
+                    Alignment = StringAlignment.Near,
+                    LineAlignment = StringAlignment.Far,
+                };
+                break;
+            case ContentAlignment.BottomCenter:
+                alignment = new StringFormat {
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Far,
+                };
+                break;
+            case ContentAlignment.BottomRight:
+                alignment = new StringFormat {
+                    Alignment = StringAlignment.Far,
+                    LineAlignment = StringAlignment.Far,
+                };
+                break;
+        }
 
         var stringFormat = new StringFormat {
             FormatFlags = StringFormatFlags.NoWrap,

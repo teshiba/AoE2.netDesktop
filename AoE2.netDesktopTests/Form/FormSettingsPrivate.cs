@@ -21,6 +21,7 @@ public partial class FormSettingsTests
         public CheckBox checkBoxHideTitle;
         public CheckBox checkBoxDrawQuality;
         public CheckBox checkBoxAutoReloadLastMatch;
+        public CheckBox checkBoxTransparencyWindow;
         public Label labelAoE2NetStatus;
         public Label labelErrText;
         public Label labelSettingsName;
@@ -44,6 +45,7 @@ public partial class FormSettingsTests
             checkBoxHideTitle = this.GetControl<CheckBox>("checkBoxHideTitle");
             checkBoxDrawQuality = this.GetControl<CheckBox>("checkBoxDrawQuality");
             checkBoxAutoReloadLastMatch = this.GetControl<CheckBox>("checkBoxAutoReloadLastMatch");
+            checkBoxTransparencyWindow = this.GetControl<CheckBox>("checkBoxTransparencyWindow");
             labelAoE2NetStatus = this.GetControl<Label>("labelAoE2NetStatus");
             labelErrText = this.GetControl<Label>("labelErrText");
             labelSettingsName = this.GetControl<Label>("labelSettingsName");
@@ -55,9 +57,9 @@ public partial class FormSettingsTests
             textBoxChromaKey = this.GetControl<TextBox>("textBoxChromaKey");
             pictureBoxChromaKey = this.GetControl<PictureBox>("pictureBoxChromaKey");
 
-            TestUtilityExt.SetSettings(this, "SteamId", TestData.AvailableUserSteamId);
-            TestUtilityExt.SetSettings(this, "ProfileId", TestData.AvailableUserProfileId);
-            TestUtilityExt.SetSettings(this, "SelectedIdType", IdType.Profile);
+            TestUtilityExt.SetSettings("SteamId", TestData.AvailableUserSteamId);
+            TestUtilityExt.SetSettings("ProfileId", TestData.AvailableUserProfileId);
+            TestUtilityExt.SetSettings("SelectedIdType", IdType.Profile);
         }
 
         public new CtrlSettings Controler => base.Controler;

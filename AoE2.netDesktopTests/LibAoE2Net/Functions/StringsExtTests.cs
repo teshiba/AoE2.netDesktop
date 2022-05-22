@@ -82,24 +82,6 @@ public class StringsExtTests
     }
 
     [TestMethod]
-    [DataRow(1, "1")]
-    [DataRow(null, "-")]
-    public void GetColorStringTest(int? color, string expVal)
-    {
-        // Arrange
-        var player = new Player
-        {
-            Color = color,
-        };
-
-        // Act
-        var actVal = player.GetColorString();
-
-        // Assert
-        Assert.AreEqual(expVal, actVal);
-    }
-
-    [TestMethod]
     public void GetColorStringTestPlayerN()
     {
         // Arrange

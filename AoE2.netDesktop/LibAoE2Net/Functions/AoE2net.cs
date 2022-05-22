@@ -14,6 +14,8 @@ using AoE2NetDesktop.Utility;
 public static class AoE2net
 {
     private static readonly Uri BaseAddress = new (@"https://aoe2.net/api/");
+    private static readonly Uri CivImageAddress = new (@"https://aoe2.net/assets/images/crests/25x25/");
+    private static readonly Uri ProfileIdBaseAddress = new (@"https://aoe2.net/#profile-");
 
     /// <summary>
     /// Gets or sets communication client.
@@ -123,7 +125,7 @@ public static class AoE2net
         string ret = null;
 
         if (civName != null) {
-            ret = $"https://aoe2.net/assets/images/crests/25x25/{civName.ToLower()}.png";
+            ret = $"{CivImageAddress}{civName.ToLower()}.png";
         }
 
         return ret;
@@ -198,6 +200,6 @@ public static class AoE2net
     /// <returns>browser process.</returns>
     public static Process OpenAoE2net(int profileId)
     {
-        return ComClient.OpenBrowser($"https://aoe2.net/#profile-{profileId}");
+        return ComClient.OpenBrowser($"{ProfileIdBaseAddress}{profileId}");
     }
 }

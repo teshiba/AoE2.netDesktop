@@ -3,6 +3,10 @@
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+
 /// <summary>
 /// Extention of Player class.
 /// </summary>
@@ -24,6 +28,45 @@ public static class PlayerExt
             } else {
                 ret = Diplomacy.Enemy;
             }
+        }
+
+        return ret;
+    }
+
+    /// <summary>
+    /// Get Color Number string.
+    /// </summary>
+    /// <param name="player">Player.</param>
+    /// <returns>Color string or "-" if Color is null.</returns>
+    public static string GetColorString(this Player player)
+    {
+        if(player is null) {
+            throw new ArgumentNullException(nameof(player));
+        }
+
+        return player.Color?.ToString() ?? "-";
+    }
+
+    /// <summary>
+    /// Get Color.
+    /// </summary>
+    /// <param name="player">Player.</param>
+    /// <returns>Color string or "-" if Color is null.</returns>
+    public static Color GetColor(this Player player)
+    {
+        var colorList = new Dictionary<int?, Color> {
+            { 1, Color.Blue },
+            { 2, Color.Red },
+            { 3, Color.Green },
+            { 4, Color.Yellow },
+            { 5, Color.Aqua },
+            { 6, Color.Magenta },
+            { 7, Color.Gray },
+            { 8, Color.Orange },
+        };
+
+        if(!colorList.TryGetValue(player.Color, out Color ret)) {
+            ret = Color.Transparent;
         }
 
         return ret;

@@ -36,10 +36,10 @@ public partial class FormMainTests
             updateToolStripMenuItem = this.GetControl<ToolStripMenuItem>("updateToolStripMenuItem");
             contextMenuStripMain = this.GetControl<ContextMenuStrip>("contextMenuStripMain");
 
-            TestUtilityExt.SetSettings(this, "SteamId", TestData.AvailableUserSteamId);
-            TestUtilityExt.SetSettings(this, "ProfileId", TestData.AvailableUserProfileId);
-            TestUtilityExt.SetSettings(this, "SelectedIdType", IdType.Profile);
-            TestUtilityExt.SetSettings(this, "IsAutoReloadLastMatch", false);
+            TestUtilityExt.SetSettings("SteamId", TestData.AvailableUserSteamId);
+            TestUtilityExt.SetSettings("ProfileId", TestData.AvailableUserProfileId);
+            TestUtilityExt.SetSettings("SelectedIdType", IdType.Profile);
+            TestUtilityExt.SetSettings("IsAutoReloadLastMatch", false);
         }
 
         public FormSettings FormSettings
@@ -105,9 +105,9 @@ public partial class FormMainTests
             this.Invoke("ExitToolStripMenuItem_Click", sender, e);
         }
 
-        public async Task<Match> SetLastMatchDataAsync(int profileId)
+        public async Task<Match> RedrawLastMatchAsync(int profileId)
         {
-            return await this.Invoke<Task<Match>>("SetLastMatchDataAsync", profileId).ConfigureAwait(false);
+            return await this.Invoke<Task<Match>>("RedrawLastMatchAsync", profileId).ConfigureAwait(false);
         }
 
         public void OpenSettings()

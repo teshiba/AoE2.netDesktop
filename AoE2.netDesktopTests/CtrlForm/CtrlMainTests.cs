@@ -248,4 +248,41 @@ public class CtrlMainTests
         // Assert
         Assert.AreEqual(expVal, actVal);
     }
+
+    [TestMethod]
+    [DataRow(100, 20, "80")]
+    [DataRow(null, 20, "N/A")]
+    [DataRow(20, null, "N/A")]
+    [DataRow(null, null, "N/A")]
+    public void GetLossesStringTest(int? games, int?wins, string expVal)
+    {
+        // Arrange
+        var player = new Player() {
+            Games = games,
+            Wins = wins,
+        };
+
+        // Act
+        var actVal = CtrlMain.GetLossesString(player);
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    [DataRow(20, "20")]
+    [DataRow(null, "N/A")]
+    public void GetWinsStringTest(int? wins, string expVal)
+    {
+        // Arrange
+        var player = new Player() {
+            Wins = wins,
+        };
+
+        // Act
+        var actVal = CtrlMain.GetWinsString(player);
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
 }

@@ -242,55 +242,79 @@ public partial class FormMainTests
     }
 
     [TestMethod]
-    [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-    public void SetLastMatchDataAsyncTestSetLastHistory()
+    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
+    public void RedrawLastMatchAsyncTestSetLastHistory()
     {
         // Arrange
-        var testClass = new FormMainPrivate();
         Match ret = null;
+        var done = false;
+        var testClass = new FormMainPrivate();
 
         // Act
-        Task.Run(async () => {
-            ret = await testClass.SetLastMatchDataAsync(TestData.AvailableUserProfileId).ConfigureAwait(false);
-        }).Wait();
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            testClass.labelGameId.Text = $"GameID: --------";
+            ret = await testClass.RedrawLastMatchAsync(TestData.AvailableUserProfileId);
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
 
         // Assert
+        Assert.IsTrue(done);
         Assert.AreEqual("00000002", ret.MatchId);
     }
 
     [TestMethod]
-    [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-    public void SetLastMatchDataAsyncTestSetLastMatch()
+    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
+    public void RedrawLastMatchAsyncTestSetLastMatch()
     {
         // Arrange
-        var testClass = new FormMainPrivate();
         Match ret = null;
+        var done = false;
+        var testClass = new FormMainPrivate();
 
         // Act
-        Task.Run(async () => {
-            ret = await testClass.SetLastMatchDataAsync(TestData.AvailableUserProfileIdWithoutHistory).ConfigureAwait(false);
-        }).Wait();
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            ret = await testClass.RedrawLastMatchAsync(TestData.AvailableUserProfileIdWithoutHistory);
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
 
         // Assert
+        Assert.IsTrue(done);
         Assert.AreEqual("00000003", ret.MatchId);
     }
 
     [TestMethod]
-    [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-    public void SetLastMatchDataAsyncTestSameGameID()
+    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
+    public void RedrawLastMatchAsyncTestSameGameID()
     {
         // Arrange
+        Match actMatch = null;
+        var done = false;
         var testClass = new FormMainPrivate();
-        testClass.labelGameId.Text = $"GameID: 00000002";
-
-        Match ret = null;
 
         // Act
-        Task.Run(async () => {
-            ret = await testClass.SetLastMatchDataAsync(TestData.AvailableUserProfileId).ConfigureAwait(false);
-        }).Wait();
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            testClass.labelGameId.Text = $"GameID: 00000002";
+            actMatch = await testClass.RedrawLastMatchAsync(TestData.AvailableUserProfileId);
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
 
         // Assert
-        Assert.AreEqual("00000002", ret.MatchId);
+        Assert.IsTrue(done);
+        Assert.IsNull(actMatch);
     }
 }

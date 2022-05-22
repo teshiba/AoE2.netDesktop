@@ -115,46 +115,55 @@ public partial class FormMain : ControllableForm
     private void LabelRate1v1P2_Paint(object sender, PaintEventArgs e)
     {
         ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+        Awaiter.Complete();
     }
 
     private void LabelWins1v1P2_Paint(object sender, PaintEventArgs e)
     {
         ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+        Awaiter.Complete();
     }
 
     private void LabelLoses1v1P2_Paint(object sender, PaintEventArgs e)
     {
         ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+        Awaiter.Complete();
     }
 
     private void LabelLoses1v1P1_Paint(object sender, PaintEventArgs e)
     {
         ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+        Awaiter.Complete();
     }
 
     private void LabelWins1v1P1_Paint(object sender, PaintEventArgs e)
     {
         ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+        Awaiter.Complete();
     }
 
     private void LabelRate1v1P1_Paint(object sender, PaintEventArgs e)
     {
         ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+        Awaiter.Complete();
     }
 
     private void LabelRate1v1_Paint(object sender, PaintEventArgs e)
     {
         ((Label)sender).DrawString(e, 18, Color.Black, Color.DarkGoldenrod);
+        Awaiter.Complete();
     }
 
     private void LabelWins1v1_Paint(object sender, PaintEventArgs e)
     {
         ((Label)sender).DrawString(e, 18, Color.Black, Color.DarkGoldenrod);
+        Awaiter.Complete();
     }
 
     private void LabelLoses_Paint(object sender, PaintEventArgs e)
     {
         ((Label)sender).DrawString(e, 18, Color.Black, Color.DarkGoldenrod);
+        Awaiter.Complete();
     }
 
     private void LabelName_Paint(object sender, PaintEventArgs e)
@@ -167,6 +176,8 @@ public partial class FormMain : ControllableForm
         } else {
             labelName.DrawString(e, 20, Color.Black, Color.MediumSeaGreen);
         }
+
+        Awaiter.Complete();
     }
 
     private void LabelName1v1P1_Paint(object sender, PaintEventArgs e)

@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop.AoE2DE;
+﻿namespace AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using System.Collections.Generic;
 
@@ -261,10 +261,10 @@ public static class CountryCode
     public static string ConvertToFullName(string countryCode)
     {
         string countryName;
-        if (countryCode == null) {
+        if(countryCode == null) {
             countryName = "N/A";
         } else {
-            if (!ISO31661alpha2.TryGetValue(countryCode, out countryName)) {
+            if(!ISO31661alpha2.TryGetValue(countryCode, out countryName)) {
                 countryName = "N/A";
             }
         }
