@@ -1,15 +1,17 @@
 ﻿namespace AoE2NetDesktop.CtrlForm.Tests;
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
 
 using LibAoE2net;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 
 [TestClass]
 public class CtrlSettingsTests
@@ -17,7 +19,7 @@ public class CtrlSettingsTests
     [ClassInitialize]
     public static void Init(TestContext context)
     {
-        if (context is null) {
+        if(context is null) {
             throw new ArgumentNullException(nameof(context));
         }
 

@@ -33,7 +33,7 @@ public class AoE2DeApp
     public static string GetPath()
     {
         var ret = SystemApi.GetProcessFilePath(ProcessName);
-        if (string.IsNullOrEmpty(ret)) {
+        if(string.IsNullOrEmpty(ret)) {
             ret = SteamAppDefaultPath;
         }
 
@@ -50,13 +50,13 @@ public class AoE2DeApp
         string ret = null;
 
         // Hindustanis image file name is old name.
-        if (civName == "Hindustanis") {
+        if(civName == "Hindustanis") {
             civName = "indians";
         }
 
-        if (civName != null) {
+        if(civName != null) {
             ret = $"{GetPath()}{CivsPath}{civName.ToLower()}.png";
-            if (!File.Exists(ret)) {
+            if(!File.Exists(ret)) {
                 Debug.Print($"Cannot find {ret}. try loading from AoE2.net");
                 ret = AoE2net.GetCivImageLocation(civName.ToLower());
             }

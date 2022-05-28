@@ -1,15 +1,14 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net.Functions;
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Linq;
-using System.Threading.Tasks;
-
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility;
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Threading.Tasks;
 
 /// <summary>
 /// Extention of Strings.
@@ -58,7 +57,7 @@ public static class StringsExt
         string ret;
         try {
             ret = stringIds.Where(x => x.Id == id).First().String;
-        } catch (InvalidOperationException) {
+        } catch(InvalidOperationException) {
             ret = null;
         }
 
@@ -75,7 +74,7 @@ public static class StringsExt
         WaitInitTask();
 
         string mapName = apiStrings.MapType.GetString(match.MapType);
-        if (mapName == null) {
+        if(mapName == null) {
             mapName = $"Unknown(Map No.{match.MapType})";
         }
 
@@ -110,7 +109,7 @@ public static class StringsExt
     [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncWait)]
     private static void WaitInitTask()
     {
-        if (initTask == null) {
+        if(initTask == null) {
             Init();
         }
 
@@ -120,7 +119,7 @@ public static class StringsExt
     private static string GetCivName(Strings strings, Player player)
     {
         string ret = strings.Civ.GetString(player.Civ);
-        if (ret is null) {
+        if(ret is null) {
             ret = $"invalid civ:{player.Civ}";
         }
 
@@ -129,7 +128,7 @@ public static class StringsExt
 
     private static async Task InitApiStringsAsync(Language language)
     {
-        if (apiStrings?.Language != language.ToApiString()) {
+        if(apiStrings?.Language != language.ToApiString()) {
             apiStrings = await AoE2net.GetStringsAsync(language).ConfigureAwait(false);
         }
     }

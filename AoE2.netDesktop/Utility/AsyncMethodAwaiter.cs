@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 /// </summary>
 public class AsyncMethodAwaiter
 {
-    private readonly object lockObject = new ();
-    private readonly Dictionary<string, ManualResetEvent> state = new ();
+    private readonly object lockObject = new();
+    private readonly Dictionary<string, ManualResetEvent> state = new();
 
     /// <summary>
     /// Notify the completion of the method.
@@ -19,8 +19,8 @@ public class AsyncMethodAwaiter
     /// <param name="methodName">Completed method name.</param>
     public void Complete([CallerMemberName] string methodName = null)
     {
-        lock (lockObject) {
-            if (!IsInitState(methodName)) {
+        lock(lockObject) {
+            if(!IsInitState(methodName)) {
                 state[methodName] = new ManualResetEvent(false);
             }
 
@@ -35,15 +35,15 @@ public class AsyncMethodAwaiter
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task WaitAsync(string methodName)
     {
-        lock (lockObject) {
-            if (!IsInitState(methodName)) {
+        lock(lockObject) {
+            if(!IsInitState(methodName)) {
                 state[methodName] = new ManualResetEvent(false);
             }
         }
 
         await Task.Run(() => state[methodName].WaitOne());
 
-        lock (lockObject) {
+        lock(lockObject) {
             state.Remove(methodName);
         }
     }

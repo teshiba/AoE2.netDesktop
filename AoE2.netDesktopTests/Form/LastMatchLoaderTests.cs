@@ -1,13 +1,14 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.Utility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Timers;
 
 [TestClass]
 public class LastMatchLoaderTests
@@ -32,7 +33,7 @@ public class LastMatchLoaderTests
         // Act
         testClass.Start();
 
-        while (!cancellationToken.IsCancellationRequested) {
+        while(!cancellationToken.IsCancellationRequested) {
             Task.Delay(500).Wait();
         }
 

@@ -1,15 +1,16 @@
 ﻿namespace LibAoE2net.Tests;
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 
 [TestClass]
 public class StringsExtTests
@@ -24,7 +25,7 @@ public class StringsExtTests
     public void GetStringTest(int? id, string expVal)
     {
         // Arrange
-        List<StringId> stringIds = new ()
+        List<StringId> stringIds = new()
         {
             new StringId() { Id = 1, String = "testString1" },
             new StringId() { Id = 2, String = "testString21" },

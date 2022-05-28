@@ -34,7 +34,7 @@ public class MapIcons
 "sm_twin-forests.DDS"
 #endif
 
-    private static readonly Dictionary<int, string> MapIconFielNames = new () {
+    private static readonly Dictionary<int, string> MapIconFielNames = new() {
         { 9, "rm_arabia" },
         { 10, "rm_archipelago" },
         { 11, "rm_baltic" },
@@ -191,8 +191,8 @@ public class MapIcons
 
         string ret = $"{appPath}{MapiconsPath}cm_generic.DDS";
 
-        if (mapId is int id) {
-            if (MapIconFielNames.TryGetValue(id, out string fileName)) {
+        if(mapId is int id) {
+            if(MapIconFielNames.TryGetValue(id, out string fileName)) {
                 ret = $"{appPath}{MapiconsPath}{fileName}.DDS";
             }
         }

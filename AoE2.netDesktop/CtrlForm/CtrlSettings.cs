@@ -1,9 +1,5 @@
 ﻿namespace AoE2NetDesktop.CtrlForm;
 
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-
 using AoE2NetDesktop;
 using AoE2NetDesktop.Form;
 using AoE2NetDesktop.LibAoE2Net;
@@ -11,13 +7,17 @@ using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.Forms;
 
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+
 /// <summary>
 /// FormMain controler.
 /// </summary>
 public class CtrlSettings : FormControler
 {
     private const string InvalidSteamIdString = "-- Invalid ID --";
-    private PlayerLastmatch playerLastmatch = new ();
+    private PlayerLastmatch playerLastmatch = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CtrlSettings"/> class.
@@ -97,7 +97,7 @@ public class CtrlSettings : FormControler
         SelectedIdType = idtype;
         playerLastmatch = new PlayerLastmatch();
 
-        switch (idtype) {
+        switch(idtype) {
         case IdType.Steam:
             playerLastmatch.SteamId = idText;
             break;
@@ -128,7 +128,7 @@ public class CtrlSettings : FormControler
             };
 
             playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(SelectedIdType, idText);
-        } catch (HttpRequestException) {
+        } catch(HttpRequestException) {
             ret = false;
         }
 

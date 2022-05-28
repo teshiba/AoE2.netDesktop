@@ -1,7 +1,9 @@
 ﻿namespace AoE2NetDesktop.PlotEx.Tests;
 
 using AoE2NetDesktop.PlotEx;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using ScottPlot;
 
 [TestClass]

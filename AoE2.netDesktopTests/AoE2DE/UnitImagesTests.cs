@@ -4,6 +4,7 @@ using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.Tests;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -16,7 +17,7 @@ public class UnitImagesTests
     {
         // Arrange
         var files = typeof(UnitImages).GetField<Dictionary<string, string>>("FileNames");
-        foreach (var item in files) {
+        foreach(var item in files) {
             // Act
             var actVal = File.Exists(UnitImages.GetFileName(item.Key));
 

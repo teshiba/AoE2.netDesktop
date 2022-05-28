@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class SystemApiStub : ISystemApi
 {
     private readonly IUser32Api user32api;
-    private readonly Dictionary<int, string> processList = new () {
+    private readonly Dictionary<int, string> processList = new() {
         { 0, "Idle" },
         { 1, "AoE2DE_s" },
     };

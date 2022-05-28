@@ -29,8 +29,9 @@ public class ListViewItemComparer : IComparer
     {
         get => column;
 
-        set {
-            if (column == value) {
+        set
+        {
+            if(column == value) {
                 Order = Order switch {
                     SortOrder.None => SortOrder.Ascending,
                     SortOrder.Ascending => SortOrder.Descending,
@@ -61,12 +62,12 @@ public class ListViewItemComparer : IComparer
     {
         int result = 0;
 
-        if (Order != SortOrder.None) {
-            if (columnModes != null && columnModes.Length > column) {
+        if(Order != SortOrder.None) {
+            if(columnModes != null && columnModes.Length > column) {
                 var textx = ((ListViewItem)x).SubItems[column].Text;
                 var texty = ((ListViewItem)y).SubItems[column].Text;
 
-                switch (columnModes[column]) {
+                switch(columnModes[column]) {
                 case ComparerMode.String:
                     result = string.Compare(textx, texty);
                     break;
@@ -82,7 +83,7 @@ public class ListViewItemComparer : IComparer
                     break;
                 }
 
-                if (Order == SortOrder.Descending) {
+                if(Order == SortOrder.Descending) {
                     result = -result;
                 }
             }

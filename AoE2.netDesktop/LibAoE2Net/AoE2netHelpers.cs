@@ -1,12 +1,12 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net;
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 /// <summary>
 /// Helper class of AoE2net API.
@@ -27,7 +27,7 @@ public static class AoE2netHelpers
     /// <exception cref="ArgumentNullException">if idText is null.</exception>
     public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(IdType userIdType, string idText)
     {
-        if (idText is null) {
+        if(idText is null) {
             throw new ArgumentNullException(nameof(idText));
         }
 
@@ -37,12 +37,12 @@ public static class AoE2netHelpers
             _ => new PlayerLastmatch(),
         };
 
-        foreach (var player in ret.LastMatch.Players) {
-            if (player.Rating == null) {
+        foreach(var player in ret.LastMatch.Players) {
+            if(player.Rating == null) {
                 await TryFillRateAsync(ret, player).ConfigureAwait(false);
             }
 
-            if (player.Name == null) {
+            if(player.Name == null) {
                 await TryFillPlayerNameAsync(player).ConfigureAwait(false);
             }
         }
@@ -55,15 +55,15 @@ public static class AoE2netHelpers
         List<PlayerRating> rate;
         var leaderBoardId = ret.LastMatch.LeaderboardId ?? 0;
 
-        if (player.SteamId != null) {
+        if(player.SteamId != null) {
             rate = await AoE2net.GetPlayerRatingHistoryAsync(player.SteamId, leaderBoardId, 1).ConfigureAwait(false);
-        } else if (player.ProfilId is int profileId) {
+        } else if(player.ProfilId is int profileId) {
             rate = await AoE2net.GetPlayerRatingHistoryAsync(profileId, leaderBoardId, 1).ConfigureAwait(false);
         } else {
             rate = new List<PlayerRating>();
         }
 
-        if (rate.Count != 0) {
+        if(rate.Count != 0) {
             player.Rating = rate[0].Rating;
         }
     }
@@ -72,9 +72,9 @@ public static class AoE2netHelpers
     {
         PlayerLastmatch lastMatch;
 
-        if (player.SteamId != null) {
+        if(player.SteamId != null) {
             lastMatch = await AoE2net.GetPlayerLastMatchAsync(player.SteamId).ConfigureAwait(false);
-        } else if (player.ProfilId is int profileId) {
+        } else if(player.ProfilId is int profileId) {
             lastMatch = await AoE2net.GetPlayerLastMatchAsync(profileId).ConfigureAwait(false);
         } else {
             lastMatch = new PlayerLastmatch() { Name = string.Empty };

@@ -1,10 +1,10 @@
 ﻿namespace AoE2NetDesktop.PlotEx;
 
-using System;
-using System.Drawing;
-
 using ScottPlot;
 using ScottPlot.Plottable;
+
+using System;
+using System.Drawing;
 
 /// <summary>
 /// ScottPlot ScatterPlot Highlight.
@@ -48,7 +48,8 @@ public class PlotHighlight
     public bool IsVisible
     {
         get => highlightPlot.IsVisible;
-        set {
+        set
+        {
             highlightPlot.IsVisible = value;
             tooltip.IsVisible = value;
         }
@@ -64,7 +65,7 @@ public class PlotHighlight
         (double mouseCoordX, double mouseCoordY) = formsPlot.GetMouseCoordinates();
         (double pointX, double pointY) ret = default;
 
-        if (!double.IsNaN(formsPlot.Plot.YAxis.Dims.PxPerUnit)) {
+        if(!double.IsNaN(formsPlot.Plot.YAxis.Dims.PxPerUnit)) {
             double xyRatio = formsPlot.Plot.XAxis.Dims.PxPerUnit / formsPlot.Plot.YAxis.Dims.PxPerUnit;
             (double pointX, double pointY, int pointIndex) = targetPlot.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
 
@@ -76,7 +77,7 @@ public class PlotHighlight
             tooltip.Y = pointY;
 
             // render if the highlighted point chnaged
-            if (lastIndex != pointIndex) {
+            if(lastIndex != pointIndex) {
                 lastIndex = pointIndex;
                 formsPlot.Render();
             }

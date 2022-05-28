@@ -1,8 +1,10 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using System.Reflection;
 using AoE2NetDesktop.Utility.User32;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using System.Reflection;
 
 [TestClass]
 public class SystemApiTests

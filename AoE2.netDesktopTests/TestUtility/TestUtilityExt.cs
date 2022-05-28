@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 public static class TestUtilityExt
@@ -16,7 +15,7 @@ public static class TestUtilityExt
         Type type;
         var bindingFlags = BindingFlags.NonPublic | BindingFlags.Static;
 
-        if (obj.GetType().FullName == "System.RuntimeType") {
+        if(obj.GetType().FullName == "System.RuntimeType") {
             type = (Type)obj;
         } else {
             bindingFlags |= BindingFlags.Instance;
@@ -24,7 +23,7 @@ public static class TestUtilityExt
         }
 
         var fieldInfo = type.GetField(name, bindingFlags);
-        if (fieldInfo == null) {
+        if(fieldInfo == null) {
             fieldInfo = type.BaseType.GetField(name, bindingFlags);
         }
 
@@ -35,7 +34,7 @@ public static class TestUtilityExt
     {
         var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
         var fieldInfo = obj.GetType().GetField(name, bindingFlags);
-        if (fieldInfo == null) {
+        if(fieldInfo == null) {
             fieldInfo = obj.GetType().BaseType.GetField(name, bindingFlags);
         }
 
@@ -55,12 +54,12 @@ public static class TestUtilityExt
 
         var argTypes = new List<Type>();
 
-        foreach (var item in arg) {
+        foreach(var item in arg) {
             argTypes.Add(item.GetType());
         }
 
         var methodInfo = obj.GetType().GetMethod(name, bindingFlags, null, argTypes.ToArray(), null);
-        if (methodInfo == null) {
+        if(methodInfo == null) {
             methodInfo = obj.GetType().BaseType.GetMethod(name, bindingFlags, null, argTypes.ToArray(), null);
         }
 
@@ -73,12 +72,12 @@ public static class TestUtilityExt
 
         var argTypes = new List<Type>();
 
-        foreach (var item in arg) {
+        foreach(var item in arg) {
             argTypes.Add(item.GetType());
         }
 
         var methodInfo = obj.GetType().GetMethod(name, bindingFlags, null, argTypes.ToArray(), null);
-        if (methodInfo == null) {
+        if(methodInfo == null) {
             methodInfo = obj.GetType().BaseType.GetMethod(name, bindingFlags, null, argTypes.ToArray(), null);
         }
 
@@ -87,15 +86,15 @@ public static class TestUtilityExt
 
     public static void SetSettings<TValue>(string propertyName, TValue value)
     {
-        if (AssemblyName is null) {
+        if(AssemblyName is null) {
             throw new InvalidOperationException($"{nameof(AssemblyName)} is not set.");
         }
 
-        if (propertyName is null) {
+        if(propertyName is null) {
             throw new ArgumentNullException(nameof(propertyName));
         }
 
-        if (assemblyInstance is null) {
+        if(assemblyInstance is null) {
             assemblyInstance = Assembly.LoadFrom(AssemblyName);
         }
 
@@ -106,15 +105,15 @@ public static class TestUtilityExt
 
     public static TValue GetSettings<TValue>(string propertyName)
     {
-        if (AssemblyName is null) {
+        if(AssemblyName is null) {
             throw new InvalidOperationException($"{nameof(AssemblyName)} is not set.");
         }
 
-        if (propertyName is null) {
+        if(propertyName is null) {
             throw new ArgumentNullException(nameof(propertyName));
         }
 
-        if (assemblyInstance is null) {
+        if(assemblyInstance is null) {
             assemblyInstance = Assembly.LoadFrom(AssemblyName);
         }
 

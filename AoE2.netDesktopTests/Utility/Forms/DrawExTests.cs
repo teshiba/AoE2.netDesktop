@@ -1,10 +1,12 @@
 ﻿namespace AoE2NetDesktop.Tests;
 
+using AoE2NetDesktop.Utility.Forms;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using AoE2NetDesktop.Utility.Forms;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public class DrawExTests
@@ -15,7 +17,7 @@ public class DrawExTests
     public void DrawStringTest(bool drawHighQuality, PixelOffsetMode expValuePixelOffsetMode, SmoothingMode expValueSmoothingMode)
     {
         // Arrange
-        Label label = new ();
+        Label label = new();
         var graphics = label.CreateGraphics();
         var e = new PaintEventArgs(graphics, new Rectangle(0, 0, 100, 100));
 

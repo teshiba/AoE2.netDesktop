@@ -89,7 +89,7 @@ public class Leaderboard
     {
         string ret;
         var games = Games ?? 0;
-        if (games == 0) {
+        if(games == 0) {
             ret = "00.0%";
         } else {
             var winRate = (double)(Wins ?? 0) / games * 100;

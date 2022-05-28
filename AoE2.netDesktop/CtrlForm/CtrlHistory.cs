@@ -1,5 +1,12 @@
 ﻿namespace AoE2NetDesktop.CtrlForm;
 
+using AoE2NetDesktop.AoE2DE;
+using AoE2NetDesktop.Form;
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility.Forms;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,14 +15,6 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using AoE2NetDesktop.AoE2DE;
-using AoE2NetDesktop.Form;
-
-using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.LibAoE2Net.JsonFormat;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Utility.Forms;
 
 /// <summary>
 /// FormHistory controler.

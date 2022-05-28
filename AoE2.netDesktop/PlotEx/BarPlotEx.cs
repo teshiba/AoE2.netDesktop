@@ -1,10 +1,10 @@
 ﻿namespace AoE2NetDesktop.PlotEx;
 
+using ScottPlot;
+
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-
-using ScottPlot;
 
 /// <summary>
 /// Extened BarPlot of ScottPlot.

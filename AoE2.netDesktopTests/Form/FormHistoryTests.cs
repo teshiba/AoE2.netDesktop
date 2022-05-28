@@ -1,10 +1,13 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
+using AoE2NetDesktop.LibAoE2Net.Functions;
+
+using LibAoE2net;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System;
 using System.Windows.Forms;
-using AoE2NetDesktop.LibAoE2Net.Functions;
-using LibAoE2net;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using static System.Windows.Forms.ListView;
 
@@ -14,7 +17,7 @@ public partial class FormHistoryTests
     [ClassInitialize]
     public static void Init(TestContext context)
     {
-        if (context is null) {
+        if(context is null) {
             throw new ArgumentNullException(nameof(context));
         }
 

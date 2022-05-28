@@ -2,6 +2,7 @@
 
 using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility.Forms;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 internal class Controler : FormControler

@@ -23,11 +23,11 @@ public class ColorDialogEx : ColorDialog
     {
         var ret = Color;
 
-        if (Opening == null) {
+        if(Opening == null) {
             throw new NullReferenceException($"{nameof(Opening)} is set null.");
         }
 
-        if (Opening.Invoke()) {
+        if(Opening.Invoke()) {
             _ = ShowDialog();
             ret = Color;
         }

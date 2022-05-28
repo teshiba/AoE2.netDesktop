@@ -3,10 +3,11 @@
 
 namespace AoE2NetDesktop.LibAoE2Net.JsonFormat;
 
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 /// <summary>
 /// Match properties.
@@ -135,7 +136,7 @@ public class Match
     public long? Finished { get; set; }
 
     [DataMember(Name = "players")]
-    public List<Player> Players { get; set; } = new ();
+    public List<Player> Players { get; set; } = new();
 
     public override string ToString()
     {

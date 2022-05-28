@@ -12,7 +12,7 @@ public class UnitImages
 {
     private const string Path = $@"widgetui\textures\ingame\units\";
 
-    private static readonly Dictionary<string, string> FileNames = new () {
+    private static readonly Dictionary<string, string> FileNames = new() {
         { "Britons", "041_50730" },
         { "Franks", "046_50730" },
         { "Goths", "050_50730" },

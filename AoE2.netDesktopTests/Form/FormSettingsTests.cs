@@ -1,16 +1,18 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Tests;
+using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.Forms;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Tests;
-using AoE2NetDesktop.Utility;
-using AoE2NetDesktop.Utility.Forms;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public partial class FormSettingsTests

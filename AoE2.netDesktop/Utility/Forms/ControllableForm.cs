@@ -1,6 +1,7 @@
 ﻿namespace AoE2NetDesktop.Utility.Forms;
 
 using AoE2NetDesktop.Utility;
+
 using System.Windows.Forms;
 
 /// <summary>
@@ -27,7 +28,7 @@ public class ControllableForm : Form
     /// <summary>
     /// Gets async method awaiter.
     /// </summary>
-    public AsyncMethodAwaiter Awaiter { get; } = new ();
+    public AsyncMethodAwaiter Awaiter { get; } = new();
 
     /// <summary>
     /// Gets formControler.

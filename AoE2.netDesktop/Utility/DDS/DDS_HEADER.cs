@@ -54,7 +54,7 @@ public record DdsHeader
     /// <summary>
     /// Gets or sets The pixel format.(see <see cref="DDS_PIXELFORMAT"/>).
     /// </summary>
-    public DDS_PIXELFORMAT Ddspf { get; set; } = new ();
+    public DDS_PIXELFORMAT Ddspf { get; set; } = new();
 
     /// <summary>
     /// Gets or sets Specifies the complexity of the surfaces stored.

@@ -1,11 +1,5 @@
 ﻿namespace AoE2NetDesktop.CtrlForm.Tests;
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Threading.Tasks;
-
 using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
@@ -16,6 +10,12 @@ using AoE2NetDesktop.Utility;
 using LibAoE2net;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Threading.Tasks;
 
 [TestClass]
 public class CtrlHistoryTests

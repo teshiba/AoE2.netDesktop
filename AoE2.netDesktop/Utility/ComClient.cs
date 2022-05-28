@@ -50,11 +50,11 @@ public class ComClient : HttpClient
             using var stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonText));
             var serializer = new DataContractJsonSerializer(typeof(TValue));
             ret = (TValue)serializer.ReadObject(stream);
-        } catch (HttpRequestException e) {
+        } catch(HttpRequestException e) {
             Debug.Print($"Request Error: {e.Message}");
             OnError.Invoke(e);
             throw;
-        } catch (TaskCanceledException e) {
+        } catch(TaskCanceledException e) {
             Debug.Print($"Timeout: {e.Message}");
             OnError.Invoke(e);
             throw;
@@ -81,10 +81,10 @@ public class ComClient : HttpClient
         Process ret;
         try {
             ret = Start(requestUri);
-        } catch (Win32Exception noBrowser) {
+        } catch(Win32Exception noBrowser) {
             Debug.Print(noBrowser.Message);
             throw;
-        } catch (Exception other) {
+        } catch(Exception other) {
             Debug.Print(other.Message);
             throw;
         }

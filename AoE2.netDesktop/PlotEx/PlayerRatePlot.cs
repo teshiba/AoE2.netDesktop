@@ -1,17 +1,17 @@
 ﻿namespace AoE2NetDesktop.PlotEx;
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using ScottPlot;
 using ScottPlot.Plottable;
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Linq;
 
 /// <summary>
 /// Player rate graph.
@@ -36,10 +36,10 @@ public class PlayerRatePlot
         this.formsPlot = formsPlot;
         var initData = Array.Empty<double>();
         plotLineColor = lineColor;
-        scatterPlot = new (initData, initData);
-        scatterLines = new (initData, initData);
-        candlesticks = new ();
-        highlightPlot = new (new FormsPlot(), new ScatterPlot(initData, initData), string.Empty);
+        scatterPlot = new(initData, initData);
+        scatterLines = new(initData, initData);
+        candlesticks = new();
+        highlightPlot = new(new FormsPlot(), new ScatterPlot(initData, initData), string.Empty);
     }
 
     /// <summary>
@@ -68,7 +68,8 @@ public class PlayerRatePlot
     public bool IsVisible
     {
         get => scatterPlot.IsVisible;
-        set {
+        set
+        {
             scatterPlot.IsVisible = value;
             scatterLines.IsVisible = value;
             candlesticks.IsVisible = value;
@@ -83,8 +84,9 @@ public class PlayerRatePlot
     public bool IsVisibleHighlight
     {
         get => highlightPlot.IsVisible;
-        set {
-            if (IsVisible) {
+        set
+        {
+            if(IsVisible) {
                 highlightPlot.IsVisible = value;
             }
         }
@@ -110,17 +112,17 @@ public class PlayerRatePlot
         var dateList = new List<DateTime>();
         var rateList = new List<double>();
 
-        foreach (var item in playerMatchHistory) {
+        foreach(var item in playerMatchHistory) {
             var player = item.GetPlayer(profileId);
-            if (player.Rating != null) {
-                if (item.LeaderboardId == leaderBoardId) {
+            if(player.Rating != null) {
+                if(item.LeaderboardId == leaderBoardId) {
                     rateList.Add((double)player.Rating);
                     dateList.Add(item.GetOpenedTime());
                 }
             }
         }
 
-        if (dateList.Count != 0) {
+        if(dateList.Count != 0) {
             formsPlot.Plot.Remove(scatterPlot);
             formsPlot.Plot.Remove(candlesticks);
             formsPlot.Plot.Remove(scatterLines);
@@ -131,15 +133,15 @@ public class PlayerRatePlot
             var oneDay = new TimeSpan(1, 0, 0, 0);
 
             ohlc.Add(new OHLC(rateList[0], rateList[0], rateList[0], rateList[0], dateList[0], oneDay));
-            for (int i = 1; i < xs.Length; i++) {
-                if (ohlc.Last().DateTime.Date != dateList[i].Date) {
+            for(int i = 1; i < xs.Length; i++) {
+                if(ohlc.Last().DateTime.Date != dateList[i].Date) {
                     ohlc.Add(new OHLC(rateList[i], rateList[i], rateList[i], rateList[i], dateList[i], oneDay));
                 } else {
-                    if (ohlc.Last().High < rateList[i]) {
+                    if(ohlc.Last().High < rateList[i]) {
                         ohlc.Last().High = rateList[i];
                     }
 
-                    if (rateList[i] < ohlc.Last().Low) {
+                    if(rateList[i] < ohlc.Last().Low) {
                         ohlc.Last().Low = rateList[i];
                     }
 
@@ -155,7 +157,7 @@ public class PlayerRatePlot
             try {
                 var bol = candlesticks.GetBollingerBands(7);
                 scatterLines = formsPlot.Plot.AddScatterLines(bol.xs, bol.sma, plotLineColor, 2, LineStyle.Solid, leaderBoardId.ToString());
-            } catch (ArgumentException e) {
+            } catch(ArgumentException e) {
                 Debug.Print($" Plot Rate ERROR. {e.Message} {e.StackTrace}");
             }
 

@@ -1,17 +1,17 @@
 ﻿namespace AoE2NetDesktop.CtrlForm;
 
+using AoE2NetDesktop.Utility;
+
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-
-using AoE2NetDesktop.Utility;
 
 /// <summary>
 /// Label extension functions.
 /// </summary>
 public static class LabelEx
 {
-    private static readonly Dictionary<NetStatus, (string statusText, Color foreColor)> NetStatusViewList = new () {
+    private static readonly Dictionary<NetStatus, (string statusText, Color foreColor)> NetStatusViewList = new() {
         { NetStatus.ComTimeout, ("Timeout", Color.Purple) },
         { NetStatus.Connected, ("Online", Color.Green) },
         { NetStatus.Connecting, ("Connecting", Color.MediumSeaGreen) },
@@ -27,7 +27,7 @@ public static class LabelEx
     /// <param name="status">network status.</param>
     public static void SetAoE2netStatus(this Label label, NetStatus status)
     {
-        if (NetStatusViewList.TryGetValue(status, out (string statusText, Color foreColor) param)) {
+        if(NetStatusViewList.TryGetValue(status, out (string statusText, Color foreColor) param)) {
             label.Text = param.statusText;
             label.ForeColor = param.foreColor;
         } else {

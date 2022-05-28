@@ -1,15 +1,17 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Tests;
 
 using LibAoE2net;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 [TestClass]
 public partial class FormMainTests

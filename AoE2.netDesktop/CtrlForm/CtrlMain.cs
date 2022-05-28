@@ -1,11 +1,5 @@
 ﻿namespace AoE2NetDesktop.CtrlForm;
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Threading.Tasks;
-
 using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
@@ -13,6 +7,12 @@ using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.DDS;
 using AoE2NetDesktop.Utility.Forms;
 using AoE2NetDesktop.Utility.User32;
+
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Threading.Tasks;
 
 /// <summary>
 /// FormMain controler.
@@ -51,7 +51,7 @@ public class CtrlMain : FormControler
     {
         var fontStyle = FontStyle.Bold;
 
-        if (!(player.Won ?? true)) {
+        if(!(player.Won ?? true)) {
             fontStyle |= FontStyle.Strikeout;
         }
 
@@ -66,7 +66,7 @@ public class CtrlMain : FormControler
     /// <returns>team average rate value.</returns>
     public static int? GetAverageRate(List<Player> players, TeamType team)
     {
-        if (players is null) {
+        if(players is null) {
             throw new ArgumentNullException(nameof(players));
         }
 

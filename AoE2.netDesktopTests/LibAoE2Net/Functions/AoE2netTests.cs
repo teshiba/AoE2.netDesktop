@@ -1,9 +1,5 @@
 ﻿namespace LibAoE2net.Tests
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Threading.Tasks;
     using AoE2NetDesktop.LibAoE2Net.Functions;
     using AoE2NetDesktop.LibAoE2Net.JsonFormat;
     using AoE2NetDesktop.LibAoE2Net.Parameters;
@@ -12,13 +8,18 @@
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Threading.Tasks;
+
     [TestClass]
     public class AoE2netTests
     {
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            if (context is null) {
+            if(context is null) {
                 throw new ArgumentNullException(nameof(context));
             }
 
@@ -185,7 +186,7 @@
             Assert.AreEqual(1643808142, actVal.LastMatch.Finished);
 
             // Players
-            for (var i = 0; i < actVal.LastMatch.Players.Count; i++) {
+            for(var i = 0; i < actVal.LastMatch.Players.Count; i++) {
                 var player = actVal.LastMatch.Players[i];
                 Assert.AreEqual(expPlayer[i].ProfilId, player.ProfilId);
                 Assert.AreEqual(expPlayer[i].SteamId, player.SteamId);
@@ -260,7 +261,7 @@
                 .Result;
 
             // Assert
-            for (int i = 0; i < actVal.Count; i++) {
+            for(int i = 0; i < actVal.Count; i++) {
                 var rating = actVal[i];
                 Assert.AreEqual(expVal[i].Drops, rating.Drops);
                 Assert.AreEqual(expVal[i].NumLosses, rating.NumLosses);
@@ -296,7 +297,7 @@
                 .Result;
 
             // Assert
-            for (int i = 0; i < actVal.Count; i++) {
+            for(int i = 0; i < actVal.Count; i++) {
                 var rating = actVal[i];
                 Assert.AreEqual(expVal[i].Drops, rating.Drops);
                 Assert.AreEqual(expVal[i].NumLosses, rating.NumLosses);

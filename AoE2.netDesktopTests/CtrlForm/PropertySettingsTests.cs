@@ -1,8 +1,9 @@
 ﻿namespace AoE2NetDesktop.CtrlForm.Tests;
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System.ComponentModel;
 using System.Drawing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public class PropertySettingsTests

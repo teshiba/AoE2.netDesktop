@@ -1,5 +1,14 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
+using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.Tests;
+using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.Forms;
+using AoE2NetDesktop.Utility.User32;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
@@ -7,13 +16,6 @@ using System.Drawing;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AoE2NetDesktop.CtrlForm;
-using AoE2NetDesktop.LibAoE2Net.JsonFormat;
-using AoE2NetDesktop.Tests;
-using AoE2NetDesktop.Utility;
-using AoE2NetDesktop.Utility.Forms;
-using AoE2NetDesktop.Utility.User32;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 public partial class FormMainTests
 {
@@ -144,7 +146,7 @@ public partial class FormMainTests
         testClass.CtrlSettings.PropertySetting.ChromaKey = propertySettings.ChromaKey;
 
         Color expVal;
-        if (value) {
+        if(value) {
             expVal = ColorTranslator.FromHtml(propertySettings.ChromaKey);
         } else {
             expVal = default;
@@ -209,7 +211,7 @@ public partial class FormMainTests
         // Act
         testClass.LastMatchLoader.Start();
 
-        while (testClass.LastMatchLoader.Enabled) {
+        while(testClass.LastMatchLoader.Enabled) {
             _ = Task.Delay(500);
         }
 
@@ -231,7 +233,7 @@ public partial class FormMainTests
         // Act
         testClass.LastMatchLoader.Start();
 
-        while (testClass.LastMatchLoader.Enabled) {
+        while(testClass.LastMatchLoader.Enabled) {
             _ = Task.Delay(500);
         }
 

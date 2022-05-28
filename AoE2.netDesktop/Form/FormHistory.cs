@@ -1,14 +1,14 @@
 ﻿namespace AoE2NetDesktop.Form;
 
+using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.Forms;
+
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
-
-using AoE2NetDesktop.CtrlForm;
-using AoE2NetDesktop.Utility;
-using AoE2NetDesktop.Utility.Forms;
 
 /// <summary>
 /// FormHistory class.
@@ -63,7 +63,7 @@ public partial class FormHistory : ControllableForm
         tabControlHistory.SelectedIndex = Settings.Default.SelectedIndexTabControlHistory;
         tabControlHistory.UseWaitCursor = true;
 
-        if (await Controler.ReadPlayerMatchHistoryAsync()) {
+        if(await Controler.ReadPlayerMatchHistoryAsync()) {
             UpdateMatchesTabView();
             UpdateStatisticsTabGraph();
             UpdatePlayersTabListView();

@@ -1,23 +1,27 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using System;
-using System.Collections.Generic;
 using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.PlotEx;
 using AoE2NetDesktop.Tests;
+
 using LibAoE2net;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using ScottPlot;
+
+using System;
+using System.Collections.Generic;
 
 [TestClass]
 public class WinRatePlotTests
 {
     private const int ProfileId = TestData.AvailableUserProfileId;
     private const LeaderboardId TestLeaderboardId = LeaderboardId.RM1v1;
-    private readonly PlayerMatchHistory playerMatchHistory = new () {
+    private readonly PlayerMatchHistory playerMatchHistory = new() {
         new Match() {
             LeaderboardId = TestLeaderboardId,
             MapType = 9,
@@ -67,7 +71,7 @@ public class WinRatePlotTests
     [ClassInitialize]
     public static void Init(TestContext context)
     {
-        if (context is null) {
+        if(context is null) {
             throw new ArgumentNullException(nameof(context));
         }
 

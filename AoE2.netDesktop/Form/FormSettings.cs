@@ -1,17 +1,17 @@
 ﻿namespace AoE2NetDesktop.Form;
 
+using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.Forms;
+
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using AoE2NetDesktop.CtrlForm;
-using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Utility;
-using AoE2NetDesktop.Utility.Forms;
 
 /// <summary>
 /// App Settings form.
@@ -45,7 +45,7 @@ public partial class FormSettings : ControllableForm
 
         try {
             chromaKey = ColorTranslator.FromHtml(htmlColor);
-        } catch (ArgumentException) {
+        } catch(ArgumentException) {
             chromaKey = ColorTranslator.FromHtml("#000000");
         }
 
@@ -62,7 +62,7 @@ public partial class FormSettings : ControllableForm
 
     private void InitIDRadioButton()
     {
-        switch (Controler.SelectedIdType) {
+        switch(Controler.SelectedIdType) {
         case IdType.Steam:
             radioButtonSteamID.Checked = true;
             break;
@@ -89,7 +89,7 @@ public partial class FormSettings : ControllableForm
         checkBoxDrawQuality.Checked = Controler.PropertySetting.DrawHighQuality;
         checkBoxAutoReloadLastMatch.Checked = Controler.PropertySetting.IsAutoReloadLastMatch;
 
-        switch (Controler.SelectedIdType) {
+        switch(Controler.SelectedIdType) {
         case IdType.Steam:
             radioButtonSteamID.Checked = true;
             break;
@@ -108,9 +108,9 @@ public partial class FormSettings : ControllableForm
 
         var ret = await Controler.ReloadProfileAsync(idtype, idText);
 
-        if (ret) {
+        if(ret) {
             labelAoE2NetStatus.SetAoE2netStatus(NetStatus.Connected);
-            switch (Controler.SelectedIdType) {
+            switch(Controler.SelectedIdType) {
             case IdType.Steam:
                 textBoxSettingProfileId.Text = Controler.ProfileId.ToString();
                 Settings.Default.ProfileId = Controler.ProfileId;
@@ -138,15 +138,15 @@ public partial class FormSettings : ControllableForm
 
     private void OnErrorHandler(Exception ex)
     {
-        if (ex.GetType() == typeof(HttpRequestException)) {
-            if (ex.Message.Contains("404")) {
+        if(ex.GetType() == typeof(HttpRequestException)) {
+            if(ex.Message.Contains("404")) {
                 labelAoE2NetStatus.SetAoE2netStatus(NetStatus.InvalidRequest);
             } else {
                 labelAoE2NetStatus.SetAoE2netStatus(NetStatus.ServerError);
             }
         }
 
-        if (ex.GetType() == typeof(TaskCanceledException)) {
+        if(ex.GetType() == typeof(TaskCanceledException)) {
             labelAoE2NetStatus.SetAoE2netStatus(NetStatus.ComTimeout);
         }
     }
@@ -181,7 +181,7 @@ public partial class FormSettings : ControllableForm
         var idtype = Controler.SelectedIdType;
         var idText = string.Empty;
 
-        switch (idtype) {
+        switch(idtype) {
         case IdType.Steam:
             idText = Controler.SteamId;
             break;
@@ -192,7 +192,7 @@ public partial class FormSettings : ControllableForm
 
         try {
             _ = await ReloadProfileAsync(idtype, idText);
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
         }
 
@@ -206,7 +206,7 @@ public partial class FormSettings : ControllableForm
         var idtype = Controler.SelectedIdType;
         var idText = string.Empty;
 
-        switch (idtype) {
+        switch(idtype) {
         case IdType.Steam:
             idText = textBoxSettingSteamId.Text;
             Settings.Default.SteamId = idText;
@@ -219,7 +219,7 @@ public partial class FormSettings : ControllableForm
 
         try {
             _ = await ReloadProfileAsync(idtype, idText);
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
         }
 
@@ -235,7 +235,7 @@ public partial class FormSettings : ControllableForm
 
         textBoxSettingProfileId.Enabled = radioButton.Checked;
         textBoxSettingSteamId.Enabled = !radioButton.Checked;
-        if (radioButton.Checked) {
+        if(radioButton.Checked) {
             Settings.Default.SelectedIdType = (int)IdType.Profile;
             Controler.SelectedIdType = IdType.Profile;
         }
@@ -247,7 +247,7 @@ public partial class FormSettings : ControllableForm
 
         textBoxSettingProfileId.Enabled = !radioButton.Checked;
         textBoxSettingSteamId.Enabled = radioButton.Checked;
-        if (radioButton.Checked) {
+        if(radioButton.Checked) {
             Settings.Default.SelectedIdType = (int)IdType.Steam;
             Controler.SelectedIdType = IdType.Steam;
         }
@@ -304,7 +304,7 @@ public partial class FormSettings : ControllableForm
     private void TextBoxChromaKey_Leave(object sender, EventArgs e)
     {
         var textBox = (TextBox)sender;
-        if (!textBox.Text.StartsWith("#")) {
+        if(!textBox.Text.StartsWith("#")) {
             textBox.Text = $"#{textBox.Text}";
         }
 

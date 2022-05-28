@@ -1,8 +1,5 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Windows.Forms;
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
@@ -10,6 +7,10 @@ using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
 
 using LibAoE2net;
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Windows.Forms;
 
 public partial class FormSettingsTests
 {

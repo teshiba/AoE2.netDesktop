@@ -1,29 +1,28 @@
 ﻿namespace AoE2NetDesktop.Form;
 
+using AoE2NetDesktop;
+using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.Forms;
+
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
-
-using AoE2NetDesktop;
-
-using AoE2NetDesktop.LibAoE2Net.JsonFormat;
-using AoE2NetDesktop.CtrlForm;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Utility.Forms;
-using System.Diagnostics.CodeAnalysis;
-using AoE2NetDesktop.Utility;
 
 /// <summary>
 /// App main form.
 /// </summary>
 public partial class FormMain : ControllableForm
 {
-    private readonly List<Label> labelCiv = new ();
-    private readonly List<Label> labelColor = new ();
-    private readonly List<Label> labelRate = new ();
-    private readonly List<Label> labelName = new ();
-    private readonly List<PictureBox> pictureBox = new ();
+    private readonly List<Label> labelCiv = new();
+    private readonly List<Label> labelColor = new();
+    private readonly List<Label> labelRate = new();
+    private readonly List<Label> labelName = new();
+    private readonly List<PictureBox> pictureBox = new();
     private readonly Language language;
 
     private Point mouseDownPoint;
@@ -67,12 +66,12 @@ public partial class FormMain : ControllableForm
             _ = await CtrlMain.InitAsync(language);
 
             // if the app is opened first, need to set user profile.
-            if (!await CtrlSettings.ReadProfileAsync()) {
+            if(!await CtrlSettings.ReadProfileAsync()) {
                 OpenSettings();
             }
 
             _ = await RedrawLastMatchAsync(CtrlSettings.ProfileId);
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
         }
 
@@ -87,7 +86,7 @@ public partial class FormMain : ControllableForm
     {
         LastMatchLoader.Stop();
 
-        if (!CtrlMain.IsTimerReloading) {
+        if(!CtrlMain.IsTimerReloading) {
             ClearLastMatch();
         } else {
             CtrlMain.IsTimerReloading = false;
@@ -95,7 +94,7 @@ public partial class FormMain : ControllableForm
 
         _ = await RedrawLastMatchAsync(CtrlSettings.ProfileId);
 
-        if (CtrlSettings.PropertySetting.IsAutoReloadLastMatch) {
+        if(CtrlSettings.PropertySetting.IsAutoReloadLastMatch) {
             LastMatchLoader.Start();
         }
 
@@ -171,7 +170,7 @@ public partial class FormMain : ControllableForm
         var labelName = (Label)sender;
         var player = (Player)labelName.Tag;
 
-        if (player?.ProfilId == CtrlSettings.ProfileId) {
+        if(player?.ProfilId == CtrlSettings.ProfileId) {
             labelName.DrawString(e, 20, Color.Black, Color.DarkOrange);
         } else {
             labelName.DrawString(e, 20, Color.Black, Color.MediumSeaGreen);
@@ -282,14 +281,14 @@ public partial class FormMain : ControllableForm
 
     private void Controls_MouseDown(object sender, MouseEventArgs e)
     {
-        if ((e.Button & MouseButtons.Left) == MouseButtons.Left) {
+        if((e.Button & MouseButtons.Left) == MouseButtons.Left) {
             mouseDownPoint = new Point(e.X, e.Y);
         }
     }
 
     private void Controls_MouseMove(object sender, MouseEventArgs e)
     {
-        if ((e.Button & MouseButtons.Left) == MouseButtons.Left) {
+        if((e.Button & MouseButtons.Left) == MouseButtons.Left) {
             Left += e.X - mouseDownPoint.X;
             Top += e.Y - mouseDownPoint.Y;
         }
@@ -297,14 +296,14 @@ public partial class FormMain : ControllableForm
 
     private void FormMain_MouseClick(object sender, MouseEventArgs e)
     {
-        if (e.Button == MouseButtons.Right) {
+        if(e.Button == MouseButtons.Right) {
             contextMenuStripMain.Show();
         }
     }
 
     private void FormMain_KeyDown(object sender, KeyEventArgs e)
     {
-        switch (e.KeyCode) {
+        switch(e.KeyCode) {
         case Keys.F5: // is called by shortcut key settings of ToolStripMenuItem;
             break;
         default:
@@ -320,8 +319,8 @@ public partial class FormMain : ControllableForm
         {
             var changeSize = 0;
 
-            if (e.Alt) {
-                if (e.Shift) {
+            if(e.Alt) {
+                if(e.Shift) {
                     changeSize = 1;
                 } else {
                     changeSize = 10;
@@ -350,9 +349,9 @@ public partial class FormMain : ControllableForm
         var labelName = (Label)sender;
         var player = (Player)labelName.Tag;
 
-        if (player != null) {
+        if(player != null) {
             var formHistory = CtrlHistory.GenerateFormHistory(player.Name, player.ProfilId);
-            if (formHistory != null) {
+            if(formHistory != null) {
                 formHistory.Show();
             } else {
                 labelErrText.Text = $"invalid player Name:{player.Name} ProfilId:{player.ProfilId}";

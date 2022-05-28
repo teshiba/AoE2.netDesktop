@@ -1,9 +1,10 @@
 namespace AoE2NetDesktop;
 
-using System;
-using System.Windows.Forms;
 using AoE2NetDesktop.Form;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+
+using System;
+using System.Windows.Forms;
 
 /// <summary>
 /// Main Program.

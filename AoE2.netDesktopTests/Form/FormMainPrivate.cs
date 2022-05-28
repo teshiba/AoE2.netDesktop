@@ -1,11 +1,5 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using System;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
@@ -13,6 +7,13 @@ using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
 
 using LibAoE2net;
+
+using System;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 public partial class FormMainTests
 {
@@ -45,7 +46,8 @@ public partial class FormMainTests
         public FormSettings FormSettings
         {
             get => this.GetField<FormSettings>("formSettings");
-            set {
+            set
+            {
                 this.SetField("formSettings", value);
             }
         }
@@ -53,7 +55,8 @@ public partial class FormMainTests
         public Point MouseDownPoint
         {
             get => this.GetField<Point>("mouseDownPoint");
-            set {
+            set
+            {
                 this.SetField("mouseDownPoint", value);
             }
         }

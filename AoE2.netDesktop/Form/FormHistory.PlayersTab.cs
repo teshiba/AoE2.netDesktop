@@ -1,15 +1,15 @@
 ﻿namespace AoE2NetDesktop.Form;
 
+using AoE2NetDesktop.AoE2DE;
+using AoE2NetDesktop.PlotEx;
+using AoE2NetDesktop.Utility.Forms;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-
-using AoE2NetDesktop.AoE2DE;
-using AoE2NetDesktop.PlotEx;
-using AoE2NetDesktop.Utility.Forms;
 
 /// <summary>
 /// Players Tab of FormHistory class.
@@ -60,7 +60,7 @@ public partial class FormHistory : ControllableForm
 
         var listviewItems = new List<ListViewItem>();
 
-        foreach (var country in Controler.MatchedPlayerInfos.Select(x => x.Value.Country)) {
+        foreach(var country in Controler.MatchedPlayerInfos.Select(x => x.Value.Country)) {
             if(!listviewItems.Exists((item) => item.Text == country)) {
                 listviewItems.Add(new ListViewItem(country));
             }
@@ -84,13 +84,13 @@ public partial class FormHistory : ControllableForm
         listViewMatchedPlayers.Items.Clear();
 
         StringComparison stringComparison;
-        if (ignoreCase) {
+        if(ignoreCase) {
             stringComparison = StringComparison.CurrentCultureIgnoreCase;
         } else {
             stringComparison = StringComparison.CurrentCulture;
         }
 
-        foreach (var player in Controler.MatchedPlayerInfos.Where(Predicate)) {
+        foreach(var player in Controler.MatchedPlayerInfos.Where(Predicate)) {
             var listviewItem = new ListViewItem(player.Key);
             listviewItem.SubItems.Add(player.Value.Country);
             listviewItem.SubItems.Add(player.Value.RateRM1v1.ToString());
@@ -128,7 +128,7 @@ public partial class FormHistory : ControllableForm
     {
         var selectedItems = listViewMatchedPlayers.SelectedItems;
 
-        if (selectedItems.Count != 0) {
+        if(selectedItems.Count != 0) {
             Controler.OpenProfile(selectedItems[0].Text);
         }
     }
@@ -137,7 +137,7 @@ public partial class FormHistory : ControllableForm
     {
         var selectedItems = listViewMatchedPlayers.SelectedItems;
 
-        if (selectedItems.Count != 0) {
+        if(selectedItems.Count != 0) {
             var formHistory = Controler.GenerateFormHistory(selectedItems[0].Text);
             formHistory.Show();
         }
@@ -162,7 +162,7 @@ public partial class FormHistory : ControllableForm
         var location = new Point(contextMenuStripMatchedPlayers.Left, contextMenuStripMatchedPlayers.Top);
         var point = listViewMatchedPlayers.PointToClient(location);
         var item = listViewMatchedPlayers.HitTest(point).Item;
-        if (item?.Bounds.Contains(point) ?? false) {
+        if(item?.Bounds.Contains(point) ?? false) {
             openAoE2NetProfileToolStripMenuItem.Visible = true;
         } else {
             e.Cancel = true;
@@ -215,7 +215,7 @@ public partial class FormHistory : ControllableForm
 
     private void SplitContainerPlayers_DoubleClick(object sender, EventArgs e)
     {
-        switch (splitContainerPlayers.Orientation) {
+        switch(splitContainerPlayers.Orientation) {
         case Orientation.Horizontal:
             splitContainerPlayers.Orientation = Orientation.Vertical;
             PlayerCountryStat.Orientation = ScottPlot.Orientation.Horizontal;

@@ -1,10 +1,12 @@
 ﻿namespace AoE2NetDesktop.Tests;
 
+using AoE2NetDesktop.Utility.User32;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using AoE2NetDesktop.Utility.User32;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public class User32ApiTests

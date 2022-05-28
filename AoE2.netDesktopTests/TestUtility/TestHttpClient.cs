@@ -1,14 +1,15 @@
 ﻿namespace LibAoE2net;
 
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Tests;
+using AoE2NetDesktop.Utility;
+
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Tests;
-using AoE2NetDesktop.Utility;
 
 /// <summary>
 /// Communication client Interface.
@@ -37,17 +38,17 @@ public class TestHttpClient : ComClient
     /// <returns>string.</returns>
     public override Task<string> GetStringAsync(string requestUri)
     {
-        if (ForceHttpRequestException) {
+        if(ForceHttpRequestException) {
             LastRequest = nameof(ForceHttpRequestException);
             throw new HttpRequestException("Forced HttpRequestException");
         }
 
-        if (ForceTaskCanceledException) {
+        if(ForceTaskCanceledException) {
             LastRequest = nameof(ForceTaskCanceledException);
             throw new TaskCanceledException("Forced TaskCanceledException");
         }
 
-        if (ForceException) {
+        if(ForceException) {
             LastRequest = nameof(ForceException);
             throw new Exception("Force Exception");
         }
@@ -74,11 +75,11 @@ public class TestHttpClient : ComClient
     /// <exception cref="Exception">Exception.</exception>
     public override Process Start(string requestUri)
     {
-        if (ForceWin32Exception) {
+        if(ForceWin32Exception) {
             throw new Win32Exception(EFAIL, "Forced ForceWin32Exception");
         }
 
-        if (ForceException) {
+        if(ForceException) {
             throw new Exception("Forced Exception");
         }
 
@@ -94,7 +95,7 @@ public class TestHttpClient : ComClient
         try {
             Debug.Print($"Open {Path.GetFullPath(filePath)}");
             ret = await File.ReadAllTextAsync(filePath).ConfigureAwait(false);
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             Debug.Print($"Test stub http read: {ex.Message}");
             throw new HttpRequestException(ex.Message, null, System.Net.HttpStatusCode.NotFound);
         }

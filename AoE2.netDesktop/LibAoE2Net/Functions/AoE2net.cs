@@ -1,21 +1,22 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net.Functions;
 
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using AoE2NetDesktop.LibAoE2Net.JsonFormat;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Utility;
 
 /// <summary>
 /// AoE2net API class.
 /// </summary>
 public static class AoE2net
 {
-    private static readonly Uri BaseAddress = new (@"https://aoe2.net/api/");
-    private static readonly Uri CivImageAddress = new (@"https://aoe2.net/assets/images/crests/25x25/");
-    private static readonly Uri ProfileIdBaseAddress = new (@"https://aoe2.net/#profile-");
+    private static readonly Uri BaseAddress = new(@"https://aoe2.net/api/");
+    private static readonly Uri CivImageAddress = new(@"https://aoe2.net/assets/images/crests/25x25/");
+    private static readonly Uri ProfileIdBaseAddress = new(@"https://aoe2.net/#profile-");
 
     /// <summary>
     /// Gets or sets communication client.
@@ -60,7 +61,7 @@ public static class AoE2net
     /// <returns><see cref="PlayerLastmatch"/> deserialized as JSON.</returns>
     public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(string steamId)
     {
-        if (steamId is null) {
+        if(steamId is null) {
             throw new ArgumentNullException(nameof(steamId));
         }
 
@@ -79,7 +80,7 @@ public static class AoE2net
     /// <returns>List of <see cref="PlayerRating"/> deserialized as JSON.</returns>
     public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(string steamId, LeaderboardId leaderBoardId, int count)
     {
-        if (steamId is null) {
+        if(steamId is null) {
             throw new ArgumentNullException(nameof(steamId));
         }
 
@@ -124,7 +125,7 @@ public static class AoE2net
     {
         string ret = null;
 
-        if (civName != null) {
+        if(civName != null) {
             ret = $"{CivImageAddress}{civName.ToLower()}.png";
         }
 
@@ -140,7 +141,7 @@ public static class AoE2net
     /// <returns>Player match history.</returns>
     public static async Task<PlayerMatchHistory> GetPlayerMatchHistoryAsync(int start, int count, string steamId)
     {
-        if (steamId is null) {
+        if(steamId is null) {
             throw new ArgumentNullException(nameof(steamId));
         }
 

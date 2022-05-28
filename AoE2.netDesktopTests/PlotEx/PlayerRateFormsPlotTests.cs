@@ -1,14 +1,17 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.PlotEx;
 using AoE2NetDesktop.Tests;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using ScottPlot;
+
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 [TestClass]
 public class PlayerRateFormsPlotTests
@@ -16,7 +19,7 @@ public class PlayerRateFormsPlotTests
     private const int ProfileId = TestData.AvailableUserProfileId;
     private const int ProfileIdp1 = TestData.AvailableUserProfileId + 1;
     private const int ProfileIdp2 = TestData.AvailableUserProfileId + 2;
-    private readonly PlayerMatchHistory matchesWithoutRate = new () {
+    private readonly PlayerMatchHistory matchesWithoutRate = new() {
         new Match() {
             LeaderboardId = LeaderboardId.RM1v1,
             Players = new List<Player> {
@@ -34,7 +37,7 @@ public class PlayerRateFormsPlotTests
         },
     };
 
-    private readonly PlayerMatchHistory matchesWithRate = new () {
+    private readonly PlayerMatchHistory matchesWithRate = new() {
         new Match() {
             LeaderboardId = LeaderboardId.RM1v1,
             Started = 1,
@@ -54,7 +57,7 @@ public class PlayerRateFormsPlotTests
         },
     };
 
-    private readonly Dictionary<LeaderboardId, Color> leaderboardColor = new () {
+    private readonly Dictionary<LeaderboardId, Color> leaderboardColor = new() {
         { LeaderboardId.RM1v1, Color.Blue },
         { LeaderboardId.RMTeam, Color.Indigo },
         { LeaderboardId.DM1v1, Color.DarkGreen },

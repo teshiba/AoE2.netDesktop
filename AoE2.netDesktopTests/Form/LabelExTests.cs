@@ -1,11 +1,13 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
+using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.Utility;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using AoE2NetDesktop.CtrlForm;
-using AoE2NetDesktop.Utility;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public class LabelExTests

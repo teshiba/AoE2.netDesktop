@@ -1,6 +1,7 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
 using AoE2NetDesktop.Utility.User32;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]

@@ -1,12 +1,14 @@
 ﻿namespace LibAoE2net.Tests;
 
+using AoE2NetDesktop.Utility;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AoE2NetDesktop.Utility;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public class ComClientTests
@@ -17,8 +19,7 @@ public class ComClientTests
     public void GetStringAsyncTest()
     {
         // Arrange
-        var testClass = new ComClient
-        {
+        var testClass = new ComClient {
             BaseAddress = new Uri("https://aoe2.net/"),
         };
 
@@ -35,8 +36,7 @@ public class ComClientTests
     public async Task GetFromJsonAsyncTestTaskCanceledExceptionAsync()
     {
         // Arrange
-        var comClient = new TestHttpClient()
-        {
+        var comClient = new TestHttpClient() {
             ForceTaskCanceledException = true,
         };
 
@@ -50,8 +50,7 @@ public class ComClientTests
     public async Task GetFromJsonAsyncTestHttpRequestExceptionAsync()
     {
         // Arrange
-        var comClient = new TestHttpClient()
-        {
+        var comClient = new TestHttpClient() {
             ForceHttpRequestException = true,
         };
 
@@ -93,8 +92,7 @@ public class ComClientTests
     public void OpenBrowserTestWin32Exception()
     {
         // Arrange
-        var testClass = new TestHttpClient()
-        {
+        var testClass = new TestHttpClient() {
             ForceWin32Exception = true,
         };
 

@@ -1,6 +1,7 @@
 ﻿namespace LibAoE2net.Tests;
 
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]

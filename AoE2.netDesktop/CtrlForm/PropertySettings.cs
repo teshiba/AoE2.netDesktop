@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 /// </summary>
 public class PropertySettings : INotifyPropertyChanged
 {
-    private static readonly Dictionary<string, PropertyChangedEventArgs> PropertyChangedEventArgs = new () {
+    private static readonly Dictionary<string, PropertyChangedEventArgs> PropertyChangedEventArgs = new() {
         { nameof(ChromaKey), new PropertyChangedEventArgs(nameof(ChromaKey)) },
         { nameof(IsHideTitle), new PropertyChangedEventArgs(nameof(IsHideTitle)) },
         { nameof(IsAlwaysOnTop), new PropertyChangedEventArgs(nameof(IsAlwaysOnTop)) },
@@ -105,7 +105,7 @@ public class PropertySettings : INotifyPropertyChanged
     {
         var ret = false;
 
-        if (!Equals(field, value)) {
+        if(!Equals(field, value)) {
             field = value;
             PropertyChanged?.Invoke(this, PropertyChangedEventArgs[propertyName]);
             ret = true;

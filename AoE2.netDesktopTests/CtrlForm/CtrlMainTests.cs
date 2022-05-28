@@ -1,19 +1,22 @@
 ﻿namespace AoE2NetDesktop.CtrlForm.Tests;
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.User32;
+
 using LibAoE2net;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 [TestClass]
 public class CtrlMainTests
@@ -21,7 +24,7 @@ public class CtrlMainTests
     [ClassInitialize]
     public static void Init(TestContext context)
     {
-        if (context is null) {
+        if(context is null) {
             throw new ArgumentNullException(nameof(context));
         }
 
@@ -254,7 +257,7 @@ public class CtrlMainTests
     [DataRow(null, 20, "N/A")]
     [DataRow(20, null, "N/A")]
     [DataRow(null, null, "N/A")]
-    public void GetLossesStringTest(int? games, int?wins, string expVal)
+    public void GetLossesStringTest(int? games, int? wins, string expVal)
     {
         // Arrange
         var player = new Player() {

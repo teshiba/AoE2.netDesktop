@@ -1,8 +1,10 @@
 ﻿namespace LibAoE2net.Tests;
 
-using System.Collections.Generic;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using System.Collections.Generic;
 
 [TestClass]
 public class LanguageExtTests
@@ -32,7 +34,7 @@ public class LanguageExtTests
             { Language.zh_TW, "zh-TW" },
         };
 
-        foreach (var item in expVal.Keys) {
+        foreach(var item in expVal.Keys) {
             // Act
             var actVal = item.ToApiString();
 

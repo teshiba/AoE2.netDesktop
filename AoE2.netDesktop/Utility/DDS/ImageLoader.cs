@@ -69,7 +69,7 @@ public class ImageLoader
             DwMipMapCount = reader.ReadInt32(),
         };
 
-        for (int i = 0; i < DdsHeader.DwReserved1Size; ++i) {
+        for(int i = 0; i < DdsHeader.DwReserved1Size; ++i) {
             header.DwReserved1[i] = reader.ReadInt32();
         }
 
@@ -102,8 +102,8 @@ public class ImageLoader
         using var stream = new MemoryStream(byteData);
         using var reader = new BinaryReader(stream);
 
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
                 var pixelData = reader.ReadInt32();
                 if((int)((pixelData & 0xff000000) >> 24) != 0x00) {
                     bitmap.SetPixel(x, y, Color.FromArgb(

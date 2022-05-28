@@ -1,12 +1,12 @@
 ﻿namespace AoE2NetDesktop.PlotEx;
 
-using System;
-
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using ScottPlot;
+
+using System;
 
 /// <summary>
 /// Player country graph.
@@ -46,18 +46,18 @@ public class PlayerCountryPlot : BarPlotEx
     /// <param name="profileId">profile ID.</param>
     public void Plot(PlayerMatchHistory playerMatchHistory, int profileId)
     {
-        if (playerMatchHistory is null) {
+        if(playerMatchHistory is null) {
             throw new ArgumentNullException(nameof(playerMatchHistory));
         }
 
         Values.Clear();
 
-        foreach (var match in playerMatchHistory) {
-            foreach (var player in match.Players) {
+        foreach(var match in playerMatchHistory) {
+            foreach(var player in match.Players) {
                 var selectedPlayer = match.GetPlayer(profileId);
-                if (player != selectedPlayer) {
+                if(player != selectedPlayer) {
                     var country = CountryCode.ConvertToFullName(player.Country);
-                    if (!Values.ContainsKey(country)) {
+                    if(!Values.ContainsKey(country)) {
                         var stackedData = new StackedBarGraphData(0, 0);
                         Values.Add(country, stackedData);
                     }
@@ -67,7 +67,7 @@ public class PlayerCountryPlot : BarPlotEx
             }
         }
 
-        if (Values.Count != 0) {
+        if(Values.Count != 0) {
             Render();
         }
     }

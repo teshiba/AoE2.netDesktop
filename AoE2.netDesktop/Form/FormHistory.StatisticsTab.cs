@@ -1,16 +1,16 @@
 ﻿namespace AoE2NetDesktop.Form;
 
+using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.PlotEx;
+using AoE2NetDesktop.Utility.Forms;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using AoE2NetDesktop.CtrlForm;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.PlotEx;
-using AoE2NetDesktop.Utility.Forms;
 
 /// <summary>
 /// Statistics Tab of FormHistory class.
@@ -27,7 +27,7 @@ public partial class FormHistory : ControllableForm
 
     private const int FontSize = 16;
 
-    private readonly Dictionary<LeaderboardId, Color> leaderboardColorList = new () {
+    private readonly Dictionary<LeaderboardId, Color> leaderboardColorList = new() {
         { LeaderboardId.RM1v1, Color.Blue },
         { LeaderboardId.RMTeam, Color.Indigo },
         { LeaderboardId.DM1v1, Color.DarkGreen },
@@ -63,7 +63,7 @@ public partial class FormHistory : ControllableForm
         listViewStatistics.UseWaitCursor = true;
 
         var leaderboards = await Controler.ReadLeaderBoardAsync();
-        if (leaderboards.Count == LeaderboardIdCount) {
+        if(leaderboards.Count == LeaderboardIdCount) {
             listViewStatistics.BeginUpdate();
             listViewStatistics.Items.Clear();
 
@@ -87,8 +87,8 @@ public partial class FormHistory : ControllableForm
 
     private void ListViewStatistics_KeyDown(object sender, KeyEventArgs e)
     {
-        if ((e.KeyCode == Keys.A) && e.Control) {
-            foreach (ListViewItem item in listViewStatistics.Items) {
+        if((e.KeyCode == Keys.A) && e.Control) {
+            foreach(ListViewItem item in listViewStatistics.Items) {
                 item.Selected = true;
             }
         }

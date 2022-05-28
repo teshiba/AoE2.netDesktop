@@ -1,8 +1,9 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net.Functions;
 
-using System.Linq;
-using System;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+
+using System;
+using System.Linq;
 
 /// <summary>
 /// Extention of Match class.

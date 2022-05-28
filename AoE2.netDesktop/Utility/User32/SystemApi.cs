@@ -27,7 +27,7 @@ public class SystemApi : ISystemApi
         try {
             _ = user32api.GetWindowThreadProcessId(user32api.GetForegroundWindow(), out int processid);
             ret = Process.GetProcessById(processid).ProcessName;
-        } catch (ArgumentException) {
+        } catch(ArgumentException) {
             ret = string.Empty;
         }
 
@@ -40,8 +40,8 @@ public class SystemApi : ISystemApi
         string ret = string.Empty;
         var processes = Process.GetProcesses();
 
-        foreach (var process in processes) {
-            if (process.ProcessName == processName) {
+        foreach(var process in processes) {
+            if(process.ProcessName == processName) {
                 ret = process.MainModule.FileVersionInfo.FileName;
                 ret = ret.Replace($"{processName}.exe", string.Empty);
             }
