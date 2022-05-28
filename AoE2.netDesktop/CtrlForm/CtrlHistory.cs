@@ -23,7 +23,7 @@ using AoE2NetDesktop.Utility.Forms;
 public class CtrlHistory : FormControler
 {
     private const int ReadCountMax = 1000;
-    private static readonly Dictionary<string, LeaderboardId> LeaderboardNameList = new () {
+    private static readonly Dictionary<string, LeaderboardId> LeaderboardNameList = new() {
         { "1v1 Random Map", LeaderboardId.RM1v1 },
         { "Team Random Map", LeaderboardId.RMTeam },
         { "1v1 Empire Wars", LeaderboardId.EW1v1 },
@@ -33,7 +33,7 @@ public class CtrlHistory : FormControler
         { "Team Death Match", LeaderboardId.DMTeam },
     };
 
-    private static readonly Dictionary<string, DataSource> DataSourceNameList = new () {
+    private static readonly Dictionary<string, DataSource> DataSourceNameList = new() {
         { "Map", DataSource.Map },
         { "Civilization", DataSource.Civilization },
     };
@@ -61,12 +61,12 @@ public class CtrlHistory : FormControler
     /// <summary>
     /// Gets playerMatchHistory.
     /// </summary>
-    public PlayerMatchHistory PlayerMatchHistory { get; private set; } = new ();
+    public PlayerMatchHistory PlayerMatchHistory { get; private set; } = new();
 
     /// <summary>
     /// Gets or sets leaderboard List.
     /// </summary>
-    public Dictionary<LeaderboardId, Leaderboard> Leaderboards { get; set; } = new ();
+    public Dictionary<LeaderboardId, Leaderboard> Leaderboards { get; set; } = new();
 
     /// <summary>
     /// Gets profile ID.
@@ -76,24 +76,7 @@ public class CtrlHistory : FormControler
     /// <summary>
     /// Gets matched Player Infos.
     /// </summary>
-    public Dictionary<string, PlayerInfo> MatchedPlayerInfos { get; private set; } = new ();
-
-    /// <summary>
-    /// Get rate string.
-    /// </summary>
-    /// <param name="player">player.</param>
-    /// <returns>
-    /// rate value and rating change value.
-    /// if rate is unavilable : "----".
-    /// </returns>
-    public static string GetRatingString(Player player)
-    {
-        string ret = (player.Rating?.ToString() ?? "----")
-                    + (player.RatingChange?.Contains('-') ?? true ? string.Empty : "+")
-                    + player.RatingChange?.ToString();
-
-        return ret;
-    }
+    public Dictionary<string, PlayerInfo> MatchedPlayerInfos { get; private set; } = new();
 
     /// <summary>
     /// Get leaderboard string.
@@ -125,7 +108,7 @@ public class CtrlHistory : FormControler
     public static DataSource GetDataSource(string dataNameString)
     {
         var result = DataSourceNameList.TryGetValue(dataNameString, out DataSource ret);
-        if (!result) {
+        if(!result) {
             ret = DataSource.Undefined;
         }
 
@@ -141,30 +124,12 @@ public class CtrlHistory : FormControler
     {
         LeaderboardId ret;
 
-        if (leaderboardString != null) {
-            if (!LeaderboardNameList.TryGetValue(leaderboardString, out ret)) {
+        if(leaderboardString != null) {
+            if(!LeaderboardNameList.TryGetValue(leaderboardString, out ret)) {
                 ret = LeaderboardId.Undefined;
             }
         } else {
             ret = LeaderboardId.Undefined;
-        }
-
-        return ret;
-    }
-
-    /// <summary>
-    /// Get the win marker.
-    /// </summary>
-    /// <param name="won">win or lose.</param>
-    /// <returns>win marker string.</returns>
-    public static string GetWinMarkerString(bool? won)
-    {
-        string ret;
-
-        if (won == null) {
-            ret = "---";
-        } else {
-            ret = (bool)won ? "o" : string.Empty;
         }
 
         return ret;
@@ -180,7 +145,7 @@ public class CtrlHistory : FormControler
     {
         FormHistory ret = null;
 
-        if (profileId is int id) {
+        if(profileId is int id) {
             ret = new FormHistory(id) {
                 Text = $"{playerName}'s history - AoE2.net Desktop",
             };
@@ -242,17 +207,17 @@ public class CtrlHistory : FormControler
             { LeaderboardId.EWTeam, new List<ListViewItem>() },
         };
 
-        foreach (var match in PlayerMatchHistory) {
+        foreach(var match in PlayerMatchHistory) {
             var player = match.GetPlayer(ProfileId);
             var listViewItem = new ListViewItem(match.GetMapName());
-            listViewItem.SubItems.Add(GetRatingString(player));
-            listViewItem.SubItems.Add(GetWinMarkerString(player.Won));
+            listViewItem.SubItems.Add(player.GetRatingString());
+            listViewItem.SubItems.Add(player.GetWinMarkerString());
             listViewItem.SubItems.Add(player.GetCivName());
             listViewItem.SubItems.Add(player.GetColorString());
             listViewItem.SubItems.Add(match.GetOpenedTime().ToString());
             listViewItem.SubItems.Add(match.Version);
 
-            if (match.LeaderboardId != null) {
+            if(match.LeaderboardId != null) {
                 var leaderboardId = (LeaderboardId)match.LeaderboardId;
                 ret[leaderboardId].Add(listViewItem);
             }
@@ -271,18 +236,15 @@ public class CtrlHistory : FormControler
     {
         var players = new Dictionary<string, PlayerInfo>();
 
-        foreach (var match in matches) {
+        foreach(var match in matches) {
             var selectedPlayer = match.GetPlayer(ProfileId);
-            foreach (var player in match.Players) {
-                if (player != selectedPlayer) {
-                    var name = player.Name ?? $"<Name null: ID: {player.ProfilId} >";
-
-                    if (!players.ContainsKey(name)) {
-                        players.Add(name, new PlayerInfo());
-                    }
-
-                    GetplayerInfo(match, player, selectedPlayer.CheckDiplomacy(player), players[name]);
+            foreach(var player in match.Players.Where(player => player != selectedPlayer)) {
+                var name = player.Name ?? $"<Name null: ID: {player.ProfilId} >";
+                if(!players.ContainsKey(name)) {
+                    players.Add(name, new PlayerInfo());
                 }
+
+                GetplayerInfo(match, player, selectedPlayer.CheckDiplomacy(player), players[name]);
             }
         }
 
@@ -297,12 +259,12 @@ public class CtrlHistory : FormControler
     /// <param name="playerName">player name.</param>
     public void OpenProfile(string playerName)
     {
-        if (MatchedPlayerInfos.TryGetValue(playerName, out PlayerInfo playerInfo)) {
+        if(MatchedPlayerInfos.TryGetValue(playerName, out PlayerInfo playerInfo)) {
             try {
                 AoE2net.OpenAoE2net((int)playerInfo.ProfileId);
-            } catch (Win32Exception noBrowser) {
+            } catch(Win32Exception noBrowser) {
                 Debug.Print(noBrowser.Message);
-            } catch (Exception other) {
+            } catch(Exception other) {
                 Debug.Print(other.Message);
             }
         } else {
@@ -319,7 +281,7 @@ public class CtrlHistory : FormControler
     {
         FormHistory ret = null;
 
-        if (MatchedPlayerInfos.TryGetValue(playerName, out PlayerInfo playerInfo)) {
+        if(MatchedPlayerInfos.TryGetValue(playerName, out PlayerInfo playerInfo)) {
             ret = GenerateFormHistory(playerName, playerInfo.ProfileId);
         } else {
             Debug.Print($"Unavailable Player Name: {playerName}.");
@@ -344,11 +306,11 @@ public class CtrlHistory : FormControler
                 var startCount = PlayerMatchHistory.Count;
                 readPlayerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(startCount, ReadCountMax, ProfileId);
                 PlayerMatchHistory.AddRange(readPlayerMatchHistory);
-            } while (readPlayerMatchHistory.Count == ReadCountMax);
+            } while(readPlayerMatchHistory.Count == ReadCountMax);
 
             MatchedPlayerInfos = CreateMatchedPlayersInfo(PlayerMatchHistory);
             ret = true;
-        } catch (Exception) {
+        } catch(Exception) {
             PlayerMatchHistory = null;
             MatchedPlayerInfos = null;
             ret = false;
@@ -382,7 +344,7 @@ public class CtrlHistory : FormControler
                 { LeaderboardId.EWTeam, containers[5].Leaderboards[0] },
                 { LeaderboardId.Unranked, containers[6].Leaderboards[0] },
             };
-        } catch (Exception e) {
+        } catch(Exception e) {
             Debug.Print($"GetLeaderboardAsync Error{e.Message}: {e.StackTrace}");
         }
 
@@ -394,7 +356,7 @@ public class CtrlHistory : FormControler
         playerInfo.Country = CountryCode.ConvertToFullName(player.Country);
         playerInfo.ProfileId = player.ProfilId;
 
-        switch (match.LeaderboardId) {
+        switch(match.LeaderboardId) {
         case LeaderboardId.RM1v1:
             playerInfo.RateRM1v1 = player.Rating;
             playerInfo.Games1v1++;
@@ -403,7 +365,7 @@ public class CtrlHistory : FormControler
             playerInfo.RateRMTeam = player.Rating;
             playerInfo.GamesTeam++;
 
-            switch (diplomacy) {
+            switch(diplomacy) {
             case Diplomacy.Ally:
                 playerInfo.GamesAlly++;
                 break;
@@ -422,10 +384,10 @@ public class CtrlHistory : FormControler
     {
         var ret = await AoE2net.GetLeaderboardAsync(leaderBoardId, 0, 1, ProfileId);
 
-        if (ret.Leaderboards.Count == 0) {
+        if(ret.Leaderboards.Count == 0) {
             var ratings = await AoE2net.GetPlayerRatingHistoryAsync(ProfileId, leaderBoardId, 1);
             var leaderboard = new Leaderboard();
-            if (ratings.Count != 0) {
+            if(ratings.Count != 0) {
                 leaderboard.Rating = ratings[0].Rating;
                 leaderboard.Games = ratings[0].NumWins + ratings[0].NumLosses;
                 leaderboard.Wins = ratings[0].NumWins;

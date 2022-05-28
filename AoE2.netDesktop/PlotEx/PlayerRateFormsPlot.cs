@@ -26,7 +26,7 @@ public class PlayerRateFormsPlot
     /// <param name="fontSize">Font size.</param>
     public PlayerRateFormsPlot(FormsPlot formsPlot, Dictionary<LeaderboardId, Color> colorList, float fontSize)
     {
-        if (formsPlot is null) {
+        if(formsPlot is null) {
             throw new ArgumentNullException(nameof(formsPlot));
         }
 
@@ -70,7 +70,7 @@ public class PlayerRateFormsPlot
     public void Plot(PlayerMatchHistory playerMatchHistory, int profileId)
     {
         formsPlot.Plot.Clear();
-        foreach (var plot in Plots) {
+        foreach(var plot in Plots) {
             plot.Value.Plot(playerMatchHistory, profileId, plot.Key);
         }
 
@@ -92,27 +92,13 @@ public class PlayerRateFormsPlot
     /// </summary>
     public void UpdateHighlight()
     {
-        var highlightPlot = lastHighlightPlot;
-        var mindistanceSquared = double.MaxValue;
-        (double mouseX, double mouseY) = formsPlot.GetMouseCoordinates();
+        var highlightPlot = GetHighlightPlot();
 
-        foreach (var plot in Plots) {
-            if (plot.Value.IsVisible) {
-                (double pointX, double pointY) = plot.Value.UpdateHighlight();
-                var distanceSquared = ((pointX - mouseX) * (pointX - mouseX))
-                                    + ((pointY - mouseY) * (pointY - mouseY));
-                if (distanceSquared < mindistanceSquared) {
-                    highlightPlot = plot.Value;
-                    mindistanceSquared = distanceSquared;
-                }
-            }
-        }
-
-        foreach (var plot in Plots) {
-            if (highlightPlot == plot.Value) {
-                if (highlightPlot != lastHighlightPlot) {
+        foreach(var plot in Plots) {
+            if(plot.Value == highlightPlot) {
+                if(plot.Value != lastHighlightPlot) {
                     plot.Value.IsVisibleHighlight = true;
-                    lastHighlightPlot = highlightPlot;
+                    lastHighlightPlot = plot.Value;
                     formsPlot.Render();
                 }
             } else {
@@ -132,4 +118,23 @@ public class PlayerRateFormsPlot
 
     private static double GetMaxY(Dictionary<LeaderboardId, PlayerRatePlot> plots)
         => plots.Select(x => x.Value.MaxY).Max() ?? double.NaN;
+
+    private PlayerRatePlot GetHighlightPlot()
+    {
+        var ret = lastHighlightPlot;
+        var mindistanceSquared = double.MaxValue;
+        (double mouseX, double mouseY) = formsPlot.GetMouseCoordinates();
+
+        foreach(var plot in Plots.Where(plot => plot.Value.IsVisible)) {
+            (double pointX, double pointY) = plot.Value.UpdateHighlight();
+            var distanceSquared = ((pointX - mouseX) * (pointX - mouseX))
+                                + ((pointY - mouseY) * (pointY - mouseY));
+            if(distanceSquared < mindistanceSquared) {
+                ret = plot.Value;
+                mindistanceSquared = distanceSquared;
+            }
+        }
+
+        return ret;
+    }
 }

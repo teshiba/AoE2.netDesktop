@@ -10,7 +10,7 @@ public static class CountryCode
     /// <summary>
     /// List of ISO-3166-1 alpha-2.
     /// </summary>
-    public static readonly Dictionary<string, string> ISO31661alpha2 = new () {
+    public static readonly Dictionary<string, string> ISO31661alpha2 = new() {
         { "AD", "Andorra" },
         { "AE", "United Arab Emirates" },
         { "AF", "Afghanistan" },

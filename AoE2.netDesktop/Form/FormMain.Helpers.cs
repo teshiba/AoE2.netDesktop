@@ -35,7 +35,7 @@ public partial class FormMain : ControllableForm
 
     private void InitOnChangePropertyHandler()
     {
-        onChangePropertyHandler = new () {
+        onChangePropertyHandler = new() {
             { nameof(PropertySettings.ChromaKey), OnChangePropertyChromaKey },
             { nameof(PropertySettings.IsHideTitle), OnChangeIsHideTitle },
             { nameof(PropertySettings.IsAlwaysOnTop), OnChangePropertyIsAlwaysOnTop },
@@ -110,28 +110,10 @@ public partial class FormMain : ControllableForm
     private void InitEventHandler()
     {
         foreach(Control item in Controls) {
-            item.MouseDown += Controls_MouseDown;
-            item.MouseMove += Controls_MouseMove;
-        }
-
-        foreach(Control item in panelTeam1.Controls) {
-            item.MouseDown += Controls_MouseDown;
-            item.MouseMove += Controls_MouseMove;
-        }
-
-        foreach(Control item in panelTeam2.Controls) {
-            item.MouseDown += Controls_MouseDown;
-            item.MouseMove += Controls_MouseMove;
-        }
-
-        foreach(Control item in panelGameInfo.Controls) {
-            item.MouseDown += Controls_MouseDown;
-            item.MouseMove += Controls_MouseMove;
-        }
-
-        foreach(Control item in panel1v1.Controls) {
-            item.MouseDown += Controls_MouseDown;
-            item.MouseMove += Controls_MouseMove;
+            foreach(Control panelItem in ((Panel)item).Controls) {
+                panelItem.MouseDown += Controls_MouseDown;
+                panelItem.MouseMove += Controls_MouseMove;
+            }
         }
     }
 

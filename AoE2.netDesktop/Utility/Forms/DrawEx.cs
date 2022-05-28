@@ -41,60 +41,60 @@ public static class DrawEx
         var alignment = new StringFormat();
 
         switch(label.TextAlign) {
-            case ContentAlignment.TopLeft:
-                alignment = new StringFormat {
-                    Alignment = StringAlignment.Near,
-                    LineAlignment = StringAlignment.Near,
-                };
-                break;
-            case ContentAlignment.TopCenter:
-                alignment = new StringFormat {
-                    Alignment = StringAlignment.Center,
-                    LineAlignment = StringAlignment.Near,
-                };
-                break;
-            case ContentAlignment.TopRight:
-                alignment = new StringFormat {
-                    Alignment = StringAlignment.Far,
-                    LineAlignment = StringAlignment.Near,
-                };
-                break;
-            case ContentAlignment.MiddleLeft:
-                alignment = new StringFormat {
-                    Alignment = StringAlignment.Near,
-                    LineAlignment = StringAlignment.Center,
-                };
-                break;
-            case ContentAlignment.MiddleCenter:
-                alignment = new StringFormat {
-                    Alignment = StringAlignment.Center,
-                    LineAlignment = StringAlignment.Center,
-                };
-                break;
-            case ContentAlignment.MiddleRight:
-                alignment = new StringFormat {
-                    Alignment = StringAlignment.Far,
-                    LineAlignment = StringAlignment.Center,
-                };
-                break;
-            case ContentAlignment.BottomLeft:
-                alignment = new StringFormat {
-                    Alignment = StringAlignment.Near,
-                    LineAlignment = StringAlignment.Far,
-                };
-                break;
-            case ContentAlignment.BottomCenter:
-                alignment = new StringFormat {
-                    Alignment = StringAlignment.Center,
-                    LineAlignment = StringAlignment.Far,
-                };
-                break;
-            case ContentAlignment.BottomRight:
-                alignment = new StringFormat {
-                    Alignment = StringAlignment.Far,
-                    LineAlignment = StringAlignment.Far,
-                };
-                break;
+        case ContentAlignment.TopLeft:
+            alignment = new StringFormat {
+                Alignment = StringAlignment.Near,
+                LineAlignment = StringAlignment.Near,
+            };
+            break;
+        case ContentAlignment.TopCenter:
+            alignment = new StringFormat {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Near,
+            };
+            break;
+        case ContentAlignment.TopRight:
+            alignment = new StringFormat {
+                Alignment = StringAlignment.Far,
+                LineAlignment = StringAlignment.Near,
+            };
+            break;
+        case ContentAlignment.MiddleLeft:
+            alignment = new StringFormat {
+                Alignment = StringAlignment.Near,
+                LineAlignment = StringAlignment.Center,
+            };
+            break;
+        case ContentAlignment.MiddleCenter:
+            alignment = new StringFormat {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center,
+            };
+            break;
+        case ContentAlignment.MiddleRight:
+            alignment = new StringFormat {
+                Alignment = StringAlignment.Far,
+                LineAlignment = StringAlignment.Center,
+            };
+            break;
+        case ContentAlignment.BottomLeft:
+            alignment = new StringFormat {
+                Alignment = StringAlignment.Near,
+                LineAlignment = StringAlignment.Far,
+            };
+            break;
+        case ContentAlignment.BottomCenter:
+            alignment = new StringFormat {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Far,
+            };
+            break;
+        case ContentAlignment.BottomRight:
+            alignment = new StringFormat {
+                Alignment = StringAlignment.Far,
+                LineAlignment = StringAlignment.Far,
+            };
+            break;
         }
 
         var stringFormat = new StringFormat {
@@ -121,7 +121,7 @@ public static class DrawEx
         label.ForeColor = label.BackColor;
 
         // Draw bordered text.
-        if (DrawHighQuality) {
+        if(DrawHighQuality) {
             e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
         } else {

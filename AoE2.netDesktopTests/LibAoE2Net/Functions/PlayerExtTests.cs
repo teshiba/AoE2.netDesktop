@@ -3,6 +3,7 @@
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.Collections.Generic;
@@ -71,6 +72,74 @@ public class PlayerExtTests
 
         // Act
         var actVal = player.GetColor();
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    public void GetRatingStringTestInvalid()
+    {
+        // Arrange
+        var expVal = "----";
+        var player = new Player() {
+            Rating = null,
+        };
+
+        // Act
+        var actVal = player.GetRatingString();
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    public void GetRatingStringTestInc()
+    {
+        // Arrange
+        var expVal = "1234+456";
+        var player = new Player() {
+            Rating = 1234,
+            RatingChange = "456",
+        };
+
+        // Act
+        var actVal = player.GetRatingString();
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    public void GetRatingStringTestDec()
+    {
+        // Arrange
+        var expVal = "1234-456";
+        var player = new Player() {
+            Rating = 1234,
+            RatingChange = "-456",
+        };
+
+        // Act
+        var actVal = player.GetRatingString();
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    [DataRow(null, "---")]
+    [DataRow(true, "o")]
+    [DataRow(false, "")]
+    public void GetWinMarkerStringInvalid(bool? won, string expVal)
+    {
+        // Arrange
+        var player = new Player() {
+            Won = won,
+        };
+
+        // Act
+        var actVal = player.GetWinMarkerString();
 
         // Assert
         Assert.AreEqual(expVal, actVal);

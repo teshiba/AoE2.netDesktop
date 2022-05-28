@@ -56,7 +56,7 @@ public class BarPlotEx
     /// <summary>
     /// Gets or sets stacked value list.
     /// </summary>
-    public Dictionary<string, StackedBarGraphData> Values { get; set; } = new ();
+    public Dictionary<string, StackedBarGraphData> Values { get; set; } = new();
 
     /// <summary>
     /// Gets or sets orientation of the bars.
@@ -74,66 +74,66 @@ public class BarPlotEx
     /// </summary>
     public void Render()
     {
-        SetDataToFromsPlot();
+        SetDataToFromsPlot(formsPlot.Plot);
         formsPlot.Render();
     }
 
     private void SetOrientation(Orientation orientation)
     {
-        if (this.orientation != orientation) {
+        if(this.orientation != orientation) {
             this.orientation = orientation;
-            SetDataToFromsPlot();
+            SetDataToFromsPlot(formsPlot.Plot);
             formsPlot.Render();
         }
     }
 
-    private void SetDataToFromsPlot()
+    private void SetDataToFromsPlot(Plot plot)
     {
-        formsPlot.Plot.Clear();
-        formsPlot.Plot.XTicks();
-        formsPlot.Plot.YTicks();
+        plot.Clear();
+        plot.XTicks();
+        plot.YTicks();
 
-        if (Values.Count != 0) {
+        if(Values.Count != 0) {
             var stackedLower = Values.Select(x => x.Value.Lower).ToArray();
 
             // if stacked graph data is avilable.
-            if (Values.Where(x => x.Value.Upper != null).Any()) {
+            if(Values.Where(x => x.Value.Upper != null).Any()) {
                 var stackedUpper = new double[Values.Count];
                 var upperData = Values.Select(x => (double)x.Value.Upper).ToArray();
-                for (int i = 0; i < upperData.Length; i++) {
+                for(int i = 0; i < upperData.Length; i++) {
                     stackedUpper[i] = stackedLower[i] + upperData[i];
                 }
 
-                var barUpper = formsPlot.Plot.AddBar(stackedUpper);
+                var barUpper = plot.AddBar(stackedUpper);
                 barUpper.Orientation = orientation;
                 barUpper.ShowValuesAboveBars = ShowValuesAboveBars;
                 barUpper.FillColor = Color.IndianRed;
             }
 
-            var barLower = formsPlot.Plot.AddBar(stackedLower);
+            var barLower = plot.AddBar(stackedLower);
             barLower.Orientation = orientation;
             barLower.ShowValuesAboveBars = ShowValuesAboveBars;
             barLower.FillColor = Color.Green;
 
-            formsPlot.Plot.SetAxisLimits(xMin: 0, yMin: -1);
+            plot.SetAxisLimits(xMin: 0, yMin: -1);
 
-            switch (orientation) {
+            switch(orientation) {
             case Orientation.Horizontal:
-                formsPlot.Plot.YTicks(Values.Keys.ToArray());
-                formsPlot.Plot.SetAxisLimits(xMin: YMin, yMin: XMin);
-                formsPlot.Plot.XLabel(ValueLabel);
-                formsPlot.Plot.YLabel(ItemLabel);
+                plot.YTicks(Values.Keys.ToArray());
+                plot.SetAxisLimits(xMin: YMin, yMin: XMin);
+                plot.XLabel(ValueLabel);
+                plot.YLabel(ItemLabel);
                 break;
             case Orientation.Vertical:
-                formsPlot.Plot.XTicks(Values.Keys.ToArray());
-                formsPlot.Plot.SetAxisLimits(xMin: XMin, yMin: YMin);
-                formsPlot.Plot.XLabel(ItemLabel);
-                formsPlot.Plot.YLabel(ValueLabel);
-                formsPlot.Plot.XAxis.TickLabelStyle(rotation: ItemLabelRotation);
+                plot.XTicks(Values.Keys.ToArray());
+                plot.SetAxisLimits(xMin: XMin, yMin: YMin);
+                plot.XLabel(ItemLabel);
+                plot.YLabel(ValueLabel);
+                plot.XAxis.TickLabelStyle(rotation: ItemLabelRotation);
                 break;
             }
         } else {
-            formsPlot.Plot.YTicks(new string[] { "No Data" });
+            plot.YTicks(new string[] { "No Data" });
         }
     }
 }

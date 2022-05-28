@@ -1,14 +1,15 @@
 ﻿namespace AoE2NetDesktop.PlotEx;
 
-using System;
-using System.Collections.Generic;
-
 using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using ScottPlot;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// Win rate graph.
@@ -50,24 +51,22 @@ public class WinRatePlot : BarPlotEx
     /// <param name="dataSource">target data source.</param>
     public void Plot(PlayerMatchHistory playerMatchHistory, int profileId, LeaderboardId leaderBoardId, DataSource dataSource)
     {
-        if (playerMatchHistory is null) {
+        if(playerMatchHistory is null) {
             throw new ArgumentNullException(nameof(playerMatchHistory));
         }
 
         Values.Clear();
         ItemLabel = dataSource.ToString();
 
-        foreach (var item in playerMatchHistory) {
-            if (item.LeaderboardId == leaderBoardId) {
-                var player = item.GetPlayer(profileId);
-                switch (dataSource) {
-                case DataSource.Map:
-                    AddWonRate(Values, player.Won, item.GetMapName());
-                    break;
-                case DataSource.Civilization:
-                    AddWonRate(Values, player.Won, player.GetCivName());
-                    break;
-                }
+        foreach(var item in playerMatchHistory.Where(item => item.LeaderboardId == leaderBoardId)) {
+            var player = item.GetPlayer(profileId);
+            switch(dataSource) {
+            case DataSource.Map:
+                AddWonRate(Values, player.Won, item.GetMapName());
+                break;
+            case DataSource.Civilization:
+                AddWonRate(Values, player.Won, player.GetCivName());
+                break;
             }
         }
 
@@ -76,15 +75,15 @@ public class WinRatePlot : BarPlotEx
 
     private static void AddWonRate(Dictionary<string, StackedBarGraphData> data, bool? won, string key)
     {
-        if (won != null) {
-            if (!data.ContainsKey(key)) {
+        if(won != null) {
+            if(!data.ContainsKey(key)) {
                 data.Add(key, new StackedBarGraphData(0, 0));
             }
 
-            if ((bool)won) {
-                data[key] = new (data[key].Lower + 1, (double)data[key].Upper);
+            if((bool)won) {
+                data[key] = new(data[key].Lower + 1, (double)data[key].Upper);
             } else {
-                data[key] = new (data[key].Lower, (double)data[key].Upper + 1);
+                data[key] = new(data[key].Lower, (double)data[key].Upper + 1);
             }
         }
     }

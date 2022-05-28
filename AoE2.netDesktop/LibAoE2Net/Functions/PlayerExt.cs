@@ -22,8 +22,8 @@ public static class PlayerExt
     {
         var ret = Diplomacy.Neutral;
 
-        if (player1.Color != null && player2.Color != null) {
-            if ((int)player1.Color % 2 == (int)player2.Color % 2) {
+        if(player1.Color != null && player2.Color != null) {
+            if((int)player1.Color % 2 == (int)player2.Color % 2) {
                 ret = Diplomacy.Ally;
             } else {
                 ret = Diplomacy.Enemy;
@@ -67,6 +67,41 @@ public static class PlayerExt
 
         if(!colorList.TryGetValue(player.Color, out Color ret)) {
             ret = Color.Transparent;
+        }
+
+        return ret;
+    }
+
+    /// <summary>
+    /// Get rate string.
+    /// </summary>
+    /// <param name="player">player.</param>
+    /// <returns>
+    /// rate value and rating change value.
+    /// if rate is unavilable : "----".
+    /// </returns>
+    public static string GetRatingString(this Player player)
+    {
+        string ret = (player.Rating?.ToString() ?? "----")
+                    + (player.RatingChange?.Contains('-') ?? true ? string.Empty : "+")
+                    + player.RatingChange?.ToString();
+
+        return ret;
+    }
+
+    /// <summary>
+    /// Get the win marker.
+    /// </summary>
+    /// <param name="player">player.</param>
+    /// <returns>win marker string.</returns>
+    public static string GetWinMarkerString(this Player player)
+    {
+        string ret;
+
+        if(player.Won == null) {
+            ret = "---";
+        } else {
+            ret = (bool)player.Won ? "o" : string.Empty;
         }
 
         return ret;

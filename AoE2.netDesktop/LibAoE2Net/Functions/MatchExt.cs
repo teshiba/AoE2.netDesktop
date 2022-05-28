@@ -1,7 +1,7 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net.Functions;
 
+using System.Linq;
 using System;
-
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 
 /// <summary>
@@ -29,11 +29,8 @@ public static class MatchExt
     public static Player GetPlayer(this Match match, int profileId)
     {
         Player ret = null;
-
-        foreach (var item in match.Players) {
-            if (item.ProfilId == profileId) {
-                ret = item;
-            }
+        foreach(var item in match.Players.Where(item => item.ProfilId == profileId)) {
+            ret = item;
         }
 
         return ret;
