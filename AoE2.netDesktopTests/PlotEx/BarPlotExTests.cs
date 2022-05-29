@@ -1,23 +1,25 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿namespace AoE2NetDesktop.PlotEx.Tests;
+
+using AoE2NetDesktop.PlotEx;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using ScottPlot;
 
-namespace AoE2NetDesktop.Form.Tests
+[TestClass]
+public class BarPlotExTests
 {
-    [TestClass()]
-    public class BarPlotExTests
+    [TestMethod]
+    public void BarPlotExTest()
     {
-        [TestMethod()]
-        public void BarPlotExTest()
-        {
-            // Arrange
-            var expVal = Orientation.Horizontal;
+        // Arrange
+        var expVal = Orientation.Horizontal;
 
-            // Act
-            var testClass = new BarPlotEx(new FormsPlot());
-            var actVal = testClass.Orientation;
+        // Act
+        var testClass = new BarPlotEx(new FormsPlot());
+        var actVal = testClass.Orientation;
 
-            // Assert
-            Assert.AreEqual(expVal, actVal);
-        }
+        // Assert
+        Assert.AreEqual(expVal, actVal);
     }
 }

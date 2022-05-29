@@ -86,7 +86,7 @@
       {
         "profile_id": 3,
         "steam_id": "00000000000000003",
-        "name": "Player3",
+        "name": null,
         "clan": null,
         "country": null,
         "slot": 3,
@@ -104,8 +104,8 @@
       },
       {
         "profile_id": 4,
-        "steam_id": "00000000000000004",
-        "name": "Player4",
+        "steam_id": null,
+        "name": null,
         "clan": null,
         "country": null,
         "slot": 4,
@@ -122,9 +122,9 @@
         "won": true
       },
       {
-        "profile_id": 5,
-        "steam_id": "00000000000000005",
-        "name": "Player5",
+        "profile_id": null,
+        "steam_id": null,
+        "name": null,
         "clan": null,
         "country": null,
         "slot": 5,

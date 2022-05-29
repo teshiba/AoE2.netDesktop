@@ -1,104 +1,107 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿namespace AoE2NetDesktop.Form.Tests;
+
+using AoE2NetDesktop.PlotEx;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using ScottPlot;
+
 using System;
 
-namespace AoE2NetDesktop.Form.Tests
+[TestClass]
+public class PlotHighlightTests
 {
-    [TestClass()]
-    public class PlotHighlightTests
+    [TestMethod]
+    public void UpdateTestDataIsNaN()
     {
-        [TestMethod()]
-        public void UpdateTestDataIsNaN()
+        // Arrange
+        var formsPlot = new FormsPlot();
+        var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 10 }, new double[] { 20 });
+        var testClass = new PlotHighlight(formsPlot, scatterPlot, string.Empty);
+
+        // Act
+        var ret = testClass.Update();
+
+        // Assert
+        Assert.AreEqual((0, 0), ret);
+    }
+
+    [TestMethod]
+    public void UpdateTest()
+    {
+        // Arrange
+        var formsPlot = new FormsPlot();
+        var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 10 }, new double[] { 20 });
+        var testClass = new PlotHighlight(formsPlot, scatterPlot, string.Empty);
+        formsPlot.Render();
+
+        // Act
+        testClass.Update();
+        var ret = testClass.Update();
+
+        // Assert
+        Assert.AreEqual((10, 20), ret);
+    }
+
+    [TestMethod]
+    public void PlotHighlightTestformsPlotNull()
+    {
+        // Arrange
+        var formsPlot = new FormsPlot();
+        var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 0 }, new double[] { 0 });
+
+        // Act
+        // Assert
+        Assert.ThrowsException<ArgumentNullException>(() =>
         {
-            // Arrange
-            var formsPlot = new FormsPlot();
-            var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 10 }, new double[] { 20 });
-            var testClass = new PlotHighlight(formsPlot, scatterPlot, string.Empty);
+            _ = new PlotHighlight(null, scatterPlot, string.Empty);
+        });
+    }
 
-            // Act
-            var ret = testClass.Update();
+    [TestMethod]
+    public void PlotHighlightTestscatterPlotNull()
+    {
+        // Arrange
+        var formsPlot = new FormsPlot();
 
-            // Assert
-            Assert.AreEqual((0, 0), ret);
-        }
-
-        [TestMethod()]
-        public void UpdateTest()
+        // Act
+        // Assert
+        Assert.ThrowsException<ArgumentNullException>(() =>
         {
-            // Arrange
-            var formsPlot = new FormsPlot();
-            var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 10 }, new double[] { 20 });
-            var testClass = new PlotHighlight(formsPlot, scatterPlot, string.Empty);
-            formsPlot.Render();
+            _ = new PlotHighlight(formsPlot, null, string.Empty);
+        });
+    }
 
-            // Act
-            testClass.Update();
-            var ret = testClass.Update();
+    [TestMethod]
+    public void PlotHighlightTestGetIsVisible()
+    {
+        // Arrange
+        bool expVal = true;
+        var formsPlot = new FormsPlot();
+        var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 0 }, new double[] { 0 });
+        var testClass = new PlotHighlight(formsPlot, scatterPlot, string.Empty);
 
-            // Assert
-            Assert.AreEqual((10, 20), ret);
-        }
+        // Act
+        var actVal = testClass.IsVisible;
 
-        [TestMethod()]
-        public void PlotHighlightTestformsPlotNull()
-        {
-            // Arrange
-            var formsPlot = new FormsPlot();
-            var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 0 }, new double[] { 0 });
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
 
-            // Act
-            // Assert
-            Assert.ThrowsException<ArgumentNullException>(() =>
-            {
-                _ = new PlotHighlight(null, scatterPlot, string.Empty);
-            });
-        }
+    [TestMethod]
+    public void PlotHighlightTestSetIsVisible()
+    {
+        // Arrange
+        bool expVal = false;
+        var formsPlot = new FormsPlot();
+        var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 0 }, new double[] { 0 });
+        var testClass = new PlotHighlight(formsPlot, scatterPlot, string.Empty);
 
-        [TestMethod()]
-        public void PlotHighlightTestscatterPlotNull()
-        {
-            // Arrange
-            var formsPlot = new FormsPlot();
+        // Act
+        testClass.IsVisible = !testClass.IsVisible;
+        var actVal = testClass.IsVisible;
 
-            // Act
-            // Assert
-            Assert.ThrowsException<ArgumentNullException>(() =>
-            {
-                _ = new PlotHighlight(formsPlot, null, string.Empty);
-            });
-        }
-
-        [TestMethod()]
-        public void PlotHighlightTestGetIsVisible()
-        {
-            // Arrange
-            bool expVal = true;
-            var formsPlot = new FormsPlot();
-            var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 0 }, new double[] { 0 });
-            var testClass = new PlotHighlight(formsPlot, scatterPlot, string.Empty);
-
-            // Act
-            var actVal = testClass.IsVisible;
-
-            // Assert
-            Assert.AreEqual(expVal, actVal);
-        }
-
-        [TestMethod()]
-        public void PlotHighlightTestSetIsVisible()
-        {
-            // Arrange
-            bool expVal = false;
-            var formsPlot = new FormsPlot();
-            var scatterPlot = formsPlot.Plot.AddScatter(new double[] { 0 }, new double[] { 0 });
-            var testClass = new PlotHighlight(formsPlot, scatterPlot, string.Empty);
-
-            // Act
-            testClass.IsVisible = !testClass.IsVisible;
-            var actVal = testClass.IsVisible;
-
-            // Assert
-            Assert.AreEqual(expVal, actVal);
-        }
+        // Assert
+        Assert.AreEqual(expVal, actVal);
     }
 }
