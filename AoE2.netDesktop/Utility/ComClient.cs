@@ -15,6 +15,11 @@ using System.Threading.Tasks;
 public class ComClient : HttpClient
 {
     /// <summary>
+    /// Gets or sets the base address of CivImage Resource URI of the AoE2net.
+    /// </summary>
+    public Uri CivImageBaseAddress { get; set; }
+
+    /// <summary>
     /// Gets or sets action for recieving Exception.
     /// </summary>
     public Action<Exception> OnError { get; set; } = (ex) => { };
@@ -76,7 +81,7 @@ public class ComClient : HttpClient
     /// </summary>
     /// <param name="requestUri">URI string.</param>
     /// <returns>browser process.</returns>
-    public Process OpenBrowser(string requestUri)
+    public virtual Process OpenBrowser(string requestUri)
     {
         Process ret;
         try {
@@ -90,5 +95,15 @@ public class ComClient : HttpClient
         }
 
         return ret;
+    }
+
+    /// <summary>
+    /// Gets Image file location on AoE2.net.
+    /// </summary>
+    /// <param name="civName">civilization name in English.</param>
+    /// <returns>Image file location.</returns>
+    public virtual string GetCivImageLocation(string civName)
+    {
+        return $"{CivImageBaseAddress}{civName.ToLower()}.png";
     }
 }

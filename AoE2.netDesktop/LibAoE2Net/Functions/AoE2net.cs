@@ -23,6 +23,7 @@ public static class AoE2net
     /// </summary>
     public static ComClient ComClient { get; set; } = new ComClient() {
         BaseAddress = BaseAddress,
+        CivImageBaseAddress = CivImageAddress,
         Timeout = TimeSpan.FromSeconds(20),
     };
 
@@ -38,6 +39,18 @@ public static class AoE2net
     {
         get => ComClient.OnError;
         set => ComClient.OnError = value;
+    }
+
+    /// <summary>
+    /// Reset static members of the <see cref="AoE2net"/> class.
+    /// </summary>
+    public static void Reset()
+    {
+        ComClient = new ComClient() {
+            BaseAddress = BaseAddress,
+            CivImageBaseAddress = CivImageAddress,
+            Timeout = TimeSpan.FromSeconds(20),
+        };
     }
 
     /// <summary>
@@ -126,7 +139,7 @@ public static class AoE2net
         string ret = null;
 
         if(civName != null) {
-            ret = $"{CivImageAddress}{civName.ToLower()}.png";
+            ret = ComClient.GetCivImageLocation(civName);
         }
 
         return ret;
