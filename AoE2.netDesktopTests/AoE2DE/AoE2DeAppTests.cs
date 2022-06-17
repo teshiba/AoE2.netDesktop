@@ -19,10 +19,10 @@ public class AoE2DeAppTests
     }
 
     [TestMethod]
-    [DataRow("Aztecs", @"C:\Program Files (x86)\Steam\steamapps\common\AoE2DE\widgetui\textures\menu\civs\aztecs.png")]
-    [DataRow("Hindustanis", @"C:\Program Files (x86)\Steam\steamapps\common\AoE2DE\widgetui\textures\menu\civs\indians.png")]
-    [DataRow("", @"https://aoe2.net/assets/images/crests/25x25/.png")]
-    public void GetCivImageLocationTest(string civ, string expVal)
+    [DataRow("Aztecs", @"C:\Program Files (x86)\Steam\steamapps\common\AoE2DE\widgetui\textures\menu\civs\aztecs.png", "https://aoe2.net/assets/images/crests/25x25/aztecs.png")]
+    [DataRow("Hindustanis", @"C:\Program Files (x86)\Steam\steamapps\common\AoE2DE\widgetui\textures\menu\civs\indians.png", "https://aoe2.net/assets/images/crests/25x25/aztecs.png")]
+    [DataRow("", @"https://aoe2.net/assets/images/crests/25x25/.png", @"https://aoe2.net/assets/images/crests/25x25/.png")]
+    public void GetCivImageLocationTest(string civ, string expVal1, string expVal2)
     {
         // Arrange
 
@@ -30,6 +30,6 @@ public class AoE2DeAppTests
         var actVal = AoE2DeApp.GetCivImageLocation(civ);
 
         // Assert
-        Assert.AreEqual(expVal, actVal);
+        Assert.IsTrue(expVal1 == actVal | expVal2 == actVal);
     }
 }

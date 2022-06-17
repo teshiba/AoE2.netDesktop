@@ -45,6 +45,7 @@ public partial class FormMainTests
     public void FormMainTest()
     {
         // Arrange
+        AoE2net.ComClient = new TestHttpClient();
         TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
         TestUtilityExt.SetSettings("ProfileId", 1);
         TestUtilityExt.SetSettings("WindowLocationMain", new Point(0, 0));
@@ -81,6 +82,7 @@ public partial class FormMainTests
     public void FormMainTest1v1()
     {
         // Arrange
+        AoE2net.ComClient = new TestHttpClient();
         TestUtilityExt.SetSettings("WindowLocationMain", new Point(0, 0));
         TestUtilityExt.SetSettings("WindowSizeMain", new Size(1330, 350));
         var testClass = new FormMainPrivate();

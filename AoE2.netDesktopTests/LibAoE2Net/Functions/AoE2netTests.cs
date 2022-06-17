@@ -358,6 +358,7 @@
         public void GetCivImageLocationTest(string civ)
         {
             // Arrange
+            AoE2net.Reset();
             var expVal = $"https://aoe2.net/assets/images/crests/25x25/aztecs.png";
 
             // Act
@@ -365,6 +366,9 @@
 
             // Assert
             Assert.AreEqual(expVal, actVal);
+
+            // restore ComClient setting.
+            AoE2net.ComClient = new TestHttpClient();
         }
 
         [TestMethod]
