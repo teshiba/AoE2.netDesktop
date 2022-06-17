@@ -78,6 +78,7 @@ public partial class FormMainTests
     }
 
     [TestMethod]
+    [Timeout(20000)]
     public void FormMainTest1v1()
     {
         // Arrange
