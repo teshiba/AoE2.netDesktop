@@ -78,7 +78,7 @@ jobs:
     # Execute all unit tests in the solution
     - name: Execute unit tests
       run: |
-        dotnet test --collect:"XPlat Code Coverage" --filter "TestCategory!=GUI" -- RunConfiguration.TestSessionTimeout=60000 > test.log 2>&1
+        dotnet test --collect:"XPlat Code Coverage" --filter "TestCategory!=GUI" -- RunConfiguration.TestSessionTimeout=120000 > test.log 2>&1
         type test.log
         $COVERAGE_RESULT = Select-String -Path .\test.log -Pattern "coverage.cobertura.xml"
         $COVERAGE_RESULT = $COVERAGE_RESULT -replace "^.*\s+",""
