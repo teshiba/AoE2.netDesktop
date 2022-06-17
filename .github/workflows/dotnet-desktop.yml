@@ -83,7 +83,7 @@ jobs:
         dotnet test --collect:"XPlat Code Coverage" --filter "TestCategory!=GUI" -- RunConfiguration.TestSessionTimeout=60000 > test.log 2>&1
         type test.log
         type test.log | find "coverage.cobertura.xml" > coverageCoberturaPath.txt
-        for (/f %%a in (coverageCoberturaPath.txt) do @set COVERAGE_RESULT=%%a&goto :exit_for)
+        for (/f %%a in (coverageCoberturaPath.txt)){ @set COVERAGE_RESULT=%%a&goto :exit_for }
         :exit_for
         del coverageCoberturaPath.txt
 
