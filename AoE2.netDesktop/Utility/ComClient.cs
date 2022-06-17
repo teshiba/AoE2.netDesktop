@@ -45,7 +45,7 @@ public class ComClient : HttpClient
             Debug.Print($"Send Request {BaseAddress}{requestUri}");
 
             var jsonText = await GetStringAsync(requestUri).ConfigureAwait(false);
-            Debug.Print($"Get JSON {typeof(TValue)} {jsonText}");
+            Log.Info($"Get JSON {typeof(TValue)} {jsonText}");
 
             using var stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonText));
             var serializer = new DataContractJsonSerializer(typeof(TValue));
