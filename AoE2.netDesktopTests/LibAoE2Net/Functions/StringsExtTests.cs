@@ -80,6 +80,9 @@ public class StringsExtTests
 
         // Assert
         Assert.AreEqual(expVal, actVal);
+
+        // cleanup
+        StringsExt.InitAsync(Language.en).Wait();
     }
 
     [TestMethod]
