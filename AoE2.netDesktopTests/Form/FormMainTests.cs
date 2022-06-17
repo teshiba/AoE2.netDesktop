@@ -18,7 +18,8 @@ public partial class FormMainTests
 {
     [TestMethod]
     [TestCategory("GUI")]
-    [Ignore]
+
+    // [Ignore]
     public void FormMainTestGUI()
     {
         AoE2net.ComClient = new TestHttpClient();
@@ -28,7 +29,8 @@ public partial class FormMainTests
 
     [TestMethod]
     [TestCategory("GUI")]
-    [Ignore]
+
+    // [Ignore]
     public void FormMainTestGUI1v1()
     {
         var testHttpClient = new TestHttpClient() {

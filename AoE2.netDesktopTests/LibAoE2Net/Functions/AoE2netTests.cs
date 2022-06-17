@@ -1,17 +1,15 @@
 ﻿namespace LibAoE2net.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Threading.Tasks;
     using AoE2NetDesktop.LibAoE2Net.Functions;
     using AoE2NetDesktop.LibAoE2Net.JsonFormat;
     using AoE2NetDesktop.LibAoE2Net.Parameters;
     using AoE2NetDesktop.Tests;
     using AoE2NetDesktop.Utility;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Threading.Tasks;
 
     [TestClass]
     public class AoE2netTests
