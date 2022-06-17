@@ -80,7 +80,7 @@ jobs:
     # Execute all unit tests in the solution
     - name: Execute unit tests
       run: |
-        dotnet test --collect:"XPlat Code Coverage" > test.log
+        dotnet test --collect:"XPlat Code Coverage" --filter "TestCategory!=GUI" -- RunConfiguration.TestSessionTimeout=60000 > test.log 2>&1
         COVERAGE_RESULT=`cat test.log | grep coverage.cobertura.xml`
         cat test.log
         curl -s https://codecov.io/bash > codecov
