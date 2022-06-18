@@ -19,4 +19,9 @@ public enum ImageLoaderError
     /// Invalid Invalid DDS Pixcel format Flags.
     /// </summary>
     InvalidDddsPfFlags,
+
+    /// <summary>
+    /// File not found.
+    /// </summary>
+    NotFound,
 }
