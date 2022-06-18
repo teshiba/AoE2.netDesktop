@@ -1,4 +1,7 @@
-﻿namespace AoE2NetDesktop.Utility.User32;
+﻿namespace AoE2netDesktopTests.TestUtility;
+
+using AoE2NetDesktop.Tests;
+using AoE2NetDesktop.Utility.User32;
 
 using System.Collections.Generic;
 
@@ -11,6 +14,11 @@ public class SystemApiStub : ISystemApi
     private readonly Dictionary<int, string> processList = new() {
         { 0, "Idle" },
         { 1, "AoE2DE_s" },
+    };
+
+    private readonly Dictionary<string, string> processPathList = new() {
+        { "Idle", string.Empty },
+        { "AoE2DE_s", TestData.Path + "/" },
     };
 
     /// <summary>
@@ -35,6 +43,6 @@ public class SystemApiStub : ISystemApi
     /// <inheritdoc/>
     public string GetProcessFilePath(string processName)
     {
-        return processName;
+        return processPathList[processName];
     }
 }

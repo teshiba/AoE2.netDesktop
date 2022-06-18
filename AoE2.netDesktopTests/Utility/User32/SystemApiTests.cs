@@ -2,6 +2,8 @@
 
 using AoE2NetDesktop.Utility.User32;
 
+using AoE2netDesktopTests.TestUtility;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.Reflection;

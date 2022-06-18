@@ -5,7 +5,7 @@ using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility;
-using AoE2NetDesktop.Utility.User32;
+using AoE2netDesktopTests.TestUtility;
 
 using LibAoE2net;
 

@@ -5,7 +5,8 @@ using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
-using AoE2NetDesktop.Utility.User32;
+
+using AoE2netDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
