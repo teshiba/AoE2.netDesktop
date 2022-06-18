@@ -86,8 +86,8 @@ public class PlayerRateFormsPlotTests
     {
         // Arrange
         var testClass = new PlayerRateFormsPlot(new FormsPlot(), leaderboardColor, 16);
-        var datetimeMaxX = new DateTime(1970, 01, 01, 9, 0, 0);
-        var datetimeMinX = new DateTime(1970, 01, 01, 9, 0, 0);
+        var datetimeMaxX = DateTimeOffset.FromUnixTimeSeconds(0).LocalDateTime.ToOADate();
+        var datetimeMinX = DateTimeOffset.FromUnixTimeSeconds(0).LocalDateTime.ToOADate();
         var rateMaxY = 130;
         var rateMinY = 110;
 
@@ -95,8 +95,8 @@ public class PlayerRateFormsPlotTests
         testClass.Plot(matchesWithRate, ProfileId);
 
         // Assert
-        Assert.AreEqual(datetimeMaxX, DateTime.FromOADate((double)testClass.Plots[LeaderboardId.RM1v1].MaxX));
-        Assert.AreEqual(datetimeMinX, DateTime.FromOADate((double)testClass.Plots[LeaderboardId.RM1v1].MinX));
+        Assert.AreEqual(datetimeMaxX, (double)testClass.Plots[LeaderboardId.RM1v1].MaxX);
+        Assert.AreEqual(datetimeMinX, (double)testClass.Plots[LeaderboardId.RM1v1].MinX);
         Assert.AreEqual(rateMaxY, testClass.Plots[LeaderboardId.RM1v1].MaxY);
         Assert.AreEqual(rateMinY, testClass.Plots[LeaderboardId.RM1v1].MinY);
     }

@@ -175,8 +175,6 @@ public partial class FormMain : ControllableForm
         } else {
             labelName.DrawString(e, 20, Color.Black, Color.MediumSeaGreen);
         }
-
-        Awaiter.Complete();
     }
 
     private void LabelName1v1P1_Paint(object sender, PaintEventArgs e)

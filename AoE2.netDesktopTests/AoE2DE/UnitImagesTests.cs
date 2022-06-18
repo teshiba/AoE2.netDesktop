@@ -7,7 +7,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 
 [TestClass]
 public class UnitImagesTests
@@ -19,10 +18,10 @@ public class UnitImagesTests
         var files = typeof(UnitImages).GetField<Dictionary<string, string>>("FileNames");
         foreach(var item in files) {
             // Act
-            var actVal = File.Exists(UnitImages.GetFileName(item.Key));
+            var actVal = UnitImages.GetFileName(item.Key);
 
             // Assert
-            Assert.IsTrue(actVal);
+            Assert.IsFalse(actVal.Contains("265_50730.DDS"));
         }
     }
 

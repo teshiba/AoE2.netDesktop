@@ -1,6 +1,12 @@
 ﻿namespace AoE2NetDesktop.AoE2DE.Tests;
 
+using AoE2NetDesktop.LibAoE2Net.Functions;
+
+using LibAoE2net;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using System.Diagnostics;
 
 [TestClass]
 public class AoE2DeAppTests
@@ -9,27 +15,29 @@ public class AoE2DeAppTests
     public void GetPathTest()
     {
         // Arrange
-        var expVal = @"C:\Program Files (x86)\Steam\steamapps\common\AoE2DE\";
+        var expVal = @"steamapps\common\AoE2DE\";
 
         // Act
         var actVal = AoE2DeApp.GetPath();
 
         // Assert
-        Assert.AreEqual(expVal, actVal);
+        Assert.IsTrue(actVal.Contains(expVal));
     }
 
     [TestMethod]
-    [DataRow("Aztecs", @"C:\Program Files (x86)\Steam\steamapps\common\AoE2DE\widgetui\textures\menu\civs\aztecs.png", "https://aoe2.net/assets/images/crests/25x25/aztecs.png")]
-    [DataRow("Hindustanis", @"C:\Program Files (x86)\Steam\steamapps\common\AoE2DE\widgetui\textures\menu\civs\indians.png", "https://aoe2.net/assets/images/crests/25x25/aztecs.png")]
-    [DataRow("", @"https://aoe2.net/assets/images/crests/25x25/.png", @"https://aoe2.net/assets/images/crests/25x25/.png")]
+    [DataRow("Aztecs", @"steamapps\common\AoE2DE\widgetui\textures\menu\civs\aztecs.png", "../../../TestData/dummy.png")]
+    [DataRow("Hindustanis", @"steamapps\common\AoE2DE\widgetui\textures\menu\civs\indians.png", "../../../TestData/dummy.png")]
+    [DataRow("", @"../../../TestData/dummy.png", @"../../../TestData/dummy.png")]
     public void GetCivImageLocationTest(string civ, string expVal1, string expVal2)
     {
         // Arrange
+        AoE2net.ComClient = new TestHttpClient();
 
         // Act
         var actVal = AoE2DeApp.GetCivImageLocation(civ);
 
         // Assert
-        Assert.IsTrue(expVal1 == actVal | expVal2 == actVal);
+        Debug.Print($"actVal = {actVal}");
+        Assert.IsTrue(actVal.Contains(expVal1) | actVal.Contains(expVal2));
     }
 }

@@ -14,6 +14,7 @@ public static class TestData
     public const int AvailableUserProfileIdWithoutSteamId = 100;
     public const string AvailableUserProfileIdWithoutSteamIdString = "100";
     public const string DdsFile = $"{Path}/testImage.dds";
+    public const string DdsNonExsistFile = $"{Path}/dds";
     public const string DdsFileUnexpectedDwFlags = $"{Path}/unexpectedDwFlags.dds";
     public const string DdsFileUnexpectedMagic = $"{Path}/unexpectedMagic.dds";
 

@@ -27,23 +27,28 @@ public class ImageLoader
     /// <param name="backColor">Back color.</param>
     public ImageLoader(string filePath, Color backColor)
     {
-        var rawData = File.ReadAllBytes(filePath);
-        using var stream = new MemoryStream(rawData);
-        using var reader = new BinaryReader(stream);
+        try {
+            var rawData = File.ReadAllBytes(filePath);
+            using var stream = new MemoryStream(rawData);
+            using var reader = new BinaryReader(stream);
 
-        if(Encoding.UTF8.GetString(reader.ReadBytes(4)) != DwMagic) {
-            BitmapImage = new Bitmap(1, 1);
-            ErrorCode = ImageLoaderError.InvalidMagic;
-        } else {
-            var header = ReadHeader(reader);
-
-            if(header.Ddspf.DwFlags == (DDPF.RGB | DDPF.ALPHAPIXELS)) {
-                var bitmapData = reader.ReadBytes(header.DwWidth * header.DwHeight * header.Ddspf.DwRGBBitCount);
-                BitmapImage = ConvertToBitmap(bitmapData, header.DwWidth, header.DwHeight, backColor);
-            } else {
+            if(Encoding.UTF8.GetString(reader.ReadBytes(4)) != DwMagic) {
                 BitmapImage = new Bitmap(1, 1);
-                ErrorCode = ImageLoaderError.InvalidDddsPfFlags;
+                ErrorCode = ImageLoaderError.InvalidMagic;
+            } else {
+                var header = ReadHeader(reader);
+
+                if(header.Ddspf.DwFlags == (DDPF.RGB | DDPF.ALPHAPIXELS)) {
+                    var bitmapData = reader.ReadBytes(header.DwWidth * header.DwHeight * header.Ddspf.DwRGBBitCount);
+                    BitmapImage = ConvertToBitmap(bitmapData, header.DwWidth, header.DwHeight, backColor);
+                } else {
+                    BitmapImage = new Bitmap(1, 1);
+                    ErrorCode = ImageLoaderError.InvalidDddsPfFlags;
+                }
             }
+        } catch(FileNotFoundException) {
+            BitmapImage = new Bitmap(1, 1);
+            ErrorCode = ImageLoaderError.NotFound;
         }
     }
 
