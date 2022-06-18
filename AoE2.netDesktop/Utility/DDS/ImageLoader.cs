@@ -49,6 +49,9 @@ public class ImageLoader
         } catch(FileNotFoundException) {
             BitmapImage = new Bitmap(1, 1);
             ErrorCode = ImageLoaderError.NotFound;
+        } catch(DirectoryNotFoundException) {
+            BitmapImage = new Bitmap(1, 1);
+            ErrorCode = ImageLoaderError.NotFound;
         }
     }
 

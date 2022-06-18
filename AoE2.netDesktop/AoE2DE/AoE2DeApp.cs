@@ -24,7 +24,10 @@ public class AoE2DeApp
     private const string SteamAppDefaultPath = $@"C:\Program Files (x86)\Steam\steamapps\common\AoE2DE\";
     private const string CivsPath = $@"widgetui\textures\menu\civs\";
 
-    private static ISystemApi SystemApi { get; set; } = new SystemApi(new User32Api());
+    /// <summary>
+    /// Gets or sets system API.
+    /// </summary>
+    public static ISystemApi SystemApi { get; set; } = new SystemApi(new User32Api());
 
     /// <summary>
     /// Get AoE2De App path.
