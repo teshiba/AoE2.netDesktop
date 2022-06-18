@@ -219,6 +219,7 @@ public partial class FormMainTests
     }
 
     [TestMethod]
+    [Timeout(10000)]
     public void FormMainTestGetInvalidPlayerColor()
     {
         // Arrange
