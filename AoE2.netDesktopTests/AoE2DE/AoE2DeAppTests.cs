@@ -21,6 +21,8 @@ public class AoE2DeAppTests
         var actVal = AoE2DeApp.GetPath();
 
         // Assert
+        Debug.Print($"actVal = {actVal}");
+        Debug.Print($"expVal = {expVal}");
         Assert.IsTrue(actVal.Contains(expVal));
     }
 

@@ -16,6 +16,15 @@ using System.Windows.Forms;
 [TestClass]
 public partial class FormMainTests
 {
+    [TestInitialize]
+    public void InitTest()
+    {
+        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
+        TestUtilityExt.SetSettings("ProfileId", 1);
+        TestUtilityExt.SetSettings("WindowLocationMain", new Point(0, 0));
+        TestUtilityExt.SetSettings("WindowSizeMain", new Size(1330, 350));
+    }
+
     [TestMethod]
     [TestCategory("GUI")]
     [Ignore]
@@ -46,10 +55,6 @@ public partial class FormMainTests
     {
         // Arrange
         AoE2net.ComClient = new TestHttpClient();
-        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
-        TestUtilityExt.SetSettings("ProfileId", 1);
-        TestUtilityExt.SetSettings("WindowLocationMain", new Point(0, 0));
-        TestUtilityExt.SetSettings("WindowSizeMain", new Size(1330, 350));
         var testClass = new FormMainPrivate();
         var expVal = string.Empty;
         var done = false;
@@ -83,8 +88,6 @@ public partial class FormMainTests
     {
         // Arrange
         AoE2net.ComClient = new TestHttpClient();
-        TestUtilityExt.SetSettings("WindowLocationMain", new Point(0, 0));
-        TestUtilityExt.SetSettings("WindowSizeMain", new Size(1330, 350));
         var testClass = new FormMainPrivate();
         testClass.httpClient.PlayerLastMatchUri = "playerLastMatchaoe2de1v1.json";
         var expVal = string.Empty;
@@ -121,7 +124,6 @@ public partial class FormMainTests
     public void FormMainException_UpdateToolStripMenuItem_ClickAsyncTest()
     {
         // Arrange
-        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
         TestUtilityExt.SetSettings("IsAutoReloadLastMatch", false);
         var expVal = string.Empty;
         var testClass = new FormMainPrivate();
@@ -158,7 +160,6 @@ public partial class FormMainTests
         var expVal = string.Empty;
         var testClass = new FormMainPrivate();
         var done = false;
-        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
         TestUtilityExt.SetSettings("IsAutoReloadLastMatch", true);
         testClass = new FormMainPrivate();
 
@@ -220,7 +221,6 @@ public partial class FormMainTests
     public void FormMainTestGetInvalidPlayerColor()
     {
         // Arrange
-        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
         var done = false;
         var testClass = new FormMainPrivate();
         testClass.httpClient.PlayerLastMatchUri = "playerLastMatchInvalidPlayerColor.json";
