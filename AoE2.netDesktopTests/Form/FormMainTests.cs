@@ -103,7 +103,6 @@ public partial class FormMainTests
             await testClass.Awaiter.WaitAsync("LabelRate1v1_Paint");
             await testClass.Awaiter.WaitAsync("LabelWins1v1_Paint");
             await testClass.Awaiter.WaitAsync("LabelLoses_Paint");
-            await testClass.Awaiter.WaitAsync("LabelName_Paint");
             await testClass.Awaiter.WaitAsync("LabelName1v1P1_Paint");
             await testClass.Awaiter.WaitAsync("LabelName1v1P2_Paint");
 
