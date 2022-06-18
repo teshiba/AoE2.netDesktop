@@ -82,9 +82,9 @@ jobs:
         type test.log
         $COVERAGE_RESULT = Select-String -Path test.log -Pattern "coverage.cobertura.xml"
         $COVERAGE_RESULT = $COVERAGE_RESULT -replace "^.*\s+",""
-        echo $COVERAGE_RESULT
-
+      env:
+        coverageResult: $COVERAGE_RESULT
     - name: upload coverage
       uses: codecov/codecov-action@v1
       with:
-        files: $COVERAGE_RESULT
+        files: $env:coverageResult
