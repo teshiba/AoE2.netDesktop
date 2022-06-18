@@ -1,6 +1,7 @@
 ﻿namespace AoE2NetDesktop.Utility;
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ public class AsyncMethodAwaiter
                 state[methodName] = new ManualResetEvent(false);
             }
 
+            Debug.Print($"Set {methodName}");
             state[methodName].Set();
         }
     }
@@ -41,7 +43,9 @@ public class AsyncMethodAwaiter
             }
         }
 
+        Debug.Print($"Wait {methodName}");
         await Task.Run(() => state[methodName].WaitOne());
+        Debug.Print($"Complete {methodName}");
 
         lock(lockObject) {
             state.Remove(methodName);
