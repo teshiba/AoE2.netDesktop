@@ -26,7 +26,7 @@ set TEST_TIMEOUT_MSEC=60000
 rem ===========================================================================
 rem Run test
 echo on
-dotnet test --collect:"XPlat Code Coverage" --filter %TEST_FILTERS% -- RunConfiguration.TestSessionTimeout=%TEST_TIMEOUT_MSEC% > test.log  2>&1
+dotnet test --collect:"XPlat Code Coverage" --filter %TEST_FILTERS% "--logger:Console;verbosity=detailed" -- RunConfiguration.TestSessionTimeout=%TEST_TIMEOUT_MSEC% > test.log  2>&1
 echo off
 
 type test.log

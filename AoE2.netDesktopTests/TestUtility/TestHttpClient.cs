@@ -85,7 +85,24 @@ public class TestHttpClient : ComClient
 
         LastRequest = $"Start {requestUri}";
 
+        // return a dummy process for test.
         return new Process();
+    }
+
+    /// <summary>
+    /// Gets Image file location on AoE2.net.
+    /// </summary>
+    /// <param name="civName">civilization name in English.</param>
+    /// <returns>Image file location.</returns>
+    public override string GetCivImageLocation(string civName)
+    {
+        string readUri = $"{TestData.Path}/dummy.png";
+
+        LastRequest = $"Read {readUri}";
+
+        Debug.Print($"Return {readUri}");
+
+        return readUri;
     }
 
     private static async Task<string> ReadTextFIleAsync(string filePath)
@@ -113,7 +130,7 @@ public class TestHttpClient : ComClient
 
         LastRequest = $"Read {readUri}";
 
-        return ReadTextFIleAsync($"{TestData.Path}/{requestDataFileName}");
+        return ReadTextFIleAsync(readUri);
     }
 
     private Task<string> ReadPlayerRatingHistoryAsync(string requestUri)

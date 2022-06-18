@@ -1,20 +1,17 @@
 ﻿namespace AoE2NetDesktop.Form.Tests
 {
-    using AoE2NetDesktop.LibAoE2Net;
-    using AoE2NetDesktop.LibAoE2Net.Functions;
-    using AoE2NetDesktop.LibAoE2Net.Parameters;
-    using AoE2NetDesktop.Tests;
-    using AoE2NetDesktop.Utility;
-
-    using LibAoE2net;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Net.Http;
     using System.Runtime.Serialization;
     using System.Threading.Tasks;
+    using AoE2NetDesktop.LibAoE2Net;
+    using AoE2NetDesktop.LibAoE2Net.Functions;
+    using AoE2NetDesktop.LibAoE2Net.Parameters;
+    using AoE2NetDesktop.Tests;
+    using AoE2NetDesktop.Utility;
+    using LibAoE2net;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class AoE2netHelpersTests

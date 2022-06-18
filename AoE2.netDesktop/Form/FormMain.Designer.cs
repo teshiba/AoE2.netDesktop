@@ -144,7 +144,7 @@
             this.labelServer.BackColor = System.Drawing.SystemColors.Control;
             this.labelServer.Location = new System.Drawing.Point(10, 154);
             this.labelServer.Name = "labelServer";
-            this.labelServer.Size = new System.Drawing.Size(152, 19);
+            this.labelServer.Size = new System.Drawing.Size(242, 19);
             this.labelServer.TabIndex = 2;
             this.labelServer.Text = "Server: ----------";
             this.labelServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

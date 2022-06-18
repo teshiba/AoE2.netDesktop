@@ -1,9 +1,8 @@
 ﻿namespace AoE2NetDesktop.Form.Tests
 {
-    using AoE2NetDesktop.Tests;
-
     using System.ComponentModel;
     using System.Windows.Forms;
+    using AoE2NetDesktop.Tests;
 
     public static class FormExt
     {
