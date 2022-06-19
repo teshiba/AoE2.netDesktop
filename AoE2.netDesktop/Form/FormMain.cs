@@ -43,7 +43,8 @@ public partial class FormMain : ControllableForm
         // formMain hold the app settings.
         CtrlSettings = new CtrlSettings();
         CtrlSettings.PropertySetting.PropertyChanged += OnChangeProperty;
-        LastMatchLoader = new LastMatchLoader(OnTimer, CtrlMain.IntervalSec);
+        LastMatchLoader = new LastMatchLoader(OnTimerLastMatchLoader, CtrlMain.IntervalSec);
+        GameTimer = new GameTimer(OnTimerGame);
 
         SetOptionParams();
 
@@ -70,7 +71,7 @@ public partial class FormMain : ControllableForm
                 OpenSettings();
             }
 
-            _ = await RedrawLastMatchAsync(CtrlSettings.ProfileId);
+            CtrlMain.LastMatch = await RedrawLastMatchAsync(CtrlSettings.ProfileId);
         } catch(Exception ex) {
             labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
         }
@@ -92,7 +93,7 @@ public partial class FormMain : ControllableForm
             CtrlMain.IsTimerReloading = false;
         }
 
-        _ = await RedrawLastMatchAsync(CtrlSettings.ProfileId);
+        CtrlMain.LastMatch = await RedrawLastMatchAsync(CtrlSettings.ProfileId);
 
         if(CtrlSettings.PropertySetting.IsAutoReloadLastMatch) {
             LastMatchLoader.Start();
@@ -270,6 +271,26 @@ public partial class FormMain : ControllableForm
     private void LabelServer_Paint(object sender, PaintEventArgs e)
     {
         ((Label)sender).DrawString(e, 14, Color.Black, Color.LightSeaGreen);
+    }
+
+    private void LabelStartTimeTeam_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 18, Color.Black, Color.White);
+    }
+
+    private void LabelElapsedTimeTeam_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 20, Color.Black, Color.White);
+    }
+
+    private void LabelStartTime1v1_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 18, Color.Black, Color.White);
+    }
+
+    private void LabelElapsedTime1v1_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 20, Color.Black, Color.White);
     }
 
     private void FormMain_Resize(object sender, EventArgs e)

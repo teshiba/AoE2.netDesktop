@@ -24,7 +24,12 @@ public partial class FormMain : ControllableForm
     private FormSettings formSettings;
 
     /// <summary>
-    /// Gets lastMatchLoader.
+    /// Gets GameTimer.
+    /// </summary>
+    public GameTimer GameTimer { get; }
+
+    /// <summary>
+    /// Gets LastMatchLoader.
     /// </summary>
     public LastMatchLoader LastMatchLoader { get; }
 
@@ -126,13 +131,13 @@ public partial class FormMain : ControllableForm
         SuspendLayout();
 
         if(propertySettings.IsHideTitle && FormBorderStyle != FormBorderStyle.None) {
-            MinimumSize = new Size(860, 275);
+            MinimumSize = new Size(860, 265);
             FormBorderStyle = FormBorderStyle.None;
             Top = top;
             Left = left;
             Width = width + 13;
         } else if(!propertySettings.IsHideTitle && FormBorderStyle != FormBorderStyle.Sizable) {
-            MinimumSize = new Size(860, 310);
+            MinimumSize = new Size(860, 295);
             FormBorderStyle = FormBorderStyle.Sizable;
             Top -= RectangleToScreen(ClientRectangle).Top - Top;
             Left -= RectangleToScreen(ClientRectangle).Left - Left;
@@ -306,6 +311,10 @@ public partial class FormMain : ControllableForm
         labelMap.BackColor = chromaKey;
         labelGameId.BackColor = chromaKey;
         labelServer.BackColor = chromaKey;
+        labelStartTimeTeam.BackColor = chromaKey;
+        labelStartTime1v1.BackColor = chromaKey;
+        labelElapsedTimeTeam.BackColor = chromaKey;
+        labelElapsedTime1v1.BackColor = chromaKey;
 
         pictureBoxCiv1v1P1.BackColor = chromaKey;
         pictureBoxCiv1v1P2.BackColor = chromaKey;
@@ -409,7 +418,25 @@ public partial class FormMain : ControllableForm
         }
     }
 
-    private void OnTimer(object sender, EventArgs e)
+    private void OnTimerGame(object sender, EventArgs e)
+    {
+        labelAoE2DEActive.Invoke(() => {
+            var timezone = TimeZoneInfo.Local.ToString().Split(" ")[0].Replace("(", string.Empty).Replace(")", string.Empty);
+            var realTime = CtrlMain.LastMatch?.GetElapsedTime().ToString(@"h\:mm\:ss");
+            var inGameTime = new TimeSpan((long)(CtrlMain.LastMatch?.GetElapsedTime().Ticks * 1.7)).ToString(@"h\:mm\:ss");
+
+            labelStartTimeTeam.Text = $"{CtrlMain.LastMatch?.GetOpenedTime()} {timezone}";
+            labelElapsedTimeTeam.Text = $"{realTime} ({inGameTime} in game)";
+            labelStartTime1v1.Text = $"{CtrlMain.LastMatch?.GetOpenedTime()} {timezone}";
+            labelElapsedTime1v1.Text = $"{realTime} ({inGameTime} in game)";
+        });
+
+        if(CtrlMain.LastMatch.Finished != null) {
+            GameTimer.Stop();
+        }
+    }
+
+    private void OnTimerLastMatchLoader(object sender, EventArgs e)
     {
         LastMatchLoader.Stop();
         if(CtrlMain.IsAoE2deActive()) {
@@ -453,7 +480,9 @@ public partial class FormMain : ControllableForm
 
         try {
             var playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
-            if(labelGameId.Text != $"GameID: {playerLastmatch.LastMatch.MatchId}") {
+            if(labelGameId.Text == $"GameID: {playerLastmatch.LastMatch.MatchId}") {
+                match = CtrlMain.LastMatch;
+            } else {
                 LeaderboardId? leaderboard;
                 var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId);
                 if(playerMatchHistory.Count != 0
@@ -467,6 +496,7 @@ public partial class FormMain : ControllableForm
 
                 match = await SetLastMatchDataAsync(match, leaderboard);
                 SwitchView(match);
+                GameTimer.Start();
             }
         } catch(Exception ex) {
             labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";

@@ -87,7 +87,11 @@
             this.panelDebug = new System.Windows.Forms.Panel();
             this.labelAoE2DEActive = new System.Windows.Forms.Label();
             this.panelGameInfo = new System.Windows.Forms.Panel();
+            this.labelElapsedTimeTeam = new System.Windows.Forms.Label();
+            this.labelStartTimeTeam = new System.Windows.Forms.Label();
             this.panel1v1 = new System.Windows.Forms.Panel();
+            this.labelElapsedTime1v1 = new System.Windows.Forms.Label();
+            this.labelStartTime1v1 = new System.Windows.Forms.Label();
             this.labelWins1v1P1 = new System.Windows.Forms.Label();
             this.labelLoses1v1P1 = new System.Windows.Forms.Label();
             this.labelRate1v1P1 = new System.Windows.Forms.Label();
@@ -142,7 +146,7 @@
             // labelServer
             // 
             this.labelServer.BackColor = System.Drawing.SystemColors.Control;
-            this.labelServer.Location = new System.Drawing.Point(10, 154);
+            this.labelServer.Location = new System.Drawing.Point(110, 78);
             this.labelServer.Name = "labelServer";
             this.labelServer.Size = new System.Drawing.Size(242, 19);
             this.labelServer.TabIndex = 2;
@@ -153,7 +157,7 @@
             // labelGameId
             // 
             this.labelGameId.BackColor = System.Drawing.SystemColors.Control;
-            this.labelGameId.Location = new System.Drawing.Point(10, 135);
+            this.labelGameId.Location = new System.Drawing.Point(110, 59);
             this.labelGameId.Name = "labelGameId";
             this.labelGameId.Size = new System.Drawing.Size(152, 19);
             this.labelGameId.TabIndex = 9;
@@ -188,7 +192,7 @@
             this.panelTeam1.Controls.Add(this.labelColorP1);
             this.panelTeam1.Location = new System.Drawing.Point(7, 5);
             this.panelTeam1.Name = "panelTeam1";
-            this.panelTeam1.Size = new System.Drawing.Size(444, 265);
+            this.panelTeam1.Size = new System.Drawing.Size(444, 255);
             this.panelTeam1.TabIndex = 6;
             // 
             // labelNameP7
@@ -468,7 +472,7 @@
             // pictureBoxMap
             // 
             this.pictureBoxMap.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxMap.Location = new System.Drawing.Point(3, 3);
+            this.pictureBoxMap.Location = new System.Drawing.Point(1, 1);
             this.pictureBoxMap.Name = "pictureBoxMap";
             this.pictureBoxMap.Size = new System.Drawing.Size(105, 97);
             this.pictureBoxMap.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -489,7 +493,7 @@
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
             this.labelErrText.Location = new System.Drawing.Point(4, 29);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(1500, 204);
+            this.labelErrText.Size = new System.Drawing.Size(1500, 185);
             this.labelErrText.TabIndex = 8;
             // 
             // panelTeam2
@@ -518,7 +522,7 @@
             this.panelTeam2.Controls.Add(this.labelColorP2);
             this.panelTeam2.Location = new System.Drawing.Point(457, 5);
             this.panelTeam2.Name = "panelTeam2";
-            this.panelTeam2.Size = new System.Drawing.Size(417, 265);
+            this.panelTeam2.Size = new System.Drawing.Size(417, 255);
             this.panelTeam2.TabIndex = 5;
             // 
             // labelNameP2
@@ -580,7 +584,7 @@
             // labelRateP2
             // 
             this.labelRateP2.BackColor = System.Drawing.SystemColors.Control;
-            this.labelRateP2.Font = new System.Drawing.Font("Yu Gothic UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelRateP2.Font = new System.Drawing.Font("Yu Gothic UI", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelRateP2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.labelRateP2.Location = new System.Drawing.Point(101, 33);
             this.labelRateP2.Name = "labelRateP2";
@@ -808,7 +812,7 @@
             // 
             this.labelMap.BackColor = System.Drawing.Color.Transparent;
             this.labelMap.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelMap.Location = new System.Drawing.Point(10, 96);
+            this.labelMap.Location = new System.Drawing.Point(2, 95);
             this.labelMap.Name = "labelMap";
             this.labelMap.Size = new System.Drawing.Size(313, 42);
             this.labelMap.TabIndex = 2;
@@ -876,9 +880,9 @@
             this.panelDebug.Controls.Add(this.labelErrText);
             this.panelDebug.Controls.Add(this.labelAoE2DEActive);
             this.panelDebug.Controls.Add(this.labelDateTime);
-            this.panelDebug.Location = new System.Drawing.Point(7, 557);
+            this.panelDebug.Location = new System.Drawing.Point(7, 538);
             this.panelDebug.Name = "panelDebug";
-            this.panelDebug.Size = new System.Drawing.Size(1511, 246);
+            this.panelDebug.Size = new System.Drawing.Size(1511, 227);
             this.panelDebug.TabIndex = 11;
             // 
             // labelAoE2DEActive
@@ -893,17 +897,45 @@
             // 
             // panelGameInfo
             // 
+            this.panelGameInfo.Controls.Add(this.labelElapsedTimeTeam);
             this.panelGameInfo.Controls.Add(this.pictureBoxMap);
             this.panelGameInfo.Controls.Add(this.labelServer);
+            this.panelGameInfo.Controls.Add(this.labelStartTimeTeam);
             this.panelGameInfo.Controls.Add(this.labelGameId);
             this.panelGameInfo.Controls.Add(this.labelMap);
-            this.panelGameInfo.Location = new System.Drawing.Point(873, 97);
+            this.panelGameInfo.Location = new System.Drawing.Point(873, 65);
             this.panelGameInfo.Name = "panelGameInfo";
-            this.panelGameInfo.Size = new System.Drawing.Size(337, 173);
+            this.panelGameInfo.Size = new System.Drawing.Size(355, 195);
             this.panelGameInfo.TabIndex = 13;
+            // 
+            // labelElapsedTimeTeam
+            // 
+            this.labelElapsedTimeTeam.BackColor = System.Drawing.SystemColors.Control;
+            this.labelElapsedTimeTeam.Font = new System.Drawing.Font("MS PGothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelElapsedTimeTeam.Location = new System.Drawing.Point(20, 162);
+            this.labelElapsedTimeTeam.Name = "labelElapsedTimeTeam";
+            this.labelElapsedTimeTeam.Size = new System.Drawing.Size(275, 27);
+            this.labelElapsedTimeTeam.TabIndex = 13;
+            this.labelElapsedTimeTeam.Text = "Time --:--:--";
+            this.labelElapsedTimeTeam.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelElapsedTimeTeam.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelElapsedTimeTeam_Paint);
+            // 
+            // labelStartTimeTeam
+            // 
+            this.labelStartTimeTeam.BackColor = System.Drawing.SystemColors.Control;
+            this.labelStartTimeTeam.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelStartTimeTeam.Location = new System.Drawing.Point(20, 140);
+            this.labelStartTimeTeam.Name = "labelStartTimeTeam";
+            this.labelStartTimeTeam.Size = new System.Drawing.Size(275, 19);
+            this.labelStartTimeTeam.TabIndex = 9;
+            this.labelStartTimeTeam.Text = "Start ----/--/-- --:--:--";
+            this.labelStartTimeTeam.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelStartTimeTeam.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelStartTimeTeam_Paint);
             // 
             // panel1v1
             // 
+            this.panel1v1.Controls.Add(this.labelElapsedTime1v1);
+            this.panel1v1.Controls.Add(this.labelStartTime1v1);
             this.panel1v1.Controls.Add(this.labelWins1v1P1);
             this.panel1v1.Controls.Add(this.labelLoses1v1P1);
             this.panel1v1.Controls.Add(this.labelRate1v1P1);
@@ -931,11 +963,35 @@
             this.panel1v1.Controls.Add(this.pictureBoxUnit1v1P2);
             this.panel1v1.Controls.Add(this.pictureBoxUnit1v1P1);
             this.panel1v1.Controls.Add(this.pictureBoxCiv1v1P1);
-            this.panel1v1.Location = new System.Drawing.Point(7, 286);
+            this.panel1v1.Location = new System.Drawing.Point(7, 267);
             this.panel1v1.Name = "panel1v1";
             this.panel1v1.Size = new System.Drawing.Size(830, 265);
             this.panel1v1.TabIndex = 14;
             this.panel1v1.Visible = false;
+            // 
+            // labelElapsedTime1v1
+            // 
+            this.labelElapsedTime1v1.BackColor = System.Drawing.SystemColors.Control;
+            this.labelElapsedTime1v1.Font = new System.Drawing.Font("MS PGothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelElapsedTime1v1.Location = new System.Drawing.Point(7, 123);
+            this.labelElapsedTime1v1.Name = "labelElapsedTime1v1";
+            this.labelElapsedTime1v1.Size = new System.Drawing.Size(235, 27);
+            this.labelElapsedTime1v1.TabIndex = 22;
+            this.labelElapsedTime1v1.Text = "time --:--:--";
+            this.labelElapsedTime1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelElapsedTime1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelElapsedTime1v1_Paint);
+            // 
+            // labelStartTime1v1
+            // 
+            this.labelStartTime1v1.BackColor = System.Drawing.SystemColors.Control;
+            this.labelStartTime1v1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelStartTime1v1.Location = new System.Drawing.Point(7, 97);
+            this.labelStartTime1v1.Name = "labelStartTime1v1";
+            this.labelStartTime1v1.Size = new System.Drawing.Size(280, 22);
+            this.labelStartTime1v1.TabIndex = 21;
+            this.labelStartTime1v1.Text = "Start ----/--/-- --:--:--";
+            this.labelStartTime1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelStartTime1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelStartTime1v1_Paint);
             // 
             // labelWins1v1P1
             // 
@@ -1249,7 +1305,7 @@
             this.pictureBoxUnit1v1P2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pictureBoxUnit1v1P2.ErrorImage = null;
             this.pictureBoxUnit1v1P2.InitialImage = null;
-            this.pictureBoxUnit1v1P2.Location = new System.Drawing.Point(492, 142);
+            this.pictureBoxUnit1v1P2.Location = new System.Drawing.Point(490, 142);
             this.pictureBoxUnit1v1P2.Name = "pictureBoxUnit1v1P2";
             this.pictureBoxUnit1v1P2.Size = new System.Drawing.Size(100, 100);
             this.pictureBoxUnit1v1P2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -1263,7 +1319,7 @@
             this.pictureBoxUnit1v1P1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pictureBoxUnit1v1P1.ErrorImage = null;
             this.pictureBoxUnit1v1P1.InitialImage = null;
-            this.pictureBoxUnit1v1P1.Location = new System.Drawing.Point(240, 142);
+            this.pictureBoxUnit1v1P1.Location = new System.Drawing.Point(242, 142);
             this.pictureBoxUnit1v1P1.Name = "pictureBoxUnit1v1P1";
             this.pictureBoxUnit1v1P1.Size = new System.Drawing.Size(100, 100);
             this.pictureBoxUnit1v1P1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -1287,14 +1343,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1524, 815);
+            this.ClientSize = new System.Drawing.Size(1524, 770);
             this.ContextMenuStrip = this.contextMenuStripMain;
             this.Controls.Add(this.panel1v1);
             this.Controls.Add(this.panelGameInfo);
             this.Controls.Add(this.panelDebug);
             this.Controls.Add(this.panelTeam1);
             this.Controls.Add(this.panelTeam2);
-            this.MinimumSize = new System.Drawing.Size(855, 320);
+            this.MinimumSize = new System.Drawing.Size(855, 300);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AoE2.net Desktop";
@@ -1419,5 +1475,9 @@
         private System.Windows.Forms.PictureBox pictureBoxUnit1v1P2;
         private System.Windows.Forms.PictureBox pictureBoxUnit1v1P1;
         private System.Windows.Forms.PictureBox pictureBoxCiv1v1P1;
+        private System.Windows.Forms.Label labelElapsedTimeTeam;
+        private System.Windows.Forms.Label labelStartTimeTeam;
+        private System.Windows.Forms.Label labelElapsedTime1v1;
+        private System.Windows.Forms.Label labelStartTime1v1;
     }
 }

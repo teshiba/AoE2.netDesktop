@@ -22,6 +22,27 @@ public static class MatchExt
     }
 
     /// <summary>
+    /// Get Elapsed Time from opened time that converted to local time.
+    /// </summary>
+    /// <param name="match">match.</param>
+    /// <returns>local time value as DateTime type.</returns>
+    public static TimeSpan GetElapsedTime(this Match match)
+    {
+        TimeSpan ret;
+        var timeNow = DateTimeOffset.UtcNow;
+        var timeNowSec = timeNow.ToUnixTimeSeconds();
+
+        if(match.Finished == null) {
+            ret = timeNow - DateTimeOffset.FromUnixTimeSeconds(match.Opened ?? timeNowSec);
+        } else {
+            ret = DateTimeOffset.FromUnixTimeSeconds(match.Finished ?? timeNowSec)
+                - DateTimeOffset.FromUnixTimeSeconds(match.Opened ?? timeNowSec);
+        }
+
+        return ret;
+    }
+
+    /// <summary>
     /// Get specified Player.
     /// </summary>
     /// <param name="match">Search target.</param>

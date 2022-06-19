@@ -29,6 +29,11 @@ public class CtrlMain : FormControler
     /// <summary>
     /// Gets or sets auto reload interval second.
     /// </summary>
+    public static Match LastMatch { get; set; }
+
+    /// <summary>
+    /// Gets or sets auto reload interval second.
+    /// </summary>
     public static int IntervalSec { get; set; } = 60 * 5;
 
     /// <summary>
