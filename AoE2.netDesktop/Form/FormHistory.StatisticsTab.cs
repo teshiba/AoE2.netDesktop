@@ -55,7 +55,7 @@ public partial class FormHistory : ControllableForm
 
     private void UpdateStatisticsTabGraph()
     {
-        PlayerRate.Plot(Controler.PlayerMatchHistory, Controler.ProfileId);
+        PlayerRate.Plot(Controler.PlayerRatingHistories);
     }
 
     private async Task UpdateListViewStatisticsAsync()

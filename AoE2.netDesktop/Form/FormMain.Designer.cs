@@ -914,7 +914,7 @@
             this.labelElapsedTimeTeam.Font = new System.Drawing.Font("MS PGothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelElapsedTimeTeam.Location = new System.Drawing.Point(20, 162);
             this.labelElapsedTimeTeam.Name = "labelElapsedTimeTeam";
-            this.labelElapsedTimeTeam.Size = new System.Drawing.Size(275, 27);
+            this.labelElapsedTimeTeam.Size = new System.Drawing.Size(332, 27);
             this.labelElapsedTimeTeam.TabIndex = 13;
             this.labelElapsedTimeTeam.Text = "Time --:--:--";
             this.labelElapsedTimeTeam.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -926,7 +926,7 @@
             this.labelStartTimeTeam.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelStartTimeTeam.Location = new System.Drawing.Point(20, 140);
             this.labelStartTimeTeam.Name = "labelStartTimeTeam";
-            this.labelStartTimeTeam.Size = new System.Drawing.Size(275, 19);
+            this.labelStartTimeTeam.Size = new System.Drawing.Size(332, 19);
             this.labelStartTimeTeam.TabIndex = 9;
             this.labelStartTimeTeam.Text = "Start ----/--/-- --:--:--";
             this.labelStartTimeTeam.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

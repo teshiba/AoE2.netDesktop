@@ -92,27 +92,48 @@ public static class AoE2net
     /// <param name="count">Number of matches to get (Must be 10000 or less)).</param>
     /// <returns>List of <see cref="PlayerRating"/> deserialized as JSON.</returns>
     public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(string steamId, LeaderboardId leaderBoardId, int count)
+        => await GetPlayerRatingHistoryAsync(steamId, leaderBoardId, 0, count);
+
+    /// <summary>
+    /// Gets Player Rating History.
+    /// </summary>
+    /// <param name="steamId">steamID64.</param>
+    /// <param name="leaderBoardId">Leaderboard ID.</param>
+    /// <param name="start">Starting match (0 is the most recent match).</param>
+    /// <param name="count">Number of matches to get (Must be 10000 or less)).</param>
+    /// <returns>List of <see cref="PlayerRating"/> deserialized as JSON.</returns>
+    public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(string steamId, LeaderboardId leaderBoardId, int start, int count)
     {
         if(steamId is null) {
             throw new ArgumentNullException(nameof(steamId));
         }
 
-        string apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&steam_id={steamId}&count={count}";
+        string apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&steam_id={steamId}&start={start}&count={count}";
 
         return await ComClient.GetFromJsonAsync<List<PlayerRating>>(apiEndPoint).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Gets Player Rating History.
-    /// Request the rating history for a player.
     /// </summary>
     /// <param name="profileId">Profile ID.</param>
     /// <param name="leaderBoardId">Leaderboard ID.</param>
     /// <param name="count">Number of matches to get (Must be 10000 or less)).</param>
     /// <returns>List of <see cref="PlayerRating"/> deserialized as JSON.</returns>
     public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(int profileId, LeaderboardId leaderBoardId, int count)
+        => await GetPlayerRatingHistoryAsync(profileId, leaderBoardId, 0, count);
+
+    /// <summary>
+    /// Gets Player Rating History.
+    /// </summary>
+    /// <param name="profileId">Profile ID.</param>
+    /// <param name="leaderBoardId">Leaderboard ID.</param>
+    /// <param name="start">Starting match (0 is the most recent match).</param>
+    /// <param name="count">Number of matches to get (Must be 10000 or less)).</param>
+    /// <returns>List of <see cref="PlayerRating"/> deserialized as JSON.</returns>
+    public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(int profileId, LeaderboardId leaderBoardId, int start, int count)
     {
-        string apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&profile_id={profileId}&count={count}";
+        string apiEndPoint = $"player/ratinghistory?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&profile_id={profileId}&start={start}&count={count}";
 
         return await ComClient.GetFromJsonAsync<List<PlayerRating>>(apiEndPoint).ConfigureAwait(false);
     }

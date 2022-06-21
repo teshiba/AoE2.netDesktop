@@ -65,13 +65,12 @@ public class PlayerRateFormsPlot
     /// <summary>
     /// Plot player rate.
     /// </summary>
-    /// <param name="playerMatchHistory">PlayerMatchHistory.</param>
-    /// <param name="profileId">Profile ID.</param>
-    public void Plot(PlayerMatchHistory playerMatchHistory, int profileId)
+    /// <param name="playerRatingHistory">PlayerRatingHistory.</param>
+    public void Plot(PlayerRatingHistories playerRatingHistory)
     {
         formsPlot.Plot.Clear();
         foreach(var plot in Plots) {
-            plot.Value.Plot(playerMatchHistory, profileId, plot.Key);
+            plot.Value.Plot(playerRatingHistory[plot.Key], plot.Key);
         }
 
         formsPlot.Plot.SetOuterViewLimits(
