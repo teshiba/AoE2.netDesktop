@@ -243,12 +243,12 @@
             // Arrange
             var expVal = new List<PlayerRating> {
                 new PlayerRating {
-                    Drops = 0,
-                    NumLosses = 100,
-                    NumWins = 100,
-                    Rating = 1111,
-                    Streak = 0,
-                    TimeStamp = 1643808142,
+                    Drops = 1,
+                    NumLosses = 222,
+                    NumWins = 111,
+                    Rating = 1234,
+                    Streak = 12,
+                    TimeStamp = 123456,
                 },
             };
 
@@ -279,12 +279,12 @@
             // Arrange
             var expVal = new List<PlayerRating> {
                 new PlayerRating {
-                    Drops = 0,
-                    NumLosses = 100,
-                    NumWins = 100,
-                    Rating = 9999,
-                    Streak = 0,
-                    TimeStamp = 1643808142,
+                    Drops = 1,
+                    NumLosses = 222,
+                    NumWins = 111,
+                    Rating = 1234,
+                    Streak = 12,
+                    TimeStamp = 123456,
                 },
             };
 

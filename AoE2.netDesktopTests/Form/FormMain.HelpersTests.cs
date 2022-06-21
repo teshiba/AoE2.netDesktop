@@ -300,7 +300,8 @@ public partial class FormMainTests
     public void RedrawLastMatchAsyncTestSameGameID()
     {
         // Arrange
-        Match actMatch = null;
+        var actMatch = new Match();
+        var expMatch = new Match();
         var done = false;
         var testClass = new FormMainPrivate();
 
@@ -309,6 +310,7 @@ public partial class FormMainTests
         {
             await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
             testClass.labelGameId.Text = $"GameID: 00000002";
+            expMatch = CtrlMain.LastMatch;
             actMatch = await testClass.RedrawLastMatchAsync(TestData.AvailableUserProfileId);
             testClass.Close();
             done = true;
@@ -318,6 +320,6 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsTrue(done);
-        Assert.IsNull(actMatch);
+        Assert.AreEqual(expMatch, actMatch);
     }
 }

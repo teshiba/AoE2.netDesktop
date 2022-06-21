@@ -139,8 +139,9 @@ public class TestHttpClient : ComClient
         var game = args[2];
         var leaderboardId = (LeaderboardId)int.Parse(args[4]);
         var steamId = args[6];
-        var count = args[8];
-        var readUri = $"{TestData.Path}/playerRatingHistory{game}{steamId}{leaderboardId}{count}.json";
+        var start = args[8];
+        var count = args[10];
+        var readUri = $"{TestData.Path}/playerRatingHistory{game}{steamId}{leaderboardId}{count}_{start}.json";
 
         LastRequest = $"Read {readUri}";
 

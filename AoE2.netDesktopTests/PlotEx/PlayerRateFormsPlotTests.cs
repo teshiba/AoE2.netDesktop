@@ -16,47 +16,6 @@ using System.Drawing;
 [TestClass]
 public class PlayerRateFormsPlotTests
 {
-    private const int ProfileId = TestData.AvailableUserProfileId;
-    private const int ProfileIdp1 = TestData.AvailableUserProfileId + 1;
-    private const int ProfileIdp2 = TestData.AvailableUserProfileId + 2;
-    private readonly PlayerMatchHistory matchesWithoutRate = new() {
-        new Match() {
-            LeaderboardId = LeaderboardId.RM1v1,
-            Players = new List<Player> {
-                    new Player { Name = "me", ProfilId = ProfileId,   Color = 1 },
-                    new Player { Name = "p1", ProfilId = ProfileIdp1, Color = 2 },
-                },
-        },
-        new Match() {
-            LeaderboardId = LeaderboardId.RMTeam,
-            Players = new List<Player> {
-                    new Player { Name = "me",  ProfilId = ProfileId,   Color = 3 },
-                    new Player { Name = "p2",  ProfilId = ProfileIdp2, Color = 2 },
-                    new Player { Name = "p1",  ProfilId = ProfileIdp1, Color = 1 },
-                },
-        },
-    };
-
-    private readonly PlayerMatchHistory matchesWithRate = new() {
-        new Match() {
-            LeaderboardId = LeaderboardId.RM1v1,
-            Started = 1,
-            Players = new List<Player> {
-                    new Player { Name = "me", ProfilId = ProfileId,   Color = 1, Rating = 110 },
-                    new Player { Name = "p1", ProfilId = ProfileIdp1, Color = 2, Rating = 120 },
-                },
-        },
-        new Match() {
-            LeaderboardId = LeaderboardId.RM1v1,
-            Started = 2,
-            Players = new List<Player> {
-                    new Player { Name = "me",  ProfilId = ProfileId,   Color = 3, Rating = 130 },
-                    new Player { Name = "p2",  ProfilId = ProfileIdp2, Color = 2, Rating = 140 },
-                    new Player { Name = "p1",  ProfilId = ProfileIdp1, Color = 1, Rating = 150 },
-                },
-        },
-    };
-
     private readonly Dictionary<LeaderboardId, Color> leaderboardColor = new() {
         { LeaderboardId.RM1v1, Color.Blue },
         { LeaderboardId.RMTeam, Color.Indigo },
@@ -91,8 +50,22 @@ public class PlayerRateFormsPlotTests
         var rateMaxY = 130;
         var rateMinY = 110;
 
+        var playerRatings = new List<PlayerRating>() {
+            new PlayerRating() { Rating = rateMaxY, TimeStamp = 0 },
+            new PlayerRating() { Rating = rateMinY, TimeStamp = 0 },
+        };
+        var playerRatingHistory = new PlayerRatingHistories {
+            { LeaderboardId.RM1v1, playerRatings },
+            { LeaderboardId.RMTeam, playerRatings },
+            { LeaderboardId.EW1v1, playerRatings },
+            { LeaderboardId.EWTeam, playerRatings },
+            { LeaderboardId.DM1v1, playerRatings },
+            { LeaderboardId.DMTeam, playerRatings },
+            { LeaderboardId.Unranked, playerRatings },
+        };
+
         // Act
-        testClass.Plot(matchesWithRate, ProfileId);
+        testClass.Plot(playerRatingHistory);
 
         // Assert
         Assert.AreEqual(datetimeMaxX, (double)testClass.Plots[LeaderboardId.RM1v1].MaxX);
@@ -106,9 +79,22 @@ public class PlayerRateFormsPlotTests
     {
         // Arrange
         var testClass = new PlayerRateFormsPlot(new FormsPlot(), leaderboardColor, 16);
+        var playerRatings = new List<PlayerRating>() {
+            new PlayerRating() { Rating = null, TimeStamp = null },
+            new PlayerRating() { Rating = null, TimeStamp = null },
+        };
+        var playerRatingHistory = new PlayerRatingHistories {
+            { LeaderboardId.RM1v1, playerRatings },
+            { LeaderboardId.RMTeam, playerRatings },
+            { LeaderboardId.EW1v1, playerRatings },
+            { LeaderboardId.EWTeam, playerRatings },
+            { LeaderboardId.DM1v1, playerRatings },
+            { LeaderboardId.DMTeam, playerRatings },
+            { LeaderboardId.Unranked, playerRatings },
+        };
 
         // Act
-        testClass.Plot(matchesWithoutRate, ProfileId);
+        testClass.Plot(playerRatingHistory);
 
         // Assert
         Assert.IsNull(testClass.Plots[LeaderboardId.RM1v1].MaxX);

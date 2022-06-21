@@ -131,41 +131,17 @@ public class PlayerRatePlotTests
     public void PlotTest()
     {
         // Arrange
-        int profileId = TestData.AvailableUserProfileId;
-        var datetime = new DateTime(1970, 01, 01, 0, 0, 0);
-        var playerMatchHistory = new PlayerMatchHistory {
-            CreateMatch(1001, datetime),
-            CreateMatch(1002, datetime),
-            CreateMatch(1000, datetime),
-            CreateMatch(1001, datetime + new TimeSpan(1, 0, 0, 0)),
-            CreateMatch(1001, datetime + new TimeSpan(2, 0, 0, 0)),
-            CreateMatch(1001, datetime + new TimeSpan(3, 0, 0, 0)),
-            CreateMatch(1001, datetime + new TimeSpan(4, 0, 0, 0)),
-            CreateMatch(1001, datetime + new TimeSpan(5, 0, 0, 0)),
-            CreateMatch(1001, datetime + new TimeSpan(6, 0, 0, 0)),
-            CreateMatch(1001, datetime + new TimeSpan(7, 0, 0, 0)),
+        List<PlayerRating> playerRatingHistory = new() {
+            new PlayerRating() { Rating = 1, TimeStamp = 0 },
+            new PlayerRating() { Rating = 1, TimeStamp = 0 },
+            new PlayerRating() { Rating = 1, TimeStamp = 0 },
+            new PlayerRating() { Rating = 1, TimeStamp = 0 },
         };
         var testClass = new PlayerRatePlot(new FormsPlot(), Color.Red);
 
         // Act
-        testClass.Plot(playerMatchHistory, profileId, LeaderboardId.RM1v1);
+        testClass.Plot(playerRatingHistory, LeaderboardId.RM1v1);
 
         // Assert
-    }
-
-    private static Match CreateMatch(int rate, DateTime datetime)
-    {
-        return new Match {
-            Opened = new DateTimeOffset(datetime).ToUnixTimeSeconds(),
-            LeaderboardId = LeaderboardId.RM1v1,
-            Players = new List<Player> {
-                        new Player {
-                            Civ = 1,
-                            ProfilId = TestData.AvailableUserProfileId,
-                            Won = true,
-                            Rating = rate,
-                        },
-                    },
-        };
     }
 }
