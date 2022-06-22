@@ -2,6 +2,8 @@
 
 using AoE2NetDesktop.Utility;
 
+using AoE2netDesktopTests.TestUtility;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
@@ -77,7 +79,9 @@ public class ComClientTests
     {
         // Arrange
         var testClass = new TestHttpClient() {
-            ForceException = true,
+            SystemApi = new SystemApiStub(1) {
+                ForceException = true,
+            },
         };
 
         // Act
@@ -93,7 +97,9 @@ public class ComClientTests
     {
         // Arrange
         var testClass = new TestHttpClient() {
-            ForceWin32Exception = true,
+            SystemApi = new SystemApiStub(1) {
+                ForceWin32Exception = true,
+            },
         };
 
         // Act

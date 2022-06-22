@@ -5,7 +5,6 @@ using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
 
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -16,13 +15,9 @@ using System.Threading.Tasks;
 /// </summary>
 public class TestHttpClient : ComClient
 {
-    private const int EFAIL = -2147467259;
-
     public bool ForceHttpRequestException { get; set; }
 
     public bool ForceException { get; set; }
-
-    public bool ForceWin32Exception { get; set; }
 
     public bool ForceTaskCanceledException { get; set; }
 
@@ -64,29 +59,6 @@ public class TestHttpClient : ComClient
         };
 
         return ret;
-    }
-
-    /// <summary>
-    /// Open specified URI.
-    /// </summary>
-    /// <param name="requestUri">URI string.</param>
-    /// <returns>start process.</returns>
-    /// <exception cref="Win32Exception">Win32Exception.</exception>
-    /// <exception cref="Exception">Exception.</exception>
-    public override Process Start(string requestUri)
-    {
-        if(ForceWin32Exception) {
-            throw new Win32Exception(EFAIL, "Forced ForceWin32Exception");
-        }
-
-        if(ForceException) {
-            throw new Exception("Forced Exception");
-        }
-
-        LastRequest = $"Start {requestUri}";
-
-        // return a dummy process for test.
-        return new Process();
     }
 
     /// <summary>

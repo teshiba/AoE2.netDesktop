@@ -131,11 +131,18 @@ public class PlayerRatePlotTests
     public void PlotTest()
     {
         // Arrange
+        var datetime = new DateTimeOffset(1970, 01, 01, 0, 0, 0, new TimeSpan(0)).ToUnixTimeSeconds();
         List<PlayerRating> playerRatingHistory = new() {
-            new PlayerRating() { Rating = 1, TimeStamp = 0 },
-            new PlayerRating() { Rating = 1, TimeStamp = 0 },
-            new PlayerRating() { Rating = 1, TimeStamp = 0 },
-            new PlayerRating() { Rating = 1, TimeStamp = 0 },
+            new PlayerRating() { Rating = 1001, TimeStamp = datetime },
+            new PlayerRating() { Rating = 1002, TimeStamp = datetime },
+            new PlayerRating() { Rating = 1000, TimeStamp = datetime },
+            new PlayerRating() { Rating = 1001, TimeStamp = GetDateTime(datetime, 1) },
+            new PlayerRating() { Rating = 1001, TimeStamp = GetDateTime(datetime, 2) },
+            new PlayerRating() { Rating = 1001, TimeStamp = GetDateTime(datetime, 3) },
+            new PlayerRating() { Rating = 1001, TimeStamp = GetDateTime(datetime, 4) },
+            new PlayerRating() { Rating = 1001, TimeStamp = GetDateTime(datetime, 5) },
+            new PlayerRating() { Rating = 1001, TimeStamp = GetDateTime(datetime, 6) },
+            new PlayerRating() { Rating = 1001, TimeStamp = GetDateTime(datetime, 7) },
         };
         var testClass = new PlayerRatePlot(new FormsPlot(), Color.Red);
 
@@ -143,5 +150,10 @@ public class PlayerRatePlotTests
         testClass.Plot(playerRatingHistory, LeaderboardId.RM1v1);
 
         // Assert
+    }
+
+    private static long GetDateTime(long datetime, int offsetDay)
+    {
+        return datetime + new DateTimeOffset(1970, 01, 01 + offsetDay, 0, 0, 0, default).ToUnixTimeSeconds();
     }
 }

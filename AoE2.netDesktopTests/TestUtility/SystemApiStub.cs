@@ -1,15 +1,20 @@
 ﻿namespace AoE2netDesktopTests.TestUtility;
 
 using AoE2NetDesktop.Tests;
-using AoE2NetDesktop.Utility.User32;
+using AoE2NetDesktop.Utility.SysApi;
 
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 
 /// <summary>
 /// System API stub class.
 /// </summary>
 public class SystemApiStub : ISystemApi
 {
+    private const int EFAIL = -2147467259;
+
     private readonly IUser32Api user32api;
     private readonly Dictionary<int, string> processList = new() {
         { 0, "Idle" },
@@ -32,6 +37,10 @@ public class SystemApiStub : ISystemApi
         };
     }
 
+    public bool ForceException { get; set; }
+
+    public bool ForceWin32Exception { get; set; }
+
     /// <inheritdoc/>
     public string GetActiveProcess()
     {
@@ -44,5 +53,29 @@ public class SystemApiStub : ISystemApi
     public string GetProcessFilePath(string processName)
     {
         return processPathList[processName];
+    }
+
+    /// <summary>
+    /// Open specified URI.
+    /// </summary>
+    /// <param name="requestUri">URI string.</param>
+    /// <returns>start process.</returns>
+    /// <exception cref="Win32Exception">Win32Exception.</exception>
+    /// <exception cref="Exception">Exception.</exception>
+    public Process Start(string requestUri)
+    {
+        if(ForceWin32Exception) {
+            throw new Win32Exception(EFAIL, "Forced ForceWin32Exception");
+        }
+
+        if(ForceException) {
+            throw new Exception("Forced Exception");
+        }
+
+        // return a process for test without start.
+        var process = new Process {
+            StartInfo = new ProcessStartInfo("cmd", $"/c start {requestUri}") { CreateNoWindow = true },
+        };
+        return process;
     }
 }

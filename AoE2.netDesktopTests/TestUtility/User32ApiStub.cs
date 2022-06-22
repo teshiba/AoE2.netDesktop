@@ -1,6 +1,6 @@
 ﻿namespace AoE2netDesktopTests.TestUtility;
 
-using AoE2NetDesktop.Utility.User32;
+using AoE2NetDesktop.Utility.SysApi;
 
 using System;
 

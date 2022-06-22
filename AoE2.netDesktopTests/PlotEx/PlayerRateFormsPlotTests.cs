@@ -54,14 +54,15 @@ public class PlayerRateFormsPlotTests
             new PlayerRating() { Rating = rateMaxY, TimeStamp = 0 },
             new PlayerRating() { Rating = rateMinY, TimeStamp = 0 },
         };
+
         var playerRatingHistory = new PlayerRatingHistories {
-            { LeaderboardId.RM1v1, playerRatings },
-            { LeaderboardId.RMTeam, playerRatings },
-            { LeaderboardId.EW1v1, playerRatings },
-            { LeaderboardId.EWTeam, playerRatings },
-            { LeaderboardId.DM1v1, playerRatings },
-            { LeaderboardId.DMTeam, playerRatings },
-            { LeaderboardId.Unranked, playerRatings },
+            [LeaderboardId.RM1v1] = playerRatings,
+            [LeaderboardId.RMTeam] = playerRatings,
+            [LeaderboardId.EW1v1] = playerRatings,
+            [LeaderboardId.EWTeam] = playerRatings,
+            [LeaderboardId.DM1v1] = playerRatings,
+            [LeaderboardId.DMTeam] = playerRatings,
+            [LeaderboardId.Unranked] = playerRatings,
         };
 
         // Act
@@ -83,14 +84,15 @@ public class PlayerRateFormsPlotTests
             new PlayerRating() { Rating = null, TimeStamp = null },
             new PlayerRating() { Rating = null, TimeStamp = null },
         };
+
         var playerRatingHistory = new PlayerRatingHistories {
-            { LeaderboardId.RM1v1, playerRatings },
-            { LeaderboardId.RMTeam, playerRatings },
-            { LeaderboardId.EW1v1, playerRatings },
-            { LeaderboardId.EWTeam, playerRatings },
-            { LeaderboardId.DM1v1, playerRatings },
-            { LeaderboardId.DMTeam, playerRatings },
-            { LeaderboardId.Unranked, playerRatings },
+            [LeaderboardId.RM1v1] = playerRatings,
+            [LeaderboardId.RMTeam] = playerRatings,
+            [LeaderboardId.EW1v1] = playerRatings,
+            [LeaderboardId.EWTeam] = playerRatings,
+            [LeaderboardId.DM1v1] = playerRatings,
+            [LeaderboardId.DMTeam] = playerRatings,
+            [LeaderboardId.Unranked] = playerRatings,
         };
 
         // Act

@@ -11,6 +11,14 @@ using System.Collections.Generic;
 [TestClass]
 public class MatchExtTests
 {
+    private static IEnumerable<object[]> GetTestData => new List<object[]>
+    {
+        // opened, finished, utcNow, expVal
+        new object[] { 100L, 200L, 300L, 100L },
+        new object[] { 100L, null, 300L, 200L },
+        new object[] { null, null, 300L, 0L },
+    };
+
     [TestMethod]
     public void GetOpenedTimeTest()
     {
@@ -25,6 +33,24 @@ public class MatchExtTests
 
         // Assert
         Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    [DynamicData(nameof(GetTestData))]
+    public void GetElapsedTimeTest(long? opened, long? finished, long utcNow, long expVal)
+    {
+        // Arrange
+        MatchExt.GetUtcTimeNow = () => DateTimeOffset.FromUnixTimeSeconds(utcNow);
+
+        // Act
+        var testClass = new Match() {
+            Opened = opened,
+            Finished = finished,
+        };
+        var actVal = testClass.GetElapsedTime();
+
+        // Assert
+        Assert.AreEqual(expVal, actVal.TotalSeconds);
     }
 
     [TestMethod]

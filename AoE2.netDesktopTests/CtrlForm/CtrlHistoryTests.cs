@@ -6,6 +6,7 @@ using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
+using AoE2netDesktopTests.TestUtility;
 
 using LibAoE2net;
 
@@ -253,8 +254,10 @@ public class CtrlHistoryTests
     public void OpenProfileTest()
     {
         // Arrange
-        var expVal = "Start https://aoe2.net/#profile-1";
-        var testHttpClient = new TestHttpClient();
+        var expVal = "/c start https://aoe2.net/#profile-1";
+        var testHttpClient = new TestHttpClient() {
+            SystemApi = new SystemApiStub(1),
+        };
         AoE2net.ComClient = testHttpClient;
         var playerName = "player1";
         var profileId = TestData.AvailableUserProfileId;
@@ -262,10 +265,10 @@ public class CtrlHistoryTests
         testClass.MatchedPlayerInfos.Add(playerName, new PlayerInfo() { ProfileId = profileId });
 
         // Act
-        testClass.OpenProfile(playerName);
+        var actVal = testClass.OpenProfile(playerName);
 
         // Assert
-        Assert.AreEqual(expVal, testHttpClient.LastRequest);
+        Assert.AreEqual(expVal, actVal);
     }
 
     [TestMethod]
@@ -273,7 +276,9 @@ public class CtrlHistoryTests
     {
         // Arrange
         var testHttpClient = new TestHttpClient {
-            ForceWin32Exception = true,
+            SystemApi = new SystemApiStub(1) {
+                ForceWin32Exception = true,
+            },
         };
         AoE2net.ComClient = testHttpClient;
         var playerName = "player1";
@@ -293,7 +298,9 @@ public class CtrlHistoryTests
     {
         // Arrange
         var testHttpClient = new TestHttpClient {
-            ForceException = true,
+            SystemApi = new SystemApiStub(1) {
+                ForceException = true,
+            },
         };
         AoE2net.ComClient = testHttpClient;
         var playerName = "player1";

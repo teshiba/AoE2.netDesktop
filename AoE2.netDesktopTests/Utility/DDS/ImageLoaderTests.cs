@@ -12,6 +12,7 @@ public class ImageLoaderTests
     [DataRow(TestData.DdsFileUnexpectedDwFlags, ImageLoaderError.InvalidDddsPfFlags)]
     [DataRow(TestData.DdsFileUnexpectedMagic, ImageLoaderError.InvalidMagic)]
     [DataRow(TestData.DdsNonExsistFile, ImageLoaderError.NotFound)]
+    [DataRow(TestData.DdsNonExsistDir, ImageLoaderError.NotFound)]
     public void ImageLoaderTest(string filePath, ImageLoaderError expErr)
     {
         // Arrange
