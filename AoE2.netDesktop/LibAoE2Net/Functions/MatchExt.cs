@@ -11,6 +11,11 @@ using System.Linq;
 public static class MatchExt
 {
     /// <summary>
+    /// Gets or Sets UtcNow function.
+    /// </summary>
+    public static Func<DateTimeOffset> GetUtcTimeNow { get; set; } = () => DateTimeOffset.UtcNow;
+
+    /// <summary>
     /// Get Opened Time that converted to local time.
     /// </summary>
     /// <param name="match">match.</param>
@@ -29,14 +34,17 @@ public static class MatchExt
     public static TimeSpan GetElapsedTime(this Match match)
     {
         TimeSpan ret;
-        var timeNow = DateTimeOffset.UtcNow;
-        var timeNowSec = timeNow.ToUnixTimeSeconds();
+        var timeNow = GetUtcTimeNow();
 
-        if(match.Finished == null) {
-            ret = timeNow - DateTimeOffset.FromUnixTimeSeconds(match.Opened ?? timeNowSec);
+        if(match.Opened is long opened) {
+            if(match.Finished is long finished) {
+                ret = DateTimeOffset.FromUnixTimeSeconds(finished)
+                    - DateTimeOffset.FromUnixTimeSeconds(opened);
+            } else {
+                ret = timeNow - DateTimeOffset.FromUnixTimeSeconds(opened);
+            }
         } else {
-            ret = DateTimeOffset.FromUnixTimeSeconds(match.Finished ?? timeNowSec)
-                - DateTimeOffset.FromUnixTimeSeconds(match.Opened ?? timeNowSec);
+            ret = default;
         }
 
         return ret;

@@ -1,7 +1,7 @@
 ﻿namespace AoE2NetDesktop.AoE2DE;
 
 using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.Utility.User32;
+using AoE2NetDesktop.Utility.SysApi;
 
 using System.Diagnostics;
 using System.IO;

@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop.Utility.User32;
+﻿namespace AoE2NetDesktop.Utility.SysApi;
 
 using System;
 using System.Diagnostics;
@@ -49,4 +49,12 @@ public class SystemApi : ISystemApi
 
         return ret;
     }
+
+    /// <summary>
+    /// Starts the process.
+    /// </summary>
+    /// <param name="requestUri">request Uri.</param>
+    /// <returns>Process.</returns>
+    public Process Start(string requestUri)
+        => Process.Start(new ProcessStartInfo("cmd", $"/c start {requestUri}") { CreateNoWindow = true });
 }

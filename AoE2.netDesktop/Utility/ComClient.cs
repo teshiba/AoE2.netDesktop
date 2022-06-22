@@ -1,5 +1,7 @@
 ﻿namespace AoE2NetDesktop.Utility;
 
+using AoE2NetDesktop.Utility.SysApi;
+
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -14,6 +16,11 @@ using System.Threading.Tasks;
 /// </summary>
 public class ComClient : HttpClient
 {
+    /// <summary>
+    /// Gets or sets system API.
+    /// </summary>
+    public ISystemApi SystemApi { get; set; } = new SystemApi(new User32Api());
+
     /// <summary>
     /// Gets or sets the base address of CivImage Resource URI of the AoE2net.
     /// </summary>
@@ -69,14 +76,6 @@ public class ComClient : HttpClient
     }
 
     /// <summary>
-    /// Starts the process.
-    /// </summary>
-    /// <param name="requestUri">request Uri.</param>
-    /// <returns>Process.</returns>
-    public virtual Process Start(string requestUri)
-        => Process.Start(new ProcessStartInfo("cmd", $"/c start {requestUri}") { CreateNoWindow = true });
-
-    /// <summary>
     /// Open specified URI.
     /// </summary>
     /// <param name="requestUri">URI string.</param>
@@ -85,7 +84,7 @@ public class ComClient : HttpClient
     {
         Process ret;
         try {
-            ret = Start(requestUri);
+            ret = SystemApi.Start(requestUri);
         } catch(Win32Exception noBrowser) {
             Debug.Print(noBrowser.Message);
             throw;

@@ -6,7 +6,7 @@ using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.DDS;
 using AoE2NetDesktop.Utility.Forms;
-using AoE2NetDesktop.Utility.User32;
+using AoE2NetDesktop.Utility.SysApi;
 
 using System;
 using System.Collections.Generic;

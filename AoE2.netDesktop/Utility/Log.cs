@@ -8,12 +8,25 @@ using System.Diagnostics;
 public static class Log
 {
     /// <summary>
+    /// Gets or Sets log level.
+    /// </summary>
+    public static LogLevel Level { get; set; } = LogLevel.Debug;
+
+    /// <summary>
+    /// Gets last printed message.
+    /// </summary>
+    public static string LastMessage { get; private set; }
+
+    /// <summary>
     /// Print Debug.
     /// </summary>
     /// <param name="debugString">output strings.</param>
-    [Conditional("DEBUG_INFO")]
     public static void Info(string debugString)
     {
-        Debug.Print($"[INFO] {debugString}");
+        LastMessage = $"[INFO] {debugString}";
+
+        if(Level == LogLevel.Info) {
+            Debug.Print(LastMessage);
+        }
     }
 }

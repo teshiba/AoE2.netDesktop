@@ -261,11 +261,13 @@ public class CtrlHistory : FormControler
     /// Open player's profile on AoE2.net.
     /// </summary>
     /// <param name="playerName">player name.</param>
-    public void OpenProfile(string playerName)
+    /// <returns>Request URI.</returns>
+    public string OpenProfile(string playerName)
     {
+        var ret = new Process();
         if(MatchedPlayerInfos.TryGetValue(playerName, out PlayerInfo playerInfo)) {
             try {
-                AoE2net.OpenAoE2net((int)playerInfo.ProfileId);
+                ret = AoE2net.OpenAoE2net((int)playerInfo.ProfileId);
             } catch(Win32Exception noBrowser) {
                 Debug.Print(noBrowser.Message);
             } catch(Exception other) {
@@ -274,6 +276,8 @@ public class CtrlHistory : FormControler
         } else {
             Debug.Print($"Unavailable Player Name: {playerName}.");
         }
+
+        return ret.StartInfo.Arguments;
     }
 
     /// <summary>
