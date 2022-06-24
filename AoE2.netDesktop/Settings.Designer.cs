@@ -145,10 +145,10 @@ namespace AoE2NetDesktop {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
-        public decimal MainFormOpacityPercent {
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double MainFormOpacityPercent {
             get {
-                return ((decimal)(this["MainFormOpacityPercent"]));
+                return ((double)(this["MainFormOpacityPercent"]));
             }
             set {
                 this["MainFormOpacityPercent"] = value;
@@ -218,12 +218,12 @@ namespace AoE2NetDesktop {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool MainFormTransparency {
+        public bool MainFormIsTransparency {
             get {
-                return ((bool)(this["MainFormTransparency"]));
+                return ((bool)(this["MainFormIsTransparency"]));
             }
             set {
-                this["MainFormTransparency"] = value;
+                this["MainFormIsTransparency"] = value;
             }
         }
         

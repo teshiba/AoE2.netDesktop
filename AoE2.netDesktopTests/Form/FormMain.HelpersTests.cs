@@ -10,47 +10,22 @@ using AoE2netDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using System;
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 public partial class FormMainTests
 {
     [TestMethod]
-    public void OnChangePropertyTestException()
-    {
-        // Arrange
-        var testClass = new FormMainPrivate();
-        var propertySettings = new PropertySettings();
-        var e = new PropertyChangedEventArgs(string.Empty);
-
-        // Assert
-        var ex = Assert.ThrowsException<TargetInvocationException>(() =>
-        {
-            // Act
-            testClass.OnChangeProperty(propertySettings, e);
-        });
-
-        Assert.AreEqual(typeof(ArgumentOutOfRangeException), ex.InnerException.GetType());
-    }
-
-    [TestMethod]
     public void OnChangePropertyOpacityTest()
     {
         // Arrange
         var testClass = new FormMainPrivate();
         var expVal = 0.5;
-        var propertySettings = new PropertySettings() {
-            Opacity = expVal,
-        };
-        var e = new PropertyChangedEventArgs(nameof(propertySettings.Opacity));
 
         // Act
-        testClass.OnChangeProperty(propertySettings, e);
+        TestUtilityExt.SetSettings("MainFormOpacityPercent", expVal);
 
         // Assert
         Assert.AreEqual(expVal, testClass.Opacity);
@@ -67,13 +42,9 @@ public partial class FormMainTests
         var testClass = new FormMainPrivate() {
             FormBorderStyle = currentFormBorderStyle,
         };
-        var propertySettings = new PropertySettings() {
-            IsHideTitle = isHide,
-        };
-        var e = new PropertyChangedEventArgs(nameof(propertySettings.IsHideTitle));
 
         // Act
-        testClass.OnChangeProperty(propertySettings, e);
+        TestUtilityExt.SetSettings("MainFormIsHideTitle", isHide);
 
         // Assert
         Assert.AreEqual(expVal, testClass.FormBorderStyle);
@@ -86,13 +57,9 @@ public partial class FormMainTests
     {
         // Arrange
         var testClass = new FormMainPrivate();
-        var propertySettings = new PropertySettings() {
-            IsAlwaysOnTop = value,
-        };
-        var e = new PropertyChangedEventArgs(nameof(propertySettings.IsAlwaysOnTop));
 
         // Act
-        testClass.OnChangeProperty(propertySettings, e);
+        TestUtilityExt.SetSettings("MainFormIsAlwaysOnTop", value);
 
         // Assert
         Assert.AreEqual(value, testClass.TopMost);
@@ -103,14 +70,10 @@ public partial class FormMainTests
     {
         // Arrange
         var testClass = new FormMainPrivate();
-        var propertySettings = new PropertySettings() {
-            ChromaKey = "#123456",
-        };
-        var expVal = ColorTranslator.FromHtml(propertySettings.ChromaKey);
-        var e = new PropertyChangedEventArgs(nameof(propertySettings.ChromaKey));
+        var expVal = ColorTranslator.FromHtml("#123456");
 
         // Act
-        testClass.OnChangeProperty(propertySettings, e);
+        TestUtilityExt.SetSettings("ChromaKey", "#123456");
 
         // Assert
         Assert.AreEqual(expVal, testClass.BackColor);
@@ -121,13 +84,9 @@ public partial class FormMainTests
     {
         // Arrange
         var testClass = new FormMainPrivate();
-        var propertySettings = new PropertySettings() {
-            ChromaKey = "invalidColorName",
-        };
-        var e = new PropertyChangedEventArgs(nameof(propertySettings.ChromaKey));
 
         // Act
-        testClass.OnChangeProperty(propertySettings, e);
+        TestUtilityExt.SetSettings("ChromaKey", "invalidColorName");
 
         // Assert
         Assert.AreEqual("Control", testClass.BackColor.Name);
@@ -140,23 +99,17 @@ public partial class FormMainTests
     {
         // Arrange
         var testClass = new FormMainPrivate();
-        var propertySettings = new PropertySettings() {
-            IsTransparency = value,
-            ChromaKey = "#123456",
-        };
-        testClass.CtrlSettings.PropertySetting.ChromaKey = propertySettings.ChromaKey;
+        TestUtilityExt.SetSettings("ChromaKey", "#123456");
 
         Color expVal;
         if(value) {
-            expVal = ColorTranslator.FromHtml(propertySettings.ChromaKey);
+            expVal = ColorTranslator.FromHtml("#123456");
         } else {
             expVal = default;
         }
 
-        var e = new PropertyChangedEventArgs(nameof(propertySettings.IsTransparency));
-
         // Act
-        testClass.OnChangeProperty(propertySettings, e);
+        TestUtilityExt.SetSettings("MainFormIsTransparency", value);
 
         // Assert
         Assert.AreEqual(expVal, testClass.TransparencyKey);
@@ -168,14 +121,10 @@ public partial class FormMainTests
     public void OnChangePropertyDrawHighQualityTest(bool value)
     {
         // Arrange
-        var testClass = new FormMainPrivate();
-        var propertySettings = new PropertySettings() {
-            DrawHighQuality = value,
-        };
-        var e = new PropertyChangedEventArgs(nameof(propertySettings.DrawHighQuality));
+        _ = new FormMainPrivate();
 
         // Act
-        testClass.OnChangeProperty(propertySettings, e);
+        TestUtilityExt.SetSettings("DrawHighQuality", value);
 
         // Assert
         Assert.AreEqual(value, DrawEx.DrawHighQuality);
@@ -188,13 +137,9 @@ public partial class FormMainTests
     {
         // Arrange
         var testClass = new FormMainPrivate();
-        var propertySettings = new PropertySettings() {
-            IsAutoReloadLastMatch = value,
-        };
-        var e = new PropertyChangedEventArgs(nameof(propertySettings.IsAutoReloadLastMatch));
 
         // Act
-        testClass.OnChangeProperty(propertySettings, e);
+        TestUtilityExt.SetSettings("IsAutoReloadLastMatch", value);
 
         // Assert
         Assert.AreEqual(value, testClass.LastMatchLoader.Enabled);

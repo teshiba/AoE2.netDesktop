@@ -28,7 +28,7 @@ public partial class FormSettings : ControllableForm
         InitializeComponent();
         InitIDRadioButton();
         labelAoE2NetStatus.SetAoE2netStatus(NetStatus.Disconnected);
-        SetChromaKey(Controler.PropertySetting.ChromaKey);
+        SetChromaKey(Settings.Default.ChromaKey);
     }
 
     /// <summary>
@@ -54,10 +54,9 @@ public partial class FormSettings : ControllableForm
 
     private void SetChromaKey(Color chromaKey)
     {
-        Controler.PropertySetting.ChromaKey = $"#{chromaKey.R:X02}{chromaKey.G:X02}{chromaKey.B:X02}";
-        textBoxChromaKey.Text = Controler.PropertySetting.ChromaKey;
+        Settings.Default.ChromaKey = $"#{chromaKey.R:X02}{chromaKey.G:X02}{chromaKey.B:X02}";
+        textBoxChromaKey.Text = Settings.Default.ChromaKey;
         pictureBoxChromaKey.BackColor = chromaKey;
-        Settings.Default.ChromaKey = ColorTranslator.ToHtml(chromaKey);
     }
 
     private void InitIDRadioButton()
@@ -82,12 +81,12 @@ public partial class FormSettings : ControllableForm
 
     private void LoadMainFormSettings()
     {
-        upDownOpacity.Value = (decimal)Controler.PropertySetting.Opacity * 100;
-        checkBoxAlwaysOnTop.Checked = Controler.PropertySetting.IsAlwaysOnTop;
-        checkBoxHideTitle.Checked = Controler.PropertySetting.IsHideTitle;
-        checkBoxTransparencyWindow.Checked = Controler.PropertySetting.IsTransparency;
-        checkBoxDrawQuality.Checked = Controler.PropertySetting.DrawHighQuality;
-        checkBoxAutoReloadLastMatch.Checked = Controler.PropertySetting.IsAutoReloadLastMatch;
+        upDownOpacity.Value = (decimal)Settings.Default.MainFormOpacityPercent * 100;
+        checkBoxAlwaysOnTop.Checked = Settings.Default.MainFormIsAlwaysOnTop;
+        checkBoxHideTitle.Checked = Settings.Default.MainFormIsHideTitle;
+        checkBoxTransparencyWindow.Checked = Settings.Default.MainFormIsTransparency;
+        checkBoxDrawQuality.Checked = Settings.Default.DrawHighQuality;
+        checkBoxAutoReloadLastMatch.Checked = Settings.Default.IsAutoReloadLastMatch;
 
         switch(Controler.SelectedIdType) {
         case IdType.Steam:
@@ -255,39 +254,33 @@ public partial class FormSettings : ControllableForm
 
     private void UpDownOpacity_ValueChanged(object sender, EventArgs e)
     {
-        Controler.PropertySetting.Opacity = (double)upDownOpacity.Value * 0.01;
-        Settings.Default.MainFormOpacityPercent = upDownOpacity.Value;
+        Settings.Default.MainFormOpacityPercent = (double)upDownOpacity.Value * 0.01;
     }
 
     private void CheckBoxAlwaysOnTop_CheckedChanged(object sender, EventArgs e)
     {
-        Controler.PropertySetting.IsAlwaysOnTop = ((CheckBox)sender).Checked;
-        Settings.Default.MainFormIsAlwaysOnTop = Controler.PropertySetting.IsAlwaysOnTop;
+        Settings.Default.MainFormIsAlwaysOnTop = ((CheckBox)sender).Checked;
     }
 
     private void CheckBoxHideTitle_CheckedChanged(object sender, EventArgs e)
     {
-        Controler.PropertySetting.IsHideTitle = ((CheckBox)sender).Checked;
-        Settings.Default.MainFormIsHideTitle = Controler.PropertySetting.IsHideTitle;
+        Settings.Default.MainFormIsHideTitle = ((CheckBox)sender).Checked;
     }
 
     private void CheckBoxTransparencyWindow_CheckedChanged(object sender, EventArgs e)
     {
-        Controler.PropertySetting.IsTransparency = ((CheckBox)sender).Checked;
-        Settings.Default.MainFormTransparency = Controler.PropertySetting.IsTransparency;
+        Settings.Default.MainFormIsTransparency = ((CheckBox)sender).Checked;
         Awaiter.Complete();
     }
 
     private void CheckBoxDrawQuality_CheckedChanged(object sender, EventArgs e)
     {
-        Controler.PropertySetting.DrawHighQuality = ((CheckBox)sender).Checked;
-        Settings.Default.DrawHighQuality = Controler.PropertySetting.DrawHighQuality;
+        Settings.Default.DrawHighQuality = ((CheckBox)sender).Checked;
     }
 
     private void CheckBoxAutoReloadLastMatch_CheckedChanged(object sender, EventArgs e)
     {
-        Controler.PropertySetting.IsAutoReloadLastMatch = ((CheckBox)sender).Checked;
-        Settings.Default.IsAutoReloadLastMatch = Controler.PropertySetting.IsAutoReloadLastMatch;
+        Settings.Default.IsAutoReloadLastMatch = ((CheckBox)sender).Checked;
     }
 
     private void PictureBoxChromaKey_Click(object sender, EventArgs e)

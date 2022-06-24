@@ -42,7 +42,6 @@ public partial class FormMain : ControllableForm
 
         // formMain hold the app settings.
         CtrlSettings = new CtrlSettings();
-        CtrlSettings.PropertySetting.PropertyChanged += OnChangeProperty;
         LastMatchLoader = new LastMatchLoader(OnTimerLastMatchLoader, CtrlMain.IntervalSec);
         GameTimer = new GameTimer(OnTimerGame);
 
@@ -76,7 +75,7 @@ public partial class FormMain : ControllableForm
             labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
         }
 
-        SetChromaKey(CtrlSettings.PropertySetting.ChromaKey);
+        SetChromaKey(Settings.Default.ChromaKey);
 
         Awaiter.Complete();
     }
@@ -95,7 +94,7 @@ public partial class FormMain : ControllableForm
 
         CtrlMain.LastMatch = await RedrawLastMatchAsync(CtrlSettings.ProfileId);
 
-        if(CtrlSettings.PropertySetting.IsAutoReloadLastMatch) {
+        if(Settings.Default.IsAutoReloadLastMatch) {
             LastMatchLoader.Start();
         }
 
@@ -110,6 +109,7 @@ public partial class FormMain : ControllableForm
         CtrlSettings.FormMyHistory?.Close();
         SaveWindowPosition();
         Settings.Default.Save();
+        Settings.Default.PropertyChanged -= Default_PropertyChanged;
     }
 
     private void LabelRate1v1P2_Paint(object sender, PaintEventArgs e)

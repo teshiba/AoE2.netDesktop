@@ -24,28 +24,12 @@ public class CtrlSettings : FormControler
     /// </summary>
     public CtrlSettings()
     {
-        PropertySetting = new PropertySettings {
-            ChromaKey = Settings.Default.ChromaKey,
-            IsAlwaysOnTop = Settings.Default.MainFormIsAlwaysOnTop,
-            Opacity = (double)Settings.Default.MainFormOpacityPercent * 0.01,
-            IsTransparency = Settings.Default.MainFormTransparency,
-            IsHideTitle = Settings.Default.MainFormIsHideTitle,
-            DrawHighQuality = Settings.Default.DrawHighQuality,
-            IsAutoReloadLastMatch = Settings.Default.IsAutoReloadLastMatch,
-        };
-
         SelectedIdType = (IdType)Settings.Default.SelectedIdType;
-
         playerLastmatch = new PlayerLastmatch() {
             SteamId = Settings.Default.SteamId,
             ProfileId = Settings.Default.ProfileId,
         };
     }
-
-    /// <summary>
-    /// Gets or sets formProperty.
-    /// </summary>
-    public PropertySettings PropertySetting { get; set; }
 
     /// <summary>
     /// Gets FormHistory.

@@ -20,7 +20,7 @@ using System.Windows.Forms;
 /// </summary>
 public partial class FormMain : ControllableForm
 {
-    private Dictionary<string, Action<PropertySettings>> onChangePropertyHandler;
+    private Dictionary<string, Action<string>> onChangePropertyHandler;
     private FormSettings formSettings;
 
     /// <summary>
@@ -41,88 +41,97 @@ public partial class FormMain : ControllableForm
     private void InitOnChangePropertyHandler()
     {
         onChangePropertyHandler = new() {
-            { nameof(PropertySettings.ChromaKey), OnChangePropertyChromaKey },
-            { nameof(PropertySettings.IsHideTitle), OnChangeIsHideTitle },
-            { nameof(PropertySettings.IsAlwaysOnTop), OnChangePropertyIsAlwaysOnTop },
-            { nameof(PropertySettings.Opacity), OnChangePropertyOpacity },
-            { nameof(PropertySettings.IsTransparency), OnChangePropertyIsTransparency },
-            { nameof(PropertySettings.DrawHighQuality), OnChangePropertyDrawHighQuality },
-            { nameof(PropertySettings.IsAutoReloadLastMatch), OnChangeIsAutoReloadLastMatch },
+            { nameof(Settings.Default.ChromaKey), OnChangePropertyChromaKey },
+            { nameof(Settings.Default.MainFormIsHideTitle), OnChangePropertyIsHideTitle },
+            { nameof(Settings.Default.MainFormIsAlwaysOnTop), OnChangePropertyIsAlwaysOnTop },
+            { nameof(Settings.Default.MainFormOpacityPercent), OnChangePropertyOpacity },
+            { nameof(Settings.Default.MainFormIsTransparency), OnChangePropertyIsTransparency },
+            { nameof(Settings.Default.DrawHighQuality), OnChangePropertyDrawHighQuality },
+            { nameof(Settings.Default.IsAutoReloadLastMatch), OnChangePropertyIsAutoReloadLastMatch },
         };
+
+        Settings.Default.PropertyChanged += Default_PropertyChanged;
+    }
+
+    private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        onChangePropertyHandler.TryGetValue(e.PropertyName, out Action<string> action);
+        if(action != null) {
+            action.Invoke(e.PropertyName);
+        }
     }
 
     private void SetOptionParams()
     {
-        SetChromaKey(CtrlSettings.PropertySetting.ChromaKey);
-        OnChangeIsHideTitle(CtrlSettings.PropertySetting);
-        TopMost = CtrlSettings.PropertySetting.IsAlwaysOnTop;
-        Opacity = CtrlSettings.PropertySetting.Opacity;
-        OnChangePropertyIsTransparency(CtrlSettings.PropertySetting);
-        OnChangeIsAutoReloadLastMatch(CtrlSettings.PropertySetting);
-        DrawEx.DrawHighQuality = CtrlSettings.PropertySetting.DrawHighQuality;
+        SetChromaKey(nameof(Settings.Default.ChromaKey));
+        ChangePropertyIsHideTitle(nameof(Settings.Default.MainFormIsHideTitle));
+        TopMost = Settings.Default.MainFormIsAlwaysOnTop;
+        Opacity = Settings.Default.MainFormOpacityPercent;
+        ChangePropertyIsTransparency(nameof(Settings.Default.MainFormIsTransparency));
+        ChangePropertyIsAutoReloadLastMatch(nameof(Settings.Default.IsAutoReloadLastMatch));
+        DrawEx.DrawHighQuality = Settings.Default.DrawHighQuality;
     }
 
-    private void OnChangeProperty(object sender, PropertyChangedEventArgs e)
+    private void ChangePropertyIsTransparency(string propertyName)
     {
-        onChangePropertyHandler.TryGetValue(e.PropertyName, out Action<PropertySettings> action);
-        if(action != null) {
-            action.Invoke((PropertySettings)sender);
-        } else {
-            throw new ArgumentOutOfRangeException($"Invalid {nameof(e.PropertyName)}: {e.PropertyName}");
-        }
-    }
-
-    private void OnChangePropertyChromaKey(PropertySettings propertySettings)
-    {
-        SetChromaKey(propertySettings.ChromaKey);
-        OnChangePropertyIsTransparency(propertySettings);
-    }
-
-    private void OnChangePropertyDrawHighQuality(PropertySettings propertySettings)
-    {
-        DrawEx.DrawHighQuality = propertySettings.DrawHighQuality;
-        Refresh();
-    }
-
-    private void OnChangePropertyIsTransparency(PropertySettings propertySettings)
-    {
-        if(propertySettings.IsTransparency) {
-            TransparencyKey = ColorTranslator.FromHtml(CtrlSettings.PropertySetting.ChromaKey);
+        if((bool)Settings.Default[propertyName]) {
+            try {
+                TransparencyKey = ColorTranslator.FromHtml(Settings.Default.ChromaKey);
+            } catch(ArgumentException) {
+                TransparencyKey = default;
+            }
         } else {
             TransparencyKey = default;
         }
     }
 
-    private void OnChangePropertyOpacity(PropertySettings propertySettings)
+    private void ChangePropertyIsAutoReloadLastMatch(string propertyName)
     {
-        Opacity = propertySettings.Opacity;
-    }
-
-    private void OnChangePropertyIsAlwaysOnTop(PropertySettings propertySettings)
-    {
-        TopMost = propertySettings.IsAlwaysOnTop;
-    }
-
-    private void OnChangeIsAutoReloadLastMatch(PropertySettings propertySettings)
-    {
-        if(propertySettings.IsAutoReloadLastMatch) {
+        if((bool)Settings.Default[propertyName]) {
             LastMatchLoader.Start();
         } else {
             LastMatchLoader.Stop();
         }
     }
 
-    private void InitEventHandler()
+    private void OnChangePropertyChromaKey(string propertyName)
     {
-        foreach(Control item in Controls) {
-            foreach(Control panelItem in ((Panel)item).Controls) {
-                panelItem.MouseDown += Controls_MouseDown;
-                panelItem.MouseMove += Controls_MouseMove;
-            }
-        }
+        SetChromaKey((string)Settings.Default[propertyName]);
+        ChangePropertyIsTransparency(nameof(Settings.Default.MainFormIsTransparency));
     }
 
-    private void OnChangeIsHideTitle(PropertySettings propertySettings)
+    private void OnChangePropertyDrawHighQuality(string propertyName)
+    {
+        DrawEx.DrawHighQuality = (bool)Settings.Default[propertyName];
+        Refresh();
+    }
+
+    private void OnChangePropertyIsTransparency(string propertyName)
+    {
+        ChangePropertyIsTransparency(propertyName);
+    }
+
+    private void OnChangePropertyOpacity(string propertyName)
+    {
+        Opacity = (double)Settings.Default[propertyName];
+    }
+
+    private void OnChangePropertyIsAlwaysOnTop(string propertyName)
+    {
+        TopMost = (bool)Settings.Default[propertyName];
+    }
+
+    private void OnChangePropertyIsAutoReloadLastMatch(string propertyName)
+    {
+        ChangePropertyIsAutoReloadLastMatch(propertyName);
+    }
+
+    private void OnChangePropertyIsHideTitle(string propertyName)
+    {
+        ChangePropertyIsHideTitle(propertyName);
+    }
+
+    private void ChangePropertyIsHideTitle(string propertyName)
     {
         var top = RectangleToScreen(ClientRectangle).Top;
         var left = RectangleToScreen(ClientRectangle).Left;
@@ -130,13 +139,13 @@ public partial class FormMain : ControllableForm
 
         SuspendLayout();
 
-        if(propertySettings.IsHideTitle && FormBorderStyle != FormBorderStyle.None) {
+        if((bool)Settings.Default[propertyName] && FormBorderStyle != FormBorderStyle.None) {
             MinimumSize = new Size(860, 265);
             FormBorderStyle = FormBorderStyle.None;
             Top = top;
             Left = left;
             Width = width + 13;
-        } else if(!propertySettings.IsHideTitle && FormBorderStyle != FormBorderStyle.Sizable) {
+        } else if(!(bool)Settings.Default[propertyName] && FormBorderStyle != FormBorderStyle.Sizable) {
             MinimumSize = new Size(860, 295);
             FormBorderStyle = FormBorderStyle.Sizable;
             Top -= RectangleToScreen(ClientRectangle).Top - Top;
@@ -147,6 +156,16 @@ public partial class FormMain : ControllableForm
         }
 
         ResumeLayout();
+    }
+
+    private void InitEventHandler()
+    {
+        foreach(Control item in Controls) {
+            foreach(Control panelItem in ((Panel)item).Controls) {
+                panelItem.MouseDown += Controls_MouseDown;
+                panelItem.MouseMove += Controls_MouseMove;
+            }
+        }
     }
 
     private void RestoreWindowStatus()

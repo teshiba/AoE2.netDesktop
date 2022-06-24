@@ -66,7 +66,9 @@ public class ComClientTests
     public void OpenBrowserTest()
     {
         // Arrange
-        var testClass = new TestHttpClient();
+        var testClass = new TestHttpClient() {
+            SystemApi = new SystemApiStub(1),
+        };
 
         // Act
         testClass.OpenBrowser("https://aoe2.net/#api");
