@@ -66,7 +66,7 @@ public partial class FormMain : ControllableForm
         SetChromaKey(nameof(Settings.Default.ChromaKey));
         ChangePropertyIsHideTitle(nameof(Settings.Default.MainFormIsHideTitle));
         TopMost = Settings.Default.MainFormIsAlwaysOnTop;
-        Opacity = Settings.Default.MainFormOpacityPercent;
+        Opacity = (double)Settings.Default.MainFormOpacityPercent * 0.01;
         ChangePropertyIsTransparency(nameof(Settings.Default.MainFormIsTransparency));
         ChangePropertyIsAutoReloadLastMatch(nameof(Settings.Default.IsAutoReloadLastMatch));
         DrawEx.DrawHighQuality = Settings.Default.DrawHighQuality;
@@ -113,7 +113,8 @@ public partial class FormMain : ControllableForm
 
     private void OnChangePropertyOpacity(string propertyName)
     {
-        Opacity = (double)Settings.Default[propertyName];
+        var opacityPercent = (decimal)Settings.Default[propertyName];
+        Opacity = (double)opacityPercent * 0.01;
     }
 
     private void OnChangePropertyIsAlwaysOnTop(string propertyName)

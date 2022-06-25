@@ -3,7 +3,6 @@
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.PlotEx;
-using AoE2NetDesktop.Tests;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -16,14 +15,22 @@ using System.Drawing;
 [TestClass]
 public class PlayerRateFormsPlotTests
 {
-    private readonly Dictionary<LeaderboardId, Color> leaderboardColor = new() {
-        { LeaderboardId.RM1v1, Color.Blue },
-        { LeaderboardId.RMTeam, Color.Indigo },
-        { LeaderboardId.DM1v1, Color.DarkGreen },
-        { LeaderboardId.DMTeam, Color.SeaGreen },
-        { LeaderboardId.EW1v1, Color.Red },
-        { LeaderboardId.EWTeam, Color.OrangeRed },
-        { LeaderboardId.Unranked, Color.SlateGray },
+    private const int IndexRM1v1 = 0;
+    private const int IndexRMTeam = 1;
+    private const int IndexEW1v1 = 2;
+    private const int IndexEWTeam = 3;
+    private const int IndexUnranked = 4;
+    private const int IndexDM1v1 = 5;
+    private const int IndexDMTeam = 6;
+
+    private readonly List<LeaderboardView> leaderboardViews = new() {
+        new(IndexRM1v1, "1v1 RM", LeaderboardId.RM1v1, Color.Blue),
+        new(IndexRMTeam, "Team RM", LeaderboardId.RMTeam, Color.Indigo),
+        new(IndexDM1v1, "1v1 DM", LeaderboardId.DM1v1, Color.DarkGreen),
+        new(IndexDMTeam, "Team DM", LeaderboardId.DMTeam, Color.SeaGreen),
+        new(IndexEW1v1, "1v1 EW", LeaderboardId.EW1v1, Color.Red),
+        new(IndexEWTeam, "Team EW", LeaderboardId.EWTeam, Color.OrangeRed),
+        new(IndexUnranked, "Unranked", LeaderboardId.Unranked, Color.SlateGray),
     };
 
     [TestMethod]
@@ -36,7 +43,7 @@ public class PlayerRateFormsPlotTests
         // Assert
         Assert.ThrowsException<ArgumentNullException>(() =>
         {
-            _ = new PlayerRateFormsPlot(null, leaderboardColor, 16);
+            _ = new PlayerRateFormsPlot(null, leaderboardViews, 16);
         });
     }
 
@@ -44,7 +51,7 @@ public class PlayerRateFormsPlotTests
     public void PlotTest()
     {
         // Arrange
-        var testClass = new PlayerRateFormsPlot(new FormsPlot(), leaderboardColor, 16);
+        var testClass = new PlayerRateFormsPlot(new FormsPlot(), leaderboardViews, 16);
         var datetimeMaxX = DateTimeOffset.FromUnixTimeSeconds(0).LocalDateTime.ToOADate();
         var datetimeMinX = DateTimeOffset.FromUnixTimeSeconds(0).LocalDateTime.ToOADate();
         var rateMaxY = 130;
@@ -79,7 +86,7 @@ public class PlayerRateFormsPlotTests
     public void PlotTestWithoutRate()
     {
         // Arrange
-        var testClass = new PlayerRateFormsPlot(new FormsPlot(), leaderboardColor, 16);
+        var testClass = new PlayerRateFormsPlot(new FormsPlot(), leaderboardViews, 16);
         var playerRatings = new List<PlayerRating>() {
             new PlayerRating() { Rating = null, TimeStamp = null },
             new PlayerRating() { Rating = null, TimeStamp = null },
@@ -109,7 +116,7 @@ public class PlayerRateFormsPlotTests
     public void UpdateHighlightTest()
     {
         // Arrange
-        var testClass = new PlayerRateFormsPlot(new FormsPlot(), leaderboardColor, 16);
+        var testClass = new PlayerRateFormsPlot(new FormsPlot(), leaderboardViews, 16);
 
         // Act
         testClass.UpdateHighlight();

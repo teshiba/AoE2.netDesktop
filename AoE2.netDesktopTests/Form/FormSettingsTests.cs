@@ -154,7 +154,7 @@ public partial class FormSettingsTests
             testClass.upDownOpacity.Value = expVal;
 
             // Assert
-            Assert.AreEqual(expVal, TestUtilityExt.GetSettings<double>("MainFormOpacityPercent") * 100);
+            Assert.AreEqual(expVal, TestUtilityExt.GetSettings<decimal>("MainFormOpacityPercent"));
 
             // CleanUp
             testClass.Close();

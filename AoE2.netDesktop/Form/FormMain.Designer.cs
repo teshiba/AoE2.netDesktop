@@ -934,6 +934,7 @@
             // 
             // panel1v1
             // 
+            this.panel1v1.Controls.Add(this.labelMap1v1);
             this.panel1v1.Controls.Add(this.labelElapsedTime1v1);
             this.panel1v1.Controls.Add(this.labelStartTime1v1);
             this.panel1v1.Controls.Add(this.labelWins1v1P1);
@@ -941,7 +942,6 @@
             this.panel1v1.Controls.Add(this.labelRate1v1P1);
             this.panel1v1.Controls.Add(this.labelGameId1v1);
             this.panel1v1.Controls.Add(this.labelServer1v1);
-            this.panel1v1.Controls.Add(this.labelMap1v1);
             this.panel1v1.Controls.Add(this.pictureBoxMap1v1);
             this.panel1v1.Controls.Add(this.pictureBox1v1RateHistoryP2);
             this.panel1v1.Controls.Add(this.pictureBox1v1RateHistoryP1);
@@ -1058,9 +1058,9 @@
             // 
             this.labelMap1v1.BackColor = System.Drawing.Color.Transparent;
             this.labelMap1v1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelMap1v1.Location = new System.Drawing.Point(263, 92);
+            this.labelMap1v1.Location = new System.Drawing.Point(263, 90);
             this.labelMap1v1.Name = "labelMap1v1";
-            this.labelMap1v1.Size = new System.Drawing.Size(308, 32);
+            this.labelMap1v1.Size = new System.Drawing.Size(308, 38);
             this.labelMap1v1.TabIndex = 2;
             this.labelMap1v1.Text = "-----------------------";
             this.labelMap1v1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

@@ -23,9 +23,10 @@ public partial class FormMainTests
         // Arrange
         var testClass = new FormMainPrivate();
         var expVal = 0.5;
+        var inputVal = (decimal)expVal * 100;
 
         // Act
-        TestUtilityExt.SetSettings("MainFormOpacityPercent", expVal);
+        TestUtilityExt.SetSettings("MainFormOpacityPercent", inputVal);
 
         // Assert
         Assert.AreEqual(expVal, testClass.Opacity);

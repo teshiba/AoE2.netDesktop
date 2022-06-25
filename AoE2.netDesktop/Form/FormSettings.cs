@@ -81,7 +81,7 @@ public partial class FormSettings : ControllableForm
 
     private void LoadMainFormSettings()
     {
-        upDownOpacity.Value = (decimal)Settings.Default.MainFormOpacityPercent * 100;
+        upDownOpacity.Value = Settings.Default.MainFormOpacityPercent;
         checkBoxAlwaysOnTop.Checked = Settings.Default.MainFormIsAlwaysOnTop;
         checkBoxHideTitle.Checked = Settings.Default.MainFormIsHideTitle;
         checkBoxTransparencyWindow.Checked = Settings.Default.MainFormIsTransparency;
@@ -254,7 +254,7 @@ public partial class FormSettings : ControllableForm
 
     private void UpDownOpacity_ValueChanged(object sender, EventArgs e)
     {
-        Settings.Default.MainFormOpacityPercent = (double)upDownOpacity.Value * 0.01;
+        Settings.Default.MainFormOpacityPercent = upDownOpacity.Value;
     }
 
     private void CheckBoxAlwaysOnTop_CheckedChanged(object sender, EventArgs e)

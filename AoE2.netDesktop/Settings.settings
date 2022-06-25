@@ -32,7 +32,7 @@
     <Setting Name="SelectedIndexComboBoxDataSource" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="MainFormOpacityPercent" Type="System.Double" Scope="User">
+    <Setting Name="MainFormOpacityPercent" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="ChromaKey" Type="System.String" Scope="User">

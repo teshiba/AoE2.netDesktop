@@ -17,6 +17,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using static AoE2NetDesktop.Form.FormHistory;
+
 /// <summary>
 /// FormHistory controler.
 /// </summary>
@@ -161,21 +163,14 @@ public class CtrlHistory : FormControler
     /// <summary>
     /// Create ListViewItem of leaderboard.
     /// </summary>
-    /// <param name="leaderboardName">Leaderboard name.</param>
-    /// <param name="leaderboardId">Leaderboard ID.</param>
-    /// <param name="leaderboards">Leaderboard data.</param>
-    /// <param name="leaderboardColor">Leaderboard Color.</param>
+    /// <param name="leaderboard">Leaderboard data.</param>
+    /// <param name="leaderboardView">Leaderboard View params.</param>
     /// <returns>ListViewItem for leaderboard.</returns>
-    public static ListViewItem CreateListViewItem(
-        string leaderboardName,
-        LeaderboardId leaderboardId,
-        Dictionary<LeaderboardId, Leaderboard> leaderboards,
-        Dictionary<LeaderboardId, Color> leaderboardColor)
+    public static ListViewItem CreateListViewItem(Leaderboard leaderboard, LeaderboardView leaderboardView)
     {
-        var leaderboard = leaderboards[leaderboardId];
-        var ret = new ListViewItem(leaderboardName) {
-            Tag = leaderboardId,
-            ForeColor = leaderboardColor[leaderboardId],
+        var ret = new ListViewItem(leaderboardView.Text) {
+            Tag = leaderboardView.LeaderboardId,
+            ForeColor = leaderboardView.Color,
             Checked = true,
         };
 

@@ -1,6 +1,7 @@
 ﻿namespace AoE2NetDesktop.CtrlForm.Tests;
 
 using AoE2NetDesktop.AoE2DE;
+using AoE2NetDesktop.Form;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
@@ -21,9 +22,18 @@ using System.Threading.Tasks;
 [TestClass]
 public class CtrlHistoryTests
 {
+    private const int IndexRM1v1 = 0;
+    private const int IndexRMTeam = 1;
+    private const int IndexEW1v1 = 2;
+    private const int IndexEWTeam = 3;
+    private const int IndexUnranked = 4;
+    private const int IndexDM1v1 = 5;
+    private const int IndexDMTeam = 6;
+
     private const int ProfileId = TestData.AvailableUserProfileId;
     private const int ProfileIdp1 = TestData.AvailableUserProfileId + 1;
     private const int ProfileIdp2 = TestData.AvailableUserProfileId + 2;
+
     private readonly PlayerMatchHistory matches = new() {
         new Match() {
             LeaderboardId = LeaderboardId.RM1v1,
@@ -44,14 +54,14 @@ public class CtrlHistoryTests
         },
     };
 
-    private readonly Dictionary<LeaderboardId, Color> leaderboardColor = new() {
-        { LeaderboardId.RM1v1, Color.Blue },
-        { LeaderboardId.RMTeam, Color.Indigo },
-        { LeaderboardId.DM1v1, Color.DarkGreen },
-        { LeaderboardId.DMTeam, Color.SeaGreen },
-        { LeaderboardId.EW1v1, Color.Red },
-        { LeaderboardId.EWTeam, Color.OrangeRed },
-        { LeaderboardId.Unranked, Color.SlateGray },
+    private readonly List<LeaderboardView> leaderboardViews = new() {
+        new(IndexRM1v1, "1v1 RM", LeaderboardId.RM1v1, Color.Blue),
+        new(IndexRMTeam, "Team RM", LeaderboardId.RMTeam, Color.Indigo),
+        new(IndexDM1v1, "1v1 DM", LeaderboardId.DM1v1, Color.DarkGreen),
+        new(IndexDMTeam, "Team DM", LeaderboardId.DMTeam, Color.SeaGreen),
+        new(IndexEW1v1, "1v1 EW", LeaderboardId.EW1v1, Color.Red),
+        new(IndexEWTeam, "Team EW", LeaderboardId.EWTeam, Color.OrangeRed),
+        new(IndexUnranked, "Unranked", LeaderboardId.Unranked, Color.SlateGray),
     };
 
     [TestInitialize]
@@ -117,7 +127,7 @@ public class CtrlHistoryTests
     public void CreateListViewItemTest()
     {
         // Arrange
-        var leaderboardName = "test leaderboard";
+        var leaderboardName = "1v1 RM";
         var leaderboards = new Dictionary<LeaderboardId, Leaderboard> {
             {
                 LeaderboardId.RM1v1,
@@ -137,7 +147,7 @@ public class CtrlHistoryTests
         };
 
         // Act
-        var testClass = CtrlHistory.CreateListViewItem(leaderboardName, LeaderboardId.RM1v1, leaderboards, leaderboardColor);
+        var testClass = CtrlHistory.CreateListViewItem(leaderboards[LeaderboardId.RM1v1], leaderboardViews[0]);
 
         // Assert
         Assert.AreEqual(leaderboardName, testClass.SubItems[0].Text);
@@ -158,13 +168,13 @@ public class CtrlHistoryTests
     public void CreateListViewItemTestEmptyLeaderboard()
     {
         // Arrange
-        var leaderboardName = "test leaderboard";
+        var leaderboardName = "1v1 RM";
         var leaderboards = new Dictionary<LeaderboardId, Leaderboard> {
             { LeaderboardId.RM1v1, new Leaderboard() },
         };
 
         // Act
-        var testClass = CtrlHistory.CreateListViewItem(leaderboardName, LeaderboardId.RM1v1, leaderboards, leaderboardColor);
+        var testClass = CtrlHistory.CreateListViewItem(leaderboards[LeaderboardId.RM1v1], leaderboardViews[0]);
 
         // Assert
         Assert.AreEqual(leaderboardName, testClass.SubItems[0].Text);
