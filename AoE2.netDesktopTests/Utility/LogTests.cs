@@ -19,5 +19,9 @@ public class LogTests
 
         // Assert
         Assert.AreEqual(expVal, actVal);
+
+        // clean up
+        Log.Level = LogLevel.Debug;
+
     }
 }

@@ -7,10 +7,18 @@ using System.Diagnostics;
 /// </summary>
 public static class Log
 {
+    private static LogLevel level = LogLevel.Debug;
+
     /// <summary>
     /// Gets or Sets log level.
     /// </summary>
-    public static LogLevel Level { get; set; } = LogLevel.Debug;
+    public static LogLevel Level {
+        get => level;
+        set {
+            Debug.Print($"Set log level {level}");
+            level = value;
+        }
+    }
 
     /// <summary>
     /// Gets last printed message.

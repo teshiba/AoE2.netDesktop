@@ -20,8 +20,6 @@ using System.Windows.Forms;
 /// </summary>
 public partial class FormMain : ControllableForm
 {
-
-
     private Dictionary<string, Action<string>> onChangePropertyHandler;
     private FormSettings formSettings;
 
