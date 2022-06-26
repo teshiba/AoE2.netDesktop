@@ -20,6 +20,8 @@ using System.Windows.Forms;
 /// </summary>
 public partial class FormMain : ControllableForm
 {
+
+
     private Dictionary<string, Action<string>> onChangePropertyHandler;
     private FormSettings formSettings;
 
@@ -316,56 +318,19 @@ public partial class FormMain : ControllableForm
 
     private void SetChromaKey(Color chromaKey)
     {
-        for(int i = 0; i < AoE2DeApp.PlayerNumMax; i++) {
-            labelCiv[i].BackColor = Color.Transparent;
-            labelName[i].BackColor = chromaKey;
-            labelRate[i].BackColor = chromaKey;
-            pictureBox[i].BackColor = chromaKey;
+        foreach(Control item in Controls) {
+            foreach(Control panelItem in ((Panel)item).Controls) {
+                panelItem.BackColor = chromaKey;
+            }
         }
 
         BackColor = chromaKey;
         panelTeam1.BackColor = chromaKey;
         panelTeam2.BackColor = chromaKey;
-        labelAveRate1.BackColor = chromaKey;
-        labelAveRate2.BackColor = chromaKey;
-        labelMap.BackColor = chromaKey;
-        labelGameId.BackColor = chromaKey;
-        labelServer.BackColor = chromaKey;
-        labelStartTimeTeam.BackColor = chromaKey;
-        labelStartTime1v1.BackColor = chromaKey;
-        labelElapsedTimeTeam.BackColor = chromaKey;
-        labelElapsedTime1v1.BackColor = chromaKey;
 
-        pictureBoxCiv1v1P1.BackColor = chromaKey;
-        pictureBoxCiv1v1P2.BackColor = chromaKey;
-        pictureBoxUnit1v1P1.BackColor = chromaKey;
-        pictureBoxUnit1v1P2.BackColor = chromaKey;
-        pictureBox1v1RateHistoryP1.BackColor = chromaKey;
-        pictureBox1v1RateHistoryP2.BackColor = chromaKey;
-
-        labelName1v1P1.BackColor = chromaKey;
-        labelName1v1P2.BackColor = chromaKey;
-        labelCiv1v1P1.BackColor = chromaKey;
-        labelCiv1v1P2.BackColor = chromaKey;
-        labelTeamResultP1.BackColor = chromaKey;
-        labelTeamResultP2.BackColor = chromaKey;
-
-        labelRate1v1.BackColor = chromaKey;
-        labelRate1v1P1.BackColor = chromaKey;
-        labelRate1v1P2.BackColor = chromaKey;
-
-        labelWins1v1.BackColor = chromaKey;
-        labelWins1v1P1.BackColor = chromaKey;
-        labelWins1v1P2.BackColor = chromaKey;
-
-        labelLoses.BackColor = chromaKey;
-        labelLoses1v1P1.BackColor = chromaKey;
-        labelLoses1v1P2.BackColor = chromaKey;
-
-        labelMap1v1.BackColor = chromaKey;
-        pictureBoxMap1v1.BackColor = chromaKey;
-        labelGameId1v1.BackColor = chromaKey;
-        labelServer1v1.BackColor = chromaKey;
+        for(int i = 0; i < labelColor.Count; i++) {
+            labelColor[i].BackColor = AoE2DeApp.PlayerColors[i];
+        }
     }
 
     private void SetMatchData(Match match)

@@ -1,6 +1,6 @@
 ﻿namespace AoE2NetDesktop.Form;
 
-using AoE2NetDesktop.AoE2DE;
+using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.PlotEx;
 using AoE2NetDesktop.Utility.Forms;
 

@@ -3,7 +3,9 @@
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.Utility.SysApi;
 
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 
 /// <summary>
@@ -20,6 +22,20 @@ public class AoE2DeApp
     /// AoE2DE Max Player Number.
     /// </summary>
     public const int PlayerNumMax = 8;
+
+    /// <summary>
+    /// Player color definitions.
+    /// </summary>
+    public static readonly List<Color> PlayerColors = new() {
+        Color.Blue,
+        Color.Red,
+        Color.Green,
+        Color.Yellow,
+        Color.Aqua,
+        Color.Magenta,
+        Color.Gray,
+        Color.Orange,
+    };
 
     private const string SteamAppDefaultPath = $@"C:\Program Files (x86)\Steam\steamapps\common\AoE2DE\";
     private const string CivsPath = $@"widgetui\textures\menu\civs\";

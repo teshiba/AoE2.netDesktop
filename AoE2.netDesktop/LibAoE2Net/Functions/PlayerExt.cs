@@ -1,11 +1,13 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net.Functions;
 
+using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 /// <summary>
 /// Extention of Player class.
@@ -54,18 +56,11 @@ public static class PlayerExt
     /// <returns>Color string or "-" if Color is null.</returns>
     public static Color GetColor(this Player player)
     {
-        var colorList = new Dictionary<int?, Color> {
-            { 1, Color.Blue },
-            { 2, Color.Red },
-            { 3, Color.Green },
-            { 4, Color.Yellow },
-            { 5, Color.Aqua },
-            { 6, Color.Magenta },
-            { 7, Color.Gray },
-            { 8, Color.Orange },
-        };
+        Color ret;
 
-        if(!colorList.TryGetValue(player.Color, out Color ret)) {
+        if(Enumerable.Range(1, 8).Contains(player.Color ?? 0)) {
+            ret = AoE2DeApp.PlayerColors[(int)player.Color - 1];
+        } else {
             ret = Color.Transparent;
         }
 
