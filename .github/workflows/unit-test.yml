@@ -83,11 +83,11 @@ jobs:
         $COVERAGE_RESULT = Select-String -Path test.log -Pattern "coverage.cobertura.xml"
         $COVERAGE_RESULT = $COVERAGE_RESULT -replace "^.*\s+",""
         echo COVERAGE output: $COVERAGE_RESULT
-        echo "coverageResult=$COVERAGE_RESULT" >> $GITHUB_ENV
+        copy $COVERAGE_RESULT ./coverage.cobertura.xml
     - name: upload coverage
       uses: codecov/codecov-action@v1
       with:
-        files: ${{ env.coverageResult }}
+        files: ./coverage.cobertura.xml
     
     # Execute ReportGenerator
     - name: ReportGenerator
