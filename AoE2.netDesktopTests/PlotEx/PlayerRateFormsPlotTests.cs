@@ -86,8 +86,8 @@ public class PlayerRateFormsPlotTests
     {
         // Arrange
         var testClass = new PlayerRateFormsPlot(new FormsPlot(), leaderboardColor, 16);
-        var datetimeMaxX = new DateTime(1970, 01, 01, 9, 0, 0);
-        var datetimeMinX = new DateTime(1970, 01, 01, 9, 0, 0);
+        var datetimeMaxX = new DateTime(1970, 01, 01, 0, 0, 0);
+        var datetimeMinX = new DateTime(1970, 01, 01, 0, 0, 0);
         var rateMaxY = 130;
         var rateMinY = 110;
 

@@ -15,7 +15,7 @@ public class MatchExtTests
     public void GetOpenedTimeTest()
     {
         // Arrange
-        var expVal = new DateTime(1970, 01, 01, 0, 0, 0).ToLocalTime();
+        var expVal = new DateTime(1970, 01, 01, 0, 0, 0).ToUniversalTime();
 
         // Act
         var testClass = new Match() {

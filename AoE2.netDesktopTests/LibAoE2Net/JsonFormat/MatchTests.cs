@@ -13,7 +13,7 @@ public class MatchTests
     public void ToStringTest()
     {
         // Arrange
-        var date = DateTime.Now.ToLocalTime();
+        var date = DateTime.Now.ToUniversalTime();
         var expVal = $"{date} 2 Players Map:Arabia";
         var dateTimeSec = new DateTimeOffset(date).ToUnixTimeSeconds();
         var testClass = new Match();

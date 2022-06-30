@@ -17,7 +17,7 @@ public static class MatchExt
     /// <returns>local time value as DateTime type.</returns>
     public static DateTime GetOpenedTime(this Match match)
     {
-        var ret = DateTimeOffset.FromUnixTimeSeconds(match.Opened ?? 0).LocalDateTime;
+        var ret = DateTimeOffset.FromUnixTimeSeconds(match.Opened ?? 0).UtcDateTime;
         return ret;
     }
 

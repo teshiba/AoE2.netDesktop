@@ -44,7 +44,7 @@ public class StringsExtTests
     public void GetOpenedTimeTest()
     {
         // Arrange
-        var expVal = DateTime.Now.ToLocalTime();
+        var expVal = DateTime.Now.ToUniversalTime();
         var dateTimeSec = new DateTimeOffset(expVal).ToUnixTimeSeconds();
 
         // Act
