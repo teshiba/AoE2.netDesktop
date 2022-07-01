@@ -1,6 +1,10 @@
+[![codecov](https://codecov.io/gh/teshiba/AoE2.netDesktop/branch/develop/graph/badge.svg?token=J22SINEMC2)](https://codecov.io/gh/teshiba/AoE2.netDesktop)
+
 # AoE2.netDesktop
-A desktop application that makes viewing "Age of Empires II: Definitive Edition" play history easily.
+This desktop application displays the player history of "Age of Empires II: Definitive Edition."
 
-Please see the latest release for the details and download.  
+See the latest release for details and downloads.  
+https://github.com/teshiba/AoE2.netDesktop/releases/latest
 
-https://github.com/teshiba/AoE2.netDesktop/releases/tag/v0.6.0
+See also the following manuals.  
+https://teshiba.github.io/AoE2.netDesktop/

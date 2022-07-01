@@ -245,7 +245,7 @@ namespace AoE2NetDesktop.Form
             // columnHeaderDate
             // 
             this.columnHeaderDate.Text = "Date";
-            this.columnHeaderDate.Width = 150;
+            this.columnHeaderDate.Width = 170;
             // 
             // columnHeaderVersion
             // 
