@@ -22,6 +22,5 @@ public class LogTests
 
         // clean up
         Log.Level = LogLevel.Debug;
-
     }
 }
