@@ -973,7 +973,7 @@
             // 
             this.labelElapsedTime1v1.BackColor = System.Drawing.SystemColors.Control;
             this.labelElapsedTime1v1.Font = new System.Drawing.Font("MS PGothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelElapsedTime1v1.Location = new System.Drawing.Point(7, 123);
+            this.labelElapsedTime1v1.Location = new System.Drawing.Point(7, 92);
             this.labelElapsedTime1v1.Name = "labelElapsedTime1v1";
             this.labelElapsedTime1v1.Size = new System.Drawing.Size(235, 27);
             this.labelElapsedTime1v1.TabIndex = 22;
@@ -985,9 +985,9 @@
             // 
             this.labelStartTime1v1.BackColor = System.Drawing.SystemColors.Control;
             this.labelStartTime1v1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelStartTime1v1.Location = new System.Drawing.Point(7, 97);
+            this.labelStartTime1v1.Location = new System.Drawing.Point(7, 66);
             this.labelStartTime1v1.Name = "labelStartTime1v1";
-            this.labelStartTime1v1.Size = new System.Drawing.Size(280, 22);
+            this.labelStartTime1v1.Size = new System.Drawing.Size(288, 22);
             this.labelStartTime1v1.TabIndex = 21;
             this.labelStartTime1v1.Text = "Start ----/--/-- --:--:--";
             this.labelStartTime1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1263,7 +1263,7 @@
             this.labelTeamResultP2.BackColor = System.Drawing.SystemColors.Control;
             this.labelTeamResultP2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelTeamResultP2.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelTeamResultP2.Location = new System.Drawing.Point(656, 70);
+            this.labelTeamResultP2.Location = new System.Drawing.Point(653, 122);
             this.labelTeamResultP2.Name = "labelTeamResultP2";
             this.labelTeamResultP2.Size = new System.Drawing.Size(170, 26);
             this.labelTeamResultP2.TabIndex = 11;
@@ -1276,7 +1276,7 @@
             this.labelTeamResultP1.BackColor = System.Drawing.SystemColors.Control;
             this.labelTeamResultP1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelTeamResultP1.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelTeamResultP1.Location = new System.Drawing.Point(4, 70);
+            this.labelTeamResultP1.Location = new System.Drawing.Point(7, 128);
             this.labelTeamResultP1.Name = "labelTeamResultP1";
             this.labelTeamResultP1.Size = new System.Drawing.Size(170, 26);
             this.labelTeamResultP1.TabIndex = 11;
