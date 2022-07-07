@@ -969,6 +969,18 @@
             this.panel1v1.TabIndex = 14;
             this.panel1v1.Visible = false;
             // 
+            // labelMap1v1
+            // 
+            this.labelMap1v1.BackColor = System.Drawing.Color.Transparent;
+            this.labelMap1v1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelMap1v1.Location = new System.Drawing.Point(263, 90);
+            this.labelMap1v1.Name = "labelMap1v1";
+            this.labelMap1v1.Size = new System.Drawing.Size(308, 38);
+            this.labelMap1v1.TabIndex = 2;
+            this.labelMap1v1.Text = "-----------------------";
+            this.labelMap1v1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelMap1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
+            // 
             // labelElapsedTime1v1
             // 
             this.labelElapsedTime1v1.BackColor = System.Drawing.SystemColors.Control;
@@ -1053,18 +1065,6 @@
             this.labelServer1v1.Text = "Server: ----------";
             this.labelServer1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelServer1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelServer_Paint);
-            // 
-            // labelMap1v1
-            // 
-            this.labelMap1v1.BackColor = System.Drawing.Color.Transparent;
-            this.labelMap1v1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelMap1v1.Location = new System.Drawing.Point(263, 90);
-            this.labelMap1v1.Name = "labelMap1v1";
-            this.labelMap1v1.Size = new System.Drawing.Size(308, 38);
-            this.labelMap1v1.TabIndex = 2;
-            this.labelMap1v1.Text = "-----------------------";
-            this.labelMap1v1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelMap1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMap_Paint);
             // 
             // pictureBoxMap1v1
             // 
