@@ -58,6 +58,7 @@
             this.groupBoxDisplayContents = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBoxBehavior = new System.Windows.Forms.GroupBox();
+            this.checkBoxVisibleGameTime = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxChromaKey)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.upDownOpacity)).BeginInit();
             this.groupBoxPlayer.SuspendLayout();
@@ -333,6 +334,7 @@
             // 
             // groupBoxDisplayContents
             // 
+            this.groupBoxDisplayContents.Controls.Add(this.checkBoxVisibleGameTime);
             this.groupBoxDisplayContents.Controls.Add(this.checkBoxHideTitle);
             this.groupBoxDisplayContents.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.groupBoxDisplayContents.Location = new System.Drawing.Point(10, 8);
@@ -372,6 +374,18 @@
             this.groupBoxBehavior.TabIndex = 31;
             this.groupBoxBehavior.TabStop = false;
             this.groupBoxBehavior.Text = "Behavior";
+            // 
+            // checkBoxVisibleGameTime
+            // 
+            this.checkBoxVisibleGameTime.AutoSize = true;
+            this.checkBoxVisibleGameTime.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.checkBoxVisibleGameTime.Location = new System.Drawing.Point(15, 49);
+            this.checkBoxVisibleGameTime.Name = "checkBoxVisibleGameTime";
+            this.checkBoxVisibleGameTime.Size = new System.Drawing.Size(134, 21);
+            this.checkBoxVisibleGameTime.TabIndex = 18;
+            this.checkBoxVisibleGameTime.Text = "Visible game time";
+            this.checkBoxVisibleGameTime.UseVisualStyleBackColor = true;
+            this.checkBoxVisibleGameTime.CheckedChanged += new System.EventHandler(this.CheckBoxVisibleGameTime_CheckedChanged);
             // 
             // FormSettings
             // 
@@ -432,5 +446,6 @@
         private GroupBox groupBoxDisplayContents;
         private GroupBox groupBox2;
         private GroupBox groupBoxBehavior;
+        private CheckBox checkBoxVisibleGameTime;
     }
 }

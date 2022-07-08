@@ -250,5 +250,17 @@ namespace AoE2NetDesktop {
                 this["IsAutoReloadLastMatch"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool VisibleGameTime {
+            get {
+                return ((bool)(this["VisibleGameTime"]));
+            }
+            set {
+                this["VisibleGameTime"] = value;
+            }
+        }
     }
 }

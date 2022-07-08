@@ -48,6 +48,7 @@ public partial class FormMain : ControllableForm
             { nameof(Settings.Default.MainFormIsTransparency), OnChangePropertyIsTransparency },
             { nameof(Settings.Default.DrawHighQuality), OnChangePropertyDrawHighQuality },
             { nameof(Settings.Default.IsAutoReloadLastMatch), OnChangePropertyIsAutoReloadLastMatch },
+            { nameof(Settings.Default.VisibleGameTime), OnChangePropertyVisibleGameTime },
         };
 
         Settings.Default.PropertyChanged += Default_PropertyChanged;
@@ -69,6 +70,7 @@ public partial class FormMain : ControllableForm
         Opacity = (double)Settings.Default.MainFormOpacityPercent * 0.01;
         ChangePropertyIsTransparency(nameof(Settings.Default.MainFormIsTransparency));
         ChangePropertyIsAutoReloadLastMatch(nameof(Settings.Default.IsAutoReloadLastMatch));
+        ChangePropertyVisibleGameTime(nameof(Settings.Default.VisibleGameTime));
         DrawEx.DrawHighQuality = Settings.Default.DrawHighQuality;
     }
 
@@ -92,6 +94,15 @@ public partial class FormMain : ControllableForm
         } else {
             LastMatchLoader.Stop();
         }
+    }
+
+    private void ChangePropertyVisibleGameTime(string propertyName)
+    {
+        var visible = (bool)Settings.Default[propertyName];
+        labelStartTime1v1.Visible = visible;
+        labelStartTimeTeam.Visible = visible;
+        labelElapsedTime1v1.Visible = visible;
+        labelElapsedTimeTeam.Visible = visible;
     }
 
     private void OnChangePropertyChromaKey(string propertyName)
@@ -125,6 +136,11 @@ public partial class FormMain : ControllableForm
     private void OnChangePropertyIsAutoReloadLastMatch(string propertyName)
     {
         ChangePropertyIsAutoReloadLastMatch(propertyName);
+    }
+
+    private void OnChangePropertyVisibleGameTime(string propertyName)
+    {
+        ChangePropertyVisibleGameTime(propertyName);
     }
 
     private void OnChangePropertyIsHideTitle(string propertyName)
