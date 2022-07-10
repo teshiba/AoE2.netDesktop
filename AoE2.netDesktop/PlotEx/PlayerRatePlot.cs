@@ -1,6 +1,4 @@
 ﻿namespace AoE2NetDesktop.PlotEx;
-
-using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 

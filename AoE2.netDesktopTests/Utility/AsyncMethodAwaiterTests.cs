@@ -3,7 +3,9 @@
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+
     using AoE2NetDesktop.Utility;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

@@ -2,6 +2,7 @@
 {
     using System.ComponentModel;
     using System.Windows.Forms;
+
     using AoE2NetDesktop.Tests;
 
     public static class FormExt

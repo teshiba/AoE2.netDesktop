@@ -1,6 +1,7 @@
 ﻿namespace AoE2netDesktopTests.Utility;
 
 using AoE2NetDesktop.Utility;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]

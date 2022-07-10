@@ -5,12 +5,15 @@
     using System.Net.Http;
     using System.Runtime.Serialization;
     using System.Threading.Tasks;
+
     using AoE2NetDesktop.LibAoE2Net;
     using AoE2NetDesktop.LibAoE2Net.Functions;
     using AoE2NetDesktop.LibAoE2Net.Parameters;
     using AoE2NetDesktop.Tests;
     using AoE2NetDesktop.Utility;
+
     using LibAoE2net;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

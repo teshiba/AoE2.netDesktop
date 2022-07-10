@@ -1,12 +1,11 @@
 ﻿namespace AoE2NetDesktop.CtrlForm.Tests;
-
-using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.Form;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
+
 using AoE2netDesktopTests.TestUtility;
 
 using LibAoE2net;
