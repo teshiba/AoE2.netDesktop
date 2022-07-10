@@ -39,7 +39,7 @@ public class CtrlMain : FormControler
     /// <summary>
     /// Gets or sets a value indicating whether reloading by timer.
     /// </summary>
-    public static bool IsTimerReloading { get; set; } = false;
+    public static bool IsReloadingByTimer { get; set; } = false;
 
     /// <summary>
     /// Gets or sets system API.

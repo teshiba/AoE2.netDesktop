@@ -417,22 +417,16 @@ public partial class FormMain : ControllableForm
         }
     }
 
-    private void OnTimerGame(object sender, EventArgs e)
+    private void OnTimerGame()
     {
-        labelAoE2DEActive.Invoke(() => {
-            var timezone = TimeZoneInfo.Local.ToString().Split(" ")[0].Replace("(", string.Empty).Replace(")", string.Empty);
-            var realTime = CtrlMain.LastMatch?.GetElapsedTime().ToString(@"h\:mm\:ss");
-            var inGameTime = new TimeSpan((long)(CtrlMain.LastMatch?.GetElapsedTime().Ticks * 1.7)).ToString(@"h\:mm\:ss");
-
-            labelStartTimeTeam.Text = $"{CtrlMain.LastMatch?.GetOpenedTime()} {timezone}";
-            labelElapsedTimeTeam.Text = $"{realTime} ({inGameTime} in game)";
-            labelStartTime1v1.Text = $"{CtrlMain.LastMatch?.GetOpenedTime()} {timezone}";
-            labelElapsedTime1v1.Text = $"{realTime} ({inGameTime} in game)";
+        // update text
+        Invoke(() =>
+        {
+            labelStartTimeTeam.Text = GameTimer.OpenedTime;
+            labelElapsedTimeTeam.Text = GameTimer.ElapsedTime;
+            labelStartTime1v1.Text = GameTimer.OpenedTime;
+            labelElapsedTime1v1.Text = GameTimer.ElapsedTime;
         });
-
-        if(CtrlMain.LastMatch.Finished != null) {
-            GameTimer.Stop();
-        }
     }
 
     private void OnTimerLastMatchLoader(object sender, EventArgs e)
@@ -440,7 +434,7 @@ public partial class FormMain : ControllableForm
         LastMatchLoader.Stop();
         if(CtrlMain.IsAoE2deActive()) {
             labelAoE2DEActive.Invoke(() => { labelAoE2DEActive.Text = "AoE2DE active"; });
-            CtrlMain.IsTimerReloading = true;
+            CtrlMain.IsReloadingByTimer = true;
             Invoke(() => updateToolStripMenuItem.PerformClick());
         } else {
             labelAoE2DEActive.Invoke(() => { labelAoE2DEActive.Text = "AoE2DE NOT active"; });
@@ -480,7 +474,7 @@ public partial class FormMain : ControllableForm
         try {
             var playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
             if(labelGameId.Text == $"GameID: {playerLastmatch.LastMatch.MatchId}") {
-                match = CtrlMain.LastMatch;
+                match = playerLastmatch.LastMatch;
             } else {
                 LeaderboardId? leaderboard;
                 var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId);
