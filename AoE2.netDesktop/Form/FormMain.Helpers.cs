@@ -7,6 +7,7 @@ using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.Forms;
+using AoE2NetDesktop.Utility.Timer;
 
 using System;
 using System.Collections.Generic;
@@ -417,16 +418,18 @@ public partial class FormMain : ControllableForm
         }
     }
 
-    private void OnTimerGame()
+    private bool OnTimerGame()
     {
         // update text
         Invoke(() =>
         {
-            labelStartTimeTeam.Text = GameTimer.OpenedTime;
-            labelElapsedTimeTeam.Text = GameTimer.ElapsedTime;
-            labelStartTime1v1.Text = GameTimer.OpenedTime;
-            labelElapsedTime1v1.Text = GameTimer.ElapsedTime;
+            labelStartTimeTeam.Text = CtrlMain.GetOpenedTime();
+            labelElapsedTimeTeam.Text = CtrlMain.GetElapsedTime();
+            labelStartTime1v1.Text = CtrlMain.GetOpenedTime();
+            labelElapsedTime1v1.Text = CtrlMain.GetElapsedTime();
         });
+
+        return CtrlMain.LastMatch.Finished == null;
     }
 
     private void OnTimerLastMatchLoader(object sender, EventArgs e)

@@ -1,7 +1,7 @@
-﻿namespace AoE2NetDesktop.Form.Tests;
+﻿namespace AoE2NetDesktop.Utility.Timer.Tests;
 
-using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.Timer;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

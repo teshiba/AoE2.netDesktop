@@ -163,4 +163,37 @@ public class CtrlMain : FormControler
     {
         return player.Wins?.ToString() ?? "N/A";
     }
+
+    /// <summary>
+    /// Gets Elapsed Time.
+    /// </summary>
+    /// <returns>Elapsed time.</returns>
+    public static string GetElapsedTime()
+    {
+        var ret = DateTimeExt.InvalidTime;
+
+        if(LastMatch != null) {
+            var realTime = LastMatch.GetElapsedTime().ToString(@"h\:mm\:ss");
+            var inGameTime = new TimeSpan((long)(LastMatch.GetElapsedTime().Ticks * 1.7)).ToString(@"h\:mm\:ss");
+            ret = $"{realTime} ({inGameTime} in game)";
+        }
+
+        return ret;
+    }
+
+    /// <summary>
+    /// Gets Opened Time.
+    /// </summary>
+    /// <returns>Opened time.</returns>
+    public static string GetOpenedTime()
+    {
+        var ret = DateTimeExt.InvalidTime;
+
+        if(LastMatch != null) {
+            var timezone = DateTimeExt.TimeZoneInfo.ToString().Split(" ")[0].Replace("(", string.Empty).Replace(")", string.Empty);
+            ret = $"{LastMatch.GetOpenedTime()} {timezone}";
+        }
+
+        return ret;
+    }
 }
