@@ -25,7 +25,7 @@ public class SystemApiStubTests
     public void GetProcessFilePathTest()
     {
         // Arrange
-        var expVal = @"C:\Program Files (x86)\Steam\steamapps\common\AoE2DE\";
+        var expVal = @"c:\AoE2DE_s\is\not\installed\at\steamapps\common\AoE2DE\";
 
         // Act
         var testClass = new SystemApiStub(1);
