@@ -6,6 +6,7 @@ using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
+using AoE2NetDesktop.Utility.Timer;
 
 using System;
 using System.Collections.Generic;
@@ -396,5 +397,7 @@ public partial class FormMain : ControllableForm
             CtrlMain.IsReloadingByTimer = true;
             updateToolStripMenuItem.PerformClick();
         }
+
+        Awaiter.Complete();
     }
 }

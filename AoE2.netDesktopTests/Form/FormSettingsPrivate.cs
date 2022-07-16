@@ -23,6 +23,7 @@ public partial class FormSettingsTests
         public CheckBox checkBoxDrawQuality;
         public CheckBox checkBoxAutoReloadLastMatch;
         public CheckBox checkBoxTransparencyWindow;
+        public CheckBox checkBoxVisibleGameTime;
         public Label labelAoE2NetStatus;
         public Label labelErrText;
         public Label labelSettingsName;
@@ -47,6 +48,7 @@ public partial class FormSettingsTests
             checkBoxDrawQuality = this.GetControl<CheckBox>("checkBoxDrawQuality");
             checkBoxAutoReloadLastMatch = this.GetControl<CheckBox>("checkBoxAutoReloadLastMatch");
             checkBoxTransparencyWindow = this.GetControl<CheckBox>("checkBoxTransparencyWindow");
+            checkBoxVisibleGameTime = this.GetControl<CheckBox>("checkBoxTransparencyWindow");
             labelAoE2NetStatus = this.GetControl<Label>("labelAoE2NetStatus");
             labelErrText = this.GetControl<Label>("labelErrText");
             labelSettingsName = this.GetControl<Label>("labelSettingsName");

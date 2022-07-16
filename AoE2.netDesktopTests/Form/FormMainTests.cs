@@ -1,16 +1,21 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
+using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Tests;
+using AoE2NetDesktop.Utility;
 
 using LibAoE2net;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 [TestClass]
@@ -23,6 +28,7 @@ public partial class FormMainTests
         TestUtilityExt.SetSettings("ProfileId", 1);
         TestUtilityExt.SetSettings("WindowLocationMain", new Point(0, 0));
         TestUtilityExt.SetSettings("WindowSizeMain", new Size(1330, 350));
+        TestUtilityExt.SetSettings("VisibleGameTime", true);
     }
 
     [TestMethod]
@@ -157,19 +163,23 @@ public partial class FormMainTests
     public void UpdateToolStripMenuItem_ClickAsyncTestIsAutoReloadLastMatchTrue()
     {
         // Arrange
-        var expVal = string.Empty;
-        var testClass = new FormMainPrivate();
-        var done = false;
         TestUtilityExt.SetSettings("IsAutoReloadLastMatch", true);
-        testClass = new FormMainPrivate();
+        var expVal = string.Empty;
+        var done = false;
+        var testClass = new FormMainPrivate();
 
         // Act
         testClass.Shown += async (sender, e) =>
         {
+            await testClass.Awaiter.WaitAsync("FormMain_Activated");
             await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
 
             testClass.updateToolStripMenuItem.PerformClick();
             await testClass.Awaiter.WaitAsync("UpdateToolStripMenuItem_ClickAsync");
+            while(testClass.LastMatchLoader.Enabled == false) {
+                Debug.Print("waiting LastMatchLoader is enabled...");
+                await Task.Delay(100);
+            }
 
             // Assert
             Assert.IsTrue(testClass.LastMatchLoader.Enabled);
@@ -198,6 +208,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
+            await testClass.Awaiter.WaitAsync("FormMain_Activated");
             await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
 
             testClass.updateToolStripMenuItem.PerformClick();
@@ -642,5 +653,61 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsFalse(testClass.Visible);
+    }
+
+    [TestMethod]
+    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
+    public void FormMain_ActivatedTestRunUpdateLastMatch()
+    {
+        // Arrange
+        TestUtilityExt.SetSettings("VisibleGameTime", false);
+        CtrlMain.LastMatch = null;
+        var testClass = new FormMainPrivate();
+        var done = false;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_Activated");
+
+            testClass.Close();
+
+            done = true;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+    }
+
+    [TestMethod]
+    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
+    public void FormMain_ActivatedTestNotRunUpdateLastMatch()
+    {
+        // Arrange
+        TestUtilityExt.SetSettings("VisibleGameTime", true);
+
+        CtrlMain.LastMatch = new Match() {
+            Finished = 1,
+        };
+
+        var testClass = new FormMainPrivate();
+        var done = false;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_Activated");
+
+            testClass.Close();
+
+            done = true;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
     }
 }
