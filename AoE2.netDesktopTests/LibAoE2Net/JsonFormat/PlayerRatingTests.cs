@@ -21,7 +21,7 @@
             var expRating = 1234;
             var expStreak = 5;
             var expTimeStamp = 0;
-            var expVal = $"R:{expDrops} W:{expNumWins} L:{expNumLosses} Str:{expStreak} Drp:{expDrops} Time:1970/01/01 0:00:00";
+            var expVal = $"R:{expRating} W:{expNumWins} L:{expNumLosses} Str:{expStreak} Drp:{expDrops} Time:1970/01/01 00:00:00";
 
             // Act
             var testClass = new PlayerRating() {
