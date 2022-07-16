@@ -1,6 +1,7 @@
 ﻿namespace AoE2NetDesktop.Utility.SysApi;
 
 using System;
+using System.Globalization;
 
 /// <summary>
 /// DateTimeOffset Extentions.
@@ -18,6 +19,11 @@ public static class DateTimeExt
     public static TimeZoneInfo TimeZoneInfo { get; set; } = TimeZoneInfo.Local;
 
     /// <summary>
+    /// Gets or sets date time format.
+    /// </summary>
+    public static DateTimeFormatInfo DateTimeFormatInfo { get; set; } = DateTimeFormatInfo.CurrentInfo;
+
+    /// <summary>
     /// Converts a time to the time in a particular time zone.
     /// </summary>
     /// <param name="dateTimeOffset">date time offset.</param>
@@ -33,4 +39,20 @@ public static class DateTimeExt
     /// <returns>DateTime value of particular time zone.</returns>
     public static DateTime FromUnixTimeSeconds(long? second)
         => DateTimeOffset.FromUnixTimeSeconds(second ?? 0).SpZoneDateTime();
+
+    /// <summary>
+    /// Get DateTime format from second.
+    /// </summary>
+    /// <param name="second">second.</param>
+    /// <returns>date time string.</returns>
+    public static string GetDateTimeFormat(long? second)
+        => GetDateTimeFormat(FromUnixTimeSeconds(second));
+
+    /// <summary>
+    /// Get DateTime format from DateTime.
+    /// </summary>
+    /// <param name="dateTime">date time.</param>
+    /// <returns>date time string.</returns>
+    public static string GetDateTimeFormat(DateTime dateTime)
+        => dateTime.ToString(DateTimeFormatInfo);
 }

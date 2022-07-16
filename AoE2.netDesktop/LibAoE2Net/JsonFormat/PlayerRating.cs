@@ -33,7 +33,7 @@ public class PlayerRating
 
     public override string ToString()
     {
-        var timeFormat = $"{DateTimeExt.FromUnixTimeSeconds(TimeStamp):yyyy/MM/dd HH:mm:ss}";
+        var timeFormat = DateTimeExt.GetDateTimeFormat(TimeStamp);
         return $"R:{Rating} W:{NumWins} L:{NumLosses} Str:{Streak} Drp:{Drops} Time:{timeFormat}";
     }
 }

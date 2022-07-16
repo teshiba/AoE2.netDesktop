@@ -191,7 +191,7 @@ public class CtrlMain : FormControler
 
         if(LastMatch != null) {
             var timezone = DateTimeExt.TimeZoneInfo.ToString().Split(" ")[0].Replace("(", string.Empty).Replace(")", string.Empty);
-            ret = $"{LastMatch.GetOpenedTime()} {timezone}";
+            ret = $"{DateTimeExt.GetDateTimeFormat(LastMatch.GetOpenedTime())} {timezone}";
         }
 
         return ret;
