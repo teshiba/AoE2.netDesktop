@@ -80,11 +80,16 @@ jobs:
     - name: Execute unit tests
       run: |
         dotnet test --collect:"XPlat Code Coverage" --filter "TestCategory!=GUI" "--logger:Console;verbosity=detailed" -- RunConfiguration.TestSessionTimeout=120000 > test.log 2>&1
-        type test.log
         $COVERAGE_RESULT = Select-String -Path test.log -Pattern "coverage.cobertura.xml"
         $COVERAGE_RESULT = $COVERAGE_RESULT -replace "^.*\s+",""
         echo COVERAGE output: $COVERAGE_RESULT
         copy $COVERAGE_RESULT ./coverage.cobertura.xml
+
+    - name: Check test failure
+      if: failure()
+      run: |
+         Select-String "failed" "test.log" -Context 0,5
+
     - name: upload coverage
       uses: codecov/codecov-action@v1
       with:
