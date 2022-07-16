@@ -14,14 +14,15 @@ using System.Diagnostics;
 public class AoE2DeAppTests
 {
     [TestMethod]
-    [DataRow(true)]
-    [DataRow(false)]
-    public void GetPathTest(bool aoe2deNotRunning)
+    [DataRow(AppStatus.NotInstalled)]
+    [DataRow(AppStatus.Runninng)]
+    [DataRow(AppStatus.NotRunning)]
+    public void GetPathTest(AppStatus aoe2deNotRunning)
     {
         // Arrange
         var expVal = @"steamapps\common\AoE2DE\";
         AoE2DeApp.SystemApi = new SystemApiStub(1) {
-            AoE2deNotRunning = aoe2deNotRunning,
+            AoE2deAppStatus = aoe2deNotRunning,
         };
 
         // Act

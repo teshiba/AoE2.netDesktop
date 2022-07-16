@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+
     using AoE2NetDesktop.Utility.SysApi;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

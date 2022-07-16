@@ -1,6 +1,4 @@
 ﻿namespace AoE2netDesktopTests.TestUtility;
-
-using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility.SysApi;
 
 using System;
@@ -31,6 +29,11 @@ public class SystemApiStub : ISystemApi
         { "AoE2DE_s", string.Empty },
     };
 
+    private readonly Dictionary<string, string> processPathListNotInstalled = new() {
+        { "Idle", string.Empty },
+        { "AoE2DE_s", @"c:\AoE2DE_s\is\not\installed\at\steamapps\common\AoE2DE\" },
+    };
+
     /// <summary>
     /// Initializes a new instance of the <see cref="SystemApiStub"/> class.
     /// </summary>
@@ -46,7 +49,7 @@ public class SystemApiStub : ISystemApi
 
     public bool ForceWin32Exception { get; set; }
 
-    public bool AoE2deNotRunning { get; set; }
+    public AppStatus AoE2deAppStatus { get; set; }
 
     /// <inheritdoc/>
     public string GetActiveProcess()
@@ -59,14 +62,12 @@ public class SystemApiStub : ISystemApi
     /// <inheritdoc/>
     public string GetProcessFilePath(string processName)
     {
-        string ret;
-
-        if(AoE2deNotRunning) {
-            ret = processPathList[processName];
-        } else {
-            ret = processPathListAoE2DES[processName];
-        }
-
+        string ret = AoE2deAppStatus switch {
+            AppStatus.NotInstalled => processPathListNotInstalled[processName],
+            AppStatus.NotRunning => processPathList[processName],
+            AppStatus.Runninng => processPathListAoE2DES[processName],
+            _ => processPathListNotInstalled[processName],
+        };
         return ret;
     }
 

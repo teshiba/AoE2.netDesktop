@@ -33,7 +33,8 @@ public class PlayerRating
 
     public override string ToString()
     {
-        return $"R:{Rating} W:{NumWins} L:{NumLosses} Str:{Streak} Drp:{Drops} Time:{DateTimeExt.FromUnixTimeSeconds(TimeStamp)}";
+        var timeFormat = DateTimeExt.GetDateTimeFormat(TimeStamp);
+        return $"R:{Rating} W:{NumWins} L:{NumLosses} Str:{Streak} Drp:{Drops} Time:{timeFormat}";
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

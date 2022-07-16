@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -303,8 +304,10 @@ public class CtrlMainTests
     public void GetOpenedTimeTest()
     {
         // Arrange
-        var expVal = "1970/01/01 0:00:00 UTC";
+        var expVal = "01/01/1970 00:00:00 UTC";
         DateTimeExt.TimeZoneInfo = TimeZoneInfo.Utc;
+        DateTimeExt.DateTimeFormatInfo = DateTimeFormatInfo.InvariantInfo;
+
         CtrlMain.LastMatch = new Match() {
             Opened = 0,
         };

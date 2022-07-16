@@ -26,7 +26,7 @@
 
             // Act
             using var testClass = new GameTimer(expVal);
-            var actVal = testClass.GetField<Action>("updateFormControlFunc");
+            var actVal = testClass.GetField<Func<bool>>("updateFormControlFunc");
 
             // Assert
             Assert.AreEqual(expVal, actVal);
