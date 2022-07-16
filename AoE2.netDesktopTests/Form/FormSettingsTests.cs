@@ -110,6 +110,31 @@ public partial class FormSettingsTests
     }
 
     [TestMethod]
+    public void FormSettingsTestCheckBoxVisibleGameTime_CheckedChanged()
+    {
+        // Arrange
+        var done = false;
+        var testClass = new FormSettingsPrivate();
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormSettings_LoadAsync");
+            testClass.checkBoxVisibleGameTime.Checked = true;
+
+            // CleanUp
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(TestUtilityExt.GetSettings<bool>("VisibleGameTime"));
+        Assert.IsTrue(done);
+    }
+
+    [TestMethod]
     [DataRow("123456", "#123456")]
     [DataRow("#123456", "#123456")]
     public void FormSettingsTestTextBoxChromaKey_Leave(string keyValue, string expValTextBox)

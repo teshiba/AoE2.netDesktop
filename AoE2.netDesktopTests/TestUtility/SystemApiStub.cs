@@ -21,9 +21,14 @@ public class SystemApiStub : ISystemApi
         { 1, "AoE2DE_s" },
     };
 
+    private readonly Dictionary<string, string> processPathListAoE2DES = new() {
+        { "Idle", string.Empty },
+        { "AoE2DE_s", $@"C:\Program Files (x86)\Steam\steamapps\common\AoE2DE\" },
+    };
+
     private readonly Dictionary<string, string> processPathList = new() {
         { "Idle", string.Empty },
-        { "AoE2DE_s", TestData.Path + "/" },
+        { "AoE2DE_s", string.Empty },
     };
 
     /// <summary>
@@ -41,6 +46,8 @@ public class SystemApiStub : ISystemApi
 
     public bool ForceWin32Exception { get; set; }
 
+    public bool AoE2deNotRunning { get; set; }
+
     /// <inheritdoc/>
     public string GetActiveProcess()
     {
@@ -52,7 +59,15 @@ public class SystemApiStub : ISystemApi
     /// <inheritdoc/>
     public string GetProcessFilePath(string processName)
     {
-        return processPathList[processName];
+        string ret;
+
+        if(AoE2deNotRunning) {
+            ret = processPathList[processName];
+        } else {
+            ret = processPathListAoE2DES[processName];
+        }
+
+        return ret;
     }
 
     /// <summary>

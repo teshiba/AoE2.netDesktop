@@ -6,6 +6,7 @@ using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
+using AoE2NetDesktop.Utility.Timer;
 
 using System;
 using System.Collections.Generic;
@@ -86,10 +87,10 @@ public partial class FormMain : ControllableForm
     {
         LastMatchLoader.Stop();
 
-        if(!CtrlMain.IsTimerReloading) {
+        if(!CtrlMain.IsReloadingByTimer) {
             ClearLastMatch();
         } else {
-            CtrlMain.IsTimerReloading = false;
+            CtrlMain.IsReloadingByTimer = false;
         }
 
         CtrlMain.LastMatch = await RedrawLastMatchAsync(CtrlSettings.ProfileId);
@@ -386,5 +387,17 @@ public partial class FormMain : ControllableForm
     private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
     {
         Close();
+    }
+
+    private void FormMain_Activated(object sender, EventArgs e)
+    {
+        // if this form is active, get game status from aoe2.net and update last match info.
+        if(Settings.Default.VisibleGameTime
+        && CtrlMain.LastMatch?.Finished == null) {
+            CtrlMain.IsReloadingByTimer = true;
+            updateToolStripMenuItem.PerformClick();
+        }
+
+        Awaiter.Complete();
     }
 }

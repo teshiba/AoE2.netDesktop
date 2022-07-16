@@ -7,6 +7,7 @@ using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.Forms;
+using AoE2NetDesktop.Utility.Timer;
 
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,7 @@ public partial class FormMain : ControllableForm
             { nameof(Settings.Default.MainFormIsTransparency), OnChangePropertyIsTransparency },
             { nameof(Settings.Default.DrawHighQuality), OnChangePropertyDrawHighQuality },
             { nameof(Settings.Default.IsAutoReloadLastMatch), OnChangePropertyIsAutoReloadLastMatch },
+            { nameof(Settings.Default.VisibleGameTime), OnChangePropertyVisibleGameTime },
         };
 
         Settings.Default.PropertyChanged += Default_PropertyChanged;
@@ -69,6 +71,7 @@ public partial class FormMain : ControllableForm
         Opacity = (double)Settings.Default.MainFormOpacityPercent * 0.01;
         ChangePropertyIsTransparency(nameof(Settings.Default.MainFormIsTransparency));
         ChangePropertyIsAutoReloadLastMatch(nameof(Settings.Default.IsAutoReloadLastMatch));
+        ChangePropertyVisibleGameTime(nameof(Settings.Default.VisibleGameTime));
         DrawEx.DrawHighQuality = Settings.Default.DrawHighQuality;
     }
 
@@ -92,6 +95,15 @@ public partial class FormMain : ControllableForm
         } else {
             LastMatchLoader.Stop();
         }
+    }
+
+    private void ChangePropertyVisibleGameTime(string propertyName)
+    {
+        var visible = (bool)Settings.Default[propertyName];
+        labelStartTime1v1.Visible = visible;
+        labelStartTimeTeam.Visible = visible;
+        labelElapsedTime1v1.Visible = visible;
+        labelElapsedTimeTeam.Visible = visible;
     }
 
     private void OnChangePropertyChromaKey(string propertyName)
@@ -125,6 +137,11 @@ public partial class FormMain : ControllableForm
     private void OnChangePropertyIsAutoReloadLastMatch(string propertyName)
     {
         ChangePropertyIsAutoReloadLastMatch(propertyName);
+    }
+
+    private void OnChangePropertyVisibleGameTime(string propertyName)
+    {
+        ChangePropertyVisibleGameTime(propertyName);
     }
 
     private void OnChangePropertyIsHideTitle(string propertyName)
@@ -401,22 +418,18 @@ public partial class FormMain : ControllableForm
         }
     }
 
-    private void OnTimerGame(object sender, EventArgs e)
+    private bool OnTimerGame()
     {
-        labelAoE2DEActive.Invoke(() => {
-            var timezone = TimeZoneInfo.Local.ToString().Split(" ")[0].Replace("(", string.Empty).Replace(")", string.Empty);
-            var realTime = CtrlMain.LastMatch?.GetElapsedTime().ToString(@"h\:mm\:ss");
-            var inGameTime = new TimeSpan((long)(CtrlMain.LastMatch?.GetElapsedTime().Ticks * 1.7)).ToString(@"h\:mm\:ss");
-
-            labelStartTimeTeam.Text = $"{CtrlMain.LastMatch?.GetOpenedTime()} {timezone}";
-            labelElapsedTimeTeam.Text = $"{realTime} ({inGameTime} in game)";
-            labelStartTime1v1.Text = $"{CtrlMain.LastMatch?.GetOpenedTime()} {timezone}";
-            labelElapsedTime1v1.Text = $"{realTime} ({inGameTime} in game)";
+        // update text
+        Invoke(() =>
+        {
+            labelStartTimeTeam.Text = CtrlMain.GetOpenedTime();
+            labelElapsedTimeTeam.Text = CtrlMain.GetElapsedTime();
+            labelStartTime1v1.Text = CtrlMain.GetOpenedTime();
+            labelElapsedTime1v1.Text = CtrlMain.GetElapsedTime();
         });
 
-        if(CtrlMain.LastMatch.Finished != null) {
-            GameTimer.Stop();
-        }
+        return CtrlMain.LastMatch.Finished == null;
     }
 
     private void OnTimerLastMatchLoader(object sender, EventArgs e)
@@ -424,7 +437,7 @@ public partial class FormMain : ControllableForm
         LastMatchLoader.Stop();
         if(CtrlMain.IsAoE2deActive()) {
             labelAoE2DEActive.Invoke(() => { labelAoE2DEActive.Text = "AoE2DE active"; });
-            CtrlMain.IsTimerReloading = true;
+            CtrlMain.IsReloadingByTimer = true;
             Invoke(() => updateToolStripMenuItem.PerformClick());
         } else {
             labelAoE2DEActive.Invoke(() => { labelAoE2DEActive.Text = "AoE2DE NOT active"; });
@@ -464,7 +477,7 @@ public partial class FormMain : ControllableForm
         try {
             var playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
             if(labelGameId.Text == $"GameID: {playerLastmatch.LastMatch.MatchId}") {
-                match = CtrlMain.LastMatch;
+                match = playerLastmatch.LastMatch;
             } else {
                 LeaderboardId? leaderboard;
                 var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId);

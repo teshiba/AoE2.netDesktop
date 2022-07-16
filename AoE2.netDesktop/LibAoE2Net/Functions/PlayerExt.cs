@@ -5,7 +5,6 @@ using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 

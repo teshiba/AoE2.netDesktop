@@ -96,7 +96,7 @@ public partial class FormMainTests
     [TestMethod]
     [DataRow(true)]
     [DataRow(false)]
-    public void OnChangeIsTransparencyTest(bool value)
+    public void OnChangePropertyIsTransparencyTest(bool value)
     {
         // Arrange
         var testClass = new FormMainPrivate();
@@ -111,6 +111,21 @@ public partial class FormMainTests
 
         // Act
         TestUtilityExt.SetSettings("MainFormIsTransparency", value);
+
+        // Assert
+        Assert.AreEqual(expVal, testClass.TransparencyKey);
+    }
+
+    [TestMethod]
+    public void OnChangePropertyIsTransparencyTestInvalidChromaKeyString()
+    {
+        // Arrange
+        var testClass = new FormMainPrivate();
+        TestUtilityExt.SetSettings("ChromaKey", "invalidColorName");
+        Color expVal = default;
+
+        // Act
+        TestUtilityExt.SetSettings("MainFormIsTransparency", true);
 
         // Assert
         Assert.AreEqual(expVal, testClass.TransparencyKey);
@@ -246,8 +261,8 @@ public partial class FormMainTests
     public void RedrawLastMatchAsyncTestSameGameID()
     {
         // Arrange
-        var actMatch = new Match();
-        var expMatch = new Match();
+        string actMatch = string.Empty;
+        var expMatch = string.Empty;
         var done = false;
         var testClass = new FormMainPrivate();
 
@@ -256,8 +271,8 @@ public partial class FormMainTests
         {
             await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
             testClass.labelGameId.Text = $"GameID: 00000002";
-            expMatch = CtrlMain.LastMatch;
-            actMatch = await testClass.RedrawLastMatchAsync(TestData.AvailableUserProfileId);
+            expMatch = CtrlMain.LastMatch.MatchId;
+            actMatch = (await testClass.RedrawLastMatchAsync(TestData.AvailableUserProfileId)).MatchId;
             testClass.Close();
             done = true;
         };

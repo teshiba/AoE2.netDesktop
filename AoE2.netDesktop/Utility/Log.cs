@@ -12,9 +12,11 @@ public static class Log
     /// <summary>
     /// Gets or Sets log level.
     /// </summary>
-    public static LogLevel Level {
+    public static LogLevel Level
+    {
         get => level;
-        set {
+        set
+        {
             Debug.Print($"Set log level {level}");
             level = value;
         }

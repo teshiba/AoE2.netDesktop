@@ -28,13 +28,13 @@ public partial class FormHistory : ControllableForm
     private const int FontSize = 16;
 
     private readonly List<LeaderboardView> leaderboardViews = new() {
-        new (IndexRM1v1, "1v1 RM", LeaderboardId.RM1v1, Color.Blue),
-        new (IndexRMTeam, "Team RM", LeaderboardId.RMTeam, Color.Indigo),
-        new (IndexDM1v1, "1v1 DM", LeaderboardId.DM1v1, Color.DarkGreen),
-        new (IndexDMTeam, "Team DM", LeaderboardId.DMTeam, Color.SeaGreen),
-        new (IndexEW1v1, "1v1 EW", LeaderboardId.EW1v1, Color.Red),
-        new (IndexEWTeam, "Team EW", LeaderboardId.EWTeam, Color.OrangeRed),
-        new (IndexUnranked, "Unranked", LeaderboardId.Unranked, Color.SlateGray),
+        new(IndexRM1v1, "1v1 RM", LeaderboardId.RM1v1, Color.Blue),
+        new(IndexRMTeam, "Team RM", LeaderboardId.RMTeam, Color.Indigo),
+        new(IndexDM1v1, "1v1 DM", LeaderboardId.DM1v1, Color.DarkGreen),
+        new(IndexDMTeam, "Team DM", LeaderboardId.DMTeam, Color.SeaGreen),
+        new(IndexEW1v1, "1v1 EW", LeaderboardId.EW1v1, Color.Red),
+        new(IndexEWTeam, "Team EW", LeaderboardId.EWTeam, Color.OrangeRed),
+        new(IndexUnranked, "Unranked", LeaderboardId.Unranked, Color.SlateGray),
     };
 
     /// <summary>

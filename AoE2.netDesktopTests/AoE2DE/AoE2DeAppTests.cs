@@ -2,6 +2,8 @@
 
 using AoE2NetDesktop.LibAoE2Net.Functions;
 
+using AoE2netDesktopTests.TestUtility;
+
 using LibAoE2net;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,10 +14,15 @@ using System.Diagnostics;
 public class AoE2DeAppTests
 {
     [TestMethod]
-    public void GetPathTest()
+    [DataRow(true)]
+    [DataRow(false)]
+    public void GetPathTest(bool aoe2deNotRunning)
     {
         // Arrange
         var expVal = @"steamapps\common\AoE2DE\";
+        AoE2DeApp.SystemApi = new SystemApiStub(1) {
+            AoE2deNotRunning = aoe2deNotRunning,
+        };
 
         // Act
         var actVal = AoE2DeApp.GetPath();

@@ -31,8 +31,10 @@ public class UnitImagesTests
     public void LoadTest()
     {
         // Arrange
-        AoE2DeApp.SystemApi = new SystemApiStub(1);
-        var expVal = 1;
+        AoE2DeApp.SystemApi = new SystemApiStub(1) {
+            AoE2deNotRunning = true,
+        };
+        var expVal = 256;
 
         // Act
         var actVal = UnitImages.Load("invalidCiv", Color.Blue);

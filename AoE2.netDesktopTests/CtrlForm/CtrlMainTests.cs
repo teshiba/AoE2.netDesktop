@@ -5,6 +5,8 @@ using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.SysApi;
+
 using AoE2netDesktopTests.TestUtility;
 
 using LibAoE2net;
@@ -21,6 +23,14 @@ using System.Windows.Forms;
 [TestClass]
 public class CtrlMainTests
 {
+    private static IEnumerable<object[]> GetTestData => new List<object[]>
+    {
+                  // opened, finished, utcNow, expVal
+        new object[] { 60L,  120L,     360L,   "0:01:00 (0:01:42 in game)" },
+        new object[] { 60L,  null,     360L,   "0:05:00 (0:08:30 in game)" },
+        new object[] { null, null,     360L,   "0:00:00 (0:00:00 in game)" },
+    };
+
     [ClassInitialize]
     public static void Init(TestContext context)
     {
@@ -284,6 +294,58 @@ public class CtrlMainTests
 
         // Act
         var actVal = CtrlMain.GetWinsString(player);
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    public void GetOpenedTimeTest()
+    {
+        // Arrange
+        var expVal = "1970/01/01 0:00:00 UTC";
+        DateTimeExt.TimeZoneInfo = TimeZoneInfo.Utc;
+        CtrlMain.LastMatch = new Match() {
+            Opened = 0,
+        };
+
+        // Act
+        var actVal = CtrlMain.GetOpenedTime();
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    public void GetOpenedTimeTestLastMatchNull()
+    {
+        // Arrange
+        var expVal = "--:--:--";
+        DateTimeExt.TimeZoneInfo = TimeZoneInfo.Utc;
+        CtrlMain.LastMatch = null;
+
+        // Act
+        var actVal = CtrlMain.GetOpenedTime();
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    [DynamicData(nameof(GetTestData))]
+    public void GetElapsedTimeTest(long? opened, long? finished, long utcNow, string expVal)
+    {
+        // Arrange
+        DateTimeExt.TimeZoneInfo = TimeZoneInfo.Local;
+        DateTimeOffsetExt.UtcNow = () => DateTimeOffset.FromUnixTimeSeconds(utcNow);
+        var testClass = new Match() {
+            Opened = opened,
+            Finished = finished,
+        };
+        CtrlMain.LastMatch = testClass;
+
+        // Act
+        var actVal = CtrlMain.GetElapsedTime();
 
         // Assert
         Assert.AreEqual(expVal, actVal);

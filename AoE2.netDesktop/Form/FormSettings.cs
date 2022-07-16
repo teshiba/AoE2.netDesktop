@@ -87,6 +87,7 @@ public partial class FormSettings : ControllableForm
         checkBoxTransparencyWindow.Checked = Settings.Default.MainFormIsTransparency;
         checkBoxDrawQuality.Checked = Settings.Default.DrawHighQuality;
         checkBoxAutoReloadLastMatch.Checked = Settings.Default.IsAutoReloadLastMatch;
+        checkBoxVisibleGameTime.Checked = Settings.Default.VisibleGameTime;
 
         switch(Controler.SelectedIdType) {
         case IdType.Steam:
@@ -279,6 +280,11 @@ public partial class FormSettings : ControllableForm
     private void CheckBoxAutoReloadLastMatch_CheckedChanged(object sender, EventArgs e)
     {
         Settings.Default.IsAutoReloadLastMatch = ((CheckBox)sender).Checked;
+    }
+
+    private void CheckBoxVisibleGameTime_CheckedChanged(object sender, EventArgs e)
+    {
+        Settings.Default.VisibleGameTime = ((CheckBox)sender).Checked;
     }
 
     private void PictureBoxChromaKey_Click(object sender, EventArgs e)
