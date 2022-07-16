@@ -154,8 +154,6 @@ public partial class FormSettings : ControllableForm
     {
         Top = Settings.Default.WindowLocationSettings.Y;
         Left = Settings.Default.WindowLocationSettings.X;
-        Width = Settings.Default.WindowSizeSettings.Width;
-        Height = Settings.Default.WindowSizeSettings.Height;
     }
 
     private void SaveWindowPosition()
