@@ -3,6 +3,7 @@
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.PlotEx;
+using AoE2NetDesktop.Utility.SysApi;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -52,8 +53,8 @@ public class PlayerRateFormsPlotTests
     {
         // Arrange
         var testClass = new PlayerRateFormsPlot(new FormsPlot(), leaderboardViews, 16);
-        var datetimeMaxX = DateTimeOffset.FromUnixTimeSeconds(0).LocalDateTime.ToOADate();
-        var datetimeMinX = DateTimeOffset.FromUnixTimeSeconds(0).LocalDateTime.ToOADate();
+        var datetimeMaxX = DateTimeExt.FromUnixTimeSeconds(0).ToOADate();
+        var datetimeMinX = DateTimeExt.FromUnixTimeSeconds(0).ToOADate();
         var rateMaxY = 130;
         var rateMinY = 110;
 

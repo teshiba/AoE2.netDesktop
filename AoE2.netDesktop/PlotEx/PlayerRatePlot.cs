@@ -1,6 +1,7 @@
 ﻿namespace AoE2NetDesktop.PlotEx;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility.SysApi;
 
 using ScottPlot;
 using ScottPlot.Plottable;
@@ -112,7 +113,7 @@ public class PlayerRatePlot
         foreach(var item in playerRatingHistory) {
             if(item.TimeStamp is long time) {
                 rateList.Add(item.Rating ?? 0);
-                dateList.Add(DateTimeOffset.FromUnixTimeSeconds(time).LocalDateTime);
+                dateList.Add(DateTimeExt.FromUnixTimeSeconds(time));
             }
         }
 

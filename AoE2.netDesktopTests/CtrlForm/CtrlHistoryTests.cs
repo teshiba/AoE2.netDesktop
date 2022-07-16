@@ -5,6 +5,7 @@ using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.SysApi;
 
 using AoE2netDesktopTests.TestUtility;
 
@@ -207,13 +208,13 @@ public class CtrlHistoryTests
         Assert.AreEqual(1, actVal["p1"].GamesAlly);
         Assert.AreEqual(0, actVal["p1"].GamesEnemy);
         Assert.AreEqual(1, actVal["p1"].GamesTeam);
-        Assert.AreEqual(DateTimeOffset.FromUnixTimeSeconds(2).LocalDateTime, actVal["p1"].LastDate);
+        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal["p1"].LastDate);
         Assert.AreEqual(ProfileId + 2, actVal["p2"].ProfileId);
         Assert.AreEqual(0, actVal["p2"].Games1v1);
         Assert.AreEqual(0, actVal["p2"].GamesAlly);
         Assert.AreEqual(1, actVal["p2"].GamesEnemy);
         Assert.AreEqual(1, actVal["p2"].GamesTeam);
-        Assert.AreEqual(DateTimeOffset.FromUnixTimeSeconds(2).LocalDateTime, actVal["p2"].LastDate);
+        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal["p2"].LastDate);
     }
 
     [TestMethod]
@@ -234,13 +235,13 @@ public class CtrlHistoryTests
         Assert.AreEqual(1, actVal[expName].GamesAlly);
         Assert.AreEqual(0, actVal[expName].GamesEnemy);
         Assert.AreEqual(1, actVal[expName].GamesTeam);
-        Assert.AreEqual(DateTimeOffset.FromUnixTimeSeconds(2).LocalDateTime, actVal[expName].LastDate);
+        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal[expName].LastDate);
         Assert.AreEqual(ProfileId + 2, actVal["p2"].ProfileId);
         Assert.AreEqual(0, actVal["p2"].Games1v1);
         Assert.AreEqual(0, actVal["p2"].GamesAlly);
         Assert.AreEqual(1, actVal["p2"].GamesEnemy);
         Assert.AreEqual(1, actVal["p2"].GamesTeam);
-        Assert.AreEqual(DateTimeOffset.FromUnixTimeSeconds(2).LocalDateTime, actVal["p2"].LastDate);
+        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal["p2"].LastDate);
     }
 
     [TestMethod]

@@ -1,6 +1,7 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net.Functions;
 
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.Utility.SysApi;
 
 using System;
 using System.Linq;
@@ -11,18 +12,13 @@ using System.Linq;
 public static class MatchExt
 {
     /// <summary>
-    /// Gets or Sets UtcNow function.
-    /// </summary>
-    public static Func<DateTimeOffset> GetUtcTimeNow { get; set; } = () => DateTimeOffset.UtcNow;
-
-    /// <summary>
     /// Get Opened Time that converted to local time.
     /// </summary>
     /// <param name="match">match.</param>
     /// <returns>local time value as DateTime type.</returns>
     public static DateTime GetOpenedTime(this Match match)
     {
-        var ret = DateTimeOffset.FromUnixTimeSeconds(match.Opened ?? 0).LocalDateTime;
+        var ret = DateTimeExt.FromUnixTimeSeconds(match.Opened ?? 0);
         return ret;
     }
 
@@ -34,14 +30,13 @@ public static class MatchExt
     public static TimeSpan GetElapsedTime(this Match match)
     {
         TimeSpan ret;
-        var timeNow = GetUtcTimeNow();
 
         if(match.Opened is long opened) {
             if(match.Finished is long finished) {
-                ret = DateTimeOffset.FromUnixTimeSeconds(finished)
-                    - DateTimeOffset.FromUnixTimeSeconds(opened);
+                ret = TimeSpan.FromSeconds(finished - opened);
             } else {
-                ret = timeNow - DateTimeOffset.FromUnixTimeSeconds(opened);
+                var timeNow = DateTimeOffsetExt.UtcNow().ToUnixTimeSeconds();
+                ret = TimeSpan.FromSeconds(timeNow - opened);
             }
         } else {
             ret = default;

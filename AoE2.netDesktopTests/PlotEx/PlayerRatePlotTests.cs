@@ -3,6 +3,7 @@
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.PlotEx;
+using AoE2NetDesktop.Utility.SysApi;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -130,7 +131,7 @@ public class PlayerRatePlotTests
     public void PlotTest()
     {
         // Arrange
-        var datetime = new DateTimeOffset(1970, 01, 01, 0, 0, 0, new TimeSpan(0)).ToUnixTimeSeconds();
+        var datetime = new DateTime(1970, 01, 01).ToUnixTimeSeconds();
         List<PlayerRating> playerRatingHistory = new() {
             new PlayerRating() { Rating = 1001, TimeStamp = datetime },
             new PlayerRating() { Rating = 1002, TimeStamp = datetime },
@@ -153,6 +154,6 @@ public class PlayerRatePlotTests
 
     private static long GetDateTime(long datetime, int offsetDay)
     {
-        return datetime + new DateTimeOffset(1970, 01, 01 + offsetDay, 0, 0, 0, default).ToUnixTimeSeconds();
+        return datetime + new DateTime(1970, 01, 01 + offsetDay).ToUnixTimeSeconds();
     }
 }
