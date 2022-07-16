@@ -7,7 +7,7 @@ using System;
 /// </summary>
 public static class DateTimeOffsetExt
 {
-        /// <summary>
+    /// <summary>
     /// Gets or sets the current Utc time.
     /// </summary>
     /// <returns>the current Utc time value.</returns>
