@@ -51,8 +51,6 @@ public class SystemApiStub : ISystemApi
 
     public AppStatus AoE2deAppStatus { get; set; }
 
-    public bool AoE2deNotInstalled { get; set; }
-
     /// <inheritdoc/>
     public string GetActiveProcess()
     {

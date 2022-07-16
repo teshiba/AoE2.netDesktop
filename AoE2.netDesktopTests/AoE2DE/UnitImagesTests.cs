@@ -32,7 +32,7 @@ public class UnitImagesTests
     {
         // Arrange
         AoE2DeApp.SystemApi = new SystemApiStub(1) {
-            AoE2deNotInstalled = true,
+            AoE2deAppStatus = AppStatus.NotInstalled,
         };
         var expVal = 1;
 
