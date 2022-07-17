@@ -3,12 +3,13 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.Drawing;
+using System.Globalization;
 
 [TestClass]
 public class ResourcesTest
 {
     [TestMethod]
-    public void GetResourceManager()
+    public void GetResourceManagerTest()
     {
         // Arrange
         var expVal = "AoE2NetDesktop.Properties.Resources";
@@ -21,12 +22,13 @@ public class ResourcesTest
     }
 
     [TestMethod]
-    public void GetCulture()
+    public void SetAndGetCultureTest()
     {
         // Arrange
         var expVal = "ar";
 
         // Act
+        Resources.Culture = new CultureInfo(1);
         var actVal = Resources.Culture;
 
         // Assert
@@ -34,19 +36,7 @@ public class ResourcesTest
     }
 
     [TestMethod]
-    public void SetCulture()
-    {
-        // Arrange
-
-        // Act
-        Resources.Culture = new System.Globalization.CultureInfo(1);
-
-        // Assert
-        Assert.IsTrue(true);
-    }
-
-    [TestMethod]
-    public void Getaoe2netDesktopAppIcon()
+    public void Getaoe2netDesktopAppIconTest()
     {
         // Arrange
         var expVal = new Size(32, 32);
