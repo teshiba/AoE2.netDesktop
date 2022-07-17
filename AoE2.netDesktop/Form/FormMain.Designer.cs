@@ -90,6 +90,7 @@
             this.labelElapsedTimeTeam = new System.Windows.Forms.Label();
             this.labelStartTimeTeam = new System.Windows.Forms.Label();
             this.panel1v1 = new System.Windows.Forms.Panel();
+            this.labelMap1v1 = new System.Windows.Forms.Label();
             this.labelElapsedTime1v1 = new System.Windows.Forms.Label();
             this.labelStartTime1v1 = new System.Windows.Forms.Label();
             this.labelWins1v1P1 = new System.Windows.Forms.Label();
@@ -97,7 +98,6 @@
             this.labelRate1v1P1 = new System.Windows.Forms.Label();
             this.labelGameId1v1 = new System.Windows.Forms.Label();
             this.labelServer1v1 = new System.Windows.Forms.Label();
-            this.labelMap1v1 = new System.Windows.Forms.Label();
             this.pictureBoxMap1v1 = new System.Windows.Forms.PictureBox();
             this.pictureBox1v1RateHistoryP2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1v1RateHistoryP1 = new System.Windows.Forms.PictureBox();
@@ -198,7 +198,7 @@
             // labelNameP7
             // 
             this.labelNameP7.BackColor = System.Drawing.SystemColors.Control;
-            this.labelNameP7.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelNameP7.Font = new System.Drawing.Font("Segoe UI Emoji", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP7.Location = new System.Drawing.Point(161, 197);
             this.labelNameP7.Name = "labelNameP7";
             this.labelNameP7.Size = new System.Drawing.Size(280, 34);
@@ -210,7 +210,7 @@
             // labelNameP3
             // 
             this.labelNameP3.BackColor = System.Drawing.SystemColors.Control;
-            this.labelNameP3.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelNameP3.Font = new System.Drawing.Font("Segoe UI Emoji", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP3.Location = new System.Drawing.Point(161, 88);
             this.labelNameP3.Name = "labelNameP3";
             this.labelNameP3.Size = new System.Drawing.Size(280, 28);
@@ -222,7 +222,7 @@
             // labelNameP5
             // 
             this.labelNameP5.BackColor = System.Drawing.SystemColors.Control;
-            this.labelNameP5.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelNameP5.Font = new System.Drawing.Font("Segoe UI Emoji", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP5.Location = new System.Drawing.Point(161, 143);
             this.labelNameP5.Name = "labelNameP5";
             this.labelNameP5.Size = new System.Drawing.Size(280, 34);
@@ -234,7 +234,7 @@
             // labelNameP1
             // 
             this.labelNameP1.BackColor = System.Drawing.SystemColors.Control;
-            this.labelNameP1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelNameP1.Font = new System.Drawing.Font("Segoe UI Emoji", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP1.Location = new System.Drawing.Point(161, 33);
             this.labelNameP1.Name = "labelNameP1";
             this.labelNameP1.Size = new System.Drawing.Size(280, 28);
@@ -530,7 +530,7 @@
             this.labelNameP2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP2.BackColor = System.Drawing.SystemColors.Control;
-            this.labelNameP2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelNameP2.Font = new System.Drawing.Font("Segoe UI Emoji", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP2.Location = new System.Drawing.Point(159, 33);
             this.labelNameP2.Name = "labelNameP2";
             this.labelNameP2.Size = new System.Drawing.Size(258, 34);
@@ -544,7 +544,7 @@
             this.labelNameP8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP8.BackColor = System.Drawing.SystemColors.Control;
-            this.labelNameP8.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelNameP8.Font = new System.Drawing.Font("Segoe UI Emoji", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP8.Location = new System.Drawing.Point(159, 196);
             this.labelNameP8.Name = "labelNameP8";
             this.labelNameP8.Size = new System.Drawing.Size(258, 34);
@@ -558,7 +558,7 @@
             this.labelNameP6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP6.BackColor = System.Drawing.SystemColors.Control;
-            this.labelNameP6.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelNameP6.Font = new System.Drawing.Font("Segoe UI Emoji", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP6.Location = new System.Drawing.Point(159, 142);
             this.labelNameP6.Name = "labelNameP6";
             this.labelNameP6.Size = new System.Drawing.Size(258, 34);
@@ -572,7 +572,7 @@
             this.labelNameP4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameP4.BackColor = System.Drawing.SystemColors.Control;
-            this.labelNameP4.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelNameP4.Font = new System.Drawing.Font("Segoe UI Emoji", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelNameP4.Location = new System.Drawing.Point(159, 88);
             this.labelNameP4.Name = "labelNameP4";
             this.labelNameP4.Size = new System.Drawing.Size(258, 34);
@@ -1112,7 +1112,7 @@
             this.labelName1v1P2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelName1v1P2.BackColor = System.Drawing.SystemColors.Control;
-            this.labelName1v1P2.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelName1v1P2.Font = new System.Drawing.Font("Segoe UI Emoji", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelName1v1P2.Location = new System.Drawing.Point(543, 3);
             this.labelName1v1P2.Name = "labelName1v1P2";
             this.labelName1v1P2.Size = new System.Drawing.Size(219, 34);
@@ -1170,7 +1170,7 @@
             this.labelName1v1P1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelName1v1P1.BackColor = System.Drawing.SystemColors.Control;
-            this.labelName1v1P1.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelName1v1P1.Font = new System.Drawing.Font("Segoe UI Emoji", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelName1v1P1.Location = new System.Drawing.Point(67, 3);
             this.labelName1v1P1.Name = "labelName1v1P1";
             this.labelName1v1P1.Size = new System.Drawing.Size(220, 34);
