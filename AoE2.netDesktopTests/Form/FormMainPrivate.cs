@@ -107,6 +107,16 @@ public partial class FormMainTests
             this.Invoke("ExitToolStripMenuItem_Click", sender, e);
         }
 
+        public void PictureBoxMap_DoubleClick(object sender, EventArgs e)
+        {
+            this.Invoke("PictureBoxMap_DoubleClickAsync", sender, e);
+        }
+
+        public void PictureBoxMap1v1_DoubleClick(object sender, EventArgs e)
+        {
+            this.Invoke("PictureBoxMap1v1_DoubleClick", sender, e);
+        }
+
         public async Task<Match> RedrawLastMatchAsync(int profileId)
         {
             return await this.Invoke<Task<Match>>("RedrawLastMatchAsync", profileId).ConfigureAwait(false);

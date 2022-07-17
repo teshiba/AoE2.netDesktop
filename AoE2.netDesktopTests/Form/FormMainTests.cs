@@ -164,6 +164,7 @@ public partial class FormMainTests
     {
         // Arrange
         TestUtilityExt.SetSettings("IsAutoReloadLastMatch", true);
+        CtrlMain.IsReloadingByTimer = false;
         var expVal = string.Empty;
         var done = false;
         var testClass = new FormMainPrivate();
@@ -201,6 +202,42 @@ public partial class FormMainTests
         // Arrange
         TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
         TestUtilityExt.SetSettings("IsAutoReloadLastMatch", false);
+        CtrlMain.IsReloadingByTimer = false;
+        var expVal = string.Empty;
+        var done = false;
+        var testClass = new FormMainPrivate();
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_Activated");
+            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+
+            testClass.updateToolStripMenuItem.PerformClick();
+            await testClass.Awaiter.WaitAsync("UpdateToolStripMenuItem_ClickAsync");
+
+            // Assert
+            Assert.IsFalse(testClass.LastMatchLoader.Enabled);
+
+            // CleanUp
+            done = true;
+            testClass.Close();
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+    }
+
+
+    [TestMethod]
+    public void UpdateToolStripMenuItem_ClickAsyncTestIsReloadingByTimerTrue()
+    {
+        // Arrange
+        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
+        TestUtilityExt.SetSettings("IsAutoReloadLastMatch", false);
+        CtrlMain.IsReloadingByTimer = true;
         var expVal = string.Empty;
         var done = false;
         var testClass = new FormMainPrivate();
@@ -709,5 +746,35 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsTrue(done);
+    }
+
+    [TestMethod]
+    public void PictureBoxMap_DoubleClickTest()
+    {
+        // Arrange
+        var testClass = new FormMainPrivate();
+        var e = new EventArgs();
+
+        // Act
+        testClass.Show();
+        testClass.PictureBoxMap_DoubleClick(testClass, e);
+
+        // Assert
+        // nothing to do.
+    }
+
+    [TestMethod]
+    public void PictureBoxMap1v1_DoubleClick()
+    {
+        // Arrange
+        var testClass = new FormMainPrivate();
+        var e = new EventArgs();
+
+        // Act
+        testClass.Show();
+        testClass.PictureBoxMap1v1_DoubleClick(testClass, e);
+
+        // Assert
+        // nothing to do.
     }
 }
