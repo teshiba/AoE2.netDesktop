@@ -14,6 +14,11 @@ public static class DateTimeExt
     public const string InvalidTime = "--:--:--";
 
     /// <summary>
+    /// InvalidDate string.
+    /// </summary>
+    public const string InvalidDate = "----/--/--";
+
+    /// <summary>
     /// Gets or sets timezone.
     /// </summary>
     public static TimeZoneInfo TimeZoneInfo { get; set; } = TimeZoneInfo.Local;

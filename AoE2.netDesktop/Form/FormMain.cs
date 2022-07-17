@@ -4,13 +4,11 @@ using AoE2NetDesktop;
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
 using AoE2NetDesktop.Utility.Timer;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -55,9 +53,8 @@ public partial class FormMain : ControllableForm
     ///////////////////////////////////////////////////////////////////////
     // Async event handlers
     ///////////////////////////////////////////////////////////////////////
-
-    [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = SuppressReason.GuiEvent)]
-    [SuppressMessage("Style", "VSTHRD200:Use \"Async\" suffix for async methods", Justification = SuppressReason.GuiEvent)]
+#pragma warning disable VSTHRD100 // Avoid async void methods
+#pragma warning disable VSTHRD200 // Use "Async" suffix for async methods
     private async void FormMain_LoadAsync(object sender, EventArgs e)
     {
         RestoreWindowStatus();
@@ -71,7 +68,7 @@ public partial class FormMain : ControllableForm
                 OpenSettings();
             }
 
-            CtrlMain.LastMatch = await RedrawLastMatchAsync(CtrlSettings.ProfileId);
+            CtrlMain.LastMatch = await RedrawLastMatchAsync();
         } catch(Exception ex) {
             labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
         }
@@ -81,19 +78,15 @@ public partial class FormMain : ControllableForm
         Awaiter.Complete();
     }
 
-    [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = SuppressReason.GuiEvent)]
-    [SuppressMessage("Style", "VSTHRD200:Use \"Async\" suffix for async methods", Justification = SuppressReason.GuiEvent)]
     private async void UpdateToolStripMenuItem_ClickAsync(object sender, EventArgs e)
     {
         LastMatchLoader.Stop();
 
         if(!CtrlMain.IsReloadingByTimer) {
             ClearLastMatch();
-        } else {
-            CtrlMain.IsReloadingByTimer = false;
         }
 
-        CtrlMain.LastMatch = await RedrawLastMatchAsync(CtrlSettings.ProfileId);
+        CtrlMain.LastMatch = await RedrawLastMatchAsync();
 
         if(Settings.Default.IsAutoReloadLastMatch) {
             LastMatchLoader.Start();
@@ -101,6 +94,20 @@ public partial class FormMain : ControllableForm
 
         Awaiter.Complete();
     }
+
+    private async void PictureBoxMap_DoubleClickAsync(object sender, EventArgs e)
+    {
+        ClearLastMatch();
+        await RedrawLastMatchAsync();
+    }
+
+    private async void PictureBoxMap1v1_DoubleClick(object sender, EventArgs e)
+    {
+        ClearLastMatch();
+        await RedrawLastMatchAsync();
+    }
+#pragma warning restore VSTHRD200 // Use "Async" suffix for async methods
+#pragma warning restore VSTHRD100 // Avoid async void methods
 
     ///////////////////////////////////////////////////////////////////////
     // Event handlers

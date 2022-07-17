@@ -478,6 +478,7 @@
             this.pictureBoxMap.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxMap.TabIndex = 12;
             this.pictureBoxMap.TabStop = false;
+            this.pictureBoxMap.DoubleClick += new System.EventHandler(this.PictureBoxMap_DoubleClickAsync);
             // 
             // colorDialogChromaKey
             // 
@@ -1077,6 +1078,7 @@
             this.pictureBoxMap1v1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxMap1v1.TabIndex = 18;
             this.pictureBoxMap1v1.TabStop = false;
+            this.pictureBoxMap1v1.DoubleClick += new System.EventHandler(this.PictureBoxMap1v1_DoubleClick);
             // 
             // pictureBox1v1RateHistoryP2
             // 

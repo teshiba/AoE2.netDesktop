@@ -7,6 +7,7 @@ using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.Forms;
+using AoE2NetDesktop.Utility.SysApi;
 using AoE2NetDesktop.Utility.Timer;
 
 using System;
@@ -213,6 +214,14 @@ public partial class FormMain : ControllableForm
         labelMap1v1.Text = string.Empty;
         labelServer1v1.Text = $"Server: -----";
         labelGameId1v1.Text = $"GameID: --------";
+
+        const string IntiStartText = $"Start {DateTimeExt.InvalidDate} {DateTimeExt.InvalidTime}";
+        const string ElapsedTimeText = $"Time {DateTimeExt.InvalidTime}";
+
+        labelStartTime1v1.Text = IntiStartText;
+        labelElapsedTime1v1.Text = ElapsedTimeText;
+        labelStartTimeTeam.Text = IntiStartText;
+        labelElapsedTimeTeam.Text = ElapsedTimeText;
 
         ClearPlayersLabel();
         Refresh();
@@ -467,6 +476,11 @@ public partial class FormMain : ControllableForm
         }
 
         return match;
+    }
+
+    private async Task<Match> RedrawLastMatchAsync()
+    {
+        return await RedrawLastMatchAsync(CtrlSettings.ProfileId);
     }
 
     private async Task<Match> RedrawLastMatchAsync(int profileId)

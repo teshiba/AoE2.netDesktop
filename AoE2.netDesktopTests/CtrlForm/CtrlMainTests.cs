@@ -323,7 +323,7 @@ public class CtrlMainTests
     public void GetOpenedTimeTestLastMatchNull()
     {
         // Arrange
-        var expVal = "--:--:--";
+        var expVal = DateTimeExt.InvalidTime;
         DateTimeExt.TimeZoneInfo = TimeZoneInfo.Utc;
         CtrlMain.LastMatch = null;
 
