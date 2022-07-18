@@ -150,7 +150,7 @@
             this.labelServer.Name = "labelServer";
             this.labelServer.Size = new System.Drawing.Size(242, 19);
             this.labelServer.TabIndex = 2;
-            this.labelServer.Text = "Server: ----------";
+            this.labelServer.Text = "Server : ----------";
             this.labelServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelServer.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelServer_Paint);
             // 
@@ -161,7 +161,7 @@
             this.labelGameId.Name = "labelGameId";
             this.labelGameId.Size = new System.Drawing.Size(152, 19);
             this.labelGameId.TabIndex = 9;
-            this.labelGameId.Text = "GameID: 88888888";
+            this.labelGameId.Text = "GameID : 88888888";
             this.labelGameId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelGameId.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelGameId_Paint);
             // 
@@ -1048,22 +1048,22 @@
             // labelGameId1v1
             // 
             this.labelGameId1v1.BackColor = System.Drawing.SystemColors.Control;
-            this.labelGameId1v1.Location = new System.Drawing.Point(250, 244);
+            this.labelGameId1v1.Location = new System.Drawing.Point(256, 242);
             this.labelGameId1v1.Name = "labelGameId1v1";
-            this.labelGameId1v1.Size = new System.Drawing.Size(141, 19);
+            this.labelGameId1v1.Size = new System.Drawing.Size(141, 21);
             this.labelGameId1v1.TabIndex = 9;
-            this.labelGameId1v1.Text = "GameID: 88888888";
+            this.labelGameId1v1.Text = "GameID : 88888888";
             this.labelGameId1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelGameId1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelGameId_Paint);
             // 
             // labelServer1v1
             // 
             this.labelServer1v1.BackColor = System.Drawing.SystemColors.Control;
-            this.labelServer1v1.Location = new System.Drawing.Point(446, 244);
+            this.labelServer1v1.Location = new System.Drawing.Point(437, 242);
             this.labelServer1v1.Name = "labelServer1v1";
-            this.labelServer1v1.Size = new System.Drawing.Size(141, 19);
+            this.labelServer1v1.Size = new System.Drawing.Size(158, 21);
             this.labelServer1v1.TabIndex = 2;
-            this.labelServer1v1.Text = "Server: ----------";
+            this.labelServer1v1.Text = "Server : ----------";
             this.labelServer1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelServer1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelServer_Paint);
             // 

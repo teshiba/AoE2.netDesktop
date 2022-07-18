@@ -218,7 +218,7 @@ public partial class FormMainTests
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
-            testClass.labelGameId.Text = $"GameID: --------";
+            testClass.labelGameId.Text = $"GameID : --------";
             ret = await testClass.RedrawLastMatchAsync(TestData.AvailableUserProfileId);
             testClass.Close();
             done = true;
@@ -270,7 +270,7 @@ public partial class FormMainTests
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
-            testClass.labelGameId.Text = $"GameID: 00000002";
+            testClass.labelGameId.Text = $"GameID : 00000002";
             expMatch = CtrlMain.LastMatch.MatchId;
             actMatch = (await testClass.RedrawLastMatchAsync(TestData.AvailableUserProfileId)).MatchId;
             testClass.Close();

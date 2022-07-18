@@ -159,13 +159,13 @@ public partial class FormMain : ControllableForm
         SuspendLayout();
 
         if((bool)Settings.Default[propertyName] && FormBorderStyle != FormBorderStyle.None) {
-            MinimumSize = new Size(860, 265);
+            MinimumSize = new Size(860, 270);
             FormBorderStyle = FormBorderStyle.None;
             Top = top;
             Left = left;
             Width = width + 13;
         } else if(!(bool)Settings.Default[propertyName] && FormBorderStyle != FormBorderStyle.Sizable) {
-            MinimumSize = new Size(860, 295);
+            MinimumSize = new Size(860, 315);
             FormBorderStyle = FormBorderStyle.Sizable;
             Top -= RectangleToScreen(ClientRectangle).Top - Top;
             Left -= RectangleToScreen(ClientRectangle).Left - Left;
@@ -204,16 +204,16 @@ public partial class FormMain : ControllableForm
     private void ClearLastMatch()
     {
         labelMap.Text = $"Map: -----";
-        labelServer.Text = $"Server: -----";
-        labelGameId.Text = $"GameID: --------";
+        labelServer.Text = $"Server : -----";
+        labelGameId.Text = $"GameID : --------";
         labelAveRate1.Text = $"Team1 Ave. Rate: ----";
         labelAveRate2.Text = $"Team2 Ave. Rate: ----";
         labelErrText.Text = string.Empty;
 
         pictureBoxMap1v1.Image = null;
         labelMap1v1.Text = string.Empty;
-        labelServer1v1.Text = $"Server: -----";
-        labelGameId1v1.Text = $"GameID: --------";
+        labelServer1v1.Text = $"Server : -----";
+        labelGameId1v1.Text = $"GameID : --------";
 
         const string IntiStartText = $"Start {DateTimeExt.InvalidDate} {DateTimeExt.InvalidTime}";
         const string ElapsedTimeText = $"Time {DateTimeExt.InvalidTime}";
@@ -363,8 +363,8 @@ public partial class FormMain : ControllableForm
         var aveTeam2 = CtrlMain.GetAverageRate(match.Players, TeamType.EvenColorNo);
         pictureBoxMap.Image = CtrlMain.LoadMapIcon(match.MapType);
         labelMap.Text = $"Map: {match.GetMapName()}";
-        labelServer.Text = $"Server: {match.Server}";
-        labelGameId.Text = $"GameID: {match.MatchId}";
+        labelServer.Text = $"Server : {match.Server}";
+        labelGameId.Text = $"GameID : {match.MatchId}";
         labelAveRate1.Text = $"Team1 Ave. Rate:{aveTeam1}";
         labelAveRate2.Text = $"Team2 Ave. Rate:{aveTeam2}";
     }
@@ -373,8 +373,8 @@ public partial class FormMain : ControllableForm
     {
         pictureBoxMap1v1.Image = CtrlMain.LoadMapIcon(match.MapType);
         labelMap1v1.Text = match.GetMapName();
-        labelServer1v1.Text = $"Server: {match.Server}";
-        labelGameId1v1.Text = $"GameID: {match.MatchId}";
+        labelServer1v1.Text = $"Server : {match.Server}";
+        labelGameId1v1.Text = $"GameID : {match.MatchId}";
     }
 
     private void SetPlayersData1v1(Player player1, Player player2)
@@ -490,7 +490,7 @@ public partial class FormMain : ControllableForm
 
         try {
             var playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
-            if(labelGameId.Text == $"GameID: {playerLastmatch.LastMatch.MatchId}") {
+            if(labelGameId.Text == $"GameID : {playerLastmatch.LastMatch.MatchId}") {
                 match = playerLastmatch.LastMatch;
             } else {
                 LeaderboardId? leaderboard;
