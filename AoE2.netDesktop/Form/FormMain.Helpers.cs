@@ -461,12 +461,18 @@ public partial class FormMain : ControllableForm
         if(match.NumPlayers == 2) {
             var leaderboardP1 = await AoE2net.GetLeaderboardAsync(leaderboard, 0, 1, match.Players[0].ProfilId);
             var leaderboardP2 = await AoE2net.GetLeaderboardAsync(leaderboard, 0, 1, match.Players[1].ProfilId);
-            var player1 = leaderboardP1.Leaderboards[0];
-            var player2 = leaderboardP2.Leaderboards[0];
-            match.Players[0].Games = player1.Games;
-            match.Players[1].Games = player2.Games;
-            match.Players[0].Wins = player1.Wins;
-            match.Players[1].Wins = player2.Wins;
+
+            if(leaderboardP1.Leaderboards.Count != 0) {
+                var player1 = leaderboardP1.Leaderboards[0];
+                match.Players[0].Games = player1.Games;
+                match.Players[0].Wins = player1.Wins;
+            }
+
+            if(leaderboardP2.Leaderboards.Count != 0) {
+                var player2 = leaderboardP2.Leaderboards[0];
+                match.Players[1].Games = player2.Games;
+                match.Players[1].Wins = player2.Wins;
+            }
 
             SetPlayersData1v1(match.Players[0], match.Players[1]);
             SetMatchData1v1(match);
