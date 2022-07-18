@@ -15,7 +15,7 @@ rem target informations
 rem output ReportGenerator result directory
 set OUTPUT_DIR="Coverage"
 set HISTORY_DIR="Coverage/History"
-set REPORT_FILE_FILTERS="-*.Designer.cs;-*Program.cs"
+set REPORT_FILE_FILTERS="+*"
 set REPORTTYPES="Html_Light"
 rem set REPORTTYPES="Badges;MarkdownSummary;Html;Html_Light;Html_Dark;HtmlChart;HtmlInline;HtmlSummary;TextSummary;MHtml"
 

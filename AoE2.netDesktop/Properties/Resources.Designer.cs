@@ -9,9 +9,9 @@
 //------------------------------------------------------------------------------
 
 namespace AoE2NetDesktop.Properties {
-    using System;
-    
-    
+    using System.Diagnostics.CodeAnalysis;
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -29,6 +29,7 @@ namespace AoE2NetDesktop.Properties {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [ExcludeFromCodeCoverage(Justification =$"Uncalled private code.")]
         internal Resources() {
         }
         

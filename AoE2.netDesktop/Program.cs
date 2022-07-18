@@ -4,6 +4,7 @@ using AoE2NetDesktop.Form;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms;
 
 /// <summary>
@@ -15,6 +16,7 @@ internal static class Program
     ///  The main entry point for the application.
     /// </summary>
     [STAThread]
+    [ExcludeFromCodeCoverage(Justification = "Executing function does not need to test.")]
     private static void Main()
     {
         Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);

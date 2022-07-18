@@ -2,6 +2,7 @@
 {
     using AoE2NetDesktop.Utility.Forms;
 
+    using System.Diagnostics.CodeAnalysis;
     using System.Windows.Forms;
 
     /// <summary>
@@ -18,9 +19,10 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        [ExcludeFromCodeCoverage(Justification =$"The {nameof(components)} variable is never assigned.")]
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null)) {
+            if(disposing && (components != null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
