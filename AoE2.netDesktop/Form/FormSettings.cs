@@ -160,7 +160,6 @@ public partial class FormSettings : ControllableForm
     private void SaveWindowPosition()
     {
         Settings.Default.WindowLocationSettings = new Point(Left, Top);
-        Settings.Default.WindowSizeSettings = new Size(Width, Height);
     }
 
     ///////////////////////////////////////////////////////////////////////

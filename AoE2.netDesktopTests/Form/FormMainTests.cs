@@ -230,7 +230,6 @@ public partial class FormMainTests
         Assert.IsTrue(done);
     }
 
-
     [TestMethod]
     public void UpdateToolStripMenuItem_ClickAsyncTestIsReloadingByTimerTrue()
     {
