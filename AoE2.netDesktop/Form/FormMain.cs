@@ -59,6 +59,7 @@ public partial class FormMain : ControllableForm
     {
         RestoreWindowStatus();
         ResizePanels();
+        SetChromaKey(Settings.Default.ChromaKey);
 
         try {
             _ = await CtrlMain.InitAsync(language);
@@ -72,8 +73,6 @@ public partial class FormMain : ControllableForm
         } catch(Exception ex) {
             labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
         }
-
-        SetChromaKey(Settings.Default.ChromaKey);
 
         Awaiter.Complete();
     }
