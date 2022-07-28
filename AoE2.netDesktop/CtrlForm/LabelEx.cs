@@ -28,11 +28,20 @@ public static class LabelEx
     public static void SetAoE2netStatus(this Label label, NetStatus status)
     {
         if(NetStatusViewList.TryGetValue(status, out (string statusText, Color foreColor) param)) {
+            SetLabelText(label, param);
+        } else {
+            SetLabelText(label, (string.Empty, new Control().ForeColor));
+        }
+    }
+
+    private static void SetLabelText(Label label, (string statusText, Color foreColor) param)
+    {
+        if(label.InvokeRequired) {
+            label.Invoke(() => label.Text = param.statusText);
+            label.Invoke(() => label.ForeColor = param.foreColor);
+        } else {
             label.Text = param.statusText;
             label.ForeColor = param.foreColor;
-        } else {
-            label.Text = string.Empty;
-            label.ForeColor = new Control().ForeColor;
         }
     }
 }

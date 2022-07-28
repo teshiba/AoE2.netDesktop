@@ -187,8 +187,8 @@ public partial class FormSettings : ControllableForm
             break;
         }
 
-        if (idText != "0")
-        {
+        // if inital value, skip the loading.
+        if(idText != "0") {
             try {
                 _ = await ReloadProfileAsync(idtype, idText);
             } catch(Exception ex) {
