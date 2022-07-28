@@ -187,10 +187,13 @@ public partial class FormSettings : ControllableForm
             break;
         }
 
-        try {
-            _ = await ReloadProfileAsync(idtype, idText);
-        } catch(Exception ex) {
-            labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
+        if (idText != "0")
+        {
+            try {
+                _ = await ReloadProfileAsync(idtype, idText);
+            } catch(Exception ex) {
+                labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
+            }
         }
 
         Awaiter.Complete();
