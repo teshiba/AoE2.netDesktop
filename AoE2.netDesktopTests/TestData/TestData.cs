@@ -9,6 +9,7 @@ public static class TestData
 
     public const string AvailableUserSteamId = "00000000000000001";
     public const string AvailableUserProfileIdString = "1";
+    public const string NotFoundUserProfileIdString = "-1";
     public const int AvailableUserProfileId = 1;
     public const int AvailableUserProfileIdWithoutHistory = 101;
     public const int AvailableUserProfileIdWithoutSteamId = 100;

@@ -34,6 +34,7 @@ public partial class FormSettingsTests
         public NumericUpDown upDownOpacity;
         public TextBox textBoxChromaKey;
         public PictureBox pictureBoxChromaKey;
+        public GroupBox groupBoxPlayer;
         public string InvalidSteamIdString;
 
         public FormSettingsPrivate()
@@ -59,6 +60,7 @@ public partial class FormSettingsTests
             upDownOpacity = this.GetControl<NumericUpDown>("upDownOpacity");
             textBoxChromaKey = this.GetControl<TextBox>("textBoxChromaKey");
             pictureBoxChromaKey = this.GetControl<PictureBox>("pictureBoxChromaKey");
+            groupBoxPlayer = this.GetControl<GroupBox>("groupBoxPlayer");
 
             TestUtilityExt.SetSettings("SteamId", TestData.AvailableUserSteamId);
             TestUtilityExt.SetSettings("ProfileId", TestData.AvailableUserProfileId);

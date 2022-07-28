@@ -449,10 +449,11 @@ public partial class FormSettingsTests
     }
 
     [TestMethod]
-    [DataRow(IdType.Steam, TestData.AvailableUserSteamId)]
-    [DataRow(IdType.Profile, TestData.AvailableUserProfileIdString)]
-    [DataRow(IdType.Profile, TestData.AvailableUserProfileIdWithoutSteamIdString)]
-    public void ReloadProfileAsyncTest(IdType idtype, string idText)
+    [DataRow(IdType.Steam, TestData.AvailableUserSteamId, "Online")]
+    [DataRow(IdType.Profile, TestData.AvailableUserProfileIdString, "Online")]
+    [DataRow(IdType.Profile, TestData.AvailableUserProfileIdWithoutSteamIdString, "Online")]
+    [DataRow(IdType.Profile, TestData.NotFoundUserProfileIdString, "Server Error")]
+    public void ReloadProfileAsyncTest(IdType idtype, string idText, string expNetStatus)
     {
         // Arrange
         var testClass = new FormSettingsPrivate();
@@ -473,6 +474,8 @@ public partial class FormSettingsTests
 
         // Assert
         Assert.IsTrue(done);
+        Assert.IsTrue(testClass.labelAoE2NetStatus.Text.Contains(expNetStatus));
+        Assert.IsTrue(testClass.groupBoxPlayer.Enabled);
     }
 
     [TestMethod]
