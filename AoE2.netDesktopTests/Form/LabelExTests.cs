@@ -25,7 +25,6 @@ public class LabelExTests
 
     [TestMethod]
     [DynamicData(nameof(OnErrorHandlerTestData))]
-
     public void SetAoE2netStatusTest(NetStatus netStatus, string expText, Color expColor)
     {
         // Arrange
