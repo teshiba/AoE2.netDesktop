@@ -1,9 +1,14 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
+using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
+
+using AoE2netDesktopTests.TestUtility;
+
+using LibAoE2net;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -19,9 +24,9 @@ public partial class FormSettingsTests
 {
     private static IEnumerable<object[]> OnErrorHandlerTestData => new List<object[]>
     {
-        new object[] { new HttpRequestException("404"), "Invalid ID", Color.Red },
-        new object[] { new HttpRequestException(string.Empty), "Server Error", Color.Olive },
-        new object[] { new TaskCanceledException(), "Timeout", Color.Purple },
+        new object[] { new HttpRequestException("404"), NetStatus.InvalidRequest },
+        new object[] { new HttpRequestException(string.Empty), NetStatus.ServerError },
+        new object[] { new TaskCanceledException(), NetStatus.ComTimeout },
     };
 
 #pragma warning disable VSTHRD101 // Avoid unsupported async delegates
@@ -407,12 +412,12 @@ public partial class FormSettingsTests
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormSettings_LoadAsync");
-            testClass.httpClient.ForceTaskCanceledException = true;
+            testClass.httpClient.ForceException = true;
             testClass.buttonSetId.PerformClick();
             await testClass.Awaiter.WaitAsync("ButtonSetId_ClickAsync");
 
             // Assert
-            Assert.IsTrue(testClass.labelAoE2NetStatus.Text.Contains("Timeout"));
+            Assert.IsTrue(testClass.labelErrText.Text.Contains("Force Exception"));
 
             // CleanUp
             testClass.Close();
@@ -449,10 +454,11 @@ public partial class FormSettingsTests
     }
 
     [TestMethod]
-    [DataRow(IdType.Steam, TestData.AvailableUserSteamId)]
-    [DataRow(IdType.Profile, TestData.AvailableUserProfileIdString)]
-    [DataRow(IdType.Profile, TestData.AvailableUserProfileIdWithoutSteamIdString)]
-    public void ReloadProfileAsyncTest(IdType idtype, string idText)
+    [DataRow(IdType.Steam, TestData.AvailableUserSteamId, "Online")]
+    [DataRow(IdType.Profile, TestData.AvailableUserProfileIdString, "Online")]
+    [DataRow(IdType.Profile, TestData.AvailableUserProfileIdWithoutSteamIdString, "Online")]
+    [DataRow(IdType.Profile, TestData.NotFoundUserProfileIdString, "Server Error")]
+    public void ReloadProfileAsyncTest(IdType idtype, string idText, string expNetStatus)
     {
         // Arrange
         var testClass = new FormSettingsPrivate();
@@ -463,6 +469,40 @@ public partial class FormSettingsTests
         {
             await testClass.Awaiter.WaitAsync("FormSettings_LoadAsync");
             testClass.ReloadProfileAsync(idtype, idText);
+
+            // CleanUp
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+        Assert.IsTrue(testClass.labelAoE2NetStatus.Text.Contains(expNetStatus));
+        Assert.IsTrue(testClass.groupBoxPlayer.Enabled);
+    }
+
+    [TestMethod]
+    public void ReloadProfileAsyncTestException()
+    {
+        // Arrange
+        var testClass = new FormSettingsPrivate();
+        var testHttpClient = new TestHttpClient() {
+            ForceException = true,
+            SystemApi = new SystemApiStub(1),
+        };
+        AoE2net.ComClient = testHttpClient;
+
+        var done = false;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormSettings_LoadAsync");
+
+            // Assert
+            Assert.IsTrue(testClass.labelErrText.Text.Contains("Force Exception"));
 
             // CleanUp
             testClass.Close();
@@ -611,7 +651,7 @@ public partial class FormSettingsTests
 
     [TestMethod]
     [DynamicData(nameof(OnErrorHandlerTestData))]
-    public void OnErrorHandlerTest(Exception ex, string expValueText, Color expValueForeColor)
+    public void OnErrorHandlerTest(Exception ex, NetStatus netStatus)
     {
         // Arrange
         var testClass = new FormSettingsPrivate();
@@ -620,7 +660,6 @@ public partial class FormSettingsTests
         testClass.OnErrorHandler(ex);
 
         // Assert
-        Assert.AreEqual(expValueText, testClass.labelAoE2NetStatus.Text);
-        Assert.AreEqual(expValueForeColor, testClass.labelAoE2NetStatus.ForeColor);
+        Assert.AreEqual(netStatus, testClass.Controler.NetStatus);
     }
 }

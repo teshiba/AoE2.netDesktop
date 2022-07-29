@@ -5,6 +5,7 @@ using AoE2NetDesktop.Form;
 using AoE2NetDesktop.LibAoE2Net;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
 
 using System;
@@ -62,6 +63,11 @@ public class CtrlSettings : FormControler
     public string UserName { get => playerLastmatch.Name ?? InvalidSteamIdString; }
 
     /// <summary>
+    /// Gets network status.
+    /// </summary>
+    public NetStatus NetStatus { get; internal set; } = NetStatus.Connecting;
+
+    /// <summary>
     /// Show my play history.
     /// </summary>
     public void ShowMyHistory()
@@ -113,6 +119,8 @@ public class CtrlSettings : FormControler
 
             playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(SelectedIdType, idText);
         } catch(HttpRequestException) {
+            ret = false;
+        } catch(TaskCanceledException) {
             ret = false;
         }
 

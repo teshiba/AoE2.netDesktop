@@ -332,6 +332,13 @@ public partial class FormMain : ControllableForm
         switch(e.KeyCode) {
         case Keys.F5: // is called by shortcut key settings of ToolStripMenuItem;
             break;
+        case Keys.Space when e.Shift:
+            Settings.Default.MainFormIsHideTitle = !Settings.Default.MainFormIsHideTitle;
+            break;
+        case Keys.Space when e.Alt:
+            // show the title bar and popup the window menu.
+            Settings.Default.MainFormIsHideTitle = false;
+            break;
         default:
             Size size = GetWindowResizeParams(e);
             Size += size;

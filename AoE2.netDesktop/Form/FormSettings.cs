@@ -27,7 +27,8 @@ public partial class FormSettings : ControllableForm
     {
         InitializeComponent();
         InitIDRadioButton();
-        labelAoE2NetStatus.SetAoE2netStatus(NetStatus.Disconnected);
+        Controler.NetStatus = NetStatus.Disconnected;
+        SetNetStatus();
         SetChromaKey(Settings.Default.ChromaKey);
     }
 
@@ -101,7 +102,8 @@ public partial class FormSettings : ControllableForm
 
     private async Task<bool> ReloadProfileAsync(IdType idtype, string idText)
     {
-        labelAoE2NetStatus.SetAoE2netStatus(NetStatus.Connecting);
+        Controler.NetStatus = NetStatus.Connecting;
+        SetNetStatus();
         groupBoxPlayer.Enabled = false;
         labelSettingsName.Text = $"   Name: --";
         labelSettingsCountry.Text = $"Country: --";
@@ -109,7 +111,8 @@ public partial class FormSettings : ControllableForm
         var ret = await Controler.ReloadProfileAsync(idtype, idText);
 
         if(ret) {
-            labelAoE2NetStatus.SetAoE2netStatus(NetStatus.Connected);
+            Controler.NetStatus = NetStatus.Connected;
+            SetNetStatus();
             switch(Controler.SelectedIdType) {
             case IdType.Steam:
                 textBoxSettingProfileId.Text = Controler.ProfileId.ToString();
@@ -125,6 +128,9 @@ public partial class FormSettings : ControllableForm
                 throw new Exception($"Invalid IdType:{Controler.SelectedIdType}");
 #endif
             }
+        } else {
+            // OnErrorHandler sets the network error status to Controler.NetStatus
+            SetNetStatus();
         }
 
         labelSettingsName.Text = $"   Name: {Controler.UserName}";
@@ -136,18 +142,23 @@ public partial class FormSettings : ControllableForm
         return ret;
     }
 
+    private void SetNetStatus()
+    {
+        labelAoE2NetStatus.SetAoE2netStatus(Controler.NetStatus);
+    }
+
     private void OnErrorHandler(Exception ex)
     {
         if(ex.GetType() == typeof(HttpRequestException)) {
             if(ex.Message.Contains("404")) {
-                labelAoE2NetStatus.SetAoE2netStatus(NetStatus.InvalidRequest);
+                Controler.NetStatus = NetStatus.InvalidRequest;
             } else {
-                labelAoE2NetStatus.SetAoE2netStatus(NetStatus.ServerError);
+                Controler.NetStatus = NetStatus.ServerError;
             }
         }
 
         if(ex.GetType() == typeof(TaskCanceledException)) {
-            labelAoE2NetStatus.SetAoE2netStatus(NetStatus.ComTimeout);
+            Controler.NetStatus = NetStatus.ComTimeout;
         }
     }
 
@@ -187,8 +198,8 @@ public partial class FormSettings : ControllableForm
             break;
         }
 
-        if (idText != "0")
-        {
+        // if inital value, skip the loading.
+        if(idText != "0") {
             try {
                 _ = await ReloadProfileAsync(idtype, idText);
             } catch(Exception ex) {

@@ -305,7 +305,6 @@ public partial class FormMainTests
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
-            testClass.httpClient.ForceHttpRequestException = true;
             testClass.FormMain_KeyDown(Keys.F5);
 
             // CleanUp
@@ -365,6 +364,58 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsTrue(done);
+    }
+
+    [TestMethod]
+    public void FormMainTestTabControlMain_KeyDownShiftSpace()
+    {
+        // Arrange
+        var done = false;
+        var testClass = new FormMainPrivate();
+        var expVal = !TestUtilityExt.GetSettings<bool>("MainFormIsHideTitle");
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            testClass.FormMain_KeyDown(Keys.Space | Keys.Shift);
+
+            // CleanUp
+            done = true;
+            testClass.Close();
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+        Assert.AreEqual(expVal, TestUtilityExt.GetSettings<bool>("MainFormIsHideTitle"));
+    }
+
+    [TestMethod]
+    public void FormMainTestTabControlMain_KeyDownAltSpace()
+    {
+        // Arrange
+        var done = false;
+        var testClass = new FormMainPrivate();
+        var expVal = TestUtilityExt.GetSettings<bool>("MainFormIsHideTitle");
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            testClass.FormMain_KeyDown(Keys.Space | Keys.Alt);
+
+            // CleanUp
+            done = true;
+            testClass.Close();
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+        Assert.IsFalse(TestUtilityExt.GetSettings<bool>("MainFormIsHideTitle"));
     }
 
     [TestMethod]
