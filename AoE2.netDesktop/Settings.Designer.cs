@@ -145,7 +145,7 @@ namespace AoE2NetDesktop {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public decimal MainFormOpacityPercent {
             get {
                 return ((decimal)(this["MainFormOpacityPercent"]));

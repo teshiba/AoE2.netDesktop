@@ -123,11 +123,6 @@
             0,
             0});
             this.upDownOpacity.Location = new System.Drawing.Point(97, 105);
-            this.upDownOpacity.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
             this.upDownOpacity.Name = "upDownOpacity";
             this.upDownOpacity.Size = new System.Drawing.Size(66, 25);
             this.upDownOpacity.TabIndex = 20;
@@ -376,7 +371,7 @@
             this.groupBoxBehavior.TabIndex = 31;
             this.groupBoxBehavior.TabStop = false;
             this.groupBoxBehavior.Text = "Behavior";
-            // 
+            //
             // checkBoxVisibleGameTime
             // 
             this.checkBoxVisibleGameTime.AutoSize = true;

@@ -198,7 +198,7 @@ public partial class FormSettingsTests
     }
 
     [TestMethod]
-    [DataRow(9)]
+    [DataRow(-1)]
     [DataRow(101)]
     public void FormSettingsTestUpDownOpacity_ValueChangedOutOfRange(int expVal)
     {
@@ -468,7 +468,9 @@ public partial class FormSettingsTests
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormSettings_LoadAsync");
+            await testClass.Awaiter.WaitAsync("ReloadProfileAsync");
             testClass.ReloadProfileAsync(idtype, idText);
+            await testClass.Awaiter.WaitAsync("ReloadProfileAsync");
 
             // CleanUp
             testClass.Close();
@@ -484,7 +486,7 @@ public partial class FormSettingsTests
     }
 
     [TestMethod]
-    public void ReloadProfileAsyncTestException()
+    public void FormSettings_LoadAsyncTestException()
     {
         // Arrange
         var testClass = new FormSettingsPrivate();
@@ -527,6 +529,7 @@ public partial class FormSettingsTests
         {
             await testClass.Awaiter.WaitAsync("FormSettings_LoadAsync");
             testClass.ReloadProfileAsync(IdType.NotSelected, TestData.AvailableUserProfileIdWithoutSteamIdString);
+            await testClass.Awaiter.WaitAsync("ReloadProfileAsync");
 
             // CleanUp
             testClass.Close();
