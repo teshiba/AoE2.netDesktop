@@ -1,5 +1,10 @@
 ﻿namespace LibAoE2net.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Threading.Tasks;
+
     using AoE2NetDesktop.LibAoE2Net.Functions;
     using AoE2NetDesktop.LibAoE2Net.JsonFormat;
     using AoE2NetDesktop.LibAoE2Net.Parameters;
@@ -7,11 +12,6 @@
     using AoE2NetDesktop.Utility;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Threading.Tasks;
 
     [TestClass]
     public class AoE2netTests
@@ -245,12 +245,12 @@
             // Arrange
             var expVal = new List<PlayerRating> {
                 new PlayerRating {
-                    Drops = 0,
-                    NumLosses = 100,
-                    NumWins = 100,
-                    Rating = 1111,
-                    Streak = 0,
-                    TimeStamp = 1643808142,
+                    Drops = 1,
+                    NumLosses = 222,
+                    NumWins = 111,
+                    Rating = 1234,
+                    Streak = 12,
+                    TimeStamp = 123456,
                 },
             };
 
@@ -281,12 +281,12 @@
             // Arrange
             var expVal = new List<PlayerRating> {
                 new PlayerRating {
-                    Drops = 0,
-                    NumLosses = 100,
-                    NumWins = 100,
-                    Rating = 9999,
-                    Streak = 0,
-                    TimeStamp = 1643808142,
+                    Drops = 1,
+                    NumLosses = 222,
+                    NumWins = 111,
+                    Rating = 1234,
+                    Streak = 12,
+                    TimeStamp = 123456,
                 },
             };
 
@@ -360,6 +360,7 @@
         public void GetCivImageLocationTest(string civ)
         {
             // Arrange
+            AoE2net.Reset();
             var expVal = $"https://aoe2.net/assets/images/crests/25x25/aztecs.png";
 
             // Act
@@ -367,6 +368,9 @@
 
             // Assert
             Assert.AreEqual(expVal, actVal);
+
+            // restore ComClient setting.
+            AoE2net.ComClient = new TestHttpClient();
         }
 
         [TestMethod]

@@ -5,6 +5,7 @@ using AoE2NetDesktop.Form;
 using AoE2NetDesktop.LibAoE2Net;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
 
 using System;
@@ -24,28 +25,12 @@ public class CtrlSettings : FormControler
     /// </summary>
     public CtrlSettings()
     {
-        PropertySetting = new PropertySettings {
-            ChromaKey = Settings.Default.ChromaKey,
-            IsAlwaysOnTop = Settings.Default.MainFormIsAlwaysOnTop,
-            Opacity = (double)Settings.Default.MainFormOpacityPercent * 0.01,
-            IsTransparency = Settings.Default.MainFormTransparency,
-            IsHideTitle = Settings.Default.MainFormIsHideTitle,
-            DrawHighQuality = Settings.Default.DrawHighQuality,
-            IsAutoReloadLastMatch = Settings.Default.IsAutoReloadLastMatch,
-        };
-
         SelectedIdType = (IdType)Settings.Default.SelectedIdType;
-
         playerLastmatch = new PlayerLastmatch() {
             SteamId = Settings.Default.SteamId,
             ProfileId = Settings.Default.ProfileId,
         };
     }
-
-    /// <summary>
-    /// Gets or sets formProperty.
-    /// </summary>
-    public PropertySettings PropertySetting { get; set; }
 
     /// <summary>
     /// Gets FormHistory.
@@ -76,6 +61,11 @@ public class CtrlSettings : FormControler
     /// Gets user name.
     /// </summary>
     public string UserName { get => playerLastmatch.Name ?? InvalidSteamIdString; }
+
+    /// <summary>
+    /// Gets network status.
+    /// </summary>
+    public NetStatus NetStatus { get; internal set; } = NetStatus.Connecting;
 
     /// <summary>
     /// Show my play history.
@@ -129,6 +119,8 @@ public class CtrlSettings : FormControler
 
             playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(SelectedIdType, idText);
         } catch(HttpRequestException) {
+            ret = false;
+        } catch(TaskCanceledException) {
             ret = false;
         }
 

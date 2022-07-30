@@ -3,11 +3,12 @@
 using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.Tests;
 
+using AoE2netDesktopTests.TestUtility;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 
 [TestClass]
 public class UnitImagesTests
@@ -19,10 +20,10 @@ public class UnitImagesTests
         var files = typeof(UnitImages).GetField<Dictionary<string, string>>("FileNames");
         foreach(var item in files) {
             // Act
-            var actVal = File.Exists(UnitImages.GetFileName(item.Key));
+            var actVal = UnitImages.GetFileName(item.Key);
 
             // Assert
-            Assert.IsTrue(actVal);
+            Assert.IsFalse(actVal.Contains("265_50730.DDS"));
         }
     }
 
@@ -30,10 +31,13 @@ public class UnitImagesTests
     public void LoadTest()
     {
         // Arrange
-        var expVal = 256;
+        AoE2DeApp.SystemApi = new SystemApiStub(1) {
+            AoE2deAppStatus = AppStatus.NotInstalled,
+        };
+        var expVal = 1;
 
         // Act
-        var actVal = UnitImages.Load("Britons", Color.Blue);
+        var actVal = UnitImages.Load("invalidCiv", Color.Blue);
 
         // Assert
         Assert.AreEqual(expVal, actVal.Width);

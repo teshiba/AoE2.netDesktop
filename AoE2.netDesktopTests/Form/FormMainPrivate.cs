@@ -40,7 +40,6 @@ public partial class FormMainTests
             TestUtilityExt.SetSettings("SteamId", TestData.AvailableUserSteamId);
             TestUtilityExt.SetSettings("ProfileId", TestData.AvailableUserProfileId);
             TestUtilityExt.SetSettings("SelectedIdType", IdType.Profile);
-            TestUtilityExt.SetSettings("IsAutoReloadLastMatch", false);
         }
 
         public FormSettings FormSettings
@@ -106,6 +105,16 @@ public partial class FormMainTests
         public void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Invoke("ExitToolStripMenuItem_Click", sender, e);
+        }
+
+        public void PictureBoxMap_DoubleClick(object sender, EventArgs e)
+        {
+            this.Invoke("PictureBoxMap_DoubleClickAsync", sender, e);
+        }
+
+        public void PictureBoxMap1v1_DoubleClick(object sender, EventArgs e)
+        {
+            this.Invoke("PictureBoxMap1v1_DoubleClick", sender, e);
         }
 
         public async Task<Match> RedrawLastMatchAsync(int profileId)

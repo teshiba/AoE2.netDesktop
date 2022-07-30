@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// </summary>
 public class MapIcons
 {
-    private const string MapiconsPath = $@"widgetui\textures\menu\mapicons\";
+    private const string MapiconsPath = $@"widgetui/textures/menu/mapicons/";
 
 #if false // Not defined!
 "cm_canals.DDS"

@@ -6,7 +6,7 @@ using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.DDS;
 using AoE2NetDesktop.Utility.Forms;
-using AoE2NetDesktop.Utility.User32;
+using AoE2NetDesktop.Utility.SysApi;
 
 using System;
 using System.Collections.Generic;
@@ -29,12 +29,17 @@ public class CtrlMain : FormControler
     /// <summary>
     /// Gets or sets auto reload interval second.
     /// </summary>
+    public static Match LastMatch { get; set; }
+
+    /// <summary>
+    /// Gets or sets auto reload interval second.
+    /// </summary>
     public static int IntervalSec { get; set; } = 60 * 5;
 
     /// <summary>
     /// Gets or sets a value indicating whether reloading by timer.
     /// </summary>
-    public static bool IsTimerReloading { get; set; } = false;
+    public static bool IsReloadingByTimer { get; set; } = false;
 
     /// <summary>
     /// Gets or sets system API.
@@ -157,5 +162,38 @@ public class CtrlMain : FormControler
     public static string GetWinsString(Player player)
     {
         return player.Wins?.ToString() ?? "N/A";
+    }
+
+    /// <summary>
+    /// Gets Elapsed Time.
+    /// </summary>
+    /// <returns>Elapsed time.</returns>
+    public static string GetElapsedTime()
+    {
+        var ret = DateTimeExt.InvalidTime;
+
+        if(LastMatch != null) {
+            var realTime = LastMatch.GetElapsedTime().ToString(@"h\:mm\:ss");
+            var inGameTime = new TimeSpan((long)(LastMatch.GetElapsedTime().Ticks * 1.7)).ToString(@"h\:mm\:ss");
+            ret = $"{realTime} ({inGameTime} in game)";
+        }
+
+        return ret;
+    }
+
+    /// <summary>
+    /// Gets Opened Time.
+    /// </summary>
+    /// <returns>Opened time.</returns>
+    public static string GetOpenedTime()
+    {
+        var ret = DateTimeExt.InvalidTime;
+
+        if(LastMatch != null) {
+            var timezone = DateTimeExt.TimeZoneInfo.ToString().Split(" ")[0].Replace("(", string.Empty).Replace(")", string.Empty);
+            ret = $"{DateTimeExt.GetDateTimeFormat(LastMatch.GetOpenedTime())} {timezone}";
+        }
+
+        return ret;
     }
 }

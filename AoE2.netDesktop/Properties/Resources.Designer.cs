@@ -9,9 +9,9 @@
 //------------------------------------------------------------------------------
 
 namespace AoE2NetDesktop.Properties {
-    using System;
-    
-    
+    using System.Diagnostics.CodeAnalysis;
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,13 +22,14 @@ namespace AoE2NetDesktop.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        [ExcludeFromCodeCoverage(Justification =$"Uncalled private code.")]
         internal Resources() {
         }
         
@@ -36,7 +37,7 @@ namespace AoE2NetDesktop.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AoE2NetDesktop.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +52,7 @@ namespace AoE2NetDesktop.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,9 +64,9 @@ namespace AoE2NetDesktop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon aoe2netDesktop {
+        public static System.Drawing.Icon aoe2netDesktopAppIcon {
             get {
-                object obj = ResourceManager.GetObject("aoe2netDesktop", resourceCulture);
+                object obj = ResourceManager.GetObject("aoe2netDesktopAppIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

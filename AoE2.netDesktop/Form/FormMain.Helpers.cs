@@ -7,6 +7,8 @@ using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.Forms;
+using AoE2NetDesktop.Utility.SysApi;
+using AoE2NetDesktop.Utility.Timer;
 
 using System;
 using System.Collections.Generic;
@@ -20,11 +22,16 @@ using System.Windows.Forms;
 /// </summary>
 public partial class FormMain : ControllableForm
 {
-    private Dictionary<string, Action<PropertySettings>> onChangePropertyHandler;
+    private Dictionary<string, Action<string>> onChangePropertyHandler;
     private FormSettings formSettings;
 
     /// <summary>
-    /// Gets lastMatchLoader.
+    /// Gets GameTimer.
+    /// </summary>
+    public GameTimer GameTimer { get; }
+
+    /// <summary>
+    /// Gets LastMatchLoader.
     /// </summary>
     public LastMatchLoader LastMatchLoader { get; }
 
@@ -36,75 +43,138 @@ public partial class FormMain : ControllableForm
     private void InitOnChangePropertyHandler()
     {
         onChangePropertyHandler = new() {
-            { nameof(PropertySettings.ChromaKey), OnChangePropertyChromaKey },
-            { nameof(PropertySettings.IsHideTitle), OnChangeIsHideTitle },
-            { nameof(PropertySettings.IsAlwaysOnTop), OnChangePropertyIsAlwaysOnTop },
-            { nameof(PropertySettings.Opacity), OnChangePropertyOpacity },
-            { nameof(PropertySettings.IsTransparency), OnChangePropertyIsTransparency },
-            { nameof(PropertySettings.DrawHighQuality), OnChangePropertyDrawHighQuality },
-            { nameof(PropertySettings.IsAutoReloadLastMatch), OnChangeIsAutoReloadLastMatch },
+            { nameof(Settings.Default.ChromaKey), OnChangePropertyChromaKey },
+            { nameof(Settings.Default.MainFormIsHideTitle), OnChangePropertyIsHideTitle },
+            { nameof(Settings.Default.MainFormIsAlwaysOnTop), OnChangePropertyIsAlwaysOnTop },
+            { nameof(Settings.Default.MainFormOpacityPercent), OnChangePropertyOpacity },
+            { nameof(Settings.Default.MainFormIsTransparency), OnChangePropertyIsTransparency },
+            { nameof(Settings.Default.DrawHighQuality), OnChangePropertyDrawHighQuality },
+            { nameof(Settings.Default.IsAutoReloadLastMatch), OnChangePropertyIsAutoReloadLastMatch },
+            { nameof(Settings.Default.VisibleGameTime), OnChangePropertyVisibleGameTime },
         };
+
+        Settings.Default.PropertyChanged += Default_PropertyChanged;
+    }
+
+    private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        onChangePropertyHandler.TryGetValue(e.PropertyName, out Action<string> action);
+        if(action != null) {
+            action.Invoke(e.PropertyName);
+        }
     }
 
     private void SetOptionParams()
     {
-        SetChromaKey(CtrlSettings.PropertySetting.ChromaKey);
-        OnChangeIsHideTitle(CtrlSettings.PropertySetting);
-        TopMost = CtrlSettings.PropertySetting.IsAlwaysOnTop;
-        Opacity = CtrlSettings.PropertySetting.Opacity;
-        OnChangePropertyIsTransparency(CtrlSettings.PropertySetting);
-        OnChangeIsAutoReloadLastMatch(CtrlSettings.PropertySetting);
-        DrawEx.DrawHighQuality = CtrlSettings.PropertySetting.DrawHighQuality;
+        SetChromaKey(nameof(Settings.Default.ChromaKey));
+        ChangePropertyIsHideTitle(nameof(Settings.Default.MainFormIsHideTitle));
+        TopMost = Settings.Default.MainFormIsAlwaysOnTop;
+        Opacity = (double)Settings.Default.MainFormOpacityPercent * 0.01;
+        ChangePropertyIsTransparency(nameof(Settings.Default.MainFormIsTransparency));
+        ChangePropertyIsAutoReloadLastMatch(nameof(Settings.Default.IsAutoReloadLastMatch));
+        ChangePropertyVisibleGameTime(nameof(Settings.Default.VisibleGameTime));
+        DrawEx.DrawHighQuality = Settings.Default.DrawHighQuality;
     }
 
-    private void OnChangeProperty(object sender, PropertyChangedEventArgs e)
+    private void ChangePropertyIsTransparency(string propertyName)
     {
-        onChangePropertyHandler.TryGetValue(e.PropertyName, out Action<PropertySettings> action);
-        if(action != null) {
-            action.Invoke((PropertySettings)sender);
-        } else {
-            throw new ArgumentOutOfRangeException($"Invalid {nameof(e.PropertyName)}: {e.PropertyName}");
-        }
-    }
-
-    private void OnChangePropertyChromaKey(PropertySettings propertySettings)
-    {
-        SetChromaKey(propertySettings.ChromaKey);
-        OnChangePropertyIsTransparency(propertySettings);
-    }
-
-    private void OnChangePropertyDrawHighQuality(PropertySettings propertySettings)
-    {
-        DrawEx.DrawHighQuality = propertySettings.DrawHighQuality;
-        Refresh();
-    }
-
-    private void OnChangePropertyIsTransparency(PropertySettings propertySettings)
-    {
-        if(propertySettings.IsTransparency) {
-            TransparencyKey = ColorTranslator.FromHtml(CtrlSettings.PropertySetting.ChromaKey);
+        if((bool)Settings.Default[propertyName]) {
+            try {
+                TransparencyKey = ColorTranslator.FromHtml(Settings.Default.ChromaKey);
+            } catch(ArgumentException) {
+                TransparencyKey = default;
+            }
         } else {
             TransparencyKey = default;
         }
     }
 
-    private void OnChangePropertyOpacity(PropertySettings propertySettings)
+    private void ChangePropertyIsAutoReloadLastMatch(string propertyName)
     {
-        Opacity = propertySettings.Opacity;
-    }
-
-    private void OnChangePropertyIsAlwaysOnTop(PropertySettings propertySettings)
-    {
-        TopMost = propertySettings.IsAlwaysOnTop;
-    }
-
-    private void OnChangeIsAutoReloadLastMatch(PropertySettings propertySettings)
-    {
-        if(propertySettings.IsAutoReloadLastMatch) {
+        if((bool)Settings.Default[propertyName]) {
             LastMatchLoader.Start();
         } else {
             LastMatchLoader.Stop();
         }
+    }
+
+    private void ChangePropertyVisibleGameTime(string propertyName)
+    {
+        var visible = (bool)Settings.Default[propertyName];
+        labelStartTime1v1.Visible = visible;
+        labelStartTimeTeam.Visible = visible;
+        labelElapsedTime1v1.Visible = visible;
+        labelElapsedTimeTeam.Visible = visible;
+    }
+
+    private void OnChangePropertyChromaKey(string propertyName)
+    {
+        SetChromaKey((string)Settings.Default[propertyName]);
+        ChangePropertyIsTransparency(nameof(Settings.Default.MainFormIsTransparency));
+    }
+
+    private void OnChangePropertyDrawHighQuality(string propertyName)
+    {
+        DrawEx.DrawHighQuality = (bool)Settings.Default[propertyName];
+        Refresh();
+    }
+
+    private void OnChangePropertyIsTransparency(string propertyName)
+    {
+        ChangePropertyIsTransparency(propertyName);
+    }
+
+    private void OnChangePropertyOpacity(string propertyName)
+    {
+        var opacityPercent = (decimal)Settings.Default[propertyName];
+        Opacity = (double)opacityPercent * 0.01;
+    }
+
+    private void OnChangePropertyIsAlwaysOnTop(string propertyName)
+    {
+        TopMost = (bool)Settings.Default[propertyName];
+    }
+
+    private void OnChangePropertyIsAutoReloadLastMatch(string propertyName)
+    {
+        ChangePropertyIsAutoReloadLastMatch(propertyName);
+    }
+
+    private void OnChangePropertyVisibleGameTime(string propertyName)
+    {
+        ChangePropertyVisibleGameTime(propertyName);
+    }
+
+    private void OnChangePropertyIsHideTitle(string propertyName)
+    {
+        ChangePropertyIsHideTitle(propertyName);
+    }
+
+    private void ChangePropertyIsHideTitle(string propertyName)
+    {
+        var top = RectangleToScreen(ClientRectangle).Top;
+        var left = RectangleToScreen(ClientRectangle).Left;
+        var width = RectangleToScreen(ClientRectangle).Width;
+
+        SuspendLayout();
+
+        if((bool)Settings.Default[propertyName] && FormBorderStyle != FormBorderStyle.None) {
+            MinimumSize = new Size(860, 270);
+            FormBorderStyle = FormBorderStyle.None;
+            Top = top;
+            Left = left;
+            Width = width + 13;
+        } else if(!(bool)Settings.Default[propertyName] && FormBorderStyle != FormBorderStyle.Sizable) {
+            MinimumSize = new Size(860, 315);
+            FormBorderStyle = FormBorderStyle.Sizable;
+            Top -= RectangleToScreen(ClientRectangle).Top - Top;
+            Left -= RectangleToScreen(ClientRectangle).Left - Left;
+            Width = width - 13;
+        } else {
+            // nothing to do.
+        }
+
+        ResumeLayout();
     }
 
     private void InitEventHandler()
@@ -115,33 +185,6 @@ public partial class FormMain : ControllableForm
                 panelItem.MouseMove += Controls_MouseMove;
             }
         }
-    }
-
-    private void OnChangeIsHideTitle(PropertySettings propertySettings)
-    {
-        var top = RectangleToScreen(ClientRectangle).Top;
-        var left = RectangleToScreen(ClientRectangle).Left;
-        var width = RectangleToScreen(ClientRectangle).Width;
-
-        SuspendLayout();
-
-        if(propertySettings.IsHideTitle && FormBorderStyle != FormBorderStyle.None) {
-            MinimumSize = new Size(860, 275);
-            FormBorderStyle = FormBorderStyle.None;
-            Top = top;
-            Left = left;
-            Width = width + 13;
-        } else if(!propertySettings.IsHideTitle && FormBorderStyle != FormBorderStyle.Sizable) {
-            MinimumSize = new Size(860, 310);
-            FormBorderStyle = FormBorderStyle.Sizable;
-            Top -= RectangleToScreen(ClientRectangle).Top - Top;
-            Left -= RectangleToScreen(ClientRectangle).Left - Left;
-            Width = width - 13;
-        } else {
-            // nothing to do.
-        }
-
-        ResumeLayout();
     }
 
     private void RestoreWindowStatus()
@@ -161,16 +204,24 @@ public partial class FormMain : ControllableForm
     private void ClearLastMatch()
     {
         labelMap.Text = $"Map: -----";
-        labelServer.Text = $"Server: -----";
-        labelGameId.Text = $"GameID: --------";
+        labelServer.Text = $"Server : -----";
+        labelGameId.Text = $"GameID : --------";
         labelAveRate1.Text = $"Team1 Ave. Rate: ----";
         labelAveRate2.Text = $"Team2 Ave. Rate: ----";
         labelErrText.Text = string.Empty;
 
         pictureBoxMap1v1.Image = null;
         labelMap1v1.Text = string.Empty;
-        labelServer1v1.Text = $"Server: -----";
-        labelGameId1v1.Text = $"GameID: --------";
+        labelServer1v1.Text = $"Server : -----";
+        labelGameId1v1.Text = $"GameID : --------";
+
+        const string IntiStartText = $"Start {DateTimeExt.InvalidDate} {DateTimeExt.InvalidTime}";
+        const string ElapsedTimeText = $"Time {DateTimeExt.InvalidTime}";
+
+        labelStartTime1v1.Text = IntiStartText;
+        labelElapsedTime1v1.Text = ElapsedTimeText;
+        labelStartTimeTeam.Text = IntiStartText;
+        labelElapsedTimeTeam.Text = ElapsedTimeText;
 
         ClearPlayersLabel();
         Refresh();
@@ -291,52 +342,19 @@ public partial class FormMain : ControllableForm
 
     private void SetChromaKey(Color chromaKey)
     {
-        for(int i = 0; i < AoE2DeApp.PlayerNumMax; i++) {
-            labelCiv[i].BackColor = Color.Transparent;
-            labelName[i].BackColor = chromaKey;
-            labelRate[i].BackColor = chromaKey;
-            pictureBox[i].BackColor = chromaKey;
+        foreach(Control item in Controls) {
+            foreach(Control panelItem in ((Panel)item).Controls) {
+                panelItem.BackColor = chromaKey;
+            }
         }
 
         BackColor = chromaKey;
         panelTeam1.BackColor = chromaKey;
         panelTeam2.BackColor = chromaKey;
-        labelAveRate1.BackColor = chromaKey;
-        labelAveRate2.BackColor = chromaKey;
-        labelMap.BackColor = chromaKey;
-        labelGameId.BackColor = chromaKey;
-        labelServer.BackColor = chromaKey;
 
-        pictureBoxCiv1v1P1.BackColor = chromaKey;
-        pictureBoxCiv1v1P2.BackColor = chromaKey;
-        pictureBoxUnit1v1P1.BackColor = chromaKey;
-        pictureBoxUnit1v1P2.BackColor = chromaKey;
-        pictureBox1v1RateHistoryP1.BackColor = chromaKey;
-        pictureBox1v1RateHistoryP2.BackColor = chromaKey;
-
-        labelName1v1P1.BackColor = chromaKey;
-        labelName1v1P2.BackColor = chromaKey;
-        labelCiv1v1P1.BackColor = chromaKey;
-        labelCiv1v1P2.BackColor = chromaKey;
-        labelTeamResultP1.BackColor = chromaKey;
-        labelTeamResultP2.BackColor = chromaKey;
-
-        labelRate1v1.BackColor = chromaKey;
-        labelRate1v1P1.BackColor = chromaKey;
-        labelRate1v1P2.BackColor = chromaKey;
-
-        labelWins1v1.BackColor = chromaKey;
-        labelWins1v1P1.BackColor = chromaKey;
-        labelWins1v1P2.BackColor = chromaKey;
-
-        labelLoses.BackColor = chromaKey;
-        labelLoses1v1P1.BackColor = chromaKey;
-        labelLoses1v1P2.BackColor = chromaKey;
-
-        labelMap1v1.BackColor = chromaKey;
-        pictureBoxMap1v1.BackColor = chromaKey;
-        labelGameId1v1.BackColor = chromaKey;
-        labelServer1v1.BackColor = chromaKey;
+        for(int i = 0; i < labelColor.Count; i++) {
+            labelColor[i].BackColor = AoE2DeApp.PlayerColors[i];
+        }
     }
 
     private void SetMatchData(Match match)
@@ -345,8 +363,8 @@ public partial class FormMain : ControllableForm
         var aveTeam2 = CtrlMain.GetAverageRate(match.Players, TeamType.EvenColorNo);
         pictureBoxMap.Image = CtrlMain.LoadMapIcon(match.MapType);
         labelMap.Text = $"Map: {match.GetMapName()}";
-        labelServer.Text = $"Server: {match.Server}";
-        labelGameId.Text = $"GameID: {match.MatchId}";
+        labelServer.Text = $"Server : {match.Server}";
+        labelGameId.Text = $"GameID : {match.MatchId}";
         labelAveRate1.Text = $"Team1 Ave. Rate:{aveTeam1}";
         labelAveRate2.Text = $"Team2 Ave. Rate:{aveTeam2}";
     }
@@ -355,8 +373,8 @@ public partial class FormMain : ControllableForm
     {
         pictureBoxMap1v1.Image = CtrlMain.LoadMapIcon(match.MapType);
         labelMap1v1.Text = match.GetMapName();
-        labelServer1v1.Text = $"Server: {match.Server}";
-        labelGameId1v1.Text = $"GameID: {match.MatchId}";
+        labelServer1v1.Text = $"Server : {match.Server}";
+        labelGameId1v1.Text = $"GameID : {match.MatchId}";
     }
 
     private void SetPlayersData1v1(Player player1, Player player2)
@@ -409,12 +427,26 @@ public partial class FormMain : ControllableForm
         }
     }
 
-    private void OnTimer(object sender, EventArgs e)
+    private bool OnTimerGame()
+    {
+        // update text
+        Invoke(() =>
+        {
+            labelStartTimeTeam.Text = CtrlMain.GetOpenedTime();
+            labelElapsedTimeTeam.Text = CtrlMain.GetElapsedTime();
+            labelStartTime1v1.Text = CtrlMain.GetOpenedTime();
+            labelElapsedTime1v1.Text = CtrlMain.GetElapsedTime();
+        });
+
+        return CtrlMain.LastMatch.Finished == null;
+    }
+
+    private void OnTimerLastMatchLoader(object sender, EventArgs e)
     {
         LastMatchLoader.Stop();
         if(CtrlMain.IsAoE2deActive()) {
             labelAoE2DEActive.Invoke(() => { labelAoE2DEActive.Text = "AoE2DE active"; });
-            CtrlMain.IsTimerReloading = true;
+            CtrlMain.IsReloadingByTimer = true;
             Invoke(() => updateToolStripMenuItem.PerformClick());
         } else {
             labelAoE2DEActive.Invoke(() => { labelAoE2DEActive.Text = "AoE2DE NOT active"; });
@@ -429,12 +461,18 @@ public partial class FormMain : ControllableForm
         if(match.NumPlayers == 2) {
             var leaderboardP1 = await AoE2net.GetLeaderboardAsync(leaderboard, 0, 1, match.Players[0].ProfilId);
             var leaderboardP2 = await AoE2net.GetLeaderboardAsync(leaderboard, 0, 1, match.Players[1].ProfilId);
-            var player1 = leaderboardP1.Leaderboards[0];
-            var player2 = leaderboardP2.Leaderboards[0];
-            match.Players[0].Games = player1.Games;
-            match.Players[1].Games = player2.Games;
-            match.Players[0].Wins = player1.Wins;
-            match.Players[1].Wins = player2.Wins;
+
+            if(leaderboardP1.Leaderboards.Count != 0) {
+                var player1 = leaderboardP1.Leaderboards[0];
+                match.Players[0].Games = player1.Games;
+                match.Players[0].Wins = player1.Wins;
+            }
+
+            if(leaderboardP2.Leaderboards.Count != 0) {
+                var player2 = leaderboardP2.Leaderboards[0];
+                match.Players[1].Games = player2.Games;
+                match.Players[1].Wins = player2.Wins;
+            }
 
             SetPlayersData1v1(match.Players[0], match.Players[1]);
             SetMatchData1v1(match);
@@ -446,6 +484,11 @@ public partial class FormMain : ControllableForm
         return match;
     }
 
+    private async Task<Match> RedrawLastMatchAsync()
+    {
+        return await RedrawLastMatchAsync(CtrlSettings.ProfileId);
+    }
+
     private async Task<Match> RedrawLastMatchAsync(int profileId)
     {
         Match match = null;
@@ -453,7 +496,9 @@ public partial class FormMain : ControllableForm
 
         try {
             var playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
-            if(labelGameId.Text != $"GameID: {playerLastmatch.LastMatch.MatchId}") {
+            if(labelGameId.Text == $"GameID : {playerLastmatch.LastMatch.MatchId}") {
+                match = playerLastmatch.LastMatch;
+            } else {
                 LeaderboardId? leaderboard;
                 var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId);
                 if(playerMatchHistory.Count != 0
@@ -467,6 +512,7 @@ public partial class FormMain : ControllableForm
 
                 match = await SetLastMatchDataAsync(match, leaderboard);
                 SwitchView(match);
+                GameTimer.Start();
             }
         } catch(Exception ex) {
             labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";

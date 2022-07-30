@@ -1,6 +1,7 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net.Functions;
 
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.Utility.SysApi;
 
 using System;
 using System.Linq;
@@ -17,7 +18,30 @@ public static class MatchExt
     /// <returns>local time value as DateTime type.</returns>
     public static DateTime GetOpenedTime(this Match match)
     {
-        var ret = DateTimeOffset.FromUnixTimeSeconds(match.Opened ?? 0).LocalDateTime;
+        var ret = DateTimeExt.FromUnixTimeSeconds(match.Opened ?? 0);
+        return ret;
+    }
+
+    /// <summary>
+    /// Get Elapsed Time from opened time that converted to local time.
+    /// </summary>
+    /// <param name="match">match.</param>
+    /// <returns>local time value as DateTime type.</returns>
+    public static TimeSpan GetElapsedTime(this Match match)
+    {
+        TimeSpan ret;
+
+        if(match.Opened is long opened) {
+            if(match.Finished is long finished) {
+                ret = TimeSpan.FromSeconds(finished - opened);
+            } else {
+                var timeNow = DateTimeOffsetExt.UtcNow().ToUnixTimeSeconds();
+                ret = TimeSpan.FromSeconds(timeNow - opened);
+            }
+        } else {
+            ret = default;
+        }
+
         return ret;
     }
 

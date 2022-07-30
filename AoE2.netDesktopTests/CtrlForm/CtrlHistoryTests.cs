@@ -1,11 +1,13 @@
 ﻿namespace AoE2NetDesktop.CtrlForm.Tests;
-
-using AoE2NetDesktop.AoE2DE;
+using AoE2NetDesktop.Form;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.SysApi;
+
+using AoE2netDesktopTests.TestUtility;
 
 using LibAoE2net;
 
@@ -20,9 +22,18 @@ using System.Threading.Tasks;
 [TestClass]
 public class CtrlHistoryTests
 {
+    private const int IndexRM1v1 = 0;
+    private const int IndexRMTeam = 1;
+    private const int IndexEW1v1 = 2;
+    private const int IndexEWTeam = 3;
+    private const int IndexUnranked = 4;
+    private const int IndexDM1v1 = 5;
+    private const int IndexDMTeam = 6;
+
     private const int ProfileId = TestData.AvailableUserProfileId;
     private const int ProfileIdp1 = TestData.AvailableUserProfileId + 1;
     private const int ProfileIdp2 = TestData.AvailableUserProfileId + 2;
+
     private readonly PlayerMatchHistory matches = new() {
         new Match() {
             LeaderboardId = LeaderboardId.RM1v1,
@@ -43,14 +54,14 @@ public class CtrlHistoryTests
         },
     };
 
-    private readonly Dictionary<LeaderboardId, Color> leaderboardColor = new() {
-        { LeaderboardId.RM1v1, Color.Blue },
-        { LeaderboardId.RMTeam, Color.Indigo },
-        { LeaderboardId.DM1v1, Color.DarkGreen },
-        { LeaderboardId.DMTeam, Color.SeaGreen },
-        { LeaderboardId.EW1v1, Color.Red },
-        { LeaderboardId.EWTeam, Color.OrangeRed },
-        { LeaderboardId.Unranked, Color.SlateGray },
+    private readonly List<LeaderboardView> leaderboardViews = new() {
+        new(IndexRM1v1, "1v1 RM", LeaderboardId.RM1v1, Color.Blue),
+        new(IndexRMTeam, "Team RM", LeaderboardId.RMTeam, Color.Indigo),
+        new(IndexDM1v1, "1v1 DM", LeaderboardId.DM1v1, Color.DarkGreen),
+        new(IndexDMTeam, "Team DM", LeaderboardId.DMTeam, Color.SeaGreen),
+        new(IndexEW1v1, "1v1 EW", LeaderboardId.EW1v1, Color.Red),
+        new(IndexEWTeam, "Team EW", LeaderboardId.EWTeam, Color.OrangeRed),
+        new(IndexUnranked, "Unranked", LeaderboardId.Unranked, Color.SlateGray),
     };
 
     [TestInitialize]
@@ -116,7 +127,7 @@ public class CtrlHistoryTests
     public void CreateListViewItemTest()
     {
         // Arrange
-        var leaderboardName = "test leaderboard";
+        var leaderboardName = "1v1 RM";
         var leaderboards = new Dictionary<LeaderboardId, Leaderboard> {
             {
                 LeaderboardId.RM1v1,
@@ -136,7 +147,7 @@ public class CtrlHistoryTests
         };
 
         // Act
-        var testClass = CtrlHistory.CreateListViewItem(leaderboardName, LeaderboardId.RM1v1, leaderboards, leaderboardColor);
+        var testClass = CtrlHistory.CreateListViewItem(leaderboards[LeaderboardId.RM1v1], leaderboardViews[0]);
 
         // Assert
         Assert.AreEqual(leaderboardName, testClass.SubItems[0].Text);
@@ -157,13 +168,13 @@ public class CtrlHistoryTests
     public void CreateListViewItemTestEmptyLeaderboard()
     {
         // Arrange
-        var leaderboardName = "test leaderboard";
+        var leaderboardName = "1v1 RM";
         var leaderboards = new Dictionary<LeaderboardId, Leaderboard> {
             { LeaderboardId.RM1v1, new Leaderboard() },
         };
 
         // Act
-        var testClass = CtrlHistory.CreateListViewItem(leaderboardName, LeaderboardId.RM1v1, leaderboards, leaderboardColor);
+        var testClass = CtrlHistory.CreateListViewItem(leaderboards[LeaderboardId.RM1v1], leaderboardViews[0]);
 
         // Assert
         Assert.AreEqual(leaderboardName, testClass.SubItems[0].Text);
@@ -197,13 +208,13 @@ public class CtrlHistoryTests
         Assert.AreEqual(1, actVal["p1"].GamesAlly);
         Assert.AreEqual(0, actVal["p1"].GamesEnemy);
         Assert.AreEqual(1, actVal["p1"].GamesTeam);
-        Assert.AreEqual(DateTimeOffset.FromUnixTimeSeconds(2).LocalDateTime, actVal["p1"].LastDate);
+        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal["p1"].LastDate);
         Assert.AreEqual(ProfileId + 2, actVal["p2"].ProfileId);
         Assert.AreEqual(0, actVal["p2"].Games1v1);
         Assert.AreEqual(0, actVal["p2"].GamesAlly);
         Assert.AreEqual(1, actVal["p2"].GamesEnemy);
         Assert.AreEqual(1, actVal["p2"].GamesTeam);
-        Assert.AreEqual(DateTimeOffset.FromUnixTimeSeconds(2).LocalDateTime, actVal["p2"].LastDate);
+        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal["p2"].LastDate);
     }
 
     [TestMethod]
@@ -224,13 +235,13 @@ public class CtrlHistoryTests
         Assert.AreEqual(1, actVal[expName].GamesAlly);
         Assert.AreEqual(0, actVal[expName].GamesEnemy);
         Assert.AreEqual(1, actVal[expName].GamesTeam);
-        Assert.AreEqual(DateTimeOffset.FromUnixTimeSeconds(2).LocalDateTime, actVal[expName].LastDate);
+        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal[expName].LastDate);
         Assert.AreEqual(ProfileId + 2, actVal["p2"].ProfileId);
         Assert.AreEqual(0, actVal["p2"].Games1v1);
         Assert.AreEqual(0, actVal["p2"].GamesAlly);
         Assert.AreEqual(1, actVal["p2"].GamesEnemy);
         Assert.AreEqual(1, actVal["p2"].GamesTeam);
-        Assert.AreEqual(DateTimeOffset.FromUnixTimeSeconds(2).LocalDateTime, actVal["p2"].LastDate);
+        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal["p2"].LastDate);
     }
 
     [TestMethod]
@@ -253,8 +264,10 @@ public class CtrlHistoryTests
     public void OpenProfileTest()
     {
         // Arrange
-        var expVal = "Start https://aoe2.net/#profile-1";
-        var testHttpClient = new TestHttpClient();
+        var expVal = "/c start https://aoe2.net/#profile-1";
+        var testHttpClient = new TestHttpClient() {
+            SystemApi = new SystemApiStub(1),
+        };
         AoE2net.ComClient = testHttpClient;
         var playerName = "player1";
         var profileId = TestData.AvailableUserProfileId;
@@ -262,10 +275,10 @@ public class CtrlHistoryTests
         testClass.MatchedPlayerInfos.Add(playerName, new PlayerInfo() { ProfileId = profileId });
 
         // Act
-        testClass.OpenProfile(playerName);
+        var actVal = testClass.OpenProfile(playerName);
 
         // Assert
-        Assert.AreEqual(expVal, testHttpClient.LastRequest);
+        Assert.AreEqual(expVal, actVal);
     }
 
     [TestMethod]
@@ -273,7 +286,9 @@ public class CtrlHistoryTests
     {
         // Arrange
         var testHttpClient = new TestHttpClient {
-            ForceWin32Exception = true,
+            SystemApi = new SystemApiStub(1) {
+                ForceWin32Exception = true,
+            },
         };
         AoE2net.ComClient = testHttpClient;
         var playerName = "player1";
@@ -293,7 +308,9 @@ public class CtrlHistoryTests
     {
         // Arrange
         var testHttpClient = new TestHttpClient {
-            ForceException = true,
+            SystemApi = new SystemApiStub(1) {
+                ForceException = true,
+            },
         };
         AoE2net.ComClient = testHttpClient;
         var playerName = "player1";

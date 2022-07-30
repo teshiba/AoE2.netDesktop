@@ -2,6 +2,7 @@
 {
     using AoE2NetDesktop.Utility.Forms;
 
+    using System.Diagnostics.CodeAnalysis;
     using System.Windows.Forms;
 
     /// <summary>
@@ -18,9 +19,10 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        [ExcludeFromCodeCoverage(Justification =$"The {nameof(components)} variable is never assigned.")]
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null)) {
+            if(disposing && (components != null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -55,17 +57,25 @@
             this.checkBoxTransparencyWindow = new System.Windows.Forms.CheckBox();
             this.checkBoxDrawQuality = new System.Windows.Forms.CheckBox();
             this.checkBoxAutoReloadLastMatch = new System.Windows.Forms.CheckBox();
+            this.groupBoxDisplayContents = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBoxBehavior = new System.Windows.Forms.GroupBox();
+            this.checkBoxVisibleGameTime = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxChromaKey)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.upDownOpacity)).BeginInit();
             this.groupBoxPlayer.SuspendLayout();
+            this.groupBoxDisplayContents.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBoxBehavior.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBoxChromaKey
             // 
-            this.textBoxChromaKey.Location = new System.Drawing.Point(233, 34);
+            this.textBoxChromaKey.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.textBoxChromaKey.Location = new System.Drawing.Point(97, 134);
             this.textBoxChromaKey.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxChromaKey.Name = "textBoxChromaKey";
-            this.textBoxChromaKey.Size = new System.Drawing.Size(66, 23);
+            this.textBoxChromaKey.Size = new System.Drawing.Size(66, 25);
             this.textBoxChromaKey.TabIndex = 24;
             this.textBoxChromaKey.Text = "#708090";
             this.textBoxChromaKey.Leave += new System.EventHandler(this.TextBoxChromaKey_Leave);
@@ -76,7 +86,7 @@
             this.pictureBoxChromaKey.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBoxChromaKey.ErrorImage = null;
             this.pictureBoxChromaKey.InitialImage = null;
-            this.pictureBoxChromaKey.Location = new System.Drawing.Point(308, 34);
+            this.pictureBoxChromaKey.Location = new System.Drawing.Point(172, 135);
             this.pictureBoxChromaKey.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBoxChromaKey.Name = "pictureBoxChromaKey";
             this.pictureBoxChromaKey.Size = new System.Drawing.Size(33, 23);
@@ -87,36 +97,34 @@
             // labelChromaKey
             // 
             this.labelChromaKey.AutoSize = true;
-            this.labelChromaKey.Location = new System.Drawing.Point(152, 36);
+            this.labelChromaKey.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelChromaKey.Location = new System.Drawing.Point(15, 138);
             this.labelChromaKey.Name = "labelChromaKey";
-            this.labelChromaKey.Size = new System.Drawing.Size(70, 15);
+            this.labelChromaKey.Size = new System.Drawing.Size(81, 17);
             this.labelChromaKey.TabIndex = 21;
-            this.labelChromaKey.Text = "Chroma Key";
+            this.labelChromaKey.Text = "Chroma key";
             // 
             // labelOpacity
             // 
             this.labelOpacity.AutoSize = true;
-            this.labelOpacity.Location = new System.Drawing.Point(151, 11);
+            this.labelOpacity.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelOpacity.Location = new System.Drawing.Point(15, 109);
             this.labelOpacity.Name = "labelOpacity";
-            this.labelOpacity.Size = new System.Drawing.Size(48, 15);
+            this.labelOpacity.Size = new System.Drawing.Size(54, 17);
             this.labelOpacity.TabIndex = 22;
             this.labelOpacity.Text = "Opacity";
             // 
             // upDownOpacity
             // 
+            this.upDownOpacity.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.upDownOpacity.Increment = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.upDownOpacity.Location = new System.Drawing.Point(233, 8);
-            this.upDownOpacity.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
+            this.upDownOpacity.Location = new System.Drawing.Point(97, 105);
             this.upDownOpacity.Name = "upDownOpacity";
-            this.upDownOpacity.Size = new System.Drawing.Size(66, 23);
+            this.upDownOpacity.Size = new System.Drawing.Size(66, 25);
             this.upDownOpacity.TabIndex = 20;
             this.upDownOpacity.Value = new decimal(new int[] {
             100,
@@ -136,9 +144,10 @@
             this.groupBoxPlayer.Controls.Add(this.textBoxSettingProfileId);
             this.groupBoxPlayer.Controls.Add(this.labelSettingsCountry);
             this.groupBoxPlayer.Controls.Add(this.labelSettingsName);
-            this.groupBoxPlayer.Location = new System.Drawing.Point(10, 78);
+            this.groupBoxPlayer.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.groupBoxPlayer.Location = new System.Drawing.Point(9, 193);
             this.groupBoxPlayer.Name = "groupBoxPlayer";
-            this.groupBoxPlayer.Size = new System.Drawing.Size(513, 136);
+            this.groupBoxPlayer.Size = new System.Drawing.Size(608, 132);
             this.groupBoxPlayer.TabIndex = 16;
             this.groupBoxPlayer.TabStop = false;
             this.groupBoxPlayer.Text = "Player";
@@ -146,7 +155,8 @@
             // buttonSetId
             // 
             this.buttonSetId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSetId.Location = new System.Drawing.Point(430, 21);
+            this.buttonSetId.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.buttonSetId.Location = new System.Drawing.Point(525, 21);
             this.buttonSetId.Name = "buttonSetId";
             this.buttonSetId.Size = new System.Drawing.Size(78, 48);
             this.buttonSetId.TabIndex = 7;
@@ -158,9 +168,10 @@
             // 
             this.radioButtonSteamID.AutoSize = true;
             this.radioButtonSteamID.Checked = true;
-            this.radioButtonSteamID.Location = new System.Drawing.Point(6, 22);
+            this.radioButtonSteamID.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.radioButtonSteamID.Location = new System.Drawing.Point(7, 22);
             this.radioButtonSteamID.Name = "radioButtonSteamID";
-            this.radioButtonSteamID.Size = new System.Drawing.Size(73, 19);
+            this.radioButtonSteamID.Size = new System.Drawing.Size(82, 21);
             this.radioButtonSteamID.TabIndex = 4;
             this.radioButtonSteamID.TabStop = true;
             this.radioButtonSteamID.Text = "Steam-ID";
@@ -170,9 +181,10 @@
             // radioButtonProfileID
             // 
             this.radioButtonProfileID.AutoSize = true;
-            this.radioButtonProfileID.Location = new System.Drawing.Point(6, 48);
+            this.radioButtonProfileID.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.radioButtonProfileID.Location = new System.Drawing.Point(7, 48);
             this.radioButtonProfileID.Name = "radioButtonProfileID";
-            this.radioButtonProfileID.Size = new System.Drawing.Size(75, 19);
+            this.radioButtonProfileID.Size = new System.Drawing.Size(84, 21);
             this.radioButtonProfileID.TabIndex = 5;
             this.radioButtonProfileID.Text = "Profile-ID";
             this.radioButtonProfileID.UseVisualStyleBackColor = true;
@@ -182,10 +194,11 @@
             // 
             this.textBoxSettingSteamId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSettingSteamId.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.textBoxSettingSteamId.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.textBoxSettingSteamId.Location = new System.Drawing.Point(93, 21);
             this.textBoxSettingSteamId.Name = "textBoxSettingSteamId";
-            this.textBoxSettingSteamId.Size = new System.Drawing.Size(333, 23);
+            this.textBoxSettingSteamId.Size = new System.Drawing.Size(428, 25);
             this.textBoxSettingSteamId.TabIndex = 1;
             // 
             // textBoxSettingProfileId
@@ -193,19 +206,21 @@
             this.textBoxSettingProfileId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxSettingProfileId.Enabled = false;
+            this.textBoxSettingProfileId.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.textBoxSettingProfileId.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.textBoxSettingProfileId.Location = new System.Drawing.Point(93, 46);
             this.textBoxSettingProfileId.Name = "textBoxSettingProfileId";
-            this.textBoxSettingProfileId.Size = new System.Drawing.Size(333, 23);
+            this.textBoxSettingProfileId.Size = new System.Drawing.Size(428, 25);
             this.textBoxSettingProfileId.TabIndex = 1;
             // 
             // labelSettingsCountry
             // 
             this.labelSettingsCountry.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelSettingsCountry.Location = new System.Drawing.Point(11, 105);
+            this.labelSettingsCountry.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelSettingsCountry.Location = new System.Drawing.Point(7, 105);
             this.labelSettingsCountry.Name = "labelSettingsCountry";
-            this.labelSettingsCountry.Size = new System.Drawing.Size(497, 23);
+            this.labelSettingsCountry.Size = new System.Drawing.Size(591, 23);
             this.labelSettingsCountry.TabIndex = 3;
             this.labelSettingsCountry.Text = "Country: -----";
             // 
@@ -213,39 +228,41 @@
             // 
             this.labelSettingsName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelSettingsName.Location = new System.Drawing.Point(11, 80);
+            this.labelSettingsName.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelSettingsName.Location = new System.Drawing.Point(7, 80);
             this.labelSettingsName.Name = "labelSettingsName";
-            this.labelSettingsName.Size = new System.Drawing.Size(497, 23);
+            this.labelSettingsName.Size = new System.Drawing.Size(592, 23);
             this.labelSettingsName.TabIndex = 3;
             this.labelSettingsName.Text = "Name: -----";
             // 
             // labelAoE2NetStatus
             // 
             this.labelAoE2NetStatus.AutoSize = true;
-            this.labelAoE2NetStatus.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelAoE2NetStatus.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelAoE2NetStatus.ForeColor = System.Drawing.Color.Firebrick;
-            this.labelAoE2NetStatus.Location = new System.Drawing.Point(426, 8);
+            this.labelAoE2NetStatus.Location = new System.Drawing.Point(89, 142);
             this.labelAoE2NetStatus.Name = "labelAoE2NetStatus";
-            this.labelAoE2NetStatus.Size = new System.Drawing.Size(101, 20);
+            this.labelAoE2NetStatus.Size = new System.Drawing.Size(89, 17);
             this.labelAoE2NetStatus.TabIndex = 19;
             this.labelAoE2NetStatus.Text = "Disconnected";
             // 
             // labelAoE2NetStatusLabel
             // 
             this.labelAoE2NetStatusLabel.AutoSize = true;
-            this.labelAoE2NetStatusLabel.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelAoE2NetStatusLabel.Location = new System.Drawing.Point(356, 8);
+            this.labelAoE2NetStatusLabel.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelAoE2NetStatusLabel.Location = new System.Drawing.Point(19, 142);
             this.labelAoE2NetStatusLabel.Name = "labelAoE2NetStatusLabel";
-            this.labelAoE2NetStatusLabel.Size = new System.Drawing.Size(70, 20);
+            this.labelAoE2NetStatusLabel.Size = new System.Drawing.Size(62, 17);
             this.labelAoE2NetStatusLabel.TabIndex = 18;
             this.labelAoE2NetStatusLabel.Text = "AoE2.net";
             // 
             // checkBoxHideTitle
             // 
             this.checkBoxHideTitle.AutoSize = true;
-            this.checkBoxHideTitle.Location = new System.Drawing.Point(10, 35);
+            this.checkBoxHideTitle.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.checkBoxHideTitle.Location = new System.Drawing.Point(15, 25);
             this.checkBoxHideTitle.Name = "checkBoxHideTitle";
-            this.checkBoxHideTitle.Size = new System.Drawing.Size(74, 19);
+            this.checkBoxHideTitle.Size = new System.Drawing.Size(82, 21);
             this.checkBoxHideTitle.TabIndex = 17;
             this.checkBoxHideTitle.Text = "Hide title";
             this.checkBoxHideTitle.UseVisualStyleBackColor = true;
@@ -254,9 +271,10 @@
             // checkBoxAlwaysOnTop
             // 
             this.checkBoxAlwaysOnTop.AutoSize = true;
-            this.checkBoxAlwaysOnTop.Location = new System.Drawing.Point(10, 10);
+            this.checkBoxAlwaysOnTop.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.checkBoxAlwaysOnTop.Location = new System.Drawing.Point(15, 49);
             this.checkBoxAlwaysOnTop.Name = "checkBoxAlwaysOnTop";
-            this.checkBoxAlwaysOnTop.Size = new System.Drawing.Size(101, 19);
+            this.checkBoxAlwaysOnTop.Size = new System.Drawing.Size(114, 21);
             this.checkBoxAlwaysOnTop.TabIndex = 15;
             this.checkBoxAlwaysOnTop.Text = "Always on top";
             this.checkBoxAlwaysOnTop.UseVisualStyleBackColor = true;
@@ -270,70 +288,118 @@
             this.labelErrText.BackColor = System.Drawing.Color.DarkGray;
             this.labelErrText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelErrText.ForeColor = System.Drawing.Color.Red;
-            this.labelErrText.Location = new System.Drawing.Point(10, 203);
+            this.labelErrText.Location = new System.Drawing.Point(10, 340);
             this.labelErrText.Name = "labelErrText";
-            this.labelErrText.Size = new System.Drawing.Size(508, 6);
+            this.labelErrText.Size = new System.Drawing.Size(608, 0);
             this.labelErrText.TabIndex = 25;
             // 
             // checkBoxTransparencyWindow
             // 
             this.checkBoxTransparencyWindow.AutoSize = true;
-            this.checkBoxTransparencyWindow.Location = new System.Drawing.Point(10, 62);
+            this.checkBoxTransparencyWindow.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.checkBoxTransparencyWindow.Location = new System.Drawing.Point(15, 73);
             this.checkBoxTransparencyWindow.Name = "checkBoxTransparencyWindow";
-            this.checkBoxTransparencyWindow.Size = new System.Drawing.Size(142, 19);
+            this.checkBoxTransparencyWindow.Size = new System.Drawing.Size(158, 21);
             this.checkBoxTransparencyWindow.TabIndex = 26;
-            this.checkBoxTransparencyWindow.Text = "Transparency Window";
+            this.checkBoxTransparencyWindow.Text = "Transparency window";
             this.checkBoxTransparencyWindow.UseVisualStyleBackColor = true;
             this.checkBoxTransparencyWindow.CheckedChanged += new System.EventHandler(this.CheckBoxTransparencyWindow_CheckedChanged);
             // 
             // checkBoxDrawQuality
             // 
             this.checkBoxDrawQuality.AutoSize = true;
-            this.checkBoxDrawQuality.Location = new System.Drawing.Point(157, 62);
+            this.checkBoxDrawQuality.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.checkBoxDrawQuality.Location = new System.Drawing.Point(15, 25);
             this.checkBoxDrawQuality.Name = "checkBoxDrawQuality";
-            this.checkBoxDrawQuality.Size = new System.Drawing.Size(119, 19);
+            this.checkBoxDrawQuality.Size = new System.Drawing.Size(162, 21);
             this.checkBoxDrawQuality.TabIndex = 26;
-            this.checkBoxDrawQuality.Text = "Draw high quality";
+            this.checkBoxDrawQuality.Text = "Draw high quality text";
             this.checkBoxDrawQuality.UseVisualStyleBackColor = true;
             this.checkBoxDrawQuality.CheckedChanged += new System.EventHandler(this.CheckBoxDrawQuality_CheckedChanged);
             // 
             // checkBoxAutoReloadLastMatch
             // 
             this.checkBoxAutoReloadLastMatch.AutoSize = true;
-            this.checkBoxAutoReloadLastMatch.Location = new System.Drawing.Point(382, 62);
+            this.checkBoxAutoReloadLastMatch.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.checkBoxAutoReloadLastMatch.Location = new System.Drawing.Point(15, 25);
             this.checkBoxAutoReloadLastMatch.Name = "checkBoxAutoReloadLastMatch";
-            this.checkBoxAutoReloadLastMatch.Size = new System.Drawing.Size(145, 19);
+            this.checkBoxAutoReloadLastMatch.Size = new System.Drawing.Size(166, 21);
             this.checkBoxAutoReloadLastMatch.TabIndex = 27;
             this.checkBoxAutoReloadLastMatch.Text = "Auto reload last match";
             this.checkBoxAutoReloadLastMatch.UseVisualStyleBackColor = true;
             this.checkBoxAutoReloadLastMatch.CheckedChanged += new System.EventHandler(this.CheckBoxAutoReloadLastMatch_CheckedChanged);
             // 
+            // groupBoxDisplayContents
+            // 
+            this.groupBoxDisplayContents.Controls.Add(this.checkBoxVisibleGameTime);
+            this.groupBoxDisplayContents.Controls.Add(this.checkBoxHideTitle);
+            this.groupBoxDisplayContents.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.groupBoxDisplayContents.Location = new System.Drawing.Point(10, 8);
+            this.groupBoxDisplayContents.Name = "groupBoxDisplayContents";
+            this.groupBoxDisplayContents.Size = new System.Drawing.Size(176, 181);
+            this.groupBoxDisplayContents.TabIndex = 29;
+            this.groupBoxDisplayContents.TabStop = false;
+            this.groupBoxDisplayContents.Text = "Display contents";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.checkBoxDrawQuality);
+            this.groupBox2.Controls.Add(this.checkBoxTransparencyWindow);
+            this.groupBox2.Controls.Add(this.checkBoxAlwaysOnTop);
+            this.groupBox2.Controls.Add(this.upDownOpacity);
+            this.groupBox2.Controls.Add(this.pictureBoxChromaKey);
+            this.groupBox2.Controls.Add(this.textBoxChromaKey);
+            this.groupBox2.Controls.Add(this.labelOpacity);
+            this.groupBox2.Controls.Add(this.labelChromaKey);
+            this.groupBox2.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.groupBox2.Location = new System.Drawing.Point(192, 8);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(217, 181);
+            this.groupBox2.TabIndex = 30;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Appearance";
+            // 
+            // groupBoxBehavior
+            // 
+            this.groupBoxBehavior.Controls.Add(this.checkBoxAutoReloadLastMatch);
+            this.groupBoxBehavior.Controls.Add(this.labelAoE2NetStatus);
+            this.groupBoxBehavior.Controls.Add(this.labelAoE2NetStatusLabel);
+            this.groupBoxBehavior.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.groupBoxBehavior.Location = new System.Drawing.Point(415, 8);
+            this.groupBoxBehavior.Name = "groupBoxBehavior";
+            this.groupBoxBehavior.Size = new System.Drawing.Size(200, 179);
+            this.groupBoxBehavior.TabIndex = 31;
+            this.groupBoxBehavior.TabStop = false;
+            this.groupBoxBehavior.Text = "Behavior";
+            //
+            // checkBoxVisibleGameTime
+            // 
+            this.checkBoxVisibleGameTime.AutoSize = true;
+            this.checkBoxVisibleGameTime.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.checkBoxVisibleGameTime.Location = new System.Drawing.Point(15, 49);
+            this.checkBoxVisibleGameTime.Name = "checkBoxVisibleGameTime";
+            this.checkBoxVisibleGameTime.Size = new System.Drawing.Size(134, 21);
+            this.checkBoxVisibleGameTime.TabIndex = 18;
+            this.checkBoxVisibleGameTime.Text = "Visible game time";
+            this.checkBoxVisibleGameTime.UseVisualStyleBackColor = true;
+            this.checkBoxVisibleGameTime.CheckedChanged += new System.EventHandler(this.CheckBoxVisibleGameTime_CheckedChanged);
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(534, 221);
-            this.Controls.Add(this.checkBoxAutoReloadLastMatch);
-            this.Controls.Add(this.checkBoxDrawQuality);
-            this.Controls.Add(this.checkBoxTransparencyWindow);
-            this.Controls.Add(this.textBoxChromaKey);
-            this.Controls.Add(this.pictureBoxChromaKey);
-            this.Controls.Add(this.labelChromaKey);
-            this.Controls.Add(this.labelOpacity);
-            this.Controls.Add(this.upDownOpacity);
+            this.ClientSize = new System.Drawing.Size(629, 333);
+            this.Controls.Add(this.groupBoxBehavior);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBoxDisplayContents);
             this.Controls.Add(this.groupBoxPlayer);
-            this.Controls.Add(this.labelAoE2NetStatus);
-            this.Controls.Add(this.labelAoE2NetStatusLabel);
-            this.Controls.Add(this.checkBoxHideTitle);
-            this.Controls.Add(this.checkBoxAlwaysOnTop);
             this.Controls.Add(this.labelErrText);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(550, 260);
-            this.MinimumSize = new System.Drawing.Size(550, 260);
+            this.MinimizeBox = false;
             this.Name = "FormSettings";
-            this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormSettings_FormClosing);
             this.Load += new System.EventHandler(this.FormSettings_LoadAsync);
@@ -341,8 +407,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.upDownOpacity)).EndInit();
             this.groupBoxPlayer.ResumeLayout(false);
             this.groupBoxPlayer.PerformLayout();
+            this.groupBoxDisplayContents.ResumeLayout(false);
+            this.groupBoxDisplayContents.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBoxBehavior.ResumeLayout(false);
+            this.groupBoxBehavior.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -369,5 +440,9 @@
         private CheckBox checkBoxTransparencyWindow;
         private CheckBox checkBoxDrawQuality;
         private CheckBox checkBoxAutoReloadLastMatch;
+        private GroupBox groupBoxDisplayContents;
+        private GroupBox groupBox2;
+        private GroupBox groupBoxBehavior;
+        private CheckBox checkBoxVisibleGameTime;
     }
 }

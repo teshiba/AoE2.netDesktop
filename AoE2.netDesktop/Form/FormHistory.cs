@@ -26,7 +26,7 @@ public partial class FormHistory : ControllableForm
         InitMatchesTab();
         InitPlayersTab();
         InitStatisticsTab();
-        Icon = Properties.Resources.aoe2netDesktop;
+        Icon = Properties.Resources.aoe2netDesktopAppIcon;
     }
 
     /// <inheritdoc/>

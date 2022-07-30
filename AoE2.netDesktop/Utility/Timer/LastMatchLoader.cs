@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop.CtrlForm;
+﻿namespace AoE2NetDesktop.Utility.Timer;
 
 using System.Timers;
 

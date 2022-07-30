@@ -5,7 +5,6 @@ using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
 
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -16,13 +15,9 @@ using System.Threading.Tasks;
 /// </summary>
 public class TestHttpClient : ComClient
 {
-    private const int EFAIL = -2147467259;
-
     public bool ForceHttpRequestException { get; set; }
 
     public bool ForceException { get; set; }
-
-    public bool ForceWin32Exception { get; set; }
 
     public bool ForceTaskCanceledException { get; set; }
 
@@ -67,25 +62,19 @@ public class TestHttpClient : ComClient
     }
 
     /// <summary>
-    /// Open specified URI.
+    /// Gets Image file location on AoE2.net.
     /// </summary>
-    /// <param name="requestUri">URI string.</param>
-    /// <returns>start process.</returns>
-    /// <exception cref="Win32Exception">Win32Exception.</exception>
-    /// <exception cref="Exception">Exception.</exception>
-    public override Process Start(string requestUri)
+    /// <param name="civName">civilization name in English.</param>
+    /// <returns>Image file location.</returns>
+    public override string GetCivImageLocation(string civName)
     {
-        if(ForceWin32Exception) {
-            throw new Win32Exception(EFAIL, "Forced ForceWin32Exception");
-        }
+        string readUri = $"{TestData.Path}/dummy.png";
 
-        if(ForceException) {
-            throw new Exception("Forced Exception");
-        }
+        LastRequest = $"Read {readUri}";
 
-        LastRequest = $"Start {requestUri}";
+        Debug.Print($"Return {readUri}");
 
-        return new Process();
+        return readUri;
     }
 
     private static async Task<string> ReadTextFIleAsync(string filePath)
@@ -113,7 +102,7 @@ public class TestHttpClient : ComClient
 
         LastRequest = $"Read {readUri}";
 
-        return ReadTextFIleAsync($"{TestData.Path}/{requestDataFileName}");
+        return ReadTextFIleAsync(readUri);
     }
 
     private Task<string> ReadPlayerRatingHistoryAsync(string requestUri)
@@ -122,8 +111,9 @@ public class TestHttpClient : ComClient
         var game = args[2];
         var leaderboardId = (LeaderboardId)int.Parse(args[4]);
         var steamId = args[6];
-        var count = args[8];
-        var readUri = $"{TestData.Path}/playerRatingHistory{game}{steamId}{leaderboardId}{count}.json";
+        var start = args[8];
+        var count = args[10];
+        var readUri = $"{TestData.Path}/playerRatingHistory{game}{steamId}{leaderboardId}{count}_{start}.json";
 
         LastRequest = $"Read {readUri}";
 

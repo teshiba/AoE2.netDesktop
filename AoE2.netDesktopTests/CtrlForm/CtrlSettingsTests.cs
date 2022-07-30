@@ -88,7 +88,7 @@ public class CtrlSettingsTests
                 _ = await testClass.ReloadProfileAsync(IdType.Profile, TestData.AvailableUserProfileIdString);
 
                 // The following code cannot read the player data, so write null to playerLastmatch..
-                return await testClass.ReloadProfileAsync(IdType.Profile, "-1");
+                return await testClass.ReloadProfileAsync(IdType.Profile, TestData.NotFoundUserProfileIdString);
             })
             .Result;
 

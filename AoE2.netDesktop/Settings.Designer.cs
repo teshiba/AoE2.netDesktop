@@ -194,18 +194,6 @@ namespace AoE2NetDesktop {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
-        public global::System.Drawing.Size WindowSizeSettings {
-            get {
-                return ((global::System.Drawing.Size)(this["WindowSizeSettings"]));
-            }
-            set {
-                this["WindowSizeSettings"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
         public global::System.Drawing.Point WindowLocationSettings {
             get {
                 return ((global::System.Drawing.Point)(this["WindowLocationSettings"]));
@@ -218,12 +206,12 @@ namespace AoE2NetDesktop {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool MainFormTransparency {
+        public bool MainFormIsTransparency {
             get {
-                return ((bool)(this["MainFormTransparency"]));
+                return ((bool)(this["MainFormIsTransparency"]));
             }
             set {
-                this["MainFormTransparency"] = value;
+                this["MainFormIsTransparency"] = value;
             }
         }
         
@@ -248,6 +236,18 @@ namespace AoE2NetDesktop {
             }
             set {
                 this["IsAutoReloadLastMatch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool VisibleGameTime {
+            get {
+                return ((bool)(this["VisibleGameTime"]));
+            }
+            set {
+                this["VisibleGameTime"] = value;
             }
         }
     }

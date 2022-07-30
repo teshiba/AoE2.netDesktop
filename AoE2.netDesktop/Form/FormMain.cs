@@ -4,12 +4,11 @@ using AoE2NetDesktop;
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
+using AoE2NetDesktop.Utility.Timer;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -42,25 +41,25 @@ public partial class FormMain : ControllableForm
 
         // formMain hold the app settings.
         CtrlSettings = new CtrlSettings();
-        CtrlSettings.PropertySetting.PropertyChanged += OnChangeProperty;
-        LastMatchLoader = new LastMatchLoader(OnTimer, CtrlMain.IntervalSec);
+        LastMatchLoader = new LastMatchLoader(OnTimerLastMatchLoader, CtrlMain.IntervalSec);
+        GameTimer = new GameTimer(OnTimerGame);
 
         SetOptionParams();
 
         this.language = language;
-        Icon = Properties.Resources.aoe2netDesktop;
+        Icon = Properties.Resources.aoe2netDesktopAppIcon;
     }
 
     ///////////////////////////////////////////////////////////////////////
     // Async event handlers
     ///////////////////////////////////////////////////////////////////////
-
-    [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = SuppressReason.GuiEvent)]
-    [SuppressMessage("Style", "VSTHRD200:Use \"Async\" suffix for async methods", Justification = SuppressReason.GuiEvent)]
+#pragma warning disable VSTHRD100 // Avoid async void methods
+#pragma warning disable VSTHRD200 // Use "Async" suffix for async methods
     private async void FormMain_LoadAsync(object sender, EventArgs e)
     {
         RestoreWindowStatus();
         ResizePanels();
+        SetChromaKey(Settings.Default.ChromaKey);
 
         try {
             _ = await CtrlMain.InitAsync(language);
@@ -70,36 +69,44 @@ public partial class FormMain : ControllableForm
                 OpenSettings();
             }
 
-            _ = await RedrawLastMatchAsync(CtrlSettings.ProfileId);
+            CtrlMain.LastMatch = await RedrawLastMatchAsync();
         } catch(Exception ex) {
             labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
         }
 
-        SetChromaKey(CtrlSettings.PropertySetting.ChromaKey);
-
         Awaiter.Complete();
     }
 
-    [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = SuppressReason.GuiEvent)]
-    [SuppressMessage("Style", "VSTHRD200:Use \"Async\" suffix for async methods", Justification = SuppressReason.GuiEvent)]
     private async void UpdateToolStripMenuItem_ClickAsync(object sender, EventArgs e)
     {
         LastMatchLoader.Stop();
 
-        if(!CtrlMain.IsTimerReloading) {
+        if(!CtrlMain.IsReloadingByTimer) {
             ClearLastMatch();
-        } else {
-            CtrlMain.IsTimerReloading = false;
         }
 
-        _ = await RedrawLastMatchAsync(CtrlSettings.ProfileId);
+        CtrlMain.LastMatch = await RedrawLastMatchAsync();
 
-        if(CtrlSettings.PropertySetting.IsAutoReloadLastMatch) {
+        if(Settings.Default.IsAutoReloadLastMatch) {
             LastMatchLoader.Start();
         }
 
         Awaiter.Complete();
     }
+
+    private async void PictureBoxMap_DoubleClickAsync(object sender, EventArgs e)
+    {
+        ClearLastMatch();
+        await RedrawLastMatchAsync();
+    }
+
+    private async void PictureBoxMap1v1_DoubleClick(object sender, EventArgs e)
+    {
+        ClearLastMatch();
+        await RedrawLastMatchAsync();
+    }
+#pragma warning restore VSTHRD200 // Use "Async" suffix for async methods
+#pragma warning restore VSTHRD100 // Avoid async void methods
 
     ///////////////////////////////////////////////////////////////////////
     // Event handlers
@@ -109,6 +116,7 @@ public partial class FormMain : ControllableForm
         CtrlSettings.FormMyHistory?.Close();
         SaveWindowPosition();
         Settings.Default.Save();
+        Settings.Default.PropertyChanged -= Default_PropertyChanged;
     }
 
     private void LabelRate1v1P2_Paint(object sender, PaintEventArgs e)
@@ -175,8 +183,6 @@ public partial class FormMain : ControllableForm
         } else {
             labelName.DrawString(e, 20, Color.Black, Color.MediumSeaGreen);
         }
-
-        Awaiter.Complete();
     }
 
     private void LabelName1v1P1_Paint(object sender, PaintEventArgs e)
@@ -274,6 +280,26 @@ public partial class FormMain : ControllableForm
         ((Label)sender).DrawString(e, 14, Color.Black, Color.LightSeaGreen);
     }
 
+    private void LabelStartTimeTeam_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 18, Color.Black, Color.White);
+    }
+
+    private void LabelElapsedTimeTeam_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 20, Color.Black, Color.White);
+    }
+
+    private void LabelStartTime1v1_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 18, Color.Black, Color.White);
+    }
+
+    private void LabelElapsedTime1v1_Paint(object sender, PaintEventArgs e)
+    {
+        ((Label)sender).DrawString(e, 20, Color.Black, Color.White);
+    }
+
     private void FormMain_Resize(object sender, EventArgs e)
     {
         ResizePanels();
@@ -305,6 +331,13 @@ public partial class FormMain : ControllableForm
     {
         switch(e.KeyCode) {
         case Keys.F5: // is called by shortcut key settings of ToolStripMenuItem;
+            break;
+        case Keys.Space when e.Shift:
+            Settings.Default.MainFormIsHideTitle = !Settings.Default.MainFormIsHideTitle;
+            break;
+        case Keys.Space when e.Alt:
+            // show the title bar and popup the window menu.
+            Settings.Default.MainFormIsHideTitle = false;
             break;
         default:
             Size size = GetWindowResizeParams(e);
@@ -367,5 +400,17 @@ public partial class FormMain : ControllableForm
     private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
     {
         Close();
+    }
+
+    private void FormMain_Activated(object sender, EventArgs e)
+    {
+        // if this form is active, get game status from aoe2.net and update last match info.
+        if(Settings.Default.VisibleGameTime
+        && CtrlMain.LastMatch?.Finished == null) {
+            CtrlMain.IsReloadingByTimer = true;
+            updateToolStripMenuItem.PerformClick();
+        }
+
+        Awaiter.Complete();
     }
 }

@@ -3,7 +3,7 @@
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.PlotEx;
-using AoE2NetDesktop.Tests;
+using AoE2NetDesktop.Utility.SysApi;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -131,41 +131,29 @@ public class PlayerRatePlotTests
     public void PlotTest()
     {
         // Arrange
-        int profileId = TestData.AvailableUserProfileId;
-        var datetime = new DateTime(1970, 01, 01, 0, 0, 0);
-        var playerMatchHistory = new PlayerMatchHistory {
-            CreateMatch(1001, datetime),
-            CreateMatch(1002, datetime),
-            CreateMatch(1000, datetime),
-            CreateMatch(1001, datetime + new TimeSpan(1, 0, 0, 0)),
-            CreateMatch(1001, datetime + new TimeSpan(2, 0, 0, 0)),
-            CreateMatch(1001, datetime + new TimeSpan(3, 0, 0, 0)),
-            CreateMatch(1001, datetime + new TimeSpan(4, 0, 0, 0)),
-            CreateMatch(1001, datetime + new TimeSpan(5, 0, 0, 0)),
-            CreateMatch(1001, datetime + new TimeSpan(6, 0, 0, 0)),
-            CreateMatch(1001, datetime + new TimeSpan(7, 0, 0, 0)),
+        var datetime = new DateTime(1970, 01, 01).ToUnixTimeSeconds();
+        List<PlayerRating> playerRatingHistory = new() {
+            new PlayerRating() { Rating = 1001, TimeStamp = datetime },
+            new PlayerRating() { Rating = 1002, TimeStamp = datetime },
+            new PlayerRating() { Rating = 1000, TimeStamp = datetime },
+            new PlayerRating() { Rating = 1001, TimeStamp = GetDateTime(datetime, 1) },
+            new PlayerRating() { Rating = 1001, TimeStamp = GetDateTime(datetime, 2) },
+            new PlayerRating() { Rating = 1001, TimeStamp = GetDateTime(datetime, 3) },
+            new PlayerRating() { Rating = 1001, TimeStamp = GetDateTime(datetime, 4) },
+            new PlayerRating() { Rating = 1001, TimeStamp = GetDateTime(datetime, 5) },
+            new PlayerRating() { Rating = 1001, TimeStamp = GetDateTime(datetime, 6) },
+            new PlayerRating() { Rating = 1001, TimeStamp = GetDateTime(datetime, 7) },
         };
         var testClass = new PlayerRatePlot(new FormsPlot(), Color.Red);
 
         // Act
-        testClass.Plot(playerMatchHistory, profileId, LeaderboardId.RM1v1);
+        testClass.Plot(playerRatingHistory, LeaderboardId.RM1v1);
 
         // Assert
     }
 
-    private static Match CreateMatch(int rate, DateTime datetime)
+    private static long GetDateTime(long datetime, int offsetDay)
     {
-        return new Match {
-            Opened = new DateTimeOffset(datetime).ToUnixTimeSeconds(),
-            LeaderboardId = LeaderboardId.RM1v1,
-            Players = new List<Player> {
-                        new Player {
-                            Civ = 1,
-                            ProfilId = TestData.AvailableUserProfileId,
-                            Won = true,
-                            Rating = rate,
-                        },
-                    },
-        };
+        return datetime + new DateTime(1970, 01, 01 + offsetDay).ToUnixTimeSeconds();
     }
 }

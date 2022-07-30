@@ -2,6 +2,8 @@
 
 using AoE2NetDesktop.LibAoE2Net.Functions;
 
+using AoE2netDesktopTests.TestUtility;
+
 using LibAoE2net;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -27,7 +29,10 @@ public partial class FormHistoryTests
     [TestInitialize]
     public void InitTest()
     {
-        AoE2net.ComClient = new TestHttpClient();
+        var cliant = new TestHttpClient {
+            SystemApi = new SystemApiStub(1),
+        };
+        AoE2net.ComClient = cliant;
     }
 
 #pragma warning disable VSTHRD101 // Avoid unsupported async delegates

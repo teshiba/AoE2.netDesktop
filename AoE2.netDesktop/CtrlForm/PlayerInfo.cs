@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop.AoE2DE;
+﻿namespace AoE2NetDesktop.CtrlForm;
 
 using System;
 

@@ -100,7 +100,11 @@ public static class TestUtilityExt
 
         var settings = assemblyInstance.GetType($"{AssemblyName}.Settings");
         var settingsDefault = settings.GetProperty("Default").GetValue(settings);
-        settingsDefault.GetType().GetProperty(propertyName).SetValue(settingsDefault, value);
+        try {
+            settingsDefault.GetType().GetProperty(propertyName).SetValue(settingsDefault, value);
+        } catch(Exception e) {
+            throw new Exception($"propertyName={propertyName}, value={value}\ntrace:{e.StackTrace}");
+        }
     }
 
     public static TValue GetSettings<TValue>(string propertyName)

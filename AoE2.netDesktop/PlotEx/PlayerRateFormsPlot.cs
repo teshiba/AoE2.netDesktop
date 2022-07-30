@@ -1,5 +1,6 @@
 ﻿namespace AoE2NetDesktop.PlotEx;
 
+using AoE2NetDesktop.Form;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 
@@ -7,7 +8,6 @@ using ScottPlot;
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 
 /// <summary>
@@ -24,7 +24,7 @@ public class PlayerRateFormsPlot
     /// <param name="formsPlot">Target formsplot.</param>
     /// <param name="colorList">Leaderboard color.</param>
     /// <param name="fontSize">Font size.</param>
-    public PlayerRateFormsPlot(FormsPlot formsPlot, Dictionary<LeaderboardId, Color> colorList, float fontSize)
+    public PlayerRateFormsPlot(FormsPlot formsPlot, List<LeaderboardView> colorList, float fontSize)
     {
         if(formsPlot is null) {
             throw new ArgumentNullException(nameof(formsPlot));
@@ -41,15 +41,10 @@ public class PlayerRateFormsPlot
         formsPlot.Plot.YAxis.LabelStyle(fontSize: fontSize + 3);
         formsPlot.Render();
 
-        Plots = new Dictionary<LeaderboardId, PlayerRatePlot>() {
-            { LeaderboardId.RM1v1, new PlayerRatePlot(formsPlot, colorList[LeaderboardId.RM1v1]) },
-            { LeaderboardId.RMTeam, new PlayerRatePlot(formsPlot, colorList[LeaderboardId.RMTeam]) },
-            { LeaderboardId.DM1v1, new PlayerRatePlot(formsPlot, colorList[LeaderboardId.DM1v1]) },
-            { LeaderboardId.DMTeam, new PlayerRatePlot(formsPlot, colorList[LeaderboardId.DMTeam]) },
-            { LeaderboardId.EW1v1, new PlayerRatePlot(formsPlot, colorList[LeaderboardId.EW1v1]) },
-            { LeaderboardId.EWTeam, new PlayerRatePlot(formsPlot, colorList[LeaderboardId.EWTeam]) },
-            { LeaderboardId.Unranked, new PlayerRatePlot(formsPlot, colorList[LeaderboardId.Unranked]) },
-        };
+        Plots = new Dictionary<LeaderboardId, PlayerRatePlot>();
+        foreach(var item in colorList) {
+            Plots.Add(item.LeaderboardId, new PlayerRatePlot(formsPlot, item.Color));
+        }
 
         formsPlot.Plot.XAxis.TickLabelFormat("yyyy/MM/dd", dateTimeFormat: true);
         formsPlot.Plot.XAxis.ManualTickSpacing(1, ScottPlot.Ticks.DateTimeUnit.Month);
@@ -65,13 +60,12 @@ public class PlayerRateFormsPlot
     /// <summary>
     /// Plot player rate.
     /// </summary>
-    /// <param name="playerMatchHistory">PlayerMatchHistory.</param>
-    /// <param name="profileId">Profile ID.</param>
-    public void Plot(PlayerMatchHistory playerMatchHistory, int profileId)
+    /// <param name="playerRatingHistory">PlayerRatingHistory.</param>
+    public void Plot(PlayerRatingHistories playerRatingHistory)
     {
         formsPlot.Plot.Clear();
         foreach(var plot in Plots) {
-            plot.Value.Plot(playerMatchHistory, profileId, plot.Key);
+            plot.Value.Plot(playerRatingHistory[plot.Key], plot.Key);
         }
 
         formsPlot.Plot.SetOuterViewLimits(

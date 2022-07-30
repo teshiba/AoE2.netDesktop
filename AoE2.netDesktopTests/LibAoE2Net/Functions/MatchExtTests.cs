@@ -2,6 +2,7 @@
 
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.Utility.SysApi;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,11 +12,20 @@ using System.Collections.Generic;
 [TestClass]
 public class MatchExtTests
 {
+    private static IEnumerable<object[]> GetTestData => new List<object[]>
+    {
+        // opened, finished, utcNow, expVal
+        new object[] { 100L, 200L, 300L, 100L },
+        new object[] { 100L, null, 300L, 200L },
+        new object[] { null, null, 300L, 0L },
+    };
+
     [TestMethod]
     public void GetOpenedTimeTest()
     {
         // Arrange
-        var expVal = new DateTime(1970, 01, 01, 0, 0, 0).ToLocalTime();
+        DateTimeExt.TimeZoneInfo = TimeZoneInfo.Local;
+        var expVal = new DateTime(1970, 01, 01).ToLocalTime();
 
         // Act
         var testClass = new Match() {
@@ -25,6 +35,24 @@ public class MatchExtTests
 
         // Assert
         Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    [DynamicData(nameof(GetTestData))]
+    public void GetElapsedTimeTest(long? opened, long? finished, long utcNow, long expVal)
+    {
+        // Arrange
+        DateTimeOffsetExt.UtcNow = () => DateTimeOffset.FromUnixTimeSeconds(utcNow);
+
+        // Act
+        var testClass = new Match() {
+            Opened = opened,
+            Finished = finished,
+        };
+        var actVal = testClass.GetElapsedTime();
+
+        // Assert
+        Assert.AreEqual(expVal, actVal.TotalSeconds);
     }
 
     [TestMethod]

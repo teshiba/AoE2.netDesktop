@@ -18,6 +18,49 @@ public static class AoE2netHelpers
     /// </summary>
     public const int PlayerNumMax = 8;
 
+    private const int HistoryReadCountMax = 1000;
+    private const int RateReadCountMax = 10000;
+
+    /// <summary>
+    /// Read all player match history.
+    /// </summary>
+    /// <param name="profileId">profileId.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public static async Task<PlayerMatchHistory> GetPlayerMatchHistoryAllAsync(int profileId)
+    {
+        var ret = new PlayerMatchHistory();
+        PlayerMatchHistory readResult;
+
+        do {
+            var startCount = ret.Count;
+            readResult = await AoE2net.GetPlayerMatchHistoryAsync(startCount, HistoryReadCountMax, profileId);
+            ret.AddRange(readResult);
+        } while(readResult.Count == HistoryReadCountMax);
+
+        return ret;
+    }
+
+    /// <summary>
+    /// Read all player match history.
+    /// </summary>
+    /// <param name="profileId">profileId.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public static async Task<PlayerRatingHistories> GetPlayerRatingHistoryAllAsync(int profileId)
+    {
+        var ret = new PlayerRatingHistories();
+        List<PlayerRating> readResult;
+
+        foreach(var item in ret) {
+            do {
+                var startCount = item.Value.Count;
+                readResult = await AoE2net.GetPlayerRatingHistoryAsync(profileId, item.Key, startCount, RateReadCountMax);
+                ret[item.Key].AddRange(readResult);
+            } while(readResult.Count == HistoryReadCountMax);
+        }
+
+        return ret;
+    }
+
     /// <summary>
     /// Get player last match.
     /// </summary>

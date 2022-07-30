@@ -245,7 +245,7 @@ namespace AoE2NetDesktop.Form
             // columnHeaderDate
             // 
             this.columnHeaderDate.Text = "Date";
-            this.columnHeaderDate.Width = 150;
+            this.columnHeaderDate.Width = 170;
             // 
             // columnHeaderVersion
             // 
@@ -429,11 +429,11 @@ namespace AoE2NetDesktop.Form
             // 
             this.tabPagePlayers.Controls.Add(this.panel4);
             this.tabPagePlayers.Controls.Add(this.panel3);
-            this.tabPagePlayers.Location = new System.Drawing.Point(4, 24);
+            this.tabPagePlayers.Location = new System.Drawing.Point(4, 30);
             this.tabPagePlayers.Margin = new System.Windows.Forms.Padding(4);
             this.tabPagePlayers.Name = "tabPagePlayers";
             this.tabPagePlayers.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPagePlayers.Size = new System.Drawing.Size(1315, 570);
+            this.tabPagePlayers.Size = new System.Drawing.Size(1315, 564);
             this.tabPagePlayers.TabIndex = 3;
             this.tabPagePlayers.Text = "Players";
             this.tabPagePlayers.UseVisualStyleBackColor = true;
@@ -445,7 +445,7 @@ namespace AoE2NetDesktop.Form
             this.panel4.Location = new System.Drawing.Point(4, 50);
             this.panel4.Margin = new System.Windows.Forms.Padding(4);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1307, 516);
+            this.panel4.Size = new System.Drawing.Size(1307, 510);
             this.panel4.TabIndex = 15;
             // 
             // splitContainerPlayers
@@ -464,7 +464,7 @@ namespace AoE2NetDesktop.Form
             // splitContainerPlayers.Panel2
             // 
             this.splitContainerPlayers.Panel2.Controls.Add(this.formsPlotCountry);
-            this.splitContainerPlayers.Size = new System.Drawing.Size(1307, 516);
+            this.splitContainerPlayers.Size = new System.Drawing.Size(1307, 510);
             this.splitContainerPlayers.SplitterDistance = 845;
             this.splitContainerPlayers.SplitterWidth = 5;
             this.splitContainerPlayers.TabIndex = 9;
@@ -515,7 +515,7 @@ namespace AoE2NetDesktop.Form
             this.listViewMatchedPlayers.Location = new System.Drawing.Point(0, 0);
             this.listViewMatchedPlayers.Margin = new System.Windows.Forms.Padding(4);
             this.listViewMatchedPlayers.Name = "listViewMatchedPlayers";
-            this.listViewMatchedPlayers.Size = new System.Drawing.Size(841, 512);
+            this.listViewMatchedPlayers.Size = new System.Drawing.Size(841, 506);
             this.listViewMatchedPlayers.TabIndex = 2;
             this.listViewMatchedPlayers.UseCompatibleStateImageBehavior = false;
             this.listViewMatchedPlayers.View = System.Windows.Forms.View.Details;
@@ -564,7 +564,7 @@ namespace AoE2NetDesktop.Form
             // columnHeaderLastDate
             // 
             this.columnHeaderLastDate.Text = "Last Date";
-            this.columnHeaderLastDate.Width = 150;
+            this.columnHeaderLastDate.Width = 170;
             // 
             // formsPlotCountry
             // 
@@ -575,7 +575,7 @@ namespace AoE2NetDesktop.Form
             this.formsPlotCountry.Location = new System.Drawing.Point(0, 0);
             this.formsPlotCountry.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotCountry.Name = "formsPlotCountry";
-            this.formsPlotCountry.Size = new System.Drawing.Size(453, 512);
+            this.formsPlotCountry.Size = new System.Drawing.Size(453, 506);
             this.formsPlotCountry.TabIndex = 8;
             // 
             // panel3

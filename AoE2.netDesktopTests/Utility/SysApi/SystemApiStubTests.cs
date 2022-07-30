@@ -1,6 +1,6 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using AoE2NetDesktop.Utility.User32;
+using AoE2netDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -25,11 +25,11 @@ public class SystemApiStubTests
     public void GetProcessFilePathTest()
     {
         // Arrange
-        var expVal = "AoE2DE_s";
+        var expVal = @"c:\AoE2DE_s\is\not\installed\at\steamapps\common\AoE2DE\";
 
         // Act
         var testClass = new SystemApiStub(1);
-        var actVal = testClass.GetProcessFilePath(expVal);
+        var actVal = testClass.GetProcessFilePath("AoE2DE_s");
 
         // Assert
         Assert.AreEqual(expVal, actVal);

@@ -27,14 +27,14 @@ public partial class FormHistory : ControllableForm
 
     private const int FontSize = 16;
 
-    private readonly Dictionary<LeaderboardId, Color> leaderboardColorList = new() {
-        { LeaderboardId.RM1v1, Color.Blue },
-        { LeaderboardId.RMTeam, Color.Indigo },
-        { LeaderboardId.DM1v1, Color.DarkGreen },
-        { LeaderboardId.DMTeam, Color.SeaGreen },
-        { LeaderboardId.EW1v1, Color.Red },
-        { LeaderboardId.EWTeam, Color.OrangeRed },
-        { LeaderboardId.Unranked, Color.SlateGray },
+    private readonly List<LeaderboardView> leaderboardViews = new() {
+        new(IndexRM1v1, "1v1 RM", LeaderboardId.RM1v1, Color.Blue),
+        new(IndexRMTeam, "Team RM", LeaderboardId.RMTeam, Color.Indigo),
+        new(IndexDM1v1, "1v1 DM", LeaderboardId.DM1v1, Color.DarkGreen),
+        new(IndexDMTeam, "Team DM", LeaderboardId.DMTeam, Color.SeaGreen),
+        new(IndexEW1v1, "1v1 EW", LeaderboardId.EW1v1, Color.Red),
+        new(IndexEWTeam, "Team EW", LeaderboardId.EWTeam, Color.OrangeRed),
+        new(IndexUnranked, "Unranked", LeaderboardId.Unranked, Color.SlateGray),
     };
 
     /// <summary>
@@ -50,12 +50,12 @@ public partial class FormHistory : ControllableForm
 
     private void InitStatisticsTab()
     {
-        PlayerRate = new PlayerRateFormsPlot(formsPlotPlayerRate, leaderboardColorList, FontSize);
+        PlayerRate = new PlayerRateFormsPlot(formsPlotPlayerRate, leaderboardViews, FontSize);
     }
 
     private void UpdateStatisticsTabGraph()
     {
-        PlayerRate.Plot(Controler.PlayerMatchHistory, Controler.ProfileId);
+        PlayerRate.Plot(Controler.PlayerRatingHistories);
     }
 
     private async Task UpdateListViewStatisticsAsync()
@@ -68,13 +68,9 @@ public partial class FormHistory : ControllableForm
             listViewStatistics.Items.Clear();
 
             var listviewItems = new ListViewItem[LeaderboardIdCount];
-            listviewItems[IndexRM1v1] = CtrlHistory.CreateListViewItem("1v1 RM", LeaderboardId.RM1v1, leaderboards, leaderboardColorList);
-            listviewItems[IndexRMTeam] = CtrlHistory.CreateListViewItem("Team RM", LeaderboardId.RMTeam, leaderboards, leaderboardColorList);
-            listviewItems[IndexDM1v1] = CtrlHistory.CreateListViewItem("1v1 DM", LeaderboardId.DM1v1, leaderboards, leaderboardColorList);
-            listviewItems[IndexDMTeam] = CtrlHistory.CreateListViewItem("Team DM", LeaderboardId.DMTeam, leaderboards, leaderboardColorList);
-            listviewItems[IndexEW1v1] = CtrlHistory.CreateListViewItem("1v1 EW", LeaderboardId.EW1v1, leaderboards, leaderboardColorList);
-            listviewItems[IndexEWTeam] = CtrlHistory.CreateListViewItem("Team EW", LeaderboardId.EWTeam, leaderboards, leaderboardColorList);
-            listviewItems[IndexUnranked] = CtrlHistory.CreateListViewItem("Unranked", LeaderboardId.Unranked, leaderboards, leaderboardColorList);
+            foreach(var item in leaderboardViews) {
+                listviewItems[item.Index] = CtrlHistory.CreateListViewItem(leaderboards[item.LeaderboardId], item);
+            }
 
             listViewStatistics.Items.AddRange(listviewItems);
             listViewStatistics.EndUpdate();

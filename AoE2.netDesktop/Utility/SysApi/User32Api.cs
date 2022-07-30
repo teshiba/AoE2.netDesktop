@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop.Utility.User32;
+﻿namespace AoE2NetDesktop.Utility.SysApi;
 
 using System;
 using System.Runtime.InteropServices;

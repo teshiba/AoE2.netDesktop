@@ -2,6 +2,7 @@
 
 using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.Form;
+using AoE2NetDesktop.LibAoE2Net;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
@@ -21,7 +22,6 @@ using System.Windows.Forms;
 /// </summary>
 public class CtrlHistory : FormControler
 {
-    private const int ReadCountMax = 1000;
     private static readonly Dictionary<string, LeaderboardId> LeaderboardNameList = new() {
         { "1v1 Random Map", LeaderboardId.RM1v1 },
         { "Team Random Map", LeaderboardId.RMTeam },
@@ -58,7 +58,12 @@ public class CtrlHistory : FormControler
     }
 
     /// <summary>
-    /// Gets playerMatchHistory.
+    /// Gets PlayerRatingHistory.
+    /// </summary>
+    public PlayerRatingHistories PlayerRatingHistories { get; private set; } = new();
+
+    /// <summary>
+    /// Gets PlayerMatchHistory.
     /// </summary>
     public PlayerMatchHistory PlayerMatchHistory { get; private set; } = new();
 
@@ -156,21 +161,14 @@ public class CtrlHistory : FormControler
     /// <summary>
     /// Create ListViewItem of leaderboard.
     /// </summary>
-    /// <param name="leaderboardName">Leaderboard name.</param>
-    /// <param name="leaderboardId">Leaderboard ID.</param>
-    /// <param name="leaderboards">Leaderboard data.</param>
-    /// <param name="leaderboardColor">Leaderboard Color.</param>
+    /// <param name="leaderboard">Leaderboard data.</param>
+    /// <param name="leaderboardView">Leaderboard View params.</param>
     /// <returns>ListViewItem for leaderboard.</returns>
-    public static ListViewItem CreateListViewItem(
-        string leaderboardName,
-        LeaderboardId leaderboardId,
-        Dictionary<LeaderboardId, Leaderboard> leaderboards,
-        Dictionary<LeaderboardId, Color> leaderboardColor)
+    public static ListViewItem CreateListViewItem(Leaderboard leaderboard, LeaderboardView leaderboardView)
     {
-        var leaderboard = leaderboards[leaderboardId];
-        var ret = new ListViewItem(leaderboardName) {
-            Tag = leaderboardId,
-            ForeColor = leaderboardColor[leaderboardId],
+        var ret = new ListViewItem(leaderboardView.Text) {
+            Tag = leaderboardView.LeaderboardId,
+            ForeColor = leaderboardView.Color,
             Checked = true,
         };
 
@@ -256,11 +254,13 @@ public class CtrlHistory : FormControler
     /// Open player's profile on AoE2.net.
     /// </summary>
     /// <param name="playerName">player name.</param>
-    public void OpenProfile(string playerName)
+    /// <returns>Request URI.</returns>
+    public string OpenProfile(string playerName)
     {
+        var ret = new Process();
         if(MatchedPlayerInfos.TryGetValue(playerName, out PlayerInfo playerInfo)) {
             try {
-                AoE2net.OpenAoE2net((int)playerInfo.ProfileId);
+                ret = AoE2net.OpenAoE2net((int)playerInfo.ProfileId);
             } catch(Win32Exception noBrowser) {
                 Debug.Print(noBrowser.Message);
             } catch(Exception other) {
@@ -269,6 +269,8 @@ public class CtrlHistory : FormControler
         } else {
             Debug.Print($"Unavailable Player Name: {playerName}.");
         }
+
+        return ret.StartInfo.Arguments;
     }
 
     /// <summary>
@@ -298,19 +300,13 @@ public class CtrlHistory : FormControler
         bool ret;
 
         try {
-            PlayerMatchHistory readPlayerMatchHistory;
-            PlayerMatchHistory.Clear();
-
-            do {
-                var startCount = PlayerMatchHistory.Count;
-                readPlayerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(startCount, ReadCountMax, ProfileId);
-                PlayerMatchHistory.AddRange(readPlayerMatchHistory);
-            } while(readPlayerMatchHistory.Count == ReadCountMax);
-
+            PlayerMatchHistory = await AoE2netHelpers.GetPlayerMatchHistoryAllAsync(ProfileId);
+            PlayerRatingHistories = await AoE2netHelpers.GetPlayerRatingHistoryAllAsync(ProfileId);
             MatchedPlayerInfos = CreateMatchedPlayersInfo(PlayerMatchHistory);
             ret = true;
         } catch(Exception) {
             PlayerMatchHistory = null;
+            PlayerRatingHistories = null;
             MatchedPlayerInfos = null;
             ret = false;
         }

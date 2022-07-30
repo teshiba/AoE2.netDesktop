@@ -3,6 +3,8 @@
 
 namespace AoE2NetDesktop.LibAoE2Net.JsonFormat;
 
+using AoE2NetDesktop.Utility.SysApi;
+
 using System.Runtime.Serialization;
 
 /// <summary>
@@ -28,6 +30,12 @@ public class PlayerRating
 
     [DataMember(Name = "timestamp")]
     public long? TimeStamp { get; set; }
+
+    public override string ToString()
+    {
+        var timeFormat = DateTimeExt.GetDateTimeFormat(TimeStamp);
+        return $"R:{Rating} W:{NumWins} L:{NumLosses} Str:{Streak} Drp:{Drops} Time:{timeFormat}";
+    }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning restore SA1600 // Elements should be documented

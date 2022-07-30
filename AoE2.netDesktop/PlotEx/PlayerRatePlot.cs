@@ -1,8 +1,7 @@
 ﻿namespace AoE2NetDesktop.PlotEx;
-
-using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility.SysApi;
 
 using ScottPlot;
 using ScottPlot.Plottable;
@@ -104,21 +103,17 @@ public class PlayerRatePlot
     /// <summary>
     /// Plot player rate.
     /// </summary>
-    /// <param name="playerMatchHistory">PlayerMatchHistory.</param>
-    /// <param name="profileId">Profile ID.</param>
-    /// <param name="leaderBoardId">LeaderBoard Type.</param>
-    public void Plot(PlayerMatchHistory playerMatchHistory, int profileId, LeaderboardId leaderBoardId)
+    /// <param name="playerRatingHistory">PlayerRatingHistory.</param>
+    /// <param name="leaderboardId">leaderboardId.</param>
+    public void Plot(List<PlayerRating> playerRatingHistory, LeaderboardId leaderboardId)
     {
         var dateList = new List<DateTime>();
         var rateList = new List<double>();
 
-        foreach(var item in playerMatchHistory) {
-            var player = item.GetPlayer(profileId);
-            if(player.Rating != null) {
-                if(item.LeaderboardId == leaderBoardId) {
-                    rateList.Add((double)player.Rating);
-                    dateList.Add(item.GetOpenedTime());
-                }
+        foreach(var item in playerRatingHistory) {
+            if(item.TimeStamp is long time) {
+                rateList.Add(item.Rating ?? 0);
+                dateList.Add(DateTimeExt.FromUnixTimeSeconds(time));
             }
         }
 
@@ -156,12 +151,12 @@ public class PlayerRatePlot
 
             try {
                 var bol = candlesticks.GetBollingerBands(7);
-                scatterLines = formsPlot.Plot.AddScatterLines(bol.xs, bol.sma, plotLineColor, 2, LineStyle.Solid, leaderBoardId.ToString());
+                scatterLines = formsPlot.Plot.AddScatterLines(bol.xs, bol.sma, plotLineColor, 2, LineStyle.Solid, leaderboardId.ToString());
             } catch(ArgumentException e) {
                 Debug.Print($" Plot Rate ERROR. {e.Message} {e.StackTrace}");
             }
 
-            highlightPlot = new PlotHighlight(formsPlot, scatterPlot, leaderBoardId.ToString());
+            highlightPlot = new PlotHighlight(formsPlot, scatterPlot, leaderboardId.ToString());
             IsVisible = false;
         }
     }

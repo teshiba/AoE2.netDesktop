@@ -1,9 +1,11 @@
 ﻿namespace AoE2NetDesktop.AoE2DE;
 
 using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.Utility.User32;
+using AoE2NetDesktop.Utility.SysApi;
 
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 
 /// <summary>
@@ -21,10 +23,27 @@ public class AoE2DeApp
     /// </summary>
     public const int PlayerNumMax = 8;
 
+    /// <summary>
+    /// Player color definitions.
+    /// </summary>
+    public static readonly List<Color> PlayerColors = new() {
+        Color.Blue,
+        Color.Red,
+        Color.Green,
+        Color.Yellow,
+        Color.Aqua,
+        Color.Magenta,
+        Color.Gray,
+        Color.Orange,
+    };
+
     private const string SteamAppDefaultPath = $@"C:\Program Files (x86)\Steam\steamapps\common\AoE2DE\";
     private const string CivsPath = $@"widgetui\textures\menu\civs\";
 
-    private static ISystemApi SystemApi { get; set; } = new SystemApi(new User32Api());
+    /// <summary>
+    /// Gets or sets system API.
+    /// </summary>
+    public static ISystemApi SystemApi { get; set; } = new SystemApi(new User32Api());
 
     /// <summary>
     /// Get AoE2De App path.

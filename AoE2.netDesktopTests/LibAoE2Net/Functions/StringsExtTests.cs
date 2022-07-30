@@ -4,6 +4,7 @@ using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.SysApi;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -44,8 +45,9 @@ public class StringsExtTests
     public void GetOpenedTimeTest()
     {
         // Arrange
-        var expVal = DateTime.Now.ToLocalTime();
-        var dateTimeSec = new DateTimeOffset(expVal).ToUnixTimeSeconds();
+        DateTimeExt.TimeZoneInfo = TimeZoneInfo.Local;
+        var expVal = new DateTime(1970, 1, 1);
+        var dateTimeSec = (expVal - DateTimeExt.TimeZoneInfo.BaseUtcOffset).ToUnixTimeSeconds();
 
         // Act
         var testClass = new Match() {
@@ -80,6 +82,9 @@ public class StringsExtTests
 
         // Assert
         Assert.AreEqual(expVal, actVal);
+
+        // cleanup
+        StringsExt.InitAsync(Language.en).Wait();
     }
 
     [TestMethod]

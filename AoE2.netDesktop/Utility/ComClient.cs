@@ -1,5 +1,7 @@
 ﻿namespace AoE2NetDesktop.Utility;
 
+using AoE2NetDesktop.Utility.SysApi;
+
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -14,6 +16,16 @@ using System.Threading.Tasks;
 /// </summary>
 public class ComClient : HttpClient
 {
+    /// <summary>
+    /// Gets or sets system API.
+    /// </summary>
+    public ISystemApi SystemApi { get; set; } = new SystemApi(new User32Api());
+
+    /// <summary>
+    /// Gets or sets the base address of CivImage Resource URI of the AoE2net.
+    /// </summary>
+    public Uri CivImageBaseAddress { get; set; }
+
     /// <summary>
     /// Gets or sets action for recieving Exception.
     /// </summary>
@@ -45,7 +57,7 @@ public class ComClient : HttpClient
             Debug.Print($"Send Request {BaseAddress}{requestUri}");
 
             var jsonText = await GetStringAsync(requestUri).ConfigureAwait(false);
-            Debug.Print($"Get JSON {typeof(TValue)} {jsonText}");
+            Log.Info($"Get JSON {typeof(TValue)} {jsonText}");
 
             using var stream = new MemoryStream(Encoding.UTF8.GetBytes(jsonText));
             var serializer = new DataContractJsonSerializer(typeof(TValue));
@@ -64,23 +76,15 @@ public class ComClient : HttpClient
     }
 
     /// <summary>
-    /// Starts the process.
-    /// </summary>
-    /// <param name="requestUri">request Uri.</param>
-    /// <returns>Process.</returns>
-    public virtual Process Start(string requestUri)
-        => Process.Start(new ProcessStartInfo("cmd", $"/c start {requestUri}") { CreateNoWindow = true });
-
-    /// <summary>
     /// Open specified URI.
     /// </summary>
     /// <param name="requestUri">URI string.</param>
     /// <returns>browser process.</returns>
-    public Process OpenBrowser(string requestUri)
+    public virtual Process OpenBrowser(string requestUri)
     {
         Process ret;
         try {
-            ret = Start(requestUri);
+            ret = SystemApi.Start(requestUri);
         } catch(Win32Exception noBrowser) {
             Debug.Print(noBrowser.Message);
             throw;
@@ -90,5 +94,15 @@ public class ComClient : HttpClient
         }
 
         return ret;
+    }
+
+    /// <summary>
+    /// Gets Image file location on AoE2.net.
+    /// </summary>
+    /// <param name="civName">civilization name in English.</param>
+    /// <returns>Image file location.</returns>
+    public virtual string GetCivImageLocation(string civName)
+    {
+        return $"{CivImageBaseAddress}{civName.ToLower()}.png";
     }
 }
