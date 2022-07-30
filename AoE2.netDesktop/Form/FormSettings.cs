@@ -7,6 +7,7 @@ using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Net.Http;
@@ -27,6 +28,7 @@ public partial class FormSettings : ControllableForm
     {
         InitializeComponent();
         InitIDRadioButton();
+        Settings.Default.PropertyChanged += Default_PropertyChanged;
         Controler.NetStatus = NetStatus.Disconnected;
         SetNetStatus();
         SetChromaKey(Settings.Default.ChromaKey);
@@ -39,6 +41,13 @@ public partial class FormSettings : ControllableForm
 
     /// <inheritdoc/>
     protected override CtrlSettings Controler { get => (CtrlSettings)base.Controler; }
+
+    private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if(e.PropertyName == nameof(Settings.Default.MainFormIsHideTitle)) {
+            checkBoxHideTitle.Checked = Settings.Default.MainFormIsHideTitle;
+        }
+    }
 
     private void SetChromaKey(string htmlColor)
     {
