@@ -203,6 +203,7 @@ public partial class FormMain : ControllableForm
 
     private void ClearLastMatch()
     {
+        pictureBoxMap.Image = CtrlMain.LoadMapIcon(null);
         labelMap.Text = $"Map: -----";
         labelServer.Text = $"Server : -----";
         labelGameId.Text = $"GameID : --------";
@@ -210,8 +211,8 @@ public partial class FormMain : ControllableForm
         labelAveRate2.Text = $"Team2 Ave. Rate: ----";
         labelErrText.Text = string.Empty;
 
-        pictureBoxMap1v1.Image = null;
-        labelMap1v1.Text = string.Empty;
+        pictureBoxMap1v1.Image = CtrlMain.LoadMapIcon(null);
+        labelMap1v1.Text = "-----------------------";
         labelServer1v1.Text = $"Server : -----";
         labelGameId1v1.Text = $"GameID : --------";
 
