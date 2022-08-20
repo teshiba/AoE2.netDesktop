@@ -74,11 +74,12 @@ public partial class FormHistory : ControllableForm
         listViewFilterCountry.EndUpdate();
     }
 
-    private void UpdatePlayersTabListView() => UpdateListViewPlayers(string.Empty, true, new List<string>());
+    private void UpdatePlayersTabListView() => UpdateListViewPlayers(string.Empty, true);
 
-    private void UpdateListViewPlayers(string playerName, bool ignoreCase, List<string> countries)
+    private void UpdateListViewPlayers(string playerName, bool ignoreCase)
     {
         var listViewItems = new List<ListViewItem>();
+        var countries = GetCountryFilterList();
 
         listViewMatchedPlayers.BeginUpdate();
         listViewMatchedPlayers.Items.Clear();
@@ -176,7 +177,7 @@ public partial class FormHistory : ControllableForm
     private void TextBoxFindName_TextChanged(object sender, EventArgs e)
     {
         var textbox = (TextBox)sender;
-        UpdateListViewPlayers(textbox.Text, checkBoxIgnoreCase.Checked, GetCountryFilterList());
+        UpdateListViewPlayers(textbox.Text, checkBoxIgnoreCase.Checked);
 
         Awaiter.Complete();
     }
@@ -197,14 +198,14 @@ public partial class FormHistory : ControllableForm
         // each item's checkboxes are initialized, and this handler is called.
         // But the player list does not need updating.
         if(e.Item.Focused) {
-            UpdateListViewPlayers(textBoxFindName.Text, checkBoxIgnoreCase.Checked, GetCountryFilterList());
+            UpdateListViewPlayers(textBoxFindName.Text, checkBoxIgnoreCase.Checked);
         }
     }
 
     private void CheckBoxIgnoreCase_CheckedChanged(object sender, EventArgs e)
     {
         var checkBox = (CheckBox)sender;
-        UpdateListViewPlayers(textBoxFindName.Text, checkBox.Checked, GetCountryFilterList());
+        UpdateListViewPlayers(textBoxFindName.Text, checkBox.Checked);
     }
 
     private void ListViewFilterCountory_MouseLeave(object sender, EventArgs e)
