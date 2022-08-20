@@ -305,9 +305,9 @@ public class CtrlHistory : FormControler
             MatchedPlayerInfos = CreateMatchedPlayersInfo(PlayerMatchHistory);
             ret = true;
         } catch(Exception) {
-            PlayerMatchHistory = null;
-            PlayerRatingHistories = null;
-            MatchedPlayerInfos = null;
+            PlayerMatchHistory = new();
+            PlayerRatingHistories = new();
+            MatchedPlayerInfos = new();
             ret = false;
         }
 
