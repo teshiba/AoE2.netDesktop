@@ -55,8 +55,8 @@ public partial class FormHistory : ControllableForm
 
     private void UpdatePlayersTabListViewFilterCountory()
     {
-        listViewFilterCountory.BeginUpdate();
-        listViewFilterCountory.Items.Clear();
+        listViewFilterCountry.BeginUpdate();
+        listViewFilterCountry.Items.Clear();
 
         var listviewItems = new List<ListViewItem>();
 
@@ -68,10 +68,10 @@ public partial class FormHistory : ControllableForm
 
         listviewItems.Sort(new Comparison<ListViewItem>((item1, item2) => string.Compare(item1.Text, item2.Text)));
         foreach(var item in listviewItems) {
-            listViewFilterCountory.Items.Add(item.Text, item.Text, null);
+            listViewFilterCountry.Items.Add(item.Text, item.Text, null);
         }
 
-        listViewFilterCountory.EndUpdate();
+        listViewFilterCountry.EndUpdate();
     }
 
     private void UpdatePlayersTabListView() => UpdateListViewPlayers(string.Empty, true, new List<string>());
@@ -166,10 +166,10 @@ public partial class FormHistory : ControllableForm
             openAoE2NetProfileToolStripMenuItem.Visible = true;
         } else {
             e.Cancel = true;
-            listViewFilterCountory.Location = new Point(point.X - 5, point.Y - 5);
-            listViewFilterCountory.Width = (int)((listViewMatchedPlayers.Width - point.X) * 0.9);
-            listViewFilterCountory.Height = (int)(listViewFilterCountory.Width / 1.618);
-            listViewFilterCountory.Visible = true;
+            listViewFilterCountry.Location = new Point(point.X - 5, point.Y - 5);
+            listViewFilterCountry.Width = (int)((listViewMatchedPlayers.Width - point.X) * 0.9);
+            listViewFilterCountry.Height = (int)(listViewFilterCountry.Width / 1.618);
+            listViewFilterCountry.Visible = true;
         }
     }
 
@@ -184,7 +184,7 @@ public partial class FormHistory : ControllableForm
     private List<string> GetCountryFilterList()
     {
         var list = new List<string>();
-        foreach(ListViewItem item in listViewFilterCountory.CheckedItems) {
+        foreach(ListViewItem item in listViewFilterCountry.CheckedItems) {
             list.Add(item.Text);
         }
 

@@ -69,7 +69,7 @@ namespace AoE2NetDesktop.Form
             this.tabPagePlayers = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
             this.splitContainerPlayers = new System.Windows.Forms.SplitContainer();
-            this.listViewFilterCountory = new System.Windows.Forms.ListView();
+            this.listViewFilterCountry = new System.Windows.Forms.ListView();
             this.Country = new System.Windows.Forms.ColumnHeader();
             this.listViewMatchedPlayers = new System.Windows.Forms.ListView();
             this.columnHeaderName = new System.Windows.Forms.ColumnHeader();
@@ -458,7 +458,7 @@ namespace AoE2NetDesktop.Form
             // 
             // splitContainerPlayers.Panel1
             // 
-            this.splitContainerPlayers.Panel1.Controls.Add(this.listViewFilterCountory);
+            this.splitContainerPlayers.Panel1.Controls.Add(this.listViewFilterCountry);
             this.splitContainerPlayers.Panel1.Controls.Add(this.listViewMatchedPlayers);
             // 
             // splitContainerPlayers.Panel2
@@ -472,23 +472,23 @@ namespace AoE2NetDesktop.Form
             // 
             // listViewFilterCountory
             // 
-            this.listViewFilterCountory.CheckBoxes = true;
-            this.listViewFilterCountory.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.listViewFilterCountry.CheckBoxes = true;
+            this.listViewFilterCountry.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Country});
-            this.listViewFilterCountory.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.listViewFilterCountory.GridLines = true;
-            this.listViewFilterCountory.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listViewFilterCountory.Location = new System.Drawing.Point(225, 45);
-            this.listViewFilterCountory.Margin = new System.Windows.Forms.Padding(4);
-            this.listViewFilterCountory.MultiSelect = false;
-            this.listViewFilterCountory.Name = "listViewFilterCountory";
-            this.listViewFilterCountory.Size = new System.Drawing.Size(1052, 565);
-            this.listViewFilterCountory.TabIndex = 14;
-            this.listViewFilterCountory.UseCompatibleStateImageBehavior = false;
-            this.listViewFilterCountory.View = System.Windows.Forms.View.List;
-            this.listViewFilterCountory.Visible = false;
-            this.listViewFilterCountory.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewFilterCountory_ItemChecked);
-            this.listViewFilterCountory.MouseLeave += new System.EventHandler(this.ListViewFilterCountory_MouseLeave);
+            this.listViewFilterCountry.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.listViewFilterCountry.GridLines = true;
+            this.listViewFilterCountry.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listViewFilterCountry.Location = new System.Drawing.Point(225, 45);
+            this.listViewFilterCountry.Margin = new System.Windows.Forms.Padding(4);
+            this.listViewFilterCountry.MultiSelect = false;
+            this.listViewFilterCountry.Name = "listViewFilterCountory";
+            this.listViewFilterCountry.Size = new System.Drawing.Size(1052, 565);
+            this.listViewFilterCountry.TabIndex = 14;
+            this.listViewFilterCountry.UseCompatibleStateImageBehavior = false;
+            this.listViewFilterCountry.View = System.Windows.Forms.View.List;
+            this.listViewFilterCountry.Visible = false;
+            this.listViewFilterCountry.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewFilterCountory_ItemChecked);
+            this.listViewFilterCountry.MouseLeave += new System.EventHandler(this.ListViewFilterCountory_MouseLeave);
             // 
             // Country
             // 
@@ -733,6 +733,6 @@ namespace AoE2NetDesktop.Form
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.ColumnHeader Country;
-        private System.Windows.Forms.ListView listViewFilterCountory;
+        private System.Windows.Forms.ListView listViewFilterCountry;
     }
 }
