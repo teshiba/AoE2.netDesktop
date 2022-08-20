@@ -90,4 +90,14 @@ public static class PlayerExt
 
         return ret;
     }
+
+    /// <summary>
+    /// Gets Image file location on AoE2De app.
+    /// </summary>
+    /// <param name="player">player.</param>
+    /// <returns>Image file location.</returns>
+    public static string GetCivImageLocation(this Player player)
+    {
+        return AoE2DeApp.GetCivImageLocation(player.GetCivEnName());
+    }
 }

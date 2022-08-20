@@ -385,7 +385,7 @@ public partial class FormMain : ControllableForm
         labelName1v1P1.Text = CtrlMain.GetPlayerNameString(player1.Name);
         labelName1v1P1.Font = CtrlMain.GetFontStyle(player1, labelName1v1P1.Font);
         labelName1v1P1.Tag = player1;
-        pictureBoxCiv1v1P1.ImageLocation = AoE2DeApp.GetCivImageLocation(player1.GetCivEnName());
+        pictureBoxCiv1v1P1.ImageLocation = player1.GetCivImageLocation();
         pictureBoxUnit1v1P1.Image = UnitImages.Load(player1.GetCivEnName(), player1.GetColor());
         labelRate1v1P1.Text = CtrlMain.GetRateString(player1.Rating);
         labelWins1v1P1.Text = CtrlMain.GetWinsString(player1);
@@ -398,7 +398,7 @@ public partial class FormMain : ControllableForm
         labelName1v1P2.Text = CtrlMain.GetPlayerNameString(player2.Name);
         labelName1v1P2.Font = CtrlMain.GetFontStyle(player2, labelName1v1P2.Font);
         labelName1v1P2.Tag = player2;
-        pictureBoxCiv1v1P2.ImageLocation = AoE2DeApp.GetCivImageLocation(player2.GetCivEnName());
+        pictureBoxCiv1v1P2.ImageLocation = player2.GetCivImageLocation();
         pictureBoxUnit1v1P2.Image = UnitImages.Load(player2.GetCivEnName(), player2.GetColor());
         labelRate1v1P2.Text = CtrlMain.GetRateString(player2.Rating);
         labelWins1v1P2.Text = CtrlMain.GetWinsString(player2);
@@ -418,7 +418,7 @@ public partial class FormMain : ControllableForm
                 labelName[index].Font = CtrlMain.GetFontStyle(player, labelName[index].Font);
                 labelName[index].Tag = player;
                 pictureBox[index].Visible = true;
-                pictureBox[index].ImageLocation = AoE2DeApp.GetCivImageLocation(player.GetCivEnName());
+                pictureBox[index].ImageLocation = player.GetCivImageLocation();
                 labelRate[index].Text = CtrlMain.GetRateString(player.Rating);
                 labelCiv[index].Text = player.GetCivName();
             } else {
