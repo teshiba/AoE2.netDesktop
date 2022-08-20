@@ -66,7 +66,7 @@ public partial class FormHistory : ControllableForm
         if(await Controler.ReadPlayerMatchHistoryAsync()) {
             UpdateMatchesTabView();
             UpdateStatisticsTabGraph();
-            UpdatePlayersTabListView();
+            UpdateListViewPlayers(textBoxFindName.Text, checkBoxIgnoreCase.Checked);
             UpdatePlayersTabGraph();
             UpdatePlayersTabListViewFilterCountory();
         } else {

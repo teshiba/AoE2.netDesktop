@@ -74,8 +74,6 @@ public partial class FormHistory : ControllableForm
         listViewFilterCountry.EndUpdate();
     }
 
-    private void UpdatePlayersTabListView() => UpdateListViewPlayers(string.Empty, true);
-
     private void UpdateListViewPlayers(string playerName, bool ignoreCase)
     {
         var listViewItems = new List<ListViewItem>();
