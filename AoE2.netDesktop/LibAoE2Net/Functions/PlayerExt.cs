@@ -54,17 +54,7 @@ public static class PlayerExt
     /// <param name="player">Player.</param>
     /// <returns>Color string or "-" if Color is null.</returns>
     public static Color GetColor(this Player player)
-    {
-        Color ret;
-
-        if(Enumerable.Range(1, 8).Contains(player.Color ?? 0)) {
-            ret = AoE2DeApp.PlayerColors[(int)player.Color - 1];
-        } else {
-            ret = Color.Transparent;
-        }
-
-        return ret;
-    }
+                => AoE2DeApp.GetColor(player.Color);
 
     /// <summary>
     /// Get rate string.

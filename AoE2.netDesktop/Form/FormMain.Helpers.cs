@@ -354,7 +354,7 @@ public partial class FormMain : ControllableForm
         panelTeam2.BackColor = chromaKey;
 
         for(int i = 0; i < labelColor.Count; i++) {
-            labelColor[i].BackColor = AoE2DeApp.PlayerColors[i];
+            labelColor[i].BackColor = AoE2DeApp.GetColor(i + 1);
         }
     }
 
