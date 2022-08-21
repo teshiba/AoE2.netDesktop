@@ -124,27 +124,6 @@ public partial class FormHistoryTests
     }
 
     [TestMethod]
-    public void FormHistoryTestMouseMoveNull()
-    {
-        // Arrange
-        var testClass = new FormHistoryPrivate();
-        var arg = new MouseEventArgs(MouseButtons.Left, 0, 0, 0, 0);
-        var done = false;
-
-        // Act
-        testClass.Shown += async (sender, e) =>
-        {
-            await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-            testClass.FormsPlotPlayerRate_MouseMove(arg);
-            testClass.Close();
-            done = true;
-        };
-
-        testClass.ShowDialog();
-        Assert.IsTrue(done);
-    }
-
-    [TestMethod]
     [DataRow(Orientation.Horizontal)]
     [DataRow(Orientation.Vertical)]
     public void FormHistoryTestSplitContainerPlayers_DoubleClick(Orientation orientation)
@@ -339,26 +318,6 @@ public partial class FormHistoryTests
             testClass.listViewFilterCountory.Visible = true;
             testClass.listViewFilterCountory.Items[0].Focused = true;
             testClass.listViewFilterCountory.Items[0].Checked = true;
-            testClass.Close();
-            done = true;
-        };
-
-        testClass.ShowDialog();
-        Assert.IsTrue(done);
-    }
-
-    [TestMethod]
-    public void FormHistoryTestListViewFilterCountory_MouseLeave()
-    {
-        // Arrange
-        var testClass = new FormHistoryPrivate();
-        var done = false;
-
-        // Act
-        testClass.Shown += async (sender, e) =>
-        {
-            await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-            testClass.ListViewFilterCountory_MouseLeave(new EventArgs());
             testClass.Close();
             done = true;
         };

@@ -114,7 +114,9 @@ public partial class FormHistory : ControllableForm
             var ret = false;
 
             if(x.Key.Contains(playerName, stringComparison)) {
-                if(countries.Count == 0 || countries.Contains(x.Value.Country)) {
+                if(checkBoxEnableCountryFilter.Checked == false
+                    || countries.Count == 0
+                    || countries.Contains(x.Value.Country)) {
                     ret = true;
                 }
             }
@@ -165,11 +167,15 @@ public partial class FormHistory : ControllableForm
             openAoE2NetProfileToolStripMenuItem.Visible = true;
         } else {
             e.Cancel = true;
-            listViewFilterCountry.Location = new Point(point.X - 5, point.Y - 5);
-            listViewFilterCountry.Width = (int)((listViewMatchedPlayers.Width - point.X) * 0.9);
-            listViewFilterCountry.Height = (int)(listViewFilterCountry.Width / 1.618);
-            listViewFilterCountry.Visible = true;
         }
+    }
+
+    private void ShowListviewFilterCountry(Point point)
+    {
+        listViewFilterCountry.Location = new Point(point.X - 5, point.Y - 5);
+        listViewFilterCountry.Width = (int)((listViewMatchedPlayers.Width - point.X) * 0.9);
+        listViewFilterCountry.Height = (int)(listViewFilterCountry.Width / 1.618);
+        listViewFilterCountry.Visible = true;
     }
 
     private void TextBoxFindName_TextChanged(object sender, EventArgs e)
@@ -206,12 +212,6 @@ public partial class FormHistory : ControllableForm
         UpdateListViewPlayers(textBoxFindName.Text, checkBox.Checked);
     }
 
-    private void ListViewFilterCountory_MouseLeave(object sender, EventArgs e)
-    {
-        var listview = (ListView)sender;
-        listview.Visible = false;
-    }
-
     private void SplitContainerPlayers_DoubleClick(object sender, EventArgs e)
     {
         switch(splitContainerPlayers.Orientation) {
@@ -234,5 +234,10 @@ public partial class FormHistory : ControllableForm
     private void OpenAoE2NetProfileToolStripMenuItem_Click(object sender, EventArgs e)
     {
         OpenSelectedPlayerProfile();
+    }
+
+    private void CheckBoxCountryFilter_CheckedChanged(object sender, EventArgs e)
+    {
+        UpdateListViewPlayers(textBoxFindName.Text, checkBoxIgnoreCase.Checked);
     }
 }

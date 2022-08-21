@@ -82,7 +82,9 @@ namespace AoE2NetDesktop.Form
             this.columnHeader1v1GameCount = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderLastDate = new System.Windows.Forms.ColumnHeader();
             this.formsPlotCountry = new ScottPlot.FormsPlot();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.panelPlayers = new System.Windows.Forms.Panel();
+            this.checkBoxSetFilter = new System.Windows.Forms.CheckBox();
+            this.checkBoxEnableCountryFilter = new System.Windows.Forms.CheckBox();
             this.textBoxFindName = new System.Windows.Forms.TextBox();
             this.labelFind = new System.Windows.Forms.Label();
             this.checkBoxIgnoreCase = new System.Windows.Forms.CheckBox();
@@ -102,7 +104,7 @@ namespace AoE2NetDesktop.Form
             this.splitContainerPlayers.Panel1.SuspendLayout();
             this.splitContainerPlayers.Panel2.SuspendLayout();
             this.splitContainerPlayers.SuspendLayout();
-            this.panel3.SuspendLayout();
+            this.panelPlayers.SuspendLayout();
             this.tabControlHistory.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -428,7 +430,7 @@ namespace AoE2NetDesktop.Form
             // tabPagePlayers
             // 
             this.tabPagePlayers.Controls.Add(this.panel4);
-            this.tabPagePlayers.Controls.Add(this.panel3);
+            this.tabPagePlayers.Controls.Add(this.panelPlayers);
             this.tabPagePlayers.Location = new System.Drawing.Point(4, 30);
             this.tabPagePlayers.Margin = new System.Windows.Forms.Padding(4);
             this.tabPagePlayers.Name = "tabPagePlayers";
@@ -470,7 +472,7 @@ namespace AoE2NetDesktop.Form
             this.splitContainerPlayers.TabIndex = 9;
             this.splitContainerPlayers.DoubleClick += new System.EventHandler(this.SplitContainerPlayers_DoubleClick);
             // 
-            // listViewFilterCountory
+            // listViewFilterCountry
             // 
             this.listViewFilterCountry.CheckBoxes = true;
             this.listViewFilterCountry.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -481,14 +483,13 @@ namespace AoE2NetDesktop.Form
             this.listViewFilterCountry.Location = new System.Drawing.Point(225, 45);
             this.listViewFilterCountry.Margin = new System.Windows.Forms.Padding(4);
             this.listViewFilterCountry.MultiSelect = false;
-            this.listViewFilterCountry.Name = "listViewFilterCountory";
+            this.listViewFilterCountry.Name = "listViewFilterCountry";
             this.listViewFilterCountry.Size = new System.Drawing.Size(1052, 565);
             this.listViewFilterCountry.TabIndex = 14;
             this.listViewFilterCountry.UseCompatibleStateImageBehavior = false;
             this.listViewFilterCountry.View = System.Windows.Forms.View.List;
             this.listViewFilterCountry.Visible = false;
             this.listViewFilterCountry.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewFilterCountory_ItemChecked);
-            this.listViewFilterCountry.MouseLeave += new System.EventHandler(this.ListViewFilterCountory_MouseLeave);
             // 
             // Country
             // 
@@ -520,6 +521,7 @@ namespace AoE2NetDesktop.Form
             this.listViewMatchedPlayers.UseCompatibleStateImageBehavior = false;
             this.listViewMatchedPlayers.View = System.Windows.Forms.View.Details;
             this.listViewMatchedPlayers.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListViewMatchedPlayers_ColumnClick);
+            this.listViewMatchedPlayers.Enter += new System.EventHandler(this.ListViewMatchedPlayers_Enter);
             this.listViewMatchedPlayers.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListViewMatchedPlayers_MouseDoubleClick);
             // 
             // columnHeaderName
@@ -578,17 +580,42 @@ namespace AoE2NetDesktop.Form
             this.formsPlotCountry.Size = new System.Drawing.Size(453, 506);
             this.formsPlotCountry.TabIndex = 8;
             // 
-            // panel3
+            // panelPlayers
             // 
-            this.panel3.Controls.Add(this.textBoxFindName);
-            this.panel3.Controls.Add(this.labelFind);
-            this.panel3.Controls.Add(this.checkBoxIgnoreCase);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(4, 4);
-            this.panel3.Margin = new System.Windows.Forms.Padding(4);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1307, 46);
-            this.panel3.TabIndex = 14;
+            this.panelPlayers.Controls.Add(this.checkBoxSetFilter);
+            this.panelPlayers.Controls.Add(this.checkBoxEnableCountryFilter);
+            this.panelPlayers.Controls.Add(this.textBoxFindName);
+            this.panelPlayers.Controls.Add(this.labelFind);
+            this.panelPlayers.Controls.Add(this.checkBoxIgnoreCase);
+            this.panelPlayers.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelPlayers.Location = new System.Drawing.Point(4, 4);
+            this.panelPlayers.Margin = new System.Windows.Forms.Padding(4);
+            this.panelPlayers.Name = "panelPlayers";
+            this.panelPlayers.Size = new System.Drawing.Size(2036, 46);
+            this.panelPlayers.TabIndex = 14;
+            // 
+            // checkBoxSetFilter
+            // 
+            this.checkBoxSetFilter.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBoxSetFilter.AutoSize = true;
+            this.checkBoxSetFilter.Location = new System.Drawing.Point(608, 5);
+            this.checkBoxSetFilter.Name = "checkBoxSetFilter";
+            this.checkBoxSetFilter.Size = new System.Drawing.Size(79, 31);
+            this.checkBoxSetFilter.TabIndex = 16;
+            this.checkBoxSetFilter.Text = "Set filter";
+            this.checkBoxSetFilter.UseVisualStyleBackColor = true;
+            this.checkBoxSetFilter.CheckedChanged += new System.EventHandler(this.CheckBoxFilter_CheckedChanged);
+            // 
+            // checkBoxEnableCountryFilter
+            // 
+            this.checkBoxEnableCountryFilter.AutoSize = true;
+            this.checkBoxEnableCountryFilter.Location = new System.Drawing.Point(436, 8);
+            this.checkBoxEnableCountryFilter.Name = "checkBoxEnableCountryFilter";
+            this.checkBoxEnableCountryFilter.Size = new System.Drawing.Size(169, 25);
+            this.checkBoxEnableCountryFilter.TabIndex = 14;
+            this.checkBoxEnableCountryFilter.Text = "Enable country filter";
+            this.checkBoxEnableCountryFilter.UseVisualStyleBackColor = true;
+            this.checkBoxEnableCountryFilter.CheckedChanged += new System.EventHandler(this.CheckBoxCountryFilter_CheckedChanged);
             // 
             // textBoxFindName
             // 
@@ -668,8 +695,8 @@ namespace AoE2NetDesktop.Form
             this.splitContainerPlayers.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerPlayers)).EndInit();
             this.splitContainerPlayers.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
+            this.panelPlayers.ResumeLayout(false);
+            this.panelPlayers.PerformLayout();
             this.tabControlHistory.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -731,8 +758,10 @@ namespace AoE2NetDesktop.Form
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panelPlayers;
         private System.Windows.Forms.ColumnHeader Country;
         private System.Windows.Forms.ListView listViewFilterCountry;
+        private System.Windows.Forms.CheckBox checkBoxEnableCountryFilter;
+        private System.Windows.Forms.CheckBox checkBoxSetFilter;
     }
 }

@@ -33,7 +33,7 @@ public partial class FormHistoryTests
             listViewStatistics = this.GetControl<ListView>("listViewStatistics");
             listViewMatchedPlayers = this.GetControl<ListView>("listViewMatchedPlayers");
             listViewMatchHistory = this.GetControl<ListView>("listViewMatchHistory");
-            listViewFilterCountory = this.GetControl<ListView>("listViewFilterCountory");
+            listViewFilterCountory = this.GetControl<ListView>("listViewFilterCountry");
             textBoxFindName = this.GetControl<TextBox>("textBoxFindName");
             checkBoxIgnoreCase = this.GetControl<CheckBox>("checkBoxIgnoreCase");
             splitContainerPlayers = this.GetControl<SplitContainer>("splitContainerPlayers");
@@ -41,16 +41,6 @@ public partial class FormHistoryTests
             openAoE2NetProfileToolStripMenuItem = this.GetControl<ToolStripMenuItem>("openAoE2NetProfileToolStripMenuItem");
             openHistoryToolStripMenuItem = this.GetControl<ToolStripMenuItem>("openHistoryToolStripMenuItem");
             formsPlotPlayerRate = this.GetControl<ScottPlot.FormsPlot>("formsPlotPlayerRate");
-        }
-
-        public void ListViewFilterCountory_MouseLeave(EventArgs e)
-        {
-            this.Invoke("ListViewFilterCountory_MouseLeave", listViewFilterCountory, e);
-        }
-
-        public void FormsPlotPlayerRate_MouseMove(MouseEventArgs arg)
-        {
-            this.Invoke("FormsPlotPlayerRate_MouseMove", formsPlotPlayerRate, arg);
         }
 
         public void SplitContainerPlayers_DoubleClick(MouseEventArgs arg)
