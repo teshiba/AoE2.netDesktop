@@ -235,17 +235,19 @@ public class CtrlHistory : FormControler
 
         foreach(var match in matches) {
             var selectedPlayer = match.GetPlayer(ProfileId);
-            foreach(var player in match.Players.Where(player => player != selectedPlayer)) {
-                var name = player.Name ?? $"<Name null: ID: {player.ProfilId} >";
-                if(!players.ContainsKey(name)) {
-                    players.Add(name, new PlayerInfo());
-                }
+            if(selectedPlayer != null) {
+                foreach(var player in match.Players.Where(player => player != selectedPlayer)) {
+                    var name = player.Name ?? $"<Name null: ID: {player.ProfilId} >";
+                    if(!players.ContainsKey(name)) {
+                        var country = CountryCode.ConvertToFullName(player.Country);
+                        var profileId = player.ProfilId;
+                        players.Add(name, new PlayerInfo(selectedPlayer.ProfilId, profileId, country));
+                    }
 
-                GetplayerInfo(match, player, selectedPlayer.CheckDiplomacy(player), players[name]);
+                    players[name].Matches.Add(match);
+                }
             }
         }
-
-        MatchedPlayerInfos = players;
 
         return players;
     }
@@ -344,35 +346,6 @@ public class CtrlHistory : FormControler
         }
 
         return Leaderboards;
-    }
-
-    private static void GetplayerInfo(Match match, Player player, Diplomacy diplomacy, PlayerInfo playerInfo)
-    {
-        playerInfo.Country = CountryCode.ConvertToFullName(player.Country);
-        playerInfo.ProfileId = player.ProfilId;
-
-        switch(match.LeaderboardId) {
-        case LeaderboardId.RM1v1:
-            playerInfo.RateRM1v1 = player.Rating;
-            playerInfo.Games1v1++;
-            break;
-        case LeaderboardId.RMTeam:
-            playerInfo.RateRMTeam = player.Rating;
-            playerInfo.GamesTeam++;
-
-            switch(diplomacy) {
-            case Diplomacy.Ally:
-                playerInfo.GamesAlly++;
-                break;
-            case Diplomacy.Enemy:
-                playerInfo.GamesEnemy++;
-                break;
-            }
-
-            break;
-        }
-
-        playerInfo.LastDate = match.GetOpenedTime();
     }
 
     private async Task<LeaderboardContainer> GetLeaderboardAsync(LeaderboardId leaderBoardId)

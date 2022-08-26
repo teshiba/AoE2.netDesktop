@@ -16,9 +16,11 @@ public partial class FormHistoryTests
         public ListView listViewStatistics;
         public ListView listViewMatchedPlayers;
         public ListView listViewMatchHistory;
-        public ListView listViewFilterCountory;
+        public ListView listViewFilterCountry;
         public TextBox textBoxFindName;
         public CheckBox checkBoxIgnoreCase;
+        public CheckBox checkBoxSetFilter;
+        public CheckBox checkBoxEnableCountryFilter;
         public SplitContainer splitContainerPlayers;
         public ToolStripMenuItem openAoE2NetProfileToolStripMenuItem;
         public ToolStripMenuItem openHistoryToolStripMenuItem;
@@ -33,14 +35,21 @@ public partial class FormHistoryTests
             listViewStatistics = this.GetControl<ListView>("listViewStatistics");
             listViewMatchedPlayers = this.GetControl<ListView>("listViewMatchedPlayers");
             listViewMatchHistory = this.GetControl<ListView>("listViewMatchHistory");
-            listViewFilterCountory = this.GetControl<ListView>("listViewFilterCountry");
+            listViewFilterCountry = this.GetControl<ListView>("listViewFilterCountry");
             textBoxFindName = this.GetControl<TextBox>("textBoxFindName");
             checkBoxIgnoreCase = this.GetControl<CheckBox>("checkBoxIgnoreCase");
+            checkBoxSetFilter = this.GetControl<CheckBox>("checkBoxSetFilter");
+            checkBoxEnableCountryFilter = this.GetControl<CheckBox>("checkBoxEnableCountryFilter");
             splitContainerPlayers = this.GetControl<SplitContainer>("splitContainerPlayers");
             tabControlHistory = this.GetControl<TabControl>("tabControlHistory");
             openAoE2NetProfileToolStripMenuItem = this.GetControl<ToolStripMenuItem>("openAoE2NetProfileToolStripMenuItem");
             openHistoryToolStripMenuItem = this.GetControl<ToolStripMenuItem>("openHistoryToolStripMenuItem");
             formsPlotPlayerRate = this.GetControl<ScottPlot.FormsPlot>("formsPlotPlayerRate");
+        }
+
+        public void FormsPlotPlayerRate_MouseMove(MouseEventArgs arg)
+        {
+            this.Invoke("FormsPlotPlayerRate_MouseMove", formsPlotPlayerRate, arg);
         }
 
         public void SplitContainerPlayers_DoubleClick(MouseEventArgs arg)

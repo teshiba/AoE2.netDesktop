@@ -74,13 +74,18 @@ public partial class FormHistory : ControllableForm
         listViewFilterCountry.EndUpdate();
     }
 
-    private void UpdateListViewPlayers(string playerName, bool ignoreCase)
+    private void UpdateListViewMatchedPlayers()
     {
+        var listview = listViewMatchedPlayers;
+        var playerName = textBoxFindName.Text;
+        var enable = checkBoxEnableCountryFilter.Checked;
+        var ignoreCase = checkBoxIgnoreCase.Checked;
+
         var listViewItems = new List<ListViewItem>();
         var countries = GetCountryFilterList();
 
-        listViewMatchedPlayers.BeginUpdate();
-        listViewMatchedPlayers.Items.Clear();
+        listview.BeginUpdate();
+        listview.Items.Clear();
 
         StringComparison stringComparison;
         if(ignoreCase) {
@@ -104,9 +109,9 @@ public partial class FormHistory : ControllableForm
 
         // When calling Add of ListViewItemCollection frequently in foreach etc.,
         // it takes too much time in the ListViewItemSorte, so AddRange is called once instead.
-        listViewMatchedPlayers.Items.AddRange(listViewItems.ToArray());
+        listview.Items.AddRange(listViewItems.ToArray());
 
-        listViewMatchedPlayers.EndUpdate();
+        listview.EndUpdate();
 
         // local function
         bool Predicate(KeyValuePair<string, PlayerInfo> x)
@@ -114,7 +119,7 @@ public partial class FormHistory : ControllableForm
             var ret = false;
 
             if(x.Key.Contains(playerName, stringComparison)) {
-                if(checkBoxEnableCountryFilter.Checked == false
+                if(enable == false
                     || countries.Count == 0
                     || countries.Contains(x.Value.Country)) {
                     ret = true;
@@ -180,10 +185,7 @@ public partial class FormHistory : ControllableForm
 
     private void TextBoxFindName_TextChanged(object sender, EventArgs e)
     {
-        var textbox = (TextBox)sender;
-        UpdateListViewPlayers(textbox.Text, checkBoxIgnoreCase.Checked);
-
-        Awaiter.Complete();
+        UpdateListViewMatchedPlayers();
     }
 
     private List<string> GetCountryFilterList()
@@ -202,14 +204,13 @@ public partial class FormHistory : ControllableForm
         // each item's checkboxes are initialized, and this handler is called.
         // But the player list does not need updating.
         if(e.Item.Focused) {
-            UpdateListViewPlayers(textBoxFindName.Text, checkBoxIgnoreCase.Checked);
+            UpdateListViewMatchedPlayers();
         }
     }
 
     private void CheckBoxIgnoreCase_CheckedChanged(object sender, EventArgs e)
     {
-        var checkBox = (CheckBox)sender;
-        UpdateListViewPlayers(textBoxFindName.Text, checkBox.Checked);
+        UpdateListViewMatchedPlayers();
     }
 
     private void SplitContainerPlayers_DoubleClick(object sender, EventArgs e)
@@ -236,8 +237,8 @@ public partial class FormHistory : ControllableForm
         OpenSelectedPlayerProfile();
     }
 
-    private void CheckBoxCountryFilter_CheckedChanged(object sender, EventArgs e)
+    private void CheckBoxEnableCountryFilter_CheckedChanged(object sender, EventArgs e)
     {
-        UpdateListViewPlayers(textBoxFindName.Text, checkBoxIgnoreCase.Checked);
+        UpdateListViewMatchedPlayers();
     }
 }

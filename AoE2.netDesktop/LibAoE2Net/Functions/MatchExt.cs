@@ -51,7 +51,7 @@ public static class MatchExt
     /// <param name="match">Search target.</param>
     /// <param name="profileId">profile ID.</param>
     /// <returns>Player.</returns>
-    public static Player GetPlayer(this Match match, int profileId)
+    public static Player GetPlayer(this Match match, int? profileId)
     {
         Player ret = null;
         foreach(var item in match.Players.Where(item => item.ProfilId == profileId)) {

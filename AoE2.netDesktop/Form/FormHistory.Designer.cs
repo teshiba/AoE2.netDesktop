@@ -615,7 +615,7 @@ namespace AoE2NetDesktop.Form
             this.checkBoxEnableCountryFilter.TabIndex = 14;
             this.checkBoxEnableCountryFilter.Text = "Enable country filter";
             this.checkBoxEnableCountryFilter.UseVisualStyleBackColor = true;
-            this.checkBoxEnableCountryFilter.CheckedChanged += new System.EventHandler(this.CheckBoxCountryFilter_CheckedChanged);
+            this.checkBoxEnableCountryFilter.CheckedChanged += new System.EventHandler(this.CheckBoxEnableCountryFilter_CheckedChanged);
             // 
             // textBoxFindName
             // 

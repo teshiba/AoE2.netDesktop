@@ -6,7 +6,6 @@ using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using System;
 using System.Drawing;
-using System.Linq;
 
 /// <summary>
 /// Extention of Player class.
