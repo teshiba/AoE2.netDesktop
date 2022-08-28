@@ -423,7 +423,6 @@ public partial class FormMain : ControllableForm
                 labelCiv[index].Text = player.GetCivName();
             } else {
                 labelErrText.Text = $"invalid player.Color[{player.Color}]";
-                break;
             }
         }
     }
