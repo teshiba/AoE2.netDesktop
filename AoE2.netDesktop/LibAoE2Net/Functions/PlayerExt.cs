@@ -13,6 +13,11 @@ using System.Drawing;
 public static class PlayerExt
 {
     /// <summary>
+    /// player name if player name is null.
+    /// </summary>
+    public const string PlayerNullName = "-- Name is NOT set --";
+
+    /// <summary>
     /// Check Diplomacy.
     /// </summary>
     /// <param name="player1">a player.</param>

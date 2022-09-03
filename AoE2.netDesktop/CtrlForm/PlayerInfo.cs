@@ -19,10 +19,12 @@ public class PlayerInfo
     /// Initializes a new instance of the <see cref="PlayerInfo"/> class.
     /// </summary>
     /// <param name="comparedProfileId">PlayerInfo compares this profileId.</param>
+    /// <param name="name">Player Name.</param>
     /// <param name="profileId">profileId for this PlayerInfo.</param>
     /// <param name="country">country Name for this PlayerInfo.</param>
-    public PlayerInfo(int? comparedProfileId, int? profileId, string country)
+    public PlayerInfo(int? comparedProfileId, string name, int? profileId, string country)
     {
+        Name = name;
         Country = country;
         ProfileId = profileId;
         this.comparedProfileId = (int)comparedProfileId;
@@ -32,14 +34,20 @@ public class PlayerInfo
     /// Initializes a new instance of the <see cref="PlayerInfo"/> class.
     /// </summary>
     /// <param name="comparedProfileId">PlayerInfo compares this profileId.</param>
+    /// <param name="name">Player Name.</param>
     /// <param name="profileId">profileId for this PlayerInfo.</param>
-    public PlayerInfo(int? comparedProfileId, int? profileId)
-        : this(comparedProfileId, profileId, null)
+    public PlayerInfo(int? comparedProfileId, string name, int? profileId)
+        : this(comparedProfileId, name, profileId, null)
     {
     }
 
     /// <summary>
-    /// Gets country Name.
+    /// Gets player name.
+    /// </summary>
+    public string Name { get; }
+
+    /// <summary>
+    /// Gets country name.
     /// </summary>
     public string Country { get; }
 

@@ -77,7 +77,7 @@ public partial class FormHistory : ControllableForm
     private void UpdateListViewMatchedPlayers()
     {
         var listview = listViewMatchedPlayers;
-        var playerName = textBoxFindName.Text;
+        var findPlayerName = textBoxFindName.Text;
         var enable = checkBoxEnableCountryFilter.Checked;
         var ignoreCase = checkBoxIgnoreCase.Checked;
 
@@ -94,16 +94,17 @@ public partial class FormHistory : ControllableForm
             stringComparison = StringComparison.CurrentCulture;
         }
 
-        foreach(var player in Controler.MatchedPlayerInfos.Where(Predicate)) {
-            var listviewItem = new ListViewItem(player.Key);
-            listviewItem.SubItems.Add(player.Value.Country);
-            listviewItem.SubItems.Add(player.Value.RateRM1v1.ToString());
-            listviewItem.SubItems.Add(player.Value.RateRMTeam.ToString());
-            listviewItem.SubItems.Add(player.Value.GamesTeam.ToString());
-            listviewItem.SubItems.Add(player.Value.GamesAlly.ToString());
-            listviewItem.SubItems.Add(player.Value.GamesEnemy.ToString());
-            listviewItem.SubItems.Add(player.Value.Games1v1.ToString());
-            listviewItem.SubItems.Add(player.Value.LastDate.ToString());
+        foreach(var playerInfo in Controler.MatchedPlayerInfos.Where(Predicate)) {
+            var listviewItem = new ListViewItem(playerInfo.Value.Name);
+            listviewItem.SubItems.Add(playerInfo.Value.Country);
+            listviewItem.SubItems.Add(playerInfo.Value.RateRM1v1.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.RateRMTeam.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.GamesTeam.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.GamesAlly.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.GamesEnemy.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.Games1v1.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.LastDate.ToString());
+            listviewItem.Tag = playerInfo.Value;
             listViewItems.Add(listviewItem);
         }
 
@@ -114,11 +115,11 @@ public partial class FormHistory : ControllableForm
         listview.EndUpdate();
 
         // local function
-        bool Predicate(KeyValuePair<string, PlayerInfo> x)
+        bool Predicate(KeyValuePair<int?, PlayerInfo> x)
         {
             var ret = false;
 
-            if(x.Key.Contains(playerName, stringComparison)) {
+            if(x.Value.Name.Contains(findPlayerName, stringComparison)) {
                 if(enable == false
                     || countries.Count == 0
                     || countries.Contains(x.Value.Country)) {
@@ -135,16 +136,17 @@ public partial class FormHistory : ControllableForm
         var selectedItems = listViewMatchedPlayers.SelectedItems;
 
         if(selectedItems.Count != 0) {
-            Controler.OpenProfile(selectedItems[0].Text);
+            var playerInfo = (PlayerInfo)selectedItems[0].Tag;
+            Controler.OpenProfile(playerInfo.ProfileId);
         }
     }
 
     private void OpenSelectedPlayerHistory()
     {
         var selectedItems = listViewMatchedPlayers.SelectedItems;
-
         if(selectedItems.Count != 0) {
-            var formHistory = Controler.GenerateFormHistory(selectedItems[0].Text);
+            var playerInfo = (PlayerInfo)selectedItems[0].Tag;
+            var formHistory = CtrlHistory.GenerateFormHistory(playerInfo.Name, playerInfo.ProfileId);
             formHistory.Show();
         }
     }

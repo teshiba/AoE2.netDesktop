@@ -117,7 +117,7 @@ public partial class FormMainTests
             this.Invoke("PictureBoxMap1v1_DoubleClick", sender, e);
         }
 
-        public async Task<Match> RedrawLastMatchAsync(int profileId)
+        public async Task<Match> RedrawLastMatchAsync(int? profileId)
         {
             return await this.Invoke<Task<Match>>("RedrawLastMatchAsync", profileId).ConfigureAwait(false);
         }

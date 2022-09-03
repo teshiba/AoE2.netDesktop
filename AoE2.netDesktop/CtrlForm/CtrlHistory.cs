@@ -6,6 +6,7 @@ using AoE2NetDesktop.LibAoE2Net;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
 
 using System;
@@ -80,7 +81,7 @@ public class CtrlHistory : FormControler
     /// <summary>
     /// Gets matched Player Infos.
     /// </summary>
-    public Dictionary<string, PlayerInfo> MatchedPlayerInfos { get; private set; } = new();
+    public Dictionary<int?, PlayerInfo> MatchedPlayerInfos { get; private set; } = new();
 
     /// <summary>
     /// Get leaderboard string.
@@ -229,22 +230,23 @@ public class CtrlHistory : FormControler
     /// </summary>
     /// <param name="matches">Player match history.</param>
     /// <returns>Matched players info.</returns>
-    public Dictionary<string, PlayerInfo> CreateMatchedPlayersInfo(PlayerMatchHistory matches)
+    public Dictionary<int?, PlayerInfo> CreateMatchedPlayersInfo(PlayerMatchHistory matches)
     {
-        var players = new Dictionary<string, PlayerInfo>();
+        var players = new Dictionary<int?, PlayerInfo>();
 
         foreach(var match in matches) {
             var selectedPlayer = match.GetPlayer(ProfileId);
             if(selectedPlayer != null) {
                 foreach(var player in match.Players.Where(player => player != selectedPlayer)) {
-                    var name = player.Name ?? $"<Name null: ID: {player.ProfilId} >";
-                    if(!players.ContainsKey(name)) {
+                    var profilId = player.ProfilId ?? -1;
+                    var playerName = player.Name ?? PlayerExt.PlayerNullName;
+                    if(!players.ContainsKey(profilId)) {
                         var country = CountryCode.ConvertToFullName(player.Country);
-                        var profileId = player.ProfilId;
-                        players.Add(name, new PlayerInfo(selectedPlayer.ProfilId, profileId, country));
+                        var value = new PlayerInfo(selectedPlayer.ProfilId, playerName, profilId, country);
+                        players.Add(profilId, value);
                     }
 
-                    players[name].Matches.Add(match);
+                    players[profilId].Matches.Add(match);
                 }
             }
         }
@@ -255,12 +257,12 @@ public class CtrlHistory : FormControler
     /// <summary>
     /// Open player's profile on AoE2.net.
     /// </summary>
-    /// <param name="playerName">player name.</param>
+    /// <param name="profileId">player profile ID.</param>
     /// <returns>Request URI.</returns>
-    public string OpenProfile(string playerName)
+    public string OpenProfile(int? profileId)
     {
         var ret = new Process();
-        if(MatchedPlayerInfos.TryGetValue(playerName, out PlayerInfo playerInfo)) {
+        if(MatchedPlayerInfos.TryGetValue(profileId, out PlayerInfo playerInfo)) {
             try {
                 ret = AoE2net.OpenAoE2net((int)playerInfo.ProfileId);
             } catch(Win32Exception noBrowser) {
@@ -269,7 +271,7 @@ public class CtrlHistory : FormControler
                 Debug.Print(other.Message);
             }
         } else {
-            Debug.Print($"Unavailable Player Name: {playerName}.");
+            Debug.Print($"Unavailable Player Name: {profileId}.");
         }
 
         return ret.StartInfo.Arguments;
@@ -278,16 +280,16 @@ public class CtrlHistory : FormControler
     /// <summary>
     /// Open player's History on new History window.
     /// </summary>
-    /// <param name="playerName">player name.</param>
+    /// <param name="profileId">player profile ID.</param>
     /// <returns>Instance of FormHistory.</returns>
-    public FormHistory GenerateFormHistory(string playerName)
+    public FormHistory GenerateFormHistory(int? profileId)
     {
         FormHistory ret = null;
 
-        if(MatchedPlayerInfos.TryGetValue(playerName, out PlayerInfo playerInfo)) {
-            ret = GenerateFormHistory(playerName, playerInfo.ProfileId);
+        if(MatchedPlayerInfos.TryGetValue(profileId, out PlayerInfo playerInfo)) {
+            ret = GenerateFormHistory(playerInfo.Name, playerInfo.ProfileId);
         } else {
-            Debug.Print($"Unavailable Player Name: {playerName}.");
+            Debug.Print($"Unavailable Player ID: {profileId}.");
         }
 
         return ret;
@@ -306,7 +308,8 @@ public class CtrlHistory : FormControler
             PlayerRatingHistories = await AoE2netHelpers.GetPlayerRatingHistoryAllAsync(ProfileId);
             MatchedPlayerInfos = CreateMatchedPlayersInfo(PlayerMatchHistory);
             ret = true;
-        } catch(Exception) {
+        } catch(Exception ex) {
+            Log.Error(ex.Message);
             PlayerMatchHistory = new();
             PlayerRatingHistories = new();
             MatchedPlayerInfos = new();
