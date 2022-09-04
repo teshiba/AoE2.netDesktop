@@ -324,11 +324,11 @@ namespace AoE2NetDesktop.Form
             // 
             this.tabPageStatistics.Controls.Add(this.formsPlotPlayerRate);
             this.tabPageStatistics.Controls.Add(this.listViewStatistics);
-            this.tabPageStatistics.Location = new System.Drawing.Point(4, 24);
+            this.tabPageStatistics.Location = new System.Drawing.Point(4, 30);
             this.tabPageStatistics.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageStatistics.Name = "tabPageStatistics";
             this.tabPageStatistics.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageStatistics.Size = new System.Drawing.Size(1315, 570);
+            this.tabPageStatistics.Size = new System.Drawing.Size(1315, 564);
             this.tabPageStatistics.TabIndex = 1;
             this.tabPageStatistics.Text = "Statistics";
             this.tabPageStatistics.UseVisualStyleBackColor = true;
@@ -341,7 +341,7 @@ namespace AoE2NetDesktop.Form
             this.formsPlotPlayerRate.Location = new System.Drawing.Point(4, 233);
             this.formsPlotPlayerRate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotPlayerRate.Name = "formsPlotPlayerRate";
-            this.formsPlotPlayerRate.Size = new System.Drawing.Size(1307, 333);
+            this.formsPlotPlayerRate.Size = new System.Drawing.Size(1307, 327);
             this.formsPlotPlayerRate.TabIndex = 6;
             this.formsPlotPlayerRate.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormsPlotPlayerRate_MouseMove);
             // 
@@ -362,7 +362,7 @@ namespace AoE2NetDesktop.Form
             this.columnHeaderHighestStreak,
             this.columnHeaderLowestStreak});
             this.listViewStatistics.Dock = System.Windows.Forms.DockStyle.Top;
-            this.listViewStatistics.Font = new System.Drawing.Font("Yu Gothic UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.listViewStatistics.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.listViewStatistics.FullRowSelect = true;
             this.listViewStatistics.GridLines = true;
             this.listViewStatistics.Location = new System.Drawing.Point(4, 4);
@@ -378,7 +378,7 @@ namespace AoE2NetDesktop.Form
             // columnHeaderLeaderboard
             // 
             this.columnHeaderLeaderboard.Text = "Leaderboard";
-            this.columnHeaderLeaderboard.Width = 100;
+            this.columnHeaderLeaderboard.Width = 110;
             // 
             // columnHeaderRank
             // 
@@ -396,6 +396,7 @@ namespace AoE2NetDesktop.Form
             // columnHeaderGames
             // 
             this.columnHeaderGames.Text = "Games";
+            this.columnHeaderGames.Width = 70;
             // 
             // columnHeaderWinRate
             // 
@@ -591,7 +592,7 @@ namespace AoE2NetDesktop.Form
             this.panelPlayers.Location = new System.Drawing.Point(4, 4);
             this.panelPlayers.Margin = new System.Windows.Forms.Padding(4);
             this.panelPlayers.Name = "panelPlayers";
-            this.panelPlayers.Size = new System.Drawing.Size(2036, 46);
+            this.panelPlayers.Size = new System.Drawing.Size(1307, 46);
             this.panelPlayers.TabIndex = 14;
             // 
             // checkBoxSetFilter
