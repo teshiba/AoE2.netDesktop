@@ -32,6 +32,9 @@ public class LogTests
 
         // Assert
         Assert.AreEqual(expVal, actVal);
+
+        // Clean
+        Log.Level = Log.LevelDefault;
     }
 
     [TestMethod]
@@ -49,6 +52,9 @@ public class LogTests
 
         // Assert
         Assert.AreEqual(expVal, actVal);
+
+        // Clean
+        Log.Level = Log.LevelDefault;
     }
 
     [TestMethod]
@@ -67,6 +73,9 @@ public class LogTests
 
         // Assert
         Assert.AreEqual(expVal, actVal);
+
+        // Clean
+        Log.Level = Log.LevelDefault;
     }
 
     [TestMethod]
@@ -86,5 +95,8 @@ public class LogTests
 
         // Assert
         Assert.AreEqual(expVal, actVal);
+
+        // Clean
+        Log.Level = Log.LevelDefault;
     }
 }

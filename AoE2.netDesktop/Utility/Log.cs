@@ -8,8 +8,13 @@ using System.Collections.Generic;
 /// </summary>
 public static class Log
 {
+    /// <summary>
+    /// Default log level.
+    /// </summary>
+    public const LogLevel LevelDefault = LogLevel.Error;
+
     private static readonly List<string> History = new();
-    private static LogLevel level = LogLevel.Debug;
+    private static LogLevel level = LevelDefault;
 
     /// <summary>
     /// Gets or Sets log level.
@@ -51,9 +56,8 @@ public static class Log
     /// <param name="debugString">output strings.</param>
     public static void Info(string debugString)
     {
-        LastMessage = $"[INFO] {debugString}";
-
         if(Level >= LogLevel.Info) {
+            LastMessage = $"[INFO] {debugString}";
             System.Diagnostics.Debug.Print(LastMessage);
             History.Add(LastMessage);
         }
@@ -65,9 +69,8 @@ public static class Log
     /// <param name="message">output strings.</param>
     public static void Error(string message)
     {
-        LastMessage = $"[ERROR] {message}";
-
         if(Level >= LogLevel.Error) {
+            LastMessage = $"[ERROR] {message}";
             System.Diagnostics.Debug.Print(LastMessage);
             History.Add(LastMessage);
         }
@@ -79,9 +82,8 @@ public static class Log
     /// <param name="message">output strings.</param>
     public static void Debug(string message)
     {
-        LastMessage = $"[DEBUG] {message}";
-
         if(Level >= LogLevel.Debug) {
+            LastMessage = $"[DEBUG] {message}";
             System.Diagnostics.Debug.Print(LastMessage);
             History.Add(LastMessage);
         }
