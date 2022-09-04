@@ -9,6 +9,14 @@ using System;
 [TestClass]
 public class LogTests
 {
+    [TestInitialize]
+    public void TestInit()
+    {
+        // clean up
+        Log.Level = LogLevel.Non;
+        Log.Clear();
+    }
+
     [TestMethod]
     public void NonTest()
     {
@@ -24,10 +32,6 @@ public class LogTests
 
         // Assert
         Assert.AreEqual(expVal, actVal);
-
-        // clean up
-        Log.Level = LogLevel.Non;
-        Log.Clear();
     }
 
     [TestMethod]
@@ -45,10 +49,6 @@ public class LogTests
 
         // Assert
         Assert.AreEqual(expVal, actVal);
-
-        // clean up
-        Log.Level = LogLevel.Non;
-        Log.Clear();
     }
 
     [TestMethod]
@@ -67,10 +67,6 @@ public class LogTests
 
         // Assert
         Assert.AreEqual(expVal, actVal);
-
-        // clean up
-        Log.Level = LogLevel.Non;
-        Log.Clear();
     }
 
     [TestMethod]
@@ -90,9 +86,5 @@ public class LogTests
 
         // Assert
         Assert.AreEqual(expVal, actVal);
-
-        // clean up
-        Log.Level = LogLevel.Non;
-        Log.Clear();
     }
 }
