@@ -15,6 +15,7 @@ using System.Linq;
 /// </summary>
 public class PlayerRateFormsPlot
 {
+    private readonly DateTime rateNormalized = new(2022, 7, 14);
     private readonly FormsPlot formsPlot;
     private PlayerRatePlot lastHighlightPlot;
 
@@ -78,6 +79,9 @@ public class PlayerRateFormsPlot
             GetMaxX(Plots) + 10,
             GetMinY(Plots) - 10,
             GetMaxY(Plots) + 10);
+
+        DrawNormalizedEloDate();
+
         formsPlot.Plot.Render();
     }
 
@@ -130,5 +134,19 @@ public class PlayerRateFormsPlot
         }
 
         return ret;
+    }
+
+    private void DrawNormalizedEloDate()
+    {
+        var vline = formsPlot.Plot.AddVerticalLine(rateNormalized.ToOADate());
+        vline.LineWidth = 2;
+        vline.PositionLabel = true;
+        vline.PositionLabelBackground = vline.Color;
+        vline.DragEnabled = false;
+
+        vline.PositionFormatter = x =>
+        {
+            return $"Update Elo:{DateTime.FromOADate(x):MM/dd}";
+        };
     }
 }
