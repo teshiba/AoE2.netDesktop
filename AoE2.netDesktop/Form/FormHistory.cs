@@ -100,6 +100,7 @@ public partial class FormHistory : ControllableForm
     private void CheckBoxFilter_CheckedChanged(object sender, EventArgs e)
     {
         if(checkBoxSetFilter.Checked) {
+            checkBoxEnableCountryFilter.Checked = true;
             var marginTop = (int)(listViewMatchedPlayers.Height * 0.05);
             var marginLeft = (int)(listViewMatchedPlayers.Width * 0.05);
             var point = new Point(marginLeft, marginTop);
