@@ -11,7 +11,6 @@ using AoE2NetDesktop.Utility.SysApi;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Threading.Tasks;
 
 /// <summary>
@@ -19,6 +18,12 @@ using System.Threading.Tasks;
 /// </summary>
 public class CtrlMain : FormControler
 {
+    private static readonly Dictionary<MatchResult, Color> MatchResultColor = new() {
+        { MatchResult.Victorious, Color.Green },
+        { MatchResult.Defeated, Color.Red },
+        { MatchResult.InProgress, Color.Gray },
+    };
+
     /// <summary>
     /// Initializes a new instance of the <see cref="CtrlMain"/> class.
     /// </summary>
@@ -61,32 +66,6 @@ public class CtrlMain : FormControler
         }
 
         return new Font(prototype, fontStyle);
-    }
-
-    /// <summary>
-    /// Get average rate of even or odd Team color No.
-    /// </summary>
-    /// <param name="players">player.</param>
-    /// <param name="team">team type.</param>
-    /// <returns>team average rate value.</returns>
-    public static int? GetAverageRate(List<Player> players, TeamType team)
-    {
-        if(players is null) {
-            throw new ArgumentNullException(nameof(players));
-        }
-
-        Func<Player, bool> predicate = team switch {
-            TeamType.EvenColorNo => EvenFunc,
-            TeamType.OddColorNo => OddFunc,
-            _ => throw new ArgumentOutOfRangeException(nameof(team)),
-        };
-
-        return (int?)players.Where(predicate)
-                            .Select(player => player.Rating)
-                            .Average();
-
-        static bool EvenFunc(Player player) => player.Color % 2 == 0;
-        static bool OddFunc(Player player) => player.Color % 2 != 0;
     }
 
     /// <summary>
@@ -192,6 +171,35 @@ public class CtrlMain : FormControler
         if(LastMatch != null) {
             var timezone = DateTimeExt.TimeZoneInfo.ToString().Split(" ")[0].Replace("(", string.Empty).Replace(")", string.Empty);
             ret = $"{DateTimeExt.GetDateTimeFormat(LastMatch.GetOpenedTime())} {timezone}";
+        }
+
+        return ret;
+    }
+
+    /// <summary>
+    /// Get match result string by victory value.
+    /// </summary>
+    /// <param name="won">victory value of aoe2.net.</param>
+    /// <returns>Match result.</returns>
+    public static MatchResult GetMatchResult(bool? won)
+    {
+        return won switch {
+            false => MatchResult.Defeated,
+            true => MatchResult.Victorious,
+            _ => MatchResult.InProgress,
+        };
+    }
+
+    /// <summary>
+    /// Get match result color.
+    /// </summary>
+    /// <param name="matchResult">match result.</param>
+    /// <returns>result color.</returns>
+    public static Color GetMatchResultColor(MatchResult matchResult)
+    {
+        var result = MatchResultColor.TryGetValue(matchResult, out Color ret);
+        if(!result) {
+            ret = Color.Transparent;
         }
 
         return ret;

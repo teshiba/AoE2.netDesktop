@@ -280,6 +280,13 @@ public partial class FormMain : ControllableForm
         ((Label)sender).DrawString(e, 14, Color.Black, Color.LightSeaGreen);
     }
 
+    private void LabelMatchResult_Paint(object sender, PaintEventArgs e)
+    {
+        var label = (Label)sender;
+        var matchResultColor = CtrlMain.GetMatchResultColor((MatchResult)label.Tag);
+        label.DrawString(e, 18, Color.Black, matchResultColor);
+    }
+
     private void LabelStartTimeTeam_Paint(object sender, PaintEventArgs e)
     {
         ((Label)sender).DrawString(e, 18, Color.Black, Color.White);

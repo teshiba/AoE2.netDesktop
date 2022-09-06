@@ -5,7 +5,9 @@ using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 /// <summary>
 /// Extention of Player class.
@@ -103,5 +105,76 @@ public static class PlayerExt
     public static string GetCivImageLocation(this Player player)
     {
         return AoE2DeApp.GetCivImageLocation(player.GetCivEnName());
+    }
+
+    /// <summary>
+    /// Get whether player color index is odd.
+    /// </summary>
+    /// <param name="player">player.</param>
+    /// <returns>Whether the color is odd.</returns>
+    public static bool IsOddColor(this Player player)
+        => player.Color % 2 != 0;
+
+    /// <summary>
+    /// Get match result.
+    /// </summary>
+    /// <param name="player">player.</param>
+    /// <returns>MatchResult.</returns>
+    /// <exception cref="ArgumentNullException">players is null.</exception>
+    public static MatchResult GetMatchResult(this Player player)
+    {
+        if(player is null) {
+            throw new ArgumentNullException(nameof(player));
+        }
+
+        return player.Won switch {
+            true => MatchResult.Victorious,
+            false => MatchResult.Defeated,
+            _ => MatchResult.InProgress,
+        };
+    }
+
+    /// <summary>
+    /// Get match result.
+    /// </summary>
+    /// <param name="players">player list.</param>
+    /// <param name="team">Team type.</param>
+    /// <returns>MatchResult.</returns>
+    /// <exception cref="ArgumentNullException">players is null.</exception>
+    public static MatchResult GetMatchResult(this List<Player> players, TeamType team)
+    {
+        if(players is null) {
+            throw new ArgumentNullException(nameof(players));
+        }
+
+        var player = players.Where(SelectTeam(team)).First();
+
+        return player.GetMatchResult();
+    }
+
+    /// <summary>
+    /// Get average rate of even or odd Team color No.
+    /// </summary>
+    /// <param name="players">player.</param>
+    /// <param name="team">team type.</param>
+    /// <returns>team average rate value.</returns>
+    public static int? GetAverageRate(this List<Player> players, TeamType team)
+    {
+        if(players is null) {
+            throw new ArgumentNullException(nameof(players));
+        }
+
+        return (int?)players.Where(SelectTeam(team))
+                            .Select(player => player.Rating)
+                            .Average();
+    }
+
+    private static Func<Player, bool> SelectTeam(TeamType team)
+    {
+        return team switch {
+            TeamType.EvenColorNo => player => !player.IsOddColor(),
+            TeamType.OddColorNo => player => player.IsOddColor(),
+            _ => throw new ArgumentOutOfRangeException(nameof(team)),
+        };
     }
 }

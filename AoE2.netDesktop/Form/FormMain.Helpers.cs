@@ -40,6 +40,16 @@ public partial class FormMain : ControllableForm
     /// </summary>
     public CtrlSettings CtrlSettings { get; private set; }
 
+    private static async Task GetGameResultAsync(Player player, LeaderboardId? leaderboardId)
+    {
+        var leaderboardContainer = await AoE2net.GetLeaderboardAsync(leaderboardId, 0, 1, player.ProfilId);
+        if(leaderboardContainer.Leaderboards.Count != 0) {
+            var leaderboard = leaderboardContainer.Leaderboards[0];
+            player.Games = leaderboard.Games;
+            player.Wins = leaderboard.Wins;
+        }
+    }
+
     private void InitOnChangePropertyHandler()
     {
         onChangePropertyHandler = new() {
@@ -210,11 +220,19 @@ public partial class FormMain : ControllableForm
         labelAveRate1.Text = $"Team1 Ave. Rate: ----";
         labelAveRate2.Text = $"Team2 Ave. Rate: ----";
         labelErrText.Text = string.Empty;
+        labelMatchResultTeam1.Text = MatchResult.InProgress.ToString();
+        labelMatchResultTeam1.Tag = MatchResult.InProgress;
+        labelMatchResultTeam2.Text = MatchResult.InProgress.ToString();
+        labelMatchResultTeam2.Tag = MatchResult.InProgress;
 
         pictureBoxMap1v1.Image = CtrlMain.LoadMapIcon(null);
         labelMap1v1.Text = "-----------------------";
         labelServer1v1.Text = $"Server : -----";
         labelGameId1v1.Text = $"GameID : --------";
+        labelMatchResult1v1p1.Text = MatchResult.InProgress.ToString();
+        labelMatchResult1v1p1.Tag = MatchResult.InProgress;
+        labelMatchResult1v1p2.Text = MatchResult.InProgress.ToString();
+        labelMatchResult1v1p2.Tag = MatchResult.InProgress;
 
         const string IntiStartText = $"Start {DateTimeExt.InvalidDate} {DateTimeExt.InvalidTime}";
         const string ElapsedTimeText = $"Time {DateTimeExt.InvalidTime}";
@@ -360,14 +378,18 @@ public partial class FormMain : ControllableForm
 
     private void SetMatchData(Match match)
     {
-        var aveTeam1 = CtrlMain.GetAverageRate(match.Players, TeamType.OddColorNo);
-        var aveTeam2 = CtrlMain.GetAverageRate(match.Players, TeamType.EvenColorNo);
+        var aveTeam1 = match.Players.GetAverageRate(TeamType.OddColorNo);
+        var aveTeam2 = match.Players.GetAverageRate(TeamType.EvenColorNo);
         pictureBoxMap.Image = CtrlMain.LoadMapIcon(match.MapType);
         labelMap.Text = $"Map: {match.GetMapName()}";
         labelServer.Text = $"Server : {match.Server}";
         labelGameId.Text = $"GameID : {match.MatchId}";
         labelAveRate1.Text = $"Team1 Ave. Rate:{aveTeam1}";
         labelAveRate2.Text = $"Team2 Ave. Rate:{aveTeam2}";
+        labelMatchResultTeam1.Text = match.Players.GetMatchResult(TeamType.OddColorNo).ToString();
+        labelMatchResultTeam1.Tag = match.Players.GetMatchResult(TeamType.OddColorNo);
+        labelMatchResultTeam2.Text = match.Players.GetMatchResult(TeamType.EvenColorNo).ToString();
+        labelMatchResultTeam2.Tag = match.Players.GetMatchResult(TeamType.EvenColorNo);
     }
 
     private void SetMatchData1v1(Match match)
@@ -378,8 +400,19 @@ public partial class FormMain : ControllableForm
         labelGameId1v1.Text = $"GameID : {match.MatchId}";
     }
 
-    private void SetPlayersData1v1(Player player1, Player player2)
+    private void SetPlayersData1v1(List<Player> players)
     {
+        Player player1;
+        Player player2;
+
+        if(players[0].IsOddColor()) {
+            player1 = players[0];
+            player2 = players[1];
+        } else {
+            player1 = players[1];
+            player2 = players[0];
+        }
+
         label1v1ColorP1.Text = player1.GetColorString();
         label1v1ColorP1.BackColor = player1.GetColor();
         labelName1v1P1.Text = CtrlMain.GetPlayerNameString(player1.Name);
@@ -392,6 +425,8 @@ public partial class FormMain : ControllableForm
         labelLoses1v1P1.Text = CtrlMain.GetLossesString(player1);
         labelCiv1v1P1.Text = player1.GetCivName();
         labelTeamResultP1.Text = $"";
+        labelMatchResult1v1p1.Text = player1.GetMatchResult().ToString();
+        labelMatchResult1v1p1.Tag = player1.GetMatchResult();
 
         label1v1ColorP2.Text = player2.GetColorString();
         label1v1ColorP2.BackColor = player2.GetColor();
@@ -405,6 +440,8 @@ public partial class FormMain : ControllableForm
         labelLoses1v1P2.Text = CtrlMain.GetLossesString(player2);
         labelCiv1v1P2.Text = player2.GetCivName();
         labelTeamResultP2.Text = $"";
+        labelMatchResult1v1p2.Text = player2.GetMatchResult().ToString();
+        labelMatchResult1v1p2.Tag = player2.GetMatchResult();
     }
 
     private void SetPlayersData(List<Player> players)
@@ -459,22 +496,9 @@ public partial class FormMain : ControllableForm
     private async Task<Match> SetLastMatchDataAsync(Match match, LeaderboardId? leaderboard)
     {
         if(match.NumPlayers == 2) {
-            var leaderboardP1 = await AoE2net.GetLeaderboardAsync(leaderboard, 0, 1, match.Players[0].ProfilId);
-            var leaderboardP2 = await AoE2net.GetLeaderboardAsync(leaderboard, 0, 1, match.Players[1].ProfilId);
-
-            if(leaderboardP1.Leaderboards.Count != 0) {
-                var player1 = leaderboardP1.Leaderboards[0];
-                match.Players[0].Games = player1.Games;
-                match.Players[0].Wins = player1.Wins;
-            }
-
-            if(leaderboardP2.Leaderboards.Count != 0) {
-                var player2 = leaderboardP2.Leaderboards[0];
-                match.Players[1].Games = player2.Games;
-                match.Players[1].Wins = player2.Wins;
-            }
-
-            SetPlayersData1v1(match.Players[0], match.Players[1]);
+            await GetGameResultAsync(match.Players[0], leaderboard);
+            await GetGameResultAsync(match.Players[1], leaderboard);
+            SetPlayersData1v1(match.Players);
             SetMatchData1v1(match);
         } else {
             SetPlayersData(match.Players);
