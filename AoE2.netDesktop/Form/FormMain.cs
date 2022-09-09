@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
+using static AoE2NetDesktop.CtrlForm.LabelType;
+
 /// <summary>
 /// App main form.
 /// </summary>
@@ -121,55 +123,55 @@ public partial class FormMain : ControllableForm
 
     private void LabelRate1v1P2_Paint(object sender, PaintEventArgs e)
     {
-        ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+        ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ScoreValue1v1]);
         Awaiter.Complete();
     }
 
     private void LabelWins1v1P2_Paint(object sender, PaintEventArgs e)
     {
-        ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+        ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ScoreValue1v1]);
         Awaiter.Complete();
     }
 
     private void LabelLoses1v1P2_Paint(object sender, PaintEventArgs e)
     {
-        ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+        ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ScoreValue1v1]);
         Awaiter.Complete();
     }
 
     private void LabelLoses1v1P1_Paint(object sender, PaintEventArgs e)
     {
-        ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+        ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ScoreValue1v1]);
         Awaiter.Complete();
     }
 
     private void LabelWins1v1P1_Paint(object sender, PaintEventArgs e)
     {
-        ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+        ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ScoreValue1v1]);
         Awaiter.Complete();
     }
 
     private void LabelRate1v1P1_Paint(object sender, PaintEventArgs e)
     {
-        ((Label)sender).DrawString(e, 18, Color.Black, Color.DeepSkyBlue);
+        ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ScoreValue1v1]);
         Awaiter.Complete();
     }
 
     private void LabelRate1v1_Paint(object sender, PaintEventArgs e)
     {
-        ((Label)sender).DrawString(e, 18, Color.Black, Color.DarkGoldenrod);
+        ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ScoreLabel1v1]);
         Awaiter.Complete();
     }
 
     private void LabelWins1v1_Paint(object sender, PaintEventArgs e)
     {
-        ((Label)sender).DrawString(e, 18, Color.Black, Color.DarkGoldenrod);
+        ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ScoreLabel1v1]);
         Awaiter.Complete();
     }
 
-    private void LabelLoses_Paint(object sender, PaintEventArgs e)
+    private void LabelLoses1v1_Paint(object sender, PaintEventArgs e)
     {
-        ((Label)sender).DrawString(e, 18, Color.Black, Color.DarkGoldenrod);
+        ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ScoreLabel1v1]);
         Awaiter.Complete();
     }
 
@@ -177,12 +179,7 @@ public partial class FormMain : ControllableForm
     {
         var labelName = (Label)sender;
         var player = (Player)labelName.Tag;
-
-        if(player?.ProfilId == CtrlSettings.ProfileId) {
-            labelName.DrawString(e, 20, Color.Black, Color.DarkOrange);
-        } else {
-            labelName.DrawString(e, 20, Color.Black, Color.MediumSeaGreen);
-        }
+        labelName.DrawString(e, CtrlMain.GetPlayerBorderedStyle(player, CtrlSettings.ProfileId));
     }
 
     private void LabelName1v1P1_Paint(object sender, PaintEventArgs e)
@@ -246,71 +243,47 @@ public partial class FormMain : ControllableForm
     }
 
     private void LabelRate_Paint(object sender, PaintEventArgs e)
-    {
-        ((Label)sender).DrawString(e, 22, Color.Black, Color.DeepSkyBlue);
-    }
+        => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[RateValueTeam]);
 
     private void LabelCiv_Paint(object sender, PaintEventArgs e)
-    {
-        ((Label)sender).DrawString(e, 15, Color.Black, Color.YellowGreen);
-    }
+        => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[CivNameTeam]);
 
     private void LabelAveRate_Paint(object sender, PaintEventArgs e)
-    {
-        ((Label)sender).DrawString(e, 18, Color.Black, Color.DarkGoldenrod);
-    }
+        => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ScoreLabel1v1]);
 
     private void LabelColor_Paint(object sender, PaintEventArgs e)
-    {
-        ((Label)sender).DrawString(e, 23, Color.Black, Color.White);
-    }
+        => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ColorNoTeam]);
 
     private void LabelMap_Paint(object sender, PaintEventArgs e)
-    {
-        ((Label)sender).DrawString(e, 28, Color.Black, Color.DarkKhaki);
-    }
+        => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[MapNameTeam]);
 
     private void LabelGameId_Paint(object sender, PaintEventArgs e)
-    {
-        ((Label)sender).DrawString(e, 14, Color.Black, Color.LightSeaGreen);
-    }
+        => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[GameId]);
 
     private void LabelServer_Paint(object sender, PaintEventArgs e)
-    {
-        ((Label)sender).DrawString(e, 14, Color.Black, Color.LightSeaGreen);
-    }
+        => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ServerName]);
 
     private void LabelMatchResult_Paint(object sender, PaintEventArgs e)
     {
         var label = (Label)sender;
-        var matchResultColor = CtrlMain.GetMatchResultColor((MatchResult)label.Tag);
-        label.DrawString(e, 18, Color.Black, matchResultColor);
+        var style = CtrlMain.GetMatchResultBorderedStyle((MatchResult)label.Tag);
+        label.DrawString(e, style);
     }
 
     private void LabelStartTimeTeam_Paint(object sender, PaintEventArgs e)
-    {
-        ((Label)sender).DrawString(e, 18, Color.Black, Color.White);
-    }
+        => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[StartTime]);
 
     private void LabelElapsedTimeTeam_Paint(object sender, PaintEventArgs e)
-    {
-        ((Label)sender).DrawString(e, 20, Color.Black, Color.White);
-    }
+        => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ElapsedTime]);
 
     private void LabelStartTime1v1_Paint(object sender, PaintEventArgs e)
-    {
-        ((Label)sender).DrawString(e, 18, Color.Black, Color.White);
-    }
+        => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[StartTime]);
 
     private void LabelElapsedTime1v1_Paint(object sender, PaintEventArgs e)
-    {
-        ((Label)sender).DrawString(e, 20, Color.Black, Color.White);
-    }
+        => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ElapsedTime]);
 
     private void FormMain_Resize(object sender, EventArgs e)
-    {
-        ResizePanels();
-    }
+        => ResizePanels();
 
     private void Controls_MouseDown(object sender, MouseEventArgs e)
     {
@@ -380,9 +353,7 @@ public partial class FormMain : ControllableForm
     }
 
     private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-        OpenSettings();
-    }
+        => OpenSettings();
 
     private void LabelName_DoubleClick(object sender, EventArgs e)
     {
@@ -400,14 +371,10 @@ public partial class FormMain : ControllableForm
     }
 
     private void ShowMyHistoryHToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-        CtrlSettings.ShowMyHistory();
-    }
+        => CtrlSettings.ShowMyHistory();
 
     private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-        Close();
-    }
+        => Close();
 
     private void FormMain_Activated(object sender, EventArgs e)
     {

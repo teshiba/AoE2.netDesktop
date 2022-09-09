@@ -13,15 +13,33 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 
+using static LabelType;
+
 /// <summary>
 /// FormMain controler.
 /// </summary>
 public class CtrlMain : FormControler
 {
-    private static readonly Dictionary<MatchResult, Color> MatchResultColor = new() {
-        { MatchResult.Victorious, Color.Green },
-        { MatchResult.Defeated, Color.Red },
-        { MatchResult.InProgress, Color.Gray },
+    /// <summary>
+    ///  Bordered string styles.
+    /// </summary>
+    public static readonly Dictionary<LabelType, BorderedStringStyle> BorderStyles = new() {
+        { ScoreValue1v1, new BorderedStringStyle(18, Color.Black, Color.DeepSkyBlue) },
+        { ScoreLabel1v1, new BorderedStringStyle(18, Color.Black, Color.DarkGoldenrod) },
+        { MyName, new BorderedStringStyle(20, Color.Black, Color.DarkOrange) },
+        { PlayerName, new BorderedStringStyle(20, Color.Black, Color.MediumSeaGreen) },
+        { RateValueTeam, new BorderedStringStyle(22, Color.Black, Color.DeepSkyBlue) },
+        { CivNameTeam, new BorderedStringStyle(15, Color.Black, Color.YellowGreen) },
+        { AveRateTeam, new BorderedStringStyle(18, Color.Black, Color.DarkGoldenrod) },
+        { ColorNoTeam, new BorderedStringStyle(23, Color.Black, Color.White) },
+        { MapNameTeam, new BorderedStringStyle(28, Color.Black, Color.DarkKhaki) },
+        { GameId, new BorderedStringStyle(14, Color.Black, Color.LightSeaGreen) },
+        { ServerName, new BorderedStringStyle(14, Color.Black, Color.LightSeaGreen) },
+        { StartTime, new BorderedStringStyle(18, Color.Black, Color.White) },
+        { ElapsedTime, new BorderedStringStyle(20, Color.Black, Color.White) },
+        { Victorious, new BorderedStringStyle(18, Color.Black, Color.Green) },
+        { Defeated, new BorderedStringStyle(18, Color.Black, Color.Red) },
+        { InProgress, new BorderedStringStyle(18, Color.Black, Color.Gray) },
     };
 
     /// <summary>
@@ -194,12 +212,32 @@ public class CtrlMain : FormControler
     /// Get match result color.
     /// </summary>
     /// <param name="matchResult">match result.</param>
-    /// <returns>result color.</returns>
-    public static Color GetMatchResultColor(MatchResult matchResult)
+    /// <returns>Bordered style.</returns>
+    public static BorderedStringStyle GetMatchResultBorderedStyle(MatchResult matchResult)
     {
-        var result = MatchResultColor.TryGetValue(matchResult, out Color ret);
-        if(!result) {
-            ret = Color.Transparent;
+        BorderedStringStyle ret = matchResult switch {
+            MatchResult.Victorious => BorderStyles[Victorious],
+            MatchResult.Defeated => BorderStyles[Defeated],
+            MatchResult.InProgress => BorderStyles[InProgress],
+            _ => BorderStyles[InProgress],
+        };
+        return ret;
+    }
+
+    /// <summary>
+    /// Get match result color.
+    /// </summary>
+    /// <param name="player">Target player.</param>
+    /// <param name="profileId">your profileID.</param>
+    /// <returns>Bordered style.</returns>
+    public static BorderedStringStyle GetPlayerBorderedStyle(Player player, int? profileId)
+    {
+        BorderedStringStyle ret;
+
+        if(player?.ProfilId == profileId) {
+            ret = BorderStyles[MyName];
+        } else {
+            ret = BorderStyles[PlayerName];
         }
 
         return ret;
