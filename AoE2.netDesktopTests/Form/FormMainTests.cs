@@ -90,30 +90,57 @@ public partial class FormMainTests
     }
 
     [TestMethod]
-    public void FormMainTest1v1()
+    public void FormMainTest1v1OddColor()
     {
         // Arrange
         AoE2net.ComClient = new TestHttpClient();
         var testClass = new FormMainPrivate();
-        testClass.httpClient.PlayerLastMatchUri = "playerLastMatchaoe2de1v1.json";
+        testClass.httpClient.PlayerLastMatchUri = "playerLastMatchaoe2de1v1OddColor.json";
         var expVal = string.Empty;
         var done = false;
 
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
-            await testClass.Awaiter.WaitAsync("LabelRate1v1P2_Paint");
-            await testClass.Awaiter.WaitAsync("LabelWins1v1P2_Paint");
-            await testClass.Awaiter.WaitAsync("LabelLoses1v1P2_Paint");
-            await testClass.Awaiter.WaitAsync("LabelLoses1v1P1_Paint");
-            await testClass.Awaiter.WaitAsync("LabelWins1v1P1_Paint");
-            await testClass.Awaiter.WaitAsync("LabelRate1v1P1_Paint");
-            await testClass.Awaiter.WaitAsync("LabelRate1v1_Paint");
-            await testClass.Awaiter.WaitAsync("LabelWins1v1_Paint");
-            await testClass.Awaiter.WaitAsync("LabelLoses_Paint");
-            await testClass.Awaiter.WaitAsync("LabelName1v1P1_Paint");
-            await testClass.Awaiter.WaitAsync("LabelName1v1P2_Paint");
+            await WaitPaintAsync(testClass);
+
+            // Assert
+            Assert.AreEqual("1", testClass.label1v1ColorP1.Text);
+            Assert.AreEqual("2", testClass.label1v1ColorP2.Text);
+            Assert.AreEqual("Player1", testClass.labelName1v1P1.Text);
+            Assert.AreEqual("Player2", testClass.labelName1v1P2.Text);
+
+            testClass.Close();
+
+            done = true;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+    }
+
+    [TestMethod]
+    public void FormMainTest1v1EvenColor()
+    {
+        // Arrange
+        AoE2net.ComClient = new TestHttpClient();
+        var testClass = new FormMainPrivate();
+        testClass.httpClient.PlayerLastMatchUri = "playerLastMatchaoe2de1v1EvenColor.json";
+        var expVal = string.Empty;
+        var done = false;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await WaitPaintAsync(testClass);
+
+            // Assert
+            Assert.AreEqual("1", testClass.label1v1ColorP1.Text);
+            Assert.AreEqual("2", testClass.label1v1ColorP2.Text);
+            Assert.AreEqual("Player2", testClass.labelName1v1P1.Text);
+            Assert.AreEqual("Player1", testClass.labelName1v1P2.Text);
 
             testClass.Close();
 
@@ -826,5 +853,21 @@ public partial class FormMainTests
 
         // Assert
         // nothing to do.
+    }
+
+    private static async Task WaitPaintAsync(FormMainPrivate testClass)
+    {
+        await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+        await testClass.Awaiter.WaitAsync("LabelRate1v1P2_Paint");
+        await testClass.Awaiter.WaitAsync("LabelWins1v1P2_Paint");
+        await testClass.Awaiter.WaitAsync("LabelLoses1v1P2_Paint");
+        await testClass.Awaiter.WaitAsync("LabelLoses1v1P1_Paint");
+        await testClass.Awaiter.WaitAsync("LabelWins1v1P1_Paint");
+        await testClass.Awaiter.WaitAsync("LabelRate1v1P1_Paint");
+        await testClass.Awaiter.WaitAsync("LabelRate1v1_Paint");
+        await testClass.Awaiter.WaitAsync("LabelWins1v1_Paint");
+        await testClass.Awaiter.WaitAsync("LabelLoses1v1_Paint");
+        await testClass.Awaiter.WaitAsync("LabelName1v1P1_Paint");
+        await testClass.Awaiter.WaitAsync("LabelName1v1P2_Paint");
     }
 }

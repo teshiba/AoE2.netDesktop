@@ -266,7 +266,7 @@ public partial class FormMain : ControllableForm
     private void LabelMatchResult_Paint(object sender, PaintEventArgs e)
     {
         var label = (Label)sender;
-        var style = CtrlMain.GetMatchResultBorderedStyle((MatchResult)label.Tag);
+        var style = CtrlMain.GetBorderedStyle((MatchResult)label.Tag);
         label.DrawString(e, style);
     }
 

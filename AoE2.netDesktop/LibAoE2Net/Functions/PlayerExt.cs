@@ -116,43 +116,6 @@ public static class PlayerExt
         => player.Color % 2 != 0;
 
     /// <summary>
-    /// Get match result.
-    /// </summary>
-    /// <param name="player">player.</param>
-    /// <returns>MatchResult.</returns>
-    /// <exception cref="ArgumentNullException">players is null.</exception>
-    public static MatchResult GetMatchResult(this Player player)
-    {
-        if(player is null) {
-            throw new ArgumentNullException(nameof(player));
-        }
-
-        return player.Won switch {
-            true => MatchResult.Victorious,
-            false => MatchResult.Defeated,
-            _ => MatchResult.InProgress,
-        };
-    }
-
-    /// <summary>
-    /// Get match result.
-    /// </summary>
-    /// <param name="players">player list.</param>
-    /// <param name="team">Team type.</param>
-    /// <returns>MatchResult.</returns>
-    /// <exception cref="ArgumentNullException">players is null.</exception>
-    public static MatchResult GetMatchResult(this List<Player> players, TeamType team)
-    {
-        if(players is null) {
-            throw new ArgumentNullException(nameof(players));
-        }
-
-        var player = players.Where(SelectTeam(team)).First();
-
-        return player.GetMatchResult();
-    }
-
-    /// <summary>
     /// Get average rate of even or odd Team color No.
     /// </summary>
     /// <param name="players">player.</param>
@@ -164,17 +127,8 @@ public static class PlayerExt
             throw new ArgumentNullException(nameof(players));
         }
 
-        return (int?)players.Where(SelectTeam(team))
+        return (int?)players.Where(team.SelectTeam())
                             .Select(player => player.Rating)
                             .Average();
-    }
-
-    private static Func<Player, bool> SelectTeam(TeamType team)
-    {
-        return team switch {
-            TeamType.EvenColorNo => player => !player.IsOddColor(),
-            TeamType.OddColorNo => player => player.IsOddColor(),
-            _ => throw new ArgumentOutOfRangeException(nameof(team)),
-        };
     }
 }

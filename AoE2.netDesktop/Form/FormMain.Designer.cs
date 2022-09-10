@@ -92,11 +92,11 @@
             this.labelElapsedTimeTeam = new System.Windows.Forms.Label();
             this.labelStartTimeTeam = new System.Windows.Forms.Label();
             this.panel1v1 = new System.Windows.Forms.Panel();
+            this.labelStartTime1v1 = new System.Windows.Forms.Label();
             this.labelMatchResult1v1p1 = new System.Windows.Forms.Label();
             this.labelMatchResult1v1p2 = new System.Windows.Forms.Label();
             this.labelMap1v1 = new System.Windows.Forms.Label();
             this.labelElapsedTime1v1 = new System.Windows.Forms.Label();
-            this.labelStartTime1v1 = new System.Windows.Forms.Label();
             this.labelWins1v1P1 = new System.Windows.Forms.Label();
             this.labelLoses1v1P1 = new System.Windows.Forms.Label();
             this.labelRate1v1P1 = new System.Windows.Forms.Label();
@@ -1002,6 +1002,18 @@
             this.panel1v1.TabIndex = 14;
             this.panel1v1.Visible = false;
             // 
+            // labelStartTime1v1
+            // 
+            this.labelStartTime1v1.BackColor = System.Drawing.SystemColors.Control;
+            this.labelStartTime1v1.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelStartTime1v1.Location = new System.Drawing.Point(7, 76);
+            this.labelStartTime1v1.Name = "labelStartTime1v1";
+            this.labelStartTime1v1.Size = new System.Drawing.Size(288, 22);
+            this.labelStartTime1v1.TabIndex = 21;
+            this.labelStartTime1v1.Text = "Start ----/--/-- --:--:--";
+            this.labelStartTime1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelStartTime1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelStartTime1v1_Paint);
+            // 
             // labelMatchResult1v1p1
             // 
             this.labelMatchResult1v1p1.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -1048,18 +1060,6 @@
             this.labelElapsedTime1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelElapsedTime1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelElapsedTime1v1_Paint);
             // 
-            // labelStartTime1v1
-            // 
-            this.labelStartTime1v1.BackColor = System.Drawing.SystemColors.Control;
-            this.labelStartTime1v1.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelStartTime1v1.Location = new System.Drawing.Point(7, 76);
-            this.labelStartTime1v1.Name = "labelStartTime1v1";
-            this.labelStartTime1v1.Size = new System.Drawing.Size(288, 22);
-            this.labelStartTime1v1.TabIndex = 21;
-            this.labelStartTime1v1.Text = "Start ----/--/-- --:--:--";
-            this.labelStartTime1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.labelStartTime1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelStartTime1v1_Paint);
-            // 
             // labelWins1v1P1
             // 
             this.labelWins1v1P1.BackColor = System.Drawing.SystemColors.Control;
@@ -1102,7 +1102,7 @@
             // labelGameId1v1
             // 
             this.labelGameId1v1.BackColor = System.Drawing.SystemColors.Control;
-            this.labelGameId1v1.Location = new System.Drawing.Point(256, 242);
+            this.labelGameId1v1.Location = new System.Drawing.Point(253, 242);
             this.labelGameId1v1.Name = "labelGameId1v1";
             this.labelGameId1v1.Size = new System.Drawing.Size(141, 21);
             this.labelGameId1v1.TabIndex = 9;
@@ -1113,7 +1113,7 @@
             // labelServer1v1
             // 
             this.labelServer1v1.BackColor = System.Drawing.SystemColors.Control;
-            this.labelServer1v1.Location = new System.Drawing.Point(437, 242);
+            this.labelServer1v1.Location = new System.Drawing.Point(443, 242);
             this.labelServer1v1.Name = "labelServer1v1";
             this.labelServer1v1.Size = new System.Drawing.Size(158, 21);
             this.labelServer1v1.TabIndex = 2;

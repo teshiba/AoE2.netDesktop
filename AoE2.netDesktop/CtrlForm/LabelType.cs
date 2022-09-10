@@ -89,4 +89,14 @@ public enum LabelType
     /// InProgress.
     /// </summary>
     InProgress,
+
+    /// <summary>
+    /// Unknown.
+    /// </summary>
+    Unknown,
+
+    /// <summary>
+    /// NotStarted.
+    /// </summary>
+    NotStarted,
 }

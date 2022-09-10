@@ -1,7 +1,9 @@
 ﻿namespace LibAoE2net.Tests;
 
+using AoE2NetDesktop;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.SysApi;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -80,5 +82,63 @@ public class MatchExtTests
 
         // Assert
         Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    [DataRow(1234L, 4321L, true, TeamType.OddColorNo, MatchResult.Victorious)]
+    [DataRow(1234L, 4321L, true, TeamType.EvenColorNo, MatchResult.Defeated)]
+    [DataRow(1234L, 4321L, false, TeamType.OddColorNo, MatchResult.Defeated)]
+    [DataRow(1234L, 4321L, false, TeamType.EvenColorNo, MatchResult.Victorious)]
+
+    // Unknown
+    [DataRow(1234L, 4321L, null, TeamType.OddColorNo, MatchResult.Unknown)]
+    [DataRow(1234L, 4321L, null, TeamType.EvenColorNo, MatchResult.Unknown)]
+
+    // InProgress
+    [DataRow(1234L, null, true, TeamType.OddColorNo, MatchResult.InProgress)]
+    [DataRow(1234L, null, true, TeamType.EvenColorNo, MatchResult.InProgress)]
+    [DataRow(1234L, null, false, TeamType.OddColorNo, MatchResult.InProgress)]
+    [DataRow(1234L, null, false, TeamType.EvenColorNo, MatchResult.InProgress)]
+    [DataRow(1234L, null, null, TeamType.OddColorNo, MatchResult.InProgress)]
+    [DataRow(1234L, null, null, TeamType.EvenColorNo, MatchResult.InProgress)]
+
+    // NotStarted
+    [DataRow(null, null, true, TeamType.OddColorNo, MatchResult.NotStarted)]
+    [DataRow(null, null, true, TeamType.EvenColorNo, MatchResult.NotStarted)]
+    [DataRow(null, null, false, TeamType.OddColorNo, MatchResult.NotStarted)]
+    [DataRow(null, null, false, TeamType.EvenColorNo, MatchResult.NotStarted)]
+    [DataRow(null, null, null, TeamType.OddColorNo, MatchResult.NotStarted)]
+    [DataRow(null, null, null, TeamType.EvenColorNo, MatchResult.NotStarted)]
+    public void GetMatchResultTest(long? started, long? finished, bool? oddPlayerWon, TeamType teamType, MatchResult expVal)
+    {
+        // Arrange
+        var testClass = new Match {
+            Started = started,
+            Finished = finished,
+            Players = new List<Player> {
+                new Player { Won = oddPlayerWon, Color = 1 },
+                new Player { Won = !oddPlayerWon, Color = 2 },
+            },
+        };
+
+        // Act
+        var actVal = testClass.GetMatchResult(teamType);
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    public void GetMatchResultTestNull()
+    {
+        // Arrange
+        Match testClass = null;
+
+        // Assert
+        Assert.ThrowsException<ArgumentNullException>(() =>
+            {
+                // Act
+                _ = testClass.GetMatchResult(TeamType.OddColorNo);
+            });
     }
 }

@@ -39,7 +39,9 @@ public class CtrlMain : FormControler
         { ElapsedTime, new BorderedStringStyle(20, Color.Black, Color.White) },
         { Victorious, new BorderedStringStyle(18, Color.Black, Color.Green) },
         { Defeated, new BorderedStringStyle(18, Color.Black, Color.Red) },
-        { InProgress, new BorderedStringStyle(18, Color.Black, Color.Gray) },
+        { InProgress, new BorderedStringStyle(18, Color.Black, Color.SlateGray) },
+        { Unknown, new BorderedStringStyle(18, Color.Black, Color.DimGray) },
+        { NotStarted, new BorderedStringStyle(18, Color.Black, Color.DarkGray) },
     };
 
     /// <summary>
@@ -195,31 +197,19 @@ public class CtrlMain : FormControler
     }
 
     /// <summary>
-    /// Get match result string by victory value.
-    /// </summary>
-    /// <param name="won">victory value of aoe2.net.</param>
-    /// <returns>Match result.</returns>
-    public static MatchResult GetMatchResult(bool? won)
-    {
-        return won switch {
-            false => MatchResult.Defeated,
-            true => MatchResult.Victorious,
-            _ => MatchResult.InProgress,
-        };
-    }
-
-    /// <summary>
     /// Get match result color.
     /// </summary>
     /// <param name="matchResult">match result.</param>
     /// <returns>Bordered style.</returns>
-    public static BorderedStringStyle GetMatchResultBorderedStyle(MatchResult matchResult)
+    public static BorderedStringStyle GetBorderedStyle(MatchResult matchResult)
     {
         BorderedStringStyle ret = matchResult switch {
             MatchResult.Victorious => BorderStyles[Victorious],
             MatchResult.Defeated => BorderStyles[Defeated],
             MatchResult.InProgress => BorderStyles[InProgress],
-            _ => BorderStyles[InProgress],
+            MatchResult.Unknown => BorderStyles[Unknown],
+            MatchResult.NotStarted => BorderStyles[NotStarted],
+            _ => null,
         };
         return ret;
     }

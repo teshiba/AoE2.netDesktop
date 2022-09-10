@@ -19,5 +19,15 @@
         /// Match is in progress.
         /// </summary>
         InProgress,
+
+        /// <summary>
+        /// Match is unknown status.
+        /// </summary>
+        Unknown,
+
+        /// <summary>
+        /// Not started.
+        /// </summary>
+        NotStarted,
     }
 }

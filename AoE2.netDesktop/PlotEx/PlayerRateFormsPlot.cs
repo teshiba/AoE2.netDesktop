@@ -144,9 +144,7 @@ public class PlayerRateFormsPlot
         vline.PositionLabelBackground = vline.Color;
         vline.DragEnabled = false;
 
-        vline.PositionFormatter = x =>
-        {
-            return $"Update Elo:{DateTime.FromOADate(x):MM/dd}";
-        };
+        vline.PositionFormatter = x
+            => $"Update Elo:{DateTime.FromOADate(x):MM/dd}";
     }
 }

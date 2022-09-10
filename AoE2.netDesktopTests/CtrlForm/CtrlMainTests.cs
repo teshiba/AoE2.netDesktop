@@ -257,4 +257,29 @@ public class CtrlMainTests
         // Assert
         Assert.AreEqual(expVal, actVal);
     }
+
+    [TestMethod]
+    [DataRow(MatchResult.Defeated)]
+    [DataRow(MatchResult.InProgress)]
+    [DataRow(MatchResult.Unknown)]
+    [DataRow(MatchResult.Victorious)]
+    [DataRow(MatchResult.NotStarted)]
+    public void GetBorderedStyleTest(MatchResult matchResult)
+    {
+        // Act
+        var actVal = CtrlMain.GetBorderedStyle(matchResult);
+
+        // Assert
+        Assert.IsNotNull(actVal);
+    }
+
+    [TestMethod]
+    public void GetBorderedStyleTestOutOfRange()
+    {
+        // Act
+        var actVal = CtrlMain.GetBorderedStyle((MatchResult)(-1));
+
+        // Assert
+        Assert.IsNull(actVal);
+    }
 }
