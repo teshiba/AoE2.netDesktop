@@ -40,6 +40,7 @@ public partial class FormMain : ControllableForm
         InitOnChangePropertyHandler();
         InitPlayersCtrlList();
         ClearLastMatch();
+        InitShortcut();
 
         // formMain hold the app settings.
         CtrlSettings = new CtrlSettings();
@@ -309,47 +310,8 @@ public partial class FormMain : ControllableForm
 
     private void FormMain_KeyDown(object sender, KeyEventArgs e)
     {
-        switch(e.KeyCode) {
-        case Keys.F5: // is called by shortcut key settings of ToolStripMenuItem;
-            break;
-        case Keys.Space when e.Shift:
-            Settings.Default.MainFormIsHideTitle = !Settings.Default.MainFormIsHideTitle;
-            break;
-        case Keys.Space when e.Alt:
-            // show the title bar and popup the window menu.
-            Settings.Default.MainFormIsHideTitle = false;
-            break;
-        default:
-            Size size = GetWindowResizeParams(e);
-            Size += size;
-            break;
-        }
-
+        GetFunction(e.KeyCode, e.Shift, e.Alt)();
         Awaiter.Complete();
-
-        // local function
-        static Size GetWindowResizeParams(KeyEventArgs e)
-        {
-            var changeSize = 0;
-
-            if(e.Alt) {
-                if(e.Shift) {
-                    changeSize = 1;
-                } else {
-                    changeSize = 10;
-                }
-            }
-
-            var size = e.KeyCode switch {
-                Keys.Right => new Size(changeSize, 0),
-                Keys.Left => new Size(-changeSize, 0),
-                Keys.Up => new Size(0, -changeSize),
-                Keys.Down => new Size(0, changeSize),
-                _ => new Size(0, 0),
-            };
-
-            return size;
-        }
     }
 
     private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
