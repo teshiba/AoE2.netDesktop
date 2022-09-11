@@ -212,12 +212,12 @@ public class CtrlMainTests
         DateTimeExt.TimeZoneInfo = TimeZoneInfo.Utc;
         DateTimeExt.DateTimeFormatInfo = DateTimeFormatInfo.InvariantInfo;
 
-        CtrlMain.LastMatch = new Match() {
+        CtrlMain.DisplayedMatch = new Match() {
             Opened = 0,
         };
 
         // Act
-        var actVal = CtrlMain.GetOpenedTime();
+        var actVal = CtrlMain.GetOpenedTime(CtrlMain.DisplayedMatch);
 
         // Assert
         Assert.AreEqual(expVal, actVal);
@@ -229,10 +229,10 @@ public class CtrlMainTests
         // Arrange
         var expVal = DateTimeExt.InvalidTime;
         DateTimeExt.TimeZoneInfo = TimeZoneInfo.Utc;
-        CtrlMain.LastMatch = null;
+        CtrlMain.DisplayedMatch = null;
 
         // Act
-        var actVal = CtrlMain.GetOpenedTime();
+        var actVal = CtrlMain.GetOpenedTime(CtrlMain.DisplayedMatch);
 
         // Assert
         Assert.AreEqual(expVal, actVal);
@@ -249,10 +249,10 @@ public class CtrlMainTests
             Opened = opened,
             Finished = finished,
         };
-        CtrlMain.LastMatch = testClass;
+        CtrlMain.DisplayedMatch = testClass;
 
         // Act
-        var actVal = CtrlMain.GetElapsedTime();
+        var actVal = CtrlMain.GetElapsedTime(CtrlMain.DisplayedMatch);
 
         // Assert
         Assert.AreEqual(expVal, actVal);

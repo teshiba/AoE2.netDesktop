@@ -42,6 +42,7 @@ public class CtrlMain : FormControler
         { InProgress, new BorderedStringStyle(18, Color.Black, Color.SlateGray) },
         { Unknown, new BorderedStringStyle(18, Color.Black, Color.DimGray) },
         { NotStarted, new BorderedStringStyle(18, Color.Black, Color.DarkGray) },
+        { MatchNo, new BorderedStringStyle(14, Color.Black, Color.LightGoldenrodYellow) },
     };
 
     /// <summary>
@@ -52,9 +53,9 @@ public class CtrlMain : FormControler
     }
 
     /// <summary>
-    /// Gets or sets auto reload interval second.
+    /// Gets or sets current displayed match.
     /// </summary>
-    public static Match LastMatch { get; set; }
+    public static Match DisplayedMatch { get; set; }
 
     /// <summary>
     /// Gets or sets auto reload interval second.
@@ -166,14 +167,15 @@ public class CtrlMain : FormControler
     /// <summary>
     /// Gets Elapsed Time.
     /// </summary>
+    /// <param name="match">match.</param>
     /// <returns>Elapsed time.</returns>
-    public static string GetElapsedTime()
+    public static string GetElapsedTime(Match match)
     {
         var ret = DateTimeExt.InvalidTime;
 
-        if(LastMatch != null) {
-            var realTime = LastMatch.GetElapsedTime().ToString(@"h\:mm\:ss");
-            var inGameTime = new TimeSpan((long)(LastMatch.GetElapsedTime().Ticks * 1.7)).ToString(@"h\:mm\:ss");
+        if(match != null) {
+            var realTime = match.GetElapsedTime().ToString(@"h\:mm\:ss");
+            var inGameTime = new TimeSpan((long)(match.GetElapsedTime().Ticks * 1.7)).ToString(@"h\:mm\:ss");
             ret = $"{realTime} ({inGameTime} in game)";
         }
 
@@ -183,14 +185,15 @@ public class CtrlMain : FormControler
     /// <summary>
     /// Gets Opened Time.
     /// </summary>
+    /// <param name="match">match.</param>
     /// <returns>Opened time.</returns>
-    public static string GetOpenedTime()
+    public static string GetOpenedTime(Match match)
     {
         var ret = DateTimeExt.InvalidTime;
 
-        if(LastMatch != null) {
+        if(match != null) {
             var timezone = DateTimeExt.TimeZoneInfo.ToString().Split(" ")[0].Replace("(", string.Empty).Replace(")", string.Empty);
-            ret = $"{DateTimeExt.GetDateTimeFormat(LastMatch.GetOpenedTime())} {timezone}";
+            ret = $"{DateTimeExt.GetDateTimeFormat(match.GetOpenedTime())} {timezone}";
         }
 
         return ret;
@@ -232,4 +235,12 @@ public class CtrlMain : FormControler
 
         return ret;
     }
+
+    /// <summary>
+    /// Get ,atch No. text.
+    /// </summary>
+    /// <param name="matchNo">match No.</param>
+    /// <returns>Match No. text.</returns>
+    public static string GetMatchNo(int matchNo)
+        => matchNo != 0 ? $"{matchNo} match ago" : "Last match";
 }

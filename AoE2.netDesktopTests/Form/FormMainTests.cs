@@ -775,7 +775,7 @@ public partial class FormMainTests
     {
         // Arrange
         TestUtilityExt.SetSettings("VisibleGameTime", false);
-        CtrlMain.LastMatch = null;
+        CtrlMain.DisplayedMatch = null;
         var testClass = new FormMainPrivate();
         var done = false;
 
@@ -802,7 +802,7 @@ public partial class FormMainTests
         // Arrange
         TestUtilityExt.SetSettings("VisibleGameTime", true);
 
-        CtrlMain.LastMatch = new Match() {
+        CtrlMain.DisplayedMatch = new Match() {
             Finished = 1,
         };
 

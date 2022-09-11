@@ -1,6 +1,6 @@
 ﻿namespace AoE2NetDesktop.Form;
 
-using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.Utility.Forms;
 
 using System;
@@ -17,6 +17,11 @@ public partial class FormMain : ControllableForm
 
     /// <summary>
     /// Initialize shortcut key functions.
+    /// Dictionary.Key string are below.
+    /// $"{<see cref="Keys"/>}",
+    /// $"Alt{<see cref="Keys"/>}",
+    /// $"Shift{<see cref="Keys"/>}",
+    /// $"ShiftAlt{<see cref="Keys"/>}".
     /// </summary>
     public void InitShortcut()
     {
@@ -32,31 +37,29 @@ public partial class FormMain : ControllableForm
             { "AltRight", IncreaseWidth10px },
             { "ShiftSpace", SwitchHideTitle },
             { "AltSpace", ShowWindowTitle },
+            { "Left", PrevMatchResult },
+            { "Right", NextMatchResult },
         };
     }
 
-    private Action GetFunction(Keys keyCode, bool shift, bool alt)
+    // ///////////////////////////////////////////////////////////////////////
+    // shortcut actions
+    // ///////////////////////////////////////////////////////////////////////
+#pragma warning disable VSTHRD100 // Avoid async void methods
+    private async void NextMatchResult()
     {
-        var key = string.Empty;
-
-        if(shift) {
-            key += "Shift";
+        if(requestMatchView > 0) {
+            requestMatchView--;
+            CtrlMain.DisplayedMatch = await DrawMatchAsync(requestMatchView);
         }
-
-        if(alt) {
-            key += "Alt";
-        }
-
-        var result = shortcutActions.TryGetValue(key + keyCode.ToString(), out Action action);
-        if(!result) {
-            action = () =>
-            {
-                Log.Error($"Unknown shortcut key: {key} + {keyCode}");
-            };
-        }
-
-        return action;
     }
+
+    private async void PrevMatchResult()
+    {
+        requestMatchView++;
+        CtrlMain.DisplayedMatch = await DrawMatchAsync(requestMatchView);
+    }
+#pragma warning restore VSTHRD100 // Avoid async void methods
 
     private void DecreaseHeight10px() => Size += new Size(0, -10);
 
@@ -84,5 +87,32 @@ public partial class FormMain : ControllableForm
     private void UpdateLastMatch()
     {
         // F5 is called by shortcut key settings of ToolStripMenuItem;
+    }
+
+    // ///////////////////////////////////////////////////////////////////////
+    // Get shortcut function API
+    // ///////////////////////////////////////////////////////////////////////
+    private Action GetFunction(Keys keyCode, bool shift, bool alt)
+    {
+        var key = string.Empty;
+
+        if(shift) {
+            key += "Shift";
+        }
+
+        if(alt) {
+            key += "Alt";
+        }
+
+        var result = shortcutActions.TryGetValue(
+            key + keyCode.ToString(), out Action action);
+        if(!result) {
+            action = () =>
+            {
+                // Undefined shortcut key
+            };
+        }
+
+        return action;
     }
 }

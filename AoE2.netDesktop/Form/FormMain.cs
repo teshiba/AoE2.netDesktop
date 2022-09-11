@@ -72,7 +72,7 @@ public partial class FormMain : ControllableForm
                 OpenSettings();
             }
 
-            CtrlMain.LastMatch = await RedrawLastMatchAsync();
+            CtrlMain.DisplayedMatch = await RedrawLastMatchAsync();
         } catch(Exception ex) {
             labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
         }
@@ -88,7 +88,7 @@ public partial class FormMain : ControllableForm
             ClearLastMatch();
         }
 
-        CtrlMain.LastMatch = await RedrawLastMatchAsync();
+        CtrlMain.DisplayedMatch = await RedrawLastMatchAsync();
 
         if(Settings.Default.IsAutoReloadLastMatch) {
             LastMatchLoader.Start();
@@ -277,11 +277,17 @@ public partial class FormMain : ControllableForm
     private void LabelElapsedTimeTeam_Paint(object sender, PaintEventArgs e)
         => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ElapsedTime]);
 
+    private void LabelMatchNo_Paint(object sender, PaintEventArgs e)
+                => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[MatchNo]);
+
     private void LabelStartTime1v1_Paint(object sender, PaintEventArgs e)
         => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[StartTime]);
 
     private void LabelElapsedTime1v1_Paint(object sender, PaintEventArgs e)
         => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ElapsedTime]);
+
+    private void LabelMatchNo1v1_Paint(object sender, PaintEventArgs e)
+        => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[MatchNo]);
 
     private void FormMain_Resize(object sender, EventArgs e)
         => ResizePanels();
@@ -342,7 +348,7 @@ public partial class FormMain : ControllableForm
     {
         // if this form is active, get game status from aoe2.net and update last match info.
         if(Settings.Default.VisibleGameTime
-        && CtrlMain.LastMatch?.Finished == null) {
+        && CtrlMain.DisplayedMatch?.Finished == null) {
             CtrlMain.IsReloadingByTimer = true;
             updateToolStripMenuItem.PerformClick();
         }

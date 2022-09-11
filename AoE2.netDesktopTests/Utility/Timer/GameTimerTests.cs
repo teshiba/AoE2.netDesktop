@@ -22,7 +22,7 @@
         {
             // Arrange
             var expVal = Act;
-            CtrlMain.LastMatch = new Match();
+            CtrlMain.DisplayedMatch = new Match();
 
             // Act
             using var testClass = new GameTimer(expVal);
@@ -38,7 +38,7 @@
         {
             // Arrange
             var expVal = string.Empty;
-            CtrlMain.LastMatch = new Match();
+            CtrlMain.DisplayedMatch = new Match();
             actDone = false;
 
             // Act

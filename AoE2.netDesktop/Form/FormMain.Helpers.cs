@@ -24,6 +24,9 @@ public partial class FormMain : ControllableForm
 {
     private Dictionary<string, Action<string>> onChangePropertyHandler;
     private FormSettings formSettings;
+    private int currentMatchView;
+    private int? loadingMatchView;
+    private int requestMatchView;
 
     /// <summary>
     /// Gets GameTimer.
@@ -169,13 +172,13 @@ public partial class FormMain : ControllableForm
         SuspendLayout();
 
         if((bool)Settings.Default[propertyName] && FormBorderStyle != FormBorderStyle.None) {
-            MinimumSize = new Size(860, 270);
+            MinimumSize = new Size(960, 270);
             FormBorderStyle = FormBorderStyle.None;
             Top = top;
             Left = left;
             Width = width + 13;
         } else if(!(bool)Settings.Default[propertyName] && FormBorderStyle != FormBorderStyle.Sizable) {
-            MinimumSize = new Size(860, 315);
+            MinimumSize = new Size(960, 315);
             FormBorderStyle = FormBorderStyle.Sizable;
             Top -= RectangleToScreen(ClientRectangle).Top - Top;
             Left -= RectangleToScreen(ClientRectangle).Left - Left;
@@ -380,6 +383,7 @@ public partial class FormMain : ControllableForm
     {
         var aveTeam1 = match.Players.GetAverageRate(TeamType.OddColorNo);
         var aveTeam2 = match.Players.GetAverageRate(TeamType.EvenColorNo);
+        labelMatchNo.Text = CtrlMain.GetMatchNo(currentMatchView);
         pictureBoxMap.Image = CtrlMain.LoadMapIcon(match.MapType);
         labelMap.Text = $"Map: {match.GetMapName()}";
         labelServer.Text = $"Server : {match.Server}";
@@ -390,10 +394,13 @@ public partial class FormMain : ControllableForm
         labelMatchResultTeam1.Tag = match.GetMatchResult(TeamType.OddColorNo);
         labelMatchResultTeam2.Text = match.GetMatchResult(TeamType.EvenColorNo).ToString();
         labelMatchResultTeam2.Tag = match.GetMatchResult(TeamType.EvenColorNo);
+        labelStartTimeTeam.Text = CtrlMain.GetOpenedTime(match);
+        labelElapsedTimeTeam.Text = CtrlMain.GetElapsedTime(match);
     }
 
     private void SetMatchData1v1(Match match)
     {
+        labelMatchNo1v1.Text = CtrlMain.GetMatchNo(currentMatchView);
         pictureBoxMap1v1.Image = CtrlMain.LoadMapIcon(match.MapType);
         labelMap1v1.Text = match.GetMapName();
         labelServer1v1.Text = $"Server : {match.Server}";
@@ -402,6 +409,8 @@ public partial class FormMain : ControllableForm
         labelMatchResult1v1p1.Tag = match.GetMatchResult(TeamType.OddColorNo);
         labelMatchResult1v1p2.Text = match.GetMatchResult(TeamType.EvenColorNo).ToString();
         labelMatchResult1v1p2.Tag = match.GetMatchResult(TeamType.EvenColorNo);
+        labelStartTime1v1.Text = CtrlMain.GetOpenedTime(match);
+        labelElapsedTime1v1.Text = CtrlMain.GetElapsedTime(match);
     }
 
     private void SetPlayersData1v1(List<Player> players)
@@ -469,13 +478,13 @@ public partial class FormMain : ControllableForm
         // update text
         Invoke(() =>
         {
-            labelStartTimeTeam.Text = CtrlMain.GetOpenedTime();
-            labelElapsedTimeTeam.Text = CtrlMain.GetElapsedTime();
-            labelStartTime1v1.Text = CtrlMain.GetOpenedTime();
-            labelElapsedTime1v1.Text = CtrlMain.GetElapsedTime();
+            labelStartTimeTeam.Text = CtrlMain.GetOpenedTime(CtrlMain.DisplayedMatch);
+            labelElapsedTimeTeam.Text = CtrlMain.GetElapsedTime(CtrlMain.DisplayedMatch);
+            labelStartTime1v1.Text = CtrlMain.GetOpenedTime(CtrlMain.DisplayedMatch);
+            labelElapsedTime1v1.Text = CtrlMain.GetElapsedTime(CtrlMain.DisplayedMatch);
         });
 
-        return CtrlMain.LastMatch.Finished == null;
+        return CtrlMain.DisplayedMatch?.Finished == null;
     }
 
     private void OnTimerLastMatchLoader(object sender, EventArgs e)
@@ -493,7 +502,7 @@ public partial class FormMain : ControllableForm
         Awaiter.Complete();
     }
 
-    private async Task<Match> SetLastMatchDataAsync(Match match, LeaderboardId? leaderboard)
+    private async Task<Match> SetMatchDataAsync(Match match, LeaderboardId? leaderboard)
     {
         if(match.NumPlayers == 2) {
             await GetGameResultAsync(match.Players[0], leaderboard);
@@ -508,6 +517,41 @@ public partial class FormMain : ControllableForm
         return match;
     }
 
+    private async Task<Match> DrawMatchAsync(int howManyGamesAgo)
+    {
+        Match match = null;
+        updateToolStripMenuItem.Enabled = false;
+
+        try {
+            if(loadingMatchView == null) {
+                loadingMatchView = howManyGamesAgo;
+
+                var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(howManyGamesAgo, 1, CtrlSettings.ProfileId);
+                if(playerMatchHistory.Count != 0) {
+                    currentMatchView = howManyGamesAgo;
+                    CtrlMain.DisplayedMatch = playerMatchHistory[0];
+                    if(labelGameId.Text != $"GameID : {playerMatchHistory[0].MatchId}") {
+                        var leaderboard = playerMatchHistory[0].LeaderboardId;
+                        match = await SetMatchDataAsync(playerMatchHistory[0], leaderboard);
+                        SwitchView(match);
+                        GameTimer.Start();
+                    }
+                }
+
+                loadingMatchView = null;
+
+                if(requestMatchView != currentMatchView) {
+                    match = await DrawMatchAsync(requestMatchView);
+                }
+            }
+        } catch(Exception ex) {
+            labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
+        }
+
+        updateToolStripMenuItem.Enabled = true;
+        return match;
+    }
+
     private async Task<Match> RedrawLastMatchAsync()
     {
         return await RedrawLastMatchAsync(CtrlSettings.ProfileId);
@@ -517,6 +561,9 @@ public partial class FormMain : ControllableForm
     {
         Match match = null;
         updateToolStripMenuItem.Enabled = false;
+        currentMatchView = 0;
+        requestMatchView = 0;
+        loadingMatchView = null;
 
         try {
             var playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
@@ -534,7 +581,8 @@ public partial class FormMain : ControllableForm
                     leaderboard = playerLastmatch.LastMatch.LeaderboardId;
                 }
 
-                match = await SetLastMatchDataAsync(match, leaderboard);
+                CtrlMain.DisplayedMatch = match;
+                match = await SetMatchDataAsync(match, leaderboard);
                 SwitchView(match);
                 GameTimer.Start();
             }

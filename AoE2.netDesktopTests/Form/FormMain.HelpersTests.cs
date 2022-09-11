@@ -271,7 +271,7 @@ public partial class FormMainTests
         {
             await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
             testClass.labelGameId.Text = $"GameID : 00000002";
-            expMatch = CtrlMain.LastMatch.MatchId;
+            expMatch = CtrlMain.DisplayedMatch.MatchId;
             actMatch = (await testClass.RedrawLastMatchAsync(TestData.AvailableUserProfileId)).MatchId;
             testClass.Close();
             done = true;
