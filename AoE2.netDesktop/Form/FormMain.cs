@@ -2,13 +2,16 @@
 
 using AoE2NetDesktop;
 using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
 using AoE2NetDesktop.Utility.Timer;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -354,5 +357,49 @@ public partial class FormMain : ControllableForm
         }
 
         Awaiter.Complete();
+    }
+
+    private void LabelGameId_Click(object sender, EventArgs e)
+        => TextBoxGameIdActivate((Label)sender);
+
+    private void LabelGameId1v1_Click(object sender, EventArgs e)
+        => TextBoxGameIdActivate((Label)sender);
+
+    private void TextBoxGameIdActivate(Label label)
+    {
+        textBoxGameId.Visible = true;
+        textBoxGameId.Top = label.Top;
+        textBoxGameId.Left = label.Left;
+        textBoxGameId.BackColor = Color.White;
+        textBoxGameId.Text = string.Empty;
+        textBoxGameId.Focus();
+    }
+
+    [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = SuppressReason.GuiEvent)]
+    private async void TextBoxGameId_KeyDown(object sender, KeyEventArgs e)
+    {
+        var textBox = (TextBox)sender;
+        Match match;
+
+        if(e.KeyCode == Keys.Enter) {
+            match = await AoE2net.GetMatchAsync(textBox.Text);
+            currentMatchView = 0;
+            requestMatchView = 0;
+            loadingMatchView = null;
+            CtrlMain.DisplayedMatch = await DrawMatchAsync(match);
+            textBox.Visible = false;
+        }
+
+        if(e.KeyCode == Keys.Escape) {
+            textBox.Visible = false;
+        }
+
+        Focus();
+    }
+
+    private void TextBoxGameId_Leave(object sender, EventArgs e)
+    {
+        var textBox = (TextBox)sender;
+        textBox.Visible = false;
     }
 }

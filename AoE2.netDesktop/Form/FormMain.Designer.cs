@@ -90,6 +90,7 @@
             this.labelAoE2DEActive = new System.Windows.Forms.Label();
             this.panelGameInfo = new System.Windows.Forms.Panel();
             this.labelMatchNo = new System.Windows.Forms.Label();
+            this.textBoxGameId = new System.Windows.Forms.TextBox();
             this.labelElapsedTimeTeam = new System.Windows.Forms.Label();
             this.labelStartTimeTeam = new System.Windows.Forms.Label();
             this.panel1v1 = new System.Windows.Forms.Panel();
@@ -169,6 +170,7 @@
             this.labelGameId.TabIndex = 9;
             this.labelGameId.Text = "GameID : 88888888";
             this.labelGameId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelGameId.Click += new System.EventHandler(this.LabelGameId_Click);
             this.labelGameId.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelGameId_Paint);
             // 
             // panelTeam1
@@ -931,6 +933,7 @@
             // panelGameInfo
             // 
             this.panelGameInfo.Controls.Add(this.labelMatchNo);
+            this.panelGameInfo.Controls.Add(this.textBoxGameId);
             this.panelGameInfo.Controls.Add(this.labelElapsedTimeTeam);
             this.panelGameInfo.Controls.Add(this.pictureBoxMap);
             this.panelGameInfo.Controls.Add(this.labelServer);
@@ -953,6 +956,16 @@
             this.labelMatchNo.Text = "xxx match ago";
             this.labelMatchNo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelMatchNo.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMatchNo_Paint);
+            // 
+            // textBoxGameId
+            // 
+            this.textBoxGameId.Location = new System.Drawing.Point(200, 59);
+            this.textBoxGameId.Name = "textBoxGameId";
+            this.textBoxGameId.Size = new System.Drawing.Size(152, 23);
+            this.textBoxGameId.TabIndex = 15;
+            this.textBoxGameId.Visible = false;
+            this.textBoxGameId.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBoxGameId_KeyDown);
+            this.textBoxGameId.Leave += new System.EventHandler(this.TextBoxGameId_Leave);
             // 
             // labelElapsedTimeTeam
             // 
@@ -1136,6 +1149,7 @@
             this.labelGameId1v1.TabIndex = 9;
             this.labelGameId1v1.Text = "GameID : 88888888";
             this.labelGameId1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelGameId1v1.Click += new System.EventHandler(this.LabelGameId1v1_Click);
             this.labelGameId1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelGameId_Paint);
             // 
             // labelServer1v1
@@ -1461,6 +1475,7 @@
             this.panelDebug.ResumeLayout(false);
             this.panelDebug.PerformLayout();
             this.panelGameInfo.ResumeLayout(false);
+            this.panelGameInfo.PerformLayout();
             this.panel1v1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMap1v1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1v1RateHistoryP2)).EndInit();
@@ -1572,5 +1587,6 @@
         private System.Windows.Forms.Label labelMatchResultTeam1;
         private System.Windows.Forms.Label labelMatchNo;
         private System.Windows.Forms.Label labelMatchNo1v1;
+        private System.Windows.Forms.TextBox textBoxGameId;
     }
 }

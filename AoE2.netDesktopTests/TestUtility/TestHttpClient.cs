@@ -55,6 +55,7 @@ public class TestHttpClient : ComClient
             "player/matches" => ReadGetPlayerMatchHistoryAsync(requestUri),
             "leaderboard" => ReadLeaderboardAsync(requestUri),
             "strings" => ReadStringsAsync(requestUri),
+            "match" => ReadMatchAsync(requestUri),
             _ => null,
         };
 
@@ -151,6 +152,18 @@ public class TestHttpClient : ComClient
         var leaderboardId = (LeaderboardId)int.Parse(args[4]);
         var profileId = args[6];
         var readUri = $"{TestData.Path}/leaderboard{game}{leaderboardId}{profileId}.json";
+
+        LastRequest = $"Read {readUri}";
+
+        return ReadTextFIleAsync(readUri);
+    }
+
+    private Task<string> ReadMatchAsync(string requestUri)
+    {
+        var args = requestUri.Split('=', '&', '?');
+        var game = args[2];
+        var id = args[4];
+        var readUri = $"{TestData.Path}/Match-{game}-{id}.json";
 
         LastRequest = $"Read {readUri}";
 

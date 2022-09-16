@@ -26,6 +26,38 @@
             AoE2net.ComClient = new TestHttpClient();
         }
 
+        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
+        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
+        [TestMethod]
+        public void GetMatchAsyncTestMatchID()
+        {
+            // Arrange
+            var expVal = "000000000";
+            var matchId = "000000000";
+
+            // Act
+            var actVal = Task.Run(() => AoE2net.GetMatchAsync(matchId)).Result;
+
+            // Assert
+            Assert.AreEqual(expVal, actVal.MatchId);
+        }
+
+        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
+        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
+        [TestMethod]
+        public void GetMatchAsyncTestUUID()
+        {
+            // Arrange
+            var expVal = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+            var uuid = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+
+            // Act
+            var actVal = Task.Run(() => AoE2net.GetMatchAsync(uuid)).Result;
+
+            // Assert
+            Assert.AreEqual(expVal, actVal.MatchUuid);
+        }
+
         [TestMethod]
         [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
         [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]

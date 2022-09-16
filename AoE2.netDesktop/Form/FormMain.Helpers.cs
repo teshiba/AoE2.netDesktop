@@ -517,9 +517,23 @@ public partial class FormMain : ControllableForm
         return match;
     }
 
+    private async Task<Match> DrawMatchAsync(Match match)
+    {
+        var ret = match;
+
+        if(labelGameId.Text != $"GameID : {match.MatchId}") {
+            CtrlMain.DisplayedMatch = match;
+            ret = await SetMatchDataAsync(match, match.LeaderboardId);
+            SwitchView(ret);
+            GameTimer.Start();
+        }
+
+        return ret;
+    }
+
     private async Task<Match> DrawMatchAsync(int howManyGamesAgo)
     {
-        Match match = null;
+        Match ret = null;
         updateToolStripMenuItem.Enabled = false;
 
         try {
@@ -528,20 +542,15 @@ public partial class FormMain : ControllableForm
 
                 var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(howManyGamesAgo, 1, CtrlSettings.ProfileId);
                 if(playerMatchHistory.Count != 0) {
+                    var match = playerMatchHistory[0];
                     currentMatchView = howManyGamesAgo;
-                    CtrlMain.DisplayedMatch = playerMatchHistory[0];
-                    if(labelGameId.Text != $"GameID : {playerMatchHistory[0].MatchId}") {
-                        var leaderboard = playerMatchHistory[0].LeaderboardId;
-                        match = await SetMatchDataAsync(playerMatchHistory[0], leaderboard);
-                        SwitchView(match);
-                        GameTimer.Start();
-                    }
+                    ret = await DrawMatchAsync(match);
                 }
 
                 loadingMatchView = null;
 
                 if(requestMatchView != currentMatchView) {
-                    match = await DrawMatchAsync(requestMatchView);
+                    ret = await DrawMatchAsync(requestMatchView);
                 }
             }
         } catch(Exception ex) {
@@ -549,7 +558,7 @@ public partial class FormMain : ControllableForm
         }
 
         updateToolStripMenuItem.Enabled = true;
-        return match;
+        return ret;
     }
 
     private async Task<Match> RedrawLastMatchAsync()
@@ -559,7 +568,7 @@ public partial class FormMain : ControllableForm
 
     private async Task<Match> RedrawLastMatchAsync(int profileId)
     {
-        Match match = null;
+        Match ret = null;
         updateToolStripMenuItem.Enabled = false;
         currentMatchView = 0;
         requestMatchView = 0;
@@ -567,31 +576,26 @@ public partial class FormMain : ControllableForm
 
         try {
             var playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
-            if(labelGameId.Text == $"GameID : {playerLastmatch.LastMatch.MatchId}") {
-                match = playerLastmatch.LastMatch;
-            } else {
-                LeaderboardId? leaderboard;
+            var match = playerLastmatch.LastMatch;
+            ret = match;
+
+            if(labelGameId.Text != $"GameID : {match.MatchId}") {
                 var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId);
-                if(playerMatchHistory.Count != 0
-                    && playerMatchHistory[0].MatchId == playerLastmatch.LastMatch.MatchId) {
-                    match = playerMatchHistory[0];
-                    leaderboard = playerMatchHistory[0].LeaderboardId;
-                } else {
-                    match = playerLastmatch.LastMatch;
-                    leaderboard = playerLastmatch.LastMatch.LeaderboardId;
+
+                if(playerMatchHistory.Count != 0) {
+                    if(playerMatchHistory[0].MatchId == match.MatchId) {
+                        ret = playerMatchHistory[0];
+                    }
                 }
 
-                CtrlMain.DisplayedMatch = match;
-                match = await SetMatchDataAsync(match, leaderboard);
-                SwitchView(match);
-                GameTimer.Start();
+                ret = await DrawMatchAsync(ret);
             }
         } catch(Exception ex) {
             labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
         }
 
         updateToolStripMenuItem.Enabled = true;
-        return match;
+        return ret;
     }
 
     private void SwitchView(Match match)
