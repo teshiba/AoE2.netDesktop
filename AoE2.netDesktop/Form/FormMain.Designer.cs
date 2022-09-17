@@ -90,6 +90,7 @@
             this.labelAoE2DEActive = new System.Windows.Forms.Label();
             this.panelGameInfo = new System.Windows.Forms.Panel();
             this.labelMatchNo = new System.Windows.Forms.Label();
+            this.progressBarLoading = new System.Windows.Forms.ProgressBar();
             this.textBoxGameId = new System.Windows.Forms.TextBox();
             this.labelElapsedTimeTeam = new System.Windows.Forms.Label();
             this.labelStartTimeTeam = new System.Windows.Forms.Label();
@@ -126,6 +127,7 @@
             this.pictureBoxUnit1v1P2 = new System.Windows.Forms.PictureBox();
             this.pictureBoxUnit1v1P1 = new System.Windows.Forms.PictureBox();
             this.pictureBoxCiv1v1P1 = new System.Windows.Forms.PictureBox();
+            this.timerLoading = new System.Windows.Forms.Timer(this.components);
             this.panelTeam1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -164,9 +166,10 @@
             // labelGameId
             // 
             this.labelGameId.BackColor = System.Drawing.SystemColors.Control;
-            this.labelGameId.Location = new System.Drawing.Point(110, 59);
+            this.labelGameId.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.labelGameId.Location = new System.Drawing.Point(110, 57);
             this.labelGameId.Name = "labelGameId";
-            this.labelGameId.Size = new System.Drawing.Size(152, 19);
+            this.labelGameId.Size = new System.Drawing.Size(242, 22);
             this.labelGameId.TabIndex = 9;
             this.labelGameId.Text = "GameID : 88888888";
             this.labelGameId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -933,6 +936,7 @@
             // panelGameInfo
             // 
             this.panelGameInfo.Controls.Add(this.labelMatchNo);
+            this.panelGameInfo.Controls.Add(this.progressBarLoading);
             this.panelGameInfo.Controls.Add(this.textBoxGameId);
             this.panelGameInfo.Controls.Add(this.labelElapsedTimeTeam);
             this.panelGameInfo.Controls.Add(this.pictureBoxMap);
@@ -947,15 +951,25 @@
             // 
             // labelMatchNo
             // 
-            this.labelMatchNo.BackColor = System.Drawing.SystemColors.Control;
+            this.labelMatchNo.BackColor = System.Drawing.Color.Transparent;
             this.labelMatchNo.Font = new System.Drawing.Font("MS PGothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelMatchNo.Location = new System.Drawing.Point(112, 32);
+            this.labelMatchNo.Location = new System.Drawing.Point(110, 20);
             this.labelMatchNo.Name = "labelMatchNo";
-            this.labelMatchNo.Size = new System.Drawing.Size(177, 27);
+            this.labelMatchNo.Size = new System.Drawing.Size(179, 27);
             this.labelMatchNo.TabIndex = 14;
-            this.labelMatchNo.Text = "xxx match ago";
+            this.labelMatchNo.Text = "Initializing...";
             this.labelMatchNo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelMatchNo.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMatchNo_Paint);
+            // 
+            // progressBarLoading
+            // 
+            this.progressBarLoading.Location = new System.Drawing.Point(113, 29);
+            this.progressBarLoading.Maximum = 20;
+            this.progressBarLoading.Name = "progressBarLoading";
+            this.progressBarLoading.Size = new System.Drawing.Size(173, 22);
+            this.progressBarLoading.Step = 1;
+            this.progressBarLoading.TabIndex = 16;
+            this.progressBarLoading.Visible = false;
             // 
             // textBoxGameId
             // 
@@ -965,6 +979,7 @@
             this.textBoxGameId.TabIndex = 15;
             this.textBoxGameId.Visible = false;
             this.textBoxGameId.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBoxGameId_KeyDown);
+            this.textBoxGameId.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxGameId_KeyPress);
             this.textBoxGameId.Leave += new System.EventHandler(this.TextBoxGameId_Leave);
             // 
             // labelElapsedTimeTeam
@@ -1039,7 +1054,7 @@
             this.labelMatchNo1v1.Name = "labelMatchNo1v1";
             this.labelMatchNo1v1.Size = new System.Drawing.Size(137, 27);
             this.labelMatchNo1v1.TabIndex = 14;
-            this.labelMatchNo1v1.Text = "xxx match ago";
+            this.labelMatchNo1v1.Text = "Initializing...";
             this.labelMatchNo1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelMatchNo1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMatchNo1v1_Paint);
             // 
@@ -1143,9 +1158,10 @@
             // labelGameId1v1
             // 
             this.labelGameId1v1.BackColor = System.Drawing.SystemColors.Control;
+            this.labelGameId1v1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.labelGameId1v1.Location = new System.Drawing.Point(253, 242);
             this.labelGameId1v1.Name = "labelGameId1v1";
-            this.labelGameId1v1.Size = new System.Drawing.Size(141, 21);
+            this.labelGameId1v1.Size = new System.Drawing.Size(184, 21);
             this.labelGameId1v1.TabIndex = 9;
             this.labelGameId1v1.Text = "GameID : 88888888";
             this.labelGameId1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1436,6 +1452,10 @@
             this.pictureBoxCiv1v1P1.TabIndex = 18;
             this.pictureBoxCiv1v1P1.TabStop = false;
             // 
+            // timerLoading
+            // 
+            this.timerLoading.Interval = 1000;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1454,7 +1474,8 @@
             this.Text = "AoE2.net Desktop";
             this.Activated += new System.EventHandler(this.FormMain_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
-            this.Load += new System.EventHandler(this.FormMain_LoadAsync);
+            this.Load += new System.EventHandler(this.FormMain_Load);
+            this.Shown += new System.EventHandler(this.FormMain_Shown);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FormMain_MouseClick);
             this.Resize += new System.EventHandler(this.FormMain_Resize);
@@ -1588,5 +1609,7 @@
         private System.Windows.Forms.Label labelMatchNo;
         private System.Windows.Forms.Label labelMatchNo1v1;
         private System.Windows.Forms.TextBox textBoxGameId;
+        private System.Windows.Forms.ProgressBar progressBarLoading;
+        private System.Windows.Forms.Timer timerLoading;
     }
 }

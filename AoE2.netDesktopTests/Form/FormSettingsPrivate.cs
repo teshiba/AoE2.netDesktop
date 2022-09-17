@@ -6,7 +6,7 @@ using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
 
-using LibAoE2net;
+using AoE2netDesktopTests.TestUtility;
 
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -40,8 +40,7 @@ public partial class FormSettingsTests
         public FormSettingsPrivate()
             : base(new CtrlSettings())
         {
-            httpClient = new TestHttpClient();
-            AoE2net.ComClient = httpClient;
+            httpClient = (TestHttpClient)AoE2net.ComClient;
             InvalidSteamIdString = Controler.GetField<string>("InvalidSteamIdString");
             buttonSetId = this.GetControl<Button>("buttonSetId");
             checkBoxAlwaysOnTop = this.GetControl<CheckBox>("checkBoxAlwaysOnTop");

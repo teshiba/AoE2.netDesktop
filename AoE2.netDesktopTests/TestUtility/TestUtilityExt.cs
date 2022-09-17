@@ -1,4 +1,6 @@
-﻿namespace AoE2NetDesktop.Tests;
+﻿namespace AoE2netDesktopTests.TestUtility;
+
+using AoE2NetDesktop.Utility;
 
 using System;
 using System.Collections.Generic;
@@ -126,4 +128,10 @@ public static class TestUtilityExt
 
         return (TValue)settingsDefault.GetType().GetProperty(propertyName).GetValue(settingsDefault);
     }
+
+    public static SystemApiStub SystemApiStub(this ComClient comClient)
+        => (SystemApiStub)((TestHttpClient)comClient).SystemApi;
+
+    public static TestHttpClient TestHttpClient(this ComClient comClient)
+        => (TestHttpClient)comClient;
 }

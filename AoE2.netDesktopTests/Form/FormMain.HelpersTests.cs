@@ -217,7 +217,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
             testClass.labelGameId.Text = $"GameID : --------";
             ret = await testClass.RedrawLastMatchAsync(TestData.AvailableUserProfileId);
             testClass.Close();
@@ -243,7 +243,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
             ret = await testClass.RedrawLastMatchAsync(TestData.AvailableUserProfileIdWithoutHistory);
             testClass.Close();
             done = true;
@@ -269,7 +269,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
             testClass.labelGameId.Text = $"GameID : 00000002";
             expMatch = CtrlMain.DisplayedMatch.MatchId;
             actMatch = (await testClass.RedrawLastMatchAsync(TestData.AvailableUserProfileId)).MatchId;

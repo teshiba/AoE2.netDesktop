@@ -1,13 +1,10 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
 using AoE2NetDesktop.AoE2DE;
-using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.PlotEx;
 using AoE2NetDesktop.Tests;
-
-using LibAoE2net;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -67,17 +64,6 @@ public class WinRatePlotTests
             },
         },
     };
-
-    [ClassInitialize]
-    public static void Init(TestContext context)
-    {
-        if(context is null) {
-            throw new ArgumentNullException(nameof(context));
-        }
-
-        AoE2net.ComClient = new TestHttpClient();
-        StringsExt.Init();
-    }
 
     [TestMethod]
     public void PlotTestMap()

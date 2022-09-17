@@ -1,7 +1,6 @@
 ﻿namespace AoE2NetDesktop.AoE2DE.Tests;
 
 using AoE2NetDesktop.AoE2DE;
-using AoE2NetDesktop.Tests;
 
 using AoE2netDesktopTests.TestUtility;
 

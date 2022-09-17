@@ -1,9 +1,8 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.Tests;
 
-using LibAoE2net;
+using AoE2netDesktopTests.TestUtility;
 
 using System;
 using System.Windows.Forms;
@@ -30,7 +29,6 @@ public partial class FormHistoryTests
         public FormHistoryPrivate()
             : base(TestData.AvailableUserProfileId)
         {
-            AoE2net.ComClient = new TestHttpClient();
             contextMenuStripMatchedPlayers = this.GetControl<ContextMenuStrip>("contextMenuStripMatchedPlayers");
             listViewStatistics = this.GetControl<ListView>("listViewStatistics");
             listViewMatchedPlayers = this.GetControl<ListView>("listViewMatchedPlayers");

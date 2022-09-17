@@ -1,4 +1,4 @@
-﻿namespace LibAoE2net;
+﻿namespace AoE2netDesktopTests.TestUtility;
 
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Tests;

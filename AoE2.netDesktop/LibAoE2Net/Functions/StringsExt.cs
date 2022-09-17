@@ -2,11 +2,9 @@
 
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Utility;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,18 +15,20 @@ public static class StringsExt
 {
     private static Strings apiStrings;
     private static Strings enStrings;
-    private static Task initTask;
+    private static bool initDone = false;
 
     /// <summary>
     /// Initialize the class.
     /// </summary>
-    public static void Init()
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public static async Task InitAsync()
     {
-        initTask = Task.Run(async () =>
-        {
+        if(!initDone) {
             enStrings = await AoE2net.GetStringsAsync(Language.en).ConfigureAwait(false);
             await InitApiStringsAsync(Language.en).ConfigureAwait(false);
-        });
+        }
+
+        initDone = true;
     }
 
     /// <summary>
@@ -38,7 +38,8 @@ public static class StringsExt
     /// <returns>controler instance.</returns>
     public static async Task<bool> InitAsync(Language language)
     {
-        WaitInitTask();
+        CheckInitDone();
+
         await InitApiStringsAsync(language).ConfigureAwait(false);
 
         return true;
@@ -52,7 +53,7 @@ public static class StringsExt
     /// <returns>Found string.</returns>
     public static string GetString(this List<StringId> stringIds, int? id)
     {
-        WaitInitTask();
+        CheckInitDone();
 
         string ret;
         try {
@@ -71,9 +72,9 @@ public static class StringsExt
     /// <returns>map name.</returns>
     public static string GetMapName(this Match match)
     {
-        WaitInitTask();
+        CheckInitDone();
 
-        string mapName = apiStrings.MapType.GetString(match.MapType);
+        var mapName = apiStrings.MapType.GetString(match.MapType);
         if(mapName == null) {
             mapName = $"Unknown(Map No.{match.MapType})";
         }
@@ -88,7 +89,8 @@ public static class StringsExt
     /// <returns>civilization name in English.</returns>
     public static string GetCivEnName(this Player player)
     {
-        WaitInitTask();
+        CheckInitDone();
+
         return GetCivName(enStrings, player);
     }
 
@@ -99,23 +101,14 @@ public static class StringsExt
     /// <returns>civilization name.</returns>
     public static string GetCivName(this Player player)
     {
-        WaitInitTask();
+        CheckInitDone();
+
         return GetCivName(apiStrings, player);
     }
 
     ///////////////////////////////////////////////////////////////////////
     // private
     ///////////////////////////////////////////////////////////////////////
-    [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncWait)]
-    private static void WaitInitTask()
-    {
-        if(initTask == null) {
-            Init();
-        }
-
-        initTask.Wait();
-    }
-
     private static string GetCivName(Strings strings, Player player)
     {
         string ret = strings.Civ.GetString(player.Civ);
@@ -130,6 +123,13 @@ public static class StringsExt
     {
         if(apiStrings?.Language != language.ToApiString()) {
             apiStrings = await AoE2net.GetStringsAsync(language).ConfigureAwait(false);
+        }
+    }
+
+    private static void CheckInitDone()
+    {
+        if(!initDone) {
+            throw new InvalidOperationException($"{nameof(InitAsync)} have not called yet.");
         }
     }
 }

@@ -66,7 +66,8 @@ public partial class FormHistory : ControllableForm
             }
         }
 
-        listviewItems.Sort(new Comparison<ListViewItem>((item1, item2) => string.Compare(item1.Text, item2.Text)));
+        listviewItems.Sort(new Comparison<ListViewItem>((item1, item2)
+                                => string.Compare(item1.Text, item2.Text)));
         foreach(var item in listviewItems) {
             listViewFilterCountry.Items.Add(item.Text, item.Text, null);
         }

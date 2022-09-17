@@ -1,11 +1,5 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using AoE2NetDesktop.LibAoE2Net.Functions;
-
-using AoE2netDesktopTests.TestUtility;
-
-using LibAoE2net;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
@@ -16,25 +10,6 @@ using static System.Windows.Forms.ListView;
 [TestClass]
 public partial class FormHistoryTests
 {
-    [ClassInitialize]
-    public static void Init(TestContext context)
-    {
-        if(context is null) {
-            throw new ArgumentNullException(nameof(context));
-        }
-
-        StringsExt.Init();
-    }
-
-    [TestInitialize]
-    public void InitTest()
-    {
-        var cliant = new TestHttpClient {
-            SystemApi = new SystemApiStub(1),
-        };
-        AoE2net.ComClient = cliant;
-    }
-
 #pragma warning disable VSTHRD101 // Avoid unsupported async delegates
     [TestMethod]
     public void FormHistoryTest()

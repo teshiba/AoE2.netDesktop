@@ -6,6 +6,8 @@
 
     using AoE2NetDesktop.Utility;
 
+    using AoE2netDesktopTests.TestUtility;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

@@ -8,7 +8,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -16,50 +15,44 @@ using System.Threading.Tasks;
 public class ComClientTests
 {
     [TestMethod]
-    [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-    [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
-    public void GetStringAsyncTest()
+    public async Task GetStringAsyncTestAsync()
     {
         // Arrange
         var testClass = new ComClient {
-            BaseAddress = new Uri("https://aoe2.net/"),
         };
 
         // Act
-        var actVal = Task.Run(
-            () => testClass.GetStringAsync("#api"))
-            .Result;
-
         // Assert
-        Assert.IsNotNull(actVal);
+        await Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
+            testClass.GetStringAsync(string.Empty));
     }
 
     [TestMethod]
     public async Task GetFromJsonAsyncTestTaskCanceledExceptionAsync()
     {
         // Arrange
-        var comClient = new TestHttpClient() {
+        var testClass = new TestHttpClient() {
             ForceTaskCanceledException = true,
         };
 
         // Act
         // Assert
         await Assert.ThrowsExceptionAsync<TaskCanceledException>(() =>
-            comClient.GetFromJsonAsync<int>("TaskCanceledException"));
+            testClass.GetFromJsonAsync<int>("TaskCanceledException"));
     }
 
     [TestMethod]
     public async Task GetFromJsonAsyncTestHttpRequestExceptionAsync()
     {
         // Arrange
-        var comClient = new TestHttpClient() {
+        var testClass = new TestHttpClient() {
             ForceHttpRequestException = true,
         };
 
         // Act
         // Assert
         await Assert.ThrowsExceptionAsync<HttpRequestException>(() =>
-            comClient.GetFromJsonAsync<int>("HttpRequestException"));
+            testClass.GetFromJsonAsync<int>("HttpRequestException"));
     }
 
     [TestMethod]

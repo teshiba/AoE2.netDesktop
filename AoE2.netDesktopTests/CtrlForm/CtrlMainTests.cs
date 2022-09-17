@@ -9,8 +9,6 @@ using AoE2NetDesktop.Utility.SysApi;
 
 using AoE2netDesktopTests.TestUtility;
 
-using LibAoE2net;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
@@ -31,22 +29,6 @@ public class CtrlMainTests
         new object[] { 60L,  null,     360L,   "0:05:00 (0:08:30 in game)" },
         new object[] { null, null,     360L,   "0:00:00 (0:00:00 in game)" },
     };
-
-    [ClassInitialize]
-    public static void Init(TestContext context)
-    {
-        if(context is null) {
-            throw new ArgumentNullException(nameof(context));
-        }
-
-        StringsExt.Init();
-    }
-
-    [TestInitialize]
-    public void InitTest()
-    {
-        AoE2net.ComClient = new TestHttpClient();
-    }
 
     [TestMethod]
     [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
@@ -121,7 +103,6 @@ public class CtrlMainTests
     public void GetMapNameTest(int? mapType, string expVal)
     {
         // Arrange
-        AoE2net.ComClient = new TestHttpClient();
         CtrlMain.SystemApi = new SystemApiStub(1);
         var testClass = new CtrlMain();
         var match = new Match() {
@@ -217,7 +198,7 @@ public class CtrlMainTests
         };
 
         // Act
-        var actVal = CtrlMain.GetOpenedTime(CtrlMain.DisplayedMatch);
+        var actVal = CtrlMain.GetOpenedTimeString(CtrlMain.DisplayedMatch);
 
         // Assert
         Assert.AreEqual(expVal, actVal);
@@ -232,7 +213,7 @@ public class CtrlMainTests
         CtrlMain.DisplayedMatch = null;
 
         // Act
-        var actVal = CtrlMain.GetOpenedTime(CtrlMain.DisplayedMatch);
+        var actVal = CtrlMain.GetOpenedTimeString(CtrlMain.DisplayedMatch);
 
         // Assert
         Assert.AreEqual(expVal, actVal);
@@ -252,7 +233,7 @@ public class CtrlMainTests
         CtrlMain.DisplayedMatch = testClass;
 
         // Act
-        var actVal = CtrlMain.GetElapsedTime(CtrlMain.DisplayedMatch);
+        var actVal = CtrlMain.GetElapsedTimeString(CtrlMain.DisplayedMatch);
 
         // Assert
         Assert.AreEqual(expVal, actVal);

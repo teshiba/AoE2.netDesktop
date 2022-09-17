@@ -5,14 +5,13 @@ using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
 using AoE2NetDesktop.Utility.Timer;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using static AoE2NetDesktop.CtrlForm.LabelType;
@@ -22,6 +21,7 @@ using static AoE2NetDesktop.CtrlForm.LabelType;
 /// </summary>
 public partial class FormMain : ControllableForm
 {
+    private readonly TimerProgressBar progressBar;
     private readonly List<Label> labelCiv = new();
     private readonly List<Label> labelColor = new();
     private readonly List<Label> labelRate = new();
@@ -50,6 +50,8 @@ public partial class FormMain : ControllableForm
         LastMatchLoader = new LastMatchLoader(OnTimerLastMatchLoader, CtrlMain.IntervalSec);
         GameTimer = new GameTimer(OnTimerGame);
 
+        progressBar = new TimerProgressBar(progressBarLoading, timerLoading);
+        displayStatus = DisplayStatus.Initializing;
         SetOptionParams();
 
         this.language = language;
@@ -61,11 +63,17 @@ public partial class FormMain : ControllableForm
     ///////////////////////////////////////////////////////////////////////
 #pragma warning disable VSTHRD100 // Avoid async void methods
 #pragma warning disable VSTHRD200 // Use "Async" suffix for async methods
-    private async void FormMain_LoadAsync(object sender, EventArgs e)
+
+    private async void FormMain_Shown(object sender, EventArgs e)
     {
-        RestoreWindowStatus();
-        ResizePanels();
-        SetChromaKey(Settings.Default.ChromaKey);
+        await InitAsync();
+        Awaiter.Complete();
+    }
+
+    private async Task InitAsync()
+    {
+        progressBar.Start();
+        labelMatchNo.Text = "Initializing...";
 
         try {
             _ = await CtrlMain.InitAsync(language);
@@ -75,56 +83,239 @@ public partial class FormMain : ControllableForm
                 OpenSettings();
             }
 
-            CtrlMain.DisplayedMatch = await RedrawLastMatchAsync();
+            await RedrawLastMatchAsync();
+
         } catch(Exception ex) {
+            labelMatchNo.Text = "Load Error";
             labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
+
+            if(displayStatus == DisplayStatus.Initializing) {
+                labelMatchNo.Text = "Server Error";
+            } else {
+                displayStatus = DisplayStatus.Shown;
+            }
         }
 
+        progressBar.Stop();
+    }
+
+    private void FormMain_Load(object sender, EventArgs e)
+    {
+        RestoreWindowStatus();
+        ResizePanels();
+        SetChromaKey(Settings.Default.ChromaKey);
         Awaiter.Complete();
     }
 
     private async void UpdateToolStripMenuItem_ClickAsync(object sender, EventArgs e)
     {
-        LastMatchLoader.Stop();
-
-        if(!CtrlMain.IsReloadingByTimer) {
-            ClearLastMatch();
-        }
-
-        CtrlMain.DisplayedMatch = await RedrawLastMatchAsync();
-
-        if(Settings.Default.IsAutoReloadLastMatch) {
-            LastMatchLoader.Start();
-        }
-
+        await RedrawLastMatch();
         Awaiter.Complete();
     }
 
     private async void PictureBoxMap_DoubleClickAsync(object sender, EventArgs e)
-    {
-        ClearLastMatch();
-        await RedrawLastMatchAsync();
-    }
+        => await RedrawLastMatch();
 
     private async void PictureBoxMap1v1_DoubleClick(object sender, EventArgs e)
+        => await RedrawLastMatch();
+
+    private async Task RedrawLastMatch()
     {
-        ClearLastMatch();
-        await RedrawLastMatchAsync();
+        switch(displayStatus) {
+        case DisplayStatus.Shown:
+            progressBar.Start();
+
+            ClearLastMatch();
+
+            try {
+                await RedrawLastMatchAsync();
+            } catch(Exception ex) {
+                labelMatchNo.Text = "Load Error";
+                labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
+            }
+
+            progressBar.Stop();
+            break;
+
+        case DisplayStatus.Initializing:
+            await InitAsync();
+            break;
+
+        case DisplayStatus.Clearing:
+        case DisplayStatus.Redrawing:
+        case DisplayStatus.Closing:
+        case DisplayStatus.Cleared:
+        case DisplayStatus.RedrawingPrevMatch:
+        default:
+            throw new InvalidOperationException($"Invalid displayStatus: {displayStatus}");
+        }
     }
+
+    private async void TextBoxGameId_KeyDown(object sender, KeyEventArgs e)
+    {
+        var textBox = (TextBox)sender;
+        Match match;
+
+        if(displayStatus == DisplayStatus.Shown) {
+            if(e.KeyCode == Keys.Enter) {
+                textBox.Visible = false;
+                e.Handled = true;
+                displayStatus = DisplayStatus.Redrawing;
+                labelGameId.Text = $"Loading... {textBox.Text}";
+                labelGameId1v1.Text = $"Loading... {textBox.Text}";
+                labelMatchNo.Text = "Loading selected match...";
+                progressBar.Start();
+
+                try {
+                    match = await AoE2net.GetMatchAsync(textBox.Text);
+                    await DrawMatchAsync(match, textBox.Text);
+                } catch(Exception ex) {
+                    labelMatchNo.Text = "Load Error";
+                    labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
+                }
+
+                progressBar.Stop();
+                displayStatus = DisplayStatus.Shown;
+            }
+        }
+
+        if(e.KeyCode == Keys.Escape) {
+            textBox.Visible = false;
+            e.Handled = true;
+        }
+
+        Focus();
+    }
+
 #pragma warning restore VSTHRD200 // Use "Async" suffix for async methods
 #pragma warning restore VSTHRD100 // Avoid async void methods
 
     ///////////////////////////////////////////////////////////////////////
-    // Event handlers
+    // FormMain Event handlers
     ///////////////////////////////////////////////////////////////////////
+
     private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
     {
+        displayStatus = DisplayStatus.Closing;
         CtrlSettings.FormMyHistory?.Close();
         SaveWindowPosition();
         Settings.Default.Save();
         Settings.Default.PropertyChanged -= Default_PropertyChanged;
     }
 
+    private void FormMain_Resize(object sender, EventArgs e)
+        => ResizePanels();
+
+    private void FormMain_MouseClick(object sender, MouseEventArgs e)
+    {
+        if(e.Button == MouseButtons.Right) {
+            contextMenuStripMain.Show();
+        }
+    }
+
+    private void FormMain_KeyDown(object sender, KeyEventArgs e)
+    {
+        GetShortcutFunction(e.KeyCode, e.Shift, e.Alt)();
+        Awaiter.Complete();
+    }
+
+    private void FormMain_Activated(object sender, EventArgs e)
+    {
+        // if this form is active, get game status from aoe2.net and update last match info.
+        if(Settings.Default.VisibleGameTime
+        && CtrlMain.DisplayedMatch?.Finished == null
+        && displayStatus == DisplayStatus.Shown) {
+            CtrlMain.IsReloadingByTimer = true;
+            updateToolStripMenuItem.PerformClick();
+        }
+
+        Awaiter.Complete();
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    // Mouse Event handlers
+    ///////////////////////////////////////////////////////////////////////
+
+    private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        => OpenSettings();
+
+    private void ShowMyHistoryHToolStripMenuItem_Click(object sender, EventArgs e)
+        => CtrlSettings.ShowMyHistory();
+
+    private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        => Close();
+
+    private void LabelGameId_Click(object sender, EventArgs e)
+        => TextBoxGameIdActivate((Label)sender);
+
+    private void LabelGameId1v1_Click(object sender, EventArgs e)
+        => TextBoxGameIdActivate((Label)sender);
+
+    private void Controls_MouseDown(object sender, MouseEventArgs e)
+    {
+        if((e.Button & MouseButtons.Left) == MouseButtons.Left) {
+            mouseDownPoint = new Point(e.X, e.Y);
+        }
+    }
+
+    private void Controls_MouseMove(object sender, MouseEventArgs e)
+    {
+        if((e.Button & MouseButtons.Left) == MouseButtons.Left) {
+            Left += e.X - mouseDownPoint.X;
+            Top += e.Y - mouseDownPoint.Y;
+        }
+    }
+
+    private void LabelName_DoubleClick(object sender, EventArgs e)
+    {
+        var labelName = (Label)sender;
+        var player = (Player)labelName.Tag;
+
+        if(player != null) {
+            var formHistory = CtrlHistory.GenerateFormHistory(player.Name, player.ProfilId);
+            if(formHistory != null) {
+                formHistory.Show();
+            } else {
+                labelErrText.Text = $"invalid player Name:{player.Name} ProfilId:{player.ProfilId}";
+            }
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    // Key Event handlers
+    ///////////////////////////////////////////////////////////////////////
+
+    private void TextBoxGameId_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        // disable beep sound.
+        if(e.KeyChar == (char)Keys.Enter || e.KeyChar == (char)Keys.Escape) {
+            e.Handled = true;
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    // Focus Event handlers
+    ///////////////////////////////////////////////////////////////////////
+
+    private void TextBoxGameIdActivate(Label label)
+    {
+        textBoxGameId.Visible = true;
+        textBoxGameId.Top = label.Top;
+        textBoxGameId.Left = label.Left;
+        textBoxGameId.BackColor = Color.White;
+        textBoxGameId.Text = string.Empty;
+        textBoxGameId.Focus();
+    }
+
+    private void TextBoxGameId_Leave(object sender, EventArgs e)
+    {
+        var textBox = (TextBox)sender;
+        textBox.Visible = false;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    // Paint Event handlers
+    ///////////////////////////////////////////////////////////////////////
     private void LabelRate1v1P2_Paint(object sender, PaintEventArgs e)
     {
         ((Label)sender).DrawString(e, CtrlMain.BorderStyles[ScoreValue1v1]);
@@ -291,115 +482,4 @@ public partial class FormMain : ControllableForm
 
     private void LabelMatchNo1v1_Paint(object sender, PaintEventArgs e)
         => ((Label)sender).DrawString(e, CtrlMain.BorderStyles[MatchNo]);
-
-    private void FormMain_Resize(object sender, EventArgs e)
-        => ResizePanels();
-
-    private void Controls_MouseDown(object sender, MouseEventArgs e)
-    {
-        if((e.Button & MouseButtons.Left) == MouseButtons.Left) {
-            mouseDownPoint = new Point(e.X, e.Y);
-        }
-    }
-
-    private void Controls_MouseMove(object sender, MouseEventArgs e)
-    {
-        if((e.Button & MouseButtons.Left) == MouseButtons.Left) {
-            Left += e.X - mouseDownPoint.X;
-            Top += e.Y - mouseDownPoint.Y;
-        }
-    }
-
-    private void FormMain_MouseClick(object sender, MouseEventArgs e)
-    {
-        if(e.Button == MouseButtons.Right) {
-            contextMenuStripMain.Show();
-        }
-    }
-
-    private void FormMain_KeyDown(object sender, KeyEventArgs e)
-    {
-        GetFunction(e.KeyCode, e.Shift, e.Alt)();
-        Awaiter.Complete();
-    }
-
-    private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
-        => OpenSettings();
-
-    private void LabelName_DoubleClick(object sender, EventArgs e)
-    {
-        var labelName = (Label)sender;
-        var player = (Player)labelName.Tag;
-
-        if(player != null) {
-            var formHistory = CtrlHistory.GenerateFormHistory(player.Name, player.ProfilId);
-            if(formHistory != null) {
-                formHistory.Show();
-            } else {
-                labelErrText.Text = $"invalid player Name:{player.Name} ProfilId:{player.ProfilId}";
-            }
-        }
-    }
-
-    private void ShowMyHistoryHToolStripMenuItem_Click(object sender, EventArgs e)
-        => CtrlSettings.ShowMyHistory();
-
-    private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
-        => Close();
-
-    private void FormMain_Activated(object sender, EventArgs e)
-    {
-        // if this form is active, get game status from aoe2.net and update last match info.
-        if(Settings.Default.VisibleGameTime
-        && CtrlMain.DisplayedMatch?.Finished == null) {
-            CtrlMain.IsReloadingByTimer = true;
-            updateToolStripMenuItem.PerformClick();
-        }
-
-        Awaiter.Complete();
-    }
-
-    private void LabelGameId_Click(object sender, EventArgs e)
-        => TextBoxGameIdActivate((Label)sender);
-
-    private void LabelGameId1v1_Click(object sender, EventArgs e)
-        => TextBoxGameIdActivate((Label)sender);
-
-    private void TextBoxGameIdActivate(Label label)
-    {
-        textBoxGameId.Visible = true;
-        textBoxGameId.Top = label.Top;
-        textBoxGameId.Left = label.Left;
-        textBoxGameId.BackColor = Color.White;
-        textBoxGameId.Text = string.Empty;
-        textBoxGameId.Focus();
-    }
-
-    [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods", Justification = SuppressReason.GuiEvent)]
-    private async void TextBoxGameId_KeyDown(object sender, KeyEventArgs e)
-    {
-        var textBox = (TextBox)sender;
-        Match match;
-
-        if(e.KeyCode == Keys.Enter) {
-            match = await AoE2net.GetMatchAsync(textBox.Text);
-            currentMatchView = 0;
-            requestMatchView = 0;
-            loadingMatchView = null;
-            CtrlMain.DisplayedMatch = await DrawMatchAsync(match);
-            textBox.Visible = false;
-        }
-
-        if(e.KeyCode == Keys.Escape) {
-            textBox.Visible = false;
-        }
-
-        Focus();
-    }
-
-    private void TextBoxGameId_Leave(object sender, EventArgs e)
-    {
-        var textBox = (TextBox)sender;
-        textBox.Visible = false;
-    }
 }

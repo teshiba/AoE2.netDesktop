@@ -12,29 +12,13 @@
     using AoE2NetDesktop.Tests;
     using AoE2NetDesktop.Utility;
 
-    using LibAoE2net;
+    using AoE2netDesktopTests.TestUtility;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class AoE2netHelpersTests
     {
-        [ClassInitialize]
-        public static void Init(TestContext context)
-        {
-            if(context is null) {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            StringsExt.Init();
-        }
-
-        [TestInitialize]
-        public void InitTest()
-        {
-            AoE2net.ComClient = new TestHttpClient();
-        }
-
         [TestMethod]
         [DataRow(IdType.Steam, TestData.AvailableUserSteamId)]
         [DataRow(IdType.Profile, TestData.AvailableUserProfileIdString)]
@@ -99,15 +83,15 @@
         public async Task GetPlayerLastMatchAsyncTestHttpRequestExceptionAsync()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient() {
-                ForceHttpRequestException = true,
-            };
+            AoE2net.ComClient.TestHttpClient().ForceHttpRequestException = true;
 
+            // Act
             // Assert
             await Assert.ThrowsExceptionAsync<HttpRequestException>(() =>
-
-                // Act
                 AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Steam, TestData.AvailableUserSteamId));
+
+            // cleanup
+            AoE2net.ComClient.TestHttpClient().ForceHttpRequestException = false;
         }
     }
 }

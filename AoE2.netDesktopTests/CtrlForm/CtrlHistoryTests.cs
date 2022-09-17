@@ -9,8 +9,6 @@ using AoE2NetDesktop.Utility.SysApi;
 
 using AoE2netDesktopTests.TestUtility;
 
-using LibAoE2net;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
@@ -83,12 +81,6 @@ public class CtrlHistoryTests
         new(IndexEWTeam, "Team EW", LeaderboardId.EWTeam, Color.OrangeRed),
         new(IndexUnranked, "Unranked", LeaderboardId.Unranked, Color.SlateGray),
     };
-
-    [TestInitialize]
-    public void InitTest()
-    {
-        AoE2net.ComClient = new TestHttpClient();
-    }
 
     [TestMethod]
     public void CtrlHistoryTest()
@@ -358,10 +350,6 @@ public class CtrlHistoryTests
     {
         // Arrange
         var expVal = "/c start https://aoe2.net/#profile-1";
-        var testHttpClient = new TestHttpClient() {
-            SystemApi = new SystemApiStub(1),
-        };
-        AoE2net.ComClient = testHttpClient;
         var playerName = "player1";
         var profileId = TestData.AvailableUserProfileId;
         var testClass = new CtrlHistory(profileId);
@@ -380,12 +368,9 @@ public class CtrlHistoryTests
     {
         // Arrange
         var expVal = string.Empty;
-        var testHttpClient = new TestHttpClient {
-            SystemApi = new SystemApiStub(1) {
-                ForceWin32Exception = true,
-            },
-        };
-        AoE2net.ComClient = testHttpClient;
+        AoE2net.ComClient.SystemApiStub().ForceWin32Exception = true;
+        var testHttpClient = (TestHttpClient)AoE2net.ComClient;
+        testHttpClient.LastRequest = null;
         var playerName = "player1";
         var profileId = TestData.AvailableUserProfileId;
         var playerInfo = new PlayerInfo(profileId, playerName, profileId);
@@ -398,6 +383,9 @@ public class CtrlHistoryTests
         // Assert
         Assert.IsNull(testHttpClient.LastRequest);
         Assert.AreEqual(expVal, actVal);
+
+        // cleanup
+        AoE2net.ComClient.SystemApiStub().ForceWin32Exception = false;
     }
 
     [TestMethod]
@@ -405,12 +393,9 @@ public class CtrlHistoryTests
     {
         // Arrange
         var expVal = string.Empty;
-        var testHttpClient = new TestHttpClient {
-            SystemApi = new SystemApiStub(1) {
-                ForceException = true,
-            },
-        };
-        AoE2net.ComClient = testHttpClient;
+        AoE2net.ComClient.SystemApiStub().ForceException = true;
+        var testHttpClient = (TestHttpClient)AoE2net.ComClient;
+        testHttpClient.LastRequest = null;
         var playerName = "player1";
         var profileId = TestData.AvailableUserProfileId;
         var playerInfo = new PlayerInfo(profileId, playerName, profileId);
@@ -423,6 +408,9 @@ public class CtrlHistoryTests
         // Assert
         Assert.IsNull(testHttpClient.LastRequest);
         Assert.AreEqual(expVal, actVal);
+
+        // Cleanup
+        AoE2net.ComClient.SystemApiStub().ForceException = false;
     }
 
     [TestMethod]
@@ -430,8 +418,8 @@ public class CtrlHistoryTests
     {
         // Arrange
         var expVal = string.Empty;
-        var testHttpClient = new TestHttpClient();
-        AoE2net.ComClient = testHttpClient;
+        var testHttpClient = (TestHttpClient)AoE2net.ComClient;
+        testHttpClient.LastRequest = null;
         var playerName = "player1";
         var targetProfileId = TestData.UnavailableUserProfileId;
         var profileId = TestData.AvailableUserProfileId;

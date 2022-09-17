@@ -25,12 +25,14 @@ public partial class FormHistory : ControllableForm
     /// <summary>
     /// Gets selected data source of graph.
     /// </summary>
-    public DataSource SelectedDataSource => CtrlHistory.GetDataSource(comboBoxDataSource.Text);
+    public DataSource SelectedDataSource
+        => CtrlHistory.GetDataSource(comboBoxDataSource.Text);
 
     /// <summary>
     /// Gets selected data source of graph.
     /// </summary>
-    public LeaderboardId SelectedLeaderboard => CtrlHistory.GetLeaderboardId(comboBoxLeaderboard.Text);
+    public LeaderboardId SelectedLeaderboard
+        => CtrlHistory.GetLeaderboardId(comboBoxLeaderboard.Text);
 
     private void InitMatchesTab()
     {
@@ -82,12 +84,17 @@ public partial class FormHistory : ControllableForm
         comboBoxDataSource.SelectedIndex = Settings.Default.SelectedIndexComboBoxDataSource;
         comboBoxDataSource.Enabled = true;
 
-        UpdateMatchesTabGraph();
+        UpdateMatchesTabGraph(GetSelectedLeaderboard());
     }
 
-    private void UpdateMatchesTabGraph()
+    private LeaderboardId GetSelectedLeaderboard()
     {
-        WinRateStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, SelectedLeaderboard, SelectedDataSource);
+        return SelectedLeaderboard;
+    }
+
+    private void UpdateMatchesTabGraph(LeaderboardId selectedLeaderboard)
+    {
+        WinRateStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, selectedLeaderboard, SelectedDataSource);
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -103,12 +110,12 @@ public partial class FormHistory : ControllableForm
     {
         Settings.Default.SelectedIndexComboBoxLeaderboard = comboBoxLeaderboard.SelectedIndex;
         UpdateListViewMatchHistory();
-        UpdateMatchesTabGraph();
+        UpdateMatchesTabGraph(GetSelectedLeaderboard());
     }
 
     private void ComboBoxDataSource_SelectedIndexChanged(object sender, EventArgs e)
     {
         Settings.Default.SelectedIndexComboBoxDataSource = comboBoxDataSource.SelectedIndex;
-        UpdateMatchesTabGraph();
+        UpdateMatchesTabGraph(GetSelectedLeaderboard());
     }
 }

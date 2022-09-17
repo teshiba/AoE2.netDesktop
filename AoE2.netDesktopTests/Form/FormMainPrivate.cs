@@ -6,7 +6,7 @@ using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
 
-using LibAoE2net;
+using AoE2netDesktopTests.TestUtility;
 
 using System;
 using System.ComponentModel;
@@ -33,8 +33,7 @@ public partial class FormMainTests
         public FormMainPrivate()
             : base(Language.en)
         {
-            httpClient = new TestHttpClient();
-            AoE2net.ComClient = httpClient;
+            httpClient = (TestHttpClient)AoE2net.ComClient;
             labelErrText = this.GetControl<Label>("labelErrText");
             labelGameId = this.GetControl<Label>("labelGameId");
             labelAoE2DEActive = this.GetControl<Label>("labelAoE2DEActive");

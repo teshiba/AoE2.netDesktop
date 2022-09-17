@@ -8,8 +8,6 @@ using AoE2NetDesktop.Utility.Forms;
 
 using AoE2netDesktopTests.TestUtility;
 
-using LibAoE2net;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
@@ -195,6 +193,9 @@ public partial class FormSettingsTests
 
         // Assert
         Assert.IsTrue(done);
+
+        // CleanUp
+        testClass.httpClient.ForceHttpRequestException = false;
     }
 
     [TestMethod]
@@ -227,6 +228,9 @@ public partial class FormSettingsTests
 
         // Assert
         Assert.IsTrue(done);
+
+        // CleanUp
+        testClass.httpClient.ForceHttpRequestException = false;
     }
 
     [TestMethod]
@@ -253,6 +257,9 @@ public partial class FormSettingsTests
 
         testClass.ShowDialog();
         Assert.IsTrue(done);
+
+        // CleanUp
+        testClass.httpClient.ForceHttpRequestException = false;
     }
 
     [TestMethod]
@@ -279,6 +286,9 @@ public partial class FormSettingsTests
 
         testClass.ShowDialog();
         Assert.IsTrue(done);
+
+        // CleanUp
+        testClass.httpClient.ForceTaskCanceledException = false;
     }
 
     [TestMethod]
@@ -426,6 +436,9 @@ public partial class FormSettingsTests
 
         testClass.ShowDialog();
         Assert.IsTrue(done);
+
+        // CleanUp
+        testClass.httpClient.ForceException = false;
     }
 
     [TestMethod]
@@ -490,12 +503,7 @@ public partial class FormSettingsTests
     {
         // Arrange
         var testClass = new FormSettingsPrivate();
-        var testHttpClient = new TestHttpClient() {
-            ForceException = true,
-            SystemApi = new SystemApiStub(1),
-        };
-        AoE2net.ComClient = testHttpClient;
-
+        AoE2net.ComClient.TestHttpClient().ForceException = true;
         var done = false;
 
         // Act
@@ -515,6 +523,9 @@ public partial class FormSettingsTests
 
         // Assert
         Assert.IsTrue(done);
+
+        // cleanup
+        AoE2net.ComClient.TestHttpClient().ForceException = false;
     }
 
     [TestMethod]

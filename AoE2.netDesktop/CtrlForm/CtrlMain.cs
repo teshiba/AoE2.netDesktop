@@ -116,7 +116,7 @@ public class CtrlMain : FormControler
     /// <returns>controler instance.</returns>
     public static async Task<bool> InitAsync(Language language)
     {
-        StringsExt.Init();
+        await StringsExt.InitAsync();
         await StringsExt.InitAsync(language);
 
         return true;
@@ -169,7 +169,7 @@ public class CtrlMain : FormControler
     /// </summary>
     /// <param name="match">match.</param>
     /// <returns>Elapsed time.</returns>
-    public static string GetElapsedTime(Match match)
+    public static string GetElapsedTimeString(Match match)
     {
         var ret = DateTimeExt.InvalidTime;
 
@@ -187,7 +187,7 @@ public class CtrlMain : FormControler
     /// </summary>
     /// <param name="match">match.</param>
     /// <returns>Opened time.</returns>
-    public static string GetOpenedTime(Match match)
+    public static string GetOpenedTimeString(Match match)
     {
         var ret = DateTimeExt.InvalidTime;
 
@@ -241,6 +241,6 @@ public class CtrlMain : FormControler
     /// </summary>
     /// <param name="matchNo">match No.</param>
     /// <returns>Match No. text.</returns>
-    public static string GetMatchNo(int matchNo)
+    public static string GetMatchNoString(int? matchNo)
         => matchNo != 0 ? $"{matchNo} match ago" : "Last match";
 }

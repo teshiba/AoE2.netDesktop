@@ -1,12 +1,8 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
-
-using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.PlotEx;
 using AoE2NetDesktop.Tests;
-
-using LibAoE2net;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -23,7 +19,6 @@ public class PlayerCountryPlotTests
     {
         // Arrange
         var plot = new FormsPlot();
-        AoE2net.ComClient = new TestHttpClient();
         var leaderBoardId = LeaderboardId.RM1v1;
         int profileId = TestData.AvailableUserProfileId;
         var playerMatchHistory = new PlayerMatchHistory {

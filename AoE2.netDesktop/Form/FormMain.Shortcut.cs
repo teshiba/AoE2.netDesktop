@@ -1,6 +1,4 @@
 ﻿namespace AoE2NetDesktop.Form;
-
-using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.Utility.Forms;
 
 using System;
@@ -48,17 +46,45 @@ public partial class FormMain : ControllableForm
 #pragma warning disable VSTHRD100 // Avoid async void methods
     private async void NextMatchResult()
     {
-        if(requestMatchView > 0) {
-            requestMatchView--;
-            CtrlMain.DisplayedMatch = await DrawMatchAsync(requestMatchView);
+        if(displayStatus == DisplayStatus.Shown
+          || displayStatus == DisplayStatus.RedrawingPrevMatch) {
+            if(requestMatchView > 0) {
+                requestMatchView--;
+                if(progressBar.Start()) {
+                    try {
+                        await DrawMatchAsync();
+                    } catch(Exception ex) {
+                        requestMatchView++;
+                        labelMatchNo.Text = "Load Error";
+                        labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
+                    }
+
+                    progressBar.Stop();
+                }
+            }
         }
     }
 
     private async void PrevMatchResult()
     {
-        requestMatchView++;
-        CtrlMain.DisplayedMatch = await DrawMatchAsync(requestMatchView);
+        if(displayStatus == DisplayStatus.Shown
+            || displayStatus == DisplayStatus.RedrawingPrevMatch) {
+            requestMatchView++;
+
+            if(progressBar.Start()) {
+                try {
+                    await DrawMatchAsync();
+                } catch(Exception ex) {
+                    requestMatchView--;
+                    labelMatchNo.Text = "Load Error";
+                    labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
+                }
+
+                progressBar.Stop();
+            }
+        }
     }
+
 #pragma warning restore VSTHRD100 // Avoid async void methods
 
     private void DecreaseHeight10px() => Size += new Size(0, -10);
@@ -92,7 +118,7 @@ public partial class FormMain : ControllableForm
     // ///////////////////////////////////////////////////////////////////////
     // Get shortcut function API
     // ///////////////////////////////////////////////////////////////////////
-    private Action GetFunction(Keys keyCode, bool shift, bool alt)
+    private Action GetShortcutFunction(Keys keyCode, bool shift, bool alt)
     {
         var key = string.Empty;
 

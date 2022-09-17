@@ -49,6 +49,8 @@ public class ComClient : HttpClient
     /// <typeparam name="TValue">The target type to deserialize to.</typeparam>
     /// <param name="requestUri">The Uri the request is sent to.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
+    /// <exception cref="HttpRequestException">HttpRequest Error.</exception>
+    /// <exception cref="TaskCanceledException">HttpRequest Timeout.</exception>
     public async Task<TValue> GetFromJsonAsync<TValue>(string requestUri)
         where TValue : new()
     {

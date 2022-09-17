@@ -11,21 +11,13 @@
     using AoE2NetDesktop.Tests;
     using AoE2NetDesktop.Utility;
 
+    using AoE2netDesktopTests.TestUtility;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class AoE2netTests
     {
-        [ClassInitialize]
-        public static void Init(TestContext context)
-        {
-            if(context is null) {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            AoE2net.ComClient = new TestHttpClient();
-        }
-
         [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
         [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
         [TestMethod]
@@ -402,14 +394,15 @@
             Assert.AreEqual(expVal, actVal);
 
             // restore ComClient setting.
-            AoE2net.ComClient = new TestHttpClient();
+            AoE2net.ComClient = new TestHttpClient() {
+                SystemApi = new SystemApiStub(1),
+            };
         }
 
         [TestMethod]
         public void GetCivImageLocationTestNull()
         {
             // Arrange
-
             // Act
             var actVal = AoE2net.GetCivImageLocation(null);
 
