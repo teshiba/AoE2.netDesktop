@@ -84,7 +84,6 @@ public partial class FormMain : ControllableForm
             }
 
             await RedrawLastMatchAsync();
-
         } catch(Exception ex) {
             labelMatchNo.Text = "Load Error";
             labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";

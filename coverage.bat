@@ -2,7 +2,7 @@ echo off
 rem ===========================================================================
 rem coverage.bat
 rem ===========================================================================
-echo "Start unit test"
+echo "Start unit test  %date% %time%"
 
 rem ===========================================================================
 rem Tool path
@@ -21,7 +21,7 @@ rem set REPORTTYPES="Badges;MarkdownSummary;Html;Html_Light;Html_Dark;HtmlChart;
 
 rem test option
 set TEST_FILTERS="TestCategory!=GUI"
-set TEST_TIMEOUT_MSEC=60000
+set TEST_TIMEOUT_MSEC=120000
 
 rem ===========================================================================
 rem Run test
