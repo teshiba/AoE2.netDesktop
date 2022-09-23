@@ -2,7 +2,8 @@
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.PlotEx;
-using AoE2NetDesktop.Tests;
+
+using AoE2NetDesktopTests.TestData;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -32,6 +32,16 @@ public static class StringsExt
     }
 
     /// <summary>
+    /// Dispose the class.
+    /// </summary>
+    public static void Dispose()
+    {
+        apiStrings = null;
+        enStrings = null;
+        initDone = false;
+    }
+
+    /// <summary>
     /// Initialize the class.
     /// </summary>
     /// <param name="language">language used.</param>

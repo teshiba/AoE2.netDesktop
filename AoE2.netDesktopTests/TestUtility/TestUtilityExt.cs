@@ -1,4 +1,4 @@
-﻿namespace AoE2netDesktopTests.TestUtility;
+﻿namespace AoE2NetDesktopTests.TestUtility;
 
 using AoE2NetDesktop.Utility;
 
@@ -25,7 +25,7 @@ public static class TestUtilityExt
         }
 
         var fieldInfo = type.GetField(name, bindingFlags);
-        if(fieldInfo == null) {
+        if(fieldInfo?.GetValue(obj) == null) {
             fieldInfo = type.BaseType.GetField(name, bindingFlags);
         }
 
@@ -36,7 +36,7 @@ public static class TestUtilityExt
     {
         var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
         var fieldInfo = obj.GetType().GetField(name, bindingFlags);
-        if(fieldInfo == null) {
+        if(fieldInfo?.GetValue(obj) == null) {
             fieldInfo = obj.GetType().BaseType.GetField(name, bindingFlags);
         }
 

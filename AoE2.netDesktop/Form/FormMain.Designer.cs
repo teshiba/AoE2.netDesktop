@@ -127,7 +127,6 @@
             this.pictureBoxUnit1v1P2 = new System.Windows.Forms.PictureBox();
             this.pictureBoxUnit1v1P1 = new System.Windows.Forms.PictureBox();
             this.pictureBoxCiv1v1P1 = new System.Windows.Forms.PictureBox();
-            this.timerLoading = new System.Windows.Forms.Timer(this.components);
             this.panelTeam1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -1452,10 +1451,6 @@
             this.pictureBoxCiv1v1P1.TabIndex = 18;
             this.pictureBoxCiv1v1P1.TabStop = false;
             // 
-            // timerLoading
-            // 
-            this.timerLoading.Interval = 1000;
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1476,7 +1471,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.Shown += new System.EventHandler(this.FormMain_Shown);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDownAsync);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FormMain_MouseClick);
             this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.panelTeam1.ResumeLayout(false);
@@ -1610,6 +1605,5 @@
         private System.Windows.Forms.Label labelMatchNo1v1;
         private System.Windows.Forms.TextBox textBoxGameId;
         private System.Windows.Forms.ProgressBar progressBarLoading;
-        private System.Windows.Forms.Timer timerLoading;
     }
 }

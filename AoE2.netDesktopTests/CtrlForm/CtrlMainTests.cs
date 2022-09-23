@@ -7,7 +7,7 @@ using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.SysApi;
 
-using AoE2netDesktopTests.TestUtility;
+using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -262,5 +262,20 @@ public class CtrlMainTests
 
         // Assert
         Assert.IsNull(actVal);
+    }
+
+    [TestMethod]
+    [DataRow(0, "Last match")]
+    [DataRow(null, "Last match")]
+    [DataRow(1, "1 match ago")]
+    [DataRow(-1, "-1 match ago")]
+    public void GetMatchNoStringTest(int? matchNo, string expVal)
+    {
+        // Arrange
+        // Act
+        var actVal = CtrlMain.GetMatchNoString(matchNo);
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
     }
 }

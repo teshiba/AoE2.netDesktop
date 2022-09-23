@@ -2,7 +2,7 @@
 
 using AoE2NetDesktop.Utility;
 
-using AoE2netDesktopTests.TestUtility;
+using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -18,8 +18,7 @@ public class ComClientTests
     public async Task GetStringAsyncTestAsync()
     {
         // Arrange
-        var testClass = new ComClient {
-        };
+        var testClass = new ComClient();
 
         // Act
         // Assert

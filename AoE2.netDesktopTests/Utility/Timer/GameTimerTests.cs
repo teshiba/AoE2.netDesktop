@@ -9,7 +9,7 @@
     using AoE2NetDesktop.Utility;
     using AoE2NetDesktop.Utility.Timer;
 
-    using AoE2netDesktopTests.TestUtility;
+    using AoE2NetDesktopTests.TestUtility;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 

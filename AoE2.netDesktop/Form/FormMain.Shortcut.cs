@@ -4,6 +4,7 @@ using AoE2NetDesktop.Utility.Forms;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 /// <summary>
@@ -11,7 +12,7 @@ using System.Windows.Forms;
 /// </summary>
 public partial class FormMain : ControllableForm
 {
-    private Dictionary<string, Action> shortcutActions;
+    private Dictionary<string, Func<Task>> shortcutActions;
 
     /// <summary>
     /// Initialize shortcut key functions.
@@ -23,102 +24,87 @@ public partial class FormMain : ControllableForm
     /// </summary>
     public void InitShortcut()
     {
-        shortcutActions = new Dictionary<string, Action>() {
-            { "F5", UpdateLastMatch },
-            { "ShiftAltUp", DecreaseHeight1px },
-            { "ShiftAltDown", IncreaseHeight1px },
-            { "ShiftAltLeft", DecreaseWidth1px },
-            { "ShiftAltRight", IncreaseWidth1px },
-            { "AltUp", DecreaseHeight10px },
-            { "AltDown", IncreaseHeight10px },
-            { "AltLeft", DecreaseWidth10px },
-            { "AltRight", IncreaseWidth10px },
-            { "ShiftSpace", SwitchHideTitle },
-            { "AltSpace", ShowWindowTitle },
-            { "Left", PrevMatchResult },
-            { "Right", NextMatchResult },
+        shortcutActions = new Dictionary<string, Func<Task>>() {
+            { "F5", UpdateLastMatchAsync },
+            { "ShiftAltUp", DecreaseHeight1pxAsync },
+            { "ShiftAltDown", IncreaseHeight1pxAsync },
+            { "ShiftAltLeft", DecreaseWidth1pxAsync },
+            { "ShiftAltRight", IncreaseWidth1pxAsync },
+            { "AltUp", DecreaseHeight10pxAsync },
+            { "AltDown", IncreaseHeight10pxAsync },
+            { "AltLeft", DecreaseWidth10pxAsync },
+            { "AltRight", IncreaseWidth10pxAsync },
+            { "ShiftSpace", SwitchHideTitleAsync },
+            { "AltSpace", ShowWindowTitleAsync },
+            { "Left", PrevMatchResultAsync },
+            { "Right", NextMatchResultAsync },
         };
     }
 
     // ///////////////////////////////////////////////////////////////////////
     // shortcut actions
     // ///////////////////////////////////////////////////////////////////////
-#pragma warning disable VSTHRD100 // Avoid async void methods
-    private async void NextMatchResult()
+    private async Task NextMatchResultAsync()
     {
         if(displayStatus == DisplayStatus.Shown
           || displayStatus == DisplayStatus.RedrawingPrevMatch) {
             if(requestMatchView > 0) {
                 requestMatchView--;
                 if(progressBar.Start()) {
-                    try {
-                        await DrawMatchAsync();
-                    } catch(Exception ex) {
-                        requestMatchView++;
-                        labelMatchNo.Text = "Load Error";
-                        labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
-                    }
-
+                    await UpdateRequestedMatchAsync();
                     progressBar.Stop();
                 }
             }
         }
     }
 
-    private async void PrevMatchResult()
+    private async Task PrevMatchResultAsync()
     {
         if(displayStatus == DisplayStatus.Shown
             || displayStatus == DisplayStatus.RedrawingPrevMatch) {
             requestMatchView++;
 
             if(progressBar.Start()) {
-                try {
-                    await DrawMatchAsync();
-                } catch(Exception ex) {
-                    requestMatchView--;
-                    labelMatchNo.Text = "Load Error";
-                    labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
-                }
-
+                await UpdateRequestedMatchAsync();
                 progressBar.Stop();
             }
         }
     }
 
-#pragma warning restore VSTHRD100 // Avoid async void methods
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+    private async Task DecreaseHeight10pxAsync() => Size += new Size(0, -10);
 
-    private void DecreaseHeight10px() => Size += new Size(0, -10);
+    private async Task IncreaseHeight10pxAsync() => Size += new Size(0, 10);
 
-    private void IncreaseHeight10px() => Size += new Size(0, 10);
+    private async Task DecreaseWidth10pxAsync() => Size += new Size(-10, 0);
 
-    private void DecreaseWidth10px() => Size += new Size(-10, 0);
+    private async Task IncreaseWidth10pxAsync() => Size += new Size(10, 0);
 
-    private void IncreaseWidth10px() => Size += new Size(10, 0);
+    private async Task DecreaseHeight1pxAsync() => Size += new Size(0, -1);
 
-    private void DecreaseHeight1px() => Size += new Size(0, -1);
+    private async Task IncreaseHeight1pxAsync() => Size += new Size(0, 1);
 
-    private void IncreaseHeight1px() => Size += new Size(0, 1);
+    private async Task DecreaseWidth1pxAsync() => Size += new Size(-1, 0);
 
-    private void DecreaseWidth1px() => Size += new Size(-1, 0);
+    private async Task IncreaseWidth1pxAsync() => Size += new Size(1, 0);
 
-    private void IncreaseWidth1px() => Size += new Size(1, 0);
-
-    private void SwitchHideTitle()
+    private async Task SwitchHideTitleAsync()
         => Settings.Default.MainFormIsHideTitle = !Settings.Default.MainFormIsHideTitle;
 
     // show the title bar and popup the window menu.
-    private void ShowWindowTitle() =>
+    private async Task ShowWindowTitleAsync() =>
         Settings.Default.MainFormIsHideTitle = false;
 
-    private void UpdateLastMatch()
+    private async Task UpdateLastMatchAsync()
     {
         // F5 is called by shortcut key settings of ToolStripMenuItem;
     }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
     // ///////////////////////////////////////////////////////////////////////
     // Get shortcut function API
     // ///////////////////////////////////////////////////////////////////////
-    private Action GetShortcutFunction(Keys keyCode, bool shift, bool alt)
+    private Func<Task> GetShortcutFunction(Keys keyCode, bool shift, bool alt)
     {
         var key = string.Empty;
 
@@ -131,12 +117,12 @@ public partial class FormMain : ControllableForm
         }
 
         var result = shortcutActions.TryGetValue(
-            key + keyCode.ToString(), out Action action);
+            key + keyCode.ToString(), out Func<Task> action);
         if(!result) {
-            action = () =>
+            action = () => Task.Run(() =>
             {
                 // Undefined shortcut key
-            };
+            });
         }
 
         return action;

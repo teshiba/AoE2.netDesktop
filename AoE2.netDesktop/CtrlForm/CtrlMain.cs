@@ -242,5 +242,5 @@ public class CtrlMain : FormControler
     /// <param name="matchNo">match No.</param>
     /// <returns>Match No. text.</returns>
     public static string GetMatchNoString(int? matchNo)
-        => matchNo != 0 ? $"{matchNo} match ago" : "Last match";
+        => (matchNo ?? 0) != 0 ? $"{matchNo} match ago" : "Last match";
 }

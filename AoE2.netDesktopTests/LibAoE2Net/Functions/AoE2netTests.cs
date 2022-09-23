@@ -2,24 +2,35 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
     using AoE2NetDesktop.LibAoE2Net.Functions;
     using AoE2NetDesktop.LibAoE2Net.JsonFormat;
     using AoE2NetDesktop.LibAoE2Net.Parameters;
-    using AoE2NetDesktop.Tests;
-    using AoE2NetDesktop.Utility;
 
-    using AoE2netDesktopTests.TestUtility;
+    using AoE2NetDesktopTests.TestData;
+    using AoE2NetDesktopTests.TestUtility;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class AoE2netTests
     {
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
+#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
+#pragma warning disable VSTHRD104 // Offer async methods
+        [TestMethod]
+        public void GetMatchAsyncTestInvalid()
+        {
+            // Arrange
+            var matchId = "invalidIdString";
+
+            // Act
+            var actVal = Task.Run(() => AoE2net.GetMatchAsync(matchId)).Result;
+
+            // Assert
+            Assert.IsNull(actVal);
+        }
+
         [TestMethod]
         public void GetMatchAsyncTestMatchID()
         {
@@ -34,8 +45,6 @@
             Assert.AreEqual(expVal, actVal.MatchId);
         }
 
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
         [TestMethod]
         public void GetMatchAsyncTestUUID()
         {
@@ -51,8 +60,6 @@
         }
 
         [TestMethod]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
         public void GetPlayerLastMatchAsyncTestSteamId()
         {
             // Arrange
@@ -233,8 +240,6 @@
         }
 
         [TestMethod]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
         public void GetPlayerLastMatchAsyncTestProfileId()
         {
             // Arrange
@@ -253,17 +258,7 @@
         }
 
         [TestMethod]
-        public async Task GetPlayerLastMatchAsyncTestNullAsync()
-        {
-            // Assert
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                AoE2net.GetPlayerLastMatchAsync(null));
-        }
-
-        [TestMethod]
         [DataRow(LeaderboardId.RMTeam, 1)]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
         public void GetPlayerRatingHistoryAsyncTestSteamId(LeaderboardId leaderBoardId, int count)
         {
             // Arrange
@@ -298,8 +293,6 @@
 
         [TestMethod]
         [DataRow(LeaderboardId.RMTeam, 1)]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
         public void GetPlayerRatingHistoryAsyncTestProfileId(LeaderboardId leaderBoardId, int count)
         {
             // Arrange
@@ -333,17 +326,7 @@
         }
 
         [TestMethod]
-        public async Task GetPlayerRatingHistoryAsyncTestNullAsync()
-        {
-            // Assert
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                AoE2net.GetPlayerRatingHistoryAsync(null, LeaderboardId.RMTeam, 1));
-        }
-
-        [TestMethod]
         [DataRow(Language.en)]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
         public void GetStringsAsyncTest(Language language)
         {
             // Arrange
@@ -380,6 +363,114 @@
         }
 
         [TestMethod]
+        public void GetPlayerMatchHistoryAsyncTeststeamId()
+        {
+            // Arrange
+
+            // Act
+            var actVal = Task.Run(
+                () => AoE2net.GetPlayerMatchHistoryAsync(0, 10, TestData.AvailableUserSteamId))
+                .Result;
+
+            // Assert
+            Assert.AreEqual("playerMatchHistoryaoe2de00000000000000001data1", actVal[0].Server);
+            Assert.AreEqual("playerMatchHistoryaoe2de00000000000000001data2", actVal[1].Server);
+        }
+
+        [TestMethod]
+        public void GetPlayerMatchHistoryAsyncTestprofileId()
+        {
+            // Arrange
+
+            // Act
+            var actVal = Task.Run(
+                () => AoE2net.GetPlayerMatchHistoryAsync(0, 10, TestData.AvailableUserProfileId))
+                .Result;
+
+            // Assert
+            Assert.AreEqual("playerMatchHistoryaoe2de1data1", actVal[0].Server);
+            Assert.AreEqual("playerMatchHistoryaoe2de1data2", actVal[1].Server);
+            Assert.AreEqual("playerMatchHistoryaoe2de1data3", actVal[2].Server);
+        }
+
+        [TestMethod]
+        public void GetLeaderboardAsyncTestSteamId()
+        {
+            // Arrange
+            var expVal = string.Empty;
+            var expStart = 1;
+            var expCount = 1;
+            var expSteamIdCount = TestData.AvailableUserSteamId;
+            var expLeaderBoardId = LeaderboardId.RMTeam;
+
+            // Act
+            var actVal = Task.Run(
+                () => AoE2net.GetLeaderboardAsync(
+                    expLeaderBoardId, expStart, expCount, expSteamIdCount))
+                .Result;
+
+            // Assert
+            Assert.AreEqual(expLeaderBoardId, actVal.LeaderBoardId);
+            Assert.AreEqual(expSteamIdCount, actVal.Leaderboards[0].SteamId);
+            Assert.AreEqual(expStart, actVal.Start);
+            Assert.AreEqual(expCount, actVal.Count);
+        }
+
+        [TestMethod]
+        public void GetLeaderboardAsyncTestProfileId()
+        {
+            // Arrange
+            var expVal = string.Empty;
+            var expStart = 1;
+            var expCount = 1;
+            var expProfileIdCount = TestData.AvailableUserProfileId;
+            var expLeaderBoardId = LeaderboardId.RMTeam;
+
+            // Act
+            var actVal = Task.Run(
+                () => AoE2net.GetLeaderboardAsync(
+                    expLeaderBoardId, expStart, expCount, expProfileIdCount))
+                .Result;
+
+            // Assert
+            Assert.AreEqual(expLeaderBoardId, actVal.LeaderBoardId);
+            Assert.AreEqual(expProfileIdCount, actVal.Leaderboards[0].ProfileId);
+            Assert.AreEqual(expStart, actVal.Start);
+            Assert.AreEqual(expCount, actVal.Count);
+        }
+
+#pragma warning restore VSTHRD104 // Offer async methods
+#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
+
+        [TestMethod]
+        public void GetPlayerMatchHistoryAsyncTeststeamIdIsNull()
+        {
+            // Arrange
+
+            // Act
+            _ = Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                  AoE2net.GetPlayerMatchHistoryAsync(0, 10, null));
+
+            // Assert
+        }
+
+        [TestMethod]
+        public async Task GetPlayerLastMatchAsyncTestNullAsync()
+        {
+            // Assert
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                AoE2net.GetPlayerLastMatchAsync(null));
+        }
+
+        [TestMethod]
+        public async Task GetPlayerRatingHistoryAsyncTestNullAsync()
+        {
+            // Assert
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                AoE2net.GetPlayerRatingHistoryAsync(null, LeaderboardId.RMTeam, 1));
+        }
+
+        [TestMethod]
         [DataRow("Aztecs")]
         public void GetCivImageLocationTest(string civ)
         {
@@ -408,103 +499,6 @@
 
             // Assert
             Assert.IsNull(actVal);
-        }
-
-        [TestMethod]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
-        public void GetPlayerMatchHistoryAsyncTeststeamId()
-        {
-            // Arrange
-
-            // Act
-            var actVal = Task.Run(
-                () => AoE2net.GetPlayerMatchHistoryAsync(0, 10, TestData.AvailableUserSteamId))
-                .Result;
-
-            // Assert
-            Assert.AreEqual("playerMatchHistoryaoe2de00000000000000001data1", actVal[0].Server);
-            Assert.AreEqual("playerMatchHistoryaoe2de00000000000000001data2", actVal[1].Server);
-        }
-
-        [TestMethod]
-        public void GetPlayerMatchHistoryAsyncTeststeamIdIsNull()
-        {
-            // Arrange
-
-            // Act
-            _ = Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                  AoE2net.GetPlayerMatchHistoryAsync(0, 10, null));
-
-            // Assert
-        }
-
-        [TestMethod]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
-        public void GetPlayerMatchHistoryAsyncTestprofileId()
-        {
-            // Arrange
-
-            // Act
-            var actVal = Task.Run(
-                () => AoE2net.GetPlayerMatchHistoryAsync(0, 10, TestData.AvailableUserProfileId))
-                .Result;
-
-            // Assert
-            Assert.AreEqual("playerMatchHistoryaoe2de1data1", actVal[0].Server);
-            Assert.AreEqual("playerMatchHistoryaoe2de1data2", actVal[1].Server);
-            Assert.AreEqual("playerMatchHistoryaoe2de1data3", actVal[2].Server);
-        }
-
-        [TestMethod]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
-        public void GetLeaderboardAsyncTestSteamId()
-        {
-            // Arrange
-            var expVal = string.Empty;
-            var expStart = 1;
-            var expCount = 1;
-            var expSteamIdCount = TestData.AvailableUserSteamId;
-            var expLeaderBoardId = LeaderboardId.RMTeam;
-
-            // Act
-            var actVal = Task.Run(
-                () => AoE2net.GetLeaderboardAsync(
-                    expLeaderBoardId, expStart, expCount, expSteamIdCount))
-                .Result;
-
-            // Assert
-            Assert.AreEqual(expLeaderBoardId, actVal.LeaderBoardId);
-            Assert.AreEqual(expSteamIdCount, actVal.Leaderboards[0].SteamId);
-            Assert.AreEqual(expStart, actVal.Start);
-            Assert.AreEqual(expCount, actVal.Count);
-        }
-
-        [TestMethod]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
-        public void GetLeaderboardAsyncTestProfileId()
-        {
-            // Arrange
-            var expVal = string.Empty;
-            var expStart = 1;
-            var expCount = 1;
-            var expProfileIdCount = TestData.AvailableUserProfileId;
-            var expLeaderBoardId = LeaderboardId.RMTeam;
-
-            // Act
-            var actVal = Task.Run(
-                () => AoE2net.GetLeaderboardAsync(
-                    expLeaderBoardId, expStart, expCount, expProfileIdCount))
-                .Result;
-
-            // Assert
-            Assert.AreEqual(expLeaderBoardId, actVal.LeaderBoardId);
-            Assert.AreEqual(expProfileIdCount, actVal.Leaderboards[0].ProfileId);
-            Assert.AreEqual(expStart, actVal.Start);
-            Assert.AreEqual(expCount, actVal.Count);
         }
 
         [TestMethod]

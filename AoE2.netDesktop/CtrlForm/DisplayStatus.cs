@@ -6,9 +6,9 @@
 public enum DisplayStatus
 {
     /// <summary>
-    /// A match has shown.
+    /// The program is uninitialized.
     /// </summary>
-    Shown,
+    Uninitialized,
 
     /// <summary>
     /// A match is clearing.
@@ -16,27 +16,27 @@ public enum DisplayStatus
     Clearing,
 
     /// <summary>
-    /// A match is redrawing.
-    /// </summary>
-    Redrawing,
-
-    /// <summary>
-    /// The main form is closing.
-    /// </summary>
-    Closing,
-
-    /// <summary>
     /// A match has cleared.
     /// </summary>
     Cleared,
 
     /// <summary>
-    /// The program is Initializing.
+    /// A match is redrawing.
     /// </summary>
-    Initializing,
+    Redrawing,
 
     /// <summary>
     /// A previous match is redrawing.
     /// </summary>
     RedrawingPrevMatch,
+
+    /// <summary>
+    /// A match has shown.
+    /// </summary>
+    Shown,
+
+    /// <summary>
+    /// The main form is closing.
+    /// </summary>
+    Closing,
 }

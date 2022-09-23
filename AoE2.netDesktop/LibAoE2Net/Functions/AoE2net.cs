@@ -242,7 +242,6 @@ public static class AoE2net
         apiEndPoint = idType switch {
             MatchIdType.MatchId => apiEndPoint + $"match_id={id}",
             MatchIdType.Uuid => apiEndPoint + $"uuid={id}",
-            MatchIdType.Invalid => null,
             _ => null,
         };
         return await ComClient.GetFromJsonAsync<Match>(apiEndPoint).ConfigureAwait(false);

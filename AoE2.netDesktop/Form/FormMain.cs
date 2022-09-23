@@ -50,8 +50,8 @@ public partial class FormMain : ControllableForm
         LastMatchLoader = new LastMatchLoader(OnTimerLastMatchLoader, CtrlMain.IntervalSec);
         GameTimer = new GameTimer(OnTimerGame);
 
-        progressBar = new TimerProgressBar(progressBarLoading, timerLoading);
-        displayStatus = DisplayStatus.Initializing;
+        progressBar = new TimerProgressBar(progressBarLoading);
+        displayStatus = DisplayStatus.Uninitialized;
         SetOptionParams();
 
         this.language = language;
@@ -70,84 +70,12 @@ public partial class FormMain : ControllableForm
         Awaiter.Complete();
     }
 
-    private async Task InitAsync()
-    {
-        progressBar.Start();
-        labelMatchNo.Text = "Initializing...";
-
-        try {
-            _ = await CtrlMain.InitAsync(language);
-
-            // if the app is opened first, need to set user profile.
-            if(!await CtrlSettings.ReadProfileAsync()) {
-                OpenSettings();
-            }
-
-            await RedrawLastMatchAsync();
-        } catch(Exception ex) {
-            labelMatchNo.Text = "Load Error";
-            labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
-
-            if(displayStatus == DisplayStatus.Initializing) {
-                labelMatchNo.Text = "Server Error";
-            } else {
-                displayStatus = DisplayStatus.Shown;
-            }
-        }
-
-        progressBar.Stop();
-    }
-
     private void FormMain_Load(object sender, EventArgs e)
     {
         RestoreWindowStatus();
         ResizePanels();
         SetChromaKey(Settings.Default.ChromaKey);
         Awaiter.Complete();
-    }
-
-    private async void UpdateToolStripMenuItem_ClickAsync(object sender, EventArgs e)
-    {
-        await RedrawLastMatch();
-        Awaiter.Complete();
-    }
-
-    private async void PictureBoxMap_DoubleClickAsync(object sender, EventArgs e)
-        => await RedrawLastMatch();
-
-    private async void PictureBoxMap1v1_DoubleClick(object sender, EventArgs e)
-        => await RedrawLastMatch();
-
-    private async Task RedrawLastMatch()
-    {
-        switch(displayStatus) {
-        case DisplayStatus.Shown:
-            progressBar.Start();
-
-            ClearLastMatch();
-
-            try {
-                await RedrawLastMatchAsync();
-            } catch(Exception ex) {
-                labelMatchNo.Text = "Load Error";
-                labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
-            }
-
-            progressBar.Stop();
-            break;
-
-        case DisplayStatus.Initializing:
-            await InitAsync();
-            break;
-
-        case DisplayStatus.Clearing:
-        case DisplayStatus.Redrawing:
-        case DisplayStatus.Closing:
-        case DisplayStatus.Cleared:
-        case DisplayStatus.RedrawingPrevMatch:
-        default:
-            throw new InvalidOperationException($"Invalid displayStatus: {displayStatus}");
-        }
     }
 
     private async void TextBoxGameId_KeyDown(object sender, KeyEventArgs e)
@@ -167,7 +95,7 @@ public partial class FormMain : ControllableForm
 
                 try {
                     match = await AoE2net.GetMatchAsync(textBox.Text);
-                    await DrawMatchAsync(match, textBox.Text);
+                    await DrawMatchAsync(match, textBox.Text, null);
                 } catch(Exception ex) {
                     labelMatchNo.Text = "Load Error";
                     labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
@@ -184,6 +112,89 @@ public partial class FormMain : ControllableForm
         }
 
         Focus();
+        Awaiter.Complete();
+    }
+
+    private async void UpdateToolStripMenuItem_ClickAsync(object sender, EventArgs e)
+    {
+        await RedrawLastMatch();
+        Awaiter.Complete();
+    }
+
+    private void PictureBoxMap_DoubleClickAsync(object sender, EventArgs e)
+        => updateToolStripMenuItem.PerformClick();
+
+    private void PictureBoxMap1v1_DoubleClick(object sender, EventArgs e)
+        => updateToolStripMenuItem.PerformClick();
+
+    private async Task RedrawLastMatch()
+    {
+        switch(displayStatus) {
+        case DisplayStatus.Shown:
+
+            if(CtrlMain.IsReloadingByTimer) {
+                progressBar.Start();
+                ClearLastMatch();
+                CtrlMain.IsReloadingByTimer = false;
+            }
+
+            try {
+                await RedrawLastMatchAsync(CtrlSettings.ProfileId);
+            } catch(Exception ex) {
+                labelMatchNo.Text = "Load Error";
+                labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
+            }
+
+            progressBar.Stop();
+            break;
+
+        case DisplayStatus.Uninitialized:
+            await InitAsync();
+            break;
+
+        case DisplayStatus.Clearing:
+        case DisplayStatus.Redrawing:
+        case DisplayStatus.Closing:
+        case DisplayStatus.Cleared:
+        case DisplayStatus.RedrawingPrevMatch:
+        default:
+            labelErrText.Text = $"Invalid displayStatus: {displayStatus}";
+            break;
+        }
+    }
+
+    private async Task InitAsync()
+    {
+        progressBar.Start();
+        labelMatchNo.Text = "Initializing...";
+
+        try {
+            _ = await CtrlMain.InitAsync(language);
+
+            // if the app is opened first, need to set user profile.
+            if(!await CtrlSettings.ReadProfileAsync()) {
+                OpenSettings();
+            }
+
+            await RedrawLastMatchAsync(CtrlSettings.ProfileId);
+        } catch(Exception ex) {
+            labelMatchNo.Text = "Load Error";
+            labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
+
+            if(displayStatus == DisplayStatus.Uninitialized) {
+                labelMatchNo.Text = "Server Error";
+            } else {
+                displayStatus = DisplayStatus.Shown;
+            }
+        }
+
+        progressBar.Stop();
+    }
+
+    private async void FormMain_KeyDownAsync(object sender, KeyEventArgs e)
+    {
+        await GetShortcutFunction(e.KeyCode, e.Shift, e.Alt)();
+        Awaiter.Complete();
     }
 
 #pragma warning restore VSTHRD200 // Use "Async" suffix for async methods
@@ -195,7 +206,12 @@ public partial class FormMain : ControllableForm
 
     private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
     {
-        displayStatus = DisplayStatus.Closing;
+        lock(GameTimer) {
+            displayStatus = DisplayStatus.Closing;
+        }
+
+        progressBar.Stop();
+        GameTimer.Stop();
         CtrlSettings.FormMyHistory?.Close();
         SaveWindowPosition();
         Settings.Default.Save();
@@ -212,23 +228,15 @@ public partial class FormMain : ControllableForm
         }
     }
 
-    private void FormMain_KeyDown(object sender, KeyEventArgs e)
-    {
-        GetShortcutFunction(e.KeyCode, e.Shift, e.Alt)();
-        Awaiter.Complete();
-    }
-
     private void FormMain_Activated(object sender, EventArgs e)
     {
         // if this form is active, get game status from aoe2.net and update last match info.
-        if(Settings.Default.VisibleGameTime
+        if(Settings.Default.IsAutoReloadLastMatch
         && CtrlMain.DisplayedMatch?.Finished == null
         && displayStatus == DisplayStatus.Shown) {
             CtrlMain.IsReloadingByTimer = true;
             updateToolStripMenuItem.PerformClick();
         }
-
-        Awaiter.Complete();
     }
 
     ///////////////////////////////////////////////////////////////////////

@@ -3,10 +3,10 @@
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
 
-using AoE2netDesktopTests.TestUtility;
+using AoE2NetDesktopTests.TestData;
+using AoE2NetDesktopTests.TestUtility;
 
 using System;
 using System.Diagnostics.CodeAnalysis;

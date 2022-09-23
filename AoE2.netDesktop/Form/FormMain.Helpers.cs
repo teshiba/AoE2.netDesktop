@@ -382,26 +382,14 @@ public partial class FormMain : ControllableForm
         }
     }
 
-    private void SetMatchData(Match match, string matchId)
-        => SetMatchData(match, matchId, null);
-
-    private void SetMatchData(Match match, int matchNo)
-        => SetMatchData(match, null, matchNo);
-
-    private void SetMatchData1v1(Match match, string matchid)
-    => SetMatchData1v1(match, matchid, null);
-
-    private void SetMatchData1v1(Match match, int prevMatchNo)
-        => SetMatchData1v1(match, null, prevMatchNo);
-
-    private void SetMatchData(Match match, string matchId, int? matchNo)
+    private void SetMatchDataTeam(Match match, string specificMatchId, int? prevMatchNo)
     {
-        if(matchId == null) {
-            labelMatchNo.Text = CtrlMain.GetMatchNoString(matchNo);
+        if(specificMatchId == null) {
+            labelMatchNo.Text = CtrlMain.GetMatchNoString(prevMatchNo);
             labelGameId.Text = $"GameID : {match.MatchId}";
         } else {
             labelMatchNo.Text = "Specific match";
-            labelGameId.Text = $"GameID : {matchId}";
+            labelGameId.Text = $"GameID : {specificMatchId}";
         }
 
         var aveTeam1 = match.Players.GetAverageRate(TeamType.OddColorNo);
@@ -419,14 +407,14 @@ public partial class FormMain : ControllableForm
         labelElapsedTimeTeam.Text = CtrlMain.GetElapsedTimeString(match);
     }
 
-    private void SetMatchData1v1(Match match, string matchid, int? prevMatchNo)
+    private void SetMatchData1v1(Match match, string specificMatchId, int? prevMatchNo)
     {
-        if(matchid == null) {
+        if(specificMatchId == null) {
             labelMatchNo1v1.Text = CtrlMain.GetMatchNoString(prevMatchNo);
             labelGameId1v1.Text = $"GameID : {match.MatchId}";
         } else {
             labelMatchNo1v1.Text = "Specific match";
-            labelGameId1v1.Text = $"GameID : {matchid}";
+            labelGameId1v1.Text = $"GameID : {specificMatchId}";
         }
 
         pictureBoxMap1v1.Image = CtrlMain.LoadMapIcon(match.MapType);
@@ -502,102 +490,90 @@ public partial class FormMain : ControllableForm
 
     private bool OnTimerGame()
     {
-        // update text
-        Invoke(() =>
-        {
-            labelStartTimeTeam.Text = CtrlMain.GetOpenedTimeString(CtrlMain.DisplayedMatch);
-            labelElapsedTimeTeam.Text = CtrlMain.GetElapsedTimeString(CtrlMain.DisplayedMatch);
-            labelStartTime1v1.Text = CtrlMain.GetOpenedTimeString(CtrlMain.DisplayedMatch);
-            labelElapsedTime1v1.Text = CtrlMain.GetElapsedTimeString(CtrlMain.DisplayedMatch);
-        });
+        var ret = false;
+        DisplayStatus currentStatus;
 
-        return CtrlMain.DisplayedMatch?.Finished == null;
+        lock(GameTimer) {
+            currentStatus = displayStatus;
+        }
+
+        if(currentStatus != DisplayStatus.Closing) {
+            // update text
+            Invoke(() =>
+            {
+                labelStartTimeTeam.Text = CtrlMain.GetOpenedTimeString(CtrlMain.DisplayedMatch);
+                labelElapsedTimeTeam.Text = CtrlMain.GetElapsedTimeString(CtrlMain.DisplayedMatch);
+                labelStartTime1v1.Text = CtrlMain.GetOpenedTimeString(CtrlMain.DisplayedMatch);
+                labelElapsedTime1v1.Text = CtrlMain.GetElapsedTimeString(CtrlMain.DisplayedMatch);
+            });
+
+            ret = CtrlMain.DisplayedMatch?.Finished == null;
+        }
+
+        Awaiter.Complete();
+        return ret;
     }
 
     private void OnTimerLastMatchLoader(object sender, EventArgs e)
     {
         LastMatchLoader.Stop();
+
         if(CtrlMain.IsAoE2deActive()) {
             labelAoE2DEActive.Invoke(() => { labelAoE2DEActive.Text = "AoE2DE active"; });
             CtrlMain.IsReloadingByTimer = true;
             Invoke(() => updateToolStripMenuItem.PerformClick());
         } else {
             labelAoE2DEActive.Invoke(() => { labelAoE2DEActive.Text = "AoE2DE NOT active"; });
+        }
+
+        if(Settings.Default.IsAutoReloadLastMatch) {
             LastMatchLoader.Start();
         }
 
         Awaiter.Complete();
     }
 
-    private async Task<Match> SetMatchDataAsync(Match match, int prevMatchNo, LeaderboardId? leaderboard)
-    {
-        if(match.NumPlayers == 2) {
-            await GetGameResultAsync(match.Players[0], leaderboard);
-            await GetGameResultAsync(match.Players[1], leaderboard);
-            SetPlayersData1v1(match.Players);
-            SetMatchData1v1(match, prevMatchNo);
-        } else {
-            SetPlayersData(match.Players);
-            SetMatchData(match, prevMatchNo);
-        }
-
-        CtrlMain.DisplayedMatch = match;
-
-        return match;
-    }
-
-    private async Task<Match> SetMatchDataAsync(Match match, string matchid, LeaderboardId? leaderboard)
-    {
-        if(match.NumPlayers == 2) {
-            await GetGameResultAsync(match.Players[0], leaderboard);
-            await GetGameResultAsync(match.Players[1], leaderboard);
-            SetPlayersData1v1(match.Players);
-            SetMatchData1v1(match, matchid);
-        } else {
-            SetPlayersData(match.Players);
-            SetMatchData(match, matchid);
-        }
-
-        CtrlMain.DisplayedMatch = match;
-
-        return match;
-    }
-
-    private async Task<Match> DrawMatchAsync(Match match, string matchid)
+    private async Task<Match> DrawMatchAsync(Match match, string specificMatchId, int? prevMatchNo)
     {
         var ret = match;
 
-        if(labelGameId.Text != $"GameID : {matchid}") {
-            await SetMatchDataAsync(match, matchid, match.LeaderboardId);
-            SwitchView(ret);
+        if(prevMatchNo is not null) {
+            requestMatchView = (int)prevMatchNo;
+        }
+
+        if(labelGameId.Text != $"GameID : {specificMatchId ?? match.MatchId}") {
+            if(match is null) {
+                ClearLastMatch();
+                labelMatchNo.Text = "Load Error: Invalid ID";
+            } else {
+                if(match.NumPlayers == 2) {
+                    await GetGameResultAsync(match.Players[0], match.LeaderboardId);
+                    await GetGameResultAsync(match.Players[1], match.LeaderboardId);
+                    SetPlayersData1v1(match.Players);
+                    SetMatchData1v1(match, specificMatchId, prevMatchNo);
+                } else {
+                    SetPlayersData(match.Players);
+                    SetMatchDataTeam(match, specificMatchId, prevMatchNo);
+                }
+
+                SwitchView(ret);
+            }
+
+            CtrlMain.DisplayedMatch = match;
             GameTimer.Start();
         }
 
         return ret;
     }
 
-    private async Task<Match> DrawMatchAsync(Match match, int matchNo)
-    {
-        var ret = match;
-        requestMatchView = matchNo;
-
-        if(labelGameId.Text != $"GameID : {match.MatchId}") {
-            await SetMatchDataAsync(match, matchNo, match.LeaderboardId);
-            SwitchView(ret);
-            GameTimer.Start();
-        }
-
-        return ret;
-    }
-
-    private async Task<Match> DrawMatchAsync()
+    private async Task<Match> UpdateRequestedMatchAsync()
     {
         Match ret = null;
 
         if(!isDrawing) {
             isDrawing = true;
             updateToolStripMenuItem.Enabled = false;
-            while(requestMatchView != currentMatchView) {
+            while(requestMatchView != currentMatchView && requestMatchView != 0) {
                 displayStatus = DisplayStatus.RedrawingPrevMatch;
                 labelMatchNo.Text = $"Loading {requestMatchView} match ago...";
                 progressBar.Restart();
@@ -608,21 +584,18 @@ public partial class FormMain : ControllableForm
                                                     drawingMatchNo, 1, CtrlSettings.ProfileId);
                     if(playerMatchHistory.Count != 0) {
                         var match = playerMatchHistory[0];
-                        ret = await DrawMatchAsync(match, drawingMatchNo);
+                        ret = await DrawMatchAsync(match, null, drawingMatchNo);
                         currentMatchView = drawingMatchNo;
                     } else {
-                        if(requestMatchView > 0) {
-                            // If the requested previous match is over the range,
-                            // it shows the oldest available match.
-                            requestMatchView--;
-                        } else {
-                            // If there is a fatal error, break the drawing process.
-                            requestMatchView = currentMatchView;
-                        }
+                        // If the requested previous match is over the range,
+                        // it shows the oldest available match.
+                        requestMatchView--;
                     }
-                } catch {
+                } catch(Exception ex) {
                     // if API calling failed, call next request.
-                    continue;
+                    labelMatchNo.Text = "Load Error";
+                    labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
+                    requestMatchView--;
                 }
             }
 
@@ -633,9 +606,6 @@ public partial class FormMain : ControllableForm
 
         return ret;
     }
-
-    private async Task<Match> RedrawLastMatchAsync()
-        => await RedrawLastMatchAsync(CtrlSettings.ProfileId);
 
     private async Task<Match> RedrawLastMatchAsync(int profileId)
     {
@@ -659,7 +629,7 @@ public partial class FormMain : ControllableForm
                     }
                 }
 
-                ret = await DrawMatchAsync(ret, 0);
+                ret = await DrawMatchAsync(ret, null, 0);
             }
         } finally {
             displayStatus = DisplayStatus.Shown;

@@ -1,12 +1,12 @@
-﻿namespace AoE2NetDesktop.Form.Tests;
+﻿namespace AoE2NetDesktop.Utility.SysApi.Tests;
+
+using System.Reflection;
 
 using AoE2NetDesktop.Utility.SysApi;
 
-using AoE2netDesktopTests.TestUtility;
+using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System.Reflection;
 
 [TestClass]
 public class SystemApiTests
@@ -61,5 +61,28 @@ public class SystemApiTests
 
         // Assert
         Assert.IsTrue(expVal.Contains(ret));
+    }
+
+    [TestMethod]
+    public void StartTest()
+    {
+        // Arrange
+        var expValCmd = "cmd";
+        var expValArg = "/c start ";
+
+        var user32api = new User32ApiStub {
+            ProcessId = -1,
+        };
+        var testClass = new SystemApi(user32api);
+
+        // Act
+        var ret = testClass.Start(string.Empty);
+
+        // Assert
+        Assert.AreEqual(expValCmd, ret.StartInfo.FileName);
+        Assert.AreEqual(expValArg, ret.StartInfo.Arguments);
+
+        // Cleanup
+        ret.Kill();
     }
 }

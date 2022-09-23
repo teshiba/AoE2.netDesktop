@@ -4,10 +4,10 @@ using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
 
-using AoE2netDesktopTests.TestUtility;
+using AoE2NetDesktopTests.TestData;
+using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -200,7 +200,6 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_Activated");
             await testClass.Awaiter.WaitAsync("FormMain_Shown");
 
             testClass.updateToolStripMenuItem.PerformClick();
@@ -238,7 +237,6 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_Activated");
             await testClass.Awaiter.WaitAsync("FormMain_Shown");
 
             testClass.updateToolStripMenuItem.PerformClick();
@@ -259,6 +257,41 @@ public partial class FormMainTests
     }
 
     [TestMethod]
+    [DataRow(DisplayStatus.Clearing)]
+    [DataRow(DisplayStatus.Redrawing)]
+    [DataRow(DisplayStatus.Closing)]
+    [DataRow(DisplayStatus.Cleared)]
+    [DataRow(DisplayStatus.RedrawingPrevMatch)]
+    public void UpdateToolStripMenuItem_ClickAsyncTestInvalidOperationException(DisplayStatus displayStatus)
+    {
+        // Arrange
+        var done = false;
+        var testClass = new FormMainPrivate();
+        var expVal = $"Invalid displayStatus: {displayStatus}";
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+
+            testClass.DisplayStatus = displayStatus;
+            testClass.RequestMatchView = 1;
+
+            testClass.updateToolStripMenuItem.PerformClick();
+
+            // CleanUp
+            done = true;
+            testClass.Close();
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+        Assert.AreEqual(expVal, testClass.labelErrText.Text);
+    }
+
+    [TestMethod]
     public void UpdateToolStripMenuItem_ClickAsyncTestIsReloadingByTimerTrue()
     {
         // Arrange
@@ -272,7 +305,6 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_Activated");
             await testClass.Awaiter.WaitAsync("FormMain_Shown");
 
             testClass.updateToolStripMenuItem.PerformClick();
@@ -336,7 +368,7 @@ public partial class FormMainTests
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormMain_Shown");
-            testClass.FormMain_KeyDown(Keys.F5);
+            await testClass.FormMain_KeyDownAsync(Keys.F5);
 
             // CleanUp
             done = true;
@@ -352,16 +384,16 @@ public partial class FormMainTests
     [TestMethod]
     [DataRow(Keys.Right, Keys.Alt, Keys.Shift, 1, 0)]
     [DataRow(Keys.Right, Keys.Alt, Keys.None, 10, 0)]
-    [DataRow(Keys.Right, Keys.None, Keys.None, 0, 0)]
     [DataRow(Keys.Left, Keys.Alt, Keys.Shift, -1, 0)]
     [DataRow(Keys.Left, Keys.Alt, Keys.None, -10, 0)]
-    [DataRow(Keys.Left, Keys.None, Keys.None, 0, 0)]
     [DataRow(Keys.Up, Keys.Alt, Keys.Shift, 0, -1)]
     [DataRow(Keys.Up, Keys.Alt, Keys.None, 0, -10)]
     [DataRow(Keys.Up, Keys.None, Keys.None, 0, 0)]
     [DataRow(Keys.Down, Keys.Alt, Keys.Shift, 0, 1)]
     [DataRow(Keys.Down, Keys.Alt, Keys.None, 0, 10)]
     [DataRow(Keys.Down, Keys.None, Keys.None, 0, 0)]
+    [DataRow(Keys.Right, Keys.None, Keys.None, 0, 0)] // Next match
+    [DataRow(Keys.Left, Keys.None, Keys.None, 0, 0)] // Prev match
     public void FormMainTestTabControlMain_KeyDownWindowResize(Keys keys, Keys alt, Keys shift, int width, int height)
     {
         // Arrange
@@ -381,7 +413,7 @@ public partial class FormMainTests
             expSize.Width += width;
             expSize.Height += height;
 
-            testClass.FormMain_KeyDown(keys | alt | shift);
+            await testClass.FormMain_KeyDownAsync(keys | alt | shift);
             done = true;
 
             // Assert
@@ -405,11 +437,12 @@ public partial class FormMainTests
         var testClass = new FormMainPrivate();
         var expVal = !TestUtilityExt.GetSettings<bool>("MainFormIsHideTitle");
 
-        // Act
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormMain_Shown");
-            testClass.FormMain_KeyDown(Keys.Space | Keys.Shift);
+
+            // Act
+            await testClass.FormMain_KeyDownAsync(Keys.Space | Keys.Shift);
 
             // CleanUp
             done = true;
@@ -431,11 +464,12 @@ public partial class FormMainTests
         var testClass = new FormMainPrivate();
         var expVal = TestUtilityExt.GetSettings<bool>("MainFormIsHideTitle");
 
-        // Act
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormMain_Shown");
-            testClass.FormMain_KeyDown(Keys.Space | Keys.Alt);
+
+            // Act
+            await testClass.FormMain_KeyDownAsync(Keys.Space | Keys.Alt);
 
             // CleanUp
             done = true;
@@ -450,6 +484,120 @@ public partial class FormMainTests
     }
 
     [TestMethod]
+    [DataRow(Keys.Right, DisplayStatus.Shown, 0, true, 0)]
+    [DataRow(Keys.Right, DisplayStatus.Shown, 1, true, 0)]
+    [DataRow(Keys.Right, DisplayStatus.Shown, 0, false, 0)]
+    [DataRow(Keys.Right, DisplayStatus.Shown, 1, false, 0)]
+    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 0, true, 0)]
+    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 1, true, 0)]
+    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 0, false, 0)]
+    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 1, false, 0)]
+    [DataRow(Keys.Left, DisplayStatus.Shown, 0, true, 1)]
+    [DataRow(Keys.Left, DisplayStatus.Shown, 1, true, 2)]
+    [DataRow(Keys.Left, DisplayStatus.Shown, 0, false, 1)]
+    [DataRow(Keys.Left, DisplayStatus.Shown, 1, false, 2)]
+    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 0, true, 1)]
+    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 1, true, 2)]
+    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 0, false, 1)]
+    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 1, false, 2)]
+    public void FormMainTestTabControlMain_KeyDownSelectMatch(
+        Keys key, DisplayStatus displayStatus, int requestMatchView, bool started, int expRequestMatchView)
+    {
+        // Arrange
+        var done = false;
+        var testClass = new FormMainPrivate();
+
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+            testClass.DisplayStatus = displayStatus;
+            testClass.RequestMatchView = requestMatchView;
+
+            if(started) {
+                testClass.ProgressBar.Start();
+            } else {
+                testClass.ProgressBar.Stop();
+            }
+
+            // Act
+            await testClass.FormMain_KeyDownAsync(key);
+
+            // CleanUp
+            done = true;
+            testClass.Close();
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+        Assert.AreEqual(expRequestMatchView, testClass.RequestMatchView);
+    }
+
+    [TestMethod]
+    public void FormMainTestTabControlMain_KeyDownSelectMatchError()
+    {
+        // Arrange
+        TestUtilityExt.SetSettings("SteamId", "00000000000000003");
+        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
+        var done = false;
+        int expRequestMatchView = 0;
+        var testClass = new FormMainPrivate();
+
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+            testClass.DisplayStatus = DisplayStatus.RedrawingPrevMatch;
+            testClass.RequestMatchView = 2;
+            testClass.CurrentMatchView = expRequestMatchView;
+
+            // Act
+            await testClass.FormMain_KeyDownAsync(Keys.Left);
+
+            // CleanUp
+            done = true;
+            testClass.Close();
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+        Assert.AreEqual(expRequestMatchView, testClass.RequestMatchView);
+    }
+
+    [TestMethod]
+    public void FormMainTestTabControlMain_KeyDownSelectMatchException()
+    {
+        // Arrange
+        var done = false;
+        int expRequestMatchView = 0;
+        var testClass = new FormMainPrivate();
+
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+            testClass.DisplayStatus = DisplayStatus.RedrawingPrevMatch;
+            testClass.RequestMatchView = 2;
+            testClass.httpClient.ForceHttpRequestException = true;
+
+            // Act
+            await testClass.FormMain_KeyDownAsync(Keys.Left);
+
+            // CleanUp
+            testClass.httpClient.ForceHttpRequestException = false;
+            done = true;
+            testClass.Close();
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+        Assert.AreEqual(expRequestMatchView, testClass.RequestMatchView);
+    }
+
+    [TestMethod]
     public void FormMainTestTabControlMain_KeyDownOtherKey()
     {
         // Arrange
@@ -461,7 +609,7 @@ public partial class FormMainTests
         {
             await testClass.Awaiter.WaitAsync("FormMain_Shown");
             testClass.httpClient.ForceHttpRequestException = true;
-            testClass.FormMain_KeyDown(Keys.F4);
+            await testClass.FormMain_KeyDownAsync(Keys.F4);
             done = true;
 
             // Assert
@@ -584,7 +732,6 @@ public partial class FormMainTests
             await testClass.Awaiter.WaitAsync("FormMain_Shown");
 
             testClass.Close();
-
             done = true;
         };
 
@@ -753,6 +900,70 @@ public partial class FormMainTests
     }
 
     [TestMethod]
+    [DataRow(false, DisplayStatus.Shown, Keys.Enter, "000000000", "Specific match", false)] // Team match
+    [DataRow(false, DisplayStatus.Shown, Keys.Enter, "000000001", "Specific match", false)] // 1v1 match
+
+    // DisplayStatus is not Shown.
+    [DataRow(false, DisplayStatus.Uninitialized, Keys.Enter, "000000000", "Last match", true)]
+    [DataRow(false, DisplayStatus.Uninitialized, Keys.Enter, "ffffffff-ffff-ffff-ffff-ffffffffffff", "Last match", true)]
+
+    // invalid matchId.
+    [DataRow(false, DisplayStatus.Shown, Keys.Enter, "", "Load Error: Invalid ID", false)]
+    [DataRow(false, DisplayStatus.Shown, Keys.Enter, null, "Load Error: Invalid ID", false)]
+    [DataRow(false, DisplayStatus.Shown, Keys.Enter, "12345", "Load Error: Invalid ID", false)]
+    [DataRow(false, DisplayStatus.Shown, Keys.Escape, "12345", "Last match", false)]
+
+    // Other unassigned keys.
+    [DataRow(false, DisplayStatus.Shown, Keys.End, "12345", "Last match", true)]
+
+    // network error
+    [DataRow(true, DisplayStatus.Shown, Keys.Enter, "000000000", "Load Error", false)]
+    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
+    public void TextBoxGameId_KeyDownTest(
+        bool exception, DisplayStatus displayStatus, Keys keys, string matchId, string expVal, bool expTextboxVisible)
+    {
+        // Arrange
+        var testClass = new FormMainPrivate();
+        var done = false;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+
+            testClass.httpClient.ForceTaskCanceledException = exception;
+            testClass.DisplayStatus = displayStatus;
+            testClass.textBoxGameId.Text = matchId;
+            testClass.textBoxGameId.Visible = true;
+
+            // Act
+            await testClass.TextBoxGameId_KeyDownAsync(keys);
+
+            // Assert
+            // Controls are invisible after window closed, so check Visible property before closed
+            Assert.AreEqual(expTextboxVisible, testClass.textBoxGameId.Visible);
+
+            testClass.Close();
+            done = true;
+
+            // Cleanup
+            testClass.httpClient.ForceTaskCanceledException = false;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+        Assert.AreEqual(exception, testClass.labelErrText.Text.Contains("Forced TaskCanceledException"));
+
+        if(CtrlMain.DisplayedMatch?.NumPlayers == 2) {
+            Assert.AreEqual(expVal, testClass.labelMatchNo1v1.Text);
+        } else {
+            Assert.AreEqual(expVal, testClass.labelMatchNo.Text);
+        }
+    }
+
+    [TestMethod]
     public void ShowMyHistoryHToolStripMenuItem_ClickTest()
     {
         // Arrange
@@ -783,59 +994,99 @@ public partial class FormMainTests
     }
 
     [TestMethod]
-    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
-    public void FormMain_ActivatedTestRunUpdateLastMatch()
+    public void LabelGameId_ClickTest()
     {
         // Arrange
-        TestUtilityExt.SetSettings("VisibleGameTime", false);
-        CtrlMain.DisplayedMatch = null;
         var testClass = new FormMainPrivate();
-        var done = false;
+        var e = new EventArgs();
 
         // Act
-        testClass.Shown += async (sender, e) =>
-        {
-            await testClass.Awaiter.WaitAsync("FormMain_Activated");
-
-            testClass.Close();
-
-            done = true;
-        };
-
-        testClass.ShowDialog();
+        testClass.Show();
+        Assert.IsFalse(testClass.textBoxGameId.Visible);
+        testClass.LabelGameId_Click(testClass.labelGameId, e);
 
         // Assert
-        Assert.IsTrue(done);
+        Assert.IsTrue(testClass.textBoxGameId.Visible);
     }
 
     [TestMethod]
-    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
-    public void FormMain_ActivatedTestNotRunUpdateLastMatch()
+    public void LabelGameId1v1_ClickTest()
     {
         // Arrange
-        TestUtilityExt.SetSettings("VisibleGameTime", true);
-
-        CtrlMain.DisplayedMatch = new Match() {
-            Finished = 1,
-        };
-
         var testClass = new FormMainPrivate();
-        var done = false;
+        var e = new EventArgs();
 
         // Act
-        testClass.Shown += async (sender, e) =>
-        {
-            await testClass.Awaiter.WaitAsync("FormMain_Activated");
-
-            testClass.Close();
-
-            done = true;
-        };
-
-        testClass.ShowDialog();
+        testClass.Show();
+        Assert.IsFalse(testClass.textBoxGameId.Visible);
+        testClass.LabelGameId1v1_Click(testClass.labelGameId, e);
 
         // Assert
-        Assert.IsTrue(done);
+        Assert.IsTrue(testClass.textBoxGameId.Visible);
+    }
+
+    [TestMethod]
+    public void TextBoxGameIdTest()
+    {
+        // Arrange
+        var testClass = new FormMainPrivate();
+        var e = new EventArgs();
+
+        // Act
+        testClass.Show();
+        Assert.IsFalse(testClass.textBoxGameId.Visible);
+        testClass.LabelGameId1v1_Click(testClass.labelGameId, e);
+        Assert.IsTrue(testClass.textBoxGameId.Visible);
+        testClass.labelMatchNo.Focus();
+
+        // Assert
+        Assert.IsFalse(testClass.textBoxGameId.Visible);
+    }
+
+    [TestMethod]
+
+    // reloading
+    [DataRow(true, null, DisplayStatus.Shown, DisplayStatus.Redrawing)]
+
+    // Skip reloading
+    [DataRow(true, null, DisplayStatus.Uninitialized, DisplayStatus.Uninitialized)]
+    [DataRow(true, 1L, DisplayStatus.Shown, DisplayStatus.Shown)]
+    [DataRow(false, null, DisplayStatus.Shown, DisplayStatus.Shown)]
+    public void FormMain_ActivatedTest(
+        bool isAutoReload, long? finished, DisplayStatus displayStatus, DisplayStatus expDisplayStatus)
+    {
+        // Arrange
+        CtrlMain.IsReloadingByTimer = false;
+        TestUtilityExt.SetSettings("IsAutoReloadLastMatch", isAutoReload);
+        CtrlMain.DisplayedMatch = new Match() {
+            Finished = finished,
+        };
+        var testClass = new FormMainPrivate {
+            DisplayStatus = displayStatus,
+        };
+
+        testClass.FormMain_Activated(new EventArgs());
+
+        // Assert
+        Assert.AreEqual(expDisplayStatus, testClass.DisplayStatus);
+    }
+
+    [TestMethod]
+    public void FormMain_ActivatedTestDisplayedMatchNull()
+    {
+        // Arrange
+        CtrlMain.DisplayedMatch = null;
+
+        CtrlMain.IsReloadingByTimer = false;
+        TestUtilityExt.SetSettings("IsAutoReloadLastMatch", true);
+        var testClass = new FormMainPrivate {
+            DisplayStatus = DisplayStatus.Uninitialized,
+        };
+
+        testClass.FormMain_Activated(new EventArgs());
+
+        // Assert
+        Assert.AreEqual(DisplayStatus.Uninitialized, testClass.DisplayStatus);
     }
 
     [TestMethod]
@@ -847,14 +1098,14 @@ public partial class FormMainTests
 
         // Act
         testClass.Show();
-        testClass.PictureBoxMap_DoubleClick(testClass, e);
+        testClass.PictureBoxMap_DoubleClick(testClass.pictureBoxMap, e);
 
         // Assert
         // nothing to do.
     }
 
     [TestMethod]
-    public void PictureBoxMap1v1_DoubleClick()
+    public void PictureBoxMap1v1_DoubleClickTest()
     {
         // Arrange
         var testClass = new FormMainPrivate();
@@ -862,7 +1113,24 @@ public partial class FormMainTests
 
         // Act
         testClass.Show();
-        testClass.PictureBoxMap1v1_DoubleClick(testClass, e);
+        testClass.PictureBoxMap1v1_DoubleClick(testClass.pictureBoxMap, e);
+
+        // Assert
+        // nothing to do.
+    }
+
+    [TestMethod]
+    [DataRow(Keys.Enter)]
+    [DataRow(Keys.A)]
+    public void TextBoxGameId_KeyPressTest(Keys key)
+    {
+        // Arrange
+        var testClass = new FormMainPrivate();
+        var e = new KeyPressEventArgs((char)key);
+
+        // Act
+        testClass.Show();
+        testClass.TextBoxGameId_KeyPress(testClass.textBoxGameId, e);
 
         // Assert
         // nothing to do.

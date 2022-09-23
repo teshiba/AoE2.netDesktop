@@ -1,8 +1,7 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using AoE2NetDesktop.Tests;
-
-using AoE2netDesktopTests.TestUtility;
+using AoE2NetDesktopTests.TestData;
+using AoE2NetDesktopTests.TestUtility;
 
 using System;
 using System.Windows.Forms;

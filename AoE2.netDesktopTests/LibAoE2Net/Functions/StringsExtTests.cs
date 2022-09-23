@@ -100,4 +100,23 @@ public class StringsExtTests
             _ = player.GetColorString();
         });
     }
+
+    [TestMethod]
+    [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
+    public void DisposeTest()
+    {
+        // Arrange
+        var stringIds = new List<StringId>();
+        StringsExt.Dispose();
+
+        // Assert
+        Assert.ThrowsException<InvalidOperationException>(() =>
+        {
+            // Act
+            var actVal = stringIds.GetString(1);
+        });
+
+        // Cleanup
+        StringsExt.InitAsync().Wait();
+    }
 }

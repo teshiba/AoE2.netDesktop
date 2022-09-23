@@ -1,8 +1,9 @@
-﻿namespace AoE2netDesktopTests.TestUtility;
+﻿namespace AoE2NetDesktopTests.TestUtility;
 
 using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
+
+using AoE2NetDesktopTests.TestData;
 
 using System;
 using System.Diagnostics;
@@ -138,7 +139,9 @@ public class TestHttpClient : ComClient
         var args = requestUri.Split('=', '&', '?');
         var game = args[2];
         var steamId = args[4];
-        var readUri = $"{TestData.Path}/playerMatchHistory{game}{steamId}.json";
+        var start = args[6];
+        var count = args[8];
+        var readUri = $"{TestData.Path}/playerMatchHistory{game}{steamId}-{start}-{count}.json";
 
         LastRequest = $"Read {readUri}";
 
