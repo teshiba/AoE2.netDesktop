@@ -29,6 +29,10 @@ echo on
 dotnet test --collect:"XPlat Code Coverage" --filter %TEST_FILTERS% "--logger:Console;verbosity=detailed" -- RunConfiguration.TestSessionTimeout=%TEST_TIMEOUT_MSEC% > test.log  2>&1
 echo off
 
+rem ===========================================================================
+rem Run Metrics
+dotnet msbuild /t:Metrics
+
 type test.log
 
 rem Set COVERAGE_RESULT variable from Output of the dotnet test.
