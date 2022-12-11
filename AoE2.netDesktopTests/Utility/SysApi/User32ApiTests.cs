@@ -40,7 +40,7 @@ public class User32ApiTests
         var processName = Process.GetProcessById(lpdwProcessId).ProcessName;
 
         // Assert
-        Assert.AreNotEqual(0, threadId);
+        Assert.AreNotEqual(0u, threadId);
         Assert.AreNotEqual(expNotVal, processName);
     }
 
