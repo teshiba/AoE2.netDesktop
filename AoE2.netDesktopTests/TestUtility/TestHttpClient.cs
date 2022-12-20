@@ -92,6 +92,7 @@ public class TestHttpClient : ComClient
         return ret;
     }
 
+    [Obsolete("This API is not supported.")]
     private Task<string> ReadplayerLastMatchAsync(string requestUri)
     {
         var args = requestUri.Split('=', '&', '?');

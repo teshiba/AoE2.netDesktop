@@ -74,10 +74,24 @@ public static class AoE2netHelpers
             throw new ArgumentNullException(nameof(idText));
         }
 
-        var ret = userIdType switch {
-            IdType.Steam => await AoE2net.GetPlayerLastMatchAsync(idText).ConfigureAwait(false),
-            IdType.Profile => await AoE2net.GetPlayerLastMatchAsync(int.Parse(idText)).ConfigureAwait(false),
-            _ => new PlayerLastmatch(),
+        var matchHistory = userIdType switch {
+            IdType.Steam => await AoE2net.GetPlayerMatchHistoryAsync(0, 1, idText).ConfigureAwait(false),
+            IdType.Profile => await AoE2net.GetPlayerMatchHistoryAsync(0, 1, int.Parse(idText)).ConfigureAwait(false),
+            _ => new PlayerMatchHistory(),
+        };
+
+        var targetPlayer = userIdType switch {
+            IdType.Steam => matchHistory[0].GetPlayer(idText),
+            IdType.Profile => matchHistory[0].GetPlayer(int.Parse(idText)),
+            _ => new Player(),
+        };
+
+        var ret = new PlayerLastmatch() {
+            LastMatch = matchHistory[0],
+            Country = targetPlayer.Country,
+            Name = targetPlayer.Name,
+            ProfileId = targetPlayer.ProfilId,
+            SteamId = targetPlayer.SteamId,
         };
 
         foreach(var player in ret.LastMatch.Players) {
@@ -101,9 +115,9 @@ public static class AoE2netHelpers
         if(player.SteamId != null) {
             rate = await AoE2net.GetPlayerRatingHistoryAsync(player.SteamId, leaderBoardId, 1).ConfigureAwait(false);
         } else if(player.ProfilId is int profileId) {
-            rate = await AoE2net.GetPlayerRatingHistoryAsync(profileId, leaderBoardId, 1).ConfigureAwait(false);
-        } else {
-            rate = new List<PlayerRating>();
+                rate = await AoE2net.GetPlayerRatingHistoryAsync(profileId, leaderBoardId, 1).ConfigureAwait(false);
+            } else {
+                rate = new List<PlayerRating>();
         }
 
         if(rate.Count != 0) {
@@ -113,16 +127,16 @@ public static class AoE2netHelpers
 
     private static async Task TryFillPlayerNameAsync(Player player)
     {
-        PlayerLastmatch lastMatch;
+        PlayerMatchHistory matches;
 
         if(player.SteamId != null) {
-            lastMatch = await AoE2net.GetPlayerLastMatchAsync(player.SteamId).ConfigureAwait(false);
+            matches = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, player.SteamId).ConfigureAwait(false);
+            player.Name = matches[0].GetPlayer(player.SteamId).Name;
         } else if(player.ProfilId is int profileId) {
-            lastMatch = await AoE2net.GetPlayerLastMatchAsync(profileId).ConfigureAwait(false);
+            matches = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId).ConfigureAwait(false);
+            player.Name = matches[0].GetPlayer(profileId).Name;
         } else {
-            lastMatch = new PlayerLastmatch() { Name = string.Empty };
+            player.Name = string.Empty;
         }
-
-        player.Name = lastMatch.Name;
     }
 }

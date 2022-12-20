@@ -60,4 +60,20 @@ public static class MatchExt
 
         return ret;
     }
+
+    /// <summary>
+    /// Get specified Player.
+    /// </summary>
+    /// <param name="match">Search target.</param>
+    /// <param name="steamId">steam ID.</param>
+    /// <returns>Player.</returns>
+    public static Player GetPlayer(this Match match, string steamId)
+    {
+        Player ret = null;
+        foreach(var item in match.Players.Where(item => item.SteamId == steamId)) {
+            ret = item;
+        }
+
+        return ret;
+    }
 }

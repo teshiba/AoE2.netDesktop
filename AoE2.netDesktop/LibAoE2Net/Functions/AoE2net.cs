@@ -59,6 +59,7 @@ public static class AoE2net
     /// </summary>
     /// <param name="profileId">Profile ID.</param>
     /// <returns><see cref="PlayerLastmatch"/> deserialized as JSON.</returns>
+    [Obsolete("This API is not supported.")]
     public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(int profileId)
     {
         var apiEndPoint = $"player/lastmatch?game={AoE2Version}&profile_id={profileId}";
@@ -72,6 +73,7 @@ public static class AoE2net
     /// </summary>
     /// <param name="steamId">steamID64.</param>
     /// <returns><see cref="PlayerLastmatch"/> deserialized as JSON.</returns>
+    [Obsolete("This API is not supported.")]
     public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(string steamId)
     {
         if(steamId is null) {
