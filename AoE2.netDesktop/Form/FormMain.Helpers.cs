@@ -59,9 +59,7 @@ public partial class FormMain : ControllableForm
     private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         onChangePropertyHandler.TryGetValue(e.PropertyName, out Action<string> action);
-        if(action != null) {
-            action.Invoke(e.PropertyName);
-        }
+        action?.Invoke(e.PropertyName);
     }
 
     private void SetOptionParams()

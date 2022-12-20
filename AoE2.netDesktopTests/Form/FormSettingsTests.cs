@@ -37,11 +37,10 @@ public partial class FormSettingsTests
         var expVal = Color.FromArgb(255, 255, 0, 0);
         var done = false;
         var testClass = new FormSettingsPrivate {
-        };
-
-        testClass.ColorDialog = new ColorDialogEx {
-            Color = expVal,
-            Opening = () => false,
+            ColorDialog = new ColorDialogEx {
+                Color = expVal,
+                Opening = () => false,
+            },
         };
 
         // Act
