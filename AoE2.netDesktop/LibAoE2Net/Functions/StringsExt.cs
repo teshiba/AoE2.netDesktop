@@ -74,6 +74,11 @@ public static class StringsExt
         WaitInitTask();
 
         string mapName = apiStrings.MapType.GetString(match.MapType);
+
+        if(enStrings.MapType.GetString(match.MapType) == "Custom") {
+            mapName = $"{match.Rms}";
+        }
+
         if(mapName == null) {
             mapName = $"Unknown(Map No.{match.MapType})";
         }
