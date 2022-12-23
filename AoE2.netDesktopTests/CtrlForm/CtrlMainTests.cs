@@ -238,8 +238,10 @@ public class CtrlMainTests
     [TestMethod]
     [DataRow(0, "invalid civ:0")]
     [DataRow(1, "Britons")]
-    [DataRow(37, "Sicilians")]
-    [DataRow(40, "invalid civ:40")]
+    [DataRow(40, "Dravidians")]
+    [DataRow(41, "Bengalis")]
+    [DataRow(42, "Gurjaras")]
+    [DataRow(43, "invalid civ:43")]
     [DataRow(null, "invalid civ:")]
     [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
     [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
@@ -271,7 +273,7 @@ public class CtrlMainTests
     public void GetLossesStringTest(int? games, int? wins, string expVal)
     {
         // Arrange
-        var player = new Player() {
+        var player = new Leaderboard() {
             Games = games,
             Wins = wins,
         };
@@ -289,7 +291,7 @@ public class CtrlMainTests
     public void GetWinsStringTest(int? wins, string expVal)
     {
         // Arrange
-        var player = new Player() {
+        var player = new Leaderboard() {
             Wins = wins,
         };
 
@@ -309,7 +311,7 @@ public class CtrlMainTests
         DateTimeExt.DateTimeFormatInfo = DateTimeFormatInfo.InvariantInfo;
 
         CtrlMain.LastMatch = new Match() {
-            Opened = 0,
+            Started = 0,
         };
 
         // Act
@@ -342,7 +344,7 @@ public class CtrlMainTests
         DateTimeExt.TimeZoneInfo = TimeZoneInfo.Local;
         DateTimeOffsetExt.UtcNow = () => DateTimeOffset.FromUnixTimeSeconds(utcNow);
         var testClass = new Match() {
-            Opened = opened,
+            Started = opened,
             Finished = finished,
         };
         CtrlMain.LastMatch = testClass;

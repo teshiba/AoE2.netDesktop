@@ -52,7 +52,7 @@
             // Assert
             Assert.AreEqual(TestData.AvailableUserSteamId, actVal.SteamId);
             Assert.AreEqual(TestData.AvailableUserProfileId, actVal.ProfileId);
-            Assert.AreEqual(3333, actVal.LastMatch.Players[2].Rating);
+            Assert.AreEqual(333, actVal.LastMatch.Players[2].Rating);
         }
 
         [TestMethod]

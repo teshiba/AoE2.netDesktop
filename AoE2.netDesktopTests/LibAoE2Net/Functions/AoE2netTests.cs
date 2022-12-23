@@ -35,7 +35,6 @@
             var expPlayer = new List<Player> {
                 new Player() {
                     ProfilId = 1,
-                    SteamId = "00000000000000001",
                     Name = "Player1",
                     Slot = 1,
                     SlotType = 1,
@@ -47,7 +46,6 @@
                 },
                 new Player() {
                     ProfilId = 2,
-                    SteamId = null,
                     Name = "Player2",
                     Slot = 2,
                     SlotType = 1,
@@ -59,7 +57,6 @@
                 },
                 new Player() {
                     ProfilId = 3,
-                    SteamId = "00000000000000003",
                     Name = "Player3",
                     Slot = 3,
                     SlotType = 1,
@@ -71,7 +68,6 @@
                 },
                 new Player() {
                     ProfilId = 4,
-                    SteamId = null,
                     Name = "Player4",
                     Slot = 4,
                     SlotType = 1,
@@ -83,7 +79,6 @@
                 },
                 new Player() {
                     ProfilId = 5,
-                    SteamId = "00000000000000005",
                     Name = "Player5",
                     Slot = 5,
                     SlotType = 1,
@@ -95,7 +90,6 @@
                 },
                 new Player() {
                     ProfilId = 6,
-                    SteamId = "00000000000000006",
                     Name = "Player6",
                     Slot = 6,
                     SlotType = 1,
@@ -107,7 +101,6 @@
                 },
                 new Player() {
                     ProfilId = 7,
-                    SteamId = "00000000000000007",
                     Name = "Player7",
                     Slot = 7,
                     SlotType = 1,
@@ -119,7 +112,6 @@
                 },
                 new Player() {
                     ProfilId = 8,
-                    SteamId = "00000000000000008",
                     Name = "Player8",
                     Slot = 8,
                     SlotType = 1,
@@ -145,19 +137,14 @@
 
             // LastMatch
             Assert.AreEqual("00000001", actVal.LastMatch.MatchId);
-            Assert.AreEqual(null, actVal.LastMatch.LobbyId);
             Assert.AreEqual("00000000-0000-0000-0000-000000000000", actVal.LastMatch.MatchUuid);
-            Assert.AreEqual("00000", actVal.LastMatch.Version);
             Assert.AreEqual("AUTOMATCH", actVal.LastMatch.Name);
             Assert.AreEqual(8, actVal.LastMatch.NumPlayers);
             Assert.AreEqual(8, actVal.LastMatch.NumSlots);
-            Assert.AreEqual(null, actVal.LastMatch.AverageRating);
             Assert.AreEqual(false, actVal.LastMatch.Cheats);
             Assert.AreEqual(false, actVal.LastMatch.FullTechTree);
             Assert.AreEqual(5, actVal.LastMatch.EndingAge);
-            Assert.AreEqual(null, actVal.LastMatch.Expansion);
             Assert.AreEqual(0, actVal.LastMatch.GameType);
-            Assert.AreEqual(null, actVal.LastMatch.HasCustomContent);
             Assert.AreEqual(true, actVal.LastMatch.HasPassword);
             Assert.AreEqual(true, actVal.LastMatch.LockSpeed);
             Assert.AreEqual(true, actVal.LastMatch.LockTeams);
@@ -168,8 +155,6 @@
             Assert.AreEqual(LeaderboardId.RMTeam, actVal.LastMatch.LeaderboardId);
             Assert.AreEqual(4, actVal.LastMatch.RatingType);
             Assert.AreEqual(1, actVal.LastMatch.Resources);
-            Assert.AreEqual(null, actVal.LastMatch.Rms);
-            Assert.AreEqual(null, actVal.LastMatch.Scenario);
             Assert.AreEqual("testServer", actVal.LastMatch.Server);
             Assert.AreEqual(false, actVal.LastMatch.SharedExploration);
             Assert.AreEqual(2, actVal.LastMatch.Speed);
@@ -180,8 +165,6 @@
             Assert.AreEqual(false, actVal.LastMatch.Turbo);
             Assert.AreEqual(1, actVal.LastMatch.Victory);
             Assert.AreEqual(0, actVal.LastMatch.VictoryTime);
-            Assert.AreEqual(0, actVal.LastMatch.Visibility);
-            Assert.AreEqual(1612182081, actVal.LastMatch.Opened);
             Assert.AreEqual(1612182081, actVal.LastMatch.Started);
             Assert.AreEqual(1643808142, actVal.LastMatch.Finished);
 
@@ -189,7 +172,6 @@
             for(var i = 0; i < actVal.LastMatch.Players.Count; i++) {
                 var player = actVal.LastMatch.Players[i];
                 Assert.AreEqual(expPlayer[i].ProfilId, player.ProfilId);
-                Assert.AreEqual(expPlayer[i].SteamId, player.SteamId);
                 Assert.AreEqual(expPlayer[i].Name, player.Name);
                 Assert.AreEqual(expPlayer[i].Clan, player.Clan);
                 Assert.AreEqual(expPlayer[i].Country, player.Country);
@@ -197,10 +179,6 @@
                 Assert.AreEqual(expPlayer[i].SlotType, player.SlotType);
                 Assert.AreEqual(expPlayer[i].Rating, player.Rating);
                 Assert.AreEqual(expPlayer[i].RatingChange, player.RatingChange);
-                Assert.AreEqual(expPlayer[i].Games, player.Games);
-                Assert.AreEqual(expPlayer[i].Wins, player.Wins);
-                Assert.AreEqual(expPlayer[i].Streak, player.Streak);
-                Assert.AreEqual(expPlayer[i].Drops, player.Drops);
                 Assert.AreEqual(expPlayer[i].Color, player.Color);
                 Assert.AreEqual(expPlayer[i].Team, player.Team);
                 Assert.AreEqual(expPlayer[i].Civ, player.Civ);
@@ -398,8 +376,8 @@
                 .Result;
 
             // Assert
-            Assert.AreEqual("playerMatchHistoryaoe2de00000000000000001data1", actVal[0].Server);
-            Assert.AreEqual("playerMatchHistoryaoe2de00000000000000001data2", actVal[1].Server);
+            Assert.AreEqual("00000000-0000-0000-0000-000000012345", actVal[0].MatchUuid);
+            Assert.AreEqual("00000000-0000-0000-0000-000000000001", actVal[1].MatchUuid);
         }
 
         [TestMethod]
@@ -427,9 +405,9 @@
                 .Result;
 
             // Assert
-            Assert.AreEqual("playerMatchHistoryaoe2de1data1", actVal[0].Server);
-            Assert.AreEqual("playerMatchHistoryaoe2de1data2", actVal[1].Server);
-            Assert.AreEqual("playerMatchHistoryaoe2de1data3", actVal[2].Server);
+            Assert.AreEqual("00000000-0000-0000-0000-000000123456", actVal[0].MatchUuid);
+            Assert.AreEqual("00000000-0000-0000-0000-000000123457", actVal[1].MatchUuid);
+            Assert.AreEqual("00000000-0000-0000-0000-000000123458", actVal[2].MatchUuid);
         }
 
         [TestMethod]

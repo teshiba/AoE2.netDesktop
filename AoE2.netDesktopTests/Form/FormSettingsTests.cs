@@ -328,7 +328,7 @@ public partial class FormSettingsTests
             await testClass.Awaiter.WaitAsync("ButtonSetId_ClickAsync");
 
             // Assert
-            Assert.AreEqual($"   Name: Player1", testClass.labelSettingsName.Text);
+            Assert.AreEqual($"   Name: Player100", testClass.labelSettingsName.Text);
             Assert.AreEqual($"Country: Japan", testClass.labelSettingsCountry.Text);
 
             // CleanUp
@@ -358,7 +358,7 @@ public partial class FormSettingsTests
             await testClass.Awaiter.WaitAsync("ButtonSetId_ClickAsync");
 
             // Assert
-            Assert.AreEqual($"   Name: Player1", testClass.labelSettingsName.Text);
+            Assert.AreEqual($"   Name: Player100", testClass.labelSettingsName.Text);
             Assert.AreEqual($"Country: Japan", testClass.labelSettingsCountry.Text);
 
             // CleanUp
@@ -388,7 +388,7 @@ public partial class FormSettingsTests
             await testClass.Awaiter.WaitAsync("ButtonSetId_ClickAsync");
 
             // Assert
-            Assert.AreEqual("   Name: Player1", testClass.labelSettingsName.Text);
+            Assert.AreEqual("   Name: Player100", testClass.labelSettingsName.Text);
             Assert.AreEqual("Country: Japan", testClass.labelSettingsCountry.Text);
 
             // CleanUp

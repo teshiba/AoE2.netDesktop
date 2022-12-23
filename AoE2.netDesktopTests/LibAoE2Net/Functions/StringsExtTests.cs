@@ -51,7 +51,7 @@ public class StringsExtTests
 
         // Act
         var testClass = new Match() {
-            Opened = dateTimeSec,
+            Started = dateTimeSec,
         };
 
         var actVal = testClass.GetOpenedTime();

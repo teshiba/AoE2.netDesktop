@@ -223,7 +223,7 @@ public static class AoE2net
     /// <param name="count">Number of leaderboard entries to get (Must be 10000 or less)).</param>
     /// <param name="steamId">steamID64.</param>
     /// <returns> Leaderboard for the specified user.</returns>
-    public static async Task<LeaderboardContainer> GetLeaderboardAsync(LeaderboardId leaderBoardId, int start, int count, string steamId)
+    public static async Task<LeaderboardContainer> GetLeaderboardAsync(LeaderboardId? leaderBoardId, int start, int count, string steamId)
     {
         var apiEndPoint = $"leaderboard?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&steam_id={steamId}&start={start}&count={count}";
 

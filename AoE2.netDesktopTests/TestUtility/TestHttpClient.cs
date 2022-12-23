@@ -23,6 +23,8 @@ public class TestHttpClient : ComClient
 
     public string PlayerLastMatchUri { get; set; }
 
+    public string PlayerMatchHistoryUri { get; set; }
+
     public string LastRequest { get; set; }
 
     /// <summary>
@@ -138,7 +140,8 @@ public class TestHttpClient : ComClient
         var args = requestUri.Split('=', '&', '?');
         var game = args[2];
         var steamId = args[4];
-        var readUri = $"{TestData.Path}/playerMatchHistory{game}{steamId}.json";
+        var requestDataFileName = PlayerMatchHistoryUri ?? $"playerMatchHistory{game}{steamId}.json";
+        string readUri = $"{TestData.Path}/{requestDataFileName}";
 
         LastRequest = $"Read {readUri}";
 
