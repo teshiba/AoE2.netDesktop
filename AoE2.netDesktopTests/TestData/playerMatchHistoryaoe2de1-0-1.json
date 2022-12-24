@@ -2,7 +2,7 @@
   {
     "match_id": "00000002",
     "lobby_id": null,
-    "match_uuid": "00000000-0000-0000-0000-000000000000",
+    "match_uuid": "00000000-0000-0000-0000-000000123456",
     "version": "00000",
     "name": "AUTOMATCH",
     "num_players": 8,
@@ -198,7 +198,7 @@
   {
     "match_id": "00000001",
     "lobby_id": null,
-    "match_uuid": "00000000-0000-0000-0000-000000000001",
+    "match_uuid": "00000000-0000-0000-0000-000000123457",
     "version": "00000",
     "name": "AUTOMATCH",
     "num_players": 8,
@@ -394,7 +394,7 @@
   {
     "match_id": "00000003",
     "lobby_id": null,
-    "match_uuid": "00000000-0000-0000-0000-000000000003",
+    "match_uuid": "00000000-0000-0000-0000-000000123458",
     "version": "00000",
     "name": "AUTOMATCH",
     "num_players": 2,

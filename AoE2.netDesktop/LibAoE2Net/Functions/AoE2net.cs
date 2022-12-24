@@ -60,6 +60,7 @@ public static class AoE2net
     /// </summary>
     /// <param name="profileId">Profile ID.</param>
     /// <returns><see cref="PlayerLastmatch"/> deserialized as JSON.</returns>
+    [Obsolete("This API is not supported.")]
     public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(int profileId)
     {
         var apiEndPoint = $"player/lastmatch?game={AoE2Version}&profile_id={profileId}";
@@ -73,6 +74,7 @@ public static class AoE2net
     /// </summary>
     /// <param name="steamId">steamID64.</param>
     /// <returns><see cref="PlayerLastmatch"/> deserialized as JSON.</returns>
+    [Obsolete("This API is not supported.")]
     public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(string steamId)
     {
         if(steamId is null) {
@@ -222,7 +224,7 @@ public static class AoE2net
     /// <param name="count">Number of leaderboard entries to get (Must be 10000 or less)).</param>
     /// <param name="steamId">steamID64.</param>
     /// <returns> Leaderboard for the specified user.</returns>
-    public static async Task<LeaderboardContainer> GetLeaderboardAsync(LeaderboardId leaderBoardId, int start, int count, string steamId)
+    public static async Task<LeaderboardContainer> GetLeaderboardAsync(LeaderboardId? leaderBoardId, int start, int count, string steamId)
     {
         var apiEndPoint = $"leaderboard?game={AoE2Version}&leaderboard_id={(int)leaderBoardId}&steam_id={steamId}&start={start}&count={count}";
 

@@ -45,7 +45,11 @@ public partial class FormMainTests
     [Ignore]
     public void FormMainTestGUI1v1()
     {
-        AoE2net.ComClient.TestHttpClient().PlayerLastMatchUri = "playerLastMatchaoe2de1v1.json";
+        var testHttpClient = new TestHttpClient() {
+            PlayerMatchHistoryUri = "playerMatchHistoryaoe2de1v1.json",
+        };
+
+        AoE2net.ComClient = testHttpClient;
         var testClass = new FormMain(Language.en);
         testClass.ShowDialog();
     }
@@ -122,7 +126,7 @@ public partial class FormMainTests
     {
         // Arrange
         var testClass = new FormMainPrivate();
-        testClass.httpClient.PlayerLastMatchUri = "playerLastMatchaoe2de1v1EvenColor.json";
+        testClass.httpClient.PlayerMatchHistoryUri = "playerMatchHistoryaoe2de1v1.json";
         var expVal = string.Empty;
         var done = false;
 
@@ -330,7 +334,7 @@ public partial class FormMainTests
         // Arrange
         var done = false;
         var testClass = new FormMainPrivate();
-        testClass.httpClient.PlayerLastMatchUri = "playerLastMatchInvalidPlayerColor.json";
+        testClass.httpClient.PlayerMatchHistoryUri = "playerMatchHistoryaoe2deInvalidPlayerColor.json";
 
         // Act
         testClass.Shown += async (sender, e) =>
@@ -722,7 +726,7 @@ public partial class FormMainTests
     {
         // Arrange
         var testClass = new FormMainPrivate();
-        testClass.httpClient.PlayerLastMatchUri = "FileNameDoesNotExist.json";
+        testClass.httpClient.PlayerMatchHistoryUri = "FileNameDoesNotExist.json";
         var expVal = string.Empty;
         var done = false;
 

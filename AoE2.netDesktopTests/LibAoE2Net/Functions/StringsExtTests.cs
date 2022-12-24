@@ -51,7 +51,7 @@ public class StringsExtTests
 
         // Act
         var testClass = new Match() {
-            Opened = dateTimeSec,
+            Started = dateTimeSec,
         };
 
         var actVal = testClass.GetOpenedTime();
@@ -63,8 +63,10 @@ public class StringsExtTests
     [TestMethod]
     [DataRow(0, "invalid civ:0")]
     [DataRow(1, "ブリトン")]
-    [DataRow(37, "Sicilians")]
-    [DataRow(40, "invalid civ:40")]
+    [DataRow(40, "Dravidians")]
+    [DataRow(41, "Bengalis")]
+    [DataRow(42, "Gurjaras")]
+    [DataRow(43, "invalid civ:43")]
     [DataRow(null, "invalid civ:")]
     [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
     [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]

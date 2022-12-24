@@ -36,23 +36,45 @@
             // Assert
             Assert.AreEqual(TestData.AvailableUserSteamId, actVal.SteamId);
             Assert.AreEqual(TestData.AvailableUserProfileId, actVal.ProfileId);
-            Assert.AreEqual(3333, actVal.LastMatch.Players[2].Rating);
+            Assert.AreEqual(333, actVal.LastMatch.Players[2].Rating);
         }
 
         [TestMethod]
         [SuppressMessage("warning", "VSTHRD002:Avoid problematic synchronous waits", Justification = "Intentional sync test")]
         [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = "Intentional sync test")]
-        public void GetPlayerLastMatchAsyncTestInvalidArg()
+        public void GetPlayerLastMatchAsyncTestInvalidLeaderboardId()
         {
             // Arrange
+            AoE2net.ComClient = new TestHttpClient() {
+                PlayerMatchHistoryUri = "playerMatchHistoryaoe2deInvalidLeaderboardId.json",
+            };
 
             // Act
             var actVal = Task.Run(
-                () => AoE2netHelpers.GetPlayerLastMatchAsync(IdType.NotSelected, TestData.AvailableUserSteamId))
+                () => AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, TestData.AvailableUserProfileIdString))
                 .Result;
 
             // Assert
-            Assert.IsNull(actVal.ProfileId);
+            Assert.AreEqual(null, actVal.LastMatch.Players[1].Name);
+        }
+
+        [TestMethod]
+        [SuppressMessage("warning", "VSTHRD002:Avoid problematic synchronous waits", Justification = "Intentional sync test")]
+        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = "Intentional sync test")]
+        public void GetPlayerLastMatchAsyncTestWithAIPlayer()
+        {
+            // Arrange
+            AoE2net.ComClient = new TestHttpClient() {
+                PlayerMatchHistoryUri = "playerMatchHistoryaoe2deAIPlayer.json",
+            };
+
+            // Act
+            var actVal = Task.Run(
+                () => AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, TestData.AvailableUserProfileIdString))
+                .Result;
+
+            // Assert
+            Assert.AreEqual("A.I.", actVal.LastMatch.Players[1].Name);
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////

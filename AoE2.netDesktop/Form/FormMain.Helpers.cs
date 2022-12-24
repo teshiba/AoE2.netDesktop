@@ -44,16 +44,6 @@ public partial class FormMain : ControllableForm
     /// </summary>
     public CtrlSettings CtrlSettings { get; private set; }
 
-    private static async Task GetGameResultAsync(Player player, LeaderboardId? leaderboardId)
-    {
-        var leaderboardContainer = await AoE2net.GetLeaderboardAsync(leaderboardId, 0, 1, player.ProfilId);
-        if(leaderboardContainer.Leaderboards.Count != 0) {
-            var leaderboard = leaderboardContainer.Leaderboards[0];
-            player.Games = leaderboard.Games;
-            player.Wins = leaderboard.Wins;
-        }
-    }
-
     private void InitOnChangePropertyHandler()
     {
         onChangePropertyHandler = new() {
@@ -73,9 +63,7 @@ public partial class FormMain : ControllableForm
     private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         onChangePropertyHandler.TryGetValue(e.PropertyName, out Action<string> action);
-        if(action != null) {
-            action.Invoke(e.PropertyName);
-        }
+        action?.Invoke(e.PropertyName);
     }
 
     private void SetOptionParams()
@@ -428,43 +416,51 @@ public partial class FormMain : ControllableForm
         labelElapsedTime1v1.Text = CtrlMain.GetElapsedTimeString(match);
     }
 
-    private void SetPlayersData1v1(List<Player> players)
+    private void SetLeaderboardData1v1P1(Leaderboard player1)
     {
-        Player player1;
-        Player player2;
-
-        if(players[0].IsOddColor()) {
-            player1 = players[0];
-            player2 = players[1];
-        } else {
-            player1 = players[1];
-            player2 = players[0];
-        }
-
-        label1v1ColorP1.Text = player1.GetColorString();
-        label1v1ColorP1.BackColor = player1.GetColor();
-        labelName1v1P1.Text = CtrlMain.GetPlayerNameString(player1.Name);
-        labelName1v1P1.Font = CtrlMain.GetFontStyle(player1, labelName1v1P1.Font);
-        labelName1v1P1.Tag = player1;
-        pictureBoxCiv1v1P1.ImageLocation = player1.GetCivImageLocation();
-        pictureBoxUnit1v1P1.Image = UnitImages.Load(player1.GetCivEnName(), player1.GetColor());
-        labelRate1v1P1.Text = CtrlMain.GetRateString(player1.Rating);
         labelWins1v1P1.Text = CtrlMain.GetWinsString(player1);
         labelLoses1v1P1.Text = CtrlMain.GetLossesString(player1);
-        labelCiv1v1P1.Text = player1.GetCivName();
-        labelTeamResultP1.Text = $"";
+    }
 
-        label1v1ColorP2.Text = player2.GetColorString();
-        label1v1ColorP2.BackColor = player2.GetColor();
-        labelName1v1P2.Text = CtrlMain.GetPlayerNameString(player2.Name);
-        labelName1v1P2.Font = CtrlMain.GetFontStyle(player2, labelName1v1P2.Font);
-        labelName1v1P2.Tag = player2;
-        pictureBoxCiv1v1P2.ImageLocation = player2.GetCivImageLocation();
-        pictureBoxUnit1v1P2.Image = UnitImages.Load(player2.GetCivEnName(), player2.GetColor());
-        labelRate1v1P2.Text = CtrlMain.GetRateString(player2.Rating);
+    private void SetLeaderboardData1v1P2(Leaderboard player2)
+    {
         labelWins1v1P2.Text = CtrlMain.GetWinsString(player2);
         labelLoses1v1P2.Text = CtrlMain.GetLossesString(player2);
-        labelCiv1v1P2.Text = player2.GetCivName();
+    }
+
+    private void SetPlayersData1v1(Player player1, Player player2)
+    {
+        Player playerOdd;
+        Player playerEven;
+
+        if(player1.IsOddColor()) {
+            playerOdd = player1;
+            playerEven = player2;
+        } else {
+            playerOdd = player2;
+            playerEven = player1;
+        }
+
+        label1v1ColorP1.Text = playerOdd.GetColorString();
+        label1v1ColorP1.BackColor = playerOdd.GetColor();
+        labelName1v1P1.Text = CtrlMain.GetPlayerNameString(playerOdd.Name);
+        labelName1v1P1.Font = CtrlMain.GetFontStyle(playerOdd, labelName1v1P1.Font);
+        labelName1v1P1.Tag = playerOdd;
+        pictureBoxCiv1v1P1.ImageLocation = playerOdd.GetCivImageLocation();
+        pictureBoxUnit1v1P1.Image = UnitImages.Load(playerOdd.GetCivEnName(), playerOdd.GetColor());
+        labelRate1v1P1.Text = CtrlMain.GetRateString(playerOdd.Rating);
+        labelCiv1v1P1.Text = playerOdd.GetCivName();
+        labelTeamResultP1.Text = $"";
+
+        label1v1ColorP2.Text = playerEven.GetColorString();
+        label1v1ColorP2.BackColor = playerEven.GetColor();
+        labelName1v1P2.Text = CtrlMain.GetPlayerNameString(playerEven.Name);
+        labelName1v1P2.Font = CtrlMain.GetFontStyle(playerEven, labelName1v1P2.Font);
+        labelName1v1P2.Tag = playerEven;
+        pictureBoxCiv1v1P2.ImageLocation = playerEven.GetCivImageLocation();
+        pictureBoxUnit1v1P2.Image = UnitImages.Load(playerEven.GetCivEnName(), playerEven.GetColor());
+        labelRate1v1P2.Text = CtrlMain.GetRateString(playerEven.Rating);
+        labelCiv1v1P2.Text = playerEven.GetCivName();
         labelTeamResultP2.Text = $"";
     }
 
@@ -547,9 +543,18 @@ public partial class FormMain : ControllableForm
                 labelMatchNo.Text = "Load Error: Invalid ID";
             } else {
                 if(match.NumPlayers == 2) {
-                    await GetGameResultAsync(match.Players[0], match.LeaderboardId);
-                    await GetGameResultAsync(match.Players[1], match.LeaderboardId);
-                    SetPlayersData1v1(match.Players);
+                    var leaderboardP1 = await AoE2net.GetLeaderboardAsync(match.LeaderboardId, 0, 1, match.Players[0].ProfilId);
+                    var leaderboardP2 = await AoE2net.GetLeaderboardAsync(match.LeaderboardId, 0, 1, match.Players[1].ProfilId);
+
+                    if(leaderboardP1.Leaderboards.Count != 0) {
+                        SetLeaderboardData1v1P1(leaderboardP1.Leaderboards[0]);
+                    }
+
+                    if(leaderboardP2.Leaderboards.Count != 0) {
+                        SetLeaderboardData1v1P2(leaderboardP2.Leaderboards[0]);
+                    }
+
+                    SetPlayersData1v1(match.Players[0], match.Players[1]);
                     SetMatchData1v1(match, specificMatchId, prevMatchNo);
                 } else {
                     SetPlayersData(match.Players);

@@ -212,6 +212,7 @@ public partial class FormMain : ControllableForm
 
         progressBar.Stop();
         GameTimer.Stop();
+        GameTimer.Dispose();
         CtrlSettings.FormMyHistory?.Close();
         SaveWindowPosition();
         Settings.Default.Save();

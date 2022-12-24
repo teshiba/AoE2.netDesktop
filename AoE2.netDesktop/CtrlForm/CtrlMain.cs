@@ -145,11 +145,11 @@ public class CtrlMain : FormControler
     /// <summary>
     /// Get the number of losses.
     /// </summary>
-    /// <param name="player">player.</param>
+    /// <param name="leaderboard">player's leaderboard.</param>
     /// <returns>lose count.</returns>
-    public static string GetLossesString(Player player)
+    public static string GetLossesString(Leaderboard leaderboard)
     {
-        var loses = player.Games - player.Wins;
+        var loses = leaderboard.Games - leaderboard.Wins;
 
         return loses?.ToString() ?? "N/A";
     }
@@ -157,11 +157,11 @@ public class CtrlMain : FormControler
     /// <summary>
     /// Get the number of wins.
     /// </summary>
-    /// <param name="player">player.</param>
+    /// <param name="leaderboard">player's leaderboard.</param>
     /// <returns>win count.</returns>
-    public static string GetWinsString(Player player)
+    public static string GetWinsString(Leaderboard leaderboard)
     {
-        return player.Wins?.ToString() ?? "N/A";
+        return leaderboard.Wins?.ToString() ?? "N/A";
     }
 
     /// <summary>

@@ -24,6 +24,8 @@ public class TestHttpClient : ComClient
 
     public string PlayerLastMatchUri { get; set; }
 
+    public string PlayerMatchHistoryUri { get; set; }
+
     public string LastRequest { get; set; }
 
     /// <summary>
@@ -51,8 +53,6 @@ public class TestHttpClient : ComClient
 
         var apiEndPoint = requestUri[..requestUri.IndexOf('?')];
         var ret = apiEndPoint switch {
-            "player/lastmatch" => ReadplayerLastMatchAsync(requestUri),
-            "player/ratinghistory" => ReadPlayerRatingHistoryAsync(requestUri),
             "player/matches" => ReadGetPlayerMatchHistoryAsync(requestUri),
             "leaderboard" => ReadLeaderboardAsync(requestUri),
             "strings" => ReadStringsAsync(requestUri),
@@ -94,6 +94,7 @@ public class TestHttpClient : ComClient
         return ret;
     }
 
+    [Obsolete("This API is not supported.")]
     private Task<string> ReadplayerLastMatchAsync(string requestUri)
     {
         var args = requestUri.Split('=', '&', '?');
@@ -141,7 +142,8 @@ public class TestHttpClient : ComClient
         var steamId = args[4];
         var start = args[6];
         var count = args[8];
-        var readUri = $"{TestData.Path}/playerMatchHistory{game}{steamId}-{start}-{count}.json";
+        var requestDataFileName = PlayerMatchHistoryUri ?? $"playerMatchHistory{game}{steamId}-{start}-{count}.json";
+        string readUri = $"{TestData.Path}/{requestDataFileName}";
 
         LastRequest = $"Read {readUri}";
 
