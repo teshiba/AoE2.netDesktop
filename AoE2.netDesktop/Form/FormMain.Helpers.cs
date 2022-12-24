@@ -435,16 +435,24 @@ public partial class FormMain : ControllableForm
 
     private bool OnTimerGame()
     {
-        // update text
-        Invoke(() =>
-        {
-            labelStartTimeTeam.Text = CtrlMain.GetOpenedTime();
-            labelElapsedTimeTeam.Text = CtrlMain.GetElapsedTime();
-            labelStartTime1v1.Text = CtrlMain.GetOpenedTime();
-            labelElapsedTime1v1.Text = CtrlMain.GetElapsedTime();
-        });
+        var ret = false;
 
-        return CtrlMain.LastMatch.Finished == null;
+        if(IsHandleCreated) {
+            // update text
+            Invoke(() =>
+            {
+                labelStartTimeTeam.Text = CtrlMain.GetOpenedTime();
+                labelElapsedTimeTeam.Text = CtrlMain.GetElapsedTime();
+                labelStartTime1v1.Text = CtrlMain.GetOpenedTime();
+                labelElapsedTime1v1.Text = CtrlMain.GetElapsedTime();
+            });
+
+            if(CtrlMain.LastMatch is not null) {
+                ret = CtrlMain.LastMatch.Finished == null;
+            }
+        }
+
+        return ret;
     }
 
     private void OnTimerLastMatchLoader(object sender, EventArgs e)
