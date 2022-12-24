@@ -253,7 +253,7 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsTrue(done);
-        Assert.AreEqual("00000003", ret.MatchId);
+        Assert.IsNull(ret.MatchId);
     }
 
     [TestMethod]

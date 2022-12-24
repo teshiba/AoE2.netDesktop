@@ -1,8 +1,8 @@
 ﻿[
   {
-    "match_id": "00000003",
+    "match_id": "00000002",
     "lobby_id": null,
-    "match_uuid": "00000000-0000-0000-0000-000000123456",
+    "match_uuid": "00000000-0000-0000-0000-000013123456",
     "version": "00000",
     "name": "AUTOMATCH",
     "num_players": 8,
@@ -21,12 +21,12 @@
     "map_type": 29,
     "pop": 200,
     "ranked": true,
-    "leaderboard_id": 4,
+    "leaderboard_id": null,
     "rating_type": 4,
     "resources": 1,
     "rms": null,
     "scenario": null,
-    "server": "playerMatchHistoryaoe2de1data1",
+    "server": "playerMatchHistoryaoe2deInvalidLeaderboardId",
     "shared_exploration": false,
     "speed": 2,
     "starting_age": 2,
@@ -42,8 +42,8 @@
     "finished": 1643808142,
     "players": [
       {
-        "profile_id": 100,
-        "steam_id": "00000000000000001",
+        "profile_id": 1,
+        "steam_id": null,
         "name": "Player1",
         "clan": null,
         "country": null,
@@ -61,14 +61,14 @@
         "won": false
       },
       {
-        "profile_id": 2,
+        "profile_id": null,
         "steam_id": null,
-        "name": "Player2",
+        "name": null,
         "clan": null,
         "country": null,
         "slot": 2,
         "slot_type": 1,
-        "rating": 2222,
+        "rating": null,
         "rating_change": null,
         "games": null,
         "wins": null,
@@ -101,7 +101,7 @@
       {
         "profile_id": 4,
         "steam_id": "00000000000000004",
-        "name": "Player4",
+        "name": null,
         "clan": null,
         "country": null,
         "slot": 4,
@@ -392,7 +392,7 @@
     ]
   },
   {
-    "match_id": "00000006",
+    "match_id": "00000003",
     "lobby_id": null,
     "match_uuid": "00000000-0000-0000-0000-000000123458",
     "version": "00000",

@@ -109,7 +109,7 @@ public class CtrlSettingsTests
         _ = Assert.ThrowsExceptionAsync<Exception>(() =>
 
               // Act
-              testClass.ReloadProfileAsync(IdType.NotSelected, TestData.AvailableUserSteamId));
+              testClass.ReloadProfileAsync((IdType)(-1), TestData.AvailableUserSteamId));
 
         Assert.AreEqual(expValUserCountry, testClass.UserCountry);
         Assert.AreEqual(expValUserName, testClass.UserName);
@@ -157,7 +157,7 @@ public class CtrlSettingsTests
         // Arrange
         TestUtilityExt.SetSettings("SteamId", TestData.AvailableUserSteamId);
         TestUtilityExt.SetSettings("ProfileId", TestData.AvailableUserProfileId);
-        TestUtilityExt.SetSettings("SelectedIdType", IdType.NotSelected);
+        TestUtilityExt.SetSettings("SelectedIdType", (IdType)(-1));
         var testClass = new CtrlSettings();
 
         // Assert

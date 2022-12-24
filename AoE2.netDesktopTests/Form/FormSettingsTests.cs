@@ -37,11 +37,10 @@ public partial class FormSettingsTests
         var expVal = Color.FromArgb(255, 255, 0, 0);
         var done = false;
         var testClass = new FormSettingsPrivate {
-        };
-
-        testClass.ColorDialog = new ColorDialogEx {
-            Color = expVal,
-            Opening = () => false,
+            ColorDialog = new ColorDialogEx {
+                Color = expVal,
+                Opening = () => false,
+            },
         };
 
         // Act
@@ -329,7 +328,7 @@ public partial class FormSettingsTests
             await testClass.Awaiter.WaitAsync("ButtonSetId_ClickAsync");
 
             // Assert
-            Assert.AreEqual($"   Name: Player1", testClass.labelSettingsName.Text);
+            Assert.AreEqual($"   Name: Player100", testClass.labelSettingsName.Text);
             Assert.AreEqual($"Country: Japan", testClass.labelSettingsCountry.Text);
 
             // CleanUp
@@ -359,7 +358,7 @@ public partial class FormSettingsTests
             await testClass.Awaiter.WaitAsync("ButtonSetId_ClickAsync");
 
             // Assert
-            Assert.AreEqual($"   Name: Player1", testClass.labelSettingsName.Text);
+            Assert.AreEqual($"   Name: Player100", testClass.labelSettingsName.Text);
             Assert.AreEqual($"Country: Japan", testClass.labelSettingsCountry.Text);
 
             // CleanUp
@@ -389,7 +388,7 @@ public partial class FormSettingsTests
             await testClass.Awaiter.WaitAsync("ButtonSetId_ClickAsync");
 
             // Assert
-            Assert.AreEqual("   Name: Player1", testClass.labelSettingsName.Text);
+            Assert.AreEqual("   Name: Player100", testClass.labelSettingsName.Text);
             Assert.AreEqual("Country: Japan", testClass.labelSettingsCountry.Text);
 
             // CleanUp
@@ -505,31 +504,6 @@ public partial class FormSettingsTests
 
             // Assert
             Assert.IsTrue(testClass.labelErrText.Text.Contains("Force Exception"));
-
-            // CleanUp
-            testClass.Close();
-            done = true;
-        };
-
-        testClass.ShowDialog();
-
-        // Assert
-        Assert.IsTrue(done);
-    }
-
-    [TestMethod]
-    public void ReloadProfileAsyncTestIdTypeNotSelected()
-    {
-        // Arrange
-        var testClass = new FormSettingsPrivate();
-        var done = false;
-
-        // Act
-        testClass.Shown += async (sender, e) =>
-        {
-            await testClass.Awaiter.WaitAsync("FormSettings_LoadAsync");
-            testClass.ReloadProfileAsync(IdType.NotSelected, TestData.AvailableUserProfileIdWithoutSteamIdString);
-            await testClass.Awaiter.WaitAsync("ReloadProfileAsync");
 
             // CleanUp
             testClass.Close();

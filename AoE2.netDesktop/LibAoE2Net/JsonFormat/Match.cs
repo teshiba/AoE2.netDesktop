@@ -18,14 +18,8 @@ public class Match
     [DataMember(Name = "match_id")]
     public string MatchId { get; set; }
 
-    [DataMember(Name = "lobby_id")]
-    public string LobbyId { get; set; }
-
     [DataMember(Name = "match_uuid")]
     public string MatchUuid { get; set; }
-
-    [DataMember(Name = "version")]
-    public string Version { get; set; }
 
     [DataMember(Name = "name")]
     public string Name { get; set; }
@@ -36,9 +30,6 @@ public class Match
     [DataMember(Name = "num_slots")]
     public int? NumSlots { get; set; }
 
-    [DataMember(Name = "average_rating")]
-    public int? AverageRating { get; set; }
-
     [DataMember(Name = "cheats")]
     public bool? Cheats { get; set; }
 
@@ -48,14 +39,8 @@ public class Match
     [DataMember(Name = "ending_age")]
     public int? EndingAge { get; set; }
 
-    [DataMember(Name = "expansion")]
-    public string Expansion { get; set; }
-
     [DataMember(Name = "game_type")]
     public int? GameType { get; set; }
-
-    [DataMember(Name = "has_custom_content")]
-    public string HasCustomContent { get; set; }
 
     [DataMember(Name = "has_password")]
     public bool? HasPassword { get; set; }
@@ -122,12 +107,6 @@ public class Match
 
     [DataMember(Name = "victory_time")]
     public long? VictoryTime { get; set; }
-
-    [DataMember(Name = "visibility")]
-    public long? Visibility { get; set; }
-
-    [DataMember(Name = "opened")]
-    public long? Opened { get; set; }
 
     [DataMember(Name = "started")]
     public long? Started { get; set; }

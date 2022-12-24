@@ -59,9 +59,7 @@ public partial class FormMain : ControllableForm
     private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         onChangePropertyHandler.TryGetValue(e.PropertyName, out Action<string> action);
-        if(action != null) {
-            action.Invoke(e.PropertyName);
-        }
+        action?.Invoke(e.PropertyName);
     }
 
     private void SetOptionParams()
@@ -377,6 +375,18 @@ public partial class FormMain : ControllableForm
         labelGameId1v1.Text = $"GameID : {match.MatchId}";
     }
 
+    private void SetLeaderboardData1v1P1(Leaderboard player1)
+    {
+        labelWins1v1P1.Text = CtrlMain.GetWinsString(player1);
+        labelLoses1v1P1.Text = CtrlMain.GetLossesString(player1);
+    }
+
+    private void SetLeaderboardData1v1P2(Leaderboard player2)
+    {
+        labelWins1v1P2.Text = CtrlMain.GetWinsString(player2);
+        labelLoses1v1P2.Text = CtrlMain.GetLossesString(player2);
+    }
+
     private void SetPlayersData1v1(Player player1, Player player2)
     {
         label1v1ColorP1.Text = player1.GetColorString();
@@ -387,8 +397,6 @@ public partial class FormMain : ControllableForm
         pictureBoxCiv1v1P1.ImageLocation = AoE2DeApp.GetCivImageLocation(player1.GetCivEnName());
         pictureBoxUnit1v1P1.Image = UnitImages.Load(player1.GetCivEnName(), player1.GetColor());
         labelRate1v1P1.Text = CtrlMain.GetRateString(player1.Rating);
-        labelWins1v1P1.Text = CtrlMain.GetWinsString(player1);
-        labelLoses1v1P1.Text = CtrlMain.GetLossesString(player1);
         labelCiv1v1P1.Text = player1.GetCivName();
         labelTeamResultP1.Text = $"";
 
@@ -400,8 +408,6 @@ public partial class FormMain : ControllableForm
         pictureBoxCiv1v1P2.ImageLocation = AoE2DeApp.GetCivImageLocation(player2.GetCivEnName());
         pictureBoxUnit1v1P2.Image = UnitImages.Load(player2.GetCivEnName(), player2.GetColor());
         labelRate1v1P2.Text = CtrlMain.GetRateString(player2.Rating);
-        labelWins1v1P2.Text = CtrlMain.GetWinsString(player2);
-        labelLoses1v1P2.Text = CtrlMain.GetLossesString(player2);
         labelCiv1v1P2.Text = player2.GetCivName();
         labelTeamResultP2.Text = $"";
     }
@@ -429,16 +435,24 @@ public partial class FormMain : ControllableForm
 
     private bool OnTimerGame()
     {
-        // update text
-        Invoke(() =>
-        {
-            labelStartTimeTeam.Text = CtrlMain.GetOpenedTime();
-            labelElapsedTimeTeam.Text = CtrlMain.GetElapsedTime();
-            labelStartTime1v1.Text = CtrlMain.GetOpenedTime();
-            labelElapsedTime1v1.Text = CtrlMain.GetElapsedTime();
-        });
+        var ret = false;
 
-        return CtrlMain.LastMatch.Finished == null;
+        if(IsHandleCreated) {
+            // update text
+            Invoke(() =>
+            {
+                labelStartTimeTeam.Text = CtrlMain.GetOpenedTime();
+                labelElapsedTimeTeam.Text = CtrlMain.GetElapsedTime();
+                labelStartTime1v1.Text = CtrlMain.GetOpenedTime();
+                labelElapsedTime1v1.Text = CtrlMain.GetElapsedTime();
+            });
+
+            if(CtrlMain.LastMatch is not null) {
+                ret = CtrlMain.LastMatch.Finished == null;
+            }
+        }
+
+        return ret;
     }
 
     private void OnTimerLastMatchLoader(object sender, EventArgs e)
@@ -463,15 +477,11 @@ public partial class FormMain : ControllableForm
             var leaderboardP2 = await AoE2net.GetLeaderboardAsync(leaderboard, 0, 1, match.Players[1].ProfilId);
 
             if(leaderboardP1.Leaderboards.Count != 0) {
-                var player1 = leaderboardP1.Leaderboards[0];
-                match.Players[0].Games = player1.Games;
-                match.Players[0].Wins = player1.Wins;
+                SetLeaderboardData1v1P1(leaderboardP1.Leaderboards[0]);
             }
 
             if(leaderboardP2.Leaderboards.Count != 0) {
-                var player2 = leaderboardP2.Leaderboards[0];
-                match.Players[1].Games = player2.Games;
-                match.Players[1].Wins = player2.Wins;
+                SetLeaderboardData1v1P2(leaderboardP2.Leaderboards[0]);
             }
 
             SetPlayersData1v1(match.Players[0], match.Players[1]);
@@ -499,18 +509,9 @@ public partial class FormMain : ControllableForm
             if(labelGameId.Text == $"GameID : {playerLastmatch.LastMatch.MatchId}") {
                 match = playerLastmatch.LastMatch;
             } else {
-                LeaderboardId? leaderboard;
-                var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId);
-                if(playerMatchHistory.Count != 0
-                    && playerMatchHistory[0].MatchId == playerLastmatch.LastMatch.MatchId) {
-                    match = playerMatchHistory[0];
-                    leaderboard = playerMatchHistory[0].LeaderboardId;
-                } else {
-                    match = playerLastmatch.LastMatch;
-                    leaderboard = playerLastmatch.LastMatch.LeaderboardId;
-                }
+                var leaderboard = playerLastmatch.LastMatch.LeaderboardId;
 
-                match = await SetLastMatchDataAsync(match, leaderboard);
+                match = await SetLastMatchDataAsync(playerLastmatch.LastMatch, leaderboard);
                 SwitchView(match);
                 GameTimer.Start();
             }

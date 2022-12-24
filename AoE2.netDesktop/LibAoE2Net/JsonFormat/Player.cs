@@ -15,9 +15,6 @@ public class Player
     [DataMember(Name = "profile_id")]
     public int? ProfilId { get; set; }
 
-    [DataMember(Name = "steam_id")]
-    public string SteamId { get; set; }
-
     [DataMember(Name = "name")]
     public string Name { get; set; }
 
@@ -39,18 +36,6 @@ public class Player
     [DataMember(Name = "rating_change")]
     public string RatingChange { get; set; }
 
-    [DataMember(Name = "games")]
-    public int? Games { get; set; }
-
-    [DataMember(Name = "wins")]
-    public int? Wins { get; set; }
-
-    [DataMember(Name = "streak")]
-    public int? Streak { get; set; }
-
-    [DataMember(Name = "drops")]
-    public int? Drops { get; set; }
-
     [DataMember(Name = "color")]
     public int? Color { get; set; }
 
@@ -65,7 +50,7 @@ public class Player
 
     public override string ToString()
     {
-        return $"[{Color}]{Name}(R:{Rating}) ID:{SteamId} {ProfilId}";
+        return $"[{Color}]{Name}(R:{Rating}) ID:{ProfilId}";
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
