@@ -94,7 +94,6 @@ public class CtrlSettings : FormControler
         case IdType.Profile:
             playerLastmatch.ProfileId = int.Parse(idText);
             break;
-        case IdType.NotSelected:
         default:
             throw new Exception($"Invalid IdType:{idtype}");
         }

@@ -59,9 +59,6 @@ public class Leaderboard
     [DataMember(Name = "drops")]
     public int? Drops { get; set; }
 
-    [DataMember(Name = "last_match")]
-    public int? LastMatch { get; set; }
-
     [DataMember(Name = "last_match_time")]
     public int? LastMatchTime { get; set; }
 

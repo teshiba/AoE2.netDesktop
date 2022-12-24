@@ -132,7 +132,6 @@ public partial class FormSettings : ControllableForm
                 Settings.Default.SteamId = Controler.SteamId;
                 break;
 #if false // This code does not pass.
-            case IdType.NotSelected:
             default:
                 throw new Exception($"Invalid IdType:{Controler.SelectedIdType}");
 #endif
