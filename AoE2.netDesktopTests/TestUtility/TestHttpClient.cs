@@ -52,8 +52,6 @@ public class TestHttpClient : ComClient
 
         var apiEndPoint = requestUri[..requestUri.IndexOf('?')];
         var ret = apiEndPoint switch {
-            "player/lastmatch" => ReadplayerLastMatchAsync(requestUri),
-            "player/ratinghistory" => ReadPlayerRatingHistoryAsync(requestUri),
             "player/matches" => ReadGetPlayerMatchHistoryAsync(requestUri),
             "leaderboard" => ReadLeaderboardAsync(requestUri),
             "strings" => ReadStringsAsync(requestUri),
