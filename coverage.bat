@@ -21,7 +21,7 @@ rem set REPORTTYPES="Badges;MarkdownSummary;Html;Html_Light;Html_Dark;HtmlChart;
 
 rem test option
 set TEST_FILTERS="TestCategory!=GUI"
-set TEST_TIMEOUT_MSEC=60000
+set TEST_TIMEOUT_MSEC=90000
 
 rem ===========================================================================
 rem Run test
