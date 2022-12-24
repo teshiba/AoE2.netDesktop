@@ -37,7 +37,7 @@ public class CtrlHistoryTests
     private readonly PlayerMatchHistory matches = new() {
         new Match() {
             LeaderboardId = LeaderboardId.RM1v1,
-            Opened = 1,
+            Started = 1,
             Players = new List<Player> {
                     new Player { Name = "me", ProfilId = ProfileId,   Color = 1 },
                     new Player { Name = "p1", ProfilId = ProfileIdp1, Color = 2, Rating = 4321 },
@@ -45,7 +45,7 @@ public class CtrlHistoryTests
         },
         new Match() {
             LeaderboardId = LeaderboardId.RMTeam,
-            Opened = 2,
+            Started = 2,
             Players = new List<Player> {
                     new Player { Name = "me",  ProfilId = ProfileId,   Color = 3 },
                     new Player { Name = "p2",  ProfilId = ProfileIdp2, Color = 2, Rating = 1234 },
@@ -55,7 +55,7 @@ public class CtrlHistoryTests
         new Match() {
             LeaderboardId = LeaderboardId.RMTeam,
             Name = "same name",
-            Opened = 2,
+            Started = 2,
             Players = new List<Player> {
                     new Player { Name = "me",  ProfilId = ProfileId,   Color = 3 },
                     new Player { Name = "me",  ProfilId = ProfileIdp2, Color = 2, Rating = 1234 },
@@ -65,7 +65,7 @@ public class CtrlHistoryTests
         new Match() {
             Name = "ProfilId NULL",
             LeaderboardId = LeaderboardId.RMTeam,
-            Opened = 2,
+            Started = 2,
             Players = new List<Player> {
                     new Player { Name = "me",  ProfilId = ProfileId,   Color = 3 },
                     new Player { Name = "me",  ProfilId = null, Color = 2, Rating = 1234 },
@@ -275,7 +275,7 @@ public class CtrlHistoryTests
         var noRankedMatche = new PlayerMatchHistory() {
             new Match() {
             LeaderboardId = LeaderboardId.Undefined,
-            Opened = 2,
+            Started = 2,
             Players = new List<Player> {
                     new Player { Name = "me",  ProfilId = ProfileId,   Color = 3 },
                     new Player { Name = "p2",  ProfilId = ProfileIdp2, Color = 2, Rating = 1234 },

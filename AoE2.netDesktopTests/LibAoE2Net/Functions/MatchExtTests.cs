@@ -31,7 +31,7 @@ public class MatchExtTests
 
         // Act
         var testClass = new Match() {
-            Opened = 0,
+            Started = 0,
         };
         var actVal = testClass.GetOpenedTime();
 
@@ -48,7 +48,7 @@ public class MatchExtTests
 
         // Act
         var testClass = new Match() {
-            Opened = opened,
+            Started = opened,
             Finished = finished,
         };
         var actVal = testClass.GetElapsedTime();

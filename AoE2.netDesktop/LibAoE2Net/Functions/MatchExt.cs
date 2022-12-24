@@ -19,7 +19,7 @@ public static class MatchExt
     /// <returns>local time value as DateTime type.</returns>
     public static DateTime GetOpenedTime(this Match match)
     {
-        var ret = DateTimeExt.FromUnixTimeSeconds(match.Opened ?? 0);
+        var ret = DateTimeExt.FromUnixTimeSeconds(match.Started ?? 0);
         return ret;
     }
 
@@ -32,7 +32,7 @@ public static class MatchExt
     {
         TimeSpan ret;
 
-        if(match.Opened is long opened) {
+        if(match.Started is long opened) {
             if(match.Finished is long finished) {
                 ret = TimeSpan.FromSeconds(finished - opened);
             } else {

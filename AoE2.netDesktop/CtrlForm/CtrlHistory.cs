@@ -213,7 +213,6 @@ public class CtrlHistory : FormControler
             listViewItem.SubItems.Add(player.GetCivName());
             listViewItem.SubItems.Add(player.GetColorString());
             listViewItem.SubItems.Add(match.GetOpenedTime().ToString());
-            listViewItem.SubItems.Add(match.Version);
 
             if(match.LeaderboardId != null) {
                 var leaderboardId = (LeaderboardId)match.LeaderboardId;

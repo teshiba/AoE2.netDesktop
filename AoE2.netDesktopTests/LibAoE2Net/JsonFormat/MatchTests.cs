@@ -21,7 +21,7 @@ public class MatchTests
         var testClass = new Match();
         testClass.Players.Add(new Player());
         testClass.Players.Add(new Player());
-        testClass.Opened = dateTimeSec;
+        testClass.Started = dateTimeSec;
         testClass.MapType = 9;
 
         // Act

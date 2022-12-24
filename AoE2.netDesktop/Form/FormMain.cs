@@ -115,6 +115,8 @@ public partial class FormMain : ControllableForm
     ///////////////////////////////////////////////////////////////////////
     private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
     {
+        GameTimer.Stop();
+        GameTimer.Dispose();
         CtrlSettings.FormMyHistory?.Close();
         SaveWindowPosition();
         Settings.Default.Save();
