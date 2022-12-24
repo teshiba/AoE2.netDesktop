@@ -1,27 +1,102 @@
-﻿namespace AoE2netDesktopTests.Utility;
+﻿namespace AoE2NetDesktop.Utility.Tests;
 
 using AoE2NetDesktop.Utility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using System;
+
 [TestClass]
 public class LogTests
 {
+    [TestInitialize]
+    public void TestInit()
+    {
+        // clean up
+        Log.Level = LogLevel.Non;
+        Log.Clear();
+    }
+
     [TestMethod]
-    public void InfoTest()
+    public void NonTest()
     {
         // Arrange
-        var expVal = "[INFO] debug info text.";
-        Log.Level = LogLevel.Info;
+        var expVal = string.Empty;
+        Log.Level = LogLevel.Non;
 
         // Act
-        Log.Info("debug info text.");
-        var actVal = Log.LastMessage;
+        Log.Error("error text.");
+        Log.Debug("debug text.");
+        Log.Info("info text.");
+        var actVal = Log.AllMessage;
 
         // Assert
         Assert.AreEqual(expVal, actVal);
 
-        // clean up
+        // Clean
+        Log.Level = Log.LevelDefault;
+    }
+
+    [TestMethod]
+    public void ErrorTest()
+    {
+        // Arrange
+        var expVal = "[ERROR] error text." + Environment.NewLine;
+        Log.Level = LogLevel.Error;
+
+        // Act
+        Log.Error("error text.");
+        Log.Debug("debug text.");
+        Log.Info("info text.");
+        var actVal = Log.AllMessage;
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+
+        // Clean
+        Log.Level = Log.LevelDefault;
+    }
+
+    [TestMethod]
+    public void DebugTest()
+    {
+        // Arrange
+        var expVal = "[ERROR] error text." + Environment.NewLine
+            + "[DEBUG] debug text." + Environment.NewLine;
         Log.Level = LogLevel.Debug;
+
+        // Act
+        Log.Error("error text.");
+        Log.Debug("debug text.");
+        Log.Info("info text.");
+        var actVal = Log.AllMessage;
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+
+        // Clean
+        Log.Level = Log.LevelDefault;
+    }
+
+    [TestMethod]
+    public void InfoTest()
+    {
+        // Arrange
+        var expVal = "[ERROR] error text." + Environment.NewLine
+            + "[DEBUG] debug text." + Environment.NewLine
+            + "[INFO] info text." + Environment.NewLine;
+        Log.Level = LogLevel.Info;
+
+        // Act
+        Log.Error("error text.");
+        Log.Debug("debug text.");
+        Log.Info("info text.");
+        var actVal = Log.AllMessage;
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+
+        // Clean
+        Log.Level = Log.LevelDefault;
     }
 }

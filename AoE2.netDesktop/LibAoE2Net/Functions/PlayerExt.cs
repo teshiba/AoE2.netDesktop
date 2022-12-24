@@ -5,6 +5,7 @@ using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
@@ -13,6 +14,11 @@ using System.Linq;
 /// </summary>
 public static class PlayerExt
 {
+    /// <summary>
+    /// player name if player name is null.
+    /// </summary>
+    public const string PlayerNullName = "-- Name is NOT set --";
+
     /// <summary>
     /// Check Diplomacy.
     /// </summary>
@@ -54,17 +60,7 @@ public static class PlayerExt
     /// <param name="player">Player.</param>
     /// <returns>Color string or "-" if Color is null.</returns>
     public static Color GetColor(this Player player)
-    {
-        Color ret;
-
-        if(Enumerable.Range(1, 8).Contains(player.Color ?? 0)) {
-            ret = AoE2DeApp.PlayerColors[(int)player.Color - 1];
-        } else {
-            ret = Color.Transparent;
-        }
-
-        return ret;
-    }
+                => AoE2DeApp.GetColor(player.Color);
 
     /// <summary>
     /// Get rate string.
@@ -99,5 +95,40 @@ public static class PlayerExt
         }
 
         return ret;
+    }
+
+    /// <summary>
+    /// Gets Image file location on AoE2De app.
+    /// </summary>
+    /// <param name="player">player.</param>
+    /// <returns>Image file location.</returns>
+    public static string GetCivImageLocation(this Player player)
+    {
+        return AoE2DeApp.GetCivImageLocation(player.GetCivEnName());
+    }
+
+    /// <summary>
+    /// Get whether player color index is odd.
+    /// </summary>
+    /// <param name="player">player.</param>
+    /// <returns>Whether the color is odd.</returns>
+    public static bool IsOddColor(this Player player)
+        => player.Color % 2 != 0;
+
+    /// <summary>
+    /// Get average rate of even or odd Team color No.
+    /// </summary>
+    /// <param name="players">player.</param>
+    /// <param name="team">team type.</param>
+    /// <returns>team average rate value.</returns>
+    public static int? GetAverageRate(this List<Player> players, TeamType team)
+    {
+        if(players is null) {
+            throw new ArgumentNullException(nameof(players));
+        }
+
+        return (int?)players.Where(team.SelectTeam())
+                            .Select(player => player.Rating)
+                            .Average();
     }
 }

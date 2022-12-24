@@ -40,6 +40,16 @@ public partial class FormMain : ControllableForm
     /// </summary>
     public CtrlSettings CtrlSettings { get; private set; }
 
+    private static async Task GetGameResultAsync(Player player, LeaderboardId? leaderboardId)
+    {
+        var leaderboardContainer = await AoE2net.GetLeaderboardAsync(leaderboardId, 0, 1, player.ProfilId);
+        if(leaderboardContainer.Leaderboards.Count != 0) {
+            var leaderboard = leaderboardContainer.Leaderboards[0];
+            player.Games = leaderboard.Games;
+            player.Wins = leaderboard.Wins;
+        }
+    }
+
     private void InitOnChangePropertyHandler()
     {
         onChangePropertyHandler = new() {
@@ -201,17 +211,26 @@ public partial class FormMain : ControllableForm
 
     private void ClearLastMatch()
     {
+        pictureBoxMap.Image = CtrlMain.LoadMapIcon(null);
         labelMap.Text = $"Map: -----";
         labelServer.Text = $"Server : -----";
         labelGameId.Text = $"GameID : --------";
         labelAveRate1.Text = $"Team1 Ave. Rate: ----";
         labelAveRate2.Text = $"Team2 Ave. Rate: ----";
         labelErrText.Text = string.Empty;
+        labelMatchResultTeam1.Text = MatchResult.Unknown.ToString();
+        labelMatchResultTeam1.Tag = MatchResult.Unknown;
+        labelMatchResultTeam2.Text = MatchResult.Unknown.ToString();
+        labelMatchResultTeam2.Tag = MatchResult.Unknown;
 
-        pictureBoxMap1v1.Image = null;
-        labelMap1v1.Text = string.Empty;
+        pictureBoxMap1v1.Image = CtrlMain.LoadMapIcon(null);
+        labelMap1v1.Text = "-----------------------";
         labelServer1v1.Text = $"Server : -----";
         labelGameId1v1.Text = $"GameID : --------";
+        labelMatchResult1v1p1.Text = MatchResult.Unknown.ToString();
+        labelMatchResult1v1p1.Tag = MatchResult.Unknown;
+        labelMatchResult1v1p2.Text = MatchResult.Unknown.ToString();
+        labelMatchResult1v1p2.Tag = MatchResult.Unknown;
 
         const string IntiStartText = $"Start {DateTimeExt.InvalidDate} {DateTimeExt.InvalidTime}";
         const string ElapsedTimeText = $"Time {DateTimeExt.InvalidTime}";
@@ -351,20 +370,24 @@ public partial class FormMain : ControllableForm
         panelTeam2.BackColor = chromaKey;
 
         for(int i = 0; i < labelColor.Count; i++) {
-            labelColor[i].BackColor = AoE2DeApp.PlayerColors[i];
+            labelColor[i].BackColor = AoE2DeApp.GetColor(i + 1);
         }
     }
 
     private void SetMatchData(Match match)
     {
-        var aveTeam1 = CtrlMain.GetAverageRate(match.Players, TeamType.OddColorNo);
-        var aveTeam2 = CtrlMain.GetAverageRate(match.Players, TeamType.EvenColorNo);
+        var aveTeam1 = match.Players.GetAverageRate(TeamType.OddColorNo);
+        var aveTeam2 = match.Players.GetAverageRate(TeamType.EvenColorNo);
         pictureBoxMap.Image = CtrlMain.LoadMapIcon(match.MapType);
         labelMap.Text = $"Map: {match.GetMapName()}";
         labelServer.Text = $"Server : {match.Server}";
         labelGameId.Text = $"GameID : {match.MatchId}";
         labelAveRate1.Text = $"Team1 Ave. Rate:{aveTeam1}";
         labelAveRate2.Text = $"Team2 Ave. Rate:{aveTeam2}";
+        labelMatchResultTeam1.Text = match.GetMatchResult(TeamType.OddColorNo).ToString();
+        labelMatchResultTeam1.Tag = match.GetMatchResult(TeamType.OddColorNo);
+        labelMatchResultTeam2.Text = match.GetMatchResult(TeamType.EvenColorNo).ToString();
+        labelMatchResultTeam2.Tag = match.GetMatchResult(TeamType.EvenColorNo);
     }
 
     private void SetMatchData1v1(Match match)
@@ -373,6 +396,10 @@ public partial class FormMain : ControllableForm
         labelMap1v1.Text = match.GetMapName();
         labelServer1v1.Text = $"Server : {match.Server}";
         labelGameId1v1.Text = $"GameID : {match.MatchId}";
+        labelMatchResult1v1p1.Text = match.GetMatchResult(TeamType.OddColorNo).ToString();
+        labelMatchResult1v1p1.Tag = match.GetMatchResult(TeamType.OddColorNo);
+        labelMatchResult1v1p2.Text = match.GetMatchResult(TeamType.EvenColorNo).ToString();
+        labelMatchResult1v1p2.Tag = match.GetMatchResult(TeamType.EvenColorNo);
     }
 
     private void SetLeaderboardData1v1P1(Leaderboard player1)
@@ -389,12 +416,23 @@ public partial class FormMain : ControllableForm
 
     private void SetPlayersData1v1(Player player1, Player player2)
     {
+        Player player1;
+        Player player2;
+
+        if(players[0].IsOddColor()) {
+            player1 = players[0];
+            player2 = players[1];
+        } else {
+            player1 = players[1];
+            player2 = players[0];
+        }
+
         label1v1ColorP1.Text = player1.GetColorString();
         label1v1ColorP1.BackColor = player1.GetColor();
         labelName1v1P1.Text = CtrlMain.GetPlayerNameString(player1.Name);
         labelName1v1P1.Font = CtrlMain.GetFontStyle(player1, labelName1v1P1.Font);
         labelName1v1P1.Tag = player1;
-        pictureBoxCiv1v1P1.ImageLocation = AoE2DeApp.GetCivImageLocation(player1.GetCivEnName());
+        pictureBoxCiv1v1P1.ImageLocation = player1.GetCivImageLocation();
         pictureBoxUnit1v1P1.Image = UnitImages.Load(player1.GetCivEnName(), player1.GetColor());
         labelRate1v1P1.Text = CtrlMain.GetRateString(player1.Rating);
         labelCiv1v1P1.Text = player1.GetCivName();
@@ -405,7 +443,7 @@ public partial class FormMain : ControllableForm
         labelName1v1P2.Text = CtrlMain.GetPlayerNameString(player2.Name);
         labelName1v1P2.Font = CtrlMain.GetFontStyle(player2, labelName1v1P2.Font);
         labelName1v1P2.Tag = player2;
-        pictureBoxCiv1v1P2.ImageLocation = AoE2DeApp.GetCivImageLocation(player2.GetCivEnName());
+        pictureBoxCiv1v1P2.ImageLocation = player2.GetCivImageLocation();
         pictureBoxUnit1v1P2.Image = UnitImages.Load(player2.GetCivEnName(), player2.GetColor());
         labelRate1v1P2.Text = CtrlMain.GetRateString(player2.Rating);
         labelCiv1v1P2.Text = player2.GetCivName();
@@ -423,12 +461,11 @@ public partial class FormMain : ControllableForm
                 labelName[index].Font = CtrlMain.GetFontStyle(player, labelName[index].Font);
                 labelName[index].Tag = player;
                 pictureBox[index].Visible = true;
-                pictureBox[index].ImageLocation = AoE2DeApp.GetCivImageLocation(player.GetCivEnName());
+                pictureBox[index].ImageLocation = player.GetCivImageLocation();
                 labelRate[index].Text = CtrlMain.GetRateString(player.Rating);
                 labelCiv[index].Text = player.GetCivName();
             } else {
                 labelErrText.Text = $"invalid player.Color[{player.Color}]";
-                break;
             }
         }
     }

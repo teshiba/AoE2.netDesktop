@@ -315,7 +315,6 @@ public partial class FormHistoryTests
             testClass.checkBoxIgnoreCase.Checked = ignoreCase;
             testClass.textBoxFindName.Text = expFindName;
             actVal = testClass.listViewMatchedPlayers.Items;
-            await testClass.Awaiter.WaitAsync("TextBoxFindName_TextChanged");
             testClass.Close();
             done = true;
         };
@@ -336,9 +335,9 @@ public partial class FormHistoryTests
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-            testClass.listViewFilterCountory.Visible = true;
-            testClass.listViewFilterCountory.Items[0].Focused = true;
-            testClass.listViewFilterCountory.Items[0].Checked = true;
+            testClass.listViewFilterCountry.Visible = true;
+            testClass.listViewFilterCountry.Items[0].Focused = true;
+            testClass.listViewFilterCountry.Items[0].Checked = true;
             testClass.Close();
             done = true;
         };
@@ -348,7 +347,9 @@ public partial class FormHistoryTests
     }
 
     [TestMethod]
-    public void FormHistoryTestListViewFilterCountory_MouseLeave()
+    [DataRow(true)]
+    [DataRow(false)]
+    public void FormHistoryTestCheckBoxFilter_CheckedChanged(bool check)
     {
         // Arrange
         var testClass = new FormHistoryPrivate();
@@ -358,9 +359,38 @@ public partial class FormHistoryTests
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
-            testClass.ListViewFilterCountory_MouseLeave(new EventArgs());
+            testClass.checkBoxSetFilter.Checked = !check;
+            testClass.checkBoxSetFilter.Checked = check;
             testClass.Close();
             done = true;
+
+            Assert.AreEqual(check, testClass.listViewFilterCountry.Visible);
+        };
+
+        testClass.ShowDialog();
+        Assert.IsTrue(done);
+    }
+
+    [TestMethod]
+    [DataRow(true)]
+    [DataRow(false)]
+    public void FormHistoryTestCheckBoxCountryFilter_CheckedChanged(bool check)
+    {
+        // Arrange
+        var testClass = new FormHistoryPrivate();
+        var done = false;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+            testClass.listViewFilterCountry.Items[0].Checked = true;
+            testClass.checkBoxEnableCountryFilter.Checked = !check;
+            testClass.checkBoxEnableCountryFilter.Checked = check;
+            testClass.Close();
+            done = true;
+
+            Assert.AreEqual(check, testClass.checkBoxEnableCountryFilter.Checked);
         };
 
         testClass.ShowDialog();

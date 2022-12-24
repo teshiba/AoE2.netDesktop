@@ -6,12 +6,22 @@
 public enum LogLevel
 {
     /// <summary>
+    /// print level No print.
+    /// </summary>
+    Non = 0,
+
+    /// <summary>
+    /// print level error.
+    /// </summary>
+    Error = 1,
+
+    /// <summary>
     /// print level debug.
     /// </summary>
-    Debug,
+    Debug = 2,
 
     /// <summary>
     /// print level Info.
     /// </summary>
-    Info,
+    Info = 3,
 }

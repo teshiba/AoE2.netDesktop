@@ -55,8 +55,8 @@ public partial class FormHistory : ControllableForm
 
     private void UpdatePlayersTabListViewFilterCountory()
     {
-        listViewFilterCountory.BeginUpdate();
-        listViewFilterCountory.Items.Clear();
+        listViewFilterCountry.BeginUpdate();
+        listViewFilterCountry.Items.Clear();
 
         var listviewItems = new List<ListViewItem>();
 
@@ -68,20 +68,24 @@ public partial class FormHistory : ControllableForm
 
         listviewItems.Sort(new Comparison<ListViewItem>((item1, item2) => string.Compare(item1.Text, item2.Text)));
         foreach(var item in listviewItems) {
-            listViewFilterCountory.Items.Add(item.Text, item.Text, null);
+            listViewFilterCountry.Items.Add(item.Text, item.Text, null);
         }
 
-        listViewFilterCountory.EndUpdate();
+        listViewFilterCountry.EndUpdate();
     }
 
-    private void UpdatePlayersTabListView() => UpdateListViewPlayers(string.Empty, true, new List<string>());
-
-    private void UpdateListViewPlayers(string playerName, bool ignoreCase, List<string> countries)
+    private void UpdateListViewMatchedPlayers()
     {
-        var listViewItems = new List<ListViewItem>();
+        var listview = listViewMatchedPlayers;
+        var findPlayerName = textBoxFindName.Text;
+        var enable = checkBoxEnableCountryFilter.Checked;
+        var ignoreCase = checkBoxIgnoreCase.Checked;
 
-        listViewMatchedPlayers.BeginUpdate();
-        listViewMatchedPlayers.Items.Clear();
+        var listViewItems = new List<ListViewItem>();
+        var countries = GetCountryFilterList();
+
+        listview.BeginUpdate();
+        listview.Items.Clear();
 
         StringComparison stringComparison;
         if(ignoreCase) {
@@ -90,32 +94,35 @@ public partial class FormHistory : ControllableForm
             stringComparison = StringComparison.CurrentCulture;
         }
 
-        foreach(var player in Controler.MatchedPlayerInfos.Where(Predicate)) {
-            var listviewItem = new ListViewItem(player.Key);
-            listviewItem.SubItems.Add(player.Value.Country);
-            listviewItem.SubItems.Add(player.Value.RateRM1v1.ToString());
-            listviewItem.SubItems.Add(player.Value.RateRMTeam.ToString());
-            listviewItem.SubItems.Add(player.Value.GamesTeam.ToString());
-            listviewItem.SubItems.Add(player.Value.GamesAlly.ToString());
-            listviewItem.SubItems.Add(player.Value.GamesEnemy.ToString());
-            listviewItem.SubItems.Add(player.Value.Games1v1.ToString());
-            listviewItem.SubItems.Add(player.Value.LastDate.ToString());
+        foreach(var playerInfo in Controler.MatchedPlayerInfos.Where(Predicate)) {
+            var listviewItem = new ListViewItem(playerInfo.Value.Name);
+            listviewItem.SubItems.Add(playerInfo.Value.Country);
+            listviewItem.SubItems.Add(playerInfo.Value.RateRM1v1.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.RateRMTeam.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.GamesTeam.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.GamesAlly.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.GamesEnemy.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.Games1v1.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.LastDate.ToString());
+            listviewItem.Tag = playerInfo.Value;
             listViewItems.Add(listviewItem);
         }
 
         // When calling Add of ListViewItemCollection frequently in foreach etc.,
         // it takes too much time in the ListViewItemSorte, so AddRange is called once instead.
-        listViewMatchedPlayers.Items.AddRange(listViewItems.ToArray());
+        listview.Items.AddRange(listViewItems.ToArray());
 
-        listViewMatchedPlayers.EndUpdate();
+        listview.EndUpdate();
 
         // local function
-        bool Predicate(KeyValuePair<string, PlayerInfo> x)
+        bool Predicate(KeyValuePair<int?, PlayerInfo> x)
         {
             var ret = false;
 
-            if(x.Key.Contains(playerName, stringComparison)) {
-                if(countries.Count == 0 || countries.Contains(x.Value.Country)) {
+            if(x.Value.Name.Contains(findPlayerName, stringComparison)) {
+                if(enable == false
+                    || countries.Count == 0
+                    || countries.Contains(x.Value.Country)) {
                     ret = true;
                 }
             }
@@ -129,16 +136,17 @@ public partial class FormHistory : ControllableForm
         var selectedItems = listViewMatchedPlayers.SelectedItems;
 
         if(selectedItems.Count != 0) {
-            Controler.OpenProfile(selectedItems[0].Text);
+            var playerInfo = (PlayerInfo)selectedItems[0].Tag;
+            Controler.OpenProfile(playerInfo.ProfileId);
         }
     }
 
     private void OpenSelectedPlayerHistory()
     {
         var selectedItems = listViewMatchedPlayers.SelectedItems;
-
         if(selectedItems.Count != 0) {
-            var formHistory = Controler.GenerateFormHistory(selectedItems[0].Text);
+            var playerInfo = (PlayerInfo)selectedItems[0].Tag;
+            var formHistory = CtrlHistory.GenerateFormHistory(playerInfo.Name, playerInfo.ProfileId);
             formHistory.Show();
         }
     }
@@ -166,25 +174,26 @@ public partial class FormHistory : ControllableForm
             openAoE2NetProfileToolStripMenuItem.Visible = true;
         } else {
             e.Cancel = true;
-            listViewFilterCountory.Location = new Point(point.X - 5, point.Y - 5);
-            listViewFilterCountory.Width = (int)((listViewMatchedPlayers.Width - point.X) * 0.9);
-            listViewFilterCountory.Height = (int)(listViewFilterCountory.Width / 1.618);
-            listViewFilterCountory.Visible = true;
         }
+    }
+
+    private void ShowListviewFilterCountry(Point point)
+    {
+        listViewFilterCountry.Location = new Point(point.X - 5, point.Y - 5);
+        listViewFilterCountry.Width = (int)((listViewMatchedPlayers.Width - point.X) * 0.9);
+        listViewFilterCountry.Height = (int)(listViewFilterCountry.Width / 1.618);
+        listViewFilterCountry.Visible = true;
     }
 
     private void TextBoxFindName_TextChanged(object sender, EventArgs e)
     {
-        var textbox = (TextBox)sender;
-        UpdateListViewPlayers(textbox.Text, checkBoxIgnoreCase.Checked, GetCountryFilterList());
-
-        Awaiter.Complete();
+        UpdateListViewMatchedPlayers();
     }
 
     private List<string> GetCountryFilterList()
     {
         var list = new List<string>();
-        foreach(ListViewItem item in listViewFilterCountory.CheckedItems) {
+        foreach(ListViewItem item in listViewFilterCountry.CheckedItems) {
             list.Add(item.Text);
         }
 
@@ -197,20 +206,13 @@ public partial class FormHistory : ControllableForm
         // each item's checkboxes are initialized, and this handler is called.
         // But the player list does not need updating.
         if(e.Item.Focused) {
-            UpdateListViewPlayers(textBoxFindName.Text, checkBoxIgnoreCase.Checked, GetCountryFilterList());
+            UpdateListViewMatchedPlayers();
         }
     }
 
     private void CheckBoxIgnoreCase_CheckedChanged(object sender, EventArgs e)
     {
-        var checkBox = (CheckBox)sender;
-        UpdateListViewPlayers(textBoxFindName.Text, checkBox.Checked, GetCountryFilterList());
-    }
-
-    private void ListViewFilterCountory_MouseLeave(object sender, EventArgs e)
-    {
-        var listview = (ListView)sender;
-        listview.Visible = false;
+        UpdateListViewMatchedPlayers();
     }
 
     private void SplitContainerPlayers_DoubleClick(object sender, EventArgs e)
@@ -235,5 +237,10 @@ public partial class FormHistory : ControllableForm
     private void OpenAoE2NetProfileToolStripMenuItem_Click(object sender, EventArgs e)
     {
         OpenSelectedPlayerProfile();
+    }
+
+    private void CheckBoxEnableCountryFilter_CheckedChanged(object sender, EventArgs e)
+    {
+        UpdateListViewMatchedPlayers();
     }
 }

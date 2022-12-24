@@ -11,6 +11,7 @@ public static class TestData
     public const string AvailableUserProfileIdString = "1";
     public const string NotFoundUserProfileIdString = "-1";
     public const int AvailableUserProfileId = 1;
+    public const int UnavailableUserProfileId = -1;
     public const int AvailableUserProfileIdWithoutHistory = 101;
     public const int AvailableUserProfileIdWithoutSteamId = 100;
     public const string AvailableUserProfileIdWithoutSteamIdString = "100";

@@ -23,6 +23,10 @@ public partial class FormMainTests
         public Label labelErrText;
         public Label labelGameId;
         public Label labelAoE2DEActive;
+        public Label label1v1ColorP1;
+        public Label label1v1ColorP2;
+        public Label labelName1v1P1;
+        public Label labelName1v1P2;
         public ToolStripMenuItem updateToolStripMenuItem;
         public ContextMenuStrip contextMenuStripMain;
 
@@ -34,6 +38,10 @@ public partial class FormMainTests
             labelErrText = this.GetControl<Label>("labelErrText");
             labelGameId = this.GetControl<Label>("labelGameId");
             labelAoE2DEActive = this.GetControl<Label>("labelAoE2DEActive");
+            label1v1ColorP1 = this.GetControl<Label>("label1v1ColorP1");
+            label1v1ColorP2 = this.GetControl<Label>("label1v1ColorP2");
+            labelName1v1P1 = this.GetControl<Label>("labelName1v1P1");
+            labelName1v1P2 = this.GetControl<Label>("labelName1v1P2");
             updateToolStripMenuItem = this.GetControl<ToolStripMenuItem>("updateToolStripMenuItem");
             contextMenuStripMain = this.GetControl<ContextMenuStrip>("contextMenuStripMain");
 
@@ -117,7 +125,7 @@ public partial class FormMainTests
             this.Invoke("PictureBoxMap1v1_DoubleClick", sender, e);
         }
 
-        public async Task<Match> RedrawLastMatchAsync(int profileId)
+        public async Task<Match> RedrawLastMatchAsync(int? profileId)
         {
             return await this.Invoke<Task<Match>>("RedrawLastMatchAsync", profileId).ConfigureAwait(false);
         }

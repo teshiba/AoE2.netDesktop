@@ -66,7 +66,7 @@ public partial class FormHistory : ControllableForm
         if(await Controler.ReadPlayerMatchHistoryAsync()) {
             UpdateMatchesTabView();
             UpdateStatisticsTabGraph();
-            UpdatePlayersTabListView();
+            UpdateListViewMatchedPlayers();
             UpdatePlayersTabGraph();
             UpdatePlayersTabListViewFilterCountory();
         } else {
@@ -95,5 +95,23 @@ public partial class FormHistory : ControllableForm
     private void TabControlHistory_SelectedIndexChanged(object sender, EventArgs e)
     {
         Settings.Default.SelectedIndexTabControlHistory = tabControlHistory.SelectedIndex;
+    }
+
+    private void CheckBoxFilter_CheckedChanged(object sender, EventArgs e)
+    {
+        if(checkBoxSetFilter.Checked) {
+            checkBoxEnableCountryFilter.Checked = true;
+            var marginTop = (int)(listViewMatchedPlayers.Height * 0.05);
+            var marginLeft = (int)(listViewMatchedPlayers.Width * 0.05);
+            var point = new Point(marginLeft, marginTop);
+            ShowListviewFilterCountry(point);
+        } else {
+            listViewFilterCountry.Visible = false;
+        }
+    }
+
+    private void ListViewMatchedPlayers_Enter(object sender, EventArgs e)
+    {
+        checkBoxSetFilter.Checked = false;
     }
 }

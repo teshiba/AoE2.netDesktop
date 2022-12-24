@@ -1,54 +1,119 @@
 ﻿namespace AoE2NetDesktop.CtrlForm;
 
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// Player Informations.
 /// </summary>
 public class PlayerInfo
 {
-    /// <summary>
-    /// Gets or sets country Name.
-    /// </summary>
-    public string Country { get; set; }
+    private readonly int comparedProfileId;
 
     /// <summary>
-    /// Gets or sets profile ID.
+    /// Initializes a new instance of the <see cref="PlayerInfo"/> class.
     /// </summary>
-    public int? ProfileId { get; set; }
+    /// <param name="comparedProfileId">PlayerInfo compares this profileId.</param>
+    /// <param name="name">Player Name.</param>
+    /// <param name="profileId">profileId for this PlayerInfo.</param>
+    /// <param name="country">country Name for this PlayerInfo.</param>
+    public PlayerInfo(int? comparedProfileId, string name, int? profileId, string country)
+    {
+        Name = name;
+        Country = country;
+        ProfileId = profileId;
+        this.comparedProfileId = (int)comparedProfileId;
+    }
 
     /// <summary>
-    /// Gets or sets 1v1 Random map rate.
+    /// Initializes a new instance of the <see cref="PlayerInfo"/> class.
     /// </summary>
-    public int? RateRM1v1 { get; set; }
+    /// <param name="comparedProfileId">PlayerInfo compares this profileId.</param>
+    /// <param name="name">Player Name.</param>
+    /// <param name="profileId">profileId for this PlayerInfo.</param>
+    public PlayerInfo(int? comparedProfileId, string name, int? profileId)
+        : this(comparedProfileId, name, profileId, null)
+    {
+    }
 
     /// <summary>
-    /// Gets or sets team Random map rate.
+    /// Gets player name.
     /// </summary>
-    public int? RateRMTeam { get; set; }
+    public string Name { get; }
 
     /// <summary>
-    /// Gets or sets game count that player is ally.
+    /// Gets country name.
     /// </summary>
-    public int GamesAlly { get; set; }
+    public string Country { get; }
 
     /// <summary>
-    /// Gets or sets game count that player is enemy.
+    /// Gets profile ID.
     /// </summary>
-    public int GamesEnemy { get; set; }
+    public int? ProfileId { get; }
 
     /// <summary>
-    /// Gets or sets game count of 1v1 random map.
+    /// Gets 1v1 Random map rate.
     /// </summary>
-    public int Games1v1 { get; set; }
+    public int? RateRM1v1 => Matches
+        .FindLast(item => item.LeaderboardId == LeaderboardId.RM1v1)
+        ?.GetPlayer(ProfileId).Rating;
 
     /// <summary>
-    /// Gets or sets game count of team random map.
+    /// Gets team Random map rate.
     /// </summary>
-    public int GamesTeam { get; set; }
+    public int? RateRMTeam => Matches
+        .FindLast(item => item.LeaderboardId == LeaderboardId.RMTeam)
+        ?.GetPlayer(ProfileId).Rating;
 
     /// <summary>
-    /// Gets or sets last match date.
+    /// Gets game count that player is ally.
     /// </summary>
-    public DateTime LastDate { get; set; }
+    public int GamesAlly => Matches
+        .Where(item => item.LeaderboardId == LeaderboardId.RMTeam)
+        .Count(item => CompareDiplomacy(item, Diplomacy.Ally));
+
+    /// <summary>
+    /// Gets game count that player is enemy.
+    /// </summary>
+    public int GamesEnemy => Matches
+        .Where(item => item.LeaderboardId == LeaderboardId.RMTeam)
+        .Count(item => CompareDiplomacy(item, Diplomacy.Enemy));
+
+    /// <summary>
+    /// Gets game count of 1v1 random map.
+    /// </summary>
+    public int Games1v1 => Matches.Count(item => item.LeaderboardId == LeaderboardId.RM1v1);
+
+    /// <summary>
+    /// Gets game count of team random map.
+    /// </summary>
+    public int GamesTeam => Matches.Count(item => item.LeaderboardId == LeaderboardId.RMTeam);
+
+    /// <summary>
+    /// Gets last match date.
+    /// </summary>
+    public DateTime LastDate => Matches.Select(item => item.GetOpenedTime()).Max();
+
+    /// <summary>
+    /// Gets match history.
+    /// </summary>
+    public List<Match> Matches { get; } = new();
+
+    private bool CompareDiplomacy(Match item, Diplomacy diplomacy)
+    {
+        var comparedplayer = item.GetPlayer(comparedProfileId);
+        var player = item.GetPlayer(ProfileId);
+        var ret = false;
+
+        if(player != null) {
+            ret = comparedplayer.CheckDiplomacy(player) == diplomacy;
+        }
+
+        return ret;
+    }
 }

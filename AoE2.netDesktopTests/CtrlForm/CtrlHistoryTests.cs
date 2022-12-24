@@ -40,7 +40,7 @@ public class CtrlHistoryTests
             Started = 1,
             Players = new List<Player> {
                     new Player { Name = "me", ProfilId = ProfileId,   Color = 1 },
-                    new Player { Name = "p1", ProfilId = ProfileIdp1, Color = 2 },
+                    new Player { Name = "p1", ProfilId = ProfileIdp1, Color = 2, Rating = 4321 },
                 },
         },
         new Match() {
@@ -48,8 +48,28 @@ public class CtrlHistoryTests
             Started = 2,
             Players = new List<Player> {
                     new Player { Name = "me",  ProfilId = ProfileId,   Color = 3 },
-                    new Player { Name = "p2",  ProfilId = ProfileIdp2, Color = 2 },
+                    new Player { Name = "p2",  ProfilId = ProfileIdp2, Color = 2, Rating = 1234 },
                     new Player { Name = "p1",  ProfilId = ProfileIdp1, Color = 1 },
+                },
+        },
+        new Match() {
+            LeaderboardId = LeaderboardId.RMTeam,
+            Name = "same name",
+            Opened = 2,
+            Players = new List<Player> {
+                    new Player { Name = "me",  ProfilId = ProfileId,   Color = 3 },
+                    new Player { Name = "me",  ProfilId = ProfileIdp2, Color = 2, Rating = 1234 },
+                    new Player { Name = "p1",  ProfilId = ProfileIdp1, Color = 1 },
+                },
+        },
+        new Match() {
+            Name = "ProfilId NULL",
+            LeaderboardId = LeaderboardId.RMTeam,
+            Opened = 2,
+            Players = new List<Player> {
+                    new Player { Name = "me",  ProfilId = ProfileId,   Color = 3 },
+                    new Player { Name = "me",  ProfilId = null, Color = 2, Rating = 1234 },
+                    new Player { Name = "p1",  ProfilId = null, Color = 1 },
                 },
         },
     };
@@ -203,18 +223,22 @@ public class CtrlHistoryTests
         var actVal = testClass.CreateMatchedPlayersInfo(matches);
 
         // Assert
-        Assert.AreEqual(ProfileId + 1, actVal["p1"].ProfileId);
-        Assert.AreEqual(1, actVal["p1"].Games1v1);
-        Assert.AreEqual(1, actVal["p1"].GamesAlly);
-        Assert.AreEqual(0, actVal["p1"].GamesEnemy);
-        Assert.AreEqual(1, actVal["p1"].GamesTeam);
-        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal["p1"].LastDate);
-        Assert.AreEqual(ProfileId + 2, actVal["p2"].ProfileId);
-        Assert.AreEqual(0, actVal["p2"].Games1v1);
-        Assert.AreEqual(0, actVal["p2"].GamesAlly);
-        Assert.AreEqual(1, actVal["p2"].GamesEnemy);
-        Assert.AreEqual(1, actVal["p2"].GamesTeam);
-        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal["p2"].LastDate);
+        Assert.AreEqual(ProfileId + 1, actVal[ProfileId + 1].ProfileId);
+        Assert.AreEqual(1, actVal[ProfileId + 1].Games1v1);
+        Assert.AreEqual(2, actVal[ProfileId + 1].GamesAlly);
+        Assert.AreEqual(0, actVal[ProfileId + 1].GamesEnemy);
+        Assert.AreEqual(2, actVal[ProfileId + 1].GamesTeam);
+        Assert.AreEqual(4321, actVal[ProfileId + 1].RateRM1v1);
+        Assert.AreEqual(null, actVal[ProfileId + 1].RateRMTeam);
+        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal[ProfileId + 1].LastDate);
+        Assert.AreEqual(ProfileId + 2, actVal[ProfileIdp2].ProfileId);
+        Assert.AreEqual(0, actVal[ProfileIdp2].Games1v1);
+        Assert.AreEqual(0, actVal[ProfileIdp2].GamesAlly);
+        Assert.AreEqual(2, actVal[ProfileIdp2].GamesEnemy);
+        Assert.AreEqual(2, actVal[ProfileIdp2].GamesTeam);
+        Assert.AreEqual(null, actVal[ProfileIdp2].RateRM1v1);
+        Assert.AreEqual(1234, actVal[ProfileIdp2].RateRMTeam);
+        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal[ProfileIdp2].LastDate);
     }
 
     [TestMethod]
@@ -223,25 +247,94 @@ public class CtrlHistoryTests
         // Arrange
         matches[0].Players[1].Name = null;
         matches[1].Players[2].Name = null;
-        var expName = $"<Name null: ID: {ProfileIdp1} >";
+        var expId = ProfileIdp1;
 
         // Act
         var testClass = new CtrlHistory(ProfileId);
         var actVal = testClass.CreateMatchedPlayersInfo(matches);
 
         // Assert
-        Assert.AreEqual(ProfileId + 1, actVal[expName].ProfileId);
-        Assert.AreEqual(1, actVal[expName].Games1v1);
-        Assert.AreEqual(1, actVal[expName].GamesAlly);
-        Assert.AreEqual(0, actVal[expName].GamesEnemy);
-        Assert.AreEqual(1, actVal[expName].GamesTeam);
-        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal[expName].LastDate);
-        Assert.AreEqual(ProfileId + 2, actVal["p2"].ProfileId);
-        Assert.AreEqual(0, actVal["p2"].Games1v1);
-        Assert.AreEqual(0, actVal["p2"].GamesAlly);
-        Assert.AreEqual(1, actVal["p2"].GamesEnemy);
-        Assert.AreEqual(1, actVal["p2"].GamesTeam);
-        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal["p2"].LastDate);
+        Assert.AreEqual(ProfileId + 1, actVal[expId].ProfileId);
+        Assert.AreEqual(1, actVal[expId].Games1v1);
+        Assert.AreEqual(2, actVal[expId].GamesAlly);
+        Assert.AreEqual(0, actVal[expId].GamesEnemy);
+        Assert.AreEqual(2, actVal[expId].GamesTeam);
+        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal[expId].LastDate);
+        Assert.AreEqual(ProfileId + 2, actVal[ProfileIdp2].ProfileId);
+        Assert.AreEqual(0, actVal[ProfileIdp2].Games1v1);
+        Assert.AreEqual(0, actVal[ProfileIdp2].GamesAlly);
+        Assert.AreEqual(2, actVal[ProfileIdp2].GamesEnemy);
+        Assert.AreEqual(2, actVal[ProfileIdp2].GamesTeam);
+        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal[ProfileIdp2].LastDate);
+    }
+
+    [TestMethod]
+    public void CreateMatchedPlayersInfoTestNoData()
+    {
+        // Arrange
+        var noRankedMatche = new PlayerMatchHistory() {
+            new Match() {
+            LeaderboardId = LeaderboardId.Undefined,
+            Opened = 2,
+            Players = new List<Player> {
+                    new Player { Name = "me",  ProfilId = ProfileId,   Color = 3 },
+                    new Player { Name = "p2",  ProfilId = ProfileIdp2, Color = 2, Rating = 1234 },
+                    new Player { Name = "p1",  ProfilId = ProfileIdp1, Color = 1 },
+                },
+            },
+        };
+
+        // Act
+        var testClass = new CtrlHistory(ProfileId);
+        var actVal = testClass.CreateMatchedPlayersInfo(noRankedMatche);
+
+        // Assert
+        Assert.AreEqual(ProfileId + 1, actVal[ProfileIdp1].ProfileId);
+        Assert.AreEqual(0, actVal[ProfileIdp1].Games1v1);
+        Assert.AreEqual(0, actVal[ProfileIdp1].GamesAlly);
+        Assert.AreEqual(0, actVal[ProfileIdp1].GamesEnemy);
+        Assert.AreEqual(0, actVal[ProfileIdp1].GamesTeam);
+        Assert.AreEqual(null, actVal[ProfileIdp1].RateRM1v1);
+        Assert.AreEqual(null, actVal[ProfileIdp1].RateRMTeam);
+        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal[ProfileIdp1].LastDate);
+        Assert.AreEqual(ProfileId + 2, actVal[ProfileIdp2].ProfileId);
+        Assert.AreEqual(0, actVal[ProfileIdp2].Games1v1);
+        Assert.AreEqual(0, actVal[ProfileIdp2].GamesAlly);
+        Assert.AreEqual(0, actVal[ProfileIdp2].GamesEnemy);
+        Assert.AreEqual(0, actVal[ProfileIdp2].GamesTeam);
+        Assert.AreEqual(null, actVal[ProfileIdp2].RateRM1v1);
+        Assert.AreEqual(null, actVal[ProfileIdp2].RateRMTeam);
+        Assert.AreEqual(DateTimeExt.FromUnixTimeSeconds(2), actVal[ProfileIdp2].LastDate);
+    }
+
+    [TestMethod]
+    public void CreateMatchedPlayersInfoTestNoProfile()
+    {
+        // Arrange
+        var noRankedMatche = new PlayerMatchHistory() {
+            new Match() {
+            LeaderboardId = LeaderboardId.RM1v1,
+            Players = new List<Player> {
+                    new Player { Name = "me",  ProfilId = ProfileId,   Color = 1 },
+                    new Player { Name = "p2",  ProfilId = ProfileIdp2, Color = 2 },
+                },
+            },
+            new Match() {
+            LeaderboardId = LeaderboardId.RMTeam,
+            Players = new List<Player> {
+                    new Player { Name = "me",  ProfilId = ProfileId,   Color = 1 },
+                    new Player { Name = "p2",  ProfilId = ProfileIdp2, Color = 2 },
+                    new Player { Name = "p1",  ProfilId = ProfileIdp1, Color = 3 },
+                },
+            },
+        };
+
+        // Act
+        var testClass = new CtrlHistory(ProfileId + 3);
+        var actVal = testClass.CreateMatchedPlayersInfo(noRankedMatche);
+
+        // Assert
+        Assert.AreEqual(0, actVal.Count);
     }
 
     [TestMethod]
@@ -272,10 +365,11 @@ public class CtrlHistoryTests
         var playerName = "player1";
         var profileId = TestData.AvailableUserProfileId;
         var testClass = new CtrlHistory(profileId);
-        testClass.MatchedPlayerInfos.Add(playerName, new PlayerInfo() { ProfileId = profileId });
+        var playerInfo = new PlayerInfo(profileId, playerName, profileId);
+        testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
 
         // Act
-        var actVal = testClass.OpenProfile(playerName);
+        var actVal = testClass.OpenProfile(profileId);
 
         // Assert
         Assert.AreEqual(expVal, actVal);
@@ -285,6 +379,7 @@ public class CtrlHistoryTests
     public void OpenProfileTestWin32Exception()
     {
         // Arrange
+        var expVal = string.Empty;
         var testHttpClient = new TestHttpClient {
             SystemApi = new SystemApiStub(1) {
                 ForceWin32Exception = true,
@@ -293,20 +388,23 @@ public class CtrlHistoryTests
         AoE2net.ComClient = testHttpClient;
         var playerName = "player1";
         var profileId = TestData.AvailableUserProfileId;
-        var testClass = new CtrlHistory(TestData.AvailableUserProfileId);
-        testClass.MatchedPlayerInfos.Add(playerName, new PlayerInfo() { ProfileId = profileId });
+        var playerInfo = new PlayerInfo(profileId, playerName, profileId);
+        var testClass = new CtrlHistory(profileId);
+        testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
 
         // Act
-        testClass.OpenProfile("player1");
+        var actVal = testClass.OpenProfile(profileId);
 
         // Assert
         Assert.IsNull(testHttpClient.LastRequest);
+        Assert.AreEqual(expVal, actVal);
     }
 
     [TestMethod]
     public void OpenProfileTestException()
     {
         // Arrange
+        var expVal = string.Empty;
         var testHttpClient = new TestHttpClient {
             SystemApi = new SystemApiStub(1) {
                 ForceException = true,
@@ -315,31 +413,38 @@ public class CtrlHistoryTests
         AoE2net.ComClient = testHttpClient;
         var playerName = "player1";
         var profileId = TestData.AvailableUserProfileId;
-        var testClass = new CtrlHistory(TestData.AvailableUserProfileId);
-        testClass.MatchedPlayerInfos.Add(playerName, new PlayerInfo() { ProfileId = profileId });
+        var playerInfo = new PlayerInfo(profileId, playerName, profileId);
+        var testClass = new CtrlHistory(profileId);
+        testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
 
         // Act
-        testClass.OpenProfile("player1");
+        var actVal = testClass.OpenProfile(profileId);
 
         // Assert
         Assert.IsNull(testHttpClient.LastRequest);
+        Assert.AreEqual(expVal, actVal);
     }
 
     [TestMethod]
     public void OpenProfileTestUnavailablePlayer()
     {
         // Arrange
+        var expVal = string.Empty;
         var testHttpClient = new TestHttpClient();
         AoE2net.ComClient = testHttpClient;
-        var playerName = "UnavailablePlayer";
-        var testClass = new CtrlHistory(TestData.AvailableUserProfileId);
-        testClass.MatchedPlayerInfos.Add("player1", new PlayerInfo() { ProfileId = 1 });
+        var playerName = "player1";
+        var targetProfileId = TestData.UnavailableUserProfileId;
+        var profileId = TestData.AvailableUserProfileId;
+        var testClass = new CtrlHistory(profileId);
+        var playerInfo = new PlayerInfo(profileId, playerName, profileId);
+        testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
 
         // Act
-        testClass.OpenProfile(playerName);
+        var actVal = testClass.OpenProfile(targetProfileId);
 
         // Assert
         Assert.IsNull(testHttpClient.LastRequest);
+        Assert.AreEqual(expVal, actVal);
     }
 
     [TestMethod]
@@ -369,13 +474,12 @@ public class CtrlHistoryTests
         // Arrange
         var playerName = "AvailablePlayerName";
         var done = false;
-        var testClass = new CtrlHistory(TestData.AvailableUserProfileId);
-        var playerInfo = new PlayerInfo {
-            ProfileId = TestData.AvailableUserProfileId,
-        };
+        var profileId = TestData.AvailableUserProfileId;
+        var testClass = new CtrlHistory(profileId);
+        var playerInfo = new PlayerInfo(profileId, playerName, profileId);
 
-        testClass.MatchedPlayerInfos.Add(playerName, playerInfo);
-        var actVal = testClass.GenerateFormHistory(playerName);
+        testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
+        var actVal = testClass.GenerateFormHistory(profileId);
 
         actVal.Shown += async (sender, e) =>
         {
@@ -398,15 +502,15 @@ public class CtrlHistoryTests
     {
         // Arrange
         var playerName = "AvailablePlayerName";
-        var testClass = new CtrlHistory(TestData.AvailableUserProfileId);
-        var playerInfo = new PlayerInfo {
-            ProfileId = TestData.AvailableUserProfileId,
-        };
-
-        testClass.MatchedPlayerInfos.Add(playerName, playerInfo);
-        var actVal = testClass.GenerateFormHistory("UnavailablePlayerName");
+        var profileId = TestData.AvailableUserProfileId;
+        var testClass = new CtrlHistory(profileId);
+        var playerInfo = new PlayerInfo(profileId, playerName, profileId);
+        testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
 
         // Act
+        var actVal = testClass.GenerateFormHistory(TestData.UnavailableUserProfileId);
+
+        // Assert
         Assert.IsNull(actVal);
     }
 
@@ -415,13 +519,12 @@ public class CtrlHistoryTests
     {
         // Arrange
         var playerName = "AvailablePlayerName";
-        var testClass = new CtrlHistory(TestData.AvailableUserProfileId);
-        var playerInfo = new PlayerInfo {
-            ProfileId = null,
-        };
+        var profileId = TestData.AvailableUserProfileId;
+        var testClass = new CtrlHistory(profileId);
+        var playerInfo = new PlayerInfo(profileId, playerName, null);
 
-        testClass.MatchedPlayerInfos.Add(playerName, playerInfo);
-        var actVal = testClass.GenerateFormHistory(playerName);
+        testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
+        var actVal = testClass.GenerateFormHistory(profileId);
 
         // Act
         Assert.IsNull(actVal);
