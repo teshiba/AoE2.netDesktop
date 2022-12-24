@@ -73,10 +73,12 @@ public static class StringsExt
     {
         WaitInitTask();
 
-        string mapName = apiStrings.MapType.GetString(match.MapType);
+        string mapName;
 
-        if(enStrings.MapType.GetString(match.MapType) == "Custom") {
-            mapName = $"{match.Rms}";
+        if(match.Rms is not null) {
+            mapName = match.Rms;
+        } else {
+            mapName = apiStrings.MapType.GetString(match.MapType);
         }
 
         if(mapName == null) {

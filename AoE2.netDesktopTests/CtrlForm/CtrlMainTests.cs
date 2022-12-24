@@ -236,6 +236,32 @@ public class CtrlMainTests
     }
 
     [TestMethod]
+    [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
+    [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
+    public void GetMapNameTestEnableRMS()
+    {
+        // Arrange
+        AoE2net.ComClient = new TestHttpClient();
+        CtrlMain.SystemApi = new SystemApiStub(1);
+        var testClass = new CtrlMain();
+        string expVal = "RandomMapScript";
+        var match = new Match() {
+            MapType = 59,
+            Rms = expVal,
+        };
+
+        // Act
+        _ = Task.Run(
+            () => CtrlMain.InitAsync(Language.en))
+            .Result;
+
+        var actVal = match.GetMapName();
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
     [DataRow(0, "invalid civ:0")]
     [DataRow(1, "Britons")]
     [DataRow(40, "Dravidians")]
