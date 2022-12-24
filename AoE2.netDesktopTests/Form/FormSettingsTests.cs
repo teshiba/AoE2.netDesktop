@@ -516,31 +516,6 @@ public partial class FormSettingsTests
         Assert.IsTrue(done);
     }
 
-    [TestMethod]
-    public void ReloadProfileAsyncTestIdTypeNotSelected()
-    {
-        // Arrange
-        var testClass = new FormSettingsPrivate();
-        var done = false;
-
-        // Act
-        testClass.Shown += async (sender, e) =>
-        {
-            await testClass.Awaiter.WaitAsync("FormSettings_LoadAsync");
-            testClass.ReloadProfileAsync(IdType.NotSelected, TestData.AvailableUserProfileIdWithoutSteamIdString);
-            await testClass.Awaiter.WaitAsync("ReloadProfileAsync");
-
-            // CleanUp
-            testClass.Close();
-            done = true;
-        };
-
-        testClass.ShowDialog();
-
-        // Assert
-        Assert.IsTrue(done);
-    }
-
 #pragma warning restore VSTHRD101 // Avoid unsupported async delegates
 
     [TestMethod]
