@@ -52,6 +52,8 @@ public partial class FormMainTests
         AoE2net.ComClient = testHttpClient;
         var testClass = new FormMain(Language.en);
         testClass.ShowDialog();
+
+        testHttpClient.PlayerMatchHistoryUri = null;
     }
 
 #pragma warning disable VSTHRD101 // Avoid unsupported async delegates
@@ -92,7 +94,7 @@ public partial class FormMainTests
     {
         // Arrange
         var testClass = new FormMainPrivate();
-        testClass.httpClient.PlayerLastMatchUri = "playerLastMatchaoe2de1v1OddColor.json";
+        testClass.httpClient.PlayerMatchHistoryUri = "playerMatchHistoryaoe2de1v1OddColor.json";
         var expVal = string.Empty;
         var done = false;
 
@@ -104,8 +106,8 @@ public partial class FormMainTests
             // Assert
             Assert.AreEqual("1", testClass.label1v1ColorP1.Text);
             Assert.AreEqual("2", testClass.label1v1ColorP2.Text);
-            Assert.AreEqual("Player1", testClass.labelName1v1P1.Text);
-            Assert.AreEqual("Player2", testClass.labelName1v1P2.Text);
+            Assert.AreEqual("Player2", testClass.labelName1v1P1.Text);
+            Assert.AreEqual("Player100", testClass.labelName1v1P2.Text);
 
             testClass.Close();
 
@@ -118,7 +120,7 @@ public partial class FormMainTests
         Assert.IsTrue(done);
 
         // Cleanup
-        testClass.httpClient.PlayerLastMatchUri = null;
+        testClass.httpClient.PlayerMatchHistoryUri = null;
     }
 
     [TestMethod]
@@ -138,8 +140,8 @@ public partial class FormMainTests
             // Assert
             Assert.AreEqual("1", testClass.label1v1ColorP1.Text);
             Assert.AreEqual("2", testClass.label1v1ColorP2.Text);
-            Assert.AreEqual("Player2", testClass.labelName1v1P1.Text);
-            Assert.AreEqual("Player1", testClass.labelName1v1P2.Text);
+            Assert.AreEqual("Player100", testClass.labelName1v1P1.Text);
+            Assert.AreEqual("Player2", testClass.labelName1v1P2.Text);
 
             testClass.Close();
 
@@ -152,7 +154,7 @@ public partial class FormMainTests
         Assert.IsTrue(done);
 
         // Cleanup
-        testClass.httpClient.PlayerLastMatchUri = null;
+        testClass.httpClient.PlayerMatchHistoryUri = null;
     }
 
     [TestMethod]
@@ -358,7 +360,7 @@ public partial class FormMainTests
         Assert.IsTrue(done);
 
         // Cleanup
-        testClass.httpClient.PlayerLastMatchUri = null;
+        testClass.httpClient.PlayerMatchHistoryUri = null;
     }
 
     [TestMethod]
@@ -745,7 +747,7 @@ public partial class FormMainTests
         Assert.IsTrue(done);
 
         // Cleanup
-        testClass.httpClient.PlayerLastMatchUri = null;
+        testClass.httpClient.PlayerMatchHistoryUri = null;
     }
 
     [TestMethod]

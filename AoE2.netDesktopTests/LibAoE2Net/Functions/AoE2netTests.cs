@@ -257,14 +257,6 @@
         }
 
         [TestMethod]
-        public async Task GetPlayerLastMatchAsyncTestNullAsync()
-        {
-            // Assert
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                AoE2net.GetPlayerLastMatchAsync(null));
-        }
-
-        [TestMethod]
         public async Task GetPlayerRatingHistoryAsyncTestNullAsync()
         {
             // Assert

@@ -22,8 +22,6 @@ public class TestHttpClient : ComClient
 
     public bool ForceTaskCanceledException { get; set; }
 
-    public string PlayerLastMatchUri { get; set; }
-
     public string PlayerMatchHistoryUri { get; set; }
 
     public string LastRequest { get; set; }
@@ -53,6 +51,7 @@ public class TestHttpClient : ComClient
 
         var apiEndPoint = requestUri[..requestUri.IndexOf('?')];
         var ret = apiEndPoint switch {
+            "player/ratinghistory" => ReadPlayerRatingHistoryAsync(requestUri),
             "player/matches" => ReadGetPlayerMatchHistoryAsync(requestUri),
             "leaderboard" => ReadLeaderboardAsync(requestUri),
             "strings" => ReadStringsAsync(requestUri),
@@ -92,20 +91,6 @@ public class TestHttpClient : ComClient
         }
 
         return ret;
-    }
-
-    [Obsolete("This API is not supported.")]
-    private Task<string> ReadplayerLastMatchAsync(string requestUri)
-    {
-        var args = requestUri.Split('=', '&', '?');
-        var game = args[2];
-        var steamId = args[4];
-        var requestDataFileName = PlayerLastMatchUri ?? $"playerLastMatch{game}{steamId}.json";
-        string readUri = $"{TestData.Path}/{requestDataFileName}";
-
-        LastRequest = $"Read {readUri}";
-
-        return ReadTextFIleAsync(readUri);
     }
 
     private Task<string> ReadPlayerRatingHistoryAsync(string requestUri)

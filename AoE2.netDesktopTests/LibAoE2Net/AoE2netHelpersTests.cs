@@ -14,6 +14,7 @@
     using AoE2NetDesktopTests.TestData;
     using AoE2NetDesktopTests.TestUtility;
 
+    using Microsoft.VisualStudio.TestPlatform.ObjectModel;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -45,9 +46,10 @@
         public void GetPlayerLastMatchAsyncTestInvalidLeaderboardId()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient() {
+            var testHttpClient = new TestHttpClient() {
                 PlayerMatchHistoryUri = "playerMatchHistoryaoe2deInvalidLeaderboardId.json",
             };
+            AoE2net.ComClient = testHttpClient;
 
             // Act
             var actVal = Task.Run(
@@ -56,6 +58,9 @@
 
             // Assert
             Assert.AreEqual(null, actVal.LastMatch.Players[1].Name);
+
+            // Cleanup
+            testHttpClient.PlayerMatchHistoryUri = null;
         }
 
         [TestMethod]
@@ -64,9 +69,10 @@
         public void GetPlayerLastMatchAsyncTestWithAIPlayer()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient() {
+            var testHttpClient = new TestHttpClient() {
                 PlayerMatchHistoryUri = "playerMatchHistoryaoe2deAIPlayer.json",
             };
+            AoE2net.ComClient = testHttpClient;
 
             // Act
             var actVal = Task.Run(
@@ -75,6 +81,9 @@
 
             // Assert
             Assert.AreEqual("A.I.", actVal.LastMatch.Players[1].Name);
+
+            // Cleanup
+            testHttpClient.PlayerMatchHistoryUri = null;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////
