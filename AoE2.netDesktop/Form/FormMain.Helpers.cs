@@ -578,10 +578,16 @@ public partial class FormMain : ControllableForm
         if(!isDrawing) {
             isDrawing = true;
             updateToolStripMenuItem.Enabled = false;
-            while(requestMatchView != currentMatchView && requestMatchView != 0) {
+            while(requestMatchView != currentMatchView) {
+                if(requestMatchView == 0) {
+                    labelMatchNo.Text = $"Loading last match...";
+                } else {
+                    labelMatchNo.Text = $"Loading {requestMatchView} match ago...";
+                }
+
                 displayStatus = DisplayStatus.RedrawingPrevMatch;
-                labelMatchNo.Text = $"Loading {requestMatchView} match ago...";
                 progressBar.Restart();
+
                 var drawingMatchNo = requestMatchView;
 
                 try {
