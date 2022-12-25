@@ -5,6 +5,7 @@ using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.SysApi;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 /// <summary>
@@ -75,21 +76,62 @@ public static class MatchExt
             throw new ArgumentNullException(nameof(match));
         }
 
-        var player = match.Players.Where(team.SelectTeam()).First();
-
         MatchResult ret;
+
         if(match.Started != null) {
-            if(match.Finished == null) {
-                ret = MatchResult.InProgress;
-            } else {
-                ret = player.Won switch {
-                    true => MatchResult.Victorious,
-                    false => MatchResult.Defeated,
-                    _ => MatchResult.Unknown,
-                };
-            }
+            ret = GetMatchResultWithRatingChange(match, team);
         } else {
             ret = MatchResult.NotStarted;
+        }
+
+        return ret;
+    }
+
+    /// <summary>
+    /// Gets whether someone has a rating change value.
+    /// </summary>
+    /// <param name="match">match.</param>
+    /// <param name="team">Team type.</param>
+    /// <returns>true: someone has rating change.</returns>
+    private static MatchResult GetMatchResultWithRatingChange(Match match, TeamType team)
+    {
+        var ret = MatchResult.InProgress;
+        var players = match.Players.Where(player => !string.IsNullOrEmpty(player.RatingChange));
+
+        if(match.Finished != null) {
+            ret = MatchResult.Finished;
+        }
+
+        foreach(Player player in players) {
+            if(player.RatingChange.Contains('-')) {
+                if(player.IsOddColor()) {
+                    if(team == TeamType.OddColorNo) {
+                        ret = MatchResult.Defeated;
+                    } else {
+                        ret = MatchResult.Victorious;
+                    }
+                } else {
+                    if(team == TeamType.OddColorNo) {
+                        ret = MatchResult.Victorious;
+                    } else {
+                        ret = MatchResult.Defeated;
+                    }
+                }
+            } else {
+                if(player.IsOddColor()) {
+                    if(team == TeamType.OddColorNo) {
+                        ret = MatchResult.Victorious;
+                    } else {
+                        ret = MatchResult.Defeated;
+                    }
+                } else {
+                    if(team == TeamType.OddColorNo) {
+                        ret = MatchResult.Defeated;
+                    } else {
+                        ret = MatchResult.Victorious;
+                    }
+                }
+            }
         }
 
         return ret;

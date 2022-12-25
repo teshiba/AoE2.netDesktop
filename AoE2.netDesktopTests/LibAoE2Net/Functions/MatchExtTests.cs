@@ -90,9 +90,9 @@ public class MatchExtTests
     [DataRow(1234L, 4321L, false, TeamType.OddColorNo, MatchResult.Defeated)]
     [DataRow(1234L, 4321L, false, TeamType.EvenColorNo, MatchResult.Victorious)]
 
-    // Unknown
-    [DataRow(1234L, 4321L, null, TeamType.OddColorNo, MatchResult.Unknown)]
-    [DataRow(1234L, 4321L, null, TeamType.EvenColorNo, MatchResult.Unknown)]
+    // Finished
+    [DataRow(1234L, 4321L, null, TeamType.OddColorNo, MatchResult.Finished)]
+    [DataRow(1234L, 4321L, null, TeamType.EvenColorNo, MatchResult.Finished)]
 
     // InProgress
     [DataRow(1234L, null, true, TeamType.OddColorNo, MatchResult.InProgress)]
@@ -116,8 +116,8 @@ public class MatchExtTests
             Started = started,
             Finished = finished,
             Players = new List<Player> {
-                new Player { Won = oddPlayerWon, Color = 1 },
-                new Player { Won = !oddPlayerWon, Color = 2 },
+                new Player { Won = oddPlayerWon, Color = 1, RatingChange = oddPlayerWon ?? false ? "123" : string.Empty },
+                new Player { Won = !oddPlayerWon, Color = 2, RatingChange = !oddPlayerWon ?? false ? "123" : string.Empty },
             },
         };
 

@@ -1158,9 +1158,9 @@
             // 
             this.labelGameId1v1.BackColor = System.Drawing.SystemColors.Control;
             this.labelGameId1v1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.labelGameId1v1.Location = new System.Drawing.Point(253, 242);
+            this.labelGameId1v1.Location = new System.Drawing.Point(246, 242);
             this.labelGameId1v1.Name = "labelGameId1v1";
-            this.labelGameId1v1.Size = new System.Drawing.Size(184, 21);
+            this.labelGameId1v1.Size = new System.Drawing.Size(138, 21);
             this.labelGameId1v1.TabIndex = 9;
             this.labelGameId1v1.Text = "GameID : 88888888";
             this.labelGameId1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1170,7 +1170,7 @@
             // labelServer1v1
             // 
             this.labelServer1v1.BackColor = System.Drawing.SystemColors.Control;
-            this.labelServer1v1.Location = new System.Drawing.Point(443, 242);
+            this.labelServer1v1.Location = new System.Drawing.Point(449, 242);
             this.labelServer1v1.Name = "labelServer1v1";
             this.labelServer1v1.Size = new System.Drawing.Size(158, 21);
             this.labelServer1v1.TabIndex = 2;

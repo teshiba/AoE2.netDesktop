@@ -387,12 +387,27 @@ public partial class FormMain : ControllableForm
         labelServer.Text = $"Server : {match.Server}";
         labelAveRate1.Text = $"Team1 Ave. Rate:{aveTeam1}";
         labelAveRate2.Text = $"Team2 Ave. Rate:{aveTeam2}";
-        labelMatchResultTeam1.Text = match.GetMatchResult(TeamType.OddColorNo).ToString();
-        labelMatchResultTeam1.Tag = match.GetMatchResult(TeamType.OddColorNo);
-        labelMatchResultTeam2.Text = match.GetMatchResult(TeamType.EvenColorNo).ToString();
-        labelMatchResultTeam2.Tag = match.GetMatchResult(TeamType.EvenColorNo);
+
         labelStartTimeTeam.Text = CtrlMain.GetOpenedTimeString(match);
-        labelElapsedTimeTeam.Text = CtrlMain.GetElapsedTimeString(match);
+
+
+        if(match.Finished is null && requestMatchView != 0) {
+            labelMatchResultTeam1.Text = MatchResult.Finished.ToString();
+            labelMatchResultTeam1.Tag = MatchResult.Finished;
+            labelMatchResultTeam2.Text = MatchResult.Finished.ToString();
+            labelMatchResultTeam2.Tag = MatchResult.Finished;
+        } else {
+            labelMatchResultTeam1.Text = match.GetMatchResult(TeamType.OddColorNo).ToString();
+            labelMatchResultTeam1.Tag = match.GetMatchResult(TeamType.OddColorNo);
+            labelMatchResultTeam2.Text = match.GetMatchResult(TeamType.EvenColorNo).ToString();
+            labelMatchResultTeam2.Tag = match.GetMatchResult(TeamType.EvenColorNo);
+        }
+
+        if(match.Finished is null && requestMatchView != 0) {
+            labelElapsedTimeTeam.Text = DateTimeExt.InvalidTime;
+        } else {
+            labelElapsedTimeTeam.Text = CtrlMain.GetElapsedTimeString(match);
+        }
     }
 
     private void SetMatchData1v1(Match match, string specificMatchId, int? prevMatchNo)
@@ -408,12 +423,26 @@ public partial class FormMain : ControllableForm
         pictureBoxMap1v1.Image = CtrlMain.LoadMapIcon(match.MapType);
         labelMap1v1.Text = match.GetMapName();
         labelServer1v1.Text = $"Server : {match.Server}";
-        labelMatchResult1v1p1.Text = match.GetMatchResult(TeamType.OddColorNo).ToString();
-        labelMatchResult1v1p1.Tag = match.GetMatchResult(TeamType.OddColorNo);
-        labelMatchResult1v1p2.Text = match.GetMatchResult(TeamType.EvenColorNo).ToString();
-        labelMatchResult1v1p2.Tag = match.GetMatchResult(TeamType.EvenColorNo);
+
         labelStartTime1v1.Text = CtrlMain.GetOpenedTimeString(match);
-        labelElapsedTime1v1.Text = CtrlMain.GetElapsedTimeString(match);
+
+        if(match.Finished is null && requestMatchView != 0) {
+            labelMatchResult1v1p1.Text = MatchResult.Finished.ToString();
+            labelMatchResult1v1p1.Tag = MatchResult.Finished;
+            labelMatchResult1v1p2.Text = MatchResult.Finished.ToString();
+            labelMatchResult1v1p2.Tag = MatchResult.Finished;
+        } else {
+            labelMatchResult1v1p1.Text = match.GetMatchResult(TeamType.OddColorNo).ToString();
+            labelMatchResult1v1p1.Tag = match.GetMatchResult(TeamType.OddColorNo);
+            labelMatchResult1v1p2.Text = match.GetMatchResult(TeamType.EvenColorNo).ToString();
+            labelMatchResult1v1p2.Tag = match.GetMatchResult(TeamType.EvenColorNo);
+        }
+
+        if(match.Finished is null && requestMatchView != 0) {
+            labelElapsedTime1v1.Text = DateTimeExt.InvalidTime;
+        } else {
+            labelElapsedTime1v1.Text = CtrlMain.GetElapsedTimeString(match);
+        }
     }
 
     private void SetLeaderboardData1v1P1(Leaderboard player1)
@@ -565,7 +594,11 @@ public partial class FormMain : ControllableForm
             }
 
             CtrlMain.DisplayedMatch = match;
-            GameTimer.Start();
+            if(requestMatchView == 0) {
+                GameTimer.Start();
+            } else {
+                GameTimer.Stop();
+            }
         }
 
         return ret;
