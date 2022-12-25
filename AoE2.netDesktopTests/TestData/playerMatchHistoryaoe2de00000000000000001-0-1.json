@@ -26,7 +26,7 @@
     "resources": 1,
     "rms": null,
     "scenario": null,
-    "server": "playerMatchHistoryaoe2de1data1",
+    "server": "playerMatchHistoryaoe2de00000000000000001-0-1",
     "shared_exploration": false,
     "speed": 2,
     "starting_age": 2,
@@ -42,7 +42,7 @@
     "finished": 1643808142,
     "players": [
       {
-        "profile_id": 1,
+        "profile_id": 100,
         "steam_id": "00000000000000001",
         "name": "Player1",
         "clan": null,

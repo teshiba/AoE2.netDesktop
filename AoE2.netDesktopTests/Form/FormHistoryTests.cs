@@ -29,6 +29,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -51,6 +53,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -73,6 +77,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -95,6 +101,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -116,6 +124,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -140,6 +150,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -161,6 +173,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -185,6 +199,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -208,6 +224,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -228,6 +246,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -248,6 +268,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -268,6 +290,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -295,6 +319,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
         Assert.AreEqual(expFindCount, actVal.Count);
     }
@@ -318,6 +344,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -343,6 +371,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -369,6 +399,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 #pragma warning restore VSTHRD101 // Avoid unsupported async delegates
