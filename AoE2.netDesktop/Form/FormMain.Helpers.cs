@@ -506,7 +506,7 @@ public partial class FormMain : ControllableForm
             ret = CtrlMain.DisplayedMatch?.Finished == null;
         }
 
-        Awaiter.Complete();
+        Awaiter.Complete(enableDebugPrint: false);
         return ret;
     }
 

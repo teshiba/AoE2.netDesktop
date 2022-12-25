@@ -19,13 +19,24 @@ public class AsyncMethodAwaiter
     /// </summary>
     /// <param name="methodName">Completed method name.</param>
     public void Complete([CallerMemberName] string methodName = null)
+        => Complete(true, methodName);
+
+    /// <summary>
+    /// Notify the completion of the method.
+    /// </summary>
+    /// <param name="enableDebugPrint">Whether Debug.Print enable.</param>
+    /// <param name="methodName">Completed method name.</param>
+    public void Complete(bool enableDebugPrint, [CallerMemberName] string methodName = null)
     {
         lock(lockObject) {
             if(!IsInitState(methodName)) {
                 state[methodName] = new ManualResetEvent(false);
             }
 
+            if(enableDebugPrint) {
             Debug.Print($"Set {methodName}");
+            }
+
             state[methodName].Set();
         }
     }
