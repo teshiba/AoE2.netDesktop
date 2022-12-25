@@ -42,6 +42,7 @@ public class CtrlMain : FormControler
         { InProgress, new BorderedStringStyle(18, Color.Black, Color.SlateGray) },
         { Unknown, new BorderedStringStyle(18, Color.Black, Color.DimGray) },
         { NotStarted, new BorderedStringStyle(18, Color.Black, Color.DarkGray) },
+        { Finished, new BorderedStringStyle(18, Color.Black, Color.DarkGray) },
         { MatchNo, new BorderedStringStyle(14, Color.Black, Color.LightGoldenrodYellow) },
     };
 
@@ -212,6 +213,7 @@ public class CtrlMain : FormControler
             MatchResult.InProgress => BorderStyles[InProgress],
             MatchResult.Unknown => BorderStyles[Unknown],
             MatchResult.NotStarted => BorderStyles[NotStarted],
+            MatchResult.Finished => BorderStyles[Finished],
             _ => null,
         };
         return ret;

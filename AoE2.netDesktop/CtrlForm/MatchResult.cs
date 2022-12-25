@@ -29,5 +29,10 @@
         /// Not started.
         /// </summary>
         NotStarted,
+
+        /// <summary>
+        /// match was finished but unknown result.
+        /// </summary>
+        Finished,
     }
 }

@@ -101,6 +101,11 @@ public enum LabelType
     NotStarted,
 
     /// <summary>
+    /// Finished.
+    /// </summary>
+    Finished,
+
+    /// <summary>
     /// MatchNo.
     /// </summary>
     MatchNo,
