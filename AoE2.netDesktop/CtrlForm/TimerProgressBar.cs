@@ -74,7 +74,7 @@ public class TimerProgressBar
     {
         progressBar.Invoke(() =>
         {
-            progressBar.Visible = true;
+            progressBar.Visible = timer.Enabled;
             if(progressBar.Value < progressBar.Maximum) {
                 progressBar.Value++;
             }
