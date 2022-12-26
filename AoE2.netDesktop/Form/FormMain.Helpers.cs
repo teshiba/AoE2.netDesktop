@@ -390,7 +390,6 @@ public partial class FormMain : ControllableForm
 
         labelStartTimeTeam.Text = CtrlMain.GetOpenedTimeString(match);
 
-
         if(match.Finished is null && requestMatchView != 0) {
             labelMatchResultTeam1.Text = MatchResult.Finished.ToString();
             labelMatchResultTeam1.Tag = MatchResult.Finished;

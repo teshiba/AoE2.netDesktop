@@ -85,39 +85,81 @@ public class MatchExtTests
     }
 
     [TestMethod]
-    [DataRow(1234L, 4321L, true, TeamType.OddColorNo, MatchResult.Victorious)]
-    [DataRow(1234L, 4321L, true, TeamType.EvenColorNo, MatchResult.Defeated)]
-    [DataRow(1234L, 4321L, false, TeamType.OddColorNo, MatchResult.Defeated)]
-    [DataRow(1234L, 4321L, false, TeamType.EvenColorNo, MatchResult.Victorious)]
 
     // Finished
+    [DataRow(1234L, 4321L, "123", TeamType.OddColorNo, MatchResult.Victorious)]
+    [DataRow(1234L, 4321L, "123", TeamType.EvenColorNo, MatchResult.Defeated)]
+    [DataRow(1234L, 4321L, "-123", TeamType.OddColorNo, MatchResult.Defeated)]
+    [DataRow(1234L, 4321L, "-123", TeamType.EvenColorNo, MatchResult.Victorious)]
+
+    // Finished is null but rating change is not null
+    [DataRow(1234L, null, "123", TeamType.OddColorNo, MatchResult.Victorious)]
+    [DataRow(1234L, null, "123", TeamType.EvenColorNo, MatchResult.Defeated)]
+    [DataRow(1234L, null, "-123", TeamType.OddColorNo, MatchResult.Defeated)]
+    [DataRow(1234L, null, "-123", TeamType.EvenColorNo, MatchResult.Victorious)]
+
+    // Finished but unknown rating change
     [DataRow(1234L, 4321L, null, TeamType.OddColorNo, MatchResult.Finished)]
     [DataRow(1234L, 4321L, null, TeamType.EvenColorNo, MatchResult.Finished)]
 
     // InProgress
-    [DataRow(1234L, null, true, TeamType.OddColorNo, MatchResult.InProgress)]
-    [DataRow(1234L, null, true, TeamType.EvenColorNo, MatchResult.InProgress)]
-    [DataRow(1234L, null, false, TeamType.OddColorNo, MatchResult.InProgress)]
-    [DataRow(1234L, null, false, TeamType.EvenColorNo, MatchResult.InProgress)]
     [DataRow(1234L, null, null, TeamType.OddColorNo, MatchResult.InProgress)]
     [DataRow(1234L, null, null, TeamType.EvenColorNo, MatchResult.InProgress)]
 
     // NotStarted
-    [DataRow(null, null, true, TeamType.OddColorNo, MatchResult.NotStarted)]
-    [DataRow(null, null, true, TeamType.EvenColorNo, MatchResult.NotStarted)]
-    [DataRow(null, null, false, TeamType.OddColorNo, MatchResult.NotStarted)]
-    [DataRow(null, null, false, TeamType.EvenColorNo, MatchResult.NotStarted)]
+    [DataRow(null, null, "123", TeamType.OddColorNo, MatchResult.NotStarted)]
+    [DataRow(null, null, "123", TeamType.EvenColorNo, MatchResult.NotStarted)]
+    [DataRow(null, null, "-123", TeamType.OddColorNo, MatchResult.NotStarted)]
+    [DataRow(null, null, "-123", TeamType.EvenColorNo, MatchResult.NotStarted)]
     [DataRow(null, null, null, TeamType.OddColorNo, MatchResult.NotStarted)]
     [DataRow(null, null, null, TeamType.EvenColorNo, MatchResult.NotStarted)]
-    public void GetMatchResultTest(long? started, long? finished, bool? oddPlayerWon, TeamType teamType, MatchResult expVal)
+    public void GetMatchResultTest(long? started, long? finished, string oddPlayerRatingChange, TeamType teamType, MatchResult expVal)
     {
         // Arrange
         var testClass = new Match {
             Started = started,
             Finished = finished,
             Players = new List<Player> {
-                new Player { Won = oddPlayerWon, Color = 1, RatingChange = oddPlayerWon ?? false ? "123" : string.Empty },
-                new Player { Won = !oddPlayerWon, Color = 2, RatingChange = !oddPlayerWon ?? false ? "123" : string.Empty },
+                new Player { Color = 1, RatingChange = oddPlayerRatingChange },
+                new Player { Color = 2, RatingChange = null },
+            },
+        };
+
+        // Act
+        var actVal = testClass.GetMatchResult(teamType);
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+
+    // Finished
+    [DataRow(1234L, 4321L, "123", TeamType.OddColorNo, MatchResult.Defeated)]
+    [DataRow(1234L, 4321L, "123", TeamType.EvenColorNo, MatchResult.Victorious)]
+    [DataRow(1234L, 4321L, "-123", TeamType.OddColorNo, MatchResult.Victorious)]
+    [DataRow(1234L, 4321L, "-123", TeamType.EvenColorNo, MatchResult.Defeated)]
+
+    // Finished is null but rating change is not null
+    [DataRow(1234L, null, "123", TeamType.OddColorNo, MatchResult.Defeated)]
+    [DataRow(1234L, null, "123", TeamType.EvenColorNo, MatchResult.Victorious)]
+    [DataRow(1234L, null, "-123", TeamType.OddColorNo, MatchResult.Victorious)]
+    [DataRow(1234L, null, "-123", TeamType.EvenColorNo, MatchResult.Defeated)]
+
+    // NotStarted
+    [DataRow(null, null, "123", TeamType.OddColorNo, MatchResult.NotStarted)]
+    [DataRow(null, null, "123", TeamType.EvenColorNo, MatchResult.NotStarted)]
+    [DataRow(null, null, "-123", TeamType.OddColorNo, MatchResult.NotStarted)]
+    [DataRow(null, null, "-123", TeamType.EvenColorNo, MatchResult.NotStarted)]
+    public void GetMatchResultTestEvenTeam(long? started, long? finished, string evenPlayerRatingChange, TeamType teamType, MatchResult expVal)
+    {
+        // Arrange
+        var testClass = new Match {
+            Started = started,
+            Finished = finished,
+            Players = new List<Player> {
+                new Player { Color = 1, RatingChange = null },
+                new Player { Color = 2, RatingChange = evenPlayerRatingChange },
             },
         };
 

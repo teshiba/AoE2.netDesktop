@@ -55,38 +55,6 @@ public static class AoE2net
     }
 
     /// <summary>
-    /// Gets Player Last Match.
-    /// Request the last match the player started playing, this will be the current match if they are still in game.
-    /// </summary>
-    /// <param name="profileId">Profile ID.</param>
-    /// <returns><see cref="PlayerLastmatch"/> deserialized as JSON.</returns>
-    [Obsolete("This API is not supported.")]
-    public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(int profileId)
-    {
-        var apiEndPoint = $"player/lastmatch?game={AoE2Version}&profile_id={profileId}";
-
-        return await ComClient.GetFromJsonAsync<PlayerLastmatch>(apiEndPoint).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Gets Player Last Match.
-    /// Request the last match the player started playing, this will be the current match if they are still in game.
-    /// </summary>
-    /// <param name="steamId">steamID64.</param>
-    /// <returns><see cref="PlayerLastmatch"/> deserialized as JSON.</returns>
-    [Obsolete("This API is not supported.")]
-    public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(string steamId)
-    {
-        if(steamId is null) {
-            throw new ArgumentNullException(nameof(steamId));
-        }
-
-        var apiEndPoint = $"player/lastmatch?game={AoE2Version}&steam_id={steamId}";
-
-        return await ComClient.GetFromJsonAsync<PlayerLastmatch>(apiEndPoint).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Gets Player Rating History.
     /// Request the rating history for a player.
     /// </summary>

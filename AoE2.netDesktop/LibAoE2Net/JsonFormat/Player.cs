@@ -50,7 +50,15 @@ public class Player
 
     public override string ToString()
     {
-        var ratingChange = (!RatingChange?.Contains('-') ?? false ? '+' : string.Empty) + RatingChange;
+        var ratingChange = string.Empty;
+
+        if(RatingChange is not null) {
+            if(RatingChange.Contains('-')) {
+                ratingChange = string.Empty + RatingChange;
+            } else {
+                ratingChange = '+' + RatingChange;
+            }
+        }
 
         return $"[{Color}]{Name}(R:{Rating}{ratingChange}) ID:{ProfilId}";
     }

@@ -20,6 +20,11 @@ public class AoE2DeApp
     public const string ProcessName = "AoE2DE_s";
 
     /// <summary>
+    ///  time rate in the game.
+    /// </summary>
+    public const double TimeRateInGame = 1.7;
+
+    /// <summary>
     /// AoE2DE Max Player Number.
     /// </summary>
     public const int PlayerNumMax = 8;

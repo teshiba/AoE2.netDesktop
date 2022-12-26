@@ -20,8 +20,6 @@ using static LabelType;
 /// </summary>
 public class CtrlMain : FormControler
 {
-    private const double TimeRateInGame = 1.7;
-
     /// <summary>
     ///  Bordered string styles.
     /// </summary>
@@ -178,7 +176,7 @@ public class CtrlMain : FormControler
 
         if(match != null) {
             var realTime = match.GetElapsedTime().ToString(@"h\:mm\:ss");
-            var inGameTime = new TimeSpan((long)(match.GetElapsedTime().Ticks * TimeRateInGame)).ToString(@"h\:mm\:ss");
+            var inGameTime = new TimeSpan((long)(match.GetElapsedTime().Ticks * AoE2DeApp.TimeRateInGame)).ToString(@"h\:mm\:ss");
             ret = $"{realTime} ({inGameTime} in game)";
         }
 
