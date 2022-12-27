@@ -1,10 +1,10 @@
 ﻿namespace AoE2NetDesktopTests.TestUtility;
-using AoE2NetDesktop.Utility.SysApi;
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+
+using AoE2NetDesktop.Utility.SysApi;
 
 /// <summary>
 /// System API stub class.

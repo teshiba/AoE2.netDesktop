@@ -34,7 +34,7 @@ public class AsyncMethodAwaiter
             }
 
             if(enableDebugPrint) {
-            Debug.Print($"Set {methodName}");
+                Debug.Print($"Set {methodName}");
             }
 
             state[methodName].Set();
@@ -64,7 +64,5 @@ public class AsyncMethodAwaiter
     }
 
     private bool IsInitState(string methodName)
-    {
-        return state.TryGetValue(methodName, out _);
-    }
+        => state.TryGetValue(methodName, out _);
 }

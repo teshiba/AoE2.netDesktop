@@ -1,14 +1,14 @@
 ﻿namespace AoE2NetDesktop.Form;
 
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+
 using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.PlotEx;
 using AoE2NetDesktop.Utility.Forms;
-
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 /// <summary>
 /// Matches Tab of FormHistory class.
@@ -88,23 +88,17 @@ public partial class FormHistory : ControllableForm
     }
 
     private LeaderboardId GetSelectedLeaderboard()
-    {
-        return SelectedLeaderboard;
-    }
+        => SelectedLeaderboard;
 
     private void UpdateMatchesTabGraph(LeaderboardId selectedLeaderboard)
-    {
-        WinRateStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, selectedLeaderboard, SelectedDataSource);
-    }
+        => WinRateStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, selectedLeaderboard, SelectedDataSource);
 
     ///////////////////////////////////////////////////////////////////////
     // event handlers
     ///////////////////////////////////////////////////////////////////////
 
     private void ListViewMatchHistory_ColumnClick(object sender, ColumnClickEventArgs e)
-    {
-        SortByColumn((ListView)sender, e);
-    }
+        => SortByColumn((ListView)sender, e);
 
     private void ComboBoxLeaderboard_SelectedIndexChanged(object sender, EventArgs e)
     {

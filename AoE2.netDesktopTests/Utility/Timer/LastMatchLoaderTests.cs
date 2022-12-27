@@ -1,14 +1,14 @@
 ﻿namespace AoE2NetDesktop.Utility.Timer.Tests;
 
-using AoE2NetDesktop.Utility;
-using AoE2NetDesktop.Utility.Timer;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
+
+using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.Timer;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public class LastMatchLoaderTests

@@ -1,5 +1,8 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
+using System;
+using System.Collections.Generic;
+
 using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
@@ -10,9 +13,6 @@ using AoE2NetDesktopTests.TestData;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ScottPlot;
-
-using System;
-using System.Collections.Generic;
 
 [TestClass]
 public class WinRatePlotTests

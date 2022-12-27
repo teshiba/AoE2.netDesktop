@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop.Form;
+﻿namespace AoE2NetDesktop.CtrlForm;
 
 /// <summary>
 /// FormMain DisplayStatus.

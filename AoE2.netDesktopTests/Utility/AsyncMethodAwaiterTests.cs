@@ -124,7 +124,5 @@ public class AsyncMethodAwaiterTests
     }
 
     private Task RunWaitAsync()
-    {
-        return Task.Run(() => testClass.WaitAsync(MethodName));
-    }
+        => Task.Run(() => testClass.WaitAsync(MethodName));
 }

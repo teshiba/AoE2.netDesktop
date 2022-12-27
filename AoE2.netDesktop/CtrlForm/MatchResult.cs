@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop
+﻿namespace AoE2NetDesktop.CtrlForm
 {
     /// <summary>
     /// Match result.

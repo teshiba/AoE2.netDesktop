@@ -1,9 +1,9 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using System;
 using System.Windows.Forms;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using static System.Windows.Forms.ListView;
 

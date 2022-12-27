@@ -1,5 +1,12 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
+using System;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
@@ -10,13 +17,6 @@ using AoE2NetDesktopTests.TestData;
 using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 [TestClass]
 public partial class FormMainTests

@@ -1,12 +1,12 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net.Functions;
 
+using System;
+using System.Linq;
+
+using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.SysApi;
-
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
 /// <summary>
 /// Extention of Match class.
@@ -19,10 +19,7 @@ public static class MatchExt
     /// <param name="match">match.</param>
     /// <returns>local time value as DateTime type.</returns>
     public static DateTime GetOpenedTime(this Match match)
-    {
-        var ret = DateTimeExt.FromUnixTimeSeconds(match.Started ?? 0);
-        return ret;
-    }
+        => DateTimeExt.FromUnixTimeSeconds(match.Started ?? 0);
 
     /// <summary>
     /// Get Elapsed Time from opened time that converted to local time.

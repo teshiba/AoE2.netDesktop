@@ -1,15 +1,15 @@
 ﻿namespace LibAoE2net.Tests;
 
+using System;
+using System.ComponentModel;
+using System.Net.Http;
+using System.Threading.Tasks;
+
 using AoE2NetDesktop.Utility;
 
 using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System;
-using System.ComponentModel;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 [TestClass]
 public class ComClientTests

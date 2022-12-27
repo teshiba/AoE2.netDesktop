@@ -1,10 +1,10 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using AoE2NetDesktopTests.TestData;
-using AoE2NetDesktopTests.TestUtility;
-
 using System;
 using System.Windows.Forms;
+
+using AoE2NetDesktopTests.TestData;
+using AoE2NetDesktopTests.TestUtility;
 
 public partial class FormHistoryTests
 {
@@ -45,38 +45,24 @@ public partial class FormHistoryTests
         }
 
         public void FormsPlotPlayerRate_MouseMove(MouseEventArgs arg)
-        {
-            this.Invoke("FormsPlotPlayerRate_MouseMove", formsPlotPlayerRate, arg);
-        }
+            => this.Invoke("FormsPlotPlayerRate_MouseMove", formsPlotPlayerRate, arg);
 
         public void SplitContainerPlayers_DoubleClick(MouseEventArgs arg)
-        {
-            this.Invoke("SplitContainerPlayers_DoubleClick", splitContainerPlayers, arg);
-        }
+            => this.Invoke("SplitContainerPlayers_DoubleClick", splitContainerPlayers, arg);
 
         public void ListViewStatistics_KeyDown(KeyEventArgs keys)
-        {
-            this.Invoke("ListViewStatistics_KeyDown", listViewStatistics, keys);
-        }
+            => this.Invoke("ListViewStatistics_KeyDown", listViewStatistics, keys);
 
         public void OpenHistoryToolStripMenuItem_Click(EventArgs e)
-        {
-            this.Invoke("OpenHistoryToolStripMenuItem_Click", openHistoryToolStripMenuItem, e);
-        }
+            => this.Invoke("OpenHistoryToolStripMenuItem_Click", openHistoryToolStripMenuItem, e);
 
         public void ListViewMatchedPlayers_MouseDoubleClick(MouseEventArgs e)
-        {
-            this.Invoke("ListViewMatchedPlayers_MouseDoubleClick", listViewMatchedPlayers, e);
-        }
+            => this.Invoke("ListViewMatchedPlayers_MouseDoubleClick", listViewMatchedPlayers, e);
 
         public void ListViewMatchedPlayers_ColumnClick(ColumnClickEventArgs e)
-        {
-            this.Invoke("ListViewMatchedPlayers_ColumnClick", listViewMatchedPlayers, e);
-        }
+            => this.Invoke("ListViewMatchedPlayers_ColumnClick", listViewMatchedPlayers, e);
 
         public void ListViewMatchHistory_ColumnClick(ColumnClickEventArgs e)
-        {
-            this.Invoke("ListViewMatchHistory_ColumnClick", listViewMatchHistory, e);
-        }
+            => this.Invoke("ListViewMatchHistory_ColumnClick", listViewMatchHistory, e);
     }
 }

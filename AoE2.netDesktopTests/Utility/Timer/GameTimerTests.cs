@@ -22,7 +22,7 @@
         public void GameTimerTest()
         {
             // Arrange
-            var expVal = Act;
+            Func<bool> expVal = Act;
             CtrlMain.DisplayedMatch = new Match();
 
             // Act

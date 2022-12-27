@@ -1,14 +1,14 @@
 ﻿namespace LibAoE2net.Tests;
 
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 
 [TestClass]
 public class PlayerExtTests

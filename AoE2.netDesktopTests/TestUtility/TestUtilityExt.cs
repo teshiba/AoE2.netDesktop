@@ -1,10 +1,10 @@
 ﻿namespace AoE2NetDesktopTests.TestUtility;
 
-using AoE2NetDesktop.Utility;
-
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+
+using AoE2NetDesktop.Utility;
 
 public static class TestUtilityExt
 {
@@ -96,9 +96,7 @@ public static class TestUtilityExt
             throw new ArgumentNullException(nameof(propertyName));
         }
 
-        if(assemblyInstance is null) {
-            assemblyInstance = Assembly.LoadFrom(AssemblyName);
-        }
+        assemblyInstance ??= Assembly.LoadFrom(AssemblyName);
 
         var settings = assemblyInstance.GetType($"{AssemblyName}.Settings");
         var settingsDefault = settings.GetProperty("Default").GetValue(settings);
@@ -119,9 +117,7 @@ public static class TestUtilityExt
             throw new ArgumentNullException(nameof(propertyName));
         }
 
-        if(assemblyInstance is null) {
-            assemblyInstance = Assembly.LoadFrom(AssemblyName);
-        }
+        assemblyInstance ??= Assembly.LoadFrom(AssemblyName);
 
         var settings = assemblyInstance.GetType($"{AssemblyName}.Settings");
         var settingsDefault = settings.GetProperty("Default").GetValue(settings);

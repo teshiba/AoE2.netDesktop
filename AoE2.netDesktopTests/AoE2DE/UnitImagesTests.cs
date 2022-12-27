@@ -1,13 +1,13 @@
 ﻿namespace AoE2NetDesktop.AoE2DE.Tests;
 
+using System.Collections.Generic;
+using System.Drawing;
+
 using AoE2NetDesktop.AoE2DE;
 
 using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System.Collections.Generic;
-using System.Drawing;
 
 [TestClass]
 public class UnitImagesTests

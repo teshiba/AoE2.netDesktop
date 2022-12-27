@@ -1,14 +1,5 @@
 ﻿namespace AoE2NetDesktop.CtrlForm;
 
-using AoE2NetDesktop.AoE2DE;
-using AoE2NetDesktop.Form;
-using AoE2NetDesktop.LibAoE2Net;
-using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.LibAoE2Net.JsonFormat;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Utility;
-using AoE2NetDesktop.Utility.Forms;
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,6 +8,15 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using AoE2NetDesktop.AoE2DE;
+using AoE2NetDesktop.Form;
+using AoE2NetDesktop.LibAoE2Net;
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.Forms;
 
 /// <summary>
 /// FormHistory controler.
@@ -90,9 +90,7 @@ public class CtrlHistory : FormControler
     /// rate value and rating change value.
     /// </returns>
     public static string[] GetLeaderboardStrings()
-    {
-        return LeaderboardNameList.Keys.ToArray();
-    }
+        => LeaderboardNameList.Keys.ToArray();
 
     /// <summary>
     /// Get leaderboard string.
@@ -101,9 +99,7 @@ public class CtrlHistory : FormControler
     /// rate value and rating change value.
     /// </returns>
     public static string[] GetDataSourceStrings()
-    {
-        return DataSourceNameList.Keys.ToArray();
-    }
+        => DataSourceNameList.Keys.ToArray();
 
     /// <summary>
     /// Get leaderboard string.

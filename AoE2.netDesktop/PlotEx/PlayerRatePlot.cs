@@ -1,16 +1,16 @@
 ﻿namespace AoE2NetDesktop.PlotEx;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Linq;
+
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.SysApi;
 
 using ScottPlot;
 using ScottPlot.Plottable;
-
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
 
 /// <summary>
 /// Player rate graph.
@@ -96,9 +96,7 @@ public class PlayerRatePlot
     /// </summary>
     /// <returns>X-Y axis value.</returns>
     public (double pointX, double pointY) UpdateHighlight()
-    {
-        return highlightPlot.Update();
-    }
+        => highlightPlot.Update();
 
     /// <summary>
     /// Plot player rate.

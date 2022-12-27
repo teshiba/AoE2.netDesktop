@@ -1,15 +1,12 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net;
 
-using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.LibAoE2Net.JsonFormat;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-
-using ScottPlot.Drawing.Colormaps;
-
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 /// <summary>
 /// Helper class of AoE2net API.

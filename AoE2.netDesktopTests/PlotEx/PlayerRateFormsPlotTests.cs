@@ -1,5 +1,10 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+
+using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.PlotEx;
@@ -8,10 +13,6 @@ using AoE2NetDesktop.Utility.SysApi;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ScottPlot;
-
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 
 [TestClass]
 public class PlayerRateFormsPlotTests

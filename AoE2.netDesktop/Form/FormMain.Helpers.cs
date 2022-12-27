@@ -1,5 +1,12 @@
 ﻿namespace AoE2NetDesktop.Form;
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
 using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net;
@@ -9,13 +16,6 @@ using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.Forms;
 using AoE2NetDesktop.Utility.SysApi;
 using AoE2NetDesktop.Utility.Timer;
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 /// <summary>
 /// App main form.
@@ -122,9 +122,7 @@ public partial class FormMain : ControllableForm
     }
 
     private void OnChangePropertyIsTransparency(string propertyName)
-    {
-        ChangePropertyIsTransparency(propertyName);
-    }
+        => ChangePropertyIsTransparency(propertyName);
 
     private void OnChangePropertyOpacity(string propertyName)
     {
@@ -133,24 +131,16 @@ public partial class FormMain : ControllableForm
     }
 
     private void OnChangePropertyIsAlwaysOnTop(string propertyName)
-    {
-        TopMost = (bool)Settings.Default[propertyName];
-    }
+        => TopMost = (bool)Settings.Default[propertyName];
 
     private void OnChangePropertyIsAutoReloadLastMatch(string propertyName)
-    {
-        ChangePropertyIsAutoReloadLastMatch(propertyName);
-    }
+        => ChangePropertyIsAutoReloadLastMatch(propertyName);
 
     private void OnChangePropertyVisibleGameTime(string propertyName)
-    {
-        ChangePropertyVisibleGameTime(propertyName);
-    }
+        => ChangePropertyVisibleGameTime(propertyName);
 
     private void OnChangePropertyIsHideTitle(string propertyName)
-    {
-        ChangePropertyIsHideTitle(propertyName);
-    }
+        => ChangePropertyIsHideTitle(propertyName);
 
     private void ChangePropertyIsHideTitle(string propertyName)
     {

@@ -1,13 +1,13 @@
 ﻿namespace AoE2NetDesktop.AoE2DE;
 
-using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.Utility.SysApi;
-
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.Utility.SysApi;
 
 /// <summary>
 /// AoE2DE Application information class.

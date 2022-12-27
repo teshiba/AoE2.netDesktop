@@ -1,11 +1,5 @@
 ﻿namespace AoE2NetDesktop.Form;
 
-using AoE2NetDesktop.CtrlForm;
-using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Utility;
-using AoE2NetDesktop.Utility.Forms;
-
 using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
@@ -13,6 +7,12 @@ using System.Drawing;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.Forms;
 
 /// <summary>
 /// App Settings form.
@@ -40,7 +40,8 @@ public partial class FormSettings : ControllableForm
     public ColorDialogEx ColorDialog { get; set; } = new ColorDialogEx();
 
     /// <inheritdoc/>
-    protected override CtrlSettings Controler { get => (CtrlSettings)base.Controler; }
+    protected override CtrlSettings Controler
+        => (CtrlSettings)base.Controler;
 
     private void Default_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
@@ -151,9 +152,7 @@ public partial class FormSettings : ControllableForm
     }
 
     private void SetNetStatus()
-    {
-        labelAoE2NetStatus.SetAoE2netStatus(Controler.NetStatus);
-    }
+        => labelAoE2NetStatus.SetAoE2netStatus(Controler.NetStatus);
 
     private void OnErrorHandler(Exception ex)
     {
@@ -177,9 +176,7 @@ public partial class FormSettings : ControllableForm
     }
 
     private void SaveWindowPosition()
-    {
-        Settings.Default.WindowLocationSettings = new Point(Left, Top);
-    }
+        => Settings.Default.WindowLocationSettings = new Point(Left, Top);
 
     ///////////////////////////////////////////////////////////////////////
     // Event handlers (Async)
@@ -273,19 +270,13 @@ public partial class FormSettings : ControllableForm
     }
 
     private void UpDownOpacity_ValueChanged(object sender, EventArgs e)
-    {
-        Settings.Default.MainFormOpacityPercent = upDownOpacity.Value;
-    }
+        => Settings.Default.MainFormOpacityPercent = upDownOpacity.Value;
 
     private void CheckBoxAlwaysOnTop_CheckedChanged(object sender, EventArgs e)
-    {
-        Settings.Default.MainFormIsAlwaysOnTop = ((CheckBox)sender).Checked;
-    }
+        => Settings.Default.MainFormIsAlwaysOnTop = ((CheckBox)sender).Checked;
 
     private void CheckBoxHideTitle_CheckedChanged(object sender, EventArgs e)
-    {
-        Settings.Default.MainFormIsHideTitle = ((CheckBox)sender).Checked;
-    }
+        => Settings.Default.MainFormIsHideTitle = ((CheckBox)sender).Checked;
 
     private void CheckBoxTransparencyWindow_CheckedChanged(object sender, EventArgs e)
     {
@@ -294,24 +285,16 @@ public partial class FormSettings : ControllableForm
     }
 
     private void CheckBoxDrawQuality_CheckedChanged(object sender, EventArgs e)
-    {
-        Settings.Default.DrawHighQuality = ((CheckBox)sender).Checked;
-    }
+        => Settings.Default.DrawHighQuality = ((CheckBox)sender).Checked;
 
     private void CheckBoxAutoReloadLastMatch_CheckedChanged(object sender, EventArgs e)
-    {
-        Settings.Default.IsAutoReloadLastMatch = ((CheckBox)sender).Checked;
-    }
+        => Settings.Default.IsAutoReloadLastMatch = ((CheckBox)sender).Checked;
 
     private void CheckBoxVisibleGameTime_CheckedChanged(object sender, EventArgs e)
-    {
-        Settings.Default.VisibleGameTime = ((CheckBox)sender).Checked;
-    }
+        => Settings.Default.VisibleGameTime = ((CheckBox)sender).Checked;
 
     private void PictureBoxChromaKey_Click(object sender, EventArgs e)
-    {
-        SetChromaKey(ColorDialog.GetColorFromDialog());
-    }
+        => SetChromaKey(ColorDialog.GetColorFromDialog());
 
     private void FormSettings_FormClosing(object sender, FormClosingEventArgs e)
     {

@@ -1,7 +1,7 @@
-﻿namespace AoE2NetDesktop.Form;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-
+﻿namespace AoE2NetDesktop.CtrlForm;
 using System.Drawing;
+
+using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 /// <summary>
 /// LeaderboardView parameters class.

@@ -1,15 +1,15 @@
 ﻿namespace AoE2NetDesktopTests.TestUtility;
 
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Utility;
-
-using AoE2NetDesktopTests.TestData;
-
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
+
+using AoE2NetDesktopTests.TestData;
 
 /// <summary>
 /// Communication client Interface.

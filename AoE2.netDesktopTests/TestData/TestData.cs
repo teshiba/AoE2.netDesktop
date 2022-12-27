@@ -1,13 +1,13 @@
 ﻿namespace AoE2NetDesktopTests.TestData;
 
+using System.Diagnostics.CodeAnalysis;
+
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.Utility;
 
 using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System.Diagnostics.CodeAnalysis;
 
 [TestClass]
 public static class TestData

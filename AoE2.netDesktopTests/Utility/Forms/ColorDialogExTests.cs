@@ -1,14 +1,14 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using AoE2NetDesktop.Utility;
-using AoE2NetDesktop.Utility.Forms;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Threading.Tasks;
+
+using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.Forms;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public class ColorDialogExTests

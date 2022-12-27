@@ -1,5 +1,9 @@
 ﻿namespace AoE2NetDesktop.CtrlForm.Tests;
 
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
+
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility;
 
@@ -7,10 +11,6 @@ using AoE2NetDesktopTests.TestData;
 using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 
 [TestClass]
 public class CtrlSettingsTests

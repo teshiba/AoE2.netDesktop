@@ -1,13 +1,13 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net.Functions;
 
-using AoE2NetDesktop.LibAoE2Net.JsonFormat;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Utility;
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
 
 /// <summary>
 /// AoE2net API class.
@@ -223,7 +223,5 @@ public static class AoE2net
     /// <param name="profileId">Profile ID.</param>
     /// <returns>browser process.</returns>
     public static Process OpenAoE2net(int profileId)
-    {
-        return ComClient.OpenBrowser($"{ProfileIdBaseAddress}{profileId}");
-    }
+        => ComClient.OpenBrowser($"{ProfileIdBaseAddress}{profileId}");
 }

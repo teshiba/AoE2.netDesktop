@@ -3,9 +3,9 @@
 
 namespace AoE2NetDesktop.LibAoE2Net.JsonFormat;
 
-using AoE2NetDesktop.Utility.SysApi;
-
 using System.Runtime.Serialization;
+
+using AoE2NetDesktop.Utility.SysApi;
 
 /// <summary>
 /// Player last match data.

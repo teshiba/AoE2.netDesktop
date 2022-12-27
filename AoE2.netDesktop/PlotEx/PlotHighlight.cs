@@ -1,10 +1,10 @@
 ﻿namespace AoE2NetDesktop.PlotEx;
 
-using ScottPlot;
-using ScottPlot.Plottable;
-
 using System;
 using System.Drawing;
+
+using ScottPlot;
+using ScottPlot.Plottable;
 
 /// <summary>
 /// ScottPlot ScatterPlot Highlight.

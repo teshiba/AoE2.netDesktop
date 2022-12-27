@@ -1,5 +1,13 @@
 ﻿namespace AoE2NetDesktop.CtrlForm.Tests;
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Globalization;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
@@ -10,14 +18,6 @@ using AoE2NetDesktop.Utility.SysApi;
 using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Globalization;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 [TestClass]
 public class CtrlMainTests

@@ -3,10 +3,10 @@
 
 namespace AoE2NetDesktop.LibAoE2Net.JsonFormat;
 
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+
+using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 [DataContract]
 public class LeaderboardContainer

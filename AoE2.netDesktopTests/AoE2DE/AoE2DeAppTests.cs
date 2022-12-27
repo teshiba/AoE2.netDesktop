@@ -1,10 +1,10 @@
 ﻿namespace AoE2NetDesktop.AoE2DE.Tests;
 
+using System.Diagnostics;
+
 using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System.Diagnostics;
 
 [TestClass]
 public class AoE2DeAppTests

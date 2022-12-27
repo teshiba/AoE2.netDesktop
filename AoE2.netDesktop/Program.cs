@@ -1,11 +1,11 @@
 namespace AoE2NetDesktop;
 
-using AoE2NetDesktop.Form;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms;
+
+using AoE2NetDesktop.Form;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 /// <summary>
 /// Main Program.

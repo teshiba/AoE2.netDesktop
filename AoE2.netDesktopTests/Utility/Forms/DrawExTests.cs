@@ -1,12 +1,12 @@
 ﻿namespace AoE2NetDesktop.Utility.Forms.Tests;
 
-using AoE2NetDesktop.Utility.Forms;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+
+using AoE2NetDesktop.Utility.Forms;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public class DrawExTests

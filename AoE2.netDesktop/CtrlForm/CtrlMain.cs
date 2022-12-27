@@ -1,5 +1,10 @@
 ﻿namespace AoE2NetDesktop.CtrlForm;
 
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Threading.Tasks;
+
 using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
@@ -7,11 +12,6 @@ using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.DDS;
 using AoE2NetDesktop.Utility.Forms;
 using AoE2NetDesktop.Utility.SysApi;
-
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Threading.Tasks;
 
 using static LabelType;
 
@@ -96,9 +96,7 @@ public class CtrlMain : FormControler
     /// <param name="rate">rate.</param>
     /// <returns>rate string.</returns>
     public static string GetRateString(int? rate)
-    {
-        return rate?.ToString() ?? " N/A";
-    }
+        => rate?.ToString() ?? " N/A";
 
     /// <summary>
     /// Get the player name string.
@@ -106,9 +104,7 @@ public class CtrlMain : FormControler
     /// <param name="name">player name.</param>
     /// <returns>player name string.</returns>
     public static string GetPlayerNameString(string name)
-    {
-        return name ?? "-- AI --";
-    }
+        => name ?? "-- AI --";
 
     /// <summary>
     /// Initialize the class.
@@ -128,9 +124,7 @@ public class CtrlMain : FormControler
     /// </summary>
     /// <returns>true: AoE2de is the active window.</returns>
     public static bool IsAoE2deActive()
-    {
-        return SystemApi.GetActiveProcess() == AoE2DeApp.ProcessName;
-    }
+        => SystemApi.GetActiveProcess() == AoE2DeApp.ProcessName;
 
     /// <summary>
     /// Load map icon.
@@ -161,9 +155,7 @@ public class CtrlMain : FormControler
     /// <param name="leaderboard">player's leaderboard.</param>
     /// <returns>win count.</returns>
     public static string GetWinsString(Leaderboard leaderboard)
-    {
-        return leaderboard.Wins?.ToString() ?? "N/A";
-    }
+        => leaderboard.Wins?.ToString() ?? "N/A";
 
     /// <summary>
     /// Gets Elapsed Time.

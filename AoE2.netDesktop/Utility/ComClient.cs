@@ -1,7 +1,5 @@
 ﻿namespace AoE2NetDesktop.Utility;
 
-using AoE2NetDesktop.Utility.SysApi;
-
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -10,6 +8,8 @@ using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
+
+using AoE2NetDesktop.Utility.SysApi;
 
 /// <summary>
 /// Client of communication class.
@@ -105,7 +105,5 @@ public class ComClient : HttpClient
     /// <param name="civName">civilization name in English.</param>
     /// <returns>Image file location.</returns>
     public virtual string GetCivImageLocation(string civName)
-    {
-        return $"{CivImageBaseAddress}{civName.ToLower()}.png";
-    }
+        => $"{CivImageBaseAddress}{civName.ToLower()}.png";
 }

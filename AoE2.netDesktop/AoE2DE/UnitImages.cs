@@ -1,9 +1,9 @@
 ﻿namespace AoE2NetDesktop.AoE2DE;
 
-using AoE2NetDesktop.Utility.DDS;
-
 using System.Collections.Generic;
 using System.Drawing;
+
+using AoE2NetDesktop.Utility.DDS;
 
 /// <summary>
 /// Map Icons class.
@@ -86,7 +86,5 @@ public class UnitImages
     /// <param name="backColor">Back color.</param>
     /// <returns>bitmap image data.</returns>
     public static Image Load(string civName, Color backColor)
-    {
-        return new ImageLoader(GetFileName(civName), backColor).BitmapImage;
-    }
+        => new ImageLoader(GetFileName(civName), backColor).BitmapImage;
 }

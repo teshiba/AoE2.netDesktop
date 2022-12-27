@@ -1,5 +1,11 @@
 ﻿namespace AoE2NetDesktop.Form;
 
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
 using AoE2NetDesktop;
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Functions;
@@ -7,12 +13,6 @@ using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.Forms;
 using AoE2NetDesktop.Utility.Timer;
-
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 using static AoE2NetDesktop.CtrlForm.LabelType;
 
@@ -296,7 +296,7 @@ public partial class FormMain : ControllableForm
     private void TextBoxGameId_KeyPress(object sender, KeyPressEventArgs e)
     {
         // disable beep sound.
-        if(e.KeyChar == (char)Keys.Enter || e.KeyChar == (char)Keys.Escape) {
+        if(e.KeyChar is (char)Keys.Enter or (char)Keys.Escape) {
             e.Handled = true;
         }
     }

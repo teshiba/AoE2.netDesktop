@@ -1,12 +1,12 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net.Functions;
 
-using AoE2NetDesktop.LibAoE2Net.JsonFormat;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 /// <summary>
 /// Extention of Strings.
@@ -92,9 +92,7 @@ public static class StringsExt
             mapName = apiStrings.MapType.GetString(match.MapType);
         }
 
-        if(mapName == null) {
-            mapName = $"Unknown(Map No.{match.MapType})";
-        }
+        mapName ??= $"Unknown(Map No.{match.MapType})";
 
         return mapName;
     }

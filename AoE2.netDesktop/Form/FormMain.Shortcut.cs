@@ -1,11 +1,13 @@
 ﻿namespace AoE2NetDesktop.Form;
-using AoE2NetDesktop.Utility.Forms;
 
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.Utility.Forms;
 
 /// <summary>
 /// App main form shortcut.
@@ -46,8 +48,7 @@ public partial class FormMain : ControllableForm
     // ///////////////////////////////////////////////////////////////////////
     private async Task NextMatchResultAsync()
     {
-        if(displayStatus == DisplayStatus.Shown
-          || displayStatus == DisplayStatus.RedrawingPrevMatch) {
+        if(displayStatus is DisplayStatus.Shown or DisplayStatus.RedrawingPrevMatch) {
             if(requestMatchView > 0) {
                 requestMatchView--;
                 if(progressBar.Start()) {
@@ -60,8 +61,7 @@ public partial class FormMain : ControllableForm
 
     private async Task PrevMatchResultAsync()
     {
-        if(displayStatus == DisplayStatus.Shown
-            || displayStatus == DisplayStatus.RedrawingPrevMatch) {
+        if(displayStatus is DisplayStatus.Shown or DisplayStatus.RedrawingPrevMatch) {
             requestMatchView++;
 
             if(progressBar.Start()) {

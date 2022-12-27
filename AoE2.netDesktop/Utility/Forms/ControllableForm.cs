@@ -1,8 +1,8 @@
 ﻿namespace AoE2NetDesktop.Utility.Forms;
 
-using AoE2NetDesktop.Utility;
-
 using System.Windows.Forms;
+
+using AoE2NetDesktop.Utility;
 
 /// <summary>
 /// ControllableForm class.

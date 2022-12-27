@@ -1,10 +1,10 @@
 ﻿namespace LibAoE2net.Tests;
 
+using System.Collections.Generic;
+
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System.Collections.Generic;
 
 [TestClass]
 public class LanguageExtTests

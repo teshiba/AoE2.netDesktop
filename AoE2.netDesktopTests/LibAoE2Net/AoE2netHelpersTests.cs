@@ -14,7 +14,6 @@
     using AoE2NetDesktopTests.TestData;
     using AoE2NetDesktopTests.TestUtility;
 
-    using Microsoft.VisualStudio.TestPlatform.ObjectModel;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

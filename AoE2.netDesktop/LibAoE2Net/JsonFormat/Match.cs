@@ -3,11 +3,11 @@
 
 namespace AoE2NetDesktop.LibAoE2Net.JsonFormat;
 
-using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 /// <summary>
 /// Match properties.
@@ -118,9 +118,7 @@ public class Match
     public List<Player> Players { get; set; } = new();
 
     public override string ToString()
-    {
-        return $"{this.GetOpenedTime()} {Players.Count} Players Map:{this.GetMapName()}";
-    }
+        => $"{this.GetOpenedTime()} {Players.Count} Players Map:{this.GetMapName()}";
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning restore SA1600 // Elements should be documented
