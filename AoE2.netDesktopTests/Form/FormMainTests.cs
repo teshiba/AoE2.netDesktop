@@ -490,24 +490,27 @@ public partial class FormMainTests
     }
 
     [TestMethod]
-    [DataRow(Keys.Right, DisplayStatus.Shown, 0, true, 0)]
-    [DataRow(Keys.Right, DisplayStatus.Shown, 1, true, 0)]
-    [DataRow(Keys.Right, DisplayStatus.Shown, 0, false, 0)]
-    [DataRow(Keys.Right, DisplayStatus.Shown, 1, false, 0)]
-    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 0, true, 0)]
-    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 1, true, 0)]
-    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 0, false, 0)]
-    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 1, false, 0)]
-    [DataRow(Keys.Left, DisplayStatus.Shown, 0, true, 1)]
-    [DataRow(Keys.Left, DisplayStatus.Shown, 1, true, 2)]
-    [DataRow(Keys.Left, DisplayStatus.Shown, 0, false, 1)]
-    [DataRow(Keys.Left, DisplayStatus.Shown, 1, false, 2)]
-    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 0, true, 1)]
-    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 1, true, 2)]
-    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 0, false, 1)]
-    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 1, false, 2)]
+    [DataRow(Keys.Right, DisplayStatus.Shown, 0, 0, true, 0)]
+    [DataRow(Keys.Right, DisplayStatus.Shown, 1, 0, true, 0)]
+    [DataRow(Keys.Right, DisplayStatus.Shown, 0, 0, false, 0)]
+    [DataRow(Keys.Right, DisplayStatus.Shown, 1, 0, false, 0)]
+    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 0, 0, true, 0)]
+    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 1, 0, true, 0)]
+    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 0, 0, false, 0)]
+    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 1, 0, false, 0)]
+    [DataRow(Keys.Left, DisplayStatus.Shown, 0, 0, true, 1)]
+    [DataRow(Keys.Left, DisplayStatus.Shown, 1, 0, true, 2)]
+    [DataRow(Keys.Left, DisplayStatus.Shown, 0, 0, false, 1)]
+    [DataRow(Keys.Left, DisplayStatus.Shown, 1, 0, false, 2)]
+    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 0, 0, true, 1)]
+    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 1, 0, true, 2)]
+    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 0, 0, false, 1)]
+    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 1, 0, false, 2)]
+    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 3, 4, false, 2)]
+    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 98, 98, false, 98)]
+    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 1, 1, false, 0)]
     public void FormMainTestTabControlMain_KeyDownSelectMatch(
-        Keys key, DisplayStatus displayStatus, int requestMatchView, bool started, int expRequestMatchView)
+        Keys key, DisplayStatus displayStatus, int requestMatchView, int currentMatchView, bool started, int expRequestMatchView)
     {
         // Arrange
         var done = false;
@@ -518,6 +521,7 @@ public partial class FormMainTests
             await testClass.Awaiter.WaitAsync("FormMain_Shown");
             testClass.DisplayStatus = displayStatus;
             testClass.RequestMatchView = requestMatchView;
+            testClass.CurrentMatchView = currentMatchView;
 
             if(started) {
                 testClass.ProgressBar.Start();
