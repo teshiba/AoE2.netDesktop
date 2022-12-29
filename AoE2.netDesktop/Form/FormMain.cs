@@ -89,9 +89,10 @@ public partial class FormMain : ControllableForm
         switch(displayStatus) {
         case DisplayStatus.Shown:
 
-            if(CtrlMain.IsReloadingByTimer) {
+            if(!CtrlMain.IsReloadingByTimer) {
                 progressBar.Start();
                 ClearLastMatch();
+            } else {
                 CtrlMain.IsReloadingByTimer = false;
             }
 
@@ -191,7 +192,8 @@ public partial class FormMain : ControllableForm
         // if this form is active, get game status from aoe2.net and update last match info.
         if(Settings.Default.IsAutoReloadLastMatch
         && CtrlMain.DisplayedMatch?.Finished == null
-        && displayStatus == DisplayStatus.Shown) {
+        && displayStatus == DisplayStatus.Shown
+        && currentMatchView == 0) {
             CtrlMain.IsReloadingByTimer = true;
             updateToolStripMenuItem.PerformClick();
         }

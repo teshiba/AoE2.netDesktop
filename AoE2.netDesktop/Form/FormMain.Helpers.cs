@@ -22,6 +22,8 @@ using AoE2NetDesktop.Utility.Timer;
 /// </summary>
 public partial class FormMain : ControllableForm
 {
+    private const string LoadingText = $"Loading last match...";
+    private const string GameIdLabel = "GameID : ";
     private FormSettings formSettings;
     private int currentMatchView;
     private bool isDrawing;
@@ -172,7 +174,7 @@ public partial class FormMain : ControllableForm
         pictureBoxMap.Image = CtrlMain.LoadMapIcon(null);
         labelMap.Text = $"Map: -----";
         labelServer.Text = $"Server : -----";
-        labelGameId.Text = $"GameID : --------";
+        labelGameId.Text = $"{GameIdLabel}--------";
         labelAveRate1.Text = $"Team1 Ave. Rate: ----";
         labelAveRate2.Text = $"Team2 Ave. Rate: ----";
         labelErrText.Text = string.Empty;
@@ -184,7 +186,7 @@ public partial class FormMain : ControllableForm
         pictureBoxMap1v1.Image = CtrlMain.LoadMapIcon(null);
         labelMap1v1.Text = "-----------------------";
         labelServer1v1.Text = $"Server : -----";
-        labelGameId1v1.Text = $"GameID : --------";
+        labelGameId1v1.Text = $"{GameIdLabel}--------";
         labelMatchResult1v1p1.Text = MatchResult.Unknown.ToString();
         labelMatchResult1v1p1.Tag = MatchResult.Unknown;
         labelMatchResult1v1p2.Text = MatchResult.Unknown.ToString();
@@ -472,17 +474,20 @@ public partial class FormMain : ControllableForm
             requestMatchView = (int)prevMatchNo;
         }
 
-        if(labelGameId.Text != $"GameID : {match.MatchId}") {
+        var gameIdText = $"{GameIdLabel}{match.MatchId}";
+
+        if(labelGameId.Text != gameIdText) {
+            labelGameId1v1.Text = gameIdText;
+            labelGameId.Text = gameIdText;
+            labelMatchNo1v1.Text = CtrlMain.GetMatchNoString(prevMatchNo);
+            labelMatchNo.Text = CtrlMain.GetMatchNoString(prevMatchNo);
+
             if(match.NumPlayers == 2) {
                 await SetPlayersData1v1Async(match);
                 SetMatchData1v1(match);
-                labelMatchNo1v1.Text = CtrlMain.GetMatchNoString(prevMatchNo);
-                labelGameId1v1.Text = $"GameID : {match.MatchId}";
             } else {
                 SetPlayersData(match.Players);
                 SetMatchDataTeam(match);
-                labelMatchNo.Text = CtrlMain.GetMatchNoString(prevMatchNo);
-                labelGameId.Text = $"GameID : {match.MatchId}";
             }
 
             SwitchView(ret);
@@ -507,9 +512,11 @@ public partial class FormMain : ControllableForm
             updateToolStripMenuItem.Enabled = false;
             while(requestMatchView != currentMatchView) {
                 if(requestMatchView == 0) {
-                    labelMatchNo.Text = $"Loading last match...";
+                    labelMatchNo.Text = LoadingText;
+                    labelMatchNo1v1.Text = LoadingText;
                 } else {
                     labelMatchNo.Text = $"Loading {requestMatchView} match ago...";
+                    labelMatchNo1v1.Text = $"Loading {requestMatchView} match ago...";
                 }
 
                 displayStatus = DisplayStatus.RedrawingPrevMatch;
@@ -550,13 +557,14 @@ public partial class FormMain : ControllableForm
         Match ret;
         displayStatus = DisplayStatus.Redrawing;
         updateToolStripMenuItem.Enabled = false;
-        labelMatchNo.Text = $"Loading last match...";
+        labelMatchNo.Text = LoadingText;
+        labelMatchNo1v1.Text = LoadingText;
         requestMatchView = 0;
 
         try {
             var lastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
 
-            if(labelGameId.Text != $"GameID : {lastmatch.LastMatch.MatchId}") {
+            if(labelGameId.Text != $"{GameIdLabel}{lastmatch.LastMatch.MatchId}") {
                 ret = await DrawMatchAsync(lastmatch.LastMatch, 0);
             } else {
                 ret = lastmatch.LastMatch;
