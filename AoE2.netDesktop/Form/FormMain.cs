@@ -22,11 +22,6 @@ using static AoE2NetDesktop.CtrlForm.LabelType;
 public partial class FormMain : ControllableForm
 {
     private readonly TimerProgressBar progressBar;
-    private readonly List<Label> labelCiv = new();
-    private readonly List<Label> labelColor = new();
-    private readonly List<Label> labelRate = new();
-    private readonly List<Label> labelName = new();
-    private readonly List<PictureBox> pictureBox = new();
     private readonly Language language;
 
     private Point mouseDownPoint;
@@ -44,6 +39,7 @@ public partial class FormMain : ControllableForm
         InitPlayersCtrlList();
         ClearLastMatch();
         InitShortcut();
+        Init1v1CtrlList();
 
         // formMain hold the app settings.
         CtrlSettings = new CtrlSettings();
