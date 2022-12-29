@@ -461,7 +461,7 @@ public partial class FormMain : ControllableForm
         Awaiter.Complete();
     }
 
-    private async Task<Match> DrawMatchAsync(Match match, string specificMatchId, int? prevMatchNo)
+    private async Task<Match> DrawMatchAsync(Match match, int? prevMatchNo)
     {
         var ret = match;
 
@@ -469,37 +469,20 @@ public partial class FormMain : ControllableForm
             requestMatchView = (int)prevMatchNo;
         }
 
-        if(labelGameId.Text != $"GameID : {specificMatchId ?? match.MatchId}") {
-            if(match is null) {
-                ClearLastMatch();
-                labelMatchNo.Text = "Load Error: Invalid ID";
+        if(labelGameId.Text != $"GameID : {match.MatchId}") {
+            if(match.NumPlayers == 2) {
+                await SetPlayersData1v1Async(match);
+                SetMatchData1v1(match);
+                labelMatchNo1v1.Text = CtrlMain.GetMatchNoString(prevMatchNo);
+                labelGameId1v1.Text = $"GameID : {match.MatchId}";
             } else {
-                if(match.NumPlayers == 2) {
-                    await SetPlayersData1v1Async(match);
-                    SetMatchData1v1(match);
-
-                    if(specificMatchId == null) {
-                        labelMatchNo1v1.Text = CtrlMain.GetMatchNoString(prevMatchNo);
-                        labelGameId1v1.Text = $"GameID : {match.MatchId}";
-                    } else {
-                        labelMatchNo1v1.Text = "Specific match";
-                        labelGameId1v1.Text = $"GameID : {specificMatchId}";
-                    }
-                } else {
-                    SetPlayersData(match.Players);
-                    SetMatchDataTeam(match);
-
-                    if(specificMatchId == null) {
-                        labelMatchNo.Text = CtrlMain.GetMatchNoString(prevMatchNo);
-                        labelGameId.Text = $"GameID : {match.MatchId}";
-                    } else {
-                        labelMatchNo.Text = "Specific match";
-                        labelGameId.Text = $"GameID : {specificMatchId}";
-                    }
-                }
-
-                SwitchView(ret);
+                SetPlayersData(match.Players);
+                SetMatchDataTeam(match);
+                labelMatchNo.Text = CtrlMain.GetMatchNoString(prevMatchNo);
+                labelGameId.Text = $"GameID : {match.MatchId}";
             }
+
+            SwitchView(ret);
 
             CtrlMain.DisplayedMatch = match;
             if(requestMatchView == 0) {
@@ -536,7 +519,7 @@ public partial class FormMain : ControllableForm
                                                     drawingMatchNo, 1, CtrlSettings.ProfileId);
                     if(playerMatchHistory.Count != 0) {
                         var match = playerMatchHistory[0];
-                        ret = await DrawMatchAsync(match, null, drawingMatchNo);
+                        ret = await DrawMatchAsync(match, drawingMatchNo);
                         currentMatchView = drawingMatchNo;
                     } else {
                         // If the requested previous match is over the range,
@@ -569,19 +552,11 @@ public partial class FormMain : ControllableForm
 
         try {
             var lastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
-            ret = lastmatch.LastMatch;
-            var matchId = lastmatch.LastMatch.MatchId;
 
-            if(labelGameId.Text != $"GameID : {matchId}") {
-                var history = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId);
-
-                if(history.Count != 0) {
-                    if(history[0].MatchId == matchId) {
-                        ret = history[0];
-                    }
-                }
-
-                ret = await DrawMatchAsync(ret, null, 0);
+            if(labelGameId.Text != $"GameID : {lastmatch.LastMatch.MatchId}") {
+                ret = await DrawMatchAsync(lastmatch.LastMatch, 0);
+            } else {
+                ret = lastmatch.LastMatch;
             }
         } finally {
             displayStatus = DisplayStatus.Shown;

@@ -29,7 +29,6 @@ public partial class FormMainTests
         public Label labelName1v1P2;
         public Label labelMatchNo;
         public Label labelMatchNo1v1;
-        public TextBox textBoxGameId;
         public ToolStripMenuItem updateToolStripMenuItem;
         public ContextMenuStrip contextMenuStripMain;
         internal PictureBox pictureBoxMap;
@@ -47,7 +46,6 @@ public partial class FormMainTests
             labelName1v1P2 = this.GetControl<Label>("labelName1v1P2");
             labelMatchNo = this.GetControl<Label>("labelMatchNo");
             labelMatchNo1v1 = this.GetControl<Label>("labelMatchNo1v1");
-            textBoxGameId = this.GetControl<TextBox>("textBoxGameId");
             pictureBoxMap = this.GetControl<PictureBox>("pictureBoxMap");
             updateToolStripMenuItem = this.GetControl<ToolStripMenuItem>("updateToolStripMenuItem");
             contextMenuStripMain = this.GetControl<ContextMenuStrip>("contextMenuStripMain");
@@ -102,12 +100,6 @@ public partial class FormMainTests
             await Awaiter.WaitAsync("FormMain_KeyDownAsync");
         }
 
-        public async Task TextBoxGameId_KeyDownAsync(Keys keys)
-        {
-            this.Invoke("TextBoxGameId_KeyDown", textBoxGameId, new KeyEventArgs(keys));
-            await Awaiter.WaitAsync("TextBoxGameId_KeyDown");
-        }
-
         public void Controls_MouseDown(MouseEventArgs e)
             => this.Invoke("Controls_MouseDown", this, e);
 
@@ -140,9 +132,6 @@ public partial class FormMainTests
 
         public void PictureBoxMap1v1_DoubleClick(PictureBox sender, EventArgs e)
             => this.Invoke("PictureBoxMap1v1_DoubleClick", sender, e);
-
-        public void TextBoxGameId_KeyPress(TextBox sender, KeyPressEventArgs e)
-            => this.Invoke("TextBoxGameId_KeyPress", sender, e);
 
         public async Task<Match> RedrawLastMatchAsync(int? profileId)
             => await this.Invoke<Task<Match>>("RedrawLastMatchAsync", profileId).ConfigureAwait(false);

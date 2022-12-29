@@ -200,24 +200,6 @@ public static class AoE2net
     }
 
     /// <summary>
-    /// Request details about a match.
-    /// </summary>
-    /// <param name="id">Match UUID or ID.</param>
-    /// <returns>Details about a match.</returns>
-    public static async Task<Match> GetMatchAsync(string id)
-    {
-        var apiEndPoint = $"match?game={AoE2Version}&";
-
-        var idType = MatchIdTypeEx.GetIdType(id);
-        apiEndPoint = idType switch {
-            MatchIdType.MatchId => apiEndPoint + $"match_id={id}",
-            MatchIdType.Uuid => apiEndPoint + $"uuid={id}",
-            _ => null,
-        };
-        return await ComClient.GetFromJsonAsync<Match>(apiEndPoint).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Open the AoE2.net player profile of the specified ID in your default browser.
     /// </summary>
     /// <param name="profileId">Profile ID.</param>

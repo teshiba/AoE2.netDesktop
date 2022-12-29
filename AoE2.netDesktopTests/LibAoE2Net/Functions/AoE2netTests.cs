@@ -18,46 +18,6 @@
     {
 #pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
 #pragma warning disable VSTHRD104 // Offer async methods
-        [TestMethod]
-        public void GetMatchAsyncTestInvalid()
-        {
-            // Arrange
-            var matchId = "invalidIdString";
-
-            // Act
-            var actVal = Task.Run(() => AoE2net.GetMatchAsync(matchId)).Result;
-
-            // Assert
-            Assert.IsNull(actVal);
-        }
-
-        [TestMethod]
-        public void GetMatchAsyncTestMatchID()
-        {
-            // Arrange
-            var expVal = "000000000";
-            var matchId = "000000000";
-
-            // Act
-            var actVal = Task.Run(() => AoE2net.GetMatchAsync(matchId)).Result;
-
-            // Assert
-            Assert.AreEqual(expVal, actVal.MatchId);
-        }
-
-        [TestMethod]
-        public void GetMatchAsyncTestUUID()
-        {
-            // Arrange
-            var expVal = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-            var uuid = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-
-            // Act
-            var actVal = Task.Run(() => AoE2net.GetMatchAsync(uuid)).Result;
-
-            // Assert
-            Assert.AreEqual(expVal, actVal.MatchUuid);
-        }
 
         [TestMethod]
         [DataRow(LeaderboardId.RMTeam, 1)]
@@ -260,7 +220,7 @@
         public async Task GetPlayerRatingHistoryAsyncTestNullAsync()
         {
             // Assert
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+            _ = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
                 AoE2net.GetPlayerRatingHistoryAsync(null, LeaderboardId.RMTeam, 1));
         }
 

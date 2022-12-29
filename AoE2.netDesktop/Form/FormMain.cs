@@ -1,14 +1,12 @@
 ﻿namespace AoE2NetDesktop.Form;
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using AoE2NetDesktop;
 using AoE2NetDesktop.CtrlForm;
-using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.Forms;
@@ -71,43 +69,6 @@ public partial class FormMain : ControllableForm
         RestoreWindowStatus();
         ResizePanels();
         SetChromaKey(Settings.Default.ChromaKey);
-        Awaiter.Complete();
-    }
-
-    private async void TextBoxGameId_KeyDown(object sender, KeyEventArgs e)
-    {
-        var textBox = (TextBox)sender;
-        Match match;
-
-        if(displayStatus == DisplayStatus.Shown) {
-            if(e.KeyCode == Keys.Enter) {
-                textBox.Visible = false;
-                e.Handled = true;
-                displayStatus = DisplayStatus.Redrawing;
-                labelGameId.Text = $"Loading... {textBox.Text}";
-                labelGameId1v1.Text = $"Loading... {textBox.Text}";
-                labelMatchNo.Text = "Loading selected match...";
-                progressBar.Start();
-
-                try {
-                    match = await AoE2net.GetMatchAsync(textBox.Text);
-                    await DrawMatchAsync(match, textBox.Text, null);
-                } catch(Exception ex) {
-                    labelMatchNo.Text = "Load Error";
-                    labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
-                }
-
-                progressBar.Stop();
-                displayStatus = DisplayStatus.Shown;
-            }
-        }
-
-        if(e.KeyCode == Keys.Escape) {
-            textBox.Visible = false;
-            e.Handled = true;
-        }
-
-        Focus();
         Awaiter.Complete();
     }
 
@@ -249,12 +210,6 @@ public partial class FormMain : ControllableForm
     private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         => Close();
 
-    private void LabelGameId_Click(object sender, EventArgs e)
-        => TextBoxGameIdActivate((Label)sender);
-
-    private void LabelGameId1v1_Click(object sender, EventArgs e)
-        => TextBoxGameIdActivate((Label)sender);
-
     private void Controls_MouseDown(object sender, MouseEventArgs e)
     {
         if((e.Button & MouseButtons.Left) == MouseButtons.Left) {
@@ -283,38 +238,6 @@ public partial class FormMain : ControllableForm
                 labelErrText.Text = $"invalid player Name:{player.Name} ProfilId:{player.ProfilId}";
             }
         }
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-    // Key Event handlers
-    ///////////////////////////////////////////////////////////////////////
-
-    private void TextBoxGameId_KeyPress(object sender, KeyPressEventArgs e)
-    {
-        // disable beep sound.
-        if(e.KeyChar is (char)Keys.Enter or (char)Keys.Escape) {
-            e.Handled = true;
-        }
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-    // Focus Event handlers
-    ///////////////////////////////////////////////////////////////////////
-
-    private void TextBoxGameIdActivate(Label label)
-    {
-        textBoxGameId.Visible = true;
-        textBoxGameId.Top = label.Top;
-        textBoxGameId.Left = label.Left;
-        textBoxGameId.BackColor = Color.White;
-        textBoxGameId.Text = string.Empty;
-        textBoxGameId.Focus();
-    }
-
-    private void TextBoxGameId_Leave(object sender, EventArgs e)
-    {
-        var textBox = (TextBox)sender;
-        textBox.Visible = false;
     }
 
     ///////////////////////////////////////////////////////////////////////

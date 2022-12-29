@@ -910,70 +910,6 @@ public partial class FormMainTests
     }
 
     [TestMethod]
-    [DataRow(false, DisplayStatus.Shown, Keys.Enter, "000000000", "Specific match", false)] // Team match
-    [DataRow(false, DisplayStatus.Shown, Keys.Enter, "000000001", "Specific match", false)] // 1v1 match
-
-    // DisplayStatus is not Shown.
-    [DataRow(false, DisplayStatus.Uninitialized, Keys.Enter, "000000000", "Last match", true)]
-    [DataRow(false, DisplayStatus.Uninitialized, Keys.Enter, "ffffffff-ffff-ffff-ffff-ffffffffffff", "Last match", true)]
-
-    // invalid matchId.
-    [DataRow(false, DisplayStatus.Shown, Keys.Enter, "", "Load Error: Invalid ID", false)]
-    [DataRow(false, DisplayStatus.Shown, Keys.Enter, null, "Load Error: Invalid ID", false)]
-    [DataRow(false, DisplayStatus.Shown, Keys.Enter, "12345", "Load Error: Invalid ID", false)]
-    [DataRow(false, DisplayStatus.Shown, Keys.Escape, "12345", "Last match", false)]
-
-    // Other unassigned keys.
-    [DataRow(false, DisplayStatus.Shown, Keys.End, "12345", "Last match", true)]
-
-    // network error
-    [DataRow(true, DisplayStatus.Shown, Keys.Enter, "000000000", "Load Error", false)]
-    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
-    public void TextBoxGameId_KeyDownTest(
-        bool exception, DisplayStatus displayStatus, Keys keys, string matchId, string expVal, bool expTextboxVisible)
-    {
-        // Arrange
-        var testClass = new FormMainPrivate();
-        var done = false;
-
-        // Act
-        testClass.Shown += async (sender, e) =>
-        {
-            await testClass.Awaiter.WaitAsync("FormMain_Shown");
-
-            testClass.httpClient.ForceTaskCanceledException = exception;
-            testClass.DisplayStatus = displayStatus;
-            testClass.textBoxGameId.Text = matchId;
-            testClass.textBoxGameId.Visible = true;
-
-            // Act
-            await testClass.TextBoxGameId_KeyDownAsync(keys);
-
-            // Assert
-            // Controls are invisible after window closed, so check Visible property before closed
-            Assert.AreEqual(expTextboxVisible, testClass.textBoxGameId.Visible);
-
-            testClass.Close();
-            done = true;
-
-            // Cleanup
-            testClass.httpClient.ForceTaskCanceledException = false;
-        };
-
-        testClass.ShowDialog();
-
-        // Assert
-        Assert.IsTrue(done);
-        Assert.AreEqual(exception, testClass.labelErrText.Text.Contains("Forced TaskCanceledException"));
-
-        if(CtrlMain.DisplayedMatch?.NumPlayers == 2) {
-            Assert.AreEqual(expVal, testClass.labelMatchNo1v1.Text);
-        } else {
-            Assert.AreEqual(expVal, testClass.labelMatchNo.Text);
-        }
-    }
-
-    [TestMethod]
     public void ShowMyHistoryHToolStripMenuItem_ClickTest()
     {
         // Arrange
@@ -1001,56 +937,6 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsFalse(testClass.Visible);
-    }
-
-    [TestMethod]
-    public void LabelGameId_ClickTest()
-    {
-        // Arrange
-        var testClass = new FormMainPrivate();
-        var e = new EventArgs();
-
-        // Act
-        testClass.Show();
-        Assert.IsFalse(testClass.textBoxGameId.Visible);
-        testClass.LabelGameId_Click(testClass.labelGameId, e);
-
-        // Assert
-        Assert.IsTrue(testClass.textBoxGameId.Visible);
-    }
-
-    [TestMethod]
-    public void LabelGameId1v1_ClickTest()
-    {
-        // Arrange
-        var testClass = new FormMainPrivate();
-        var e = new EventArgs();
-
-        // Act
-        testClass.Show();
-        Assert.IsFalse(testClass.textBoxGameId.Visible);
-        testClass.LabelGameId1v1_Click(testClass.labelGameId, e);
-
-        // Assert
-        Assert.IsTrue(testClass.textBoxGameId.Visible);
-    }
-
-    [TestMethod]
-    public void TextBoxGameIdTest()
-    {
-        // Arrange
-        var testClass = new FormMainPrivate();
-        var e = new EventArgs();
-
-        // Act
-        testClass.Show();
-        Assert.IsFalse(testClass.textBoxGameId.Visible);
-        testClass.LabelGameId1v1_Click(testClass.labelGameId, e);
-        Assert.IsTrue(testClass.textBoxGameId.Visible);
-        testClass.labelMatchNo.Focus();
-
-        // Assert
-        Assert.IsFalse(testClass.textBoxGameId.Visible);
     }
 
     [TestMethod]
@@ -1124,23 +1010,6 @@ public partial class FormMainTests
         // Act
         testClass.Show();
         testClass.PictureBoxMap1v1_DoubleClick(testClass.pictureBoxMap, e);
-
-        // Assert
-        // nothing to do.
-    }
-
-    [TestMethod]
-    [DataRow(Keys.Enter)]
-    [DataRow(Keys.A)]
-    public void TextBoxGameId_KeyPressTest(Keys key)
-    {
-        // Arrange
-        var testClass = new FormMainPrivate();
-        var e = new KeyPressEventArgs((char)key);
-
-        // Act
-        testClass.Show();
-        testClass.TextBoxGameId_KeyPress(testClass.textBoxGameId, e);
 
         // Assert
         // nothing to do.
