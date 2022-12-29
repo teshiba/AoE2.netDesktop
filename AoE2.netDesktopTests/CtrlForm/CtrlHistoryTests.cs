@@ -369,7 +369,9 @@ public class CtrlHistoryTests
     {
         // Arrange
         var expVal = string.Empty;
-        AoE2net.ComClient.SystemApiStub().ForceWin32Exception = true;
+        AoE2net.ComClient.SystemApi = new SystemApiStub(1) {
+            ForceWin32Exception = true,
+        };
         var testHttpClient = (TestHttpClient)AoE2net.ComClient;
         testHttpClient.LastRequest = null;
         var playerName = "player1";
@@ -394,7 +396,9 @@ public class CtrlHistoryTests
     {
         // Arrange
         var expVal = string.Empty;
-        AoE2net.ComClient.SystemApiStub().ForceException = true;
+        AoE2net.ComClient.SystemApi = new SystemApiStub(1) {
+            ForceException = true,
+        };
         var testHttpClient = (TestHttpClient)AoE2net.ComClient;
         testHttpClient.LastRequest = null;
         var playerName = "player1";
@@ -482,7 +486,7 @@ public class CtrlHistoryTests
         };
 
         // Act
-        actVal.ShowDialog();
+        _ = actVal.ShowDialog();
         Assert.IsTrue(done);
     }
 

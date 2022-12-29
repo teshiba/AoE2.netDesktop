@@ -313,12 +313,7 @@ public partial class FormMain : ControllableForm
         labelMatchResultTeam1.Tag = GetMatchResult(match, TeamType.OddColorNo);
         labelMatchResultTeam2.Text = GetMatchResult(match, TeamType.EvenColorNo).ToString();
         labelMatchResultTeam2.Tag = GetMatchResult(match, TeamType.EvenColorNo);
-
-        if(match.Finished is null && requestMatchView != 0) {
-            labelElapsedTimeTeam.Text = DateTimeExt.InvalidTime;
-        } else {
-            labelElapsedTimeTeam.Text = CtrlMain.GetElapsedTimeString(match);
-        }
+        labelElapsedTimeTeam.Text = GetElapsedTime(match);
     }
 
     private void SetMatchData1v1(Match match)
@@ -333,12 +328,20 @@ public partial class FormMain : ControllableForm
         labelMatchResult1v1p1.Tag = GetMatchResult(match, TeamType.OddColorNo);
         labelMatchResult1v1p2.Text = GetMatchResult(match, TeamType.EvenColorNo).ToString();
         labelMatchResult1v1p2.Tag = GetMatchResult(match, TeamType.EvenColorNo);
+        labelElapsedTime1v1.Text = GetElapsedTime(match);
+    }
+
+    private string GetElapsedTime(Match match)
+    {
+        string ret;
 
         if(match.Finished is null && requestMatchView != 0) {
-            labelElapsedTime1v1.Text = DateTimeExt.InvalidTime;
+            ret = DateTimeExt.InvalidTime;
         } else {
-            labelElapsedTime1v1.Text = CtrlMain.GetElapsedTimeString(match);
+            ret = CtrlMain.GetElapsedTimeString(match);
         }
+
+        return ret;
     }
 
     private MatchResult GetMatchResult(Match match, TeamType teamType)
