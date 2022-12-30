@@ -17,7 +17,7 @@ public static class AoE2net
     private const int HttpTimeoutSec = 20;
     private static readonly Uri BaseAddress = new(@"https://aoe2.net/api/");
     private static readonly Uri CivImageAddress = new(@"https://aoe2.net/assets/images/crests/25x25/");
-    private static readonly Uri ProfileIdBaseAddress = new(@"https://aoe2.net/#profile-");
+    private static readonly Uri ProfileIdBaseAddress = new(@"https://aoe2.net/#aoe2de-profile-");
 
     /// <summary>
     /// Gets or sets communication client.
