@@ -29,7 +29,7 @@ dotnet_diagnostic.SA1601.severity = none
 dotnet_diagnostic.SA1000.severity = none
 
 # IDE0058: Expression value is never used
-csharp_style_unused_value_expression_statement_preference = discard_variable:silent
+csharp_style_unused_value_expression_statement_preference = discard_variable:none
 dotnet_style_prefer_conditional_expression_over_assignment = false:error
 csharp_style_expression_bodied_methods = when_on_single_line:error
 

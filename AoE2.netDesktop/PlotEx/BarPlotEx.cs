@@ -95,45 +95,57 @@ public class BarPlotEx
 
         if(Values.Count != 0) {
             var stackedLower = Values.Select(x => x.Value.Lower).ToArray();
-
-            // if stacked graph data is avilable.
-            if(Values.Where(x => x.Value.Upper != null).Any()) {
-                var stackedUpper = new double[Values.Count];
-                var upperData = Values.Select(x => (double)x.Value.Upper).ToArray();
-                for(int i = 0; i < upperData.Length; i++) {
-                    stackedUpper[i] = stackedLower[i] + upperData[i];
-                }
-
-                var barUpper = plot.AddBar(stackedUpper);
-                barUpper.Orientation = orientation;
-                barUpper.ShowValuesAboveBars = ShowValuesAboveBars;
-                barUpper.FillColor = Color.IndianRed;
-            }
-
-            var barLower = plot.AddBar(stackedLower);
-            barLower.Orientation = orientation;
-            barLower.ShowValuesAboveBars = ShowValuesAboveBars;
-            barLower.FillColor = Color.Green;
-
-            plot.SetAxisLimits(xMin: 0, yMin: -1);
-
-            switch(orientation) {
-            case Orientation.Horizontal:
-                plot.YTicks(Values.Keys.ToArray());
-                plot.SetAxisLimits(xMin: YMin, yMin: XMin);
-                plot.XLabel(ValueLabel);
-                plot.YLabel(ItemLabel);
-                break;
-            case Orientation.Vertical:
-                plot.XTicks(Values.Keys.ToArray());
-                plot.SetAxisLimits(xMin: XMin, yMin: YMin);
-                plot.XLabel(ItemLabel);
-                plot.YLabel(ValueLabel);
-                plot.XAxis.TickLabelStyle(rotation: ItemLabelRotation);
-                break;
-            }
+            SetUpperData(plot, stackedLower);
+            SetLowerData(plot, stackedLower);
+            SetAxis(plot);
         } else {
             plot.YTicks(new string[] { "No Data" });
+        }
+    }
+
+    private void SetAxis(Plot plot)
+    {
+        plot.SetAxisLimits(xMin: 0, yMin: -1);
+
+        switch(orientation) {
+        case Orientation.Horizontal:
+            plot.YTicks(Values.Keys.ToArray());
+            plot.SetAxisLimits(xMin: YMin, yMin: XMin);
+            plot.XLabel(ValueLabel);
+            plot.YLabel(ItemLabel);
+            break;
+        case Orientation.Vertical:
+            plot.XTicks(Values.Keys.ToArray());
+            plot.SetAxisLimits(xMin: XMin, yMin: YMin);
+            plot.XLabel(ItemLabel);
+            plot.YLabel(ValueLabel);
+            plot.XAxis.TickLabelStyle(rotation: ItemLabelRotation);
+            break;
+        }
+    }
+
+    private void SetLowerData(Plot plot, double[] stackedLower)
+    {
+        var barLower = plot.AddBar(stackedLower);
+        barLower.Orientation = orientation;
+        barLower.ShowValuesAboveBars = ShowValuesAboveBars;
+        barLower.FillColor = Color.Green;
+    }
+
+    private void SetUpperData(Plot plot, double[] stackedLower)
+    {
+        // if stacked graph data is avilable.
+        if(Values.Where(x => x.Value.Upper != null).Any()) {
+            var stackedUpper = new double[Values.Count];
+            var upperData = Values.Select(x => (double)x.Value.Upper).ToArray();
+            for(int i = 0; i < upperData.Length; i++) {
+                stackedUpper[i] = stackedLower[i] + upperData[i];
+            }
+
+            var barUpper = plot.AddBar(stackedUpper);
+            barUpper.Orientation = orientation;
+            barUpper.ShowValuesAboveBars = ShowValuesAboveBars;
+            barUpper.FillColor = Color.IndianRed;
         }
     }
 }

@@ -165,6 +165,7 @@ public partial class FormHistory : ControllableForm
         var location = new Point(contextMenuStripMatchedPlayers.Left, contextMenuStripMatchedPlayers.Top);
         var point = listViewMatchedPlayers.PointToClient(location);
         var item = listViewMatchedPlayers.HitTest(point).Item;
+
         if(item?.Bounds.Contains(point) ?? false) {
             openAoE2NetProfileToolStripMenuItem.Visible = true;
         } else {

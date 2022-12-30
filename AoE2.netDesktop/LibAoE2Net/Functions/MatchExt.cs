@@ -1,6 +1,7 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net.Functions;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using AoE2NetDesktop.CtrlForm;
@@ -92,6 +93,18 @@ public static class MatchExt
     /// <returns>true: someone has rating change.</returns>
     private static MatchResult GetMatchResultWithRatingChange(Match match, TeamType team)
     {
+        // Table of MatchResult. (Contains('-'), IsOddColor, TeamType)
+        var xxx = new Dictionary<(bool, bool, TeamType), MatchResult> {
+            { (true, true, TeamType.OddColorNo), MatchResult.Defeated },
+            { (true, true, TeamType.EvenColorNo), MatchResult.Victorious },
+            { (true, false, TeamType.OddColorNo), MatchResult.Victorious },
+            { (true, false, TeamType.EvenColorNo), MatchResult.Defeated },
+            { (false, true, TeamType.OddColorNo), MatchResult.Victorious },
+            { (false, true, TeamType.EvenColorNo), MatchResult.Defeated },
+            { (false, false, TeamType.OddColorNo), MatchResult.Defeated },
+            { (false, false, TeamType.EvenColorNo), MatchResult.Victorious },
+        };
+
         var ret = MatchResult.InProgress;
         var players = match.Players.Where(player => !string.IsNullOrEmpty(player.RatingChange));
 
@@ -100,35 +113,7 @@ public static class MatchExt
         }
 
         foreach(Player player in players) {
-            if(player.RatingChange.Contains('-')) {
-                if(player.IsOddColor()) {
-                    if(team == TeamType.OddColorNo) {
-                        ret = MatchResult.Defeated;
-                    } else {
-                        ret = MatchResult.Victorious;
-                    }
-                } else {
-                    if(team == TeamType.OddColorNo) {
-                        ret = MatchResult.Victorious;
-                    } else {
-                        ret = MatchResult.Defeated;
-                    }
-                }
-            } else {
-                if(player.IsOddColor()) {
-                    if(team == TeamType.OddColorNo) {
-                        ret = MatchResult.Victorious;
-                    } else {
-                        ret = MatchResult.Defeated;
-                    }
-                } else {
-                    if(team == TeamType.OddColorNo) {
-                        ret = MatchResult.Defeated;
-                    } else {
-                        ret = MatchResult.Victorious;
-                    }
-                }
-            }
+            ret = xxx[(player.RatingChange.Contains('-'), player.IsOddColor(), team)];
         }
 
         return ret;

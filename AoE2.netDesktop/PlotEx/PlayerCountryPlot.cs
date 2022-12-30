@@ -67,8 +67,6 @@ public class PlayerCountryPlot : BarPlotEx
             }
         }
 
-        if(Values.Count != 0) {
-            Render();
-        }
+        Render();
     }
 }

@@ -108,13 +108,8 @@ public static class AoE2netHelpers
                 }
 
                 foreach(var player in lastMatch.Players) {
-                    if(player.Rating == null) {
-                        await TryFillRateAsync(leaderboardId, player).ConfigureAwait(false);
-                    }
-
-                    if(player.Name == null) {
-                        await TryFillPlayerNameAsync(player).ConfigureAwait(false);
-                    }
+                    player.Rating ??= await GetRateAsync(leaderboardId, player).ConfigureAwait(false);
+                    player.Name ??= await GetPlayerNameAsync(player).ConfigureAwait(false);
                 }
             }
         } else {
@@ -158,30 +153,29 @@ public static class AoE2netHelpers
         return matches.Count != 0 ? matches[0] : new Match();
     }
 
-    private static async Task TryFillRateAsync(LeaderboardId leaderboardId, Player player)
+    private static async Task<int?> GetRateAsync(LeaderboardId leaderboardId, Player player)
     {
-        List<PlayerRating> rate;
+        int? ret = null;
 
         if(player.ProfilId is int profileId) {
-            rate = await AoE2net.GetPlayerRatingHistoryAsync(profileId, leaderboardId, 1).ConfigureAwait(false);
-        } else {
-            rate = new List<PlayerRating>();
+            var rate = await AoE2net.GetPlayerRatingHistoryAsync(profileId, leaderboardId, 1).ConfigureAwait(false);
+            if(rate.Count != 0) {
+                ret = rate[0].Rating;
+            }
         }
 
-        if(rate.Count != 0) {
-            player.Rating = rate[0].Rating;
-        }
+        return ret;
     }
 
-    private static async Task TryFillPlayerNameAsync(Player player)
+    private static async Task<string> GetPlayerNameAsync(Player player)
     {
-        PlayerMatchHistory matches;
+        var ret = AINameNotation;
 
         if(player.ProfilId is int profileId) {
-            matches = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId).ConfigureAwait(false);
-            player.Name = matches[0].GetPlayer(profileId).Name;
-        } else {
-            player.Name = AINameNotation;
+            var matches = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId).ConfigureAwait(false);
+            ret = matches[0].GetPlayer(profileId).Name;
         }
+
+        return ret;
     }
 }

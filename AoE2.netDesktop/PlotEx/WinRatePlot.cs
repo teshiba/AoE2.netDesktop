@@ -57,17 +57,17 @@ public class WinRatePlot : BarPlotEx
 
         Values.Clear();
         ItemLabel = dataSource.ToString();
+        string key;
 
         foreach(var item in playerMatchHistory.Where(item => item.LeaderboardId == leaderBoardId)) {
             var player = item.GetPlayer(profileId);
-            switch(dataSource) {
-            case DataSource.Map:
-                AddWonRate(Values, player.Won, item.GetMapName());
-                break;
-            case DataSource.Civilization:
-                AddWonRate(Values, player.Won, player.GetCivName());
-                break;
-            }
+            key = dataSource switch {
+                DataSource.Map => item.GetMapName(),
+                DataSource.Civilization => player.GetCivName(),
+                _ => string.Empty,
+            };
+
+            AddWonRate(Values, player.Won, key);
         }
 
         Render();
