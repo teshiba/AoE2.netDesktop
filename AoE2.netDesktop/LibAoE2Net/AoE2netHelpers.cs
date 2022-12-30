@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using AoE2NetDesktop.LibAoE2Net.Functions;
@@ -30,13 +31,24 @@ public static class AoE2netHelpers
     public static async Task<PlayerMatchHistory> GetPlayerMatchHistoryAllAsync(int profileId)
     {
         var ret = new PlayerMatchHistory();
-        PlayerMatchHistory readResult;
+        PlayerMatchHistory matches;
 
         do {
             var startCount = ret.Count;
-            readResult = await AoE2net.GetPlayerMatchHistoryAsync(startCount, HistoryReadCountMax, profileId);
-            ret.AddRange(readResult);
-        } while(readResult.Count == HistoryReadCountMax);
+            matches = await AoE2net.GetPlayerMatchHistoryAsync(startCount, HistoryReadCountMax, profileId);
+
+            foreach(var leaderboardId in Enum.GetValues<LeaderboardId>()) {
+                var matchesEachLeaderboard = matches.Where((match) => match.LeaderboardId == leaderboardId);
+                Player nextMatchPlayer = null;
+                foreach(var match in matchesEachLeaderboard) {
+                    var player = match.GetPlayer(profileId);
+                    player.Won = GetPlayersWon(nextMatchPlayer, player);
+                    nextMatchPlayer = player;
+                }
+            }
+
+            ret.AddRange(matches);
+        } while(matches.Count == HistoryReadCountMax);
 
         return ret;
     }
@@ -123,6 +135,25 @@ public static class AoE2netHelpers
             SteamId = steamId,
             LastMatch = lastMatch,
         };
+
+        return ret;
+    }
+
+    private static bool? GetPlayersWon(Player nextMatchPlayer, Player player)
+    {
+        bool? ret = null;
+
+        if(player.RatingChange is null) {
+            if(nextMatchPlayer is not null && player.Rating is not null) {
+                if(player.Rating < nextMatchPlayer.Rating) {
+                    ret = true;
+                } else if(nextMatchPlayer.Rating < player.Rating) {
+                    ret = false;
+                }
+            }
+        } else {
+            ret = !player.RatingChange.Contains('-');
+        }
 
         return ret;
     }

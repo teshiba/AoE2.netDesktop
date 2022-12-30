@@ -103,7 +103,7 @@ public class CtrlHistoryTests
     public void ReadPlayerMatchHistoryAsyncTest()
     {
         // Arrange
-        var expVal = 3;
+        var expVal = 9;
 
         // Act
         var testClass = new CtrlHistory(TestData.AvailableUserProfileId);
