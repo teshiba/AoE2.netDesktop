@@ -140,10 +140,14 @@ public class CtrlMain : FormControler
     /// <summary>
     /// Get the number of losses.
     /// </summary>
-    /// <param name="leaderboard">player's leaderboard.</param>
+    /// <param name="leaderboardContainer">player's leaderboard.</param>
     /// <returns>lose count.</returns>
-    public static string GetLossesString(Leaderboard leaderboard)
+    public static string GetLossesString(LeaderboardContainer leaderboardContainer)
     {
+        var leaderboard = leaderboardContainer.Leaderboards.Count != 0 ?
+            leaderboardContainer.Leaderboards[0]
+            : new Leaderboard();
+
         var loses = leaderboard.Games - leaderboard.Wins;
 
         return loses?.ToString() ?? "N/A";
@@ -152,10 +156,16 @@ public class CtrlMain : FormControler
     /// <summary>
     /// Get the number of wins.
     /// </summary>
-    /// <param name="leaderboard">player's leaderboard.</param>
+    /// <param name="leaderboardContainer">player's leaderboard.</param>
     /// <returns>win count.</returns>
-    public static string GetWinsString(Leaderboard leaderboard)
-        => leaderboard.Wins?.ToString() ?? "N/A";
+    public static string GetWinsString(LeaderboardContainer leaderboardContainer)
+    {
+        var leaderboard = leaderboardContainer.Leaderboards.Count != 0 ?
+            leaderboardContainer.Leaderboards[0]
+            : new Leaderboard();
+
+        return leaderboard.Wins?.ToString() ?? "N/A";
+    }
 
     /// <summary>
     /// Gets Elapsed Time.

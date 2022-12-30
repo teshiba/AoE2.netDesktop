@@ -32,12 +32,12 @@ public partial class FormMain : ControllableForm
         : base(new CtrlMain())
     {
         InitializeComponent();
+        Init1v1CtrlList();
         InitEventHandler();
         InitOnChangePropertyHandler();
         InitPlayersCtrlList();
         ClearLastMatch();
         InitShortcut();
-        Init1v1CtrlList();
 
         // formMain hold the app settings.
         CtrlSettings = new CtrlSettings();

@@ -184,13 +184,33 @@ public class CtrlMainTests
     public void GetLossesStringTest(int? games, int? wins, string expVal)
     {
         // Arrange
-        var player = new Leaderboard() {
-            Games = games,
-            Wins = wins,
+        var leaderboardContainer = new LeaderboardContainer() {
+            Leaderboards = new List<Leaderboard>() {
+                new Leaderboard() {
+                    Games = games,
+                    Wins = wins,
+                },
+            },
         };
 
         // Act
-        var actVal = CtrlMain.GetLossesString(player);
+        var actVal = CtrlMain.GetLossesString(leaderboardContainer);
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    public void GetLossesStringTestCount0()
+    {
+        // Arrange
+        string expVal = "N/A";
+        var leaderboardContainer = new LeaderboardContainer() {
+            Leaderboards = new List<Leaderboard>(),
+        };
+
+        // Act
+        var actVal = CtrlMain.GetLossesString(leaderboardContainer);
 
         // Assert
         Assert.AreEqual(expVal, actVal);
@@ -202,12 +222,32 @@ public class CtrlMainTests
     public void GetWinsStringTest(int? wins, string expVal)
     {
         // Arrange
-        var player = new Leaderboard() {
-            Wins = wins,
+        var leaderboardContainer = new LeaderboardContainer() {
+            Leaderboards = new List<Leaderboard>() {
+                new Leaderboard() {
+                    Wins = wins,
+                },
+            },
         };
 
         // Act
-        var actVal = CtrlMain.GetWinsString(player);
+        var actVal = CtrlMain.GetWinsString(leaderboardContainer);
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    public void GetWinsStringTestCount0()
+    {
+        // Arrange
+        string expVal = "N/A";
+        var leaderboardContainer = new LeaderboardContainer() {
+            Leaderboards = new List<Leaderboard>(),
+        };
+
+        // Act
+        var actVal = CtrlMain.GetWinsString(leaderboardContainer);
 
         // Assert
         Assert.AreEqual(expVal, actVal);

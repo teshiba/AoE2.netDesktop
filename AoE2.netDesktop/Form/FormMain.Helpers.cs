@@ -359,20 +359,6 @@ public partial class FormMain : ControllableForm
         return ret;
     }
 
-    private async Task<Match> SetLeaderboardData1v1Async(Match match)
-    {
-        foreach(var item in control1V1s) {
-            var leaderboard = await AoE2net.GetLeaderboardAsync(match.LeaderboardId, 0, 1, item.Player.ProfilId);
-
-            if(leaderboard.Leaderboards.Count != 0) {
-                item.LabelWins.Text = CtrlMain.GetWinsString(leaderboard.Leaderboards[0]);
-                item.LabelLoses.Text = CtrlMain.GetLossesString(leaderboard.Leaderboards[0]);
-            }
-        }
-
-        return match;
-    }
-
     private async Task<Match> SetPlayersData1v1Async(Match match)
     {
         if(match.Players[0].IsOddColor()) {
@@ -383,9 +369,10 @@ public partial class FormMain : ControllableForm
             control1V1s[1].Player = match.Players[0];
         }
 
-        var ret = await SetLeaderboardData1v1Async(match);
-
         foreach(var item in control1V1s) {
+            var leaderboard = await AoE2net.GetLeaderboardAsync(match.LeaderboardId, 0, 1, item.Player.ProfilId);
+            item.LabelWins.Text = CtrlMain.GetWinsString(leaderboard);
+            item.LabelLoses.Text = CtrlMain.GetLossesString(leaderboard);
             item.LabelColor.Text = item.Player.GetColorString();
             item.LabelColor.BackColor = item.Player.GetColor();
             item.LabelName.Text = CtrlMain.GetPlayerNameString(item.Player.Name);
@@ -398,7 +385,7 @@ public partial class FormMain : ControllableForm
             item.LabelTeamResult.Text = $"";
         }
 
-        return ret;
+        return match;
     }
 
     private void SetPlayersData(List<Player> players)
