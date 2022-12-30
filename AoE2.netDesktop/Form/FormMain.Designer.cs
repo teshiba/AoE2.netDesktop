@@ -1476,7 +1476,6 @@
             this.panelDebug.ResumeLayout(false);
             this.panelDebug.PerformLayout();
             this.panelGameInfo.ResumeLayout(false);
-            this.panelGameInfo.PerformLayout();
             this.panel1v1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMap1v1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1v1RateHistoryP2)).EndInit();

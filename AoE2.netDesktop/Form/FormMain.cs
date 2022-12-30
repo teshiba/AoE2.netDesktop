@@ -128,6 +128,7 @@ public partial class FormMain : ControllableForm
 
         try {
             _ = await CtrlMain.InitAsync(language);
+            formSettings = new FormSettings(CtrlSettings);
 
             // if the app is opened first, need to set user profile.
             if(!await CtrlSettings.ReadProfileAsync()) {

@@ -300,6 +300,8 @@ public partial class FormSettings : ControllableForm
     {
         SaveWindowPosition();
         Settings.Default.Save();
+        Hide();
+        e.Cancel = true;
     }
 
     private void TextBoxChromaKey_Leave(object sender, EventArgs e)
