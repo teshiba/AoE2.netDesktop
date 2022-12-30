@@ -80,11 +80,18 @@ public class ListViewItemComparer : IComparer
 
     private static int GetCompareResult(string textx, string texty, ComparerMode columnModes)
     {
-        var ret = columnModes switch {
-            ComparerMode.Integer => int.Parse(textx).CompareTo(int.Parse(texty)),
-            ComparerMode.DateTime => DateTime.Compare(DateTime.Parse(textx), DateTime.Parse(texty)),
-            _ => string.Compare(textx, texty),
-        };
+        int ret;
+
+        if(string.IsNullOrEmpty(textx) || string.IsNullOrEmpty(texty)) {
+            ret = 0;
+        } else {
+            ret = columnModes switch {
+                ComparerMode.Integer => int.Parse(textx).CompareTo(int.Parse(texty)),
+                ComparerMode.DateTime => DateTime.Compare(DateTime.Parse(textx), DateTime.Parse(texty)),
+                _ => string.Compare(textx, texty),
+            };
+        }
+
         return ret;
     }
 }

@@ -96,6 +96,11 @@ public class ListViewItemComparerTests
     [DataRow("2000/1/1", "2000/2/1", ComparerMode.DateTime, SortOrder.Descending, 1)]
     [DataRow("2000/2/1", "2000/1/1", ComparerMode.DateTime, SortOrder.Descending, -1)]
     [DataRow("2000/3/1", "2000/3/1", ComparerMode.DateTime, SortOrder.Descending, 0)]
+    [DataRow("", "", ComparerMode.Integer, SortOrder.Ascending, 0)]
+    [DataRow("", "", ComparerMode.String, SortOrder.Ascending, 0)]
+    [DataRow("", "", ComparerMode.DateTime, SortOrder.Ascending, 0)]
+    [DataRow("1", "", ComparerMode.Integer, SortOrder.Ascending, 0)]
+    [DataRow("", "y", ComparerMode.String, SortOrder.Ascending, 0)]
     public void CompareTest(string x, string y, ComparerMode comparerMode, SortOrder sortOrder, int expVal)
     {
         // Arrange
