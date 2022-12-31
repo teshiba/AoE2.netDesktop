@@ -20,7 +20,7 @@ set REPORTTYPES="Html_Light"
 rem set REPORTTYPES="Badges;MarkdownSummary;Html;Html_Light;Html_Dark;HtmlChart;HtmlInline;HtmlSummary;TextSummary;MHtml"
 
 rem test option
-set TEST_FILTERS="TestCategory!=GUI"
+set TEST_FILTERS="TestCategory!=GUI & TestCategory!=ServerTest"
 set TEST_TIMEOUT_MSEC=120000
 
 rem ===========================================================================
