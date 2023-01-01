@@ -9,20 +9,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 [TestClass]
 public class LogTests
 {
-    [TestInitialize]
-    public void TestInit()
-    {
-        // clean up
-        Log.Level = LogLevel.Non;
-        Log.Clear();
-    }
-
     [TestMethod]
     public void NonTest()
     {
         // Arrange
         var expVal = string.Empty;
+        var currentLevel = Log.Level;
         Log.Level = LogLevel.Non;
+        Log.Clear();
 
         // Act
         Log.Error("error text.");
@@ -34,7 +28,7 @@ public class LogTests
         Assert.AreEqual(expVal, actVal);
 
         // Clean
-        Log.Level = Log.LevelDefault;
+        Log.Level = currentLevel;
     }
 
     [TestMethod]
@@ -42,7 +36,9 @@ public class LogTests
     {
         // Arrange
         var expVal = "[ERROR] error text." + Environment.NewLine;
+        var currentLevel = Log.Level;
         Log.Level = LogLevel.Error;
+        Log.Clear();
 
         // Act
         Log.Error("error text.");
@@ -54,7 +50,7 @@ public class LogTests
         Assert.AreEqual(expVal, actVal);
 
         // Clean
-        Log.Level = Log.LevelDefault;
+        Log.Level = currentLevel;
     }
 
     [TestMethod]
@@ -63,7 +59,9 @@ public class LogTests
         // Arrange
         var expVal = "[ERROR] error text." + Environment.NewLine
             + "[DEBUG] debug text." + Environment.NewLine;
+        var currentLevel = Log.Level;
         Log.Level = LogLevel.Debug;
+        Log.Clear();
 
         // Act
         Log.Error("error text.");
@@ -75,7 +73,7 @@ public class LogTests
         Assert.AreEqual(expVal, actVal);
 
         // Clean
-        Log.Level = Log.LevelDefault;
+        Log.Level = currentLevel;
     }
 
     [TestMethod]
@@ -85,7 +83,9 @@ public class LogTests
         var expVal = "[ERROR] error text." + Environment.NewLine
             + "[DEBUG] debug text." + Environment.NewLine
             + "[INFO] info text." + Environment.NewLine;
+        var currentLevel = Log.Level;
         Log.Level = LogLevel.Info;
+        Log.Clear();
 
         // Act
         Log.Error("error text.");
@@ -97,6 +97,6 @@ public class LogTests
         Assert.AreEqual(expVal, actVal);
 
         // Clean
-        Log.Level = Log.LevelDefault;
+        Log.Level = currentLevel;
     }
 }
