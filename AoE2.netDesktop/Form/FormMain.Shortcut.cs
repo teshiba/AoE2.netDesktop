@@ -117,8 +117,10 @@ public partial class FormMain : ControllableForm
             key += "Alt";
         }
 
+        var keyString = key + keyCode.ToString();
+
         var result = shortcutActions.TryGetValue(
-            key + keyCode.ToString(), out Func<Task> action);
+            keyString, out var action);
         if(!result) {
             action = () => Task.Run(() =>
             {
@@ -126,7 +128,7 @@ public partial class FormMain : ControllableForm
             });
         }
 
-        Log.Debug($"Press key {key}");
+        Log.Debug($"Press key {keyString}");
 
         return action;
     }
