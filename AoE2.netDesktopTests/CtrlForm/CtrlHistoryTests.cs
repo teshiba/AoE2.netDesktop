@@ -350,7 +350,7 @@ public class CtrlHistoryTests
     public void OpenProfileTest()
     {
         // Arrange
-        var expVal = "/c start https://aoe2.net/#profile-1";
+        var expVal = "/c start https://aoe2.net/#aoe2de-profile-1";
         var playerName = "player1";
         var profileId = TestData.AvailableUserProfileId;
         var testClass = new CtrlHistory(profileId);
