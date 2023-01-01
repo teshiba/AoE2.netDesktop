@@ -38,5 +38,7 @@ public static class TestData
             SystemApi = new SystemApiStub(1),
         };
         StringsExt.InitAsync().Wait();
+
+        Log.Level = LogLevel.Debug;
     }
 }

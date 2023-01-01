@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
 
 /// <summary>
@@ -124,6 +125,8 @@ public partial class FormMain : ControllableForm
                 // Undefined shortcut key
             });
         }
+
+        Log.Debug($"Press key {key}");
 
         return action;
     }
