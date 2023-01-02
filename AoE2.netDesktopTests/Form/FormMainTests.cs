@@ -10,6 +10,7 @@ using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
 
 using AoE2NetDesktopTests.TestData;
 using AoE2NetDesktopTests.TestUtility;
@@ -383,6 +384,7 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsTrue(done);
+        Log.Debug("End of KeyDownF5 test");
     }
 
     [TestMethod]
