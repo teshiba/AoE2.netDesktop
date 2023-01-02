@@ -2,7 +2,7 @@ echo off
 rem ===========================================================================
 rem coverage.bat
 rem ===========================================================================
-echo "Start unit test"
+echo "Start unit test  %date% %time%"
 
 rem ===========================================================================
 rem Tool path
@@ -20,14 +20,18 @@ set REPORTTYPES="Html_Light"
 rem set REPORTTYPES="Badges;MarkdownSummary;Html;Html_Light;Html_Dark;HtmlChart;HtmlInline;HtmlSummary;TextSummary;MHtml"
 
 rem test option
-set TEST_FILTERS="TestCategory!=GUI"
-set TEST_TIMEOUT_MSEC=60000
+set TEST_FILTERS="TestCategory!=GUI & TestCategory!=ServerTest"
+set TEST_TIMEOUT_MSEC=120000
 
 rem ===========================================================================
 rem Run test
 echo on
 dotnet test --collect:"XPlat Code Coverage" --filter %TEST_FILTERS% "--logger:Console;verbosity=detailed" -- RunConfiguration.TestSessionTimeout=%TEST_TIMEOUT_MSEC% > test.log  2>&1
 echo off
+
+rem ===========================================================================
+rem Run Metrics
+dotnet msbuild /t:Metrics
 
 type test.log
 

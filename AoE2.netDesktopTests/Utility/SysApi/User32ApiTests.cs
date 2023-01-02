@@ -1,12 +1,12 @@
-﻿namespace AoE2NetDesktop.Tests;
-
-using AoE2NetDesktop.Utility.SysApi;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿namespace AoE2NetDesktop.Utility.SysApi.Tests;
 
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+
+using AoE2NetDesktop.Utility.SysApi;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public class User32ApiTests
@@ -40,7 +40,7 @@ public class User32ApiTests
         var processName = Process.GetProcessById(lpdwProcessId).ProcessName;
 
         // Assert
-        Assert.AreNotEqual(0, threadId);
+        Assert.AreNotEqual(0u, threadId);
         Assert.AreNotEqual(expNotVal, processName);
     }
 

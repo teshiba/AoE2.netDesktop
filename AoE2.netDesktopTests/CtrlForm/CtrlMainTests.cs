@@ -1,18 +1,5 @@
 ﻿namespace AoE2NetDesktop.CtrlForm.Tests;
 
-using AoE2NetDesktop.CtrlForm;
-using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.LibAoE2Net.JsonFormat;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Utility;
-using AoE2NetDesktop.Utility.SysApi;
-
-using AoE2netDesktopTests.TestUtility;
-
-using LibAoE2net;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -20,6 +7,17 @@ using System.Drawing;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.SysApi;
+
+using AoE2NetDesktopTests.TestUtility;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public class CtrlMainTests
@@ -31,22 +29,6 @@ public class CtrlMainTests
         new object[] { 60L,  null,     360L,   "0:05:00 (0:08:30 in game)" },
         new object[] { null, null,     360L,   "0:00:00 (0:00:00 in game)" },
     };
-
-    [ClassInitialize]
-    public static void Init(TestContext context)
-    {
-        if(context is null) {
-            throw new ArgumentNullException(nameof(context));
-        }
-
-        StringsExt.Init();
-    }
-
-    [TestInitialize]
-    public void InitTest()
-    {
-        AoE2net.ComClient = new TestHttpClient();
-    }
 
     [TestMethod]
     [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
@@ -87,102 +69,6 @@ public class CtrlMainTests
     }
 
     [TestMethod]
-    [DataRow(TeamType.OddColorNo, 4)]
-    [DataRow(TeamType.EvenColorNo, 40)]
-    public void GetAverageRateTest(TeamType teamType, int? expVal)
-    {
-        // Arrange
-        var players = new List<Player> {
-            new Player { Color = 1, Rating = 1 },
-            new Player { Color = 2, Rating = 10 },
-            new Player { Color = 3, Rating = 3 },
-            new Player { Color = 4, Rating = 30 },
-            new Player { Color = 5, Rating = 5 },
-            new Player { Color = 6, Rating = 50 },
-            new Player { Color = 7, Rating = 7 },
-            new Player { Color = 8, Rating = 70 },
-        };
-
-        // Act
-        var actVal = CtrlMain.GetAverageRate(players, teamType);
-
-        // Assert
-        Assert.AreEqual(expVal, actVal);
-    }
-
-    [TestMethod]
-    [DataRow(TeamType.OddColorNo, 3)]
-    [DataRow(TeamType.EvenColorNo, 30)]
-    public void GetAverageRateTestIncludeRateNull(TeamType teamType, int? expVal)
-    {
-        // Arrange
-        var players = new List<Player> {
-            new Player { Color = 1, Rating = 1 },
-            new Player { Color = 2, Rating = 10 },
-            new Player { Color = 3, Rating = 3 },
-            new Player { Color = 4, Rating = 30 },
-            new Player { Color = 5, Rating = 5 },
-            new Player { Color = 6, Rating = 50 },
-            new Player { Color = 7, Rating = null },
-            new Player { Color = 8, Rating = null },
-        };
-
-        // Act
-        var actVal = CtrlMain.GetAverageRate(players, teamType);
-
-        // Assert
-        Assert.AreEqual(expVal, actVal);
-    }
-
-    [TestMethod]
-    public void GetAverageRateTestArgumentOutOfRangeException()
-    {
-        // Arrange
-        // Act
-        // Assert
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-        {
-            _ = CtrlMain.GetAverageRate(new List<Player>(), (TeamType)(-1));
-        });
-    }
-
-    [TestMethod]
-    public void GetAverageRateTestPlayerNull()
-    {
-        // Arrange
-        // Act
-        // Assert
-        Assert.ThrowsException<ArgumentNullException>(() =>
-        {
-            _ = CtrlMain.GetAverageRate(null, TeamType.OddColorNo);
-        });
-    }
-
-    [TestMethod]
-    public void GetAverageRateTestRateAllNull()
-    {
-        // Arrange
-        var players = new List<Player> {
-            new Player { Color = 1, Rating = null },
-            new Player { Color = 2, Rating = null },
-            new Player { Color = 3, Rating = null },
-            new Player { Color = 4, Rating = null },
-            new Player { Color = 5, Rating = null },
-            new Player { Color = 6, Rating = null },
-            new Player { Color = 7, Rating = null },
-            new Player { Color = 8, Rating = null },
-        };
-
-        int? expVal = null;
-
-        // Act
-        var actVal = CtrlMain.GetAverageRate(players, TeamType.EvenColorNo);
-
-        // Assert
-        Assert.AreEqual(expVal, actVal);
-    }
-
-    [TestMethod]
     [DataRow(1, "1")]
     [DataRow(null, " N/A")]
     public void GetRateStringTest(int? rate, string expVal)
@@ -217,7 +103,6 @@ public class CtrlMainTests
     public void GetMapNameTest(int? mapType, string expVal)
     {
         // Arrange
-        AoE2net.ComClient = new TestHttpClient();
         CtrlMain.SystemApi = new SystemApiStub(1);
         var testClass = new CtrlMain();
         var match = new Match() {
@@ -299,13 +184,33 @@ public class CtrlMainTests
     public void GetLossesStringTest(int? games, int? wins, string expVal)
     {
         // Arrange
-        var player = new Leaderboard() {
-            Games = games,
-            Wins = wins,
+        var leaderboardContainer = new LeaderboardContainer() {
+            Leaderboards = new List<Leaderboard>() {
+                new Leaderboard() {
+                    Games = games,
+                    Wins = wins,
+                },
+            },
         };
 
         // Act
-        var actVal = CtrlMain.GetLossesString(player);
+        var actVal = CtrlMain.GetLossesString(leaderboardContainer);
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    public void GetLossesStringTestCount0()
+    {
+        // Arrange
+        string expVal = "N/A";
+        var leaderboardContainer = new LeaderboardContainer() {
+            Leaderboards = new List<Leaderboard>(),
+        };
+
+        // Act
+        var actVal = CtrlMain.GetLossesString(leaderboardContainer);
 
         // Assert
         Assert.AreEqual(expVal, actVal);
@@ -317,12 +222,32 @@ public class CtrlMainTests
     public void GetWinsStringTest(int? wins, string expVal)
     {
         // Arrange
-        var player = new Leaderboard() {
-            Wins = wins,
+        var leaderboardContainer = new LeaderboardContainer() {
+            Leaderboards = new List<Leaderboard>() {
+                new Leaderboard() {
+                    Wins = wins,
+                },
+            },
         };
 
         // Act
-        var actVal = CtrlMain.GetWinsString(player);
+        var actVal = CtrlMain.GetWinsString(leaderboardContainer);
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    public void GetWinsStringTestCount0()
+    {
+        // Arrange
+        string expVal = "N/A";
+        var leaderboardContainer = new LeaderboardContainer() {
+            Leaderboards = new List<Leaderboard>(),
+        };
+
+        // Act
+        var actVal = CtrlMain.GetWinsString(leaderboardContainer);
 
         // Assert
         Assert.AreEqual(expVal, actVal);
@@ -336,12 +261,12 @@ public class CtrlMainTests
         DateTimeExt.TimeZoneInfo = TimeZoneInfo.Utc;
         DateTimeExt.DateTimeFormatInfo = DateTimeFormatInfo.InvariantInfo;
 
-        CtrlMain.LastMatch = new Match() {
+        CtrlMain.DisplayedMatch = new Match() {
             Started = 0,
         };
 
         // Act
-        var actVal = CtrlMain.GetOpenedTime();
+        var actVal = CtrlMain.GetOpenedTimeString(CtrlMain.DisplayedMatch);
 
         // Assert
         Assert.AreEqual(expVal, actVal);
@@ -353,10 +278,10 @@ public class CtrlMainTests
         // Arrange
         var expVal = DateTimeExt.InvalidTime;
         DateTimeExt.TimeZoneInfo = TimeZoneInfo.Utc;
-        CtrlMain.LastMatch = null;
+        CtrlMain.DisplayedMatch = null;
 
         // Act
-        var actVal = CtrlMain.GetOpenedTime();
+        var actVal = CtrlMain.GetOpenedTimeString(CtrlMain.DisplayedMatch);
 
         // Assert
         Assert.AreEqual(expVal, actVal);
@@ -373,10 +298,50 @@ public class CtrlMainTests
             Started = opened,
             Finished = finished,
         };
-        CtrlMain.LastMatch = testClass;
+        CtrlMain.DisplayedMatch = testClass;
 
         // Act
-        var actVal = CtrlMain.GetElapsedTime();
+        var actVal = CtrlMain.GetElapsedTimeString(CtrlMain.DisplayedMatch);
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    [DataRow(MatchResult.Defeated)]
+    [DataRow(MatchResult.InProgress)]
+    [DataRow(MatchResult.Unknown)]
+    [DataRow(MatchResult.Victorious)]
+    [DataRow(MatchResult.NotStarted)]
+    public void GetBorderedStyleTest(MatchResult matchResult)
+    {
+        // Act
+        var actVal = CtrlMain.GetBorderedStyle(matchResult);
+
+        // Assert
+        Assert.IsNotNull(actVal);
+    }
+
+    [TestMethod]
+    public void GetBorderedStyleTestOutOfRange()
+    {
+        // Act
+        var actVal = CtrlMain.GetBorderedStyle((MatchResult)(-1));
+
+        // Assert
+        Assert.IsNull(actVal);
+    }
+
+    [TestMethod]
+    [DataRow(0, "Last match")]
+    [DataRow(null, "Last match")]
+    [DataRow(1, "1 match ago")]
+    [DataRow(-1, "-1 match ago")]
+    public void GetMatchNoStringTest(int? matchNo, string expVal)
+    {
+        // Arrange
+        // Act
+        var actVal = CtrlMain.GetMatchNoString(matchNo);
 
         // Assert
         Assert.AreEqual(expVal, actVal);

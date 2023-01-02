@@ -1,15 +1,15 @@
 ﻿namespace AoE2NetDesktop.PlotEx;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using ScottPlot;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 /// <summary>
 /// Win rate graph.
@@ -57,17 +57,17 @@ public class WinRatePlot : BarPlotEx
 
         Values.Clear();
         ItemLabel = dataSource.ToString();
+        string key;
 
         foreach(var item in playerMatchHistory.Where(item => item.LeaderboardId == leaderBoardId)) {
             var player = item.GetPlayer(profileId);
-            switch(dataSource) {
-            case DataSource.Map:
-                AddWonRate(Values, player.Won, item.GetMapName());
-                break;
-            case DataSource.Civilization:
-                AddWonRate(Values, player.Won, player.GetCivName());
-                break;
-            }
+            key = dataSource switch {
+                DataSource.Map => item.GetMapName(),
+                DataSource.Civilization => player.GetCivName(),
+                _ => string.Empty,
+            };
+
+            AddWonRate(Values, player.Won, key);
         }
 
         Render();

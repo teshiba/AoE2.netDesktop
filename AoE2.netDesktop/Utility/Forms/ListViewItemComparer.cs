@@ -67,21 +67,7 @@ public class ListViewItemComparer : IComparer
                 var textx = ((ListViewItem)x).SubItems[column].Text;
                 var texty = ((ListViewItem)y).SubItems[column].Text;
 
-                switch(columnModes[column]) {
-                case ComparerMode.String:
-                    result = string.Compare(textx, texty);
-                    break;
-                case ComparerMode.Integer:
-                    _ = int.TryParse(textx, out int itemxValue);
-                    _ = int.TryParse(texty, out int itemyValue);
-                    result = itemxValue.CompareTo(itemyValue);
-                    break;
-                case ComparerMode.DateTime:
-                    _ = DateTime.TryParse(textx, out DateTime t1);
-                    _ = DateTime.TryParse(texty, out DateTime t2);
-                    result = DateTime.Compare(t1, t2);
-                    break;
-                }
+                result = GetCompareResult(textx, texty, columnModes[column]);
 
                 if(Order == SortOrder.Descending) {
                     result = -result;
@@ -90,5 +76,22 @@ public class ListViewItemComparer : IComparer
         }
 
         return result;
+    }
+
+    private static int GetCompareResult(string textx, string texty, ComparerMode columnModes)
+    {
+        int ret;
+
+        if(string.IsNullOrEmpty(textx) || string.IsNullOrEmpty(texty)) {
+            ret = 0;
+        } else {
+            ret = columnModes switch {
+                ComparerMode.Integer => int.Parse(textx).CompareTo(int.Parse(texty)),
+                ComparerMode.DateTime => DateTime.Compare(DateTime.Parse(textx), DateTime.Parse(texty)),
+                _ => string.Compare(textx, texty),
+            };
+        }
+
+        return ret;
     }
 }

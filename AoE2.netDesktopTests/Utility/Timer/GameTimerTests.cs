@@ -6,9 +6,10 @@
 
     using AoE2NetDesktop.CtrlForm;
     using AoE2NetDesktop.LibAoE2Net.JsonFormat;
-    using AoE2NetDesktop.Tests;
     using AoE2NetDesktop.Utility;
     using AoE2NetDesktop.Utility.Timer;
+
+    using AoE2NetDesktopTests.TestUtility;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -21,8 +22,8 @@
         public void GameTimerTest()
         {
             // Arrange
-            var expVal = Act;
-            CtrlMain.LastMatch = new Match();
+            Func<bool> expVal = Act;
+            CtrlMain.DisplayedMatch = new Match();
 
             // Act
             using var testClass = new GameTimer(expVal);
@@ -38,7 +39,7 @@
         {
             // Arrange
             var expVal = string.Empty;
-            CtrlMain.LastMatch = new Match();
+            CtrlMain.DisplayedMatch = new Match();
             actDone = false;
 
             // Act

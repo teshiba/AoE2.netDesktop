@@ -1,5 +1,10 @@
 ﻿namespace LibAoE2net.Tests;
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
+
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
@@ -7,11 +12,6 @@ using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.SysApi;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 
 [TestClass]
 public class StringsExtTests
@@ -101,5 +101,24 @@ public class StringsExtTests
         {
             _ = player.GetColorString();
         });
+    }
+
+    [TestMethod]
+    [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
+    public void DisposeTest()
+    {
+        // Arrange
+        var stringIds = new List<StringId>();
+        StringsExt.Dispose();
+
+        // Assert
+        Assert.ThrowsException<InvalidOperationException>(() =>
+        {
+            // Act
+            var actVal = stringIds.GetString(1);
+        });
+
+        // Cleanup
+        StringsExt.InitAsync().Wait();
     }
 }

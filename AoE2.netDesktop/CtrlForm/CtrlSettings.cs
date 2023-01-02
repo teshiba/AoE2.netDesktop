@@ -1,5 +1,9 @@
 ﻿namespace AoE2NetDesktop.CtrlForm;
 
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+
 using AoE2NetDesktop;
 using AoE2NetDesktop.Form;
 using AoE2NetDesktop.LibAoE2Net;
@@ -7,10 +11,6 @@ using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
-
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 /// <summary>
 /// FormMain controler.
@@ -45,22 +45,26 @@ public class CtrlSettings : FormControler
     /// <summary>
     /// Gets get user Steam ID.
     /// </summary>
-    public string SteamId { get => playerLastmatch.SteamId; }
+    public string SteamId
+        => playerLastmatch.SteamId;
 
     /// <summary>
     /// Gets get user profile ID.
     /// </summary>
-    public int ProfileId { get => playerLastmatch.ProfileId ?? 0; }
+    public int ProfileId
+        => playerLastmatch.ProfileId ?? 0;
 
     /// <summary>
     /// Gets get user country name.
     /// </summary>
-    public string UserCountry { get => CountryCode.ConvertToFullName(playerLastmatch.Country); }
+    public string UserCountry
+        => CountryCode.ConvertToFullName(playerLastmatch.Country);
 
     /// <summary>
     /// Gets user name.
     /// </summary>
-    public string UserName { get => playerLastmatch.Name ?? InvalidSteamIdString; }
+    public string UserName
+        => playerLastmatch.Name ?? InvalidSteamIdString;
 
     /// <summary>
     /// Gets network status.

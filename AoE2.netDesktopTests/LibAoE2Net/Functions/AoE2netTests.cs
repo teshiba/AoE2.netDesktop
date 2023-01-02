@@ -2,222 +2,25 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
     using AoE2NetDesktop.LibAoE2Net.Functions;
     using AoE2NetDesktop.LibAoE2Net.JsonFormat;
     using AoE2NetDesktop.LibAoE2Net.Parameters;
-    using AoE2NetDesktop.Tests;
-    using AoE2NetDesktop.Utility;
+
+    using AoE2NetDesktopTests.TestData;
+    using AoE2NetDesktopTests.TestUtility;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class AoE2netTests
     {
-        [ClassInitialize]
-        public static void Init(TestContext context)
-        {
-            if(context is null) {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            AoE2net.ComClient = new TestHttpClient();
-        }
-
-        [TestMethod]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
-        public void GetPlayerLastMatchAsyncTestSteamId()
-        {
-            // Arrange
-            var expPlayer = new List<Player> {
-                new Player() {
-                    ProfilId = 1,
-                    Name = "Player1",
-                    Slot = 1,
-                    SlotType = 1,
-                    Rating = 1111,
-                    Color = 1,
-                    Team = 1,
-                    Civ = 11,
-                    Won = false,
-                },
-                new Player() {
-                    ProfilId = 2,
-                    Name = "Player2",
-                    Slot = 2,
-                    SlotType = 1,
-                    Rating = 2222,
-                    Color = 2,
-                    Team = 2,
-                    Civ = 24,
-                    Won = true,
-                },
-                new Player() {
-                    ProfilId = 3,
-                    Name = "Player3",
-                    Slot = 3,
-                    SlotType = 1,
-                    Rating = null,
-                    Color = 3,
-                    Team = 1,
-                    Civ = 9,
-                    Won = false,
-                },
-                new Player() {
-                    ProfilId = 4,
-                    Name = "Player4",
-                    Slot = 4,
-                    SlotType = 1,
-                    Rating = null,
-                    Color = 4,
-                    Team = 2,
-                    Civ = 11,
-                    Won = true,
-                },
-                new Player() {
-                    ProfilId = 5,
-                    Name = "Player5",
-                    Slot = 5,
-                    SlotType = 1,
-                    Rating = 5555,
-                    Color = 5,
-                    Team = 1,
-                    Civ = 24,
-                    Won = false,
-                },
-                new Player() {
-                    ProfilId = 6,
-                    Name = "Player6",
-                    Slot = 6,
-                    SlotType = 1,
-                    Rating = 6666,
-                    Color = 6,
-                    Team = 2,
-                    Civ = 12,
-                    Won = true,
-                },
-                new Player() {
-                    ProfilId = 7,
-                    Name = "Player7",
-                    Slot = 7,
-                    SlotType = 1,
-                    Rating = 7777,
-                    Color = 7,
-                    Team = 1,
-                    Civ = 35,
-                    Won = false,
-                },
-                new Player() {
-                    ProfilId = 8,
-                    Name = "Player8",
-                    Slot = 8,
-                    SlotType = 1,
-                    Rating = null,
-                    Color = 8,
-                    Team = 2,
-                    Civ = 36,
-                    Won = true,
-                },
-            };
-
-            // Act
-            var actVal = Task.Run(
-                () => AoE2net.GetPlayerLastMatchAsync(TestData.AvailableUserSteamId))
-                .Result;
-
-            // Assert
-            // PlayerLastMatch
-            Assert.AreEqual(1, actVal.ProfileId);
-            Assert.AreEqual(TestData.AvailableUserSteamId, actVal.SteamId);
-            Assert.AreEqual("Player1", actVal.Name);
-            Assert.AreEqual("JP", actVal.Country);
-
-            // LastMatch
-            Assert.AreEqual("00000001", actVal.LastMatch.MatchId);
-            Assert.AreEqual("00000000-0000-0000-0000-000000000000", actVal.LastMatch.MatchUuid);
-            Assert.AreEqual("AUTOMATCH", actVal.LastMatch.Name);
-            Assert.AreEqual(8, actVal.LastMatch.NumPlayers);
-            Assert.AreEqual(8, actVal.LastMatch.NumSlots);
-            Assert.AreEqual(false, actVal.LastMatch.Cheats);
-            Assert.AreEqual(false, actVal.LastMatch.FullTechTree);
-            Assert.AreEqual(5, actVal.LastMatch.EndingAge);
-            Assert.AreEqual(0, actVal.LastMatch.GameType);
-            Assert.AreEqual(true, actVal.LastMatch.HasPassword);
-            Assert.AreEqual(true, actVal.LastMatch.LockSpeed);
-            Assert.AreEqual(true, actVal.LastMatch.LockTeams);
-            Assert.AreEqual(4, actVal.LastMatch.MapSize);
-            Assert.AreEqual(29, actVal.LastMatch.MapType);
-            Assert.AreEqual(200, actVal.LastMatch.Pop);
-            Assert.AreEqual(true, actVal.LastMatch.Ranked);
-            Assert.AreEqual(LeaderboardId.RMTeam, actVal.LastMatch.LeaderboardId);
-            Assert.AreEqual(4, actVal.LastMatch.RatingType);
-            Assert.AreEqual(1, actVal.LastMatch.Resources);
-            Assert.AreEqual("testServer", actVal.LastMatch.Server);
-            Assert.AreEqual(false, actVal.LastMatch.SharedExploration);
-            Assert.AreEqual(2, actVal.LastMatch.Speed);
-            Assert.AreEqual(2, actVal.LastMatch.StartingAge);
-            Assert.AreEqual(true, actVal.LastMatch.TeamTogether);
-            Assert.AreEqual(true, actVal.LastMatch.TeamPositions);
-            Assert.AreEqual(0, actVal.LastMatch.TreatyLength);
-            Assert.AreEqual(false, actVal.LastMatch.Turbo);
-            Assert.AreEqual(1, actVal.LastMatch.Victory);
-            Assert.AreEqual(0, actVal.LastMatch.VictoryTime);
-            Assert.AreEqual(1612182081, actVal.LastMatch.Started);
-            Assert.AreEqual(1643808142, actVal.LastMatch.Finished);
-
-            // Players
-            for(var i = 0; i < actVal.LastMatch.Players.Count; i++) {
-                var player = actVal.LastMatch.Players[i];
-                Assert.AreEqual(expPlayer[i].ProfilId, player.ProfilId);
-                Assert.AreEqual(expPlayer[i].Name, player.Name);
-                Assert.AreEqual(expPlayer[i].Clan, player.Clan);
-                Assert.AreEqual(expPlayer[i].Country, player.Country);
-                Assert.AreEqual(expPlayer[i].Slot, player.Slot);
-                Assert.AreEqual(expPlayer[i].SlotType, player.SlotType);
-                Assert.AreEqual(expPlayer[i].Rating, player.Rating);
-                Assert.AreEqual(expPlayer[i].RatingChange, player.RatingChange);
-                Assert.AreEqual(expPlayer[i].Color, player.Color);
-                Assert.AreEqual(expPlayer[i].Team, player.Team);
-                Assert.AreEqual(expPlayer[i].Civ, player.Civ);
-                Assert.AreEqual(expPlayer[i].Won, player.Won);
-            }
-        }
-
-        [TestMethod]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
-        public void GetPlayerLastMatchAsyncTestProfileId()
-        {
-            // Arrange
-
-            // Act
-            var actVal = Task.Run(
-                () => AoE2net.GetPlayerLastMatchAsync(TestData.AvailableUserProfileId))
-                .Result;
-
-            // Assert
-            // PlayerLastMatch
-            Assert.AreEqual(1, actVal.ProfileId);
-            Assert.AreEqual(TestData.AvailableUserSteamId, actVal.SteamId);
-            Assert.AreEqual("Player1", actVal.Name);
-            Assert.AreEqual("JP", actVal.Country);
-        }
-
-        [TestMethod]
-        public async Task GetPlayerLastMatchAsyncTestNullAsync()
-        {
-            // Assert
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                AoE2net.GetPlayerLastMatchAsync(null));
-        }
+#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
+#pragma warning disable VSTHRD104 // Offer async methods
 
         [TestMethod]
         [DataRow(LeaderboardId.RMTeam, 1)]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
         public void GetPlayerRatingHistoryAsyncTestSteamId(LeaderboardId leaderBoardId, int count)
         {
             // Arrange
@@ -252,8 +55,6 @@
 
         [TestMethod]
         [DataRow(LeaderboardId.RMTeam, 1)]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
         public void GetPlayerRatingHistoryAsyncTestProfileId(LeaderboardId leaderBoardId, int count)
         {
             // Arrange
@@ -287,17 +88,7 @@
         }
 
         [TestMethod]
-        public async Task GetPlayerRatingHistoryAsyncTestNullAsync()
-        {
-            // Assert
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                AoE2net.GetPlayerRatingHistoryAsync(null, LeaderboardId.RMTeam, 1));
-        }
-
-        [TestMethod]
         [DataRow(Language.en)]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
         public void GetStringsAsyncTest(Language language)
         {
             // Arrange
@@ -334,38 +125,6 @@
         }
 
         [TestMethod]
-        [DataRow("Aztecs")]
-        public void GetCivImageLocationTest(string civ)
-        {
-            // Arrange
-            AoE2net.Reset();
-            var expVal = $"https://aoe2.net/assets/images/crests/25x25/aztecs.png";
-
-            // Act
-            var actVal = AoE2net.GetCivImageLocation(civ);
-
-            // Assert
-            Assert.AreEqual(expVal, actVal);
-
-            // restore ComClient setting.
-            AoE2net.ComClient = new TestHttpClient();
-        }
-
-        [TestMethod]
-        public void GetCivImageLocationTestNull()
-        {
-            // Arrange
-
-            // Act
-            var actVal = AoE2net.GetCivImageLocation(null);
-
-            // Assert
-            Assert.IsNull(actVal);
-        }
-
-        [TestMethod]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
         public void GetPlayerMatchHistoryAsyncTeststeamId()
         {
             // Arrange
@@ -381,20 +140,6 @@
         }
 
         [TestMethod]
-        public void GetPlayerMatchHistoryAsyncTeststeamIdIsNull()
-        {
-            // Arrange
-
-            // Act
-            _ = Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
-                  AoE2net.GetPlayerMatchHistoryAsync(0, 10, null));
-
-            // Assert
-        }
-
-        [TestMethod]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
         public void GetPlayerMatchHistoryAsyncTestprofileId()
         {
             // Arrange
@@ -411,8 +156,6 @@
         }
 
         [TestMethod]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
         public void GetLeaderboardAsyncTestSteamId()
         {
             // Arrange
@@ -436,8 +179,6 @@
         }
 
         [TestMethod]
-        [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
         public void GetLeaderboardAsyncTestProfileId()
         {
             // Arrange
@@ -458,6 +199,60 @@
             Assert.AreEqual(expProfileIdCount, actVal.Leaderboards[0].ProfileId);
             Assert.AreEqual(expStart, actVal.Start);
             Assert.AreEqual(expCount, actVal.Count);
+        }
+
+#pragma warning restore VSTHRD104 // Offer async methods
+#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
+
+        [TestMethod]
+        public void GetPlayerMatchHistoryAsyncTeststeamIdIsNull()
+        {
+            // Arrange
+
+            // Act
+            _ = Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                  AoE2net.GetPlayerMatchHistoryAsync(0, 10, null));
+
+            // Assert
+        }
+
+        [TestMethod]
+        public async Task GetPlayerRatingHistoryAsyncTestNullAsync()
+        {
+            // Assert
+            _ = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() =>
+                AoE2net.GetPlayerRatingHistoryAsync(null, LeaderboardId.RMTeam, 1));
+        }
+
+        [TestMethod]
+        [DataRow("Aztecs")]
+        public void GetCivImageLocationTest(string civ)
+        {
+            // Arrange
+            AoE2net.Reset();
+            var expVal = $"https://aoe2.net/assets/images/crests/25x25/aztecs.png";
+
+            // Act
+            var actVal = AoE2net.GetCivImageLocation(civ);
+
+            // Assert
+            Assert.AreEqual(expVal, actVal);
+
+            // restore ComClient setting.
+            AoE2net.ComClient = new TestHttpClient() {
+                SystemApi = new SystemApiStub(1),
+            };
+        }
+
+        [TestMethod]
+        public void GetCivImageLocationTestNull()
+        {
+            // Arrange
+            // Act
+            var actVal = AoE2net.GetCivImageLocation(null);
+
+            // Assert
+            Assert.IsNull(actVal);
         }
 
         [TestMethod]

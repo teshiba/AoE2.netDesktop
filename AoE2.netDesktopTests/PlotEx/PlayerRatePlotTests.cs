@@ -1,5 +1,9 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.PlotEx;
@@ -8,10 +12,6 @@ using AoE2NetDesktop.Utility.SysApi;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ScottPlot;
-
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 
 [TestClass]
 public class PlayerRatePlotTests
@@ -86,10 +86,10 @@ public class PlayerRatePlotTests
         var expVal = false;
         var testClass = new PlayerRatePlot(new FormsPlot(), Color.Red) {
             IsVisible = false,
+            IsVisibleHighlight = isVisibleHighlight,
         };
 
         // Act
-        testClass.IsVisibleHighlight = isVisibleHighlight;
         var actVal = testClass.IsVisibleHighlight;
 
         // Assert
@@ -105,10 +105,10 @@ public class PlayerRatePlotTests
         var expVal = isVisibleHighlight;
         var testClass = new PlayerRatePlot(new FormsPlot(), Color.Red) {
             IsVisible = true,
+            IsVisibleHighlight = isVisibleHighlight,
         };
 
         // Act
-        testClass.IsVisibleHighlight = isVisibleHighlight;
         var actVal = testClass.IsVisibleHighlight;
 
         // Assert
@@ -153,7 +153,5 @@ public class PlayerRatePlotTests
     }
 
     private static long GetDateTime(long datetime, int offsetDay)
-    {
-        return datetime + new DateTime(1970, 01, 01 + offsetDay).ToUnixTimeSeconds();
-    }
+        => datetime + new DateTime(1970, 01, 01 + offsetDay).ToUnixTimeSeconds();
 }

@@ -1,10 +1,10 @@
 ﻿namespace AoE2NetDesktop.CtrlForm;
 
-using AoE2NetDesktop.Utility;
-
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+
+using AoE2NetDesktop.Utility;
 
 /// <summary>
 /// Label extension functions.

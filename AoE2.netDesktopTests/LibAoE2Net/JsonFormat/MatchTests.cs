@@ -1,11 +1,11 @@
 ﻿namespace LibAoE2net.Tests;
 
+using System;
+
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.Utility.SysApi;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System;
 
 [TestClass]
 public class MatchTests

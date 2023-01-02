@@ -1,20 +1,21 @@
 ﻿namespace AoE2NetDesktop.PlotEx;
 
-using AoE2NetDesktop.Form;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using ScottPlot;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 /// <summary>
 /// Manage each leaderBoard Player rate Graphs.
 /// </summary>
 public class PlayerRateFormsPlot
 {
+    private readonly DateTime rateNormalized = new(2022, 7, 14);
     private readonly FormsPlot formsPlot;
     private PlayerRatePlot lastHighlightPlot;
 
@@ -78,6 +79,9 @@ public class PlayerRateFormsPlot
             GetMaxX(Plots) + 10,
             GetMinY(Plots) - 10,
             GetMaxY(Plots) + 10);
+
+        DrawNormalizedEloDate();
+
         formsPlot.Plot.Render();
     }
 
@@ -130,5 +134,17 @@ public class PlayerRateFormsPlot
         }
 
         return ret;
+    }
+
+    private void DrawNormalizedEloDate()
+    {
+        var vline = formsPlot.Plot.AddVerticalLine(rateNormalized.ToOADate());
+        vline.LineWidth = 2;
+        vline.PositionLabel = true;
+        vline.PositionLabelBackground = vline.Color;
+        vline.DragEnabled = false;
+
+        vline.PositionFormatter = x
+            => $"Update Elo:{DateTime.FromOADate(x):MM/dd}";
     }
 }

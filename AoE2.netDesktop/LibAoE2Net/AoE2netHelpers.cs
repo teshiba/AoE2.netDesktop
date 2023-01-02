@@ -1,15 +1,13 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
-
-using ScottPlot.Drawing.Colormaps;
-
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 /// <summary>
 /// Helper class of AoE2net API.
@@ -33,13 +31,24 @@ public static class AoE2netHelpers
     public static async Task<PlayerMatchHistory> GetPlayerMatchHistoryAllAsync(int profileId)
     {
         var ret = new PlayerMatchHistory();
-        PlayerMatchHistory readResult;
+        PlayerMatchHistory matches;
 
         do {
             var startCount = ret.Count;
-            readResult = await AoE2net.GetPlayerMatchHistoryAsync(startCount, HistoryReadCountMax, profileId);
-            ret.AddRange(readResult);
-        } while(readResult.Count == HistoryReadCountMax);
+            matches = await AoE2net.GetPlayerMatchHistoryAsync(startCount, HistoryReadCountMax, profileId);
+
+            foreach(var leaderboardId in Enum.GetValues<LeaderboardId>()) {
+                var matchesEachLeaderboard = matches.Where((match) => match.LeaderboardId == leaderboardId);
+                Player nextMatchPlayer = null;
+                foreach(var match in matchesEachLeaderboard) {
+                    var player = match.GetPlayer(profileId);
+                    player.Won = GetPlayersWon(nextMatchPlayer, player);
+                    nextMatchPlayer = player;
+                }
+            }
+
+            ret.AddRange(matches);
+        } while(matches.Count == HistoryReadCountMax);
 
         return ret;
     }
@@ -111,13 +120,8 @@ public static class AoE2netHelpers
                 }
 
                 foreach(var player in lastMatch.Players) {
-                    if(player.Rating == null) {
-                        await TryFillRateAsync(leaderboardId, player).ConfigureAwait(false);
-                    }
-
-                    if(player.Name == null) {
-                        await TryFillPlayerNameAsync(player).ConfigureAwait(false);
-                    }
+                    player.Rating ??= await GetRateAsync(leaderboardId, player).ConfigureAwait(false);
+                    player.Name ??= await GetPlayerNameAsync(player).ConfigureAwait(false);
                 }
             }
         } else {
@@ -131,6 +135,25 @@ public static class AoE2netHelpers
             SteamId = steamId,
             LastMatch = lastMatch,
         };
+
+        return ret;
+    }
+
+    private static bool? GetPlayersWon(Player nextMatchPlayer, Player player)
+    {
+        bool? ret = null;
+
+        if(player.RatingChange is null) {
+            if(nextMatchPlayer is not null && player.Rating is not null) {
+                if(player.Rating < nextMatchPlayer.Rating) {
+                    ret = true;
+                } else if(nextMatchPlayer.Rating < player.Rating) {
+                    ret = false;
+                }
+            }
+        } else {
+            ret = !player.RatingChange.Contains('-');
+        }
 
         return ret;
     }
@@ -161,30 +184,29 @@ public static class AoE2netHelpers
         return matches.Count != 0 ? matches[0] : new Match();
     }
 
-    private static async Task TryFillRateAsync(LeaderboardId leaderboardId, Player player)
+    private static async Task<int?> GetRateAsync(LeaderboardId leaderboardId, Player player)
     {
-        List<PlayerRating> rate;
+        int? ret = null;
 
         if(player.ProfilId is int profileId) {
-            rate = await AoE2net.GetPlayerRatingHistoryAsync(profileId, leaderboardId, 1).ConfigureAwait(false);
-        } else {
-            rate = new List<PlayerRating>();
+            var rate = await AoE2net.GetPlayerRatingHistoryAsync(profileId, leaderboardId, 1).ConfigureAwait(false);
+            if(rate.Count != 0) {
+                ret = rate[0].Rating;
+            }
         }
 
-        if(rate.Count != 0) {
-            player.Rating = rate[0].Rating;
-        }
+        return ret;
     }
 
-    private static async Task TryFillPlayerNameAsync(Player player)
+    private static async Task<string> GetPlayerNameAsync(Player player)
     {
-        PlayerMatchHistory matches;
+        var ret = AINameNotation;
 
         if(player.ProfilId is int profileId) {
-            matches = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId).ConfigureAwait(false);
-            player.Name = matches[0].GetPlayer(profileId).Name;
-        } else {
-            player.Name = AINameNotation;
+            var matches = await AoE2net.GetPlayerMatchHistoryAsync(0, 1, profileId).ConfigureAwait(false);
+            ret = matches[0].GetPlayer(profileId).Name;
         }
+
+        return ret;
     }
 }

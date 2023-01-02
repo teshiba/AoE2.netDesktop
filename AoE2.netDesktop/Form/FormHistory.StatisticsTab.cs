@@ -1,16 +1,16 @@
 ﻿namespace AoE2NetDesktop.Form;
 
-using AoE2NetDesktop.CtrlForm;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.PlotEx;
-using AoE2NetDesktop.Utility.Forms;
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.PlotEx;
+using AoE2NetDesktop.Utility.Forms;
 
 /// <summary>
 /// Statistics Tab of FormHistory class.
@@ -49,14 +49,10 @@ public partial class FormHistory : ControllableForm
     public PlayerRateFormsPlot PlayerRate { get; set; }
 
     private void InitStatisticsTab()
-    {
-        PlayerRate = new PlayerRateFormsPlot(formsPlotPlayerRate, leaderboardViews, FontSize);
-    }
+        => PlayerRate = new PlayerRateFormsPlot(formsPlotPlayerRate, leaderboardViews, FontSize);
 
     private void UpdateStatisticsTabGraph()
-    {
-        PlayerRate.Plot(Controler.PlayerRatingHistories);
-    }
+        => PlayerRate.Plot(Controler.PlayerRatingHistories);
 
     private async Task UpdateListViewStatisticsAsync()
     {
@@ -91,12 +87,8 @@ public partial class FormHistory : ControllableForm
     }
 
     private void ListViewStatistics_ItemChecked(object sender, ItemCheckedEventArgs e)
-    {
-        PlayerRate.Plots[(LeaderboardId)e.Item.Tag].IsVisible = e.Item.Checked;
-    }
+        => PlayerRate.Plots[(LeaderboardId)e.Item.Tag].IsVisible = e.Item.Checked;
 
     private void FormsPlotPlayerRate_MouseMove(object sender, MouseEventArgs e)
-    {
-        PlayerRate.UpdateHighlight();
-    }
+        => PlayerRate.UpdateHighlight();
 }

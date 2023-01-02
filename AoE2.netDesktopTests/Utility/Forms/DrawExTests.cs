@@ -1,12 +1,12 @@
-﻿namespace AoE2NetDesktop.Tests;
-
-using AoE2NetDesktop.Utility.Forms;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿namespace AoE2NetDesktop.Utility.Forms.Tests;
 
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+
+using AoE2NetDesktop.Utility.Forms;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public class DrawExTests
@@ -22,9 +22,10 @@ public class DrawExTests
         var e = new PaintEventArgs(graphics, new Rectangle(0, 0, 100, 100));
 
         DrawEx.DrawHighQuality = drawHighQuality;
+        var style = new BorderedStringStyle(10, Color.Red, Color.Orange);
 
         // Act
-        label.DrawString(e, 10, Color.Red, Color.Orange);
+        label.DrawString(e, style);
 
         // Assert
         Assert.AreEqual(expValuePixelOffsetMode, e.Graphics.PixelOffsetMode);
@@ -50,9 +51,10 @@ public class DrawExTests
 
         var graphics = label.CreateGraphics();
         var e = new PaintEventArgs(graphics, new Rectangle(0, 0, 100, 100));
+        var style = new BorderedStringStyle(10, Color.Red, Color.Orange);
 
         // Act
-        label.DrawString(e, 10, Color.Red, Color.Orange);
+        label.DrawString(e, style);
 
         // Assert
     }

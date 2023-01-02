@@ -109,7 +109,5 @@ public static class LanguageExt
     /// <param name="language">Language.</param>
     /// <returns>API parameter string.</returns>
     public static string ToApiString(this Language language)
-    {
-        return language.ToString().Replace('_', '-');
-    }
+        => language.ToString().Replace('_', '-');
 }

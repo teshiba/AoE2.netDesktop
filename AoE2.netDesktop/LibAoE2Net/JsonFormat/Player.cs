@@ -50,7 +50,17 @@ public class Player
 
     public override string ToString()
     {
-        return $"[{Color}]{Name}(R:{Rating}) ID:{ProfilId}";
+        var ratingChange = string.Empty;
+
+        if(RatingChange is not null) {
+            if(RatingChange.Contains('-')) {
+                ratingChange = string.Empty + RatingChange;
+            } else {
+                ratingChange = '+' + RatingChange;
+            }
+        }
+
+        return $"[{Color}]{Name}(R:{Rating}{ratingChange}) ID:{ProfilId}";
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

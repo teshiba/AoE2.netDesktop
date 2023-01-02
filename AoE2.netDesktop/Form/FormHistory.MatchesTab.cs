@@ -1,14 +1,14 @@
 ﻿namespace AoE2NetDesktop.Form;
 
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+
 using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.PlotEx;
 using AoE2NetDesktop.Utility.Forms;
-
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 /// <summary>
 /// Matches Tab of FormHistory class.
@@ -25,12 +25,14 @@ public partial class FormHistory : ControllableForm
     /// <summary>
     /// Gets selected data source of graph.
     /// </summary>
-    public DataSource SelectedDataSource => CtrlHistory.GetDataSource(comboBoxDataSource.Text);
+    public DataSource SelectedDataSource
+        => CtrlHistory.GetDataSource(comboBoxDataSource.Text);
 
     /// <summary>
     /// Gets selected data source of graph.
     /// </summary>
-    public LeaderboardId SelectedLeaderboard => CtrlHistory.GetLeaderboardId(comboBoxLeaderboard.Text);
+    public LeaderboardId SelectedLeaderboard
+        => CtrlHistory.GetLeaderboardId(comboBoxLeaderboard.Text);
 
     private void InitMatchesTab()
     {
@@ -82,33 +84,32 @@ public partial class FormHistory : ControllableForm
         comboBoxDataSource.SelectedIndex = Settings.Default.SelectedIndexComboBoxDataSource;
         comboBoxDataSource.Enabled = true;
 
-        UpdateMatchesTabGraph();
+        UpdateMatchesTabGraph(GetSelectedLeaderboard());
     }
 
-    private void UpdateMatchesTabGraph()
-    {
-        WinRateStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, SelectedLeaderboard, SelectedDataSource);
-    }
+    private LeaderboardId GetSelectedLeaderboard()
+        => SelectedLeaderboard;
+
+    private void UpdateMatchesTabGraph(LeaderboardId selectedLeaderboard)
+        => WinRateStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, selectedLeaderboard, SelectedDataSource);
 
     ///////////////////////////////////////////////////////////////////////
     // event handlers
     ///////////////////////////////////////////////////////////////////////
 
     private void ListViewMatchHistory_ColumnClick(object sender, ColumnClickEventArgs e)
-    {
-        SortByColumn((ListView)sender, e);
-    }
+        => SortByColumn((ListView)sender, e);
 
     private void ComboBoxLeaderboard_SelectedIndexChanged(object sender, EventArgs e)
     {
         Settings.Default.SelectedIndexComboBoxLeaderboard = comboBoxLeaderboard.SelectedIndex;
         UpdateListViewMatchHistory();
-        UpdateMatchesTabGraph();
+        UpdateMatchesTabGraph(GetSelectedLeaderboard());
     }
 
     private void ComboBoxDataSource_SelectedIndexChanged(object sender, EventArgs e)
     {
         Settings.Default.SelectedIndexComboBoxDataSource = comboBoxDataSource.SelectedIndex;
-        UpdateMatchesTabGraph();
+        UpdateMatchesTabGraph(GetSelectedLeaderboard());
     }
 }

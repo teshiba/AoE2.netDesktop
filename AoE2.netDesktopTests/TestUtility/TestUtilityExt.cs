@@ -1,8 +1,10 @@
-﻿namespace AoE2NetDesktop.Tests;
+﻿namespace AoE2NetDesktopTests.TestUtility;
 
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+
+using AoE2NetDesktop.Utility;
 
 public static class TestUtilityExt
 {
@@ -23,7 +25,7 @@ public static class TestUtilityExt
         }
 
         var fieldInfo = type.GetField(name, bindingFlags);
-        if(fieldInfo == null) {
+        if(fieldInfo?.GetValue(obj) == null) {
             fieldInfo = type.BaseType.GetField(name, bindingFlags);
         }
 
@@ -34,7 +36,7 @@ public static class TestUtilityExt
     {
         var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
         var fieldInfo = obj.GetType().GetField(name, bindingFlags);
-        if(fieldInfo == null) {
+        if(fieldInfo?.GetValue(obj) == null) {
             fieldInfo = obj.GetType().BaseType.GetField(name, bindingFlags);
         }
 
@@ -94,9 +96,7 @@ public static class TestUtilityExt
             throw new ArgumentNullException(nameof(propertyName));
         }
 
-        if(assemblyInstance is null) {
-            assemblyInstance = Assembly.LoadFrom(AssemblyName);
-        }
+        assemblyInstance ??= Assembly.LoadFrom(AssemblyName);
 
         var settings = assemblyInstance.GetType($"{AssemblyName}.Settings");
         var settingsDefault = settings.GetProperty("Default").GetValue(settings);
@@ -117,13 +117,17 @@ public static class TestUtilityExt
             throw new ArgumentNullException(nameof(propertyName));
         }
 
-        if(assemblyInstance is null) {
-            assemblyInstance = Assembly.LoadFrom(AssemblyName);
-        }
+        assemblyInstance ??= Assembly.LoadFrom(AssemblyName);
 
         var settings = assemblyInstance.GetType($"{AssemblyName}.Settings");
         var settingsDefault = settings.GetProperty("Default").GetValue(settings);
 
         return (TValue)settingsDefault.GetType().GetProperty(propertyName).GetValue(settingsDefault);
     }
+
+    public static SystemApiStub SystemApiStub(this ComClient comClient)
+        => (SystemApiStub)((TestHttpClient)comClient).SystemApi;
+
+    public static TestHttpClient TestHttpClient(this ComClient comClient)
+        => (TestHttpClient)comClient;
 }

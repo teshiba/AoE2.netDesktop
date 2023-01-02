@@ -28,7 +28,5 @@ public class StackedBarGraphData
 
     /// <inheritdoc/>
     public override string ToString()
-    {
-        return $"L:{Lower} U:{Upper?.ToString() ?? "null"}";
-    }
+        => $"L:{Lower} U:{Upper?.ToString() ?? "null"}";
 }

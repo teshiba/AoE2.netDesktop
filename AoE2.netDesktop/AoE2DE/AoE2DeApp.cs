@@ -1,12 +1,13 @@
 ﻿namespace AoE2NetDesktop.AoE2DE;
 
-using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.Utility.SysApi;
-
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.Utility.SysApi;
 
 /// <summary>
 /// AoE2DE Application information class.
@@ -17,6 +18,11 @@ public class AoE2DeApp
     /// AoE2DE process name.
     /// </summary>
     public const string ProcessName = "AoE2DE_s";
+
+    /// <summary>
+    ///  time rate in the game.
+    /// </summary>
+    public const double TimeRateInGame = 1.7;
 
     /// <summary>
     /// AoE2DE Max Player Number.
@@ -79,6 +85,22 @@ public class AoE2DeApp
                 Debug.Print($"Cannot find {ret}. try loading from AoE2.net");
                 ret = AoE2net.GetCivImageLocation(civName.ToLower());
             }
+        }
+
+        return ret;
+    }
+
+    /// <summary>
+    /// Get Color.
+    /// </summary>
+    /// <param name="colorNo">Color No. which is defined by AoE2DE.</param>
+    /// <returns>Color string or "-" if Color is null.</returns>
+    public static Color GetColor(int? colorNo)
+    {
+        var ret = Color.Transparent;
+
+        if(Enumerable.Range(1, 8).Contains(colorNo ?? 0)) {
+            ret = PlayerColors[(int)colorNo - 1];
         }
 
         return ret;
