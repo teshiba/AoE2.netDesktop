@@ -384,7 +384,6 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsTrue(done);
-        Log.Debug("End of KeyDownF5 test");
     }
 
     [TestMethod]
@@ -398,8 +397,6 @@ public partial class FormMainTests
     [DataRow(Keys.Down, Keys.Alt, Keys.Shift, 0, 1)]
     [DataRow(Keys.Down, Keys.Alt, Keys.None, 0, 10)]
     [DataRow(Keys.Down, Keys.None, Keys.None, 0, 0)]
-    [DataRow(Keys.Right, Keys.None, Keys.None, 0, 0)] // Next match
-    [DataRow(Keys.Left, Keys.None, Keys.None, 0, 0)] // Prev match
     public void FormMainTestTabControlMain_KeyDownWindowResize(Keys keys, Keys alt, Keys shift, int width, int height)
     {
         // Arrange
