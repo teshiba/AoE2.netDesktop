@@ -1,6 +1,6 @@
 ﻿namespace AoE2NetDesktop.Utility.DDS.Tests;
 
-using AoE2NetDesktop.Tests;
+using AoE2NetDesktopTests.TestData;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

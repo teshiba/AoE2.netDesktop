@@ -1,23 +1,21 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Tests;
-using AoE2NetDesktop.Utility;
-using AoE2NetDesktop.Utility.Forms;
-
-using AoE2netDesktopTests.TestUtility;
-
-using LibAoE2net;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Net.Http;
 using System.Threading.Tasks;
+
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.Forms;
+
+using AoE2NetDesktopTests.TestData;
+using AoE2NetDesktopTests.TestUtility;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public partial class FormSettingsTests
@@ -194,6 +192,9 @@ public partial class FormSettingsTests
 
         // Assert
         Assert.IsTrue(done);
+
+        // CleanUp
+        testClass.httpClient.ForceHttpRequestException = false;
     }
 
     [TestMethod]
@@ -226,6 +227,9 @@ public partial class FormSettingsTests
 
         // Assert
         Assert.IsTrue(done);
+
+        // CleanUp
+        testClass.httpClient.ForceHttpRequestException = false;
     }
 
     [TestMethod]
@@ -252,6 +256,9 @@ public partial class FormSettingsTests
 
         testClass.ShowDialog();
         Assert.IsTrue(done);
+
+        // CleanUp
+        testClass.httpClient.ForceHttpRequestException = false;
     }
 
     [TestMethod]
@@ -278,6 +285,9 @@ public partial class FormSettingsTests
 
         testClass.ShowDialog();
         Assert.IsTrue(done);
+
+        // CleanUp
+        testClass.httpClient.ForceTaskCanceledException = false;
     }
 
     [TestMethod]
@@ -425,6 +435,9 @@ public partial class FormSettingsTests
 
         testClass.ShowDialog();
         Assert.IsTrue(done);
+
+        // CleanUp
+        testClass.httpClient.ForceException = false;
     }
 
     [TestMethod]
@@ -489,12 +502,7 @@ public partial class FormSettingsTests
     {
         // Arrange
         var testClass = new FormSettingsPrivate();
-        var testHttpClient = new TestHttpClient() {
-            ForceException = true,
-            SystemApi = new SystemApiStub(1),
-        };
-        AoE2net.ComClient = testHttpClient;
-
+        AoE2net.ComClient.TestHttpClient().ForceException = true;
         var done = false;
 
         // Act
@@ -514,6 +522,9 @@ public partial class FormSettingsTests
 
         // Assert
         Assert.IsTrue(done);
+
+        // cleanup
+        AoE2net.ComClient.TestHttpClient().ForceException = false;
     }
 
 #pragma warning restore VSTHRD101 // Avoid unsupported async delegates

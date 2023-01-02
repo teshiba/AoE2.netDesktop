@@ -1,8 +1,8 @@
-﻿namespace AoE2netDesktopTests.TestUtility;
-
-using AoE2NetDesktop.Utility.SysApi;
+﻿namespace AoE2NetDesktopTests.TestUtility;
 
 using System;
+
+using AoE2NetDesktop.Utility.SysApi;
 
 /// <summary>
 /// User32 Stub API.
@@ -21,9 +21,7 @@ public class User32ApiStub : IUser32Api
 
     /// <inheritdoc/>
     public IntPtr GetForegroundWindow()
-    {
-        return default;
-    }
+        => default;
 
     /// <inheritdoc/>
     public uint GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId)

@@ -1,5 +1,10 @@
 ﻿namespace AoE2NetDesktop.CtrlForm;
 
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Threading.Tasks;
+
 using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
@@ -7,11 +12,6 @@ using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.DDS;
 using AoE2NetDesktop.Utility.Forms;
 using AoE2NetDesktop.Utility.SysApi;
-
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Threading.Tasks;
 
 using static LabelType;
 
@@ -42,6 +42,8 @@ public class CtrlMain : FormControler
         { InProgress, new BorderedStringStyle(18, Color.Black, Color.SlateGray) },
         { Unknown, new BorderedStringStyle(18, Color.Black, Color.DimGray) },
         { NotStarted, new BorderedStringStyle(18, Color.Black, Color.DarkGray) },
+        { Finished, new BorderedStringStyle(18, Color.Black, Color.DarkGray) },
+        { MatchNo, new BorderedStringStyle(14, Color.Black, Color.LightGoldenrodYellow) },
     };
 
     /// <summary>
@@ -52,9 +54,9 @@ public class CtrlMain : FormControler
     }
 
     /// <summary>
-    /// Gets or sets auto reload interval second.
+    /// Gets or sets current displayed match.
     /// </summary>
-    public static Match LastMatch { get; set; }
+    public static Match DisplayedMatch { get; set; }
 
     /// <summary>
     /// Gets or sets auto reload interval second.
@@ -94,9 +96,7 @@ public class CtrlMain : FormControler
     /// <param name="rate">rate.</param>
     /// <returns>rate string.</returns>
     public static string GetRateString(int? rate)
-    {
-        return rate?.ToString() ?? " N/A";
-    }
+        => rate?.ToString() ?? " N/A";
 
     /// <summary>
     /// Get the player name string.
@@ -104,9 +104,7 @@ public class CtrlMain : FormControler
     /// <param name="name">player name.</param>
     /// <returns>player name string.</returns>
     public static string GetPlayerNameString(string name)
-    {
-        return name ?? "-- AI --";
-    }
+        => name ?? "-- AI --";
 
     /// <summary>
     /// Initialize the class.
@@ -115,7 +113,7 @@ public class CtrlMain : FormControler
     /// <returns>controler instance.</returns>
     public static async Task<bool> InitAsync(Language language)
     {
-        StringsExt.Init();
+        await StringsExt.InitAsync();
         await StringsExt.InitAsync(language);
 
         return true;
@@ -126,9 +124,7 @@ public class CtrlMain : FormControler
     /// </summary>
     /// <returns>true: AoE2de is the active window.</returns>
     public static bool IsAoE2deActive()
-    {
-        return SystemApi.GetActiveProcess() == AoE2DeApp.ProcessName;
-    }
+        => SystemApi.GetActiveProcess() == AoE2DeApp.ProcessName;
 
     /// <summary>
     /// Load map icon.
@@ -144,10 +140,14 @@ public class CtrlMain : FormControler
     /// <summary>
     /// Get the number of losses.
     /// </summary>
-    /// <param name="leaderboard">player's leaderboard.</param>
+    /// <param name="leaderboardContainer">player's leaderboard.</param>
     /// <returns>lose count.</returns>
-    public static string GetLossesString(Leaderboard leaderboard)
+    public static string GetLossesString(LeaderboardContainer leaderboardContainer)
     {
+        var leaderboard = leaderboardContainer.Leaderboards.Count != 0 ?
+            leaderboardContainer.Leaderboards[0]
+            : new Leaderboard();
+
         var loses = leaderboard.Games - leaderboard.Wins;
 
         return loses?.ToString() ?? "N/A";
@@ -156,24 +156,29 @@ public class CtrlMain : FormControler
     /// <summary>
     /// Get the number of wins.
     /// </summary>
-    /// <param name="leaderboard">player's leaderboard.</param>
+    /// <param name="leaderboardContainer">player's leaderboard.</param>
     /// <returns>win count.</returns>
-    public static string GetWinsString(Leaderboard leaderboard)
+    public static string GetWinsString(LeaderboardContainer leaderboardContainer)
     {
+        var leaderboard = leaderboardContainer.Leaderboards.Count != 0 ?
+            leaderboardContainer.Leaderboards[0]
+            : new Leaderboard();
+
         return leaderboard.Wins?.ToString() ?? "N/A";
     }
 
     /// <summary>
     /// Gets Elapsed Time.
     /// </summary>
+    /// <param name="match">match.</param>
     /// <returns>Elapsed time.</returns>
-    public static string GetElapsedTime()
+    public static string GetElapsedTimeString(Match match)
     {
         var ret = DateTimeExt.InvalidTime;
 
-        if(LastMatch != null) {
-            var realTime = LastMatch.GetElapsedTime().ToString(@"h\:mm\:ss");
-            var inGameTime = new TimeSpan((long)(LastMatch.GetElapsedTime().Ticks * 1.7)).ToString(@"h\:mm\:ss");
+        if(match != null) {
+            var realTime = match.GetElapsedTime().ToString(@"h\:mm\:ss");
+            var inGameTime = new TimeSpan((long)(match.GetElapsedTime().Ticks * AoE2DeApp.TimeRateInGame)).ToString(@"h\:mm\:ss");
             ret = $"{realTime} ({inGameTime} in game)";
         }
 
@@ -183,14 +188,15 @@ public class CtrlMain : FormControler
     /// <summary>
     /// Gets Opened Time.
     /// </summary>
+    /// <param name="match">match.</param>
     /// <returns>Opened time.</returns>
-    public static string GetOpenedTime()
+    public static string GetOpenedTimeString(Match match)
     {
         var ret = DateTimeExt.InvalidTime;
 
-        if(LastMatch != null) {
+        if(match != null) {
             var timezone = DateTimeExt.TimeZoneInfo.ToString().Split(" ")[0].Replace("(", string.Empty).Replace(")", string.Empty);
-            ret = $"{DateTimeExt.GetDateTimeFormat(LastMatch.GetOpenedTime())} {timezone}";
+            ret = $"{DateTimeExt.GetDateTimeFormat(match.GetOpenedTime())} {timezone}";
         }
 
         return ret;
@@ -209,6 +215,7 @@ public class CtrlMain : FormControler
             MatchResult.InProgress => BorderStyles[InProgress],
             MatchResult.Unknown => BorderStyles[Unknown],
             MatchResult.NotStarted => BorderStyles[NotStarted],
+            MatchResult.Finished => BorderStyles[Finished],
             _ => null,
         };
         return ret;
@@ -232,4 +239,12 @@ public class CtrlMain : FormControler
 
         return ret;
     }
+
+    /// <summary>
+    /// Get ,atch No. text.
+    /// </summary>
+    /// <param name="matchNo">match No.</param>
+    /// <returns>Match No. text.</returns>
+    public static string GetMatchNoString(int? matchNo)
+        => (matchNo ?? 0) != 0 ? $"{matchNo} match ago" : "Last match";
 }

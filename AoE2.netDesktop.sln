@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AoE2.netDesktop", "AoE2.net
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AFC6AA0D-5D60-4F1E-89C3-E8F3C39978FE}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		CONTRIBUTING.md = CONTRIBUTING.md
+		coverage.bat = coverage.bat
+		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject

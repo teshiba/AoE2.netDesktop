@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop.Form.Tests
+﻿namespace AoE2NetDesktop.LibAoE2Net.Tests
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -9,30 +9,39 @@
     using AoE2NetDesktop.LibAoE2Net;
     using AoE2NetDesktop.LibAoE2Net.Functions;
     using AoE2NetDesktop.LibAoE2Net.Parameters;
-    using AoE2NetDesktop.Tests;
     using AoE2NetDesktop.Utility;
 
-    using LibAoE2net;
+    using AoE2NetDesktopTests.TestData;
+    using AoE2NetDesktopTests.TestUtility;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class AoE2netHelpersTests
     {
-        [ClassInitialize]
-        public static void Init(TestContext context)
+        [TestMethod]
+        [SuppressMessage("warning", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
+        [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
+        public void GetPlayerMatchHistoryAllAsyncTest()
         {
-            if(context is null) {
-                throw new ArgumentNullException(nameof(context));
-            }
+            // Arrange
 
-            StringsExt.Init();
-        }
+            // Act
+            var actVal = Task.Run(
+                () => AoE2netHelpers.GetPlayerMatchHistoryAllAsync(TestData.AvailableUserProfileId))
+                .Result;
 
-        [TestInitialize]
-        public void InitTest()
-        {
-            AoE2net.ComClient = new TestHttpClient();
+            // Assert
+            Assert.AreEqual(actVal.Count, 9);
+            Assert.AreEqual(actVal[0].Players[0].Won, null);
+            Assert.AreEqual(actVal[1].Players[0].Won, null);
+            Assert.AreEqual(actVal[2].Players[0].Won, null);
+            Assert.AreEqual(actVal[3].Players[0].Won, true);
+            Assert.AreEqual(actVal[4].Players[0].Won, false);
+            Assert.AreEqual(actVal[5].Players[0].Won, null);
+            Assert.AreEqual(actVal[6].Players[0].Won, false);
+            Assert.AreEqual(actVal[7].Players[0].Won, true);
+            Assert.AreEqual(actVal[8].Players[0].Won, false);
         }
 
         [TestMethod]
@@ -61,9 +70,10 @@
         public void GetPlayerLastMatchAsyncTestInvalidLeaderboardId()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient() {
+            var testHttpClient = new TestHttpClient() {
                 PlayerMatchHistoryUri = "playerMatchHistoryaoe2deInvalidLeaderboardId.json",
             };
+            AoE2net.ComClient = testHttpClient;
 
             // Act
             var actVal = Task.Run(
@@ -72,6 +82,9 @@
 
             // Assert
             Assert.AreEqual(null, actVal.LastMatch.Players[1].Name);
+
+            // Cleanup
+            testHttpClient.PlayerMatchHistoryUri = null;
         }
 
         [TestMethod]
@@ -80,9 +93,10 @@
         public void GetPlayerLastMatchAsyncTestWithAIPlayer()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient() {
+            var testHttpClient = new TestHttpClient() {
                 PlayerMatchHistoryUri = "playerMatchHistoryaoe2deAIPlayer.json",
             };
+            AoE2net.ComClient = testHttpClient;
 
             // Act
             var actVal = Task.Run(
@@ -91,6 +105,9 @@
 
             // Assert
             Assert.AreEqual("A.I.", actVal.LastMatch.Players[1].Name);
+
+            // Cleanup
+            testHttpClient.PlayerMatchHistoryUri = null;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////
@@ -121,15 +138,15 @@
         public async Task GetPlayerLastMatchAsyncTestHttpRequestExceptionAsync()
         {
             // Arrange
-            AoE2net.ComClient = new TestHttpClient() {
-                ForceHttpRequestException = true,
-            };
+            AoE2net.ComClient.TestHttpClient().ForceHttpRequestException = true;
 
+            // Act
             // Assert
             await Assert.ThrowsExceptionAsync<HttpRequestException>(() =>
-
-                // Act
                 AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Steam, TestData.AvailableUserSteamId));
+
+            // cleanup
+            AoE2net.ComClient.TestHttpClient().ForceHttpRequestException = false;
         }
     }
 }

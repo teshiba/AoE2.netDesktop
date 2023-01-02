@@ -1,9 +1,9 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net.Parameters;
 
-using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.LibAoE2Net.JsonFormat;
-
 using System;
+
+using global::AoE2NetDesktop.LibAoE2Net.Functions;
+using global::AoE2NetDesktop.LibAoE2Net.JsonFormat;
 
 /// <summary>
 /// TeamType extention functions.

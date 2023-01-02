@@ -1,10 +1,10 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using AoE2netDesktopTests.TestUtility;
+using System;
+
+using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System;
 
 [TestClass]
 public class User32ApiStubTests

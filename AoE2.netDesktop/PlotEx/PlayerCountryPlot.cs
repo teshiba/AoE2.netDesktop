@@ -1,12 +1,12 @@
 ﻿namespace AoE2NetDesktop.PlotEx;
 
+using System;
+
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using ScottPlot;
-
-using System;
 
 /// <summary>
 /// Player country graph.
@@ -67,8 +67,6 @@ public class PlayerCountryPlot : BarPlotEx
             }
         }
 
-        if(Values.Count != 0) {
-            Render();
-        }
+        Render();
     }
 }

@@ -1,13 +1,13 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net.Functions;
 
-using AoE2NetDesktop.AoE2DE;
-using AoE2NetDesktop.LibAoE2Net.JsonFormat;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+
+using AoE2NetDesktop.AoE2DE;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 /// <summary>
 /// Extention of Player class.
@@ -46,13 +46,9 @@ public static class PlayerExt
     /// <param name="player">Player.</param>
     /// <returns>Color string or "-" if Color is null.</returns>
     public static string GetColorString(this Player player)
-    {
-        if(player is null) {
-            throw new ArgumentNullException(nameof(player));
-        }
-
-        return player.Color?.ToString() ?? "-";
-    }
+        => player is null ?
+        throw new ArgumentNullException(nameof(player))
+        : player.Color?.ToString() ?? "-";
 
     /// <summary>
     /// Get Color.
@@ -103,9 +99,7 @@ public static class PlayerExt
     /// <param name="player">player.</param>
     /// <returns>Image file location.</returns>
     public static string GetCivImageLocation(this Player player)
-    {
-        return AoE2DeApp.GetCivImageLocation(player.GetCivEnName());
-    }
+        => AoE2DeApp.GetCivImageLocation(player.GetCivEnName());
 
     /// <summary>
     /// Get whether player color index is odd.
@@ -123,11 +117,9 @@ public static class PlayerExt
     /// <returns>team average rate value.</returns>
     public static int? GetAverageRate(this List<Player> players, TeamType team)
     {
-        if(players is null) {
-            throw new ArgumentNullException(nameof(players));
-        }
-
-        return (int?)players.Where(team.SelectTeam())
+        return players is null
+            ? throw new ArgumentNullException(nameof(players))
+            : (int?)players.Where(team.SelectTeam())
                             .Select(player => player.Rating)
                             .Average();
     }

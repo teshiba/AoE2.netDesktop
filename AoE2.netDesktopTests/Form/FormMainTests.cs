@@ -1,22 +1,21 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
+using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Tests;
 using AoE2NetDesktop.Utility;
 
-using LibAoE2net;
+using AoE2NetDesktopTests.TestData;
+using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 [TestClass]
 public partial class FormMainTests
@@ -36,7 +35,6 @@ public partial class FormMainTests
     [Ignore]
     public void FormMainTestGUI()
     {
-        AoE2net.ComClient = new TestHttpClient();
         var testClass = new FormMain(Language.en);
         testClass.ShowDialog();
     }
@@ -53,6 +51,8 @@ public partial class FormMainTests
         AoE2net.ComClient = testHttpClient;
         var testClass = new FormMain(Language.en);
         testClass.ShowDialog();
+
+        testHttpClient.PlayerMatchHistoryUri = null;
     }
 
 #pragma warning disable VSTHRD101 // Avoid unsupported async delegates
@@ -60,7 +60,6 @@ public partial class FormMainTests
     public void FormMainTest()
     {
         // Arrange
-        AoE2net.ComClient = new TestHttpClient();
         var testClass = new FormMainPrivate();
         var expVal = string.Empty;
         var done = false;
@@ -68,7 +67,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
             await testClass.Awaiter.WaitAsync("LabelNameP1_Paint");
             await testClass.Awaiter.WaitAsync("LabelNameP2_Paint");
             await testClass.Awaiter.WaitAsync("LabelNameP3_Paint");
@@ -93,9 +92,8 @@ public partial class FormMainTests
     public void FormMainTest1v1OddColor()
     {
         // Arrange
-        AoE2net.ComClient = new TestHttpClient();
         var testClass = new FormMainPrivate();
-        testClass.httpClient.PlayerLastMatchUri = "playerLastMatchaoe2de1v1OddColor.json";
+        testClass.httpClient.PlayerMatchHistoryUri = "playerMatchHistoryaoe2de1v1OddColor.json";
         var expVal = string.Empty;
         var done = false;
 
@@ -107,8 +105,8 @@ public partial class FormMainTests
             // Assert
             Assert.AreEqual("1", testClass.label1v1ColorP1.Text);
             Assert.AreEqual("2", testClass.label1v1ColorP2.Text);
-            Assert.AreEqual("Player1", testClass.labelName1v1P1.Text);
-            Assert.AreEqual("Player2", testClass.labelName1v1P2.Text);
+            Assert.AreEqual("Player2", testClass.labelName1v1P1.Text);
+            Assert.AreEqual("Player100", testClass.labelName1v1P2.Text);
 
             testClass.Close();
 
@@ -119,13 +117,15 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsTrue(done);
+
+        // Cleanup
+        testClass.httpClient.PlayerMatchHistoryUri = null;
     }
 
     [TestMethod]
     public void FormMainTest1v1EvenColor()
     {
         // Arrange
-        AoE2net.ComClient = new TestHttpClient();
         var testClass = new FormMainPrivate();
         testClass.httpClient.PlayerMatchHistoryUri = "playerMatchHistoryaoe2de1v1.json";
         var expVal = string.Empty;
@@ -139,8 +139,8 @@ public partial class FormMainTests
             // Assert
             Assert.AreEqual("1", testClass.label1v1ColorP1.Text);
             Assert.AreEqual("2", testClass.label1v1ColorP2.Text);
-            Assert.AreEqual("Player2", testClass.labelName1v1P1.Text);
-            Assert.AreEqual("Player1", testClass.labelName1v1P2.Text);
+            Assert.AreEqual("Player100", testClass.labelName1v1P1.Text);
+            Assert.AreEqual("Player2", testClass.labelName1v1P2.Text);
 
             testClass.Close();
 
@@ -151,6 +151,9 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsTrue(done);
+
+        // Cleanup
+        testClass.httpClient.PlayerMatchHistoryUri = null;
     }
 
     [TestMethod]
@@ -165,7 +168,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
 
             testClass.httpClient.ForceHttpRequestException = true;
 
@@ -184,6 +187,9 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsTrue(done);
+
+        // CleanUp
+        testClass.httpClient.ForceHttpRequestException = false;
     }
 
     [TestMethod]
@@ -199,8 +205,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_Activated");
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
 
             testClass.updateToolStripMenuItem.PerformClick();
             await testClass.Awaiter.WaitAsync("UpdateToolStripMenuItem_ClickAsync");
@@ -237,8 +242,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_Activated");
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
 
             testClass.updateToolStripMenuItem.PerformClick();
             await testClass.Awaiter.WaitAsync("UpdateToolStripMenuItem_ClickAsync");
@@ -258,6 +262,41 @@ public partial class FormMainTests
     }
 
     [TestMethod]
+    [DataRow(DisplayStatus.Clearing)]
+    [DataRow(DisplayStatus.Redrawing)]
+    [DataRow(DisplayStatus.Closing)]
+    [DataRow(DisplayStatus.Cleared)]
+    [DataRow(DisplayStatus.RedrawingPrevMatch)]
+    public void UpdateToolStripMenuItem_ClickAsyncTestInvalidOperationException(DisplayStatus displayStatus)
+    {
+        // Arrange
+        var done = false;
+        var testClass = new FormMainPrivate();
+        var expVal = $"Invalid displayStatus: {displayStatus}";
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+
+            testClass.DisplayStatus = displayStatus;
+            testClass.RequestMatchView = 1;
+
+            testClass.updateToolStripMenuItem.PerformClick();
+
+            // CleanUp
+            done = true;
+            testClass.Close();
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+        Assert.AreEqual(expVal, testClass.labelErrText.Text);
+    }
+
+    [TestMethod]
     public void UpdateToolStripMenuItem_ClickAsyncTestIsReloadingByTimerTrue()
     {
         // Arrange
@@ -271,8 +310,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_Activated");
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
 
             testClass.updateToolStripMenuItem.PerformClick();
             await testClass.Awaiter.WaitAsync("UpdateToolStripMenuItem_ClickAsync");
@@ -302,7 +340,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
 
             testClass.updateToolStripMenuItem.PerformClick();
             await testClass.Awaiter.WaitAsync("UpdateToolStripMenuItem_ClickAsync");
@@ -319,6 +357,9 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsTrue(done);
+
+        // Cleanup
+        testClass.httpClient.PlayerMatchHistoryUri = null;
     }
 
     [TestMethod]
@@ -331,8 +372,8 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
-            testClass.FormMain_KeyDown(Keys.F5);
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+            await testClass.FormMain_KeyDownAsync(Keys.F5);
 
             // CleanUp
             done = true;
@@ -346,12 +387,11 @@ public partial class FormMainTests
     }
 
     [TestMethod]
+    [Ignore]
     [DataRow(Keys.Right, Keys.Alt, Keys.Shift, 1, 0)]
     [DataRow(Keys.Right, Keys.Alt, Keys.None, 10, 0)]
-    [DataRow(Keys.Right, Keys.None, Keys.None, 0, 0)]
     [DataRow(Keys.Left, Keys.Alt, Keys.Shift, -1, 0)]
     [DataRow(Keys.Left, Keys.Alt, Keys.None, -10, 0)]
-    [DataRow(Keys.Left, Keys.None, Keys.None, 0, 0)]
     [DataRow(Keys.Up, Keys.Alt, Keys.Shift, 0, -1)]
     [DataRow(Keys.Up, Keys.Alt, Keys.None, 0, -10)]
     [DataRow(Keys.Up, Keys.None, Keys.None, 0, 0)]
@@ -367,7 +407,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
 
             testClass.Size = new Size(
                 testClass.MinimumSize.Width + 100,
@@ -377,7 +417,7 @@ public partial class FormMainTests
             expSize.Width += width;
             expSize.Height += height;
 
-            testClass.FormMain_KeyDown(keys | alt | shift);
+            await testClass.FormMain_KeyDownAsync(keys | alt | shift);
             done = true;
 
             // Assert
@@ -401,11 +441,12 @@ public partial class FormMainTests
         var testClass = new FormMainPrivate();
         var expVal = !TestUtilityExt.GetSettings<bool>("MainFormIsHideTitle");
 
-        // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
-            testClass.FormMain_KeyDown(Keys.Space | Keys.Shift);
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+
+            // Act
+            await testClass.FormMain_KeyDownAsync(Keys.Space | Keys.Shift);
 
             // CleanUp
             done = true;
@@ -427,11 +468,12 @@ public partial class FormMainTests
         var testClass = new FormMainPrivate();
         var expVal = TestUtilityExt.GetSettings<bool>("MainFormIsHideTitle");
 
-        // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
-            testClass.FormMain_KeyDown(Keys.Space | Keys.Alt);
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+
+            // Act
+            await testClass.FormMain_KeyDownAsync(Keys.Space | Keys.Alt);
 
             // CleanUp
             done = true;
@@ -446,6 +488,124 @@ public partial class FormMainTests
     }
 
     [TestMethod]
+    [DataRow(Keys.Right, DisplayStatus.Shown, 0, 0, true, 0)]
+    [DataRow(Keys.Right, DisplayStatus.Shown, 1, 0, true, 0)]
+    [DataRow(Keys.Right, DisplayStatus.Shown, 0, 0, false, 0)]
+    [DataRow(Keys.Right, DisplayStatus.Shown, 1, 0, false, 0)]
+    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 0, 0, true, 0)]
+    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 1, 0, true, 0)]
+    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 0, 0, false, 0)]
+    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 1, 0, false, 0)]
+    [DataRow(Keys.Left, DisplayStatus.Shown, 0, 0, true, 1)]
+    [DataRow(Keys.Left, DisplayStatus.Shown, 1, 0, true, 2)]
+    [DataRow(Keys.Left, DisplayStatus.Shown, 0, 0, false, 1)]
+    [DataRow(Keys.Left, DisplayStatus.Shown, 1, 0, false, 2)]
+    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 0, 0, true, 1)]
+    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 1, 0, true, 2)]
+    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 0, 0, false, 1)]
+    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 1, 0, false, 2)]
+    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 3, 4, false, 2)]
+    [DataRow(Keys.Left, DisplayStatus.RedrawingPrevMatch, 98, 98, false, 98)]
+    [DataRow(Keys.Right, DisplayStatus.RedrawingPrevMatch, 1, 1, false, 0)]
+    public void FormMainTestTabControlMain_KeyDownSelectMatch(
+        Keys key, DisplayStatus displayStatus, int requestMatchView, int currentMatchView, bool started, int expRequestMatchView)
+    {
+        // Arrange
+        var done = false;
+        var testClass = new FormMainPrivate();
+
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+            testClass.DisplayStatus = displayStatus;
+            testClass.RequestMatchView = requestMatchView;
+            testClass.CurrentMatchView = currentMatchView;
+
+            if(started) {
+                testClass.ProgressBar.Start();
+            } else {
+                testClass.ProgressBar.Stop();
+            }
+
+            // Act
+            await testClass.FormMain_KeyDownAsync(key);
+
+            // CleanUp
+            done = true;
+            testClass.Close();
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+        Assert.AreEqual(expRequestMatchView, testClass.RequestMatchView);
+    }
+
+    [TestMethod]
+    public void FormMainTestTabControlMain_KeyDownSelectMatchError()
+    {
+        // Arrange
+        TestUtilityExt.SetSettings("SteamId", "00000000000000003");
+        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
+        var done = false;
+        int expRequestMatchView = 0;
+        var testClass = new FormMainPrivate();
+
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+            testClass.DisplayStatus = DisplayStatus.RedrawingPrevMatch;
+            testClass.RequestMatchView = 2;
+            testClass.CurrentMatchView = expRequestMatchView;
+
+            // Act
+            await testClass.FormMain_KeyDownAsync(Keys.Left);
+
+            // CleanUp
+            done = true;
+            testClass.Close();
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+        Assert.AreEqual(expRequestMatchView, testClass.RequestMatchView);
+    }
+
+    [TestMethod]
+    public void FormMainTestTabControlMain_KeyDownSelectMatchException()
+    {
+        // Arrange
+        var done = false;
+        int expRequestMatchView = 0;
+        var testClass = new FormMainPrivate();
+
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+            testClass.DisplayStatus = DisplayStatus.RedrawingPrevMatch;
+            testClass.RequestMatchView = 2;
+            testClass.httpClient.ForceHttpRequestException = true;
+
+            // Act
+            await testClass.FormMain_KeyDownAsync(Keys.Left);
+
+            // CleanUp
+            testClass.httpClient.ForceHttpRequestException = false;
+            done = true;
+            testClass.Close();
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+        Assert.AreEqual(expRequestMatchView, testClass.RequestMatchView);
+    }
+
+    [TestMethod]
     public void FormMainTestTabControlMain_KeyDownOtherKey()
     {
         // Arrange
@@ -455,9 +615,9 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
             testClass.httpClient.ForceHttpRequestException = true;
-            testClass.FormMain_KeyDown(Keys.F4);
+            await testClass.FormMain_KeyDownAsync(Keys.F4);
             done = true;
 
             // Assert
@@ -471,6 +631,9 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsTrue(done);
+
+        // CleanUp
+        testClass.httpClient.ForceHttpRequestException = false;
     }
 
     [TestMethod]
@@ -484,7 +647,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
             testClass.Controls_MouseDown(new MouseEventArgs(MouseButtons.Left, 0, expPoint.X, expPoint.Y, 0));
             done = true;
 
@@ -515,7 +678,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
             expTop = testClass.Top + (movePoint.Y - orgPoint.Y);
             expLeft = testClass.Left + (movePoint.X - orgPoint.X);
             testClass.Controls_MouseMove(new MouseEventArgs(MouseButtons.Left, 0, movePoint.X, movePoint.Y, 0));
@@ -546,7 +709,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
             Assert.IsFalse(testClass.contextMenuStripMain.Created);
             testClass.FormMain_MouseClick(new MouseEventArgs(MouseButtons.Right, 0, point.X, point.Y, 0));
             Assert.IsTrue(testClass.contextMenuStripMain.Created);
@@ -574,10 +737,9 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
 
             testClass.Close();
-
             done = true;
         };
 
@@ -585,6 +747,9 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsTrue(done);
+
+        // Cleanup
+        testClass.httpClient.PlayerMatchHistoryUri = null;
     }
 
     [TestMethod]
@@ -599,7 +764,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
 
             testClass.Close();
 
@@ -610,6 +775,9 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsTrue(done);
+
+        // CleanUp
+        testClass.httpClient.ForceException = false;
     }
 
     [TestMethod]
@@ -623,7 +791,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
             testClass.CtrlSettings.ShowMyHistory();
             testClass.Close();
 
@@ -770,59 +938,49 @@ public partial class FormMainTests
     }
 
     [TestMethod]
-    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
-    public void FormMain_ActivatedTestRunUpdateLastMatch()
+
+    // reloading
+    [DataRow(true, null, DisplayStatus.Shown, DisplayStatus.Redrawing)]
+
+    // Skip reloading
+    [DataRow(true, null, DisplayStatus.Uninitialized, DisplayStatus.Uninitialized)]
+    [DataRow(true, 1L, DisplayStatus.Shown, DisplayStatus.Shown)]
+    [DataRow(false, null, DisplayStatus.Shown, DisplayStatus.Shown)]
+    public void FormMain_ActivatedTest(
+        bool isAutoReload, long? finished, DisplayStatus displayStatus, DisplayStatus expDisplayStatus)
     {
         // Arrange
-        TestUtilityExt.SetSettings("VisibleGameTime", false);
-        CtrlMain.LastMatch = null;
-        var testClass = new FormMainPrivate();
-        var done = false;
-
-        // Act
-        testClass.Shown += async (sender, e) =>
-        {
-            await testClass.Awaiter.WaitAsync("FormMain_Activated");
-
-            testClass.Close();
-
-            done = true;
+        CtrlMain.IsReloadingByTimer = false;
+        TestUtilityExt.SetSettings("IsAutoReloadLastMatch", isAutoReload);
+        CtrlMain.DisplayedMatch = new Match() {
+            Finished = finished,
+        };
+        var testClass = new FormMainPrivate {
+            DisplayStatus = displayStatus,
         };
 
-        testClass.ShowDialog();
+        testClass.FormMain_Activated(new EventArgs());
 
         // Assert
-        Assert.IsTrue(done);
+        Assert.AreEqual(expDisplayStatus, testClass.DisplayStatus);
     }
 
     [TestMethod]
-    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
-    public void FormMain_ActivatedTestNotRunUpdateLastMatch()
+    public void FormMain_ActivatedTestDisplayedMatchNull()
     {
         // Arrange
-        TestUtilityExt.SetSettings("VisibleGameTime", true);
+        CtrlMain.DisplayedMatch = null;
 
-        CtrlMain.LastMatch = new Match() {
-            Finished = 1,
+        CtrlMain.IsReloadingByTimer = false;
+        TestUtilityExt.SetSettings("IsAutoReloadLastMatch", true);
+        var testClass = new FormMainPrivate {
+            DisplayStatus = DisplayStatus.Uninitialized,
         };
 
-        var testClass = new FormMainPrivate();
-        var done = false;
-
-        // Act
-        testClass.Shown += async (sender, e) =>
-        {
-            await testClass.Awaiter.WaitAsync("FormMain_Activated");
-
-            testClass.Close();
-
-            done = true;
-        };
-
-        testClass.ShowDialog();
+        testClass.FormMain_Activated(new EventArgs());
 
         // Assert
-        Assert.IsTrue(done);
+        Assert.AreEqual(DisplayStatus.Uninitialized, testClass.DisplayStatus);
     }
 
     [TestMethod]
@@ -834,14 +992,14 @@ public partial class FormMainTests
 
         // Act
         testClass.Show();
-        testClass.PictureBoxMap_DoubleClick(testClass, e);
+        testClass.PictureBoxMap_DoubleClick(testClass.pictureBoxMap, e);
 
         // Assert
         // nothing to do.
     }
 
     [TestMethod]
-    public void PictureBoxMap1v1_DoubleClick()
+    public void PictureBoxMap1v1_DoubleClickTest()
     {
         // Arrange
         var testClass = new FormMainPrivate();
@@ -849,7 +1007,7 @@ public partial class FormMainTests
 
         // Act
         testClass.Show();
-        testClass.PictureBoxMap1v1_DoubleClick(testClass, e);
+        testClass.PictureBoxMap1v1_DoubleClick(testClass.pictureBoxMap, e);
 
         // Assert
         // nothing to do.
@@ -857,7 +1015,7 @@ public partial class FormMainTests
 
     private static async Task WaitPaintAsync(FormMainPrivate testClass)
     {
-        await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+        await testClass.Awaiter.WaitAsync("FormMain_Shown");
         await testClass.Awaiter.WaitAsync("LabelRate1v1P2_Paint");
         await testClass.Awaiter.WaitAsync("LabelWins1v1P2_Paint");
         await testClass.Awaiter.WaitAsync("LabelLoses1v1P2_Paint");

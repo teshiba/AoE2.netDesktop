@@ -1,19 +1,16 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
+using System;
+using System.Collections.Generic;
 
-using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.PlotEx;
-using AoE2NetDesktop.Tests;
 
-using LibAoE2net;
+using AoE2NetDesktopTests.TestData;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ScottPlot;
-
-using System;
-using System.Collections.Generic;
 
 [TestClass]
 public class PlayerCountryPlotTests
@@ -23,7 +20,6 @@ public class PlayerCountryPlotTests
     {
         // Arrange
         var plot = new FormsPlot();
-        AoE2net.ComClient = new TestHttpClient();
         var leaderBoardId = LeaderboardId.RM1v1;
         int profileId = TestData.AvailableUserProfileId;
         var playerMatchHistory = new PlayerMatchHistory {

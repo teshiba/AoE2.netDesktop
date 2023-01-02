@@ -1,22 +1,23 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net.Functions;
 
-using AoE2NetDesktop.LibAoE2Net.JsonFormat;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Utility;
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
 
 /// <summary>
 /// AoE2net API class.
 /// </summary>
 public static class AoE2net
 {
+    private const int HttpTimeoutSec = 20;
     private static readonly Uri BaseAddress = new(@"https://aoe2.net/api/");
     private static readonly Uri CivImageAddress = new(@"https://aoe2.net/assets/images/crests/25x25/");
-    private static readonly Uri ProfileIdBaseAddress = new(@"https://aoe2.net/#profile-");
+    private static readonly Uri ProfileIdBaseAddress = new(@"https://aoe2.net/#aoe2de-profile-");
 
     /// <summary>
     /// Gets or sets communication client.
@@ -24,7 +25,7 @@ public static class AoE2net
     public static ComClient ComClient { get; set; } = new ComClient() {
         BaseAddress = BaseAddress,
         CivImageBaseAddress = CivImageAddress,
-        Timeout = TimeSpan.FromSeconds(20),
+        Timeout = TimeSpan.FromSeconds(HttpTimeoutSec),
     };
 
     /// <summary>
@@ -49,40 +50,8 @@ public static class AoE2net
         ComClient = new ComClient() {
             BaseAddress = BaseAddress,
             CivImageBaseAddress = CivImageAddress,
-            Timeout = TimeSpan.FromSeconds(20),
+            Timeout = TimeSpan.FromSeconds(HttpTimeoutSec),
         };
-    }
-
-    /// <summary>
-    /// Gets Player Last Match.
-    /// Request the last match the player started playing, this will be the current match if they are still in game.
-    /// </summary>
-    /// <param name="profileId">Profile ID.</param>
-    /// <returns><see cref="PlayerLastmatch"/> deserialized as JSON.</returns>
-    [Obsolete("This API is not supported.")]
-    public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(int profileId)
-    {
-        var apiEndPoint = $"player/lastmatch?game={AoE2Version}&profile_id={profileId}";
-
-        return await ComClient.GetFromJsonAsync<PlayerLastmatch>(apiEndPoint).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Gets Player Last Match.
-    /// Request the last match the player started playing, this will be the current match if they are still in game.
-    /// </summary>
-    /// <param name="steamId">steamID64.</param>
-    /// <returns><see cref="PlayerLastmatch"/> deserialized as JSON.</returns>
-    [Obsolete("This API is not supported.")]
-    public static async Task<PlayerLastmatch> GetPlayerLastMatchAsync(string steamId)
-    {
-        if(steamId is null) {
-            throw new ArgumentNullException(nameof(steamId));
-        }
-
-        var apiEndPoint = $"player/lastmatch?game={AoE2Version}&steam_id={steamId}";
-
-        return await ComClient.GetFromJsonAsync<PlayerLastmatch>(apiEndPoint).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -236,7 +205,5 @@ public static class AoE2net
     /// <param name="profileId">Profile ID.</param>
     /// <returns>browser process.</returns>
     public static Process OpenAoE2net(int profileId)
-    {
-        return ComClient.OpenBrowser($"{ProfileIdBaseAddress}{profileId}");
-    }
+        => ComClient.OpenBrowser($"{ProfileIdBaseAddress}{profileId}");
 }

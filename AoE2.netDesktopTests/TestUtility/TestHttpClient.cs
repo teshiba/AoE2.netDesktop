@@ -1,14 +1,15 @@
-﻿namespace LibAoE2net;
-
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Tests;
-using AoE2NetDesktop.Utility;
+﻿namespace AoE2NetDesktopTests.TestUtility;
 
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
+
+using AoE2NetDesktopTests.TestData;
 
 /// <summary>
 /// Communication client Interface.
@@ -20,8 +21,6 @@ public class TestHttpClient : ComClient
     public bool ForceException { get; set; }
 
     public bool ForceTaskCanceledException { get; set; }
-
-    public string PlayerLastMatchUri { get; set; }
 
     public string PlayerMatchHistoryUri { get; set; }
 
@@ -52,9 +51,11 @@ public class TestHttpClient : ComClient
 
         var apiEndPoint = requestUri[..requestUri.IndexOf('?')];
         var ret = apiEndPoint switch {
+            "player/ratinghistory" => ReadPlayerRatingHistoryAsync(requestUri),
             "player/matches" => ReadGetPlayerMatchHistoryAsync(requestUri),
             "leaderboard" => ReadLeaderboardAsync(requestUri),
             "strings" => ReadStringsAsync(requestUri),
+            "match" => ReadMatchAsync(requestUri),
             _ => null,
         };
 
@@ -92,20 +93,6 @@ public class TestHttpClient : ComClient
         return ret;
     }
 
-    [Obsolete("This API is not supported.")]
-    private Task<string> ReadplayerLastMatchAsync(string requestUri)
-    {
-        var args = requestUri.Split('=', '&', '?');
-        var game = args[2];
-        var steamId = args[4];
-        var requestDataFileName = PlayerLastMatchUri ?? $"playerLastMatch{game}{steamId}.json";
-        string readUri = $"{TestData.Path}/{requestDataFileName}";
-
-        LastRequest = $"Read {readUri}";
-
-        return ReadTextFIleAsync(readUri);
-    }
-
     private Task<string> ReadPlayerRatingHistoryAsync(string requestUri)
     {
         var args = requestUri.Split('=', '&', '?');
@@ -138,7 +125,9 @@ public class TestHttpClient : ComClient
         var args = requestUri.Split('=', '&', '?');
         var game = args[2];
         var steamId = args[4];
-        var requestDataFileName = PlayerMatchHistoryUri ?? $"playerMatchHistory{game}{steamId}.json";
+        var start = args[6];
+        var count = args[8];
+        var requestDataFileName = PlayerMatchHistoryUri ?? $"playerMatchHistory{game}{steamId}-{start}-{count}.json";
         string readUri = $"{TestData.Path}/{requestDataFileName}";
 
         LastRequest = $"Read {readUri}";
@@ -153,6 +142,18 @@ public class TestHttpClient : ComClient
         var leaderboardId = (LeaderboardId)int.Parse(args[4]);
         var profileId = args[6];
         var readUri = $"{TestData.Path}/leaderboard{game}{leaderboardId}{profileId}.json";
+
+        LastRequest = $"Read {readUri}";
+
+        return ReadTextFIleAsync(readUri);
+    }
+
+    private Task<string> ReadMatchAsync(string requestUri)
+    {
+        var args = requestUri.Split('=', '&', '?');
+        var game = args[2];
+        var id = args[4];
+        var readUri = $"{TestData.Path}/Match-{game}-{id}.json";
 
         LastRequest = $"Read {readUri}";
 

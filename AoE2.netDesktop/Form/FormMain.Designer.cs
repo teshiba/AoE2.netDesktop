@@ -89,9 +89,12 @@
             this.panelDebug = new System.Windows.Forms.Panel();
             this.labelAoE2DEActive = new System.Windows.Forms.Label();
             this.panelGameInfo = new System.Windows.Forms.Panel();
+            this.labelMatchNo = new System.Windows.Forms.Label();
+            this.progressBarLoading = new System.Windows.Forms.ProgressBar();
             this.labelElapsedTimeTeam = new System.Windows.Forms.Label();
             this.labelStartTimeTeam = new System.Windows.Forms.Label();
             this.panel1v1 = new System.Windows.Forms.Panel();
+            this.labelMatchNo1v1 = new System.Windows.Forms.Label();
             this.labelStartTime1v1 = new System.Windows.Forms.Label();
             this.labelMatchResult1v1p1 = new System.Windows.Forms.Label();
             this.labelMatchResult1v1p2 = new System.Windows.Forms.Label();
@@ -161,9 +164,10 @@
             // labelGameId
             // 
             this.labelGameId.BackColor = System.Drawing.SystemColors.Control;
-            this.labelGameId.Location = new System.Drawing.Point(110, 59);
+            this.labelGameId.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.labelGameId.Location = new System.Drawing.Point(110, 57);
             this.labelGameId.Name = "labelGameId";
-            this.labelGameId.Size = new System.Drawing.Size(152, 19);
+            this.labelGameId.Size = new System.Drawing.Size(242, 22);
             this.labelGameId.TabIndex = 9;
             this.labelGameId.Text = "GameID : 88888888";
             this.labelGameId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -928,6 +932,8 @@
             // 
             // panelGameInfo
             // 
+            this.panelGameInfo.Controls.Add(this.labelMatchNo);
+            this.panelGameInfo.Controls.Add(this.progressBarLoading);
             this.panelGameInfo.Controls.Add(this.labelElapsedTimeTeam);
             this.panelGameInfo.Controls.Add(this.pictureBoxMap);
             this.panelGameInfo.Controls.Add(this.labelServer);
@@ -939,13 +945,35 @@
             this.panelGameInfo.Size = new System.Drawing.Size(355, 195);
             this.panelGameInfo.TabIndex = 13;
             // 
+            // labelMatchNo
+            // 
+            this.labelMatchNo.BackColor = System.Drawing.Color.Transparent;
+            this.labelMatchNo.Font = new System.Drawing.Font("MS PGothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelMatchNo.Location = new System.Drawing.Point(110, 20);
+            this.labelMatchNo.Name = "labelMatchNo";
+            this.labelMatchNo.Size = new System.Drawing.Size(179, 27);
+            this.labelMatchNo.TabIndex = 14;
+            this.labelMatchNo.Text = "Initializing...";
+            this.labelMatchNo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelMatchNo.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMatchNo_Paint);
+            // 
+            // progressBarLoading
+            // 
+            this.progressBarLoading.Location = new System.Drawing.Point(113, 29);
+            this.progressBarLoading.Maximum = 20;
+            this.progressBarLoading.Name = "progressBarLoading";
+            this.progressBarLoading.Size = new System.Drawing.Size(173, 22);
+            this.progressBarLoading.Step = 1;
+            this.progressBarLoading.TabIndex = 16;
+            this.progressBarLoading.Visible = false;
+            // 
             // labelElapsedTimeTeam
             // 
             this.labelElapsedTimeTeam.BackColor = System.Drawing.SystemColors.Control;
             this.labelElapsedTimeTeam.Font = new System.Drawing.Font("MS PGothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelElapsedTimeTeam.Location = new System.Drawing.Point(20, 162);
+            this.labelElapsedTimeTeam.Location = new System.Drawing.Point(59, 162);
             this.labelElapsedTimeTeam.Name = "labelElapsedTimeTeam";
-            this.labelElapsedTimeTeam.Size = new System.Drawing.Size(332, 27);
+            this.labelElapsedTimeTeam.Size = new System.Drawing.Size(293, 27);
             this.labelElapsedTimeTeam.TabIndex = 13;
             this.labelElapsedTimeTeam.Text = "Time --:--:--";
             this.labelElapsedTimeTeam.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -955,9 +983,9 @@
             // 
             this.labelStartTimeTeam.BackColor = System.Drawing.SystemColors.Control;
             this.labelStartTimeTeam.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelStartTimeTeam.Location = new System.Drawing.Point(20, 140);
+            this.labelStartTimeTeam.Location = new System.Drawing.Point(59, 140);
             this.labelStartTimeTeam.Name = "labelStartTimeTeam";
-            this.labelStartTimeTeam.Size = new System.Drawing.Size(332, 19);
+            this.labelStartTimeTeam.Size = new System.Drawing.Size(293, 19);
             this.labelStartTimeTeam.TabIndex = 9;
             this.labelStartTimeTeam.Text = "Start ----/--/-- --:--:--";
             this.labelStartTimeTeam.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -965,6 +993,7 @@
             // 
             // panel1v1
             // 
+            this.panel1v1.Controls.Add(this.labelMatchNo1v1);
             this.panel1v1.Controls.Add(this.labelStartTime1v1);
             this.panel1v1.Controls.Add(this.labelMatchResult1v1p1);
             this.panel1v1.Controls.Add(this.labelMatchResult1v1p2);
@@ -1001,6 +1030,18 @@
             this.panel1v1.Size = new System.Drawing.Size(830, 265);
             this.panel1v1.TabIndex = 14;
             this.panel1v1.Visible = false;
+            // 
+            // labelMatchNo1v1
+            // 
+            this.labelMatchNo1v1.BackColor = System.Drawing.SystemColors.Control;
+            this.labelMatchNo1v1.Font = new System.Drawing.Font("MS PGothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelMatchNo1v1.Location = new System.Drawing.Point(7, 128);
+            this.labelMatchNo1v1.Name = "labelMatchNo1v1";
+            this.labelMatchNo1v1.Size = new System.Drawing.Size(137, 27);
+            this.labelMatchNo1v1.TabIndex = 14;
+            this.labelMatchNo1v1.Text = "Initializing...";
+            this.labelMatchNo1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelMatchNo1v1.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelMatchNo1v1_Paint);
             // 
             // labelStartTime1v1
             // 
@@ -1102,9 +1143,10 @@
             // labelGameId1v1
             // 
             this.labelGameId1v1.BackColor = System.Drawing.SystemColors.Control;
-            this.labelGameId1v1.Location = new System.Drawing.Point(253, 242);
+            this.labelGameId1v1.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.labelGameId1v1.Location = new System.Drawing.Point(246, 242);
             this.labelGameId1v1.Name = "labelGameId1v1";
-            this.labelGameId1v1.Size = new System.Drawing.Size(141, 21);
+            this.labelGameId1v1.Size = new System.Drawing.Size(138, 21);
             this.labelGameId1v1.TabIndex = 9;
             this.labelGameId1v1.Text = "GameID : 88888888";
             this.labelGameId1v1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1113,7 +1155,7 @@
             // labelServer1v1
             // 
             this.labelServer1v1.BackColor = System.Drawing.SystemColors.Control;
-            this.labelServer1v1.Location = new System.Drawing.Point(443, 242);
+            this.labelServer1v1.Location = new System.Drawing.Point(449, 242);
             this.labelServer1v1.Name = "labelServer1v1";
             this.labelServer1v1.Size = new System.Drawing.Size(158, 21);
             this.labelServer1v1.TabIndex = 2;
@@ -1136,17 +1178,17 @@
             // 
             // pictureBox1v1RateHistoryP2
             // 
-            this.pictureBox1v1RateHistoryP2.Location = new System.Drawing.Point(598, 151);
+            this.pictureBox1v1RateHistoryP2.Location = new System.Drawing.Point(598, 178);
             this.pictureBox1v1RateHistoryP2.Name = "pictureBox1v1RateHistoryP2";
-            this.pictureBox1v1RateHistoryP2.Size = new System.Drawing.Size(225, 110);
+            this.pictureBox1v1RateHistoryP2.Size = new System.Drawing.Size(225, 83);
             this.pictureBox1v1RateHistoryP2.TabIndex = 20;
             this.pictureBox1v1RateHistoryP2.TabStop = false;
             // 
             // pictureBox1v1RateHistoryP1
             // 
-            this.pictureBox1v1RateHistoryP1.Location = new System.Drawing.Point(7, 151);
+            this.pictureBox1v1RateHistoryP1.Location = new System.Drawing.Point(7, 178);
             this.pictureBox1v1RateHistoryP1.Name = "pictureBox1v1RateHistoryP1";
-            this.pictureBox1v1RateHistoryP1.Size = new System.Drawing.Size(225, 110);
+            this.pictureBox1v1RateHistoryP1.Size = new System.Drawing.Size(225, 83);
             this.pictureBox1v1RateHistoryP1.TabIndex = 20;
             this.pictureBox1v1RateHistoryP1.TabStop = false;
             // 
@@ -1319,7 +1361,7 @@
             this.labelTeamResultP2.BackColor = System.Drawing.SystemColors.Control;
             this.labelTeamResultP2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelTeamResultP2.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelTeamResultP2.Location = new System.Drawing.Point(653, 122);
+            this.labelTeamResultP2.Location = new System.Drawing.Point(653, 151);
             this.labelTeamResultP2.Name = "labelTeamResultP2";
             this.labelTeamResultP2.Size = new System.Drawing.Size(170, 26);
             this.labelTeamResultP2.TabIndex = 11;
@@ -1332,7 +1374,7 @@
             this.labelTeamResultP1.BackColor = System.Drawing.SystemColors.Control;
             this.labelTeamResultP1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelTeamResultP1.Font = new System.Drawing.Font("Yu Gothic UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelTeamResultP1.Location = new System.Drawing.Point(7, 128);
+            this.labelTeamResultP1.Location = new System.Drawing.Point(7, 151);
             this.labelTeamResultP1.Name = "labelTeamResultP1";
             this.labelTeamResultP1.Size = new System.Drawing.Size(170, 26);
             this.labelTeamResultP1.TabIndex = 11;
@@ -1406,14 +1448,15 @@
             this.Controls.Add(this.panelDebug);
             this.Controls.Add(this.panelTeam1);
             this.Controls.Add(this.panelTeam2);
-            this.MinimumSize = new System.Drawing.Size(855, 300);
+            this.MinimumSize = new System.Drawing.Size(960, 300);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AoE2.net Desktop";
             this.Activated += new System.EventHandler(this.FormMain_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
-            this.Load += new System.EventHandler(this.FormMain_LoadAsync);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDown);
+            this.Load += new System.EventHandler(this.FormMain_Load);
+            this.Shown += new System.EventHandler(this.FormMain_Shown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyDownAsync);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FormMain_MouseClick);
             this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.panelTeam1.ResumeLayout(false);
@@ -1542,5 +1585,8 @@
         private System.Windows.Forms.Label labelMatchResult1v1p2;
         private System.Windows.Forms.Label labelMatchResult1v1p1;
         private System.Windows.Forms.Label labelMatchResultTeam1;
+        private System.Windows.Forms.Label labelMatchNo;
+        private System.Windows.Forms.Label labelMatchNo1v1;
+        private System.Windows.Forms.ProgressBar progressBarLoading;
     }
 }

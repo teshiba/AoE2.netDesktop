@@ -1,9 +1,9 @@
 ﻿namespace AoE2NetDesktop.Properties.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using System.Drawing;
 using System.Globalization;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public class ResourcesTest

@@ -1,40 +1,15 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using AoE2NetDesktop.LibAoE2Net.Functions;
-
-using AoE2netDesktopTests.TestUtility;
-
-using LibAoE2net;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using System;
 using System.Windows.Forms;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using static System.Windows.Forms.ListView;
 
 [TestClass]
 public partial class FormHistoryTests
 {
-    [ClassInitialize]
-    public static void Init(TestContext context)
-    {
-        if(context is null) {
-            throw new ArgumentNullException(nameof(context));
-        }
-
-        StringsExt.Init();
-    }
-
-    [TestInitialize]
-    public void InitTest()
-    {
-        var cliant = new TestHttpClient {
-            SystemApi = new SystemApiStub(1),
-        };
-        AoE2net.ComClient = cliant;
-    }
-
 #pragma warning disable VSTHRD101 // Avoid unsupported async delegates
     [TestMethod]
     public void FormHistoryTest()
@@ -54,6 +29,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -76,6 +53,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -98,6 +77,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -120,6 +101,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -141,6 +124,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -165,6 +150,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -186,6 +173,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -210,6 +199,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -233,6 +224,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -253,6 +246,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -273,6 +268,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -293,6 +290,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -320,6 +319,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
         Assert.AreEqual(expFindCount, actVal.Count);
     }
@@ -343,6 +344,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -368,6 +371,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 
@@ -394,6 +399,8 @@ public partial class FormHistoryTests
         };
 
         testClass.ShowDialog();
+
+        // Assert
         Assert.IsTrue(done);
     }
 #pragma warning restore VSTHRD101 // Avoid unsupported async delegates

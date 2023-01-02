@@ -1,12 +1,12 @@
 ﻿namespace AoE2NetDesktop.CtrlForm;
 
-using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.LibAoE2Net.JsonFormat;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 /// <summary>
 /// Player Informations.
@@ -87,17 +87,20 @@ public class PlayerInfo
     /// <summary>
     /// Gets game count of 1v1 random map.
     /// </summary>
-    public int Games1v1 => Matches.Count(item => item.LeaderboardId == LeaderboardId.RM1v1);
+    public int Games1v1
+        => Matches.Count(item => item.LeaderboardId == LeaderboardId.RM1v1);
 
     /// <summary>
     /// Gets game count of team random map.
     /// </summary>
-    public int GamesTeam => Matches.Count(item => item.LeaderboardId == LeaderboardId.RMTeam);
+    public int GamesTeam
+        => Matches.Count(item => item.LeaderboardId == LeaderboardId.RMTeam);
 
     /// <summary>
     /// Gets last match date.
     /// </summary>
-    public DateTime LastDate => Matches.Select(item => item.GetOpenedTime()).Max();
+    public DateTime LastDate
+        => Matches.Select(item => item.GetOpenedTime()).Max();
 
     /// <summary>
     /// Gets match history.

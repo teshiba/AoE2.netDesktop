@@ -1,11 +1,13 @@
 ﻿namespace AoE2NetDesktop.LibAoE2Net.Functions;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility.SysApi;
-
-using System;
-using System.Linq;
 
 /// <summary>
 /// Extention of Match class.
@@ -18,10 +20,7 @@ public static class MatchExt
     /// <param name="match">match.</param>
     /// <returns>local time value as DateTime type.</returns>
     public static DateTime GetOpenedTime(this Match match)
-    {
-        var ret = DateTimeExt.FromUnixTimeSeconds(match.Started ?? 0);
-        return ret;
-    }
+        => DateTimeExt.FromUnixTimeSeconds(match.Started ?? 0);
 
     /// <summary>
     /// Get Elapsed Time from opened time that converted to local time.
@@ -75,21 +74,46 @@ public static class MatchExt
             throw new ArgumentNullException(nameof(match));
         }
 
-        var player = match.Players.Where(team.SelectTeam()).First();
-
         MatchResult ret;
+
         if(match.Started != null) {
-            if(match.Finished == null) {
-                ret = MatchResult.InProgress;
-            } else {
-                ret = player.Won switch {
-                    true => MatchResult.Victorious,
-                    false => MatchResult.Defeated,
-                    _ => MatchResult.Unknown,
-                };
-            }
+            ret = GetMatchResultWithRatingChange(match, team);
         } else {
             ret = MatchResult.NotStarted;
+        }
+
+        return ret;
+    }
+
+    /// <summary>
+    /// Gets whether someone has a rating change value.
+    /// </summary>
+    /// <param name="match">match.</param>
+    /// <param name="team">Team type.</param>
+    /// <returns>true: someone has rating change.</returns>
+    private static MatchResult GetMatchResultWithRatingChange(Match match, TeamType team)
+    {
+        // Table of MatchResult. (Contains('-'), IsOddColor, TeamType)
+        var xxx = new Dictionary<(bool, bool, TeamType), MatchResult> {
+            { (true, true, TeamType.OddColorNo), MatchResult.Defeated },
+            { (true, true, TeamType.EvenColorNo), MatchResult.Victorious },
+            { (true, false, TeamType.OddColorNo), MatchResult.Victorious },
+            { (true, false, TeamType.EvenColorNo), MatchResult.Defeated },
+            { (false, true, TeamType.OddColorNo), MatchResult.Victorious },
+            { (false, true, TeamType.EvenColorNo), MatchResult.Defeated },
+            { (false, false, TeamType.OddColorNo), MatchResult.Defeated },
+            { (false, false, TeamType.EvenColorNo), MatchResult.Victorious },
+        };
+
+        var ret = MatchResult.InProgress;
+        var players = match.Players.Where(player => !string.IsNullOrEmpty(player.RatingChange));
+
+        if(match.Finished != null) {
+            ret = MatchResult.Finished;
+        }
+
+        foreach(Player player in players) {
+            ret = xxx[(player.RatingChange.Contains('-'), player.IsOddColor(), team)];
         }
 
         return ret;

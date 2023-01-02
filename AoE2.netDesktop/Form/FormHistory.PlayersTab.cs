@@ -1,15 +1,15 @@
 ﻿namespace AoE2NetDesktop.Form;
 
-using AoE2NetDesktop.CtrlForm;
-using AoE2NetDesktop.PlotEx;
-using AoE2NetDesktop.Utility.Forms;
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+
+using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.PlotEx;
+using AoE2NetDesktop.Utility.Forms;
 
 /// <summary>
 /// Players Tab of FormHistory class.
@@ -28,9 +28,7 @@ public partial class FormHistory : ControllableForm
     }
 
     private void UpdatePlayersTabGraph()
-    {
-        PlayerCountryStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId);
-    }
+        => PlayerCountryStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId);
 
     private void InitListViewMatchedPlayersSorter()
     {
@@ -66,7 +64,8 @@ public partial class FormHistory : ControllableForm
             }
         }
 
-        listviewItems.Sort(new Comparison<ListViewItem>((item1, item2) => string.Compare(item1.Text, item2.Text)));
+        listviewItems.Sort(new Comparison<ListViewItem>((item1, item2)
+                                => string.Compare(item1.Text, item2.Text)));
         foreach(var item in listviewItems) {
             listViewFilterCountry.Items.Add(item.Text, item.Text, null);
         }
@@ -156,20 +155,17 @@ public partial class FormHistory : ControllableForm
     ///////////////////////////////////////////////////////////////////////
 
     private void ListViewMatchedPlayers_MouseDoubleClick(object sender, MouseEventArgs e)
-    {
-        OpenSelectedPlayerHistory();
-    }
+        => OpenSelectedPlayerHistory();
 
     private void ListViewMatchedPlayers_ColumnClick(object sender, ColumnClickEventArgs e)
-    {
-        SortByColumn((ListView)sender, e);
-    }
+        => SortByColumn((ListView)sender, e);
 
     private void ContextMenuStripMatchedPlayers_Opening(object sender, CancelEventArgs e)
     {
         var location = new Point(contextMenuStripMatchedPlayers.Left, contextMenuStripMatchedPlayers.Top);
         var point = listViewMatchedPlayers.PointToClient(location);
         var item = listViewMatchedPlayers.HitTest(point).Item;
+
         if(item?.Bounds.Contains(point) ?? false) {
             openAoE2NetProfileToolStripMenuItem.Visible = true;
         } else {
@@ -186,9 +182,7 @@ public partial class FormHistory : ControllableForm
     }
 
     private void TextBoxFindName_TextChanged(object sender, EventArgs e)
-    {
-        UpdateListViewMatchedPlayers();
-    }
+        => UpdateListViewMatchedPlayers();
 
     private List<string> GetCountryFilterList()
     {
@@ -211,9 +205,7 @@ public partial class FormHistory : ControllableForm
     }
 
     private void CheckBoxIgnoreCase_CheckedChanged(object sender, EventArgs e)
-    {
-        UpdateListViewMatchedPlayers();
-    }
+        => UpdateListViewMatchedPlayers();
 
     private void SplitContainerPlayers_DoubleClick(object sender, EventArgs e)
     {
@@ -230,17 +222,11 @@ public partial class FormHistory : ControllableForm
     }
 
     private void OpenHistoryToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-        OpenSelectedPlayerHistory();
-    }
+        => OpenSelectedPlayerHistory();
 
     private void OpenAoE2NetProfileToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-        OpenSelectedPlayerProfile();
-    }
+        => OpenSelectedPlayerProfile();
 
     private void CheckBoxEnableCountryFilter_CheckedChanged(object sender, EventArgs e)
-    {
-        UpdateListViewMatchedPlayers();
-    }
+        => UpdateListViewMatchedPlayers();
 }

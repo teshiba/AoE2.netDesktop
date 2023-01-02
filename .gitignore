@@ -350,3 +350,4 @@ MigrationBackup/
 .ionide/
 *.bak
 /Coverage
+*.Metrics.xml

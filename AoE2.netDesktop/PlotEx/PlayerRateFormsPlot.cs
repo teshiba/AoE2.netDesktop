@@ -1,14 +1,14 @@
 ﻿namespace AoE2NetDesktop.PlotEx;
 
-using AoE2NetDesktop.Form;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 
 using ScottPlot;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 /// <summary>
 /// Manage each leaderBoard Player rate Graphs.

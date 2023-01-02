@@ -99,4 +99,14 @@ public enum LabelType
     /// NotStarted.
     /// </summary>
     NotStarted,
+
+    /// <summary>
+    /// Finished.
+    /// </summary>
+    Finished,
+
+    /// <summary>
+    /// MatchNo.
+    /// </summary>
+    MatchNo,
 }

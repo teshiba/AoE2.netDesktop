@@ -1,37 +1,20 @@
 ﻿namespace AoE2NetDesktop.CtrlForm.Tests;
 
-using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Tests;
-using AoE2NetDesktop.Utility;
-
-using LibAoE2net;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
+
+using AoE2NetDesktopTests.TestData;
+using AoE2NetDesktopTests.TestUtility;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 [TestClass]
 public class CtrlSettingsTests
 {
-    [ClassInitialize]
-    public static void Init(TestContext context)
-    {
-        if(context is null) {
-            throw new ArgumentNullException(nameof(context));
-        }
-
-        StringsExt.Init();
-    }
-
-    [TestInitialize]
-    public void InitTest()
-    {
-        AoE2net.ComClient = new TestHttpClient();
-    }
-
     [TestMethod]
     public void CtrlSettingsTest()
     {

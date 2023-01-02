@@ -1,13 +1,13 @@
 ﻿namespace AoE2NetDesktop.AoE2DE;
 
-using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.Utility.SysApi;
-
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.Utility.SysApi;
 
 /// <summary>
 /// AoE2DE Application information class.
@@ -18,6 +18,11 @@ public class AoE2DeApp
     /// AoE2DE process name.
     /// </summary>
     public const string ProcessName = "AoE2DE_s";
+
+    /// <summary>
+    ///  time rate in the game.
+    /// </summary>
+    public const double TimeRateInGame = 1.7;
 
     /// <summary>
     /// AoE2DE Max Player Number.

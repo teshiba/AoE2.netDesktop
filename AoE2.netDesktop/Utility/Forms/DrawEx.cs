@@ -21,9 +21,7 @@ public static class DrawEx
     /// <param name="e">PaintEventArgs.</param>
     /// <param name="style">fill color.</param>
     public static void DrawString(this Label label, PaintEventArgs e, BorderedStringStyle style)
-    {
-        label.DrawString(e, style.FontSize, style.BorderColor, style.FillColor, new Point(0, 0));
-    }
+        => label.DrawString(e, style.FontSize, style.BorderColor, style.FillColor, new Point(0, 0));
 
     /// <summary>
     /// Draw String.

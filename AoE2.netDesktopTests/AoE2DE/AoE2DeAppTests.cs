@@ -1,14 +1,10 @@
 ﻿namespace AoE2NetDesktop.AoE2DE.Tests;
 
-using AoE2NetDesktop.LibAoE2Net.Functions;
+using System.Diagnostics;
 
-using AoE2netDesktopTests.TestUtility;
-
-using LibAoE2net;
+using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System.Diagnostics;
 
 [TestClass]
 public class AoE2DeAppTests
@@ -41,8 +37,6 @@ public class AoE2DeAppTests
     public void GetCivImageLocationTest(string civ, string expVal1, string expVal2)
     {
         // Arrange
-        AoE2net.ComClient = new TestHttpClient();
-
         // Act
         var actVal = AoE2DeApp.GetCivImageLocation(civ);
 

@@ -1,12 +1,12 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
+using System;
+
 using AoE2NetDesktop.PlotEx;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ScottPlot;
-
-using System;
 
 [TestClass]
 public class PlotHighlightTests

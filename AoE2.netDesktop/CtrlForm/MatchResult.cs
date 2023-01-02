@@ -1,4 +1,4 @@
-﻿namespace AoE2NetDesktop
+﻿namespace AoE2NetDesktop.CtrlForm
 {
     /// <summary>
     /// Match result.
@@ -29,5 +29,10 @@
         /// Not started.
         /// </summary>
         NotStarted,
+
+        /// <summary>
+        /// match was finished but unknown result.
+        /// </summary>
+        Finished,
     }
 }

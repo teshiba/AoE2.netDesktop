@@ -1,16 +1,16 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using AoE2NetDesktop.CtrlForm;
-using AoE2NetDesktop.LibAoE2Net.Functions;
-using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Tests;
-using AoE2NetDesktop.Utility;
-
-using LibAoE2net;
-
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms;
+
+using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
+
+using AoE2NetDesktopTests.TestData;
+using AoE2NetDesktopTests.TestUtility;
 
 public partial class FormSettingsTests
 {
@@ -40,8 +40,7 @@ public partial class FormSettingsTests
         public FormSettingsPrivate()
             : base(new CtrlSettings())
         {
-            httpClient = new TestHttpClient();
-            AoE2net.ComClient = httpClient;
+            httpClient = (TestHttpClient)AoE2net.ComClient;
             InvalidSteamIdString = Controler.GetField<string>("InvalidSteamIdString");
             buttonSetId = this.GetControl<Button>("buttonSetId");
             checkBoxAlwaysOnTop = this.GetControl<CheckBox>("checkBoxAlwaysOnTop");
@@ -74,32 +73,22 @@ public partial class FormSettingsTests
         ///////////////////////////////////////////////////////////////////////
 
         public void SetChromaKey(string htmlColor)
-        {
-            this.Invoke("SetChromaKey", htmlColor);
-        }
+            => this.Invoke("SetChromaKey", htmlColor);
 
         public void OnErrorHandler(Exception ex)
-        {
-            this.Invoke("OnErrorHandler", ex);
-        }
+            => this.Invoke("OnErrorHandler", ex);
 
         [SuppressMessage("Style", "VSTHRD200:Use \"Async\" suffix for async methods", Justification = SuppressReason.PrivateInvokeTest)]
         public void ReloadProfileAsync(IdType idtype, string idText)
-        {
-            this.Invoke("ReloadProfileAsync", idtype, idText);
-        }
+            => this.Invoke("ReloadProfileAsync", idtype, idText);
 
         ///////////////////////////////////////////////////////////////////////
         // Event handlers
         ///////////////////////////////////////////////////////////////////////
         public void PictureBoxChromaKey_Click(EventArgs e)
-        {
-            this.Invoke("PictureBoxChromaKey_Click", pictureBoxChromaKey, e);
-        }
+            => this.Invoke("PictureBoxChromaKey_Click", pictureBoxChromaKey, e);
 
         public void TextBoxChromaKey_Leave(EventArgs e)
-        {
-            this.Invoke("TextBoxChromaKey_Leave", textBoxChromaKey, e);
-        }
+            => this.Invoke("TextBoxChromaKey_Leave", textBoxChromaKey, e);
     }
 }

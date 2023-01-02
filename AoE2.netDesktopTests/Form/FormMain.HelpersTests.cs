@@ -1,19 +1,19 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
-using AoE2NetDesktop.CtrlForm;
-using AoE2NetDesktop.LibAoE2Net.JsonFormat;
-using AoE2NetDesktop.Tests;
-using AoE2NetDesktop.Utility;
-using AoE2NetDesktop.Utility.Forms;
-
-using AoE2netDesktopTests.TestUtility;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
+using AoE2NetDesktop.Utility;
+using AoE2NetDesktop.Utility.Forms;
+
+using AoE2NetDesktopTests.TestData;
+using AoE2NetDesktopTests.TestUtility;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 public partial class FormMainTests
 {
@@ -217,7 +217,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
             testClass.labelGameId.Text = $"GameID : --------";
             ret = await testClass.RedrawLastMatchAsync(TestData.AvailableUserProfileId);
             testClass.Close();
@@ -243,7 +243,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
             ret = await testClass.RedrawLastMatchAsync(TestData.AvailableUserProfileIdWithoutHistory);
             testClass.Close();
             done = true;
@@ -269,9 +269,8 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_LoadAsync");
-            testClass.labelGameId.Text = $"GameID : 00000002";
-            expMatch = CtrlMain.LastMatch.MatchId;
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+            expMatch = CtrlMain.DisplayedMatch.MatchId;
             actMatch = (await testClass.RedrawLastMatchAsync(TestData.AvailableUserProfileId)).MatchId;
             testClass.Close();
             done = true;
@@ -282,5 +281,81 @@ public partial class FormMainTests
         // Assert
         Assert.IsTrue(done);
         Assert.AreEqual(expMatch, actMatch);
+    }
+
+    [TestMethod]
+    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
+    public void GameTimerTest()
+    {
+        // Arrange
+        var done = false;
+        var testClass = new FormMainPrivate();
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+
+            testClass.GameTimer.Start();
+            await testClass.Awaiter.WaitAsync("OnTimerGame");
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+    }
+
+    [TestMethod]
+    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
+    public void GameTimerTestDisplayedMatchNull()
+    {
+        // Arrange
+        var done = false;
+        var testClass = new FormMainPrivate();
+
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+
+            // Act
+            CtrlMain.DisplayedMatch = null;
+            testClass.GameTimer.Start();
+            await testClass.Awaiter.WaitAsync("OnTimerGame");
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+    }
+
+    [TestMethod]
+    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
+    public void GameTimerTestIsNotHandleCreated()
+    {
+        // Arrange
+        var done = false;
+        var testClass = new FormMainPrivate();
+
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+
+            // Act
+            testClass.GameTimer.Start();
+            done = true;
+            testClass.Close();
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+        Assert.AreEqual(DisplayStatus.Closing, testClass.DisplayStatus);
     }
 }

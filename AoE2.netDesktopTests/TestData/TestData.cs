@@ -1,4 +1,11 @@
-﻿namespace AoE2NetDesktop.Tests;
+﻿namespace AoE2NetDesktopTests.TestData;
+
+using System.Diagnostics.CodeAnalysis;
+
+using AoE2NetDesktop.LibAoE2Net.Functions;
+using AoE2NetDesktop.Utility;
+
+using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -22,9 +29,16 @@ public static class TestData
     public const string DdsFileUnexpectedMagic = $"{Path}/unexpectedMagic.dds";
 
     [AssemblyInitialize]
+    [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
     public static void AssemblyIntiialize(TestContext testContext)
     {
         _ = testContext;
         TestUtilityExt.AssemblyName = "AoE2NetDesktop";
+        AoE2net.ComClient = new TestHttpClient() {
+            SystemApi = new SystemApiStub(1),
+        };
+        StringsExt.InitAsync().Wait();
+
+        Log.Level = LogLevel.Debug;
     }
 }
