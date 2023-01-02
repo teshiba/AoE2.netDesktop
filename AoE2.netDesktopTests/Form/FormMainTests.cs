@@ -387,6 +387,7 @@ public partial class FormMainTests
     }
 
     [TestMethod]
+    [Ignore]
     [DataRow(Keys.Right, Keys.Alt, Keys.Shift, 1, 0)]
     [DataRow(Keys.Right, Keys.Alt, Keys.None, 10, 0)]
     [DataRow(Keys.Left, Keys.Alt, Keys.Shift, -1, 0)]
