@@ -51,6 +51,9 @@ public partial class FormHistory : ControllableForm
         Left = Settings.Default.WindowLocationHistory.X;
         Width = Settings.Default.WindowSizeHistory.Width;
         Height = Settings.Default.WindowSizeHistory.Height;
+
+        Top = Top < 0 ? 0 : Top;
+        Left = Left < 0 ? 0 : Left;
     }
 
     ///////////////////////////////////////////////////////////////////////
