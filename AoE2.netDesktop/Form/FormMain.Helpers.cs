@@ -555,6 +555,8 @@ public partial class FormMain : ControllableForm
                 ret = await DrawMatchAsync(lastmatch.LastMatch, 0);
             } else {
                 ret = lastmatch.LastMatch;
+                labelMatchNo1v1.Text = CtrlMain.GetMatchNoString(0);
+                labelMatchNo.Text = CtrlMain.GetMatchNoString(0);
             }
         } finally {
             displayStatus = DisplayStatus.Shown;
