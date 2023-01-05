@@ -5,6 +5,7 @@
     using System.Windows.Forms;
 
     using AoE2NetDesktop.CtrlForm;
+    using AoE2NetDesktop.Utility;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -80,6 +81,7 @@
         }
 
         [TestMethod]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
         public void TimerTickTest()
         {
             // Arrange
@@ -101,13 +103,13 @@
                 testClass.Start();
 
                 _ = Task.Run(() =>
-                  {
-                      while(testClass.Value < progressBar.Maximum) {
-                      }
-
-                      form.Close();
-                      done = true;
-                  });
+                {
+                    while(testClass.Value < progressBar.Maximum) {
+                        Task.Delay(1000).Wait();
+                    }
+                });
+                form.Close();
+                done = true;
             };
 
             form.ShowDialog();
