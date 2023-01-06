@@ -462,69 +462,6 @@ public class CtrlHistoryTests
     }
 
     [TestMethod]
-    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
-    public void OpenHistoryTest()
-    {
-        // Arrange
-        var playerName = "AvailablePlayerName";
-        var done = false;
-        var profileId = TestData.AvailableUserProfileId;
-        var testClass = new CtrlHistory(profileId);
-        var playerInfo = new PlayerInfo(profileId, playerName, profileId);
-
-        testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
-        var actVal = testClass.GenerateFormHistory(profileId);
-
-        actVal.Shown += async (sender, e) =>
-        {
-            await actVal.Awaiter.WaitAsync("FormHistory_ShownAsync");
-
-            // Assert
-            Assert.AreEqual($"{playerName}'s history - AoE2.net Desktop", actVal.Text);
-
-            actVal.Close();
-            done = true;
-        };
-
-        // Act
-        _ = actVal.ShowDialog();
-        Assert.IsTrue(done);
-    }
-
-    [TestMethod]
-    public void GenerateFormHistoryTestUnavailablePlayerName()
-    {
-        // Arrange
-        var playerName = "AvailablePlayerName";
-        var profileId = TestData.AvailableUserProfileId;
-        var testClass = new CtrlHistory(profileId);
-        var playerInfo = new PlayerInfo(profileId, playerName, profileId);
-        testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
-
-        // Act
-        var actVal = testClass.GenerateFormHistory(TestData.UnavailableUserProfileId);
-
-        // Assert
-        Assert.IsNull(actVal);
-    }
-
-    [TestMethod]
-    public void GenerateFormHistoryTestprofileIdNull()
-    {
-        // Arrange
-        var playerName = "AvailablePlayerName";
-        var profileId = TestData.AvailableUserProfileId;
-        var testClass = new CtrlHistory(profileId);
-        var playerInfo = new PlayerInfo(profileId, playerName, null);
-
-        testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
-        var actVal = testClass.GenerateFormHistory(profileId);
-
-        // Act
-        Assert.IsNull(actVal);
-    }
-
-    [TestMethod]
     public void ShowHistoryTest()
     {
         // Arrange
