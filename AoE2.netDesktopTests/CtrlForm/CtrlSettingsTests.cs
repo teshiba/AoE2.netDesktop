@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
+using AoE2NetDesktop.Form;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility;
 
@@ -126,9 +127,10 @@ public class CtrlSettingsTests
     {
         // Arrange
         var testClass = new CtrlSettings();
+        var formMain = new FormMain(Language.en);
 
         // Act
-        testClass.ShowMyHistory();
+        testClass.ShowMyHistory(formMain);
 
         // Assert
         Assert.IsNotNull(testClass.FormMyHistory);

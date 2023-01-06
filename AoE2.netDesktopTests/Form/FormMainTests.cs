@@ -10,7 +10,6 @@ using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Utility;
 
 using AoE2NetDesktopTests.TestData;
 using AoE2NetDesktopTests.TestUtility;
@@ -787,12 +786,13 @@ public partial class FormMainTests
         var testClass = new FormMainPrivate();
         var expVal = string.Empty;
         var done = false;
+        var formMain = new FormMain(Language.en);
 
         // Act
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormMain_Shown");
-            testClass.CtrlSettings.ShowMyHistory();
+            testClass.CtrlSettings.ShowMyHistory(formMain);
             testClass.Close();
 
             done = true;

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 using AoE2NetDesktop.AoE2DE;
 using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.PlotEx;
 using AoE2NetDesktop.Utility.Forms;
@@ -93,6 +94,16 @@ public partial class FormHistory : ControllableForm
     private void UpdateMatchesTabGraph(LeaderboardId selectedLeaderboard)
         => WinRateStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, selectedLeaderboard, SelectedDataSource);
 
+    private void OpenSelectedMatch()
+    {
+        var selectedItems = listViewMatchHistory.SelectedItems;
+        if(selectedItems.Count != 0) {
+            var prevMatchNo = int.Parse(selectedItems[0].Text);
+            var match = (Match)selectedItems[0].Tag;
+            matchViewer.DrawMatch(match, prevMatchNo);
+        }
+    }
+
     ///////////////////////////////////////////////////////////////////////
     // event handlers
     ///////////////////////////////////////////////////////////////////////
@@ -112,4 +123,7 @@ public partial class FormHistory : ControllableForm
         Settings.Default.SelectedIndexComboBoxDataSource = comboBoxDataSource.SelectedIndex;
         UpdateMatchesTabGraph(GetSelectedLeaderboard());
     }
+
+    private void ToolStripMenuItemShowOnTheMainWindow_Click(object sender, EventArgs e)
+        => OpenSelectedMatch();
 }

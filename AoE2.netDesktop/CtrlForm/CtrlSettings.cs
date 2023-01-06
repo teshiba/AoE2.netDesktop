@@ -74,9 +74,10 @@ public class CtrlSettings : FormControler
     /// <summary>
     /// Show my play history.
     /// </summary>
-    public void ShowMyHistory()
+    /// <param name="matchViewer">Related matchViewer instance.</param>
+    public void ShowMyHistory(FormMain matchViewer)
     {
-        FormMyHistory = new FormHistory(ProfileId);
+        FormMyHistory = new FormHistory(matchViewer, ProfileId);
         FormMyHistory.Show();
     }
 

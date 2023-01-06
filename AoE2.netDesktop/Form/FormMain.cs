@@ -18,7 +18,7 @@ using static AoE2NetDesktop.CtrlForm.LabelType;
 /// App main form.
 /// </summary>
 public partial class FormMain : ControllableForm
-{
+    {
     private readonly TimerProgressBar progressBar;
     private readonly Language language;
 
@@ -51,6 +51,14 @@ public partial class FormMain : ControllableForm
         this.language = language;
         Icon = Properties.Resources.aoe2netDesktopAppIcon;
     }
+
+    /// <summary>
+    /// Draw specific match.
+    /// </summary>
+    /// <param name="match">target match info.</param>
+    /// <param name="matchNo">match history No.</param>
+    public void DrawMatch(Match match, int matchNo)
+        => Invoke(() => DrawMatchAsync(match, matchNo));
 
     ///////////////////////////////////////////////////////////////////////
     // Async event handlers
@@ -208,7 +216,7 @@ public partial class FormMain : ControllableForm
         => OpenSettings();
 
     private void ShowMyHistoryHToolStripMenuItem_Click(object sender, EventArgs e)
-        => CtrlSettings.ShowMyHistory();
+        => CtrlSettings.ShowMyHistory(this);
 
     private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         => Close();
@@ -234,7 +242,7 @@ public partial class FormMain : ControllableForm
         var player = (Player)labelName.Tag;
 
         if(player != null) {
-            var formHistory = CtrlHistory.GenerateFormHistory(player.Name, player.ProfilId);
+            var formHistory = CtrlHistory.GenerateFormHistory(this, player.Name, player.ProfilId);
             if(formHistory != null) {
                 formHistory.Show();
             } else {

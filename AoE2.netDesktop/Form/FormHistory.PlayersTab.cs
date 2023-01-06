@@ -145,7 +145,7 @@ public partial class FormHistory : ControllableForm
         var selectedItems = listViewMatchedPlayers.SelectedItems;
         if(selectedItems.Count != 0) {
             var playerInfo = (PlayerInfo)selectedItems[0].Tag;
-            var formHistory = CtrlHistory.GenerateFormHistory(playerInfo.Name, playerInfo.ProfileId);
+            var formHistory = CtrlHistory.GenerateFormHistory(matchViewer, playerInfo.Name, playerInfo.ProfileId);
             formHistory.Show();
         }
     }

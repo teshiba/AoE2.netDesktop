@@ -3,6 +3,8 @@
 using System;
 using System.Windows.Forms;
 
+using AoE2NetDesktop.LibAoE2Net.Parameters;
+
 using AoE2NetDesktopTests.TestData;
 using AoE2NetDesktopTests.TestUtility;
 
@@ -26,7 +28,7 @@ public partial class FormHistoryTests
         public ScottPlot.FormsPlot formsPlotPlayerRate;
 
         public FormHistoryPrivate()
-            : base(TestData.AvailableUserProfileId)
+            : base(new FormMain(Language.en), TestData.AvailableUserProfileId)
         {
             contextMenuStripMatchedPlayers = this.GetControl<ContextMenuStrip>("contextMenuStripMatchedPlayers");
             listViewStatistics = this.GetControl<ListView>("listViewStatistics");

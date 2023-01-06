@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 
 using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.Form;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
@@ -530,9 +531,10 @@ public class CtrlHistoryTests
         var player = new Player() {
             ProfilId = TestData.AvailableUserProfileId,
         };
+        var formMain = new FormMain(Language.en);
 
         // Act
-        var ret = CtrlHistory.GenerateFormHistory(player.Name, player.ProfilId);
+        var ret = CtrlHistory.GenerateFormHistory(formMain, player.Name, player.ProfilId);
 
         // Assert
         Assert.IsNotNull(ret);
@@ -545,9 +547,10 @@ public class CtrlHistoryTests
         var player = new Player() {
             ProfilId = null,
         };
+        var formMain = new FormMain(Language.en);
 
         // Act
-        var ret = CtrlHistory.GenerateFormHistory(player.Name, player.ProfilId);
+        var ret = CtrlHistory.GenerateFormHistory(formMain, player.Name, player.ProfilId);
 
         // Assert
         Assert.IsNull(ret);
