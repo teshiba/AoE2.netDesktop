@@ -29,7 +29,7 @@ namespace AoE2NetDesktop.Form
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.contextMenuStripMatchedPlayers = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStripPlayersTab = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openAoE2NetProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -89,7 +89,7 @@ namespace AoE2NetDesktop.Form
             this.labelFind = new System.Windows.Forms.Label();
             this.checkBoxIgnoreCase = new System.Windows.Forms.CheckBox();
             this.tabControlHistory = new System.Windows.Forms.TabControl();
-            this.contextMenuStripMatchedPlayers.SuspendLayout();
+            this.contextMenuStripPlayersTab.SuspendLayout();
             this.tabPageMatches.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMatches)).BeginInit();
@@ -108,15 +108,15 @@ namespace AoE2NetDesktop.Form
             this.tabControlHistory.SuspendLayout();
             this.SuspendLayout();
             // 
-            // contextMenuStripMatchedPlayers
+            // contextMenuStripPlayersTab
             // 
-            this.contextMenuStripMatchedPlayers.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStripMatchedPlayers.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextMenuStripPlayersTab.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripPlayersTab.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openAoE2NetProfileToolStripMenuItem,
             this.openHistoryToolStripMenuItem});
-            this.contextMenuStripMatchedPlayers.Name = "contextMenuStripMatchedPlayers";
-            this.contextMenuStripMatchedPlayers.Size = new System.Drawing.Size(191, 48);
-            this.contextMenuStripMatchedPlayers.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripMatchedPlayers_Opening);
+            this.contextMenuStripPlayersTab.Name = "contextMenuStripMatchedPlayers";
+            this.contextMenuStripPlayersTab.Size = new System.Drawing.Size(191, 70);
+            this.contextMenuStripPlayersTab.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStripMatchedPlayers_Opening);
             // 
             // openAoE2NetProfileToolStripMenuItem
             // 
@@ -193,7 +193,7 @@ namespace AoE2NetDesktop.Form
             this.splitContainerMatches.Panel2.Controls.Add(this.comboBoxDataSource);
             this.splitContainerMatches.Panel2.Controls.Add(this.formsPlotWinRate);
             this.splitContainerMatches.Size = new System.Drawing.Size(768, 278);
-            this.splitContainerMatches.SplitterDistance = 374;
+            this.splitContainerMatches.SplitterDistance = 373;
             this.splitContainerMatches.SplitterWidth = 5;
             this.splitContainerMatches.TabIndex = 8;
             // 
@@ -214,7 +214,7 @@ namespace AoE2NetDesktop.Form
             this.listViewMatchHistory.Location = new System.Drawing.Point(0, 0);
             this.listViewMatchHistory.Margin = new System.Windows.Forms.Padding(4);
             this.listViewMatchHistory.Name = "listViewMatchHistory";
-            this.listViewMatchHistory.Size = new System.Drawing.Size(370, 274);
+            this.listViewMatchHistory.Size = new System.Drawing.Size(369, 274);
             this.listViewMatchHistory.TabIndex = 0;
             this.listViewMatchHistory.UseCompatibleStateImageBehavior = false;
             this.listViewMatchHistory.View = System.Windows.Forms.View.Details;
@@ -284,7 +284,7 @@ namespace AoE2NetDesktop.Form
             this.formsPlotWinRate.Location = new System.Drawing.Point(0, 0);
             this.formsPlotWinRate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotWinRate.Name = "formsPlotWinRate";
-            this.formsPlotWinRate.Size = new System.Drawing.Size(385, 274);
+            this.formsPlotWinRate.Size = new System.Drawing.Size(386, 274);
             this.formsPlotWinRate.TabIndex = 6;
             // 
             // panel1
@@ -328,7 +328,7 @@ namespace AoE2NetDesktop.Form
             this.tabPageStatistics.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageStatistics.Name = "tabPageStatistics";
             this.tabPageStatistics.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageStatistics.Size = new System.Drawing.Size(1315, 570);
+            this.tabPageStatistics.Size = new System.Drawing.Size(776, 333);
             this.tabPageStatistics.TabIndex = 1;
             this.tabPageStatistics.Text = "Statistics";
             this.tabPageStatistics.UseVisualStyleBackColor = true;
@@ -341,7 +341,7 @@ namespace AoE2NetDesktop.Form
             this.formsPlotPlayerRate.Location = new System.Drawing.Point(4, 233);
             this.formsPlotPlayerRate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotPlayerRate.Name = "formsPlotPlayerRate";
-            this.formsPlotPlayerRate.Size = new System.Drawing.Size(1307, 333);
+            this.formsPlotPlayerRate.Size = new System.Drawing.Size(768, 96);
             this.formsPlotPlayerRate.TabIndex = 6;
             this.formsPlotPlayerRate.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormsPlotPlayerRate_MouseMove);
             // 
@@ -368,7 +368,7 @@ namespace AoE2NetDesktop.Form
             this.listViewStatistics.Location = new System.Drawing.Point(4, 4);
             this.listViewStatistics.Margin = new System.Windows.Forms.Padding(4);
             this.listViewStatistics.Name = "listViewStatistics";
-            this.listViewStatistics.Size = new System.Drawing.Size(1307, 229);
+            this.listViewStatistics.Size = new System.Drawing.Size(768, 229);
             this.listViewStatistics.TabIndex = 2;
             this.listViewStatistics.UseCompatibleStateImageBehavior = false;
             this.listViewStatistics.View = System.Windows.Forms.View.Details;
@@ -436,7 +436,7 @@ namespace AoE2NetDesktop.Form
             this.tabPagePlayers.Margin = new System.Windows.Forms.Padding(4);
             this.tabPagePlayers.Name = "tabPagePlayers";
             this.tabPagePlayers.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPagePlayers.Size = new System.Drawing.Size(1315, 570);
+            this.tabPagePlayers.Size = new System.Drawing.Size(776, 333);
             this.tabPagePlayers.TabIndex = 3;
             this.tabPagePlayers.Text = "Players";
             this.tabPagePlayers.UseVisualStyleBackColor = true;
@@ -448,7 +448,7 @@ namespace AoE2NetDesktop.Form
             this.panel4.Location = new System.Drawing.Point(4, 50);
             this.panel4.Margin = new System.Windows.Forms.Padding(4);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1307, 516);
+            this.panel4.Size = new System.Drawing.Size(768, 279);
             this.panel4.TabIndex = 15;
             // 
             // splitContainerPlayers
@@ -467,8 +467,8 @@ namespace AoE2NetDesktop.Form
             // splitContainerPlayers.Panel2
             // 
             this.splitContainerPlayers.Panel2.Controls.Add(this.formsPlotCountry);
-            this.splitContainerPlayers.Size = new System.Drawing.Size(1307, 516);
-            this.splitContainerPlayers.SplitterDistance = 845;
+            this.splitContainerPlayers.Size = new System.Drawing.Size(768, 279);
+            this.splitContainerPlayers.SplitterDistance = 496;
             this.splitContainerPlayers.SplitterWidth = 5;
             this.splitContainerPlayers.TabIndex = 9;
             this.splitContainerPlayers.DoubleClick += new System.EventHandler(this.SplitContainerPlayers_DoubleClick);
@@ -510,14 +510,14 @@ namespace AoE2NetDesktop.Form
             this.columnHeaderEnemyGames,
             this.columnHeader1v1GameCount,
             this.columnHeaderLastDate});
-            this.listViewMatchedPlayers.ContextMenuStrip = this.contextMenuStripMatchedPlayers;
+            this.listViewMatchedPlayers.ContextMenuStrip = this.contextMenuStripPlayersTab;
             this.listViewMatchedPlayers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewMatchedPlayers.FullRowSelect = true;
             this.listViewMatchedPlayers.GridLines = true;
             this.listViewMatchedPlayers.Location = new System.Drawing.Point(0, 0);
             this.listViewMatchedPlayers.Margin = new System.Windows.Forms.Padding(4);
             this.listViewMatchedPlayers.Name = "listViewMatchedPlayers";
-            this.listViewMatchedPlayers.Size = new System.Drawing.Size(841, 512);
+            this.listViewMatchedPlayers.Size = new System.Drawing.Size(492, 275);
             this.listViewMatchedPlayers.TabIndex = 2;
             this.listViewMatchedPlayers.UseCompatibleStateImageBehavior = false;
             this.listViewMatchedPlayers.View = System.Windows.Forms.View.Details;
@@ -578,7 +578,7 @@ namespace AoE2NetDesktop.Form
             this.formsPlotCountry.Location = new System.Drawing.Point(0, 0);
             this.formsPlotCountry.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.formsPlotCountry.Name = "formsPlotCountry";
-            this.formsPlotCountry.Size = new System.Drawing.Size(453, 512);
+            this.formsPlotCountry.Size = new System.Drawing.Size(263, 275);
             this.formsPlotCountry.TabIndex = 8;
             // 
             // panelPlayers
@@ -592,7 +592,7 @@ namespace AoE2NetDesktop.Form
             this.panelPlayers.Location = new System.Drawing.Point(4, 4);
             this.panelPlayers.Margin = new System.Windows.Forms.Padding(4);
             this.panelPlayers.Name = "panelPlayers";
-            this.panelPlayers.Size = new System.Drawing.Size(1307, 46);
+            this.panelPlayers.Size = new System.Drawing.Size(768, 46);
             this.panelPlayers.TabIndex = 14;
             // 
             // checkBoxSetFilter
@@ -680,7 +680,7 @@ namespace AoE2NetDesktop.Form
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormHistory_FormClosing);
             this.Load += new System.EventHandler(this.FormHistory_Load);
             this.Shown += new System.EventHandler(this.FormHistory_ShownAsync);
-            this.contextMenuStripMatchedPlayers.ResumeLayout(false);
+            this.contextMenuStripPlayersTab.ResumeLayout(false);
             this.tabPageMatches.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.splitContainerMatches.Panel1.ResumeLayout(false);
@@ -705,7 +705,7 @@ namespace AoE2NetDesktop.Form
         }
 
         #endregion
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripMatchedPlayers;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripPlayersTab;
         private System.Windows.Forms.ToolStripMenuItem openAoE2NetProfileToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;

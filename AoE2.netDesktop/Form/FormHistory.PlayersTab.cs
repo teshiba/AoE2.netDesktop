@@ -162,7 +162,7 @@ public partial class FormHistory : ControllableForm
 
     private void ContextMenuStripMatchedPlayers_Opening(object sender, CancelEventArgs e)
     {
-        var location = new Point(contextMenuStripMatchedPlayers.Left, contextMenuStripMatchedPlayers.Top);
+        var location = new Point(contextMenuStripPlayersTab.Left, contextMenuStripPlayersTab.Top);
         var point = listViewMatchedPlayers.PointToClient(location);
         var item = listViewMatchedPlayers.HitTest(point).Item;
 
