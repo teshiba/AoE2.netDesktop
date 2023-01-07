@@ -343,8 +343,8 @@ public class CtrlHistoryTests
         var actVal = testClass.CreateListViewHistory();
 
         // Assert
-        Assert.AreEqual("1", actVal[LeaderboardId.RM1v1][0].SubItems[4].Text);  // Color
-        Assert.AreEqual("3", actVal[LeaderboardId.RMTeam][0].SubItems[4].Text); // Color
+        Assert.AreEqual("1", actVal[LeaderboardId.RM1v1][0].SubItems[5].Text);  // Color
+        Assert.AreEqual("3", actVal[LeaderboardId.RMTeam][0].SubItems[5].Text); // Color
     }
 
     [TestMethod]

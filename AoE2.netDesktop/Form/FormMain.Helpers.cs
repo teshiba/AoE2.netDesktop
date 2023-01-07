@@ -18,16 +18,14 @@ using AoE2NetDesktop.Utility.SysApi;
 using AoE2NetDesktop.Utility.Timer;
 
 /// <summary>
-/// App main form.
+/// App main form hepler API definition partial class.
 /// </summary>
 public partial class FormMain : ControllableForm
 {
     private const string LoadingText = $"Loading last match...";
     private const string GameIdLabel = "GameID : ";
     private FormSettings formSettings;
-    private int currentMatchView;
     private bool isDrawing;
-    private int requestMatchView;
     private DisplayStatus displayStatus;
 
     /// <summary>
@@ -299,7 +297,7 @@ public partial class FormMain : ControllableForm
         }
     }
 
-    private void SetMatchDataTeam(Match match)
+    private async Task<Match> SetMatchDataTeamAsync(Match match)
     {
         var aveTeam1 = match.Players.GetAverageRate(TeamType.OddColorNo);
         var aveTeam2 = match.Players.GetAverageRate(TeamType.EvenColorNo);
@@ -311,14 +309,19 @@ public partial class FormMain : ControllableForm
         labelServer.Text = $"Server : {match.Server}";
         labelStartTimeTeam.Text = CtrlMain.GetOpenedTimeString(match);
 
-        labelMatchResultTeam1.Text = GetMatchResult(match, TeamType.OddColorNo).ToString();
-        labelMatchResultTeam1.Tag = GetMatchResult(match, TeamType.OddColorNo);
-        labelMatchResultTeam2.Text = GetMatchResult(match, TeamType.EvenColorNo).ToString();
-        labelMatchResultTeam2.Tag = GetMatchResult(match, TeamType.EvenColorNo);
+        var matchResultOddColor = await GetMatchResultAsync(match, TeamType.OddColorNo);
+        var matchResultEvenColor = await GetMatchResultAsync(match, TeamType.EvenColorNo);
+
+        labelMatchResultTeam1.Text = matchResultOddColor.ToString();
+        labelMatchResultTeam1.Tag = matchResultOddColor;
+        labelMatchResultTeam2.Text = matchResultEvenColor.ToString();
+        labelMatchResultTeam2.Tag = matchResultEvenColor;
         labelElapsedTimeTeam.Text = GetElapsedTime(match);
+
+        return match;
     }
 
-    private void SetMatchData1v1(Match match)
+    private async Task<Match> SetMatchData1v1Async(Match match)
     {
         pictureBoxMap1v1.Image = CtrlMain.LoadMapIcon(match.MapType);
         labelMap1v1.Text = match.GetMapName();
@@ -326,18 +329,23 @@ public partial class FormMain : ControllableForm
 
         labelStartTime1v1.Text = CtrlMain.GetOpenedTimeString(match);
 
-        labelMatchResult1v1p1.Text = GetMatchResult(match, TeamType.OddColorNo).ToString();
-        labelMatchResult1v1p1.Tag = GetMatchResult(match, TeamType.OddColorNo);
-        labelMatchResult1v1p2.Text = GetMatchResult(match, TeamType.EvenColorNo).ToString();
-        labelMatchResult1v1p2.Tag = GetMatchResult(match, TeamType.EvenColorNo);
+        var matchResultOddColor = await GetMatchResultAsync(match, TeamType.OddColorNo);
+        var matchResultEvenColor = await GetMatchResultAsync(match, TeamType.EvenColorNo);
+
+        labelMatchResult1v1p1.Text = matchResultOddColor.ToString();
+        labelMatchResult1v1p1.Tag = matchResultOddColor;
+        labelMatchResult1v1p2.Text = matchResultEvenColor.ToString();
+        labelMatchResult1v1p2.Tag = matchResultEvenColor;
         labelElapsedTime1v1.Text = GetElapsedTime(match);
+
+        return match;
     }
 
     private string GetElapsedTime(Match match)
     {
         string ret;
 
-        if(match.Finished is null && requestMatchView != 0) {
+        if(match.Finished is null && Controler.RequestMatchView != 0) {
             ret = DateTimeExt.InvalidTime;
         } else {
             ret = CtrlMain.GetElapsedTimeString(match);
@@ -346,14 +354,43 @@ public partial class FormMain : ControllableForm
         return ret;
     }
 
-    private MatchResult GetMatchResult(Match match, TeamType teamType)
+    private async Task<MatchResult> GetMatchResultAsync(Match match, TeamType teamType)
     {
         MatchResult ret;
 
-        if(match.Finished is null && requestMatchView != 0) {
-            ret = MatchResult.Finished;
-        } else {
-            ret = match.GetMatchResult(teamType);
+        ret = match.GetMatchResult(teamType);
+
+        if(Controler.RequestMatchView != 0) {
+            if(ret is MatchResult.InProgress or MatchResult.Finished) {
+                ret = await GetMatchResultWithCompareNextMatchAsync(Controler.RequestMatchView - 1, teamType);
+            }
+        }
+
+        return ret;
+    }
+
+    private async Task<MatchResult> GetMatchResultWithCompareNextMatchAsync(int start, TeamType teamType)
+    {
+        var ret = MatchResult.Finished;
+
+        var matches = await AoE2net.GetPlayerMatchHistoryAsync(start, 2, Controler.ProfileId);
+        if(matches.Count == 2) {
+            var nextRate = matches[0].GetPlayer(Controler.ProfileId).Rating;
+            var currentRate = matches[1].GetPlayer(Controler.ProfileId).Rating;
+
+            if(teamType == TeamType.OddColorNo) {
+                if(nextRate < currentRate) {
+                    ret = MatchResult.Defeated;
+                } else if(nextRate > currentRate) {
+                    ret = MatchResult.Victorious;
+                }
+            } else {
+                if(nextRate < currentRate) {
+                    ret = MatchResult.Victorious;
+                } else if(nextRate > currentRate) {
+                    ret = MatchResult.Defeated;
+                }
+            }
         }
 
         return ret;
@@ -453,15 +490,12 @@ public partial class FormMain : ControllableForm
         Awaiter.Complete();
     }
 
-    private async Task<Match> DrawMatchAsync(Match match, int? prevMatchNo)
+    private async Task<Match> DrawMatchAsync(Match match, int targetProfileId, int prevMatchNo)
     {
-        var ret = match;
-
-        if(prevMatchNo is not null) {
-            requestMatchView = (int)prevMatchNo;
-        }
+        Controler.RequestMatchView = (int)prevMatchNo;
 
         var gameIdText = $"{GameIdLabel}{match.MatchId}";
+        Controler.ProfileId = targetProfileId;
 
         if(labelGameId.Text != gameIdText) {
             labelGameId1v1.Text = gameIdText;
@@ -471,23 +505,25 @@ public partial class FormMain : ControllableForm
 
             if(match.NumPlayers == 2) {
                 await SetPlayersData1v1Async(match);
-                SetMatchData1v1(match);
+                await SetMatchData1v1Async(match);
             } else {
                 SetPlayersData(match.Players);
-                SetMatchDataTeam(match);
+                await SetMatchDataTeamAsync(match);
             }
 
-            SwitchView(ret);
+            SwitchView(match);
 
             CtrlMain.DisplayedMatch = match;
-            if(requestMatchView == 0) {
+            if(Controler.RequestMatchView == 0) {
                 GameTimer.Start();
             } else {
                 GameTimer.Stop();
             }
         }
 
-        return ret;
+        Controler.CurrentMatchView = (int)prevMatchNo;
+
+        return match;
     }
 
     private async Task<Match> UpdateRequestedMatchAsync()
@@ -497,37 +533,36 @@ public partial class FormMain : ControllableForm
         if(!isDrawing) {
             isDrawing = true;
             updateToolStripMenuItem.Enabled = false;
-            while(requestMatchView != currentMatchView) {
-                if(requestMatchView == 0) {
+            while(Controler.RequestMatchView != Controler.CurrentMatchView) {
+                if(Controler.RequestMatchView == 0) {
                     labelMatchNo.Text = LoadingText;
                     labelMatchNo1v1.Text = LoadingText;
                 } else {
-                    labelMatchNo.Text = $"Loading {requestMatchView} match ago...";
-                    labelMatchNo1v1.Text = $"Loading {requestMatchView} match ago...";
+                    labelMatchNo.Text = $"Loading {Controler.RequestMatchView} match ago...";
+                    labelMatchNo1v1.Text = $"Loading {Controler.RequestMatchView} match ago...";
                 }
 
                 displayStatus = DisplayStatus.RedrawingPrevMatch;
                 progressBar.Restart();
 
-                var drawingMatchNo = requestMatchView;
+                var drawingMatchNo = Controler.RequestMatchView;
 
                 try {
                     var playerMatchHistory = await AoE2net.GetPlayerMatchHistoryAsync(
-                                                    drawingMatchNo, 1, CtrlSettings.ProfileId);
+                                                    drawingMatchNo, 1, Controler.ProfileId);
                     if(playerMatchHistory.Count != 0) {
                         var match = playerMatchHistory[0];
-                        ret = await DrawMatchAsync(match, drawingMatchNo);
-                        currentMatchView = drawingMatchNo;
+                        ret = await DrawMatchAsync(match, Controler.ProfileId, drawingMatchNo);
                     } else {
                         // If the requested previous match is over the range,
                         // it shows the oldest available match.
-                        requestMatchView--;
+                        Controler.RequestMatchView--;
                     }
                 } catch(Exception ex) {
                     // if API calling failed, call next request.
                     labelMatchNo.Text = "Load Error";
                     labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
-                    requestMatchView--;
+                    Controler.RequestMatchView--;
                 }
             }
 
@@ -546,13 +581,13 @@ public partial class FormMain : ControllableForm
         updateToolStripMenuItem.Enabled = false;
         labelMatchNo.Text = LoadingText;
         labelMatchNo1v1.Text = LoadingText;
-        requestMatchView = 0;
+        Controler.RequestMatchView = 0;
 
         try {
             var lastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Profile, profileId.ToString());
 
             if(labelGameId.Text != $"{GameIdLabel}{lastmatch.LastMatch.MatchId}") {
-                ret = await DrawMatchAsync(lastmatch.LastMatch, 0);
+                ret = await DrawMatchAsync(lastmatch.LastMatch, profileId, 0);
             } else {
                 ret = lastmatch.LastMatch;
                 labelMatchNo1v1.Text = CtrlMain.GetMatchNoString(0);

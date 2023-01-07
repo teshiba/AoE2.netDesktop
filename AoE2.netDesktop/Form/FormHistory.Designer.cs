@@ -225,6 +225,7 @@ namespace AoE2NetDesktop.Form
             this.listViewMatchHistory.UseCompatibleStateImageBehavior = false;
             this.listViewMatchHistory.View = System.Windows.Forms.View.Details;
             this.listViewMatchHistory.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListViewMatchHistory_ColumnClick);
+            this.listViewMatchHistory.DoubleClick += new System.EventHandler(this.ListViewMatchHistory_DoubleClick);
             // 
             // columnHeaderNo
             // 

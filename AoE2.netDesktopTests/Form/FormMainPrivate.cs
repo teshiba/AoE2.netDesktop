@@ -31,7 +31,7 @@ public partial class FormMainTests
         public Label labelMatchNo1v1;
         public ToolStripMenuItem updateToolStripMenuItem;
         public ContextMenuStrip contextMenuStripMain;
-        internal PictureBox pictureBoxMap;
+        public PictureBox pictureBoxMap;
 
         public FormMainPrivate()
             : base(Language.en)
@@ -55,16 +55,22 @@ public partial class FormMainTests
             TestUtilityExt.SetSettings("SelectedIdType", IdType.Profile);
         }
 
+        public int ProfileId
+        {
+            get => Controler.ProfileId;
+            set => Controler.ProfileId = value;
+        }
+
         public int RequestMatchView
         {
-            get => this.GetField<int>("requestMatchView");
-            set => this.SetField("requestMatchView", value);
+            get => Controler.RequestMatchView;
+            set => Controler.RequestMatchView = value;
         }
 
         public int CurrentMatchView
         {
-            get => this.GetField<int>("currentMatchView");
-            set => this.SetField("currentMatchView", value);
+            get => Controler.CurrentMatchView;
+            set => Controler.CurrentMatchView = value;
         }
 
         public TimerProgressBar ProgressBar

@@ -24,13 +24,14 @@ public partial class FormHistoryTests
         public SplitContainer splitContainerPlayers;
         public ToolStripMenuItem openAoE2NetProfileToolStripMenuItem;
         public ToolStripMenuItem openHistoryToolStripMenuItem;
+        public ToolStripMenuItem toolStripMenuItemShowOnTheMainWindow;
         public TabControl tabControlHistory;
         public ScottPlot.FormsPlot formsPlotPlayerRate;
 
         public FormHistoryPrivate()
             : base(new FormMain(Language.en), TestData.AvailableUserProfileId)
         {
-            contextMenuStripMatchedPlayers = this.GetControl<ContextMenuStrip>("contextMenuStripMatchedPlayers");
+            contextMenuStripMatchedPlayers = this.GetControl<ContextMenuStrip>("contextMenuStripPlayersTab");
             listViewStatistics = this.GetControl<ListView>("listViewStatistics");
             listViewMatchedPlayers = this.GetControl<ListView>("listViewMatchedPlayers");
             listViewMatchHistory = this.GetControl<ListView>("listViewMatchHistory");
@@ -43,6 +44,7 @@ public partial class FormHistoryTests
             tabControlHistory = this.GetControl<TabControl>("tabControlHistory");
             openAoE2NetProfileToolStripMenuItem = this.GetControl<ToolStripMenuItem>("openAoE2NetProfileToolStripMenuItem");
             openHistoryToolStripMenuItem = this.GetControl<ToolStripMenuItem>("openHistoryToolStripMenuItem");
+            toolStripMenuItemShowOnTheMainWindow = this.GetControl<ToolStripMenuItem>("toolStripMenuItemShowOnTheMainWindow");
             formsPlotPlayerRate = this.GetControl<ScottPlot.FormsPlot>("formsPlotPlayerRate");
         }
 
@@ -66,5 +68,11 @@ public partial class FormHistoryTests
 
         public void ListViewMatchHistory_ColumnClick(ColumnClickEventArgs e)
             => this.Invoke("ListViewMatchHistory_ColumnClick", listViewMatchHistory, e);
+
+        public void ListViewMatchHistory_DoubleClick(EventArgs e)
+            => this.Invoke("ListViewMatchHistory_DoubleClick", listViewMatchHistory, e);
+
+        public void ToolStripMenuItemShowOnTheMainWindow_Click(EventArgs e)
+          => this.Invoke("ToolStripMenuItemShowOnTheMainWindow_Click", toolStripMenuItemShowOnTheMainWindow, e);
     }
 }

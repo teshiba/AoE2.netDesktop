@@ -50,8 +50,8 @@ public partial class FormMain : ControllableForm
     private async Task NextMatchResultAsync()
     {
         if(displayStatus is DisplayStatus.Shown or DisplayStatus.RedrawingPrevMatch) {
-            if(requestMatchView > 0) {
-                requestMatchView--;
+            if(Controler.RequestMatchView > 0) {
+                Controler.RequestMatchView--;
                 if(progressBar.Start()) {
                     await UpdateRequestedMatchAsync();
                     progressBar.Stop();
@@ -63,7 +63,7 @@ public partial class FormMain : ControllableForm
     private async Task PrevMatchResultAsync()
     {
         if(displayStatus is DisplayStatus.Shown or DisplayStatus.RedrawingPrevMatch) {
-            requestMatchView++;
+            Controler.RequestMatchView++;
 
             if(progressBar.Start()) {
                 await UpdateRequestedMatchAsync();

@@ -74,6 +74,21 @@ public class CtrlMain : FormControler
     public static ISystemApi SystemApi { get; set; } = new SystemApi(new User32Api());
 
     /// <summary>
+    /// Gets or sets profileId to display.
+    /// </summary>
+    public int ProfileId { get; set; }
+
+    /// <summary>
+    /// Gets or sets request matchView to display.
+    /// </summary>
+    public int RequestMatchView { get; set; }
+
+    /// <summary>
+    /// Gets or sets current matchView to display.
+    /// </summary>
+    public int CurrentMatchView { get; set; }
+
+    /// <summary>
     /// Get font style according to the player's status.
     /// </summary>
     /// <param name="player">player.</param>

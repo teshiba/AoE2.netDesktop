@@ -18,7 +18,7 @@ using static AoE2NetDesktop.CtrlForm.LabelType;
 /// App main form.
 /// </summary>
 public partial class FormMain : ControllableForm
-    {
+{
     private readonly TimerProgressBar progressBar;
     private readonly Language language;
 
@@ -43,7 +43,6 @@ public partial class FormMain : ControllableForm
         CtrlSettings = new CtrlSettings();
         LastMatchLoader = new LastMatchLoader(OnTimerLastMatchLoader, CtrlMain.IntervalSec);
         GameTimer = new GameTimer(OnTimerGame);
-
         progressBar = new TimerProgressBar(progressBarLoading);
         displayStatus = DisplayStatus.Uninitialized;
         SetOptionParams();
@@ -52,13 +51,17 @@ public partial class FormMain : ControllableForm
         Icon = Properties.Resources.aoe2netDesktopAppIcon;
     }
 
+    /// <inheritdoc/>
+    protected override CtrlMain Controler => (CtrlMain)base.Controler;
+
     /// <summary>
     /// Draw specific match.
     /// </summary>
     /// <param name="match">target match info.</param>
+    /// <param name="targetProfileId">target profile ID.</param>
     /// <param name="matchNo">match history No.</param>
-    public void DrawMatch(Match match, int matchNo)
-        => Invoke(() => DrawMatchAsync(match, matchNo));
+    public void DrawMatch(Match match, int targetProfileId, int matchNo)
+        => Invoke(() => DrawMatchAsync(match, targetProfileId, matchNo));
 
     ///////////////////////////////////////////////////////////////////////
     // Async event handlers
@@ -82,7 +85,7 @@ public partial class FormMain : ControllableForm
 
     private async void UpdateToolStripMenuItem_ClickAsync(object sender, EventArgs e)
     {
-        await RedrawLastMatch();
+        await OnUpdateSettingProfileIdMatchViewAsync();
         Awaiter.Complete();
     }
 
@@ -92,8 +95,10 @@ public partial class FormMain : ControllableForm
     private void PictureBoxMap1v1_DoubleClick(object sender, EventArgs e)
         => updateToolStripMenuItem.PerformClick();
 
-    private async Task RedrawLastMatch()
+    private async Task OnUpdateSettingProfileIdMatchViewAsync()
     {
+        Controler.ProfileId = CtrlSettings.ProfileId;
+
         switch(displayStatus) {
         case DisplayStatus.Shown:
 
@@ -105,7 +110,7 @@ public partial class FormMain : ControllableForm
             }
 
             try {
-                await RedrawLastMatchAsync(CtrlSettings.ProfileId);
+                await RedrawLastMatchAsync(Controler.ProfileId);
             } catch(Exception ex) {
                 labelMatchNo.Text = "Load Error";
                 labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
@@ -143,7 +148,8 @@ public partial class FormMain : ControllableForm
                 OpenSettings();
             }
 
-            await RedrawLastMatchAsync(CtrlSettings.ProfileId);
+            Controler.ProfileId = CtrlSettings.ProfileId;
+            await RedrawLastMatchAsync(Controler.ProfileId);
         } catch(Exception ex) {
             labelMatchNo.Text = "Load Error";
             labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
@@ -202,7 +208,7 @@ public partial class FormMain : ControllableForm
         if(Settings.Default.IsAutoReloadLastMatch
         && CtrlMain.DisplayedMatch?.Finished == null
         && displayStatus == DisplayStatus.Shown
-        && currentMatchView == 0) {
+        && Controler.CurrentMatchView == 0) {
             CtrlMain.IsReloadingByTimer = true;
             updateToolStripMenuItem.PerformClick();
         }
@@ -312,7 +318,7 @@ public partial class FormMain : ControllableForm
     {
         var labelName = (Label)sender;
         var player = (Player)labelName.Tag;
-        labelName.DrawString(e, CtrlMain.GetPlayerBorderedStyle(player, CtrlSettings.ProfileId));
+        labelName.DrawString(e, CtrlMain.GetPlayerBorderedStyle(player, Controler.ProfileId));
     }
 
     private void LabelName1v1P1_Paint(object sender, PaintEventArgs e)
@@ -399,7 +405,15 @@ public partial class FormMain : ControllableForm
     private void LabelMatchResult_Paint(object sender, PaintEventArgs e)
     {
         var label = (Label)sender;
-        var style = CtrlMain.GetBorderedStyle((MatchResult)label.Tag);
+        MatchResult matchResult;
+
+        if(label.Tag.GetType() == typeof(MatchResult)) {
+            matchResult = (MatchResult)label.Tag;
+        } else {
+            matchResult = MatchResult.Unknown;
+        }
+
+        var style = CtrlMain.GetBorderedStyle(matchResult);
         label.DrawString(e, style);
     }
 

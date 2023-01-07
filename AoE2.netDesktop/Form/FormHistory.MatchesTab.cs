@@ -100,7 +100,7 @@ public partial class FormHistory : ControllableForm
         if(selectedItems.Count != 0) {
             var prevMatchNo = int.Parse(selectedItems[0].Text);
             var match = (Match)selectedItems[0].Tag;
-            matchViewer.DrawMatch(match, prevMatchNo);
+            matchViewer.DrawMatch(match, Controler.ProfileId, prevMatchNo);
         }
     }
 
@@ -125,5 +125,8 @@ public partial class FormHistory : ControllableForm
     }
 
     private void ToolStripMenuItemShowOnTheMainWindow_Click(object sender, EventArgs e)
+        => OpenSelectedMatch();
+
+    private void ListViewMatchHistory_DoubleClick(object sender, EventArgs e)
         => OpenSelectedMatch();
 }

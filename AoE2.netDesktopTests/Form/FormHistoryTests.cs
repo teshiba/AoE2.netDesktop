@@ -403,5 +403,56 @@ public partial class FormHistoryTests
         // Assert
         Assert.IsTrue(done);
     }
+
+    [TestMethod]
+    public void FormHistoryTestListViewMatchHistory_DoubleClick()
+    {
+        // Arrange
+        var testClass = new FormHistoryPrivate();
+        var done = false;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+            testClass.tabControlHistory.SelectedIndex = 1;
+            testClass.listViewMatchHistory.Items[0].Selected = true;
+            testClass.listViewMatchHistory.Focus();
+            testClass.ListViewMatchHistory_DoubleClick(new EventArgs());
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+    }
+
+    [TestMethod]
+    public void FormHistoryTestToolStripMenuItemShowOnTheMainWindow_Click()
+    {
+        // Arrange
+        var testClass = new FormHistoryPrivate();
+        var done = false;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+            testClass.tabControlHistory.SelectedIndex = 1;
+            testClass.listViewMatchHistory.Items[0].Selected = true;
+            testClass.listViewMatchHistory.Focus();
+            testClass.ToolStripMenuItemShowOnTheMainWindow_Click(new EventArgs());
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+    }
+
 #pragma warning restore VSTHRD101 // Avoid unsupported async delegates
 }
