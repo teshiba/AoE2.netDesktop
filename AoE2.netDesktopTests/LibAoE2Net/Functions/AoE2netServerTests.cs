@@ -10,7 +10,6 @@
 
     [TestClass]
     [TestCategory("ServerTest")]
-    [Ignore]
     public class AoE2netServerTests
     {
         private const int HttpTimeoutSec = 20;

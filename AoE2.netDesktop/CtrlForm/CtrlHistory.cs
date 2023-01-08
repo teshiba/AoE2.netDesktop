@@ -139,15 +139,16 @@ public class CtrlHistory : FormControler
     /// <summary>
     /// Show History.
     /// </summary>
+    /// <param name="matchViewer">Related matchViewer instance.</param>
     /// <param name="playerName">player name.</param>
     /// <param name="profileId">profile ID.</param>
     /// <returns>FormHistory Instance.</returns>
-    public static FormHistory GenerateFormHistory(string playerName, int? profileId)
+    public static FormHistory GenerateFormHistory(FormMain matchViewer, string playerName, int? profileId)
     {
         FormHistory ret = null;
 
         if(profileId is int id) {
-            ret = new FormHistory(id) {
+            ret = new FormHistory(matchViewer, id) {
                 Text = $"{playerName}'s history - AoE2.net Desktop",
             };
         }
@@ -201,19 +202,24 @@ public class CtrlHistory : FormControler
             { LeaderboardId.EWTeam, new List<ListViewItem>() },
         };
 
+        var index = 0;
         foreach(var match in PlayerMatchHistory) {
             var player = match.GetPlayer(ProfileId);
-            var listViewItem = new ListViewItem(match.GetMapName());
+            var listViewItem = new ListViewItem(index.ToString());
+            listViewItem.SubItems.Add(match.GetMapName());
             listViewItem.SubItems.Add(player.GetRatingString());
             listViewItem.SubItems.Add(player.GetWinMarkerString());
             listViewItem.SubItems.Add(player.GetCivName());
             listViewItem.SubItems.Add(player.GetColorString());
             listViewItem.SubItems.Add(match.GetOpenedTime().ToString());
+            listViewItem.Tag = match;
 
             if(match.LeaderboardId != null) {
                 var leaderboardId = (LeaderboardId)match.LeaderboardId;
                 ret[leaderboardId].Add(listViewItem);
             }
+
+            index++;
         }
 
         return ret;
@@ -270,24 +276,6 @@ public class CtrlHistory : FormControler
         }
 
         return ret.StartInfo.Arguments;
-    }
-
-    /// <summary>
-    /// Open player's History on new History window.
-    /// </summary>
-    /// <param name="profileId">player profile ID.</param>
-    /// <returns>Instance of FormHistory.</returns>
-    public FormHistory GenerateFormHistory(int? profileId)
-    {
-        FormHistory ret = null;
-
-        if(MatchedPlayerInfos.TryGetValue(profileId, out PlayerInfo playerInfo)) {
-            ret = GenerateFormHistory(playerInfo.Name, playerInfo.ProfileId);
-        } else {
-            Debug.Print($"Unavailable Player ID: {profileId}.");
-        }
-
-        return ret;
     }
 
     /// <summary>

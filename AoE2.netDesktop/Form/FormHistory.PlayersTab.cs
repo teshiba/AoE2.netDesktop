@@ -145,7 +145,7 @@ public partial class FormHistory : ControllableForm
         var selectedItems = listViewMatchedPlayers.SelectedItems;
         if(selectedItems.Count != 0) {
             var playerInfo = (PlayerInfo)selectedItems[0].Tag;
-            var formHistory = CtrlHistory.GenerateFormHistory(playerInfo.Name, playerInfo.ProfileId);
+            var formHistory = CtrlHistory.GenerateFormHistory(matchViewer, playerInfo.Name, playerInfo.ProfileId);
             formHistory.Show();
         }
     }
@@ -162,7 +162,7 @@ public partial class FormHistory : ControllableForm
 
     private void ContextMenuStripMatchedPlayers_Opening(object sender, CancelEventArgs e)
     {
-        var location = new Point(contextMenuStripMatchedPlayers.Left, contextMenuStripMatchedPlayers.Top);
+        var location = new Point(contextMenuStripPlayersTab.Left, contextMenuStripPlayersTab.Top);
         var point = listViewMatchedPlayers.PointToClient(location);
         var item = listViewMatchedPlayers.HitTest(point).Item;
 

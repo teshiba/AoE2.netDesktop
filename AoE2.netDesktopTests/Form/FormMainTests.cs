@@ -2,6 +2,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -387,7 +388,6 @@ public partial class FormMainTests
     }
 
     [TestMethod]
-    [Ignore]
     [DataRow(Keys.Right, Keys.Alt, Keys.Shift, 1, 0)]
     [DataRow(Keys.Right, Keys.Alt, Keys.None, 10, 0)]
     [DataRow(Keys.Left, Keys.Alt, Keys.Shift, -1, 0)]
@@ -787,12 +787,13 @@ public partial class FormMainTests
         var testClass = new FormMainPrivate();
         var expVal = string.Empty;
         var done = false;
+        var formMain = new FormMain(Language.en);
 
         // Act
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormMain_Shown");
-            testClass.CtrlSettings.ShowMyHistory();
+            testClass.CtrlSettings.ShowMyHistory(formMain);
             testClass.Close();
 
             done = true;
@@ -1011,6 +1012,48 @@ public partial class FormMainTests
 
         // Assert
         // nothing to do.
+    }
+
+    [TestMethod]
+    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
+    [DataRow("playerMatchHistoryaoe2de-OddTeam-Defeated.json")]
+    [DataRow("playerMatchHistoryaoe2de-OddTeam-Victorious.json")]
+    [DataRow("playerMatchHistoryaoe2de-OddTeam-Finished.json")]
+    [DataRow("playerMatchHistoryaoe2de-EvenTeam-Defeated.json")]
+    [DataRow("playerMatchHistoryaoe2de-EvenTeam-Victorious.json")]
+    [DataRow("playerMatchHistoryaoe2de-EvenTeam-Finished.json")]
+    public void InvokeDrawMatchAsyncTest(string history)
+    {
+        // Arrange
+        var done = false;
+        var id = 1;
+        var matchNo = 3;
+        var match = new Match() {
+            Started = 1,
+        };
+
+        var testClass = new FormMainPrivate();
+        testClass.httpClient.PlayerMatchHistoryUri = history;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormMain_Shown");
+            await testClass.InvokeDrawMatchAsync(match, id, matchNo);
+            done = true;
+
+            // CleanUp
+            testClass.Close();
+            testClass.httpClient.PlayerMatchHistoryUri = null;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+        Assert.AreEqual(matchNo, testClass.RequestMatchView);
+        Assert.AreEqual(matchNo, testClass.CurrentMatchView);
+        Assert.AreEqual(id, testClass.ProfileId);
     }
 
     private static async Task WaitPaintAsync(FormMainPrivate testClass)

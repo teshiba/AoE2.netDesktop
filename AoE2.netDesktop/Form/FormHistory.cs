@@ -15,11 +15,14 @@ using AoE2NetDesktop.Utility.Forms;
 /// </summary>
 public partial class FormHistory : ControllableForm
 {
+    private readonly FormMain matchViewer;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="FormHistory"/> class.
     /// </summary>
+    /// <param name="matchViewer">Related matchViewer instance.</param>
     /// <param name="profileId">user profile ID.</param>
-    public FormHistory(int profileId)
+    public FormHistory(FormMain matchViewer, int profileId)
         : base(new CtrlHistory(profileId))
     {
         InitializeComponent();
@@ -27,6 +30,7 @@ public partial class FormHistory : ControllableForm
         InitPlayersTab();
         InitStatisticsTab();
         Icon = Properties.Resources.aoe2netDesktopAppIcon;
+        this.matchViewer = matchViewer;
     }
 
     /// <inheritdoc/>
@@ -51,6 +55,14 @@ public partial class FormHistory : ControllableForm
         Left = Settings.Default.WindowLocationHistory.X;
         Width = Settings.Default.WindowSizeHistory.Width;
         Height = Settings.Default.WindowSizeHistory.Height;
+
+        AdjustWindowPosition();
+    }
+
+    private void AdjustWindowPosition()
+    {
+        Top = Top < 0 ? 0 : Top;
+        Left = Left < 0 ? 0 : Left;
     }
 
     ///////////////////////////////////////////////////////////////////////

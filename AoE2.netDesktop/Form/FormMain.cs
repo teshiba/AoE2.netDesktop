@@ -1,6 +1,7 @@
 ﻿namespace AoE2NetDesktop.Form;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -9,6 +10,7 @@ using AoE2NetDesktop;
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
 using AoE2NetDesktop.Utility.Timer;
 
@@ -43,7 +45,6 @@ public partial class FormMain : ControllableForm
         CtrlSettings = new CtrlSettings();
         LastMatchLoader = new LastMatchLoader(OnTimerLastMatchLoader, CtrlMain.IntervalSec);
         GameTimer = new GameTimer(OnTimerGame);
-
         progressBar = new TimerProgressBar(progressBarLoading);
         displayStatus = DisplayStatus.Uninitialized;
         SetOptionParams();
@@ -51,6 +52,19 @@ public partial class FormMain : ControllableForm
         this.language = language;
         Icon = Properties.Resources.aoe2netDesktopAppIcon;
     }
+
+    /// <inheritdoc/>
+    protected override CtrlMain Controler => (CtrlMain)base.Controler;
+
+    /// <summary>
+    /// Draw specific match.
+    /// </summary>
+    /// <param name="match">target match info.</param>
+    /// <param name="targetProfileId">target profile ID.</param>
+    /// <param name="matchNo">match history No.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public async Task<Match> InvokeDrawMatchAsync(Match match, int targetProfileId, int matchNo)
+        => await Invoke(() => DrawMatchAsync(match, targetProfileId, matchNo));
 
     ///////////////////////////////////////////////////////////////////////
     // Async event handlers
@@ -74,7 +88,7 @@ public partial class FormMain : ControllableForm
 
     private async void UpdateToolStripMenuItem_ClickAsync(object sender, EventArgs e)
     {
-        await RedrawLastMatch();
+        await OnUpdateSettingProfileIdMatchViewAsync();
         Awaiter.Complete();
     }
 
@@ -84,8 +98,10 @@ public partial class FormMain : ControllableForm
     private void PictureBoxMap1v1_DoubleClick(object sender, EventArgs e)
         => updateToolStripMenuItem.PerformClick();
 
-    private async Task RedrawLastMatch()
+    private async Task OnUpdateSettingProfileIdMatchViewAsync()
     {
+        Controler.ProfileId = CtrlSettings.ProfileId;
+
         switch(displayStatus) {
         case DisplayStatus.Shown:
 
@@ -97,7 +113,7 @@ public partial class FormMain : ControllableForm
             }
 
             try {
-                await RedrawLastMatchAsync(CtrlSettings.ProfileId);
+                await RedrawLastMatchAsync(Controler.ProfileId);
             } catch(Exception ex) {
                 labelMatchNo.Text = "Load Error";
                 labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
@@ -135,7 +151,8 @@ public partial class FormMain : ControllableForm
                 OpenSettings();
             }
 
-            await RedrawLastMatchAsync(CtrlSettings.ProfileId);
+            Controler.ProfileId = CtrlSettings.ProfileId;
+            await RedrawLastMatchAsync(Controler.ProfileId);
         } catch(Exception ex) {
             labelMatchNo.Text = "Load Error";
             labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
@@ -194,7 +211,7 @@ public partial class FormMain : ControllableForm
         if(Settings.Default.IsAutoReloadLastMatch
         && CtrlMain.DisplayedMatch?.Finished == null
         && displayStatus == DisplayStatus.Shown
-        && currentMatchView == 0) {
+        && Controler.CurrentMatchView == 0) {
             CtrlMain.IsReloadingByTimer = true;
             updateToolStripMenuItem.PerformClick();
         }
@@ -208,7 +225,7 @@ public partial class FormMain : ControllableForm
         => OpenSettings();
 
     private void ShowMyHistoryHToolStripMenuItem_Click(object sender, EventArgs e)
-        => CtrlSettings.ShowMyHistory();
+        => CtrlSettings.ShowMyHistory(this);
 
     private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         => Close();
@@ -234,7 +251,7 @@ public partial class FormMain : ControllableForm
         var player = (Player)labelName.Tag;
 
         if(player != null) {
-            var formHistory = CtrlHistory.GenerateFormHistory(player.Name, player.ProfilId);
+            var formHistory = CtrlHistory.GenerateFormHistory(this, player.Name, player.ProfilId);
             if(formHistory != null) {
                 formHistory.Show();
             } else {
@@ -304,7 +321,7 @@ public partial class FormMain : ControllableForm
     {
         var labelName = (Label)sender;
         var player = (Player)labelName.Tag;
-        labelName.DrawString(e, CtrlMain.GetPlayerBorderedStyle(player, CtrlSettings.ProfileId));
+        labelName.DrawString(e, CtrlMain.GetPlayerBorderedStyle(player, Controler.ProfileId));
     }
 
     private void LabelName1v1P1_Paint(object sender, PaintEventArgs e)

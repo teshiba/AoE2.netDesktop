@@ -281,6 +281,8 @@ public partial class FormMainTests
         // Assert
         Assert.IsTrue(done);
         Assert.AreEqual(expMatch, actMatch);
+        Assert.AreEqual(testClass.labelMatchNo.Text, "Last match");
+        Assert.AreEqual(testClass.labelMatchNo1v1.Text, "Last match");
     }
 
     [TestMethod]

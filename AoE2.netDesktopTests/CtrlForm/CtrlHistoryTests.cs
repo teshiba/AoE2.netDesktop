@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 
 using AoE2NetDesktop.CtrlForm;
+using AoE2NetDesktop.Form;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
@@ -342,8 +343,8 @@ public class CtrlHistoryTests
         var actVal = testClass.CreateListViewHistory();
 
         // Assert
-        Assert.AreEqual("1", actVal[LeaderboardId.RM1v1][0].SubItems[4].Text);  // Color
-        Assert.AreEqual("3", actVal[LeaderboardId.RMTeam][0].SubItems[4].Text); // Color
+        Assert.AreEqual("1", actVal[LeaderboardId.RM1v1][0].SubItems[5].Text);  // Color
+        Assert.AreEqual("3", actVal[LeaderboardId.RMTeam][0].SubItems[5].Text); // Color
     }
 
     [TestMethod]
@@ -461,78 +462,16 @@ public class CtrlHistoryTests
     }
 
     [TestMethod]
-    [SuppressMessage("Usage", "VSTHRD101:Avoid unsupported async delegates", Justification = SuppressReason.GuiEvent)]
-    public void OpenHistoryTest()
-    {
-        // Arrange
-        var playerName = "AvailablePlayerName";
-        var done = false;
-        var profileId = TestData.AvailableUserProfileId;
-        var testClass = new CtrlHistory(profileId);
-        var playerInfo = new PlayerInfo(profileId, playerName, profileId);
-
-        testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
-        var actVal = testClass.GenerateFormHistory(profileId);
-
-        actVal.Shown += async (sender, e) =>
-        {
-            await actVal.Awaiter.WaitAsync("FormHistory_ShownAsync");
-
-            // Assert
-            Assert.AreEqual($"{playerName}'s history - AoE2.net Desktop", actVal.Text);
-
-            actVal.Close();
-            done = true;
-        };
-
-        // Act
-        _ = actVal.ShowDialog();
-        Assert.IsTrue(done);
-    }
-
-    [TestMethod]
-    public void GenerateFormHistoryTestUnavailablePlayerName()
-    {
-        // Arrange
-        var playerName = "AvailablePlayerName";
-        var profileId = TestData.AvailableUserProfileId;
-        var testClass = new CtrlHistory(profileId);
-        var playerInfo = new PlayerInfo(profileId, playerName, profileId);
-        testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
-
-        // Act
-        var actVal = testClass.GenerateFormHistory(TestData.UnavailableUserProfileId);
-
-        // Assert
-        Assert.IsNull(actVal);
-    }
-
-    [TestMethod]
-    public void GenerateFormHistoryTestprofileIdNull()
-    {
-        // Arrange
-        var playerName = "AvailablePlayerName";
-        var profileId = TestData.AvailableUserProfileId;
-        var testClass = new CtrlHistory(profileId);
-        var playerInfo = new PlayerInfo(profileId, playerName, null);
-
-        testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
-        var actVal = testClass.GenerateFormHistory(profileId);
-
-        // Act
-        Assert.IsNull(actVal);
-    }
-
-    [TestMethod]
     public void ShowHistoryTest()
     {
         // Arrange
         var player = new Player() {
             ProfilId = TestData.AvailableUserProfileId,
         };
+        var formMain = new FormMain(Language.en);
 
         // Act
-        var ret = CtrlHistory.GenerateFormHistory(player.Name, player.ProfilId);
+        var ret = CtrlHistory.GenerateFormHistory(formMain, player.Name, player.ProfilId);
 
         // Assert
         Assert.IsNotNull(ret);
@@ -545,9 +484,10 @@ public class CtrlHistoryTests
         var player = new Player() {
             ProfilId = null,
         };
+        var formMain = new FormMain(Language.en);
 
         // Act
-        var ret = CtrlHistory.GenerateFormHistory(player.Name, player.ProfilId);
+        var ret = CtrlHistory.GenerateFormHistory(formMain, player.Name, player.ProfilId);
 
         // Assert
         Assert.IsNull(ret);
