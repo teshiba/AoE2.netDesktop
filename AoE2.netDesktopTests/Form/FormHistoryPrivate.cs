@@ -73,6 +73,6 @@ public partial class FormHistoryTests
             => this.Invoke("ListViewMatchHistory_DoubleClick", listViewMatchHistory, e);
 
         public void ToolStripMenuItemShowOnTheMainWindow_Click(EventArgs e)
-          => this.Invoke("ToolStripMenuItemShowOnTheMainWindow_Click", toolStripMenuItemShowOnTheMainWindow, e);
+          => this.Invoke("ToolStripMenuItemShowOnTheMainWindow_ClickAsync", toolStripMenuItemShowOnTheMainWindow, e);
     }
 }

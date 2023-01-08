@@ -56,6 +56,11 @@ public partial class FormHistory : ControllableForm
         Width = Settings.Default.WindowSizeHistory.Width;
         Height = Settings.Default.WindowSizeHistory.Height;
 
+        AdjustWindowPosition();
+    }
+
+    private void AdjustWindowPosition()
+    {
         Top = Top < 0 ? 0 : Top;
         Left = Left < 0 ? 0 : Left;
     }

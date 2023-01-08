@@ -1,6 +1,7 @@
 ﻿namespace AoE2NetDesktop.Form;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -9,6 +10,7 @@ using AoE2NetDesktop;
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
 using AoE2NetDesktop.Utility.Timer;
 
@@ -60,8 +62,9 @@ public partial class FormMain : ControllableForm
     /// <param name="match">target match info.</param>
     /// <param name="targetProfileId">target profile ID.</param>
     /// <param name="matchNo">match history No.</param>
-    public void DrawMatch(Match match, int targetProfileId, int matchNo)
-        => Invoke(() => DrawMatchAsync(match, targetProfileId, matchNo));
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public async Task<Match> InvokeDrawMatchAsync(Match match, int targetProfileId, int matchNo)
+        => await Invoke(() => DrawMatchAsync(match, targetProfileId, matchNo));
 
     ///////////////////////////////////////////////////////////////////////
     // Async event handlers
@@ -405,15 +408,7 @@ public partial class FormMain : ControllableForm
     private void LabelMatchResult_Paint(object sender, PaintEventArgs e)
     {
         var label = (Label)sender;
-        MatchResult matchResult;
-
-        if(label.Tag.GetType() == typeof(MatchResult)) {
-            matchResult = (MatchResult)label.Tag;
-        } else {
-            matchResult = MatchResult.Unknown;
-        }
-
-        var style = CtrlMain.GetBorderedStyle(matchResult);
+        var style = CtrlMain.GetBorderedStyle((MatchResult)label.Tag);
         label.DrawString(e, style);
     }
 

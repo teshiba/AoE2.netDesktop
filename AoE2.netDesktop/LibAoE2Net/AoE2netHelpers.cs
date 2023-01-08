@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -105,6 +106,7 @@ public static class AoE2netHelpers
         if(lastMatch.Players.Count != 0) {
             if(userIdType == IdType.Profile) {
                 var player = lastMatch.GetPlayer(int.Parse(idText));
+                Debug.Print($"DEBUG         idText = {idText} {lastMatch}");
                 name = player.Name;
             }
 

@@ -51,7 +51,7 @@ public partial class FormMain : ControllableForm
 
     private void SetOptionParams()
     {
-        SetChromaKey(nameof(Settings.Default.ChromaKey));
+        SetChromaKey(Settings.Default.ChromaKey);
         ChangePropertyIsHideTitle(nameof(Settings.Default.MainFormIsHideTitle));
         TopMost = Settings.Default.MainFormIsAlwaysOnTop;
         Opacity = (double)Settings.Default.MainFormOpacityPercent * 0.01;
@@ -492,7 +492,7 @@ public partial class FormMain : ControllableForm
 
     private async Task<Match> DrawMatchAsync(Match match, int targetProfileId, int prevMatchNo)
     {
-        Controler.RequestMatchView = (int)prevMatchNo;
+        Controler.RequestMatchView = prevMatchNo;
 
         var gameIdText = $"{GameIdLabel}{match.MatchId}";
         Controler.ProfileId = targetProfileId;
@@ -521,7 +521,7 @@ public partial class FormMain : ControllableForm
             }
         }
 
-        Controler.CurrentMatchView = (int)prevMatchNo;
+        Controler.CurrentMatchView = prevMatchNo;
 
         return match;
     }

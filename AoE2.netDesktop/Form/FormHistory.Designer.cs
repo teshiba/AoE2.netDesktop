@@ -278,7 +278,7 @@ namespace AoE2NetDesktop.Form
             this.toolStripMenuItemShowOnTheMainWindow.Name = "toolStripMenuItemShowOnTheMainWindow";
             this.toolStripMenuItemShowOnTheMainWindow.Size = new System.Drawing.Size(217, 22);
             this.toolStripMenuItemShowOnTheMainWindow.Text = "Show on the main window ";
-            this.toolStripMenuItemShowOnTheMainWindow.Click += new System.EventHandler(this.ToolStripMenuItemShowOnTheMainWindow_Click);
+            this.toolStripMenuItemShowOnTheMainWindow.Click += new System.EventHandler(this.ToolStripMenuItemShowOnTheMainWindow_ClickAsync);
             // 
             // labelDataSource
             // 

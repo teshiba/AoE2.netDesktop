@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using AoE2NetDesktop.AoE2DE;
@@ -94,14 +95,18 @@ public partial class FormHistory : ControllableForm
     private void UpdateMatchesTabGraph(LeaderboardId selectedLeaderboard)
         => WinRateStat.Plot(Controler.PlayerMatchHistory, Controler.ProfileId, selectedLeaderboard, SelectedDataSource);
 
-    private void OpenSelectedMatch()
+    private async Task<Match> OpenSelectedMatchAsync()
     {
+        Match ret = null;
         var selectedItems = listViewMatchHistory.SelectedItems;
+
         if(selectedItems.Count != 0) {
             var prevMatchNo = int.Parse(selectedItems[0].Text);
             var match = (Match)selectedItems[0].Tag;
-            matchViewer.DrawMatch(match, Controler.ProfileId, prevMatchNo);
+            ret = await matchViewer.InvokeDrawMatchAsync(match, Controler.ProfileId, prevMatchNo);
         }
+
+        return ret;
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -124,9 +129,15 @@ public partial class FormHistory : ControllableForm
         UpdateMatchesTabGraph(GetSelectedLeaderboard());
     }
 
-    private void ToolStripMenuItemShowOnTheMainWindow_Click(object sender, EventArgs e)
-        => OpenSelectedMatch();
+#pragma warning disable VSTHRD100 // Avoid async void methods
+#pragma warning disable VSTHRD200 // Use "Async" suffix for async methods
 
-    private void ListViewMatchHistory_DoubleClick(object sender, EventArgs e)
-        => OpenSelectedMatch();
+    private async void ToolStripMenuItemShowOnTheMainWindow_ClickAsync(object sender, EventArgs e)
+        => await OpenSelectedMatchAsync();
+
+    private async void ListViewMatchHistory_DoubleClick(object sender, EventArgs e)
+        => await OpenSelectedMatchAsync();
+
+#pragma warning restore VSTHRD200 // Use "Async" suffix for async methods
+#pragma warning restore VSTHRD100 // Avoid async void methods
 }

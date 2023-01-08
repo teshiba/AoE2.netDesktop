@@ -1,7 +1,11 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
 using System;
+using System.Drawing;
 using System.Windows.Forms;
+
+using AoE2NetDesktopTests.TestData;
+using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -32,6 +36,44 @@ public partial class FormHistoryTests
 
         // Assert
         Assert.IsTrue(done);
+    }
+
+    [TestMethod]
+    [DataRow(0, 0, 0, 0)]
+    [DataRow(0, 1, 0, 1)]
+    [DataRow(1, 1, 1, 1)]
+    [DataRow(1, 0, 1, 0)]
+    [DataRow(0, -1, 0, 0)]
+    [DataRow(-1, -1, 0, 0)]
+    [DataRow(-1, 0, 0, 0)]
+    public void FormHistoryTestAdjustWindowPosition(int top, int left, int expTop, int expLeft)
+    {
+        // Arrange
+        var expVal = string.Empty;
+
+        var testClass = new FormHistoryPrivate();
+        var done = false;
+        var actPoint = default(Point);
+
+        TestUtilityExt.SetSettings("WindowLocationHistory", new Point(top, left));
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
+            actPoint.Y = testClass.Top;
+            actPoint.X = testClass.Left;
+
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+        Assert.AreEqual(actPoint.X, expTop);
+        Assert.AreEqual(actPoint.Y, expLeft);
     }
 
     [TestMethod]
