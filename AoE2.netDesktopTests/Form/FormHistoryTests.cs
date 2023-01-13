@@ -55,7 +55,7 @@ public partial class FormHistoryTests
         var done = false;
         var actPoint = default(Point);
 
-        TestUtilityExt.SetSettings("WindowLocationHistory", new Point(top, left));
+        TestUtilityExt.SetSettings("WindowLocationHistory", new Point(left, top));
 
         // Act
         testClass.Shown += async (sender, e) =>
@@ -72,8 +72,8 @@ public partial class FormHistoryTests
 
         // Assert
         Assert.IsTrue(done);
-        Assert.AreEqual(actPoint.X, expTop);
-        Assert.AreEqual(actPoint.Y, expLeft);
+        Assert.AreEqual(actPoint.Y, expTop);
+        Assert.AreEqual(actPoint.X, expLeft);
     }
 
     [TestMethod]

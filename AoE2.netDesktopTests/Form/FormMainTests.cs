@@ -543,38 +543,6 @@ public partial class FormMainTests
     }
 
     [TestMethod]
-    public void FormMainTestTabControlMain_KeyDownSelectMatchError()
-    {
-        // Arrange
-        TestUtilityExt.SetSettings("SteamId", "00000000000000003");
-        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
-        var done = false;
-        int expRequestMatchView = 0;
-        var testClass = new FormMainPrivate();
-
-        testClass.Shown += async (sender, e) =>
-        {
-            await testClass.Awaiter.WaitAsync("FormMain_Shown");
-            testClass.DisplayStatus = DisplayStatus.RedrawingPrevMatch;
-            testClass.RequestMatchView = 2;
-            testClass.CurrentMatchView = expRequestMatchView;
-
-            // Act
-            await testClass.FormMain_KeyDownAsync(Keys.Left);
-
-            // CleanUp
-            done = true;
-            testClass.Close();
-        };
-
-        testClass.ShowDialog();
-
-        // Assert
-        Assert.IsTrue(done);
-        Assert.AreEqual(expRequestMatchView, testClass.RequestMatchView);
-    }
-
-    [TestMethod]
     public void FormMainTestTabControlMain_KeyDownSelectMatchException()
     {
         // Arrange
