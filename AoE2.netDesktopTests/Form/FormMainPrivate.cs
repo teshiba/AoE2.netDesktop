@@ -55,7 +55,7 @@ public partial class FormMainTests
             TestUtilityExt.SetSettings("SelectedIdType", IdType.Profile);
         }
 
-        public int ProfileId
+        public int ProfileID
         {
             get => Controler.ProfileId;
             set => Controler.ProfileId = value;

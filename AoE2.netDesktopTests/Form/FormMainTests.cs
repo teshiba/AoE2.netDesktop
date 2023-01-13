@@ -1021,7 +1021,7 @@ public partial class FormMainTests
         Assert.IsTrue(done);
         Assert.AreEqual(matchNo, testClass.RequestMatchView);
         Assert.AreEqual(matchNo, testClass.CurrentMatchView);
-        Assert.AreEqual(id, testClass.ProfileId);
+        Assert.AreEqual(id, testClass.ProfileID);
     }
 
     private static async Task WaitPaintAsync(FormMainPrivate testClass)
