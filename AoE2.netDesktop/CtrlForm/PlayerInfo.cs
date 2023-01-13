@@ -31,17 +31,6 @@ public class PlayerInfo
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlayerInfo"/> class.
-    /// </summary>
-    /// <param name="comparedProfileId">PlayerInfo compares this profileId.</param>
-    /// <param name="name">Player Name.</param>
-    /// <param name="profileId">profileId for this PlayerInfo.</param>
-    public PlayerInfo(int? comparedProfileId, string name, int? profileId)
-        : this(comparedProfileId, name, profileId, null)
-    {
-    }
-
-    /// <summary>
     /// Gets player name.
     /// </summary>
     public string Name { get; }

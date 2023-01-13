@@ -105,7 +105,7 @@ public class StringsExtTests
 
     [TestMethod]
     [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-    public void DisposeTest()
+    public void DisposeTestCheckInitDoneException()
     {
         // Arrange
         var stringIds = new List<StringId>();

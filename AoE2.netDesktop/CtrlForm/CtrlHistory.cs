@@ -48,17 +48,6 @@ public class CtrlHistory : FormControler
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CtrlHistory"/> class.
-    /// </summary>
-    /// <param name="profileId">Profile ID.</param>
-    /// <param name="matches">Player match history.</param>
-    public CtrlHistory(int profileId, PlayerMatchHistory matches)
-    {
-        ProfileId = profileId;
-        PlayerMatchHistory = matches;
-    }
-
-    /// <summary>
     /// Gets PlayerRatingHistory.
     /// </summary>
     public PlayerRatingHistories PlayerRatingHistories { get; private set; } = new();

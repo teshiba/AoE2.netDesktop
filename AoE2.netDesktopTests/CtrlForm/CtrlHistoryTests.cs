@@ -332,22 +332,6 @@ public class CtrlHistoryTests
     }
 
     [TestMethod]
-    public void CreateListViewHistoryTest()
-    {
-        // Arrange
-        matches[0].Players[1].Name = "p1";
-        matches[1].Players[2].Name = "p1";
-
-        // Act
-        var testClass = new CtrlHistory(ProfileId, matches);
-        var actVal = testClass.CreateListViewHistory();
-
-        // Assert
-        Assert.AreEqual("1", actVal[LeaderboardId.RM1v1][0].SubItems[5].Text);  // Color
-        Assert.AreEqual("3", actVal[LeaderboardId.RMTeam][0].SubItems[5].Text); // Color
-    }
-
-    [TestMethod]
     public void OpenProfileTest()
     {
         // Arrange
@@ -355,7 +339,8 @@ public class CtrlHistoryTests
         var playerName = "player1";
         var profileId = TestData.AvailableUserProfileId;
         var testClass = new CtrlHistory(profileId);
-        var playerInfo = new PlayerInfo(profileId, playerName, profileId);
+        var playerInfo = new PlayerInfo(profileId, playerName, profileId, null);
+
         testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
 
         // Act
@@ -377,7 +362,7 @@ public class CtrlHistoryTests
         testHttpClient.LastRequest = null;
         var playerName = "player1";
         var profileId = TestData.AvailableUserProfileId;
-        var playerInfo = new PlayerInfo(profileId, playerName, profileId);
+        var playerInfo = new PlayerInfo(profileId, playerName, profileId, null);
         var testClass = new CtrlHistory(profileId);
         testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
 
@@ -404,7 +389,7 @@ public class CtrlHistoryTests
         testHttpClient.LastRequest = null;
         var playerName = "player1";
         var profileId = TestData.AvailableUserProfileId;
-        var playerInfo = new PlayerInfo(profileId, playerName, profileId);
+        var playerInfo = new PlayerInfo(profileId, playerName, profileId, null);
         var testClass = new CtrlHistory(profileId);
         testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
 
@@ -430,7 +415,7 @@ public class CtrlHistoryTests
         var targetProfileId = TestData.UnavailableUserProfileId;
         var profileId = TestData.AvailableUserProfileId;
         var testClass = new CtrlHistory(profileId);
-        var playerInfo = new PlayerInfo(profileId, playerName, profileId);
+        var playerInfo = new PlayerInfo(profileId, playerName, profileId, null);
         testClass.MatchedPlayerInfos.Add(profileId, playerInfo);
 
         // Act
