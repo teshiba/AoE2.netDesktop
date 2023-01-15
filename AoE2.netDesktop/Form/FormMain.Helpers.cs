@@ -377,8 +377,9 @@ public partial class FormMain : ControllableForm
         if(matches.Count == 2) {
             var nextRate = matches[0].GetPlayer(Controler.ProfileId).Rating;
             var currentRate = matches[1].GetPlayer(Controler.ProfileId).Rating;
+            var myTeam = matches[1].GetPlayer(Controler.ProfileId).GetTeamType();
 
-            if(teamType == TeamType.OddColorNo) {
+            if(myTeam == teamType) {
                 if(nextRate < currentRate) {
                     ret = MatchResult.Defeated;
                 } else if(nextRate > currentRate) {

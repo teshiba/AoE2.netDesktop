@@ -93,27 +93,29 @@ public static class MatchExt
     /// <returns>true: someone has rating change.</returns>
     private static MatchResult GetMatchResultWithRatingChange(Match match, TeamType team)
     {
-        // Table of MatchResult. (Contains('-'), IsOddColor, TeamType)
-        var xxx = new Dictionary<(bool, bool, TeamType), MatchResult> {
-            { (true, true, TeamType.OddColorNo), MatchResult.Defeated },
-            { (true, true, TeamType.EvenColorNo), MatchResult.Victorious },
-            { (true, false, TeamType.OddColorNo), MatchResult.Victorious },
-            { (true, false, TeamType.EvenColorNo), MatchResult.Defeated },
-            { (false, true, TeamType.OddColorNo), MatchResult.Victorious },
-            { (false, true, TeamType.EvenColorNo), MatchResult.Defeated },
-            { (false, false, TeamType.OddColorNo), MatchResult.Defeated },
-            { (false, false, TeamType.EvenColorNo), MatchResult.Victorious },
-        };
-
         var ret = MatchResult.InProgress;
-        var players = match.Players.Where(player => !string.IsNullOrEmpty(player.RatingChange));
 
         if(match.Finished != null) {
             ret = MatchResult.Finished;
         }
 
-        foreach(Player player in players) {
-            ret = xxx[(player.RatingChange.Contains('-'), player.IsOddColor(), team)];
+        foreach(Player player in match.Players) {
+            var myTeam = player.GetTeamType();
+            if(player.IsRatingIncreased() is bool isWon) {
+                if(isWon) {
+                    if(myTeam == team) {
+                        ret = MatchResult.Victorious;
+                    } else {
+                        ret = MatchResult.Defeated;
+                    }
+                } else {
+                    if(myTeam == team) {
+                        ret = MatchResult.Defeated;
+                    } else {
+                        ret = MatchResult.Victorious;
+                    }
+                }
+            }
         }
 
         return ret;

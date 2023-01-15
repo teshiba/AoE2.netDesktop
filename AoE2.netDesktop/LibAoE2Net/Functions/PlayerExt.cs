@@ -110,6 +110,22 @@ public static class PlayerExt
         => player.Color % 2 != 0;
 
     /// <summary>
+    /// Get <see cref="TeamType"/>.
+    /// </summary>
+    /// <param name="player">player.</param>
+    /// <returns>Whether the color is odd.</returns>
+    public static TeamType GetTeamType(this Player player)
+        => player.IsOddColor() ? TeamType.OddColorNo : TeamType.EvenColorNo;
+
+    /// <summary>
+    /// Get whether player rating increased.
+    /// </summary>
+    /// <param name="player">player.</param>
+    /// <returns>Whether the color is odd.</returns>
+    public static bool? IsRatingIncreased(this Player player)
+        => !player.RatingChange?.Contains('-');
+
+    /// <summary>
     /// Get average rate of even or odd Team color No.
     /// </summary>
     /// <param name="players">player.</param>
