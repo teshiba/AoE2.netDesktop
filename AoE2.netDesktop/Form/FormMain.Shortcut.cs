@@ -118,9 +118,8 @@ public partial class FormMain : ControllableForm
         }
 
         var keyString = key + keyCode.ToString();
+        var result = shortcutActions.TryGetValue(keyString, out var action);
 
-        var result = shortcutActions.TryGetValue(
-            keyString, out var action);
         if(!result) {
             action = () => Task.Run(() =>
             {
