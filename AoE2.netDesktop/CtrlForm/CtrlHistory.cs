@@ -151,7 +151,7 @@ public class CtrlHistory : FormControler
     /// <param name="leaderboard">Leaderboard data.</param>
     /// <param name="leaderboardView">Leaderboard View params.</param>
     /// <returns>ListViewItem for leaderboard.</returns>
-    public static ListViewItem CreateListViewItem(Leaderboard leaderboard, LeaderboardView leaderboardView)
+    public static ListViewItem CreateListViewLeaderboard(Leaderboard leaderboard, LeaderboardView leaderboardView)
     {
         var ret = new ListViewItem(leaderboardView.Text) {
             Tag = leaderboardView.LeaderboardId,
@@ -171,6 +171,32 @@ public class CtrlHistory : FormControler
         ret.SubItems.Add(leaderboard.StreakToString());
         ret.SubItems.Add(leaderboard.HighestStreakToString());
         ret.SubItems.Add(leaderboard.LowestStreakToString());
+
+        return ret;
+    }
+
+    /// <summary>
+    /// Create ListViewItem of Player info.
+    /// </summary>
+    /// <param name="playerInfos">playerInfos data.</param>
+    /// <returns>playerInfos for listViewMatchedPlayers.</returns>
+    public static List<ListViewItem> CreateListViewPlayerInfo(IEnumerable<KeyValuePair<int?, PlayerInfo>> playerInfos)
+    {
+        var ret = new List<ListViewItem>();
+
+        foreach(var playerInfo in playerInfos) {
+            var listviewItem = new ListViewItem(playerInfo.Value.Name);
+            listviewItem.SubItems.Add(playerInfo.Value.Country);
+            listviewItem.SubItems.Add(playerInfo.Value.RateRM1v1.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.RateRMTeam.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.GamesTeam.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.GamesAlly.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.GamesEnemy.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.Games1v1.ToString());
+            listviewItem.SubItems.Add(playerInfo.Value.LastDate.ToString());
+            listviewItem.Tag = playerInfo.Value;
+            ret.Add(listviewItem);
+        }
 
         return ret;
     }

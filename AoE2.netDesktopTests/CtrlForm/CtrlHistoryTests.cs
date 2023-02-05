@@ -161,7 +161,7 @@ public class CtrlHistoryTests
         };
 
         // Act
-        var testClass = CtrlHistory.CreateListViewItem(leaderboards[LeaderboardId.RM1v1], leaderboardViews[0]);
+        var testClass = CtrlHistory.CreateListViewLeaderboard(leaderboards[LeaderboardId.RM1v1], leaderboardViews[0]);
 
         // Assert
         Assert.AreEqual(leaderboardName, testClass.SubItems[0].Text);
@@ -188,7 +188,7 @@ public class CtrlHistoryTests
         };
 
         // Act
-        var testClass = CtrlHistory.CreateListViewItem(leaderboards[LeaderboardId.RM1v1], leaderboardViews[0]);
+        var testClass = CtrlHistory.CreateListViewLeaderboard(leaderboards[LeaderboardId.RM1v1], leaderboardViews[0]);
 
         // Assert
         Assert.AreEqual(leaderboardName, testClass.SubItems[0].Text);

@@ -65,7 +65,7 @@ public partial class FormHistory : ControllableForm
 
             var listviewItems = new ListViewItem[LeaderboardIdCount];
             foreach(var item in leaderboardViews) {
-                listviewItems[item.Index] = CtrlHistory.CreateListViewItem(leaderboards[item.LeaderboardId], item);
+                listviewItems[item.Index] = CtrlHistory.CreateListViewLeaderboard(leaderboards[item.LeaderboardId], item);
             }
 
             listViewStatistics.Items.AddRange(listviewItems);

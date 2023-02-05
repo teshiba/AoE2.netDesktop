@@ -75,16 +75,26 @@ public partial class FormHistory : ControllableForm
 
     private void UpdateListViewMatchedPlayers()
     {
-        var listview = listViewMatchedPlayers;
-        var findPlayerName = textBoxFindName.Text;
+        listViewMatchedPlayers.BeginUpdate();
+        listViewMatchedPlayers.Items.Clear();
+
+        var playerInfos = Controler.MatchedPlayerInfos.Where(Predicate);
+        var listViewItems = CtrlHistory.CreateListViewPlayerInfo(playerInfos);
+
+        // When calling Add of ListViewItemCollection frequently in foreach etc.,
+        // it takes too much time in the ListViewItemSorte, so AddRange is called once instead.
+        listViewMatchedPlayers.Items.AddRange(listViewItems.ToArray());
+
+        listViewMatchedPlayers.EndUpdate();
+    }
+
+    private bool Predicate(KeyValuePair<int?, PlayerInfo> playerInfos)
+    {
+        var ret = false;
         var enable = checkBoxEnableCountryFilter.Checked;
         var ignoreCase = checkBoxIgnoreCase.Checked;
-
-        var listViewItems = new List<ListViewItem>();
+        var findPlayerName = textBoxFindName.Text;
         var countries = GetCountryFilterList();
-
-        listview.BeginUpdate();
-        listview.Items.Clear();
 
         StringComparison stringComparison;
         if(ignoreCase) {
@@ -93,41 +103,15 @@ public partial class FormHistory : ControllableForm
             stringComparison = StringComparison.CurrentCulture;
         }
 
-        foreach(var playerInfo in Controler.MatchedPlayerInfos.Where(Predicate)) {
-            var listviewItem = new ListViewItem(playerInfo.Value.Name);
-            listviewItem.SubItems.Add(playerInfo.Value.Country);
-            listviewItem.SubItems.Add(playerInfo.Value.RateRM1v1.ToString());
-            listviewItem.SubItems.Add(playerInfo.Value.RateRMTeam.ToString());
-            listviewItem.SubItems.Add(playerInfo.Value.GamesTeam.ToString());
-            listviewItem.SubItems.Add(playerInfo.Value.GamesAlly.ToString());
-            listviewItem.SubItems.Add(playerInfo.Value.GamesEnemy.ToString());
-            listviewItem.SubItems.Add(playerInfo.Value.Games1v1.ToString());
-            listviewItem.SubItems.Add(playerInfo.Value.LastDate.ToString());
-            listviewItem.Tag = playerInfo.Value;
-            listViewItems.Add(listviewItem);
-        }
-
-        // When calling Add of ListViewItemCollection frequently in foreach etc.,
-        // it takes too much time in the ListViewItemSorte, so AddRange is called once instead.
-        listview.Items.AddRange(listViewItems.ToArray());
-
-        listview.EndUpdate();
-
-        // local function
-        bool Predicate(KeyValuePair<int?, PlayerInfo> x)
-        {
-            var ret = false;
-
-            if(x.Value.Name.Contains(findPlayerName, stringComparison)) {
-                if(enable == false
-                    || countries.Count == 0
-                    || countries.Contains(x.Value.Country)) {
-                    ret = true;
-                }
+        if(playerInfos.Value.Name.Contains(findPlayerName, stringComparison)) {
+            if(enable == false
+                || countries.Count == 0
+                || countries.Contains(playerInfos.Value.Country)) {
+                ret = true;
             }
-
-            return ret;
         }
+
+        return ret;
     }
 
     private void OpenSelectedPlayerProfile()
