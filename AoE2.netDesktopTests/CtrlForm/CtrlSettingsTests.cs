@@ -139,10 +139,9 @@ public class CtrlSettingsTests
     [TestMethod]
     public void ReadProfileAsyncTestIdTypeNotSelected()
     {
-        // Arrange
-        TestUtilityExt.SetSettings("SteamId", TestData.AvailableUserSteamId);
-        TestUtilityExt.SetSettings("ProfileId", TestData.AvailableUserProfileId);
-        TestUtilityExt.SetSettings("SelectedIdType", (IdType)(-1));
+        SettingsRefs.Set("SteamId", TestData.AvailableUserSteamId);
+        SettingsRefs.Set("ProfileId", TestData.AvailableUserProfileId);
+        SettingsRefs.Set("SelectedIdType", (IdType)(-1));
         var testClass = new CtrlSettings();
 
         // Assert
@@ -158,11 +157,9 @@ public class CtrlSettingsTests
         // Arrange
         var notExpValUserCountry = "N/A";
         var notExpValUserName = "-- Invalid ID --";
-
-        // Act
-        TestUtilityExt.SetSettings("SteamId", TestData.AvailableUserSteamId);
-        TestUtilityExt.SetSettings("ProfileId", TestData.AvailableUserProfileId);
-        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
+        SettingsRefs.Set("SteamId", TestData.AvailableUserSteamId);
+        SettingsRefs.Set("ProfileId", TestData.AvailableUserProfileId);
+        SettingsRefs.Set("SelectedIdType", IdType.Steam);
         var testClass = new CtrlSettings();
         var actVal = Task.Run(
             () => testClass.ReadProfileAsync())
@@ -182,11 +179,9 @@ public class CtrlSettingsTests
         // Arrange
         var notExpValUserCountry = "N/A";
         var notExpValUserName = "-- Invalid ID --";
-
-        // Act
-        TestUtilityExt.SetSettings("SteamId", TestData.AvailableUserSteamId);
-        TestUtilityExt.SetSettings("ProfileId", TestData.AvailableUserProfileId);
-        TestUtilityExt.SetSettings("SelectedIdType", IdType.Profile);
+        SettingsRefs.Set("SteamId", TestData.AvailableUserSteamId);
+        SettingsRefs.Set("ProfileId", TestData.AvailableUserProfileId);
+        SettingsRefs.Set("SelectedIdType", IdType.Profile);
         var testClass = new CtrlSettings();
         var actVal = Task.Run(
             () => testClass.ReadProfileAsync())

@@ -49,10 +49,9 @@ public partial class FormMainTests
             pictureBoxMap = this.GetControl<PictureBox>("pictureBoxMap");
             updateToolStripMenuItem = this.GetControl<ToolStripMenuItem>("updateToolStripMenuItem");
             contextMenuStripMain = this.GetControl<ContextMenuStrip>("contextMenuStripMain");
-
-            TestUtilityExt.SetSettings("SteamId", TestData.AvailableUserSteamId);
-            TestUtilityExt.SetSettings("ProfileId", TestData.AvailableUserProfileId);
-            TestUtilityExt.SetSettings("SelectedIdType", IdType.Profile);
+            SettingsRefs.Set("SteamId", TestData.AvailableUserSteamId);
+            SettingsRefs.Set("ProfileId", TestData.AvailableUserProfileId);
+            SettingsRefs.Set("SelectedIdType", IdType.Profile);
         }
 
         public int ProfileID

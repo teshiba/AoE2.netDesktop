@@ -24,9 +24,7 @@ public partial class FormMainTests
         var testClass = new FormMainPrivate();
         var expVal = 0.5;
         var inputVal = (decimal)expVal * 100;
-
-        // Act
-        TestUtilityExt.SetSettings("MainFormOpacityPercent", inputVal);
+        SettingsRefs.Set("MainFormOpacityPercent", inputVal);
 
         // Assert
         Assert.AreEqual(expVal, testClass.Opacity);
@@ -43,9 +41,7 @@ public partial class FormMainTests
         var testClass = new FormMainPrivate() {
             FormBorderStyle = currentFormBorderStyle,
         };
-
-        // Act
-        TestUtilityExt.SetSettings("MainFormIsHideTitle", isHide);
+        SettingsRefs.Set("MainFormIsHideTitle", isHide);
 
         // Assert
         Assert.AreEqual(expVal, testClass.FormBorderStyle);
@@ -58,9 +54,7 @@ public partial class FormMainTests
     {
         // Arrange
         var testClass = new FormMainPrivate();
-
-        // Act
-        TestUtilityExt.SetSettings("MainFormIsAlwaysOnTop", value);
+        SettingsRefs.Set("MainFormIsAlwaysOnTop", value);
 
         // Assert
         Assert.AreEqual(value, testClass.TopMost);
@@ -72,9 +66,7 @@ public partial class FormMainTests
         // Arrange
         var testClass = new FormMainPrivate();
         var expVal = ColorTranslator.FromHtml("#123456");
-
-        // Act
-        TestUtilityExt.SetSettings("ChromaKey", "#123456");
+        SettingsRefs.Set("ChromaKey", "#123456");
 
         // Assert
         Assert.AreEqual(expVal, testClass.BackColor);
@@ -85,9 +77,7 @@ public partial class FormMainTests
     {
         // Arrange
         var testClass = new FormMainPrivate();
-
-        // Act
-        TestUtilityExt.SetSettings("ChromaKey", "invalidColorName");
+        SettingsRefs.Set("ChromaKey", "invalidColorName");
 
         // Assert
         Assert.AreEqual("Control", testClass.BackColor.Name);
@@ -100,7 +90,7 @@ public partial class FormMainTests
     {
         // Arrange
         var testClass = new FormMainPrivate();
-        TestUtilityExt.SetSettings("ChromaKey", "#123456");
+        SettingsRefs.Set("ChromaKey", "#123456");
 
         Color expVal;
         if(value) {
@@ -109,8 +99,7 @@ public partial class FormMainTests
             expVal = default;
         }
 
-        // Act
-        TestUtilityExt.SetSettings("MainFormIsTransparency", value);
+        SettingsRefs.Set("MainFormIsTransparency", value);
 
         // Assert
         Assert.AreEqual(expVal, testClass.TransparencyKey);
@@ -121,11 +110,9 @@ public partial class FormMainTests
     {
         // Arrange
         var testClass = new FormMainPrivate();
-        TestUtilityExt.SetSettings("ChromaKey", "invalidColorName");
+        SettingsRefs.Set("ChromaKey", "invalidColorName");
         Color expVal = default;
-
-        // Act
-        TestUtilityExt.SetSettings("MainFormIsTransparency", true);
+        SettingsRefs.Set("MainFormIsTransparency", true);
 
         // Assert
         Assert.AreEqual(expVal, testClass.TransparencyKey);
@@ -138,9 +125,7 @@ public partial class FormMainTests
     {
         // Arrange
         _ = new FormMainPrivate();
-
-        // Act
-        TestUtilityExt.SetSettings("DrawHighQuality", value);
+        SettingsRefs.Set("DrawHighQuality", value);
 
         // Assert
         Assert.AreEqual(value, DrawEx.DrawHighQuality);
@@ -153,9 +138,7 @@ public partial class FormMainTests
     {
         // Arrange
         var testClass = new FormMainPrivate();
-
-        // Act
-        TestUtilityExt.SetSettings("IsAutoReloadLastMatch", value);
+        SettingsRefs.Set("IsAutoReloadLastMatch", value);
 
         // Assert
         Assert.AreEqual(value, testClass.LastMatchLoader.Enabled);

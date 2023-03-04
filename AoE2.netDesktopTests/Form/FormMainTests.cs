@@ -24,11 +24,11 @@ public partial class FormMainTests
     [TestInitialize]
     public void InitTest()
     {
-        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
-        TestUtilityExt.SetSettings("ProfileId", 1);
-        TestUtilityExt.SetSettings("WindowLocationMain", new Point(0, 0));
-        TestUtilityExt.SetSettings("WindowSizeMain", new Size(1330, 350));
-        TestUtilityExt.SetSettings("VisibleGameTime", true);
+        SettingsRefs.Set("SelectedIdType", IdType.Steam);
+        SettingsRefs.Set("ProfileId", 1);
+        SettingsRefs.Set("WindowLocationMain", new Point(0, 0));
+        SettingsRefs.Set("WindowSizeMain", new Size(1330, 350));
+        SettingsRefs.Set("VisibleGameTime", true);
     }
 
     [TestMethod]
@@ -160,8 +160,7 @@ public partial class FormMainTests
     [TestMethod]
     public void FormMainException_UpdateToolStripMenuItem_ClickAsyncTest()
     {
-        // Arrange
-        TestUtilityExt.SetSettings("IsAutoReloadLastMatch", false);
+        SettingsRefs.Set("IsAutoReloadLastMatch", false);
         var expVal = string.Empty;
         var testClass = new FormMainPrivate();
         var done = false;
@@ -196,8 +195,7 @@ public partial class FormMainTests
     [TestMethod]
     public void UpdateToolStripMenuItem_ClickAsyncTestIsAutoReloadLastMatchTrue()
     {
-        // Arrange
-        TestUtilityExt.SetSettings("IsAutoReloadLastMatch", true);
+        SettingsRefs.Set("IsAutoReloadLastMatch", true);
         CtrlMain.IsReloadingByTimer = false;
         var expVal = string.Empty;
         var done = false;
@@ -232,9 +230,8 @@ public partial class FormMainTests
     [TestMethod]
     public void UpdateToolStripMenuItem_ClickAsyncTestIsAutoReloadLastMatchFalse()
     {
-        // Arrange
-        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
-        TestUtilityExt.SetSettings("IsAutoReloadLastMatch", false);
+        SettingsRefs.Set("SelectedIdType", IdType.Steam);
+        SettingsRefs.Set("IsAutoReloadLastMatch", false);
         CtrlMain.IsReloadingByTimer = false;
         var expVal = string.Empty;
         var done = false;
@@ -300,9 +297,8 @@ public partial class FormMainTests
     [TestMethod]
     public void UpdateToolStripMenuItem_ClickAsyncTestIsReloadingByTimerTrue()
     {
-        // Arrange
-        TestUtilityExt.SetSettings("SelectedIdType", IdType.Steam);
-        TestUtilityExt.SetSettings("IsAutoReloadLastMatch", false);
+        SettingsRefs.Set("SelectedIdType", IdType.Steam);
+        SettingsRefs.Set("IsAutoReloadLastMatch", false);
         CtrlMain.IsReloadingByTimer = true;
         var expVal = string.Empty;
         var done = false;
@@ -439,7 +435,7 @@ public partial class FormMainTests
         // Arrange
         var done = false;
         var testClass = new FormMainPrivate();
-        var expVal = !TestUtilityExt.GetSettings<bool>("MainFormIsHideTitle");
+        var expVal = !SettingsRefs.Get<bool>("MainFormIsHideTitle");
 
         testClass.Shown += async (sender, e) =>
         {
@@ -457,7 +453,7 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsTrue(done);
-        Assert.AreEqual(expVal, TestUtilityExt.GetSettings<bool>("MainFormIsHideTitle"));
+        Assert.AreEqual(expVal, SettingsRefs.Get<bool>("MainFormIsHideTitle"));
     }
 
     [TestMethod]
@@ -466,7 +462,7 @@ public partial class FormMainTests
         // Arrange
         var done = false;
         var testClass = new FormMainPrivate();
-        var expVal = TestUtilityExt.GetSettings<bool>("MainFormIsHideTitle");
+        var expVal = SettingsRefs.Get<bool>("MainFormIsHideTitle");
 
         testClass.Shown += async (sender, e) =>
         {
@@ -484,7 +480,7 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsTrue(done);
-        Assert.IsFalse(TestUtilityExt.GetSettings<bool>("MainFormIsHideTitle"));
+        Assert.IsFalse(SettingsRefs.Get<bool>("MainFormIsHideTitle"));
     }
 
     [TestMethod]
@@ -920,7 +916,7 @@ public partial class FormMainTests
     {
         // Arrange
         CtrlMain.IsReloadingByTimer = false;
-        TestUtilityExt.SetSettings("IsAutoReloadLastMatch", isAutoReload);
+        SettingsRefs.Set("IsAutoReloadLastMatch", isAutoReload);
         CtrlMain.DisplayedMatch = new Match() {
             Finished = finished,
         };
@@ -941,7 +937,7 @@ public partial class FormMainTests
         CtrlMain.DisplayedMatch = null;
 
         CtrlMain.IsReloadingByTimer = false;
-        TestUtilityExt.SetSettings("IsAutoReloadLastMatch", true);
+        SettingsRefs.Set("IsAutoReloadLastMatch", true);
         var testClass = new FormMainPrivate {
             DisplayStatus = DisplayStatus.Uninitialized,
         };

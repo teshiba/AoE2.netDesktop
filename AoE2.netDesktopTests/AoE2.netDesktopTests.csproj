@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+	  <TargetFramework>net6.0-windows</TargetFramework>
 
-    <IsPackable>false</IsPackable>
+	  <IsPackable>false</IsPackable>
 
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 

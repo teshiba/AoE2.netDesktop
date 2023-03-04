@@ -33,7 +33,7 @@ public static class TestData
     public static void AssemblyIntiialize(TestContext testContext)
     {
         _ = testContext;
-        TestUtilityExt.AssemblyName = "AoE2NetDesktop";
+        SettingsRefs.AssemblyName = "AoE2NetDesktop";
         AoE2net.ComClient = new TestHttpClient() {
             SystemApi = new SystemApiStub(1),
         };

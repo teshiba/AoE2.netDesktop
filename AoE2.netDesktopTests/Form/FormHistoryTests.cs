@@ -53,8 +53,7 @@ public partial class FormHistoryTests
         var testClass = new FormHistoryPrivate();
         var done = false;
         var actPoint = default(Point);
-
-        TestUtilityExt.SetSettings("WindowLocationHistory", new Point(left, top));
+        SettingsRefs.Set("WindowLocationHistory", new Point(left, top));
 
         // Act
         testClass.Shown += async (sender, e) =>

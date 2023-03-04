@@ -60,10 +60,9 @@ public partial class FormSettingsTests
             textBoxChromaKey = this.GetControl<TextBox>("textBoxChromaKey");
             pictureBoxChromaKey = this.GetControl<PictureBox>("pictureBoxChromaKey");
             groupBoxPlayer = this.GetControl<GroupBox>("groupBoxPlayer");
-
-            TestUtilityExt.SetSettings("SteamId", TestData.AvailableUserSteamId);
-            TestUtilityExt.SetSettings("ProfileId", TestData.AvailableUserProfileId);
-            TestUtilityExt.SetSettings("SelectedIdType", IdType.Profile);
+            SettingsRefs.Set("SteamId", TestData.AvailableUserSteamId);
+            SettingsRefs.Set("ProfileId", TestData.AvailableUserProfileId);
+            SettingsRefs.Set("SelectedIdType", IdType.Profile);
         }
 
         public new CtrlSettings Controler => base.Controler;
