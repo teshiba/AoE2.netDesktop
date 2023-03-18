@@ -92,7 +92,7 @@ public static class StringsExt
             mapName = apiStrings.MapType.GetString(match.MapType);
         }
 
-        mapName ??= $"Unknown(Map No.{match.MapType})";
+        mapName ??= SelfDefined.ApiStrings.MapType.GetString(match.MapType);
 
         return mapName;
     }
@@ -127,17 +127,8 @@ public static class StringsExt
     private static string GetCivName(Strings strings, Player player)
     {
         string ret = strings.Civ.GetString(player.Civ);
-        if(ret is null) {
-            if(player.Civ == 40) {
-                ret = "Dravidians";
-            } else if(player.Civ == 41) {
-                ret = "Bengalis";
-            } else if(player.Civ == 42) {
-                ret = "Gurjaras";
-            } else {
-                ret = $"invalid civ:{player.Civ}";
-            }
-        }
+        ret ??= SelfDefined.ApiStrings.Civ.GetString(player.Civ);
+        ret ??= $"invalid civ:{player.Civ}";
 
         return ret;
     }
