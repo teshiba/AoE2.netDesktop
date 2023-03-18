@@ -10,7 +10,7 @@ public static class PrivateRefs
         Type type;
         var bindingFlags = BindingFlags.NonPublic | BindingFlags.Static;
 
-        if (obj.GetType().FullName == "System.RuntimeType") {
+        if(obj.GetType().FullName == "System.RuntimeType") {
             type = (Type)obj;
         } else {
             bindingFlags |= BindingFlags.Instance;
@@ -19,7 +19,7 @@ public static class PrivateRefs
 
         var fieldInfo = type.GetField(name, bindingFlags);
 
-        if (fieldInfo?.GetValue(obj) == null) {
+        if(fieldInfo?.GetValue(obj) == null) {
             fieldInfo = type.BaseType.GetField(name, bindingFlags);
         }
 
@@ -31,7 +31,7 @@ public static class PrivateRefs
         var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
         var fieldInfo = obj.GetType().GetField(name, bindingFlags);
 
-        if (fieldInfo?.GetValue(obj) == null) {
+        if(fieldInfo?.GetValue(obj) == null) {
             fieldInfo = obj.GetType().BaseType.GetField(name, bindingFlags);
         }
 
@@ -57,7 +57,7 @@ public static class PrivateRefs
         var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod;
         var argTypes = new List<Type>();
 
-        foreach (var item in arg) {
+        foreach(var item in arg) {
             argTypes.Add(item.GetType());
         }
 

@@ -21,18 +21,18 @@ public static class SettingsRefs
 
         try {
             settingsDefault.GetType().GetProperty(propertyName).SetValue(settingsDefault, value);
-        } catch (Exception e) {
+        } catch(Exception e) {
             throw new Exception($"propertyName={propertyName}, value={value}\ntrace:{e.StackTrace}");
         }
     }
 
     private static object InitAssemblyInstance(string propertyName)
     {
-        if (AssemblyName is null) {
+        if(AssemblyName is null) {
             throw new InvalidOperationException($"{nameof(AssemblyName)} is not set.");
         }
 
-        if (propertyName is null) {
+        if(propertyName is null) {
             throw new ArgumentNullException(nameof(propertyName));
         }
 
