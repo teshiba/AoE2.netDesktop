@@ -178,6 +178,7 @@ public class MapIcons
         { 172, "rm_land_madness" },
         { 173, "rm_sacred_springs" },
         { 174, "rm_wade" },
+        { 175, "rm_morass" },
     };
 
     /// <summary>
