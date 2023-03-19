@@ -96,8 +96,8 @@ public class CtrlMainTests
 
     [TestMethod]
     [DataRow(9, "Arabia")]
-    [DataRow(0, "Unknown(Map No.0)")]
-    [DataRow(null, "Unknown(Map No.)")]
+    [DataRow(0, null)]
+    [DataRow(null, null)]
     [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
     [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
     public void GetMapNameTest(int? mapType, string expVal)
