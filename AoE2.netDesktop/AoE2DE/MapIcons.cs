@@ -179,6 +179,7 @@ public class MapIcons
         { 173, "rm_sacred_springs" },
         { 174, "rm_wade" },
         { 175, "rm_morass" },
+        { 176, "rm_shoals" },
     };
 
     /// <summary>

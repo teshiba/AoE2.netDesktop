@@ -15,6 +15,7 @@ public static class SelfDefined
     public static Strings ApiStrings { get; private set; } = new Strings() {
         MapType = new List<StringId>() {
             new StringId() { Id = 175, String = "Morass" },
+            new StringId() { Id = 176, String = "Shoals" },
         },
         Civ = new List<StringId> {
             new StringId() { Id = 40, String = "Dravidians" },

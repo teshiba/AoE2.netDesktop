@@ -127,8 +127,8 @@ public class StringsExtTests
 
     [TestMethod]
     [DataRow(9, "Arabia")]
-    [DataRow(0, null)]
-    [DataRow(null, null)]
+    [DataRow(0, "Unknown #0")]
+    [DataRow(null, "Unknown #")]
     [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
     [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
     public void GetMapNameTest(int? mapType, string expVal)

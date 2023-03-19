@@ -84,15 +84,9 @@ public static class StringsExt
     {
         CheckInitDone();
 
-        string mapName;
-
-        if(match.Rms is not null) {
-            mapName = match.Rms;
-        } else {
-            mapName = apiStrings.MapType.GetString(match.MapType);
-        }
-
+        var mapName = match.Rms ?? apiStrings.MapType.GetString(match.MapType);
         mapName ??= SelfDefined.ApiStrings.MapType.GetString(match.MapType);
+        mapName ??= $"Unknown #{match.MapType}";
 
         return mapName;
     }
