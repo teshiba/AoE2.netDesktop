@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
+using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.SysApi;
+
+using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -120,5 +123,51 @@ public class StringsExtTests
 
         // Cleanup
         StringsExt.InitAsync().Wait();
+    }
+
+    [TestMethod]
+    [DataRow(9, "Arabia")]
+    [DataRow(0, null)]
+    [DataRow(null, null)]
+    [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
+    [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
+    public void GetMapNameTest(int? mapType, string expVal)
+    {
+        // Arrange
+        CtrlMain.SystemApi = new SystemApiStub(1);
+        var testClass = new CtrlMain();
+        var match = new Match() {
+            MapType = mapType,
+        };
+        _ = Task.Run(() => CtrlMain.InitAsync(Language.en)).Result;
+
+        // Act
+        var actVal = match.GetMapName();
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
+    }
+
+    [TestMethod]
+    [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
+    [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
+    public void GetMapNameTestEnableRMS()
+    {
+        // Arrange
+        AoE2net.ComClient = new TestHttpClient();
+        CtrlMain.SystemApi = new SystemApiStub(1);
+        var testClass = new CtrlMain();
+        string expVal = "RandomMapScript";
+        var match = new Match() {
+            MapType = 59,
+            Rms = expVal,
+        };
+        _ = Task.Run(() => CtrlMain.InitAsync(Language.en)).Result;
+
+        // Act
+        var actVal = match.GetMapName();
+
+        // Assert
+        Assert.AreEqual(expVal, actVal);
     }
 }

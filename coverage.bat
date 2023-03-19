@@ -6,7 +6,7 @@ echo "Start unit test  %date% %time%"
 
 rem ===========================================================================
 rem Tool path
-set REPORTGEN="%USERPROFILE%\.nuget\packages\ReportGenerator\5.1.6\tools\net6.0\ReportGenerator.exe"
+set REPORTGEN="%USERPROFILE%\.nuget\packages\ReportGenerator\5.1.17\tools\net6.0\ReportGenerator.exe"
 echo "ReportGenerator %REPORTGEN%"
 
 rem ===========================================================================
