@@ -4,6 +4,8 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
+using AoE2NetDesktop.LibAoE2Net.Functions;
+
 using AoE2NetDesktopTests.TestUtility;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -179,6 +181,8 @@ public partial class FormHistoryTests
         var arg = new MouseEventArgs(MouseButtons.Left, 0, 0, 0, 0);
         var done = false;
         testClass.splitContainerPlayers.Orientation = orientation;
+        var testHttpClient = (TestHttpClient)AoE2net.ComClient;
+        testHttpClient.ComException = null;
 
         // Act
         testClass.Shown += async (sender, e) =>
@@ -193,6 +197,7 @@ public partial class FormHistoryTests
 
         // Assert
         Assert.IsTrue(done);
+        Assert.IsNull(testHttpClient.ComException);
     }
 
     [TestMethod]
