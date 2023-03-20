@@ -43,6 +43,7 @@ on:
     branches:
       - main
       - develop
+      - debug
   pull_request:
     branches:
       - main
