@@ -34,15 +34,6 @@ public static class AoE2net
     public static string AoE2Version { get; } = "aoe2de";
 
     /// <summary>
-    /// Gets or sets action for recieving Exception.
-    /// </summary>
-    public static Action<Exception> OnError
-    {
-        get => ComClient.OnError;
-        set => ComClient.OnError = value;
-    }
-
-    /// <summary>
     /// Reset static members of the <see cref="AoE2net"/> class.
     /// </summary>
     public static void Reset()

@@ -17,6 +17,11 @@ using AoE2NetDesktop.Utility.SysApi;
 public class ComClient : HttpClient
 {
     /// <summary>
+    /// Gets or sets action for recieving Exception.
+    /// </summary>
+    public event EventHandler<ComClientEventArgs> OnError;
+
+    /// <summary>
     /// Gets or sets system API.
     /// </summary>
     public ISystemApi SystemApi { get; set; } = new SystemApi(new User32Api());
@@ -25,11 +30,6 @@ public class ComClient : HttpClient
     /// Gets or sets the base address of CivImage Resource URI of the AoE2net.
     /// </summary>
     public Uri CivImageBaseAddress { get; set; }
-
-    /// <summary>
-    /// Gets or sets action for recieving Exception.
-    /// </summary>
-    public Action<Exception> OnError { get; set; } = (ex) => { };
 
     /// <summary>
     /// Send a GET request to the specified Uri and return the response body as a string
@@ -66,11 +66,11 @@ public class ComClient : HttpClient
                 ret = (TValue)serializer.ReadObject(stream);
             } catch(HttpRequestException e) {
                 Debug.Print($"Request Error: {e.Message}");
-                OnError.Invoke(e);
+                OnError.Invoke(this, new ComClientEventArgs(e));
                 throw;
             } catch(TaskCanceledException e) {
                 Debug.Print($"Timeout: {e.Message}");
-                OnError.Invoke(e);
+                OnError.Invoke(this, new ComClientEventArgs(e));
                 throw;
             }
         }

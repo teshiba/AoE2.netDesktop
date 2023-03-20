@@ -642,7 +642,7 @@ public partial class FormSettingsTests
         var testClass = new FormSettingsPrivate();
 
         // Act
-        testClass.OnErrorHandler(ex);
+        testClass.OnErrorHandler(this, new ComClientEventArgs(ex));
 
         // Assert
         Assert.AreEqual(netStatus, testClass.Controler.NetStatus);

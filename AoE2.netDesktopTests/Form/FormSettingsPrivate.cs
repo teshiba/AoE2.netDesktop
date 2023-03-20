@@ -74,8 +74,8 @@ public partial class FormSettingsTests
         public void SetChromaKey(string htmlColor)
             => this.Invoke("SetChromaKey", htmlColor);
 
-        public void OnErrorHandler(Exception ex)
-            => this.Invoke("OnErrorHandler", ex);
+        public void OnErrorHandler(object sender, ComClientEventArgs eventArgs)
+            => this.Invoke("OnErrorHandler", sender, eventArgs);
 
         [SuppressMessage("Style", "VSTHRD200:Use \"Async\" suffix for async methods", Justification = SuppressReason.PrivateInvokeTest)]
         public void ReloadProfileAsync(IdType idtype, string idText)

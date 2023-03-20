@@ -154,17 +154,19 @@ public partial class FormSettings : ControllableForm
     private void SetNetStatus()
         => labelAoE2NetStatus.SetAoE2netStatus(Controler.NetStatus);
 
-    private void OnErrorHandler(Exception ex)
+    private void OnErrorHandler(object sender, ComClientEventArgs e)
     {
-        if(ex.GetType() == typeof(HttpRequestException)) {
-            if(ex.Message.Contains("404")) {
+        var exception = e.ComException;
+
+        if(exception.GetType() == typeof(HttpRequestException)) {
+            if(exception.Message.Contains("404")) {
                 Controler.NetStatus = NetStatus.InvalidRequest;
             } else {
                 Controler.NetStatus = NetStatus.ServerError;
             }
         }
 
-        if(ex.GetType() == typeof(TaskCanceledException)) {
+        if(exception.GetType() == typeof(TaskCanceledException)) {
             Controler.NetStatus = NetStatus.ComTimeout;
         }
     }
@@ -186,7 +188,7 @@ public partial class FormSettings : ControllableForm
     [SuppressMessage("Style", "VSTHRD200:Use \"Async\" suffix for async methods", Justification = SuppressReason.GuiTest)]
     private async void FormSettings_LoadAsync(object sender, EventArgs e)
     {
-        AoE2net.OnError = OnErrorHandler;
+        AoE2net.ComClient.OnError += new EventHandler<ComClientEventArgs>(OnErrorHandler);
 
         RestoreWindowStatus();
         LoadSettings();

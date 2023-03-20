@@ -266,21 +266,5 @@
             // Assert
             Assert.IsNotNull(actVal);
         }
-
-        [TestMethod]
-        public void OnErrorTest()
-        {
-            // Arrange
-            Exception actVal = null;
-            AoE2net.OnError = (ex) => { actVal = ex; };
-            var errAct = AoE2net.OnError;
-
-            // Act
-            var expVal = new Exception("test");
-            errAct.Invoke(expVal);
-
-            // Assert
-            Assert.AreEqual(actVal, expVal);
-        }
     }
 }

@@ -16,6 +16,16 @@ using AoE2NetDesktopTests.TestData;
 /// </summary>
 public class TestHttpClient : ComClient
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TestHttpClient"/> class.
+    /// </summary>
+    public TestHttpClient()
+    {
+        OnError += new EventHandler<ComClientEventArgs>(OnErrorHandler);
+    }
+
+    public Exception ComException { get; set; }
+
     public bool ForceHttpRequestException { get; set; }
 
     public bool ForceException { get; set; }
@@ -159,4 +169,7 @@ public class TestHttpClient : ComClient
 
         return ReadTextFIleAsync(readUri);
     }
+
+    private void OnErrorHandler(object sender, ComClientEventArgs e)
+        => ComException = e.ComException;
 }
