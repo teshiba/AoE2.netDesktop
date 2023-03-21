@@ -74,6 +74,9 @@ public partial class FormHistoryTests
         Assert.IsTrue(done);
         Assert.AreEqual(actPoint.Y, expTop);
         Assert.AreEqual(actPoint.X, expLeft);
+
+        // Cleanup
+        SettingsRefs.Set("WindowLocationHistory", new Point(0, 0));
     }
 
     [TestMethod]
@@ -231,22 +234,28 @@ public partial class FormHistoryTests
     {
         // Arrange
         var testClass = new FormHistoryPrivate();
-        var done = false;
+        var x = new ListViewItem();
+        var actVal = 0;
 
         // Act
         testClass.Shown += async (sender, e) =>
         {
             await testClass.Awaiter.WaitAsync("FormHistory_ShownAsync");
             testClass.ListViewStatistics_KeyDown(new KeyEventArgs(keys));
-            Assert.AreEqual(expVal, testClass.listViewStatistics.SelectedItems.Count);
+
+            for(int i = 0; i < testClass.listViewStatistics.Items.Count; i++) {
+                if(testClass.listViewStatistics.Items[i].Selected) {
+                    actVal++;
+                }
+            }
+
             testClass.Close();
-            done = true;
         };
 
         testClass.ShowDialog();
 
         // Assert
-        Assert.IsTrue(done);
+        Assert.AreEqual(actVal, expVal);
     }
 
     [TestMethod]
