@@ -406,8 +406,8 @@ public partial class FormMainTests
             await testClass.Awaiter.WaitAsync("FormMain_Shown");
 
             testClass.Size = new Size(
-                testClass.MinimumSize.Width + 100,
-                testClass.MinimumSize.Height + 100);
+                testClass.MinimumSize.Width + 10,
+                testClass.MinimumSize.Height + 10);
 
             var expSize = testClass.Size;
             expSize.Width += width;
