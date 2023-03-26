@@ -176,7 +176,7 @@ public partial class FormMainTests
             await testClass.Awaiter.WaitAsync("UpdateToolStripMenuItem_ClickAsync");
 
             // Assert
-            Assert.IsTrue(testClass.labelErrText.Text.Contains("Forced HttpRequestException"));
+            Assert.IsTrue(testClass.labelErrText.Text.Contains("ForceHttpRequestException"));
 
             // CleanUp
             done = true;
@@ -722,8 +722,8 @@ public partial class FormMainTests
         // Arrange
         var testClass = new FormMainPrivate();
         testClass.httpClient.ForceException = true;
-        var expVal = string.Empty;
-        var done = false;
+        var expVal = "Server Error";
+        var actVal = string.Empty;
 
         // Act
         testClass.Shown += async (sender, e) =>
@@ -731,14 +731,13 @@ public partial class FormMainTests
             await testClass.Awaiter.WaitAsync("FormMain_Shown");
 
             testClass.Close();
-
-            done = true;
+            actVal = testClass.labelMatchNo.Text;
         };
 
         testClass.ShowDialog();
 
         // Assert
-        Assert.IsTrue(done);
+        Assert.AreEqual(expVal, actVal);
 
         // CleanUp
         testClass.httpClient.ForceException = false;

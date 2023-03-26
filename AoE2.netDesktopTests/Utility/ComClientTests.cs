@@ -35,9 +35,11 @@ public class ComClientTests
         };
 
         // Act
-        // Assert
-        await Assert.ThrowsExceptionAsync<TaskCanceledException>(() =>
+        var exception = await Assert.ThrowsExceptionAsync<ComClientException>(() =>
             testClass.GetFromJsonAsync<int>("TaskCanceledException"));
+
+        // Assert
+        Assert.AreEqual(NetStatus.ComTimeout, exception.Status);
     }
 
     [TestMethod]
@@ -49,9 +51,11 @@ public class ComClientTests
         };
 
         // Act
-        // Assert
-        await Assert.ThrowsExceptionAsync<HttpRequestException>(() =>
+        var exception = await Assert.ThrowsExceptionAsync<ComClientException>(() =>
             testClass.GetFromJsonAsync<int>("HttpRequestException"));
+
+        // Assert
+        Assert.AreEqual(NetStatus.InvalidRequest, exception.Status);
     }
 
     [TestMethod]

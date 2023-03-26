@@ -4,12 +4,10 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using AoE2NetDesktop.CtrlForm;
-using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
 using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
@@ -29,8 +27,7 @@ public partial class FormSettings : ControllableForm
         InitializeComponent();
         InitIDRadioButton();
         Settings.Default.PropertyChanged += Default_PropertyChanged;
-        Controler.NetStatus = NetStatus.Disconnected;
-        SetNetStatus();
+        SetNetStatus(NetStatus.Disconnected);
         SetChromaKey(Settings.Default.ChromaKey);
     }
 
@@ -112,17 +109,21 @@ public partial class FormSettings : ControllableForm
 
     private async Task<bool> ReloadProfileAsync(IdType idtype, string idText)
     {
-        Controler.NetStatus = NetStatus.Connecting;
-        SetNetStatus();
+        SetNetStatus(NetStatus.Connecting);
         groupBoxPlayer.Enabled = false;
         labelSettingsName.Text = $"   Name: --";
         labelSettingsCountry.Text = $"Country: --";
+        var ret = false;
 
-        var ret = await Controler.ReloadProfileAsync(idtype, idText);
+        try {
+            ret = await Controler.ReloadProfileAsync(idtype, idText);
+        } catch(ComClientException ex) {
+            labelErrText.Text = $"{ex.Message} : {ex.InnerException?.Message} : {ex.StackTrace}";
+            SetNetStatus(ex.Status);
+        }
 
         if(ret) {
-            Controler.NetStatus = NetStatus.Connected;
-            SetNetStatus();
+            SetNetStatus(NetStatus.Connected);
             switch(Controler.SelectedIdType) {
             case IdType.Steam:
                 textBoxSettingProfileId.Text = Controler.ProfileId.ToString();
@@ -137,9 +138,6 @@ public partial class FormSettings : ControllableForm
                 throw new Exception($"Invalid IdType:{Controler.SelectedIdType}");
 #endif
             }
-        } else {
-            // OnErrorHandler sets the network error status to Controler.NetStatus
-            SetNetStatus();
         }
 
         labelSettingsName.Text = $"   Name: {Controler.UserName}";
@@ -151,25 +149,8 @@ public partial class FormSettings : ControllableForm
         return ret;
     }
 
-    private void SetNetStatus()
-        => labelAoE2NetStatus.SetAoE2netStatus(Controler.NetStatus);
-
-    private void OnErrorHandler(object sender, ComClientEventArgs e)
-    {
-        var exception = e.ComException;
-
-        if(exception.GetType() == typeof(HttpRequestException)) {
-            if(exception.Message.Contains("404")) {
-                Controler.NetStatus = NetStatus.InvalidRequest;
-            } else {
-                Controler.NetStatus = NetStatus.ServerError;
-            }
-        }
-
-        if(exception.GetType() == typeof(TaskCanceledException)) {
-            Controler.NetStatus = NetStatus.ComTimeout;
-        }
-    }
+    private void SetNetStatus(NetStatus status)
+        => labelAoE2NetStatus.SetAoE2netStatus(status);
 
     private void RestoreWindowStatus()
     {
@@ -188,8 +169,6 @@ public partial class FormSettings : ControllableForm
     [SuppressMessage("Style", "VSTHRD200:Use \"Async\" suffix for async methods", Justification = SuppressReason.GuiTest)]
     private async void FormSettings_LoadAsync(object sender, EventArgs e)
     {
-        AoE2net.ComClient.OnError += new EventHandler<ComClientEventArgs>(OnErrorHandler);
-
         RestoreWindowStatus();
         LoadSettings();
 

@@ -142,7 +142,7 @@
 
             // Act
             // Assert
-            await Assert.ThrowsExceptionAsync<HttpRequestException>(() =>
+            await Assert.ThrowsExceptionAsync<ComClientException>(() =>
                 AoE2netHelpers.GetPlayerLastMatchAsync(IdType.Steam, TestData.AvailableUserSteamId));
 
             // cleanup

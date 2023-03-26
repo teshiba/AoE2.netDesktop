@@ -54,7 +54,7 @@ public static class AoE2net
     /// <param name="count">Number of matches to get (Must be 10000 or less)).</param>
     /// <returns>List of <see cref="PlayerRating"/> deserialized as JSON.</returns>
     public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(string steamId, LeaderboardId leaderBoardId, int count)
-        => await GetPlayerRatingHistoryAsync(steamId, leaderBoardId, 0, count);
+        => await GetPlayerRatingHistoryAsync(steamId, leaderBoardId, 0, count).ConfigureAwait(false);
 
     /// <summary>
     /// Gets Player Rating History.
@@ -83,7 +83,7 @@ public static class AoE2net
     /// <param name="count">Number of matches to get (Must be 10000 or less)).</param>
     /// <returns>List of <see cref="PlayerRating"/> deserialized as JSON.</returns>
     public static async Task<List<PlayerRating>> GetPlayerRatingHistoryAsync(int profileId, LeaderboardId leaderBoardId, int count)
-        => await GetPlayerRatingHistoryAsync(profileId, leaderBoardId, 0, count);
+        => await GetPlayerRatingHistoryAsync(profileId, leaderBoardId, 0, count).ConfigureAwait(false);
 
     /// <summary>
     /// Gets Player Rating History.

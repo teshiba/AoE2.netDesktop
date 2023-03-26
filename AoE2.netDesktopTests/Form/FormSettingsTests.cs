@@ -1,11 +1,8 @@
 ﻿namespace AoE2NetDesktop.Form.Tests;
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
@@ -20,13 +17,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 [TestClass]
 public partial class FormSettingsTests
 {
-    private static IEnumerable<object[]> OnErrorHandlerTestData => new List<object[]>
-    {
-        new object[] { new HttpRequestException("404"), NetStatus.InvalidRequest },
-        new object[] { new HttpRequestException(string.Empty), NetStatus.ServerError },
-        new object[] { new TaskCanceledException(), NetStatus.ComTimeout },
-    };
-
 #pragma warning disable VSTHRD101 // Avoid unsupported async delegates
     [TestMethod]
     public void FormSettingsTestPictureBoxChromaKey_Click()
@@ -247,7 +237,7 @@ public partial class FormSettingsTests
             await testClass.Awaiter.WaitAsync("FormSettings_LoadAsync");
 
             // Assert
-            Assert.IsTrue(testClass.labelAoE2NetStatus.Text.Contains("Server Error"));
+            Assert.IsTrue(testClass.labelAoE2NetStatus.Text.Contains("Invalid ID"));
 
             // CleanUp
             testClass.Close();
@@ -466,7 +456,7 @@ public partial class FormSettingsTests
     [DataRow(IdType.Steam, TestData.AvailableUserSteamId, "Online")]
     [DataRow(IdType.Profile, TestData.AvailableUserProfileIdString, "Online")]
     [DataRow(IdType.Profile, TestData.AvailableUserProfileIdWithoutSteamIdString, "Online")]
-    [DataRow(IdType.Profile, TestData.NotFoundUserProfileIdString, "Server Error")]
+    [DataRow(IdType.Profile, TestData.NotFoundUserProfileIdString, "Invalid ID")]
     public void ReloadProfileAsyncTest(IdType idtype, string idText, string expNetStatus)
     {
         // Arrange
@@ -632,19 +622,5 @@ public partial class FormSettingsTests
         Assert.AreEqual(expValue, testClass.textBoxChromaKey.Text);
         Assert.AreEqual(ColorTranslator.FromHtml(expValue), testClass.pictureBoxChromaKey.BackColor);
         Assert.AreEqual(expValue, SettingsRefs.Get<string>("ChromaKey"));
-    }
-
-    [TestMethod]
-    [DynamicData(nameof(OnErrorHandlerTestData))]
-    public void OnErrorHandlerTest(Exception ex, NetStatus netStatus)
-    {
-        // Arrange
-        var testClass = new FormSettingsPrivate();
-
-        // Act
-        testClass.OnErrorHandler(this, new ComClientEventArgs(ex));
-
-        // Assert
-        Assert.AreEqual(netStatus, testClass.Controler.NetStatus);
     }
 }

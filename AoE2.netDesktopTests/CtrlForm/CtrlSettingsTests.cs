@@ -53,9 +53,9 @@ public class CtrlSettingsTests
     }
 
     [TestMethod]
-    [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncTest)]
-    [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncTest)]
-    public void ReloadProfileAsyncTestException()
+    [SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = SuppressReason.IntentionalSyncWait)]
+    [SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = SuppressReason.IntentionalSyncWait)]
+    public void ReloadProfileAsyncTestComClientException()
     {
         // Arrange
         var expValUserCountry = "N/A";
@@ -65,18 +65,15 @@ public class CtrlSettingsTests
         var testClass = new CtrlSettings() {
             SelectedIdType = IdType.Profile,
         };
-        var actVal = Task.Run(
-            async () =>
-            {
-                // The following code can read the player data.
-                _ = await testClass.ReloadProfileAsync(IdType.Profile, TestData.AvailableUserProfileIdString);
 
-                // The following code cannot read the player data, so write null to playerLastmatch..
-                return await testClass.ReloadProfileAsync(IdType.Profile, TestData.NotFoundUserProfileIdString);
-            })
-            .Result;
+        // The following code can read the player data.
+        testClass.ReloadProfileAsync(IdType.Profile, TestData.AvailableUserProfileIdString).Wait();
 
         // Assert
+        var actException = Assert.ThrowsExceptionAsync<ComClientException>(() =>
+            testClass.ReloadProfileAsync(IdType.Profile, TestData.NotFoundUserProfileIdString)).Result;
+
+        Assert.AreEqual(actException.Status, NetStatus.InvalidRequest);
         Assert.AreEqual(expValUserCountry, testClass.UserCountry);
         Assert.AreEqual(expValUserName, testClass.UserName);
     }

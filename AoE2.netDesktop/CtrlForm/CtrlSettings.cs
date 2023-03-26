@@ -1,7 +1,6 @@
 ﻿namespace AoE2NetDesktop.CtrlForm;
 
 using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 using AoE2NetDesktop;
@@ -9,7 +8,6 @@ using AoE2NetDesktop.Form;
 using AoE2NetDesktop.LibAoE2Net;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
-using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
 
 /// <summary>
@@ -67,11 +65,6 @@ public class CtrlSettings : FormControler
         => playerLastmatch.Name ?? InvalidSteamIdString;
 
     /// <summary>
-    /// Gets network status.
-    /// </summary>
-    public NetStatus NetStatus { get; internal set; } = NetStatus.Connecting;
-
-    /// <summary>
     /// Show my play history.
     /// </summary>
     /// <param name="matchViewer">Related matchViewer instance.</param>
@@ -103,7 +96,7 @@ public class CtrlSettings : FormControler
             throw new Exception($"Invalid IdType:{idtype}");
         }
 
-        return await ReadProfileAsync();
+        return await ReadProfileAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -112,22 +105,14 @@ public class CtrlSettings : FormControler
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task<bool> ReadProfileAsync()
     {
-        var ret = true;
+        var idText = SelectedIdType switch {
+            IdType.Steam => SteamId,
+            IdType.Profile => ProfileId.ToString(),
+            _ => throw new InvalidOperationException($"{SelectedIdType} is not defined as {nameof(IdType)} ."),
+        };
 
-        try {
-            var idText = SelectedIdType switch {
-                IdType.Steam => SteamId,
-                IdType.Profile => ProfileId.ToString(),
-                _ => throw new InvalidOperationException($"{SelectedIdType} is not defined as {nameof(IdType)} ."),
-            };
+        playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(SelectedIdType, idText).ConfigureAwait(false);
 
-            playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(SelectedIdType, idText);
-        } catch(HttpRequestException) {
-            ret = false;
-        } catch(TaskCanceledException) {
-            ret = false;
-        }
-
-        return ret;
+        return true;
     }
 }

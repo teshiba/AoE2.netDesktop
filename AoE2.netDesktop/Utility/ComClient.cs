@@ -17,11 +17,6 @@ using AoE2NetDesktop.Utility.SysApi;
 public class ComClient : HttpClient
 {
     /// <summary>
-    /// Gets or sets action for recieving Exception.
-    /// </summary>
-    public event EventHandler<ComClientEventArgs> OnError;
-
-    /// <summary>
     /// Gets or sets system API.
     /// </summary>
     public ISystemApi SystemApi { get; set; } = new SystemApi(new User32Api());
@@ -47,8 +42,7 @@ public class ComClient : HttpClient
     /// <typeparam name="TValue">The target type to deserialize to.</typeparam>
     /// <param name="requestUri">The Uri the request is sent to.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
-    /// <exception cref="HttpRequestException">HttpRequest Error.</exception>
-    /// <exception cref="TaskCanceledException">HttpRequest Timeout.</exception>
+    /// <exception cref="ComClientException">ComClient Exception.</exception>
     public async Task<TValue> GetFromJsonAsync<TValue>(string requestUri)
         where TValue : new()
     {
@@ -65,13 +59,16 @@ public class ComClient : HttpClient
                 var serializer = new DataContractJsonSerializer(typeof(TValue));
                 ret = (TValue)serializer.ReadObject(stream);
             } catch(HttpRequestException e) {
-                Debug.Print($"Request Error: {e.Message}");
-                OnError.Invoke(this, new ComClientEventArgs(e));
-                throw;
+                NetStatus netStatus;
+                if(e.StatusCode == System.Net.HttpStatusCode.NotFound) {
+                    netStatus = NetStatus.InvalidRequest;
+                } else {
+                    netStatus = NetStatus.ServerError;
+                }
+
+                throw new ComClientException("Request Error", netStatus, e);
             } catch(TaskCanceledException e) {
-                Debug.Print($"Timeout: {e.Message}");
-                OnError.Invoke(this, new ComClientEventArgs(e));
-                throw;
+                throw new ComClientException("Timeout", NetStatus.ComTimeout, e);
             }
         }
 

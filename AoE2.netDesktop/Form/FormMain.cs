@@ -9,6 +9,7 @@ using AoE2NetDesktop;
 using AoE2NetDesktop.CtrlForm;
 using AoE2NetDesktop.LibAoE2Net.JsonFormat;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
+using AoE2NetDesktop.Utility;
 using AoE2NetDesktop.Utility.Forms;
 using AoE2NetDesktop.Utility.Timer;
 
@@ -112,9 +113,8 @@ public partial class FormMain : ControllableForm
 
             try {
                 await RedrawLastMatchAsync(Controler.ProfileId);
-            } catch(Exception ex) {
-                labelMatchNo.Text = "Load Error";
-                labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
+            } catch(ComClientException ex) {
+                SetLabelMatchNoText(ex);
             }
 
             progressBar.Stop();
@@ -151,18 +151,23 @@ public partial class FormMain : ControllableForm
 
             Controler.ProfileId = CtrlSettings.ProfileId;
             await RedrawLastMatchAsync(Controler.ProfileId);
-        } catch(Exception ex) {
-            labelMatchNo.Text = "Load Error";
-            labelErrText.Text = $"{ex.Message} : {ex.StackTrace}";
-
-            if(displayStatus == DisplayStatus.Uninitialized) {
-                labelMatchNo.Text = "Server Error";
-            } else {
-                displayStatus = DisplayStatus.Shown;
-            }
+        } catch(ComClientException ex) {
+            SetLabelMatchNoText(ex);
+            displayStatus = DisplayStatus.Shown;
         }
 
         progressBar.Stop();
+    }
+
+    private void SetLabelMatchNoText(ComClientException ex)
+    {
+        labelErrText.Text = $"{ex.Message} : {ex.InnerException?.Message} : {ex.StackTrace}";
+
+        if(ex.Status == NetStatus.ComTimeout) {
+            labelMatchNo.Text = "Server Timeout";
+        } else {
+            labelMatchNo.Text = "Server Error";
+        }
     }
 
     private async void FormMain_KeyDownAsync(object sender, KeyEventArgs e)

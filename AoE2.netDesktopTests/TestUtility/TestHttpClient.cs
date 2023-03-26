@@ -16,14 +16,6 @@ using AoE2NetDesktopTests.TestData;
 /// </summary>
 public class TestHttpClient : ComClient
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="TestHttpClient"/> class.
-    /// </summary>
-    public TestHttpClient()
-    {
-        OnError += new EventHandler<ComClientEventArgs>(OnErrorHandler);
-    }
-
     public Exception ComException { get; set; }
 
     public bool ForceHttpRequestException { get; set; }
@@ -46,17 +38,17 @@ public class TestHttpClient : ComClient
     {
         if(ForceHttpRequestException) {
             LastRequest = nameof(ForceHttpRequestException);
-            throw new HttpRequestException("Forced HttpRequestException");
+            throw new HttpRequestException(LastRequest, null, System.Net.HttpStatusCode.NotFound);
         }
 
         if(ForceTaskCanceledException) {
             LastRequest = nameof(ForceTaskCanceledException);
-            throw new TaskCanceledException("Forced TaskCanceledException");
+            throw new TaskCanceledException(LastRequest);
         }
 
         if(ForceException) {
             LastRequest = nameof(ForceException);
-            throw new Exception("Force Exception");
+            throw new ComClientException("Force Exception", NetStatus.ServerError, null);
         }
 
         var apiEndPoint = requestUri[..requestUri.IndexOf('?')];
@@ -169,7 +161,4 @@ public class TestHttpClient : ComClient
 
         return ReadTextFIleAsync(readUri);
     }
-
-    private void OnErrorHandler(object sender, ComClientEventArgs e)
-        => ComException = e.ComException;
 }
