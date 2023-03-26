@@ -2,7 +2,7 @@
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
-    using System.Net.Http;
+    using System.Net;
     using System.Runtime.Serialization;
     using System.Threading.Tasks;
 
@@ -139,6 +139,7 @@
         {
             // Arrange
             AoE2net.ComClient.TestHttpClient().ForceHttpRequestException = true;
+            AoE2net.ComClient.TestHttpClient().ForceHttpStatusCode = HttpStatusCode.NotFound;
 
             // Act
             // Assert

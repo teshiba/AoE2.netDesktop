@@ -3,6 +3,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -19,6 +20,10 @@ public class TestHttpClient : ComClient
     public Exception ComException { get; set; }
 
     public bool ForceHttpRequestException { get; set; }
+
+    public HttpStatusCode ForceHttpStatusCode { get; set; }
+
+    public bool ForceComClientException { get; set; }
 
     public bool ForceException { get; set; }
 
@@ -38,7 +43,7 @@ public class TestHttpClient : ComClient
     {
         if(ForceHttpRequestException) {
             LastRequest = nameof(ForceHttpRequestException);
-            throw new HttpRequestException(LastRequest, null, System.Net.HttpStatusCode.NotFound);
+            throw new HttpRequestException(LastRequest, null, ForceHttpStatusCode);
         }
 
         if(ForceTaskCanceledException) {
@@ -46,9 +51,14 @@ public class TestHttpClient : ComClient
             throw new TaskCanceledException(LastRequest);
         }
 
+        if(ForceComClientException) {
+            LastRequest = nameof(ForceComClientException);
+            throw new ComClientException(LastRequest, NetStatus.ServerError, null);
+        }
+
         if(ForceException) {
             LastRequest = nameof(ForceException);
-            throw new ComClientException("Force Exception", NetStatus.ServerError, null);
+            throw new Exception(LastRequest);
         }
 
         var apiEndPoint = requestUri[..requestUri.IndexOf('?')];

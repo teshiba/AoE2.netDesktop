@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -68,18 +69,8 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await testClass.Awaiter.WaitAsync("FormMain_Shown");
-            await testClass.Awaiter.WaitAsync("LabelNameP1_Paint");
-            await testClass.Awaiter.WaitAsync("LabelNameP2_Paint");
-            await testClass.Awaiter.WaitAsync("LabelNameP3_Paint");
-            await testClass.Awaiter.WaitAsync("LabelNameP4_Paint");
-            await testClass.Awaiter.WaitAsync("LabelNameP5_Paint");
-            await testClass.Awaiter.WaitAsync("LabelNameP6_Paint");
-            await testClass.Awaiter.WaitAsync("LabelNameP7_Paint");
-            await testClass.Awaiter.WaitAsync("LabelNameP8_Paint");
-
+            await WaitPaintNameTeamAsync(testClass);
             testClass.Close();
-
             done = true;
         };
 
@@ -87,6 +78,56 @@ public partial class FormMainTests
 
         // Assert
         Assert.IsTrue(done);
+    }
+
+    [TestMethod]
+    public void FormMainTestInvalidId()
+    {
+        // Arrange
+        SettingsRefs.Set("ProfileId", 0);
+        SettingsRefs.Set("SelectedIdType", IdType.Profile);
+        var testClass = new FormMainPrivate();
+        var expVal = string.Empty;
+        var done = false;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await WaitPaintNameTeamAsync(testClass);
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+    }
+
+    [TestMethod]
+    public void FormMainTestComTimeout()
+    {
+        // Arrange
+        var testClass = new FormMainPrivate();
+        var expVal = string.Empty;
+        var done = false;
+        testClass.httpClient.ForceTaskCanceledException = true;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await WaitPaintNameTeamAsync(testClass);
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+
+        // CleanUp
+        testClass.httpClient.ForceTaskCanceledException = false;
     }
 
     [TestMethod]
@@ -101,7 +142,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await WaitPaintAsync(testClass);
+            await WaitPaint1v1Async(testClass);
 
             // Assert
             Assert.AreEqual("1", testClass.label1v1ColorP1.Text);
@@ -135,7 +176,7 @@ public partial class FormMainTests
         // Act
         testClass.Shown += async (sender, e) =>
         {
-            await WaitPaintAsync(testClass);
+            await WaitPaint1v1Async(testClass);
 
             // Assert
             Assert.AreEqual("1", testClass.label1v1ColorP1.Text);
@@ -171,6 +212,7 @@ public partial class FormMainTests
             await testClass.Awaiter.WaitAsync("FormMain_Shown");
 
             testClass.httpClient.ForceHttpRequestException = true;
+            testClass.httpClient.ForceHttpStatusCode = HttpStatusCode.NotFound;
 
             testClass.updateToolStripMenuItem.PerformClick();
             await testClass.Awaiter.WaitAsync("UpdateToolStripMenuItem_ClickAsync");
@@ -552,6 +594,7 @@ public partial class FormMainTests
             testClass.DisplayStatus = DisplayStatus.RedrawingPrevMatch;
             testClass.RequestMatchView = 2;
             testClass.httpClient.ForceHttpRequestException = true;
+            testClass.httpClient.ForceHttpStatusCode = HttpStatusCode.NotFound;
 
             // Act
             await testClass.FormMain_KeyDownAsync(Keys.Left);
@@ -581,6 +624,7 @@ public partial class FormMainTests
         {
             await testClass.Awaiter.WaitAsync("FormMain_Shown");
             testClass.httpClient.ForceHttpRequestException = true;
+            testClass.httpClient.ForceHttpStatusCode = HttpStatusCode.NotFound;
             await testClass.FormMain_KeyDownAsync(Keys.F4);
             done = true;
 
@@ -721,7 +765,7 @@ public partial class FormMainTests
     {
         // Arrange
         var testClass = new FormMainPrivate();
-        testClass.httpClient.ForceException = true;
+        testClass.httpClient.ForceComClientException = true;
         var expVal = "Server Error";
         var actVal = string.Empty;
 
@@ -740,7 +784,7 @@ public partial class FormMainTests
         Assert.AreEqual(expVal, actVal);
 
         // CleanUp
-        testClass.httpClient.ForceException = false;
+        testClass.httpClient.ForceComClientException = false;
     }
 
     [TestMethod]
@@ -1019,7 +1063,7 @@ public partial class FormMainTests
         Assert.AreEqual(id, testClass.ProfileID);
     }
 
-    private static async Task WaitPaintAsync(FormMainPrivate testClass)
+    private static async Task WaitPaint1v1Async(FormMainPrivate testClass)
     {
         await testClass.Awaiter.WaitAsync("FormMain_Shown");
         await testClass.Awaiter.WaitAsync("LabelRate1v1P2_Paint");
@@ -1033,5 +1077,18 @@ public partial class FormMainTests
         await testClass.Awaiter.WaitAsync("LabelLoses1v1_Paint");
         await testClass.Awaiter.WaitAsync("LabelName1v1P1_Paint");
         await testClass.Awaiter.WaitAsync("LabelName1v1P2_Paint");
+    }
+
+    private static async Task WaitPaintNameTeamAsync(FormMainPrivate testClass)
+    {
+        await testClass.Awaiter.WaitAsync("FormMain_Shown");
+        await testClass.Awaiter.WaitAsync("LabelNameP1_Paint");
+        await testClass.Awaiter.WaitAsync("LabelNameP2_Paint");
+        await testClass.Awaiter.WaitAsync("LabelNameP3_Paint");
+        await testClass.Awaiter.WaitAsync("LabelNameP4_Paint");
+        await testClass.Awaiter.WaitAsync("LabelNameP5_Paint");
+        await testClass.Awaiter.WaitAsync("LabelNameP6_Paint");
+        await testClass.Awaiter.WaitAsync("LabelNameP7_Paint");
+        await testClass.Awaiter.WaitAsync("LabelNameP8_Paint");
     }
 }

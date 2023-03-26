@@ -52,16 +52,6 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ComClientException"/> class.
-        /// </summary>
-        /// <param name="info">Serialization info.</param>
-        /// <param name="context">Streaming context.</param>
-        protected ComClientException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
-
-        /// <summary>
         /// Gets network status.
         /// </summary>
         public NetStatus Status { get; init; }

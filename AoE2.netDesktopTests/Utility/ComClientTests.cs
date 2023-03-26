@@ -2,6 +2,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -43,11 +44,12 @@ public class ComClientTests
     }
 
     [TestMethod]
-    public async Task GetFromJsonAsyncTestHttpRequestExceptionAsync()
+    public async Task GetFromJsonAsyncTestHttpRequestInvalidRequestExceptionAsync()
     {
         // Arrange
         var testClass = new TestHttpClient() {
             ForceHttpRequestException = true,
+            ForceHttpStatusCode = HttpStatusCode.NotFound,
         };
 
         // Act
@@ -56,6 +58,23 @@ public class ComClientTests
 
         // Assert
         Assert.AreEqual(NetStatus.InvalidRequest, exception.Status);
+    }
+
+    [TestMethod]
+    public async Task GetFromJsonAsyncTestHttpRequestServerErrorExceptionAsync()
+    {
+        // Arrange
+        var testClass = new TestHttpClient() {
+            ForceHttpRequestException = true,
+            ForceHttpStatusCode = HttpStatusCode.InternalServerError,
+        };
+
+        // Act
+        var exception = await Assert.ThrowsExceptionAsync<ComClientException>(() =>
+            testClass.GetFromJsonAsync<int>("HttpRequestException"));
+
+        // Assert
+        Assert.AreEqual(NetStatus.ServerError, exception.Status);
     }
 
     [TestMethod]

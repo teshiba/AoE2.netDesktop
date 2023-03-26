@@ -3,6 +3,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.Net;
 
 using AoE2NetDesktop.LibAoE2Net.Functions;
 using AoE2NetDesktop.LibAoE2Net.Parameters;
@@ -168,6 +169,7 @@ public partial class FormSettingsTests
         {
             await testClass.Awaiter.WaitAsync("FormSettings_LoadAsync");
             testClass.httpClient.ForceHttpRequestException = true;
+            testClass.httpClient.ForceHttpStatusCode = HttpStatusCode.NotFound;
             testClass.upDownOpacity.Value = expVal;
 
             // Assert
@@ -201,6 +203,7 @@ public partial class FormSettingsTests
         {
             await testClass.Awaiter.WaitAsync("FormSettings_LoadAsync");
             testClass.httpClient.ForceHttpRequestException = true;
+            testClass.httpClient.ForceHttpStatusCode = HttpStatusCode.NotFound;
 
             // Assert
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
@@ -230,6 +233,7 @@ public partial class FormSettingsTests
         var done = false;
         var testClass = new FormSettingsPrivate();
         testClass.httpClient.ForceHttpRequestException = true;
+        testClass.httpClient.ForceHttpStatusCode = HttpStatusCode.NotFound;
 
         // Act
         testClass.Shown += async (sender, e) =>
@@ -398,7 +402,37 @@ public partial class FormSettingsTests
     }
 
     [TestMethod]
-    public void FormSettingsTestButtonSetId_ClickAsyncCatchException()
+    public void FormSettingsTestButtonSetId_ClickAsyncForceComClientException()
+    {
+        // Arrange
+        var testClass = new FormSettingsPrivate();
+        var done = false;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormSettings_LoadAsync");
+            testClass.httpClient.ForceComClientException = true;
+            testClass.buttonSetId.PerformClick();
+            await testClass.Awaiter.WaitAsync("ButtonSetId_ClickAsync");
+
+            // Assert
+            Assert.IsTrue(testClass.labelErrText.Text.Contains(nameof(TestHttpClient.ForceComClientException)));
+
+            // CleanUp
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
+        Assert.IsTrue(done);
+
+        // CleanUp
+        testClass.httpClient.ForceComClientException = false;
+    }
+
+    [TestMethod]
+    public void FormSettingsTestButtonSetId_ClickAsyncForceException()
     {
         // Arrange
         var testClass = new FormSettingsPrivate();
@@ -413,7 +447,7 @@ public partial class FormSettingsTests
             await testClass.Awaiter.WaitAsync("ButtonSetId_ClickAsync");
 
             // Assert
-            Assert.IsTrue(testClass.labelErrText.Text.Contains("Force Exception"));
+            Assert.IsTrue(testClass.labelErrText.Text.Contains(nameof(TestHttpClient.ForceException)));
 
             // CleanUp
             testClass.Close();
@@ -485,6 +519,36 @@ public partial class FormSettingsTests
     }
 
     [TestMethod]
+    public void FormSettings_LoadAsyncTestComClientException()
+    {
+        // Arrange
+        var testClass = new FormSettingsPrivate();
+        AoE2net.ComClient.TestHttpClient().ForceComClientException = true;
+        var done = false;
+
+        // Act
+        testClass.Shown += async (sender, e) =>
+        {
+            await testClass.Awaiter.WaitAsync("FormSettings_LoadAsync");
+
+            // Assert
+            Assert.IsTrue(testClass.labelErrText.Text.Contains(nameof(TestHttpClient.ForceComClientException)));
+
+            // CleanUp
+            testClass.Close();
+            done = true;
+        };
+
+        testClass.ShowDialog();
+
+        // Assert
+        Assert.IsTrue(done);
+
+        // cleanup
+        AoE2net.ComClient.TestHttpClient().ForceComClientException = false;
+    }
+
+    [TestMethod]
     public void FormSettings_LoadAsyncTestException()
     {
         // Arrange
@@ -498,7 +562,7 @@ public partial class FormSettingsTests
             await testClass.Awaiter.WaitAsync("FormSettings_LoadAsync");
 
             // Assert
-            Assert.IsTrue(testClass.labelErrText.Text.Contains("Force Exception"));
+            Assert.IsTrue(testClass.labelErrText.Text.Contains(nameof(TestHttpClient.ForceException)));
 
             // CleanUp
             testClass.Close();

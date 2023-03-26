@@ -113,6 +113,6 @@ public class CtrlSettings : FormControler
 
         playerLastmatch = await AoE2netHelpers.GetPlayerLastMatchAsync(SelectedIdType, idText).ConfigureAwait(false);
 
-        return true;
+        return playerLastmatch.LastMatch.Players.Count != 0;
     }
 }
