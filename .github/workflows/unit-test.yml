@@ -116,7 +116,7 @@ jobs:
     - name: Make artifact package
       run: |
          copy test.log ./coveragereport/test.log
-         type ./coveragereport/SummaryGithub.md > $GITHUB_STEP_SUMMARY
+         type ./coveragereport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
 
     - name: Upload coverage report artifact
       uses: actions/upload-artifact@v2.2.3
