@@ -407,8 +407,13 @@ public partial class FormMain : ControllableForm
             control1V1s[1].Player = match.Players[0];
         }
 
+        var leaderboard = new LeaderboardContainer();
+
         foreach(var item in control1V1s) {
-            var leaderboard = await AoE2net.GetLeaderboardAsync(match.LeaderboardId, 0, 1, item.Player.ProfilId);
+            if(match.LeaderboardId != null) {
+                leaderboard = await AoE2net.GetLeaderboardAsync(match.LeaderboardId, 0, 1, item.Player.ProfilId);
+            }
+
             item.LabelWins.Text = CtrlMain.GetWinsString(leaderboard);
             item.LabelLoses.Text = CtrlMain.GetLossesString(leaderboard);
             item.LabelColor.Text = item.Player.GetColorString();

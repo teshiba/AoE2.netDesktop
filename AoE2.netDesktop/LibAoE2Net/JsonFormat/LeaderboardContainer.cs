@@ -24,7 +24,7 @@ public class LeaderboardContainer
     public int Count { get; set; }
 
     [DataMember(Name = "leaderboard")]
-    public List<Leaderboard> Leaderboards { get; set; }
+    public List<Leaderboard> Leaderboards { get; set; } = new();
 }
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

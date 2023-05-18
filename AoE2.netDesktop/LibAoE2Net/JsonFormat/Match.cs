@@ -66,6 +66,12 @@ public class Match
     [DataMember(Name = "leaderboard_id")]
     public LeaderboardId? LeaderboardId { get; set; }
 
+    [DataMember(Name = "event_leaderboard_id")]
+    public int? EventLeaderboardId { get; set; }
+
+    [DataMember(Name = "rating_type_id")]
+    public int? RatingTypeId { get; set; }
+
     [DataMember(Name = "rating_type")]
     public int? RatingType { get; set; }
 

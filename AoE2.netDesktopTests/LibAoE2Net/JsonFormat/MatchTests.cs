@@ -23,6 +23,8 @@ public class MatchTests
         testClass.Players.Add(new Player());
         testClass.Started = dateTimeSec;
         testClass.MapType = 9;
+        testClass.EventLeaderboardId = 0;
+        testClass.RatingTypeId = 0;
 
         // Act
         var actVal = testClass.ToString();
